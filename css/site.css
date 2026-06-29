@@ -69,7 +69,8 @@ a { color: inherit; }
   display: flex; align-items: center; justify-content: space-between;
   padding: 1.1rem 0;
 }
-.site-nav .nav-logo { font-weight: 800; letter-spacing: 0.22em; font-size: 1.2rem; text-decoration: none; color: #fff; }
+.site-nav .nav-logo { font-weight: 800; letter-spacing: 0.22em; font-size: 1.2rem; text-decoration: none; color: #fff; display: inline-flex; align-items: center; }
+.site-nav .nav-logo img { height: 28px; width: auto; display: block; }
 .nav-links { display: none; align-items: center; gap: 2rem; }
 @media (min-width: 900px) { .nav-links { display: flex; } }
 .nav-links a {
@@ -293,6 +294,7 @@ form.tcm-form { margin-top: 2.5rem; display: grid; grid-template-columns: 1fr; g
   display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.6rem;
 }
 .footer-logo { font-weight: 800; letter-spacing: 0.22em; font-size: 1.3rem; }
+.footer-logo img { height: 34px; width: auto; display: block; }
 .footer-social { display: flex; align-items: center; gap: 1.25rem; }
 .footer-social a { color: #fff; opacity: 0.8; display: inline-flex; align-items: center; justify-content: center; transition: opacity 0.25s, transform 0.25s; }
 .footer-social a svg { width: 18px; height: 18px; display: block; }
