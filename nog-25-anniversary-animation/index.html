@@ -1,0 +1,164 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>NOG Energy Week — 25th Anniversary Logo Reveal</title>
+<style>
+  html, body { margin: 0; padding: 0; background: #000; overflow: hidden; }
+  #stage {
+    position: relative;
+    width: 1500px;
+    height: 1200px;
+    background: radial-gradient(120% 100% at 50% 40%, #0f3347 0%, #0a2333 55%, #071822 100%);
+    overflow: hidden;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  #stage * { will-change: transform, opacity; }
+
+  /* ---------- ambient particles / vignette ---------- */
+  #ambient { position:absolute; inset:0; }
+  .spark {
+    position:absolute; border-radius:50%;
+    background: radial-gradient(circle, #ffe9a8 0%, #d9a53d 55%, rgba(217,165,61,0) 75%);
+  }
+  #vignette {
+    position:absolute; inset:0;
+    background: radial-gradient(120% 100% at 50% 45%, rgba(0,0,0,0) 45%, rgba(0,0,0,0.55) 100%);
+    pointer-events:none;
+  }
+  #beam {
+    position:absolute; left:50%; top:-20%; width:900px; height:900px;
+    transform: translateX(-50%);
+    background: conic-gradient(from 90deg at 50% 0%, rgba(255,224,140,0) 0deg, rgba(255,224,140,0.22) 8deg, rgba(255,224,140,0) 16deg);
+    filter: blur(6px);
+    opacity: 0;
+  }
+
+  /* ---------- fragments (scene 1) ---------- */
+  #fragments { position:absolute; left:50%; top:46%; width:0; height:0; }
+  .frag {
+    position:absolute; width:34px; height:52px;
+    background: linear-gradient(135deg,#fff3c4 0%, #e8b23c 45%, #8a5a12 100%);
+    clip-path: polygon(50% 0%, 100% 25%, 78% 100%, 10% 82%);
+    box-shadow: 0 0 18px rgba(232,178,60,0.55);
+    opacity: 0;
+  }
+
+  /* ---------- icon (scenes 2+) ---------- */
+  #iconWrap {
+    position:absolute; left:270px; top:400px; width:400px; height:400px;
+    opacity: 0;
+  }
+  #iconRing {
+    position:absolute; inset:-40px;
+    border-radius:50%;
+    border: 2px solid rgba(232,187,90,0.0);
+  }
+  #iconGlow {
+    position:absolute; inset:-60px; border-radius:50%;
+    background: radial-gradient(circle, rgba(255,214,120,0.55) 0%, rgba(255,214,120,0) 65%);
+    opacity: 0;
+  }
+  svg#icon { position:absolute; inset:0; overflow:visible; }
+
+  /* ---------- wordmark (scene 3+) ---------- */
+  #wordmark {
+    position:absolute; left:700px; top:452px;
+    font-weight:800; font-size:168px; letter-spacing:2px; line-height:1;
+    color:#e9bb52;
+    background: linear-gradient(180deg,#fff3c8 0%, #e7b93f 45%, #a9791f 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    opacity:0; white-space:nowrap;
+  }
+  #streak {
+    position:absolute; left:700px; top:540px; width:600px; height:14px;
+    background: linear-gradient(90deg, rgba(255,230,160,0) 0%, rgba(255,230,160,0.9) 60%, rgba(255,230,160,0) 100%);
+    opacity:0; filter: blur(1px);
+  }
+
+  /* ---------- 25 + anniversary (scene 4/5) ---------- */
+  #twentyfive {
+    position:absolute; left:1195px; top:452px;
+    font-weight:800; font-size:168px; line-height:1;
+    background: linear-gradient(180deg,#fff3c8 0%, #e7b93f 45%, #a9791f 100%);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+    opacity:0;
+  }
+  #barLeft {
+    position:absolute; left:1163px; top:452px; width:6px; height:175px;
+    background: linear-gradient(180deg,#fff3c8 0%, #e7b93f 45%, #a9791f 100%);
+    opacity:0;
+  }
+  #anniversaryBox {
+    position:absolute; left:1195px; top:672px; width:230px; height:46px;
+    border: 3px solid #cf9f3f; opacity:0; box-sizing:border-box;
+  }
+  #anniversaryTxt {
+    position:absolute; left:1212px; top:684px;
+    font-weight:600; font-size:20px; letter-spacing:3px; color:#d9ab48; opacity:0;
+  }
+
+  /* ---------- energy week ---------- */
+  #energyWeek {
+    position:absolute; left:705px; top:672px;
+    font-weight:400; font-size:46px; letter-spacing:9px; color:#d9ab48; opacity:0; white-space:nowrap;
+  }
+
+  /* ---------- reflection ---------- */
+  #reflection {
+    position:absolute; left:270px; top:840px; width:1210px; height:220px;
+    transform: scaleY(-1);
+    -webkit-mask-image: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0));
+            mask-image: linear-gradient(180deg, rgba(0,0,0,0.35), rgba(0,0,0,0));
+    opacity: 0;
+  }
+
+  /* ---------- caption ---------- */
+  #captionWrap {
+    position:absolute; left:0; right:0; bottom:70px; text-align:center;
+  }
+  #captionLine1 { font-size:34px; color:#f4e2b0; font-weight:500; letter-spacing:1px; opacity:0; }
+  #captionLine2 { font-size:24px; color:#9fb8c4; font-weight:300; letter-spacing:1px; margin-top:8px; opacity:0; }
+
+  /* ---------- final shine sweep ---------- */
+  #shine {
+    position:absolute; top:410px; left:150px; width:90px; height:410px;
+    background: linear-gradient(100deg, rgba(255,244,210,0) 0%, rgba(255,244,210,0.5) 50%, rgba(255,244,210,0) 100%);
+    opacity: 0; filter: blur(14px); transform: skewX(-18deg);
+  }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="ambient"></div>
+  <div id="beam"></div>
+  <div id="fragments"></div>
+
+  <div id="iconWrap">
+    <div id="iconGlow"></div>
+    <div id="iconRing"></div>
+    <svg id="icon" viewBox="-110 -110 220 220" width="400" height="400"></svg>
+  </div>
+
+  <div id="wordmark">NOG</div>
+  <div id="streak"></div>
+  <div id="energyWeek">ENERGY WEEK</div>
+
+  <div id="barLeft"></div>
+  <div id="twentyfive">25</div>
+  <div id="anniversaryBox"></div>
+  <div id="anniversaryTxt">ANNIVERSARY</div>
+
+  <div id="reflection"></div>
+  <div id="shine"></div>
+  <div id="vignette"></div>
+
+  <div id="captionWrap">
+    <div id="captionLine1"></div>
+    <div id="captionLine2"></div>
+  </div>
+</div>
+
+<script src="scene.js"></script>
+</body>
+</html>
