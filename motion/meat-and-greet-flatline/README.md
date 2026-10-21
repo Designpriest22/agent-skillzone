@@ -43,7 +43,7 @@ H=$(realpath ../flatline.html)
 node render.mjs $H s0.mkv 0 400 & node render.mjs $H s1.mkv 400 800 & node render.mjs $H s2.mkv 800 1200 & wait
 printf "file 's0.mkv'\nfile 's1.mkv'\nfile 's2.mkv'\n" > list.txt
 ffmpeg -f concat -i list.txt -i ../soundtrack.wav -vf "scale=out_color_matrix=bt709,format=yuv420p" \
-  -c:v libx264 -preset slow -crf 16 -tune grain -c:a aac -b:a 320k -shortest -movflags +faststart ../meat-and-greet-flatline.mp4
+  -c:v libx264 -preset slow -crf 19 -tune film -c:a aac -b:a 320k -shortest -movflags +faststart ../meat-and-greet-flatline.mp4
 ```
 
 Headless Chromium renders WebGL2 through SwiftShader (`--use-angle=swiftshader --enable-unsafe-swiftshader`).

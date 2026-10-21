@@ -756,10 +756,11 @@ function sceneSnap(t, U) {            // 15.75–17.10 : the line alone; it thin
 function sceneEnd(t, U) {             // 16.90–19.75 : flames engulf; burn-through to the logo; GET YOUR TICKETS; back to the line
   const th = thCard(t);
   // fire: erupts from the line, fills the frame, surges, burns through, drops to the floor
-  if (t >= 16.99 && t < 18.15) { // erupts exactly on the downbeat of the last full bar
-    const up = ez(t, 16.99, 0.1), drop = ez(t, 17.92, 0.2);
+  if (t >= 16.93 && t < 18.15) { // grows out of the line and fills the frame on the downbeat of the last full bar
+    const up = ez(t, 16.93, 0.12), drop = ez(t, 17.92, 0.2);
     const topY = lerp(lerp(CY + 10, CY - 60, up), 1290, drop);
-    fuelRect(0, topY, W, H - topY + 10, 1);
+    const g = cs.createLinearGradient(0, topY - 170, 0, topY + 170); g.addColorStop(0, 'rgba(0,0,255,0)'); g.addColorStop(1, 'rgba(0,0,255,1)');
+    cs.globalCompositeOperation = 'lighter'; cs.fillStyle = g; cs.fillRect(0, topY - 170, W, H - topY + 180); cs.globalCompositeOperation = 'source-over';
   } else if (t >= 18.15) fuelRect(0, 1290, W, 80, 1);
   if (t < 17.4) return;
   U.uPlane = 1; U.uTh = th; U.uThB = angVel(thCard, t) * SHUT * D2R; U.uBlurN = Math.abs(U.uThB) * 600 < 2 ? 1 : Math.min(20, 1 + Math.ceil(Math.abs(U.uThB) * 600 / 3));
@@ -813,16 +814,20 @@ function atmosphere(t, U) {
   U.uFlash = Math.max(U.uFlash, 0.55 * decay(t, 0.75, 0.1) + 0.5 * decay(t, 4.0, 0.1) + 0.45 * decay(t, 4.75, 0.08) + 0.4 * decay(t, 7.0, 0.1) + 0.7 * decay(t, 17.0, 0.18));
   // fire envelope
   let fi = 0, fh = 300, fz = 1, fsp = 1, front = 0;
-  if (t >= 1.68 && t < 2.0) { fi = 0.75 * ez(t, 1.7, 0.2); fh = 95; }
-  if (t >= 2.0 && t < 3.5) {
-    fi = kf(t, [[2.0, 0.8], [2.04, 1.7], [2.22, 1.5], [2.32, 0.95], [3.5, 0.8, lin]]); fh = kf(t, [[2.0, 300], [2.06, 1250], [2.22, 1150, lin], [2.36, 200]]); front = 1; fsp = 1.25;
-    if (t < 2.25) { fuelRect(0, kf(t, [[2.0, 1100], [2.05, 420]]), W, 1200, 1); } else fuelRect(0, kf(t, [[2.25, 600], [2.4, 1300]]), W, 120, 1);
+  if (t >= 1.68 && t < 3.5) { // tongues between the bars, then the grill ignites: the wall surges up into the downbeat
+    fi = kf(t, [[1.7, 0], [1.9, 0.75], [1.94, 0.8, lin], [2.0, 1.35, smooth], [2.04, 1.7], [2.22, 1.5], [2.32, 0.95], [3.5, 0.8, lin]]);
+    fh = kf(t, [[1.93, 95], [2.0, 900, expoIn], [2.06, 1250], [2.22, 1150, lin], [2.36, 200]]);
+    front = t >= 1.93 ? 1 : 0; fsp = t >= 1.93 ? 1.25 : 1;
+    if (t >= 1.93 && t < 2.25) {
+      const topY = kf(t, [[1.93, 1500], [2.02, 420]]);
+      const g = cs.createLinearGradient(0, topY - 170, 0, topY + 170); g.addColorStop(0, 'rgba(0,0,255,0)'); g.addColorStop(1, 'rgba(0,0,255,1)');
+      cs.globalCompositeOperation = 'lighter'; cs.fillStyle = g; cs.fillRect(0, topY - 170, W, H - topY + 180); cs.globalCompositeOperation = 'source-over';
+    } else if (t >= 2.25) fuelRect(0, kf(t, [[2.25, 600], [2.4, 1300]]), W, 120, 1);
   }
   if (t >= 3.5 && t < 5.35) { fi = 0.85; fh = 175; fsp = 0.9; front = 0; }
   if (t >= 5.35 && t < 7.75) { fi = 0.6; fh = 280; front = 0; fuelRect(0, 1320, W, 50, 1); }
   if (t >= 14.7 && t < 15.8) { fi = kf(t, [[14.7, 0], [14.9, 0.9], [15.6, 1.1, lin], [15.8, 0]]); fh = 160; front = 1; }
-  if (t >= 16.8 && t < 17.0) { fi = ez(t, 16.8, 0.15) * 0.9; fh = 120; front = 1; }
-  if (t >= 17.0 && t < 18.15) { fi = kf(t, [[17.0, 1.2], [17.1, 1.75], [17.9, 1.55, lin], [18.15, 0.9]]); fh = kf(t, [[17.0, 300], [17.12, 1600], [17.9, 1500, lin], [18.15, 320]]); fz = kf(t, [[17.2, 1], [17.42, 0.62], [17.9, 0.7, lin]]); fsp = 1.3; front = 1; }
+  if (t >= 16.8 && t < 18.15) { fi = kf(t, [[16.8, 0], [16.93, 0.8, smooth], [17.0, 1.25, smooth], [17.1, 1.75], [17.9, 1.55, lin], [18.15, 0.9]]); fh = kf(t, [[16.93, 120], [17.0, 650, expoIn], [17.12, 1600], [17.9, 1500, lin], [18.15, 320]]); fz = kf(t, [[17.2, 1], [17.42, 0.62], [17.9, 0.7, lin]]); fsp = 1.3; front = 1; }
   if (t >= 18.15 && t < 19.6) { fi = kf(t, [[18.15, 0.9], [19.2, 0.8, lin], [19.55, 0]]); fh = 300; front = 0; }
   U.uFi = [fi, fh, fz, fsp]; U.uFireFront = front;
   U.uFL = [1.0 * fi * 0.32, 0.36 * fi * 0.32, 0.08 * fi * 0.32];
