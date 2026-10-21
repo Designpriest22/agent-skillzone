@@ -1,0 +1,11 @@
+import { chromium } from 'playwright';
+import fs from 'fs';
+const b = await chromium.launch({ args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist', '--autoplay-policy=no-user-gesture-required'] });
+const p = await b.newPage({ viewport: { width: 1080, height: 1350 } });
+p.on('pageerror', e => console.log('[pageerror]', e.message));
+await p.goto('file://' + process.cwd() + '/flatline.html'); await p.evaluate('window.ready');
+const t0 = Date.now();
+const r = await p.evaluate('window.renderSoundtrack()');
+fs.writeFileSync(process.argv[2] || 'soundtrack.wav', Buffer.from(r.b64, 'base64'));
+console.log('peak', r.peak, 'gain', r.gain, 'ms', Date.now() - t0);
+await b.close();
