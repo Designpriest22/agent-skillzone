@@ -23,7 +23,16 @@ npm run preview    # serve dist/ locally
 npm run check      # TypeScript + Astro diagnostics
 npm run qa         # browser QA across 5 viewports (needs `npm run preview` running)
 npm run og         # re-render the social share image (public/og/season-fest-og.jpg)
+npm run export     # after a build: export/season-fest-standalone.html + export/season-fest-site.zip
 ```
+
+**`npm run export`** writes two files to `export/` (git-ignored):
+
+- `season-fest-standalone.html` (about 3 MB): the whole site in **one file** that opens by
+  double-click with no other files, for review, email or a quick upload. All scripts, fonts,
+  images and the calendar file are embedded. Only the Google Maps embed and outbound links need
+  a connection. Images are one WebP each (no responsive variants), so prefer the zip for hosting.
+- `season-fest-site.zip`: the full production build (`dist/`) for any static host.
 
 `npm run qa` and `npm run og` use Playwright. If it isn't installed, run
 `npm i -D playwright && npx playwright install chromium`.
