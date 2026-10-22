@@ -1,0 +1,209 @@
+---
+import { Picture } from 'astro:assets';
+import SocialIcon from './SocialIcon.astro';
+import { CONTACT, EVENT, SOCIALS, VENUE } from '../config/event';
+import { BRAND } from '../config/media';
+---
+
+<footer class="footer" data-footer>
+  <div class="footer__inner wrap">
+    <div class="footer__brands">
+      <div class="footer__lockup">
+        <Picture
+          src={BRAND.seasonFest.src}
+          alt={EVENT.name}
+          widths={[400, 800]}
+          sizes="(max-width: 48rem) 60vw, 22rem"
+          formats={['avif', 'webp']}
+            fallbackFormat="webp"
+          loading="lazy"
+          class="footer__sf"
+        />
+        <span class="footer__rule" aria-hidden="true"></span>
+        <Picture src={BRAND.meatAndGreet.src} alt={BRAND.meatAndGreet.alt} widths={[120, 240]} sizes="80px" formats={['avif', 'webp']} fallbackFormat="webp" loading="lazy" class="footer__mg" />
+      </div>
+      <div class="footer__producers">
+        <span class="label">Produced by</span>
+        <div class="footer__producer-logos">
+          <Picture src={BRAND.tcm.src} alt={BRAND.tcm.alt} widths={[96, 192]} sizes="64px" formats={['avif', 'webp']} fallbackFormat="webp" loading="lazy" class="footer__tcm" />
+          <span class="footer__x" aria-hidden="true">×</span>
+          <Picture src={BRAND.clique.src} alt={BRAND.clique.alt} widths={[120, 240]} sizes="90px" formats={['avif', 'webp']} fallbackFormat="webp" loading="lazy" class="footer__clique" />
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__cols">
+      <div>
+        <p class="label">When &amp; where</p>
+        <p>
+          <time datetime={EVENT.date}>{EVENT.dateLong}</time><br />
+          {VENUE.name}, {VENUE.city}
+        </p>
+      </div>
+      <div>
+        <p class="label">Follow</p>
+        <ul class="footer__socials" role="list">
+          {
+            SOCIALS.map((s) => (
+              <li>
+                <a href={s.url} target="_blank" rel="noopener">
+                  <SocialIcon network={s.network} />
+                  <span>{s.handle}</span>
+                    <span class="visually-hidden">, {s.label}, opens in a new tab</span>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      {
+        CONTACT.email && (
+          <div>
+            <p class="label">Enquiries</p>
+            <p>
+              <a href={`mailto:${CONTACT.email}`}>{CONTACT.email}</a>
+            </p>
+          </div>
+        )
+      }
+    </div>
+
+    <div class="footer__legal">
+      <p>
+        {EVENT.name} is the Christmas Eve edition of {EVENT.parentBrand}, produced by The Capital Movement (TCM) × The
+        Clique. Photography from previous {EVENT.parentBrand} editions.
+      </p>
+      <p>© {EVENT.year} {EVENT.name}</p>
+      <a class="footer__top" href="#top">Back to the top ↑</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--obsidian);
+    border-top: 1px solid var(--line);
+    padding-block: clamp(3.5rem, 7vw, 6rem) calc(clamp(2rem, 4vw, 3rem) + env(safe-area-inset-bottom));
+    color: var(--text-dim);
+  }
+
+  .footer__inner {
+    display: grid;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .footer__brands {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .footer__lockup {
+    display: flex;
+    align-items: center;
+    gap: clamp(1rem, 2.5vw, 1.75rem);
+  }
+
+  .footer__lockup :global(.footer__sf) {
+    width: min(22rem, 58vw);
+    height: auto;
+  }
+
+  .footer__lockup :global(.footer__mg) {
+    width: clamp(3.75rem, 7vw, 5rem);
+    height: auto;
+  }
+
+  .footer__producers {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .footer__producer-logos {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .footer__producer-logos :global(.footer__tcm) {
+    width: 3.75rem;
+    height: auto;
+  }
+
+  .footer__producer-logos :global(.footer__clique) {
+    width: 5.25rem;
+    height: auto;
+  }
+
+  .footer__rule {
+    width: 1px;
+    height: 2.25rem;
+    background: var(--line-strong);
+  }
+
+  .footer__x {
+    color: var(--ember);
+    font: 600 1.2rem/1 var(--font-display);
+  }
+
+  .footer__cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
+    gap: 2rem;
+    padding-block: 2rem;
+    border-block: 1px solid var(--line);
+  }
+
+  .footer__cols > div {
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+  }
+
+  .footer__cols a {
+    color: var(--snow);
+    word-break: break-word;
+  }
+
+  .footer__socials {
+    display: grid;
+    gap: 0.1rem;
+    margin: 0;
+  }
+
+  .footer__socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    min-height: 2.75rem;
+    text-decoration: none;
+  }
+
+  .footer__socials a:hover,
+  .footer__cols a:hover {
+    color: var(--gold);
+  }
+
+  .footer__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem 2rem;
+    font-size: 0.875rem;
+    color: var(--text-mute);
+  }
+
+  .footer__legal p:first-child {
+    max-width: 60ch;
+  }
+
+  .footer__top {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    color: var(--snow);
+    font-weight: 600;
+  }
+</style>

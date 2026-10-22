@@ -1,0 +1,674 @@
+---
+/**
+ * Opening scene: the Christmas Eve hero, then "Into the heat".
+ *
+ * Static by default (no JS / reduced motion): hero, then the heat block below
+ * it in normal flow. With motion enabled (<html class="motion-ok">) both
+ * layers share one pinned, scroll-scrubbed stage — see scripts/motion.ts.
+ */
+import { Picture } from 'astro:assets';
+import TicketCTA from './TicketCTA.astro';
+import FestoonLights from './FestoonLights.astro';
+import { EVENT, VENUE } from '../config/event';
+import { BRAND, FOOD } from '../config/media';
+---
+
+<section id="top" class="stage" data-stage aria-labelledby="hero-title">
+  <div class="stage__pin" data-stage-pin>
+    <div class="stage__bg" aria-hidden="true"></div>
+    <canvas class="stage__flames" data-flames aria-hidden="true"></canvas>
+    <canvas class="stage__particles" data-particles aria-hidden="true"></canvas>
+    <div class="stage__lights" data-hero-lights>
+      <FestoonLights uid="hero" />
+    </div>
+
+    <!-- ============ HERO ============ -->
+    <div class="hero" data-hero>
+      <div class="hero__inner">
+        <p class="hero__eyebrow label" data-intro style="--i:0">
+          <span>{EVENT.parentBrand}</span>
+          <span class="hero__eyebrow-dot" aria-hidden="true"></span>
+          <span>The Christmas Eve edition</span>
+        </p>
+
+        <h1 id="hero-title" class="hero__title" data-intro="logo" data-hero-logo>
+          <Picture
+            src={BRAND.seasonFest.src}
+            alt={EVENT.name}
+            widths={[480, 720, 960, 1305]}
+            sizes="(max-width: 40rem) 92vw, 736px"
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            priority
+            class="hero__logo"
+          />
+          <span class="visually-hidden"> {EVENT.year}, the Christmas Eve edition of {EVENT.parentBrand}</span>
+        </h1>
+
+        <p class="hero__statement serif" data-intro style="--i:2">{EVENT.statement}</p>
+
+        <p class="hero__meta" data-intro style="--i:3">
+          <time datetime={EVENT.date}>{EVENT.dateShort}</time>
+          <span class="hero__meta-sep" aria-hidden="true"></span>
+          <span>{VENUE.name}, {VENUE.city}</span>
+        </p>
+
+        <div class="hero__actions" data-intro style="--i:4">
+          <TicketCTA variant="hero" location="hero" />
+          <a class="btn-line" href="#experience">
+            Explore the experience
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 2v11m-5-5 5 5 5-5" fill="none" stroke="currentColor" stroke-width="1.8"></path></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="hero__foot" data-intro style="--i:5">
+        <div class="hero__producers">
+          <span class="label">Produced by</span>
+          <span class="hero__producer-logos">
+            <Picture
+              src={BRAND.tcm.src}
+              alt={BRAND.tcm.alt}
+              widths={[96, 192]}
+              sizes="64px"
+              formats={['avif', 'webp']}
+            fallbackFormat="webp"
+              class="hero__tcm"
+              loading="eager"
+            />
+            <span class="hero__x" aria-hidden="true">×</span>
+            <Picture
+              src={BRAND.clique.src}
+              alt={BRAND.clique.alt}
+              widths={[120, 240]}
+              sizes="84px"
+              formats={['avif', 'webp']}
+            fallbackFormat="webp"
+              class="hero__clique"
+              loading="eager"
+            />
+          </span>
+        </div>
+        <p class="hero__countdown label" data-countdown hidden></p>
+      </div>
+    </div>
+
+    <!-- ============ INTO THE HEAT ============ -->
+    <div class="heat" id="into-the-heat" data-heat aria-labelledby="heat-title">
+      <div class="heat__food" aria-hidden="true">
+        <div class="heat__img heat__img--a" data-heat-food>
+          <Picture src={FOOD.steaksFalling.src} alt="" widths={[360, 540, 720]} sizes="(max-width: 48rem) 52vw, 28vw" formats={['avif', 'webp']} loading="lazy" />
+        </div>
+        <div class="heat__img heat__img--b" data-heat-food>
+          <Picture src={FOOD.grillCloseup.src} alt="" widths={[340, 510, 680]} sizes="(max-width: 48rem) 48vw, 26vw" formats={['avif', 'webp']} loading="lazy" />
+        </div>
+        <div class="heat__img heat__img--c" data-heat-food>
+          <!-- Same candidates/sizes as layer A, so the browser reuses one download. -->
+          <Picture src={FOOD.steaksFalling.src} alt="" widths={[360, 540, 720]} sizes="(max-width: 48rem) 52vw, 28vw" formats={['avif', 'webp']} loading="lazy" />
+        </div>
+      </div>
+      <div class="heat__scrim" data-heat-scrim aria-hidden="true"></div>
+      <div class="heat__cool" data-heat-cool aria-hidden="true"></div>
+
+      <div class="heat__inner">
+        <p class="heat__kicker serif" data-heat-kicker>Harmattan nights run cold.</p>
+        <h2 id="heat-title" class="heat__title display">
+          <span class="heat__title-outline" aria-hidden="true">Into the<br />heat</span>
+          <span class="heat__title-fill" data-heat-fill>Into the<br />heat</span>
+        </h2>
+        <ul class="heat__beats" role="list">
+          <li data-beat>The coals are lit.</li>
+          <li data-beat>The speakers are warm.</li>
+          <li data-beat>Abuja is pulling up.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* ---------------- stage ---------------- */
+  .stage {
+    position: relative;
+    background: var(--obsidian);
+    isolation: isolate;
+  }
+
+  .stage__pin {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .stage__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(70% 38% at 50% 104%, rgb(255 94 26 / 0.55), transparent 70%),
+      radial-gradient(110% 55% at 50% 110%, rgb(117 20 27 / 0.9), transparent 72%),
+      radial-gradient(60% 40% at 50% 0%, rgb(46 125 79 / 0.08), transparent 70%),
+      var(--obsidian);
+  }
+
+  .stage__flames,
+  .stage__particles {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.2s ease-out;
+  }
+
+  .stage__flames {
+    z-index: 1;
+    mix-blend-mode: screen;
+  }
+
+  .stage__particles {
+    z-index: 2;
+  }
+
+  :global(.fx-on) .stage__flames,
+  :global(.fx-on) .stage__particles {
+    opacity: 1;
+  }
+
+  .stage__lights {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 3;
+    padding-top: calc(var(--header-h) - 1.5rem);
+    opacity: 0.9;
+  }
+
+  /* ---------------- hero ---------------- */
+  .hero {
+    position: relative;
+    z-index: 4;
+    min-height: 100svh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: calc(var(--header-h) + clamp(1.75rem, 6vh, 4.5rem)) var(--gutter) clamp(1rem, 2.5vh, 1.75rem);
+  }
+
+  .hero__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: clamp(0.9rem, 2.2vh, 1.4rem);
+    max-width: 75rem;
+    width: 100%;
+    margin-inline: auto;
+  }
+
+  .hero__eyebrow {
+    display: inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem 0.75rem;
+    color: var(--silver);
+  }
+
+  .hero__eyebrow-dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    background: var(--holly-hi);
+    transform: rotate(45deg);
+  }
+
+  .hero__title {
+    /* Bound by height too, so the full hero (incl. producers) fits one screen. */
+    width: min(100%, 46rem, calc((100svh - 29rem) * 1.656));
+    min-width: min(100%, 17rem);
+    margin: 0;
+    line-height: 0;
+  }
+
+  .hero__title :global(.hero__logo) {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 18px 50px rgb(255 60 20 / 0.35));
+  }
+
+  .hero__statement {
+    font-size: clamp(1.6rem, 3.6vw, 2.75rem);
+    line-height: 1.1;
+    color: var(--snow);
+    max-width: 22ch;
+    text-shadow: 0 2px 24px rgb(11 8 7 / 0.8);
+  }
+
+  @media (min-width: 48rem) {
+    .hero__statement {
+      max-width: none;
+    }
+  }
+
+  .hero__meta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 0.35rem 1rem;
+    font: 800 clamp(1.15rem, 2vw, 1.5rem) / 1.1 var(--font-display);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+
+  .hero__meta time {
+    color: var(--gold);
+  }
+
+  .hero__meta-sep {
+    width: 2.25rem;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--ember), transparent);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem 2rem;
+    margin-top: clamp(0.5rem, 1.5vh, 1rem);
+  }
+
+  .hero__foot {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    max-width: var(--max);
+    margin-inline: auto;
+    padding-top: 1.5rem;
+    position: relative;
+  }
+
+  .hero__foot::before {
+    content: '';
+    position: absolute;
+    inset: -2.5rem calc(var(--gutter) * -1) calc(clamp(1rem, 2.5vh, 1.75rem) * -1);
+    z-index: -1;
+    background: linear-gradient(to top, rgb(11 8 7 / 0.88), rgb(11 8 7 / 0.55) 55%, transparent);
+    pointer-events: none;
+  }
+
+  .hero__producers {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero__producers .label {
+    color: var(--silver);
+  }
+
+  .hero__producer-logos {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .hero__producers :global(.hero__tcm) {
+    width: 3.9rem;
+    height: auto;
+  }
+
+  .hero__producers :global(.hero__clique) {
+    width: 5.25rem;
+    height: auto;
+  }
+
+  .hero__x {
+    font: 600 1.25rem/1 var(--font-display);
+    color: var(--ember);
+  }
+
+  .hero__countdown {
+    color: var(--gold);
+  }
+
+  /* ---------------- heat (static default) ---------------- */
+  .heat {
+    position: relative;
+    z-index: 5;
+    padding: var(--section-y) var(--gutter);
+    display: grid;
+    gap: 3rem;
+  }
+
+  .heat__food {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    max-width: var(--max);
+    margin-inline: auto;
+    width: 100%;
+    order: 2;
+  }
+
+  .heat__img {
+    -webkit-mask-image: radial-gradient(closest-side, #000 62%, transparent);
+    mask-image: radial-gradient(closest-side, #000 62%, transparent);
+  }
+
+  .heat__img :global(img) {
+    width: 100%;
+    height: auto;
+  }
+
+  .heat__inner {
+    max-width: var(--max);
+    margin-inline: auto;
+    width: 100%;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .heat__kicker {
+    font-size: var(--step-m);
+    line-height: 1.1;
+    color: var(--silver);
+  }
+
+  .heat__title {
+    position: relative;
+    font-size: var(--step-mega);
+    line-height: 0.8;
+    margin: 0;
+  }
+
+  .heat__title-outline {
+    display: none;
+  }
+
+  .heat__title-fill {
+    display: block;
+    background: var(--fire-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    padding-bottom: 0.05em;
+  }
+
+  .heat__beats {
+    display: grid;
+    gap: 0.25rem;
+    margin: 0;
+    font: 800 var(--step-s) / 1.2 var(--font-display);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .heat__beats li:last-child {
+    color: var(--gold);
+  }
+
+  /* ---------------- motion-ok: one pinned stage ---------------- */
+  :global(.motion-ok) .stage__pin {
+    height: 100svh;
+    min-height: 34rem;
+  }
+
+  :global(.motion-ok) .hero {
+    position: absolute;
+    inset: 0;
+    min-height: 0;
+  }
+
+  :global(.motion-ok) .heat {
+    position: absolute;
+    inset: 0;
+    padding: calc(var(--header-h) + 1rem) var(--gutter) clamp(2rem, 6vh, 4rem);
+    display: block;
+    pointer-events: none;
+  }
+
+  :global(.motion-ok:not(.motion-ready)) .heat {
+    visibility: hidden;
+  }
+
+  :global(.motion-ok) .heat__food {
+    position: absolute;
+    inset: 0;
+    display: block;
+    max-width: none;
+  }
+
+  :global(.motion-ok) .heat__img {
+    position: absolute;
+    mix-blend-mode: lighten;
+    will-change: transform;
+  }
+
+  :global(.motion-ok) .heat__img--a {
+    left: -3vw;
+    top: 18%;
+    width: clamp(15rem, 30vw, 30rem);
+  }
+
+  :global(.motion-ok) .heat__img--b {
+    right: -2vw;
+    top: 30%;
+    width: clamp(14rem, 27vw, 27rem);
+  }
+
+  :global(.motion-ok) .heat__img--c {
+    left: 48%;
+    top: 4%;
+    width: clamp(9rem, 17vw, 17rem);
+    opacity: 0.55;
+    filter: blur(2px);
+    transform: scaleX(-1);
+  }
+
+  .heat__scrim,
+  .heat__cool {
+    display: none;
+  }
+
+  :global(.motion-ok) .heat__scrim,
+  :global(.motion-ok) .heat__cool {
+    display: block;
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  /* reading scrim: keeps the title + beats legible over full fire */
+  :global(.motion-ok) .heat__scrim {
+    background:
+      radial-gradient(75% 65% at 22% 52%, rgb(11 8 7 / 0.78), rgb(11 8 7 / 0.35) 60%, transparent 80%),
+      linear-gradient(90deg, rgb(11 8 7 / 0.55), transparent 65%);
+  }
+
+  /* the fire cools to black at the end, so the stage hands over seamlessly */
+  :global(.motion-ok) .heat__cool {
+    background: linear-gradient(to top, var(--obsidian) 0%, rgb(11 8 7 / 0.92) 22%, rgb(11 8 7 / 0.5) 52%, transparent 78%);
+  }
+
+  :global(.motion-ok) .heat__inner {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: clamp(1rem, 3vh, 2rem);
+  }
+
+  :global(.motion-ok) .heat__title-outline {
+    display: block;
+    color: transparent;
+    -webkit-text-stroke: 1.5px rgb(247 242 236 / 0.75);
+    padding-bottom: 0.05em;
+  }
+
+  :global(.motion-ok) .heat__title-fill {
+    position: absolute;
+    inset: 0;
+    clip-path: inset(100% 0 0 0);
+    /* white-hot, so it stays the brightest thing on screen over the fire */
+    background: linear-gradient(0deg, #ffb547 0%, #ffe3bd 42%, #fffaf3 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  :global(.motion-ok) .heat__kicker,
+  :global(.motion-ok) .heat__beats {
+    text-shadow: 0 2px 18px rgb(11 8 7 / 0.9);
+  }
+
+  :global(.motion-ok) .heat__kicker {
+    color: var(--snow);
+  }
+
+  /* ---------------- intro sequence (CSS, so it never waits on JS) ---------------- */
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.motion-ok) [data-intro] {
+      animation: intro-rise 1s var(--ease-out) both;
+      animation-delay: calc(0.35s + var(--i, 0) * 0.11s);
+    }
+
+    :global(.motion-ok) [data-intro='logo'] {
+      animation: intro-ignite 1.3s var(--ease-out) both;
+    }
+
+    @media (min-width: 64rem) {
+      :global(.motion-ok) [data-intro='logo'] {
+        animation-name: intro-ignite-blur;
+      }
+    }
+
+    :global(.motion-ok) .stage__lights {
+      animation: lights-on 1.6s ease-out 0.1s both;
+    }
+  }
+
+  @keyframes intro-rise {
+    from {
+      opacity: 0;
+      transform: translateY(22px);
+    }
+  }
+
+  /* The logo is painted from the very first frame (it is the LCP element)
+     and "ignites": a white-hot flare that cools to its natural colour. */
+  @keyframes intro-ignite {
+    0% {
+      opacity: 0.45;
+      transform: scale(1.05);
+      filter: brightness(2.4) saturate(0.6);
+    }
+    55% {
+      opacity: 1;
+      filter: brightness(1.3) saturate(1);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+  }
+
+  @keyframes intro-ignite-blur {
+    0% {
+      opacity: 0.45;
+      transform: scale(1.05);
+      filter: brightness(2.4) saturate(0.6) blur(8px);
+    }
+    55% {
+      opacity: 1;
+      filter: brightness(1.3) saturate(1) blur(0);
+    }
+    100% {
+      opacity: 1;
+      transform: none;
+      filter: none;
+    }
+  }
+
+  @keyframes lights-on {
+    0%,
+    20% {
+      opacity: 0;
+    }
+    30% {
+      opacity: 0.6;
+    }
+    38% {
+      opacity: 0.2;
+    }
+    100% {
+      opacity: 0.9;
+    }
+  }
+
+  /* ---------------- responsive ---------------- */
+  @media (max-width: 47.99rem) {
+    .hero {
+      padding-top: calc(var(--header-h) + clamp(2.5rem, 8vh, 4rem));
+    }
+    .hero__actions {
+      flex-direction: column;
+      width: 100%;
+      gap: 0.5rem;
+    }
+    .hero__actions :global(.ticket-cta) {
+      width: min(100%, 22rem);
+    }
+    .hero__foot {
+      justify-content: center;
+    }
+    .hero__countdown {
+      display: none;
+    }
+    .hero__meta {
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .hero__meta-sep {
+      display: none;
+    }
+    .heat__food {
+      grid-template-columns: 1fr 1fr;
+    }
+    .heat__img--c {
+      display: none;
+    }
+    :global(.motion-ok) .heat__img--a {
+      left: -14vw;
+      top: 8%;
+      width: 58vw;
+    }
+    :global(.motion-ok) .heat__img--b {
+      right: -14vw;
+      top: auto;
+      bottom: 6%;
+      width: 56vw;
+    }
+    :global(.motion-ok) .heat__img--c {
+      display: block;
+      left: 46%;
+      top: 34%;
+      width: 34vw;
+    }
+    :global(.motion-ok) .heat__scrim {
+      background: radial-gradient(110% 55% at 30% 48%, rgb(11 8 7 / 0.8), rgb(11 8 7 / 0.35) 65%, transparent 90%);
+    }
+  }
+
+  @media (max-height: 44rem) and (min-width: 48rem) {
+    .hero__title {
+      width: min(100%, 50rem);
+    }
+  }
+</style>

@@ -1,0 +1,64 @@
+---
+import TicketCTA from './TicketCTA.astro';
+import { EVENT, VENUE } from '../config/event';
+---
+
+<div class="tbar" data-ticket-bar aria-hidden="true" inert>
+  <div class="tbar__info">
+    <span class="tbar__date">{EVENT.dateShort}</span>
+    <span class="tbar__venue">{VENUE.name}, {VENUE.city}</span>
+  </div>
+  <TicketCTA variant="compact" location="mobile-bar" class="tbar__cta" />
+</div>
+
+<style>
+  .tbar {
+    position: fixed;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: calc(0.75rem + env(safe-area-inset-bottom));
+    z-index: 45;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    background: rgb(20 16 16 / 0.92);
+    border: 1px solid var(--line-strong);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 20px 50px rgb(0 0 0 / 0.5);
+    transform: translateY(calc(100% + 2rem));
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  .tbar[data-visible] {
+    transform: none;
+  }
+
+  .tbar__info {
+    display: grid;
+    min-width: 0;
+  }
+
+  .tbar__date {
+    font: 800 1rem/1.1 var(--font-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .tbar__venue {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  @media (min-width: 40rem) {
+    .tbar {
+      display: none;
+    }
+  }
+</style>

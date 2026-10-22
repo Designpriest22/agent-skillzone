@@ -1,0 +1,136 @@
+---
+import '@fontsource-variable/big-shoulders-display';
+import '@fontsource-variable/instrument-sans';
+import '@fontsource/instrument-serif/400-italic.css';
+import '../styles/global.css';
+
+import displayFont from '@fontsource-variable/big-shoulders-display/files/big-shoulders-display-latin-wght-normal.woff2?url';
+import bodyFont from '@fontsource-variable/instrument-sans/files/instrument-sans-latin-wght-normal.woff2?url';
+
+import {
+  EVENT,
+  VENUE,
+  PRODUCERS,
+  SEO,
+  SOCIALS,
+  ticketUrl,
+  LINEUP,
+} from '../config/event';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const site = Astro.site;
+const canonical = site ? new URL(Astro.url.pathname, site).href : null;
+const abs = (path: string) => (site ? new URL(base + path, site).href : base + path);
+const ogImage = abs(SEO.ogImage);
+
+// schema.org Event — only confirmed facts. Times, prices and performers are
+// added automatically once they are filled in src/config/event.ts.
+const startDate = EVENT.startTime ? `${EVENT.date}T${EVENT.startTime}:00+01:00` : EVENT.date;
+const endDate = EVENT.endTime ? `${EVENT.date}T${EVENT.endTime}:00+01:00` : undefined;
+
+const jsonLd: Record<string, unknown> = {
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: `${EVENT.fullName} — ${EVENT.parentBrand} Christmas Eve`,
+  alternateName: EVENT.name,
+  description: SEO.description,
+  startDate,
+  ...(endDate ? { endDate } : {}),
+  eventStatus: 'https://schema.org/EventScheduled',
+  eventAttendanceMode: 'https://schema.org/OfflineEventAttendanceMode',
+  image: [ogImage],
+  location: {
+    '@type': 'Place',
+    name: VENUE.name,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: VENUE.streetAddress,
+      addressLocality: VENUE.city,
+      addressRegion: VENUE.region,
+      addressCountry: VENUE.country,
+    },
+  },
+  organizer: PRODUCERS.map((p) => ({
+    '@type': 'Organization',
+    name: p.name,
+    ...(p.website ? { url: p.website } : {}),
+  })),
+  superEvent: { '@type': 'EventSeries', name: EVENT.parentBrand },
+  ...(canonical ? { url: canonical } : {}),
+  ...(ticketUrl
+    ? {
+        offers: {
+          '@type': 'Offer',
+          url: ticketUrl,
+          availability: 'https://schema.org/InStock',
+        },
+      }
+    : {}),
+  ...(LINEUP.length
+    ? { performer: LINEUP.map((a) => ({ '@type': 'PerformingGroup', name: a.name })) }
+    : {}),
+  sameAs: SOCIALS.map((s) => s.url),
+};
+---
+
+<!doctype html>
+<html lang="en-NG" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{SEO.title}</title>
+    <meta name="description" content={SEO.description} />
+    {canonical && <link rel="canonical" href={canonical} />}
+    <meta name="theme-color" content={SEO.themeColor} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- Motion bootstrap: decide before first paint, so nothing flashes. -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.remove('no-js');
+        d.classList.add('js');
+        if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+          d.classList.add('motion-ok');
+          // Failsafe: if the motion bundle never boots, fall back to the static layout.
+          setTimeout(function () {
+            if (!d.classList.contains('motion-ready')) d.classList.remove('motion-ok');
+          }, 4500);
+        }
+      })();
+    </script>
+
+    <link rel="preload" href={displayFont} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={bodyFont} as="font" type="font/woff2" crossorigin />
+
+    <link rel="icon" href={`${base}/favicon.svg`} type="image/svg+xml" />
+    <link rel="icon" href={`${base}/favicon-32.png`} sizes="32x32" type="image/png" />
+    <link rel="apple-touch-icon" href={`${base}/apple-touch-icon.png`} />
+    <link rel="manifest" href={`${base}/site.webmanifest`} />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={EVENT.fullName} />
+    <meta property="og:title" content={SEO.title} />
+    <meta property="og:description" content={SEO.description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={SEO.ogImageAlt} />
+    <meta property="og:locale" content={SEO.locale} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={SEO.title} />
+    <meta name="twitter:description" content={SEO.description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={SEO.ogImageAlt} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <slot />
+  </body>
+</html>

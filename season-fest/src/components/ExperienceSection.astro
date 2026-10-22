@@ -1,0 +1,552 @@
+---
+import { Picture } from 'astro:assets';
+import { GENRES, LINEUP } from '../config/event';
+import { FOOD, PHOTOS } from '../config/media';
+
+const marquee = [...GENRES, ...GENRES];
+// Headliners first, then everyone else in the order they were announced.
+const lineup = [...LINEUP].sort((x, y) => Number(y.role === 'Headliner') - Number(x.role === 'Headliner'));
+---
+
+<section class="exp section" id="experience" aria-labelledby="exp-title">
+  <header class="exp__head wrap">
+    <p class="label label--ember" data-reveal>The experience</p>
+    <h2 id="exp-title" class="exp__title display" data-split>The full spread.</h2>
+    <p class="lede" data-reveal>Everything that makes a MEAT &amp; GREET night, dressed up for Christmas Eve.</p>
+  </header>
+
+  <!-- ===================== THE GRILL ===================== -->
+  <article class="chapter chapter--grill wrap" aria-labelledby="ch-grill">
+    <div class="chapter__text">
+      <p class="label chapter__kicker">On the coals</p>
+      <h3 id="ch-grill" class="chapter__title display" data-split>The grill</h3>
+      <p class="chapter__copy" data-reveal>
+        The sight and the smell hit you first. Properly grilled BBQ, seasoned for local taste buds, is the heart of every
+        MEAT &amp; GREET, with street food, wraps, sandwiches and more on the side.
+      </p>
+      <ul class="tags" role="list" data-reveal>
+        <li>Properly grilled BBQ</li>
+        <li>Street food</li>
+        <li>Wraps &amp; sandwiches</li>
+        <li>Drinks</li>
+      </ul>
+    </div>
+
+    <div class="grill-collage">
+      <figure class="grill-collage__main" data-clip-reveal>
+        <div data-parallax="-0.06">
+          <Picture src={PHOTOS.wrapFirstBite.src} alt={PHOTOS.wrapFirstBite.alt} widths={[400, 600, 788]} sizes="(max-width: 48rem) 72vw, 30vw" formats={['avif', 'webp']} loading="lazy" />
+        </div>
+      </figure>
+      <figure class="grill-collage__spit" data-clip-reveal data-parallax="0.12">
+        <Picture src={PHOTOS.roastOnTheSpit.src} alt={PHOTOS.roastOnTheSpit.alt} widths={[389]} sizes="(max-width: 48rem) 60vw, 24vw" formats={['avif', 'webp']} loading="lazy" />
+      </figure>
+      <figure class="grill-collage__food" data-parallax="0.22">
+        <Picture src={FOOD.grillCloseup.src} alt={FOOD.grillCloseup.alt} widths={[340, 680]} sizes="(max-width: 48rem) 40vw, 16vw" formats={['avif', 'webp']} loading="lazy" />
+      </figure>
+      <figure class="grill-collage__share" data-clip-reveal data-parallax="0.05">
+        <Picture src={PHOTOS.servingTheGrill.src} alt={PHOTOS.servingTheGrill.alt} widths={[473]} sizes="(max-width: 48rem) 56vw, 20vw" formats={['avif', 'webp']} loading="lazy" />
+      </figure>
+    </div>
+  </article>
+
+  <!-- ===================== THE SOUND ===================== -->
+  <article class="chapter chapter--sound" aria-labelledby="ch-sound">
+    <div class="sound__media" data-scale-in>
+      <Picture src={PHOTOS.danceBlueLight.src} alt={PHOTOS.danceBlueLight.alt} widths={[700, 1050, 1400]} sizes="100vw" formats={['avif', 'webp']} loading="lazy" />
+    </div>
+    <div class="sound__shade" aria-hidden="true"></div>
+
+    <div class="sound__content wrap">
+      <p class="label chapter__kicker">On the speakers</p>
+      <h3 id="ch-sound" class="chapter__title chapter__title--huge display" data-split>The sound</h3>
+      <div class="sound__row">
+        <p class="chapter__copy" data-reveal>
+          Live performances and DJs carrying the night through Afro-pop, Afrobeats, hip-hop, Amapiano, trap and the urban
+          sounds Abuja moves to.
+          {LINEUP.length === 0 && <span class="sound__note">Lineup to be announced.</span>}
+        </p>
+        {
+          lineup.length > 0 && (
+            <div class="lineup" data-reveal>
+              <p class="label">On the lineup</p>
+              <ul role="list">
+                {lineup.map((artist) => (
+                  <li class:list={[{ 'is-headliner': artist.role === 'Headliner' }]}>
+                    {artist.name}
+                    {artist.role && artist.role !== 'Headliner' && <span>{artist.role}</span>}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+        <figure class="sound__inset" data-clip-reveal>
+          <Picture src={PHOTOS.handsUpNight.src} alt={PHOTOS.handsUpNight.alt} widths={[461]} sizes="(max-width: 48rem) 60vw, 22vw" formats={['avif', 'webp']} loading="lazy" />
+        </figure>
+      </div>
+    </div>
+
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        {
+          marquee.map((g) => (
+            <span class="marquee__item">
+              {g}
+              <i />
+            </span>
+          ))
+        }
+      </div>
+    </div>
+    <p class="visually-hidden">Genres: {GENRES.join(', ')}.</p>
+  </article>
+
+  <!-- ===================== THE PEOPLE ===================== -->
+  <article class="chapter chapter--people wrap" aria-labelledby="ch-people">
+    <div class="people__grid">
+      <figure class="people__a" data-clip-reveal data-parallax="0.1">
+        <Picture src={PHOTOS.friendsSeatedSelfie.src} alt={PHOTOS.friendsSeatedSelfie.alt} widths={[389]} sizes="(max-width: 48rem) 70vw, 26vw" formats={['avif', 'webp']} loading="lazy" />
+      </figure>
+      <figure class="people__b" data-clip-reveal data-parallax="-0.08">
+        <Picture src={PHOTOS.crowdJoy.src} alt={PHOTOS.crowdJoy.alt} widths={[458]} sizes="(max-width: 48rem) 80vw, 30vw" formats={['avif', 'webp']} loading="lazy" />
+      </figure>
+      <figure class="people__c" data-clip-reveal data-parallax="0.16">
+        <Picture src={PHOTOS.guestsPeaceSign.src} alt={PHOTOS.guestsPeaceSign.alt} widths={[394]} sizes="(max-width: 48rem) 60vw, 22vw" formats={['avif', 'webp']} loading="lazy" />
+      </figure>
+    </div>
+
+    <div class="chapter__text people__text">
+      <p class="label chapter__kicker">In the crowd</p>
+      <h3 id="ch-people" class="chapter__title display" data-split>The people</h3>
+      <p class="chapter__copy" data-reveal>
+        Come with your people, leave with more of them. MEAT &amp; GREET was built for relaxing, networking and catching up
+        with old friends and new ones, and Christmas Eve is the best excuse all year.
+      </p>
+      <ul class="tags" role="list" data-reveal>
+        <li>Old friends</li>
+        <li>New connections</li>
+        <li>Networking</li>
+      </ul>
+    </div>
+  </article>
+
+  <!-- ===================== THE FESTIVAL ===================== -->
+  <article class="chapter chapter--festival wrap" aria-labelledby="ch-festival">
+    <div class="chapter__text festival__text">
+      <p class="label chapter__kicker chapter__kicker--holly">All around you</p>
+      <h3 id="ch-festival" class="chapter__title display" data-split>The festival</h3>
+      <p class="chapter__copy" data-reveal>
+        Christmas details, festive production and lights across an open-air park, with games and art to get stuck into
+        between bites. Dressed for the season, built for the night.
+      </p>
+      <ul class="tags" role="list" data-reveal>
+        <li>Christmas details</li>
+        <li>Lights</li>
+        <li>Games</li>
+        <li>Art</li>
+      </ul>
+    </div>
+
+    <div class="festival__strip">
+      <figure class="festival__wide" data-clip-reveal>
+        <div data-parallax="-0.05">
+          <Picture src={PHOTOS.fieldWideNight.src} alt={PHOTOS.fieldWideNight.alt} widths={[452]} sizes="(max-width: 48rem) 92vw, 36vw" formats={['avif', 'webp']} loading="lazy" />
+        </div>
+      </figure>
+      <figure class="festival__wall" data-clip-reveal data-parallax="0.12">
+        <Picture src={PHOTOS.photoWall.src} alt={PHOTOS.photoWall.alt} widths={[384]} sizes="(max-width: 48rem) 64vw, 24vw" formats={['avif', 'webp']} loading="lazy" />
+      </figure>
+      <figure class="festival__smoke" data-clip-reveal data-parallax="0.04">
+        <Picture src={PHOTOS.crowdGreenSmoke.src} alt={PHOTOS.crowdGreenSmoke.alt} widths={[389]} sizes="(max-width: 48rem) 64vw, 22vw" formats={['avif', 'webp']} loading="lazy" />
+      </figure>
+    </div>
+  </article>
+</section>
+
+<style>
+  .exp {
+    background: var(--obsidian);
+    padding-bottom: calc(var(--section-y) * 0.6);
+  }
+
+  .exp__head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(4rem, 9vw, 8rem);
+  }
+
+  .exp__title {
+    font-size: var(--step-xl);
+  }
+
+  figure {
+    margin: 0;
+  }
+
+  figure :global(picture),
+  figure > div {
+    height: 100%;
+  }
+
+  figure :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .chapter {
+    position: relative;
+    margin-bottom: clamp(6rem, 13vw, 12rem);
+  }
+
+  .chapter__text {
+    display: grid;
+    gap: 1.25rem;
+    align-content: start;
+  }
+
+  .chapter__kicker {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: var(--ember);
+  }
+
+  .chapter__kicker::before {
+    content: '';
+    width: 2.25rem;
+    height: 2px;
+    background: currentColor;
+  }
+
+  .chapter__kicker--holly {
+    color: var(--holly-hi);
+  }
+
+  .chapter__title {
+    font-size: var(--step-xl);
+  }
+
+  .chapter__title--huge {
+    font-size: var(--step-mega);
+    line-height: 0.82;
+  }
+
+  .chapter__copy {
+    font-size: var(--step-body-l);
+    color: var(--text-dim);
+    max-width: 36ch;
+    text-wrap: pretty;
+  }
+
+  /* ---------- grill ---------- */
+  .chapter--grill {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+  }
+
+  .grill-collage {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(12, minmax(0, 3.2vw));
+    min-height: 34rem;
+  }
+
+  .grill-collage__main {
+    grid-column: 4 / span 6;
+    grid-row: 1 / span 12;
+    overflow: hidden;
+  }
+
+  .grill-collage__main > div {
+    height: 112%;
+    margin-top: -6%;
+  }
+
+  .grill-collage__spit {
+    grid-column: 1 / span 5;
+    grid-row: 7 / span 4;
+    z-index: 2;
+    box-shadow: 0 30px 60px rgb(0 0 0 / 0.55);
+  }
+
+  .grill-collage__food {
+    grid-column: 9 / span 4;
+    grid-row: 1 / span 5;
+    z-index: 2;
+    -webkit-mask-image: radial-gradient(closest-side, #000 60%, transparent);
+    mask-image: radial-gradient(closest-side, #000 60%, transparent);
+  }
+
+  .grill-collage__share {
+    grid-column: 8 / span 5;
+    grid-row: 9 / span 4;
+    z-index: 2;
+    box-shadow: 0 30px 60px rgb(0 0 0 / 0.55);
+  }
+
+  /* ---------- sound ---------- */
+  .chapter--sound {
+    min-height: min(100svh, 62rem);
+    display: grid;
+    align-items: end;
+    overflow: hidden;
+    padding-block: clamp(6rem, 14vw, 10rem) clamp(2rem, 4vw, 3rem);
+  }
+
+  .sound__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  .sound__media :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 35%;
+  }
+
+  .sound__shade {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, var(--obsidian) 0%, rgb(11 8 7 / 0.35) 30%, rgb(11 8 7 / 0.55) 62%, var(--obsidian) 100%),
+      linear-gradient(90deg, rgb(11 8 7 / 0.7), transparent 60%);
+  }
+
+  .sound__content {
+    position: relative;
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .sound__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+
+  .sound__row .chapter__copy {
+    color: var(--text);
+  }
+
+  .sound__note {
+    display: block;
+    margin-top: 0.75rem;
+    font: 700 0.9rem/1.2 var(--font-display);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .lineup {
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .lineup ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+    margin: 0;
+    max-width: 40rem;
+  }
+
+  .lineup li {
+    font: 800 clamp(1.4rem, 2.6vw, 2.2rem) / 1.1 var(--font-display);
+    text-transform: uppercase;
+  }
+
+  .lineup li.is-headliner {
+    flex-basis: 100%;
+    font-size: clamp(2.4rem, 5vw, 4rem);
+    color: var(--gold);
+  }
+
+  .lineup li span {
+    margin-left: 0.4rem;
+    font-size: 0.45em;
+    letter-spacing: 0.18em;
+    color: var(--text-mute);
+    vertical-align: middle;
+  }
+
+  .sound__inset {
+    width: clamp(12rem, 24vw, 22rem);
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+  }
+
+  .marquee {
+    position: relative;
+    margin-top: clamp(3rem, 6vw, 5rem);
+    border-block: 1px solid var(--line-strong);
+    overflow: hidden;
+    padding-block: 0.9rem 0.7rem;
+    background: rgb(11 8 7 / 0.6);
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+  }
+
+  .marquee__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 2rem;
+    padding-right: 2rem;
+    font: 800 clamp(1.6rem, 3.5vw, 2.75rem) / 1 var(--font-display);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .marquee__item:nth-child(odd) {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--snow);
+  }
+
+  .marquee__item i {
+    width: 0.55rem;
+    height: 0.55rem;
+    background: var(--ember);
+    transform: rotate(45deg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .marquee__track {
+      animation: marquee 32s linear infinite;
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ---------- people ---------- */
+  .chapter--people {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+    padding-top: clamp(4rem, 8vw, 7rem);
+  }
+
+  .people__grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+    align-items: start;
+  }
+
+  .people__grid figure {
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+  }
+
+  .people__a {
+    grid-column: 1 / span 6;
+    margin-top: 5rem;
+  }
+
+  .people__b {
+    grid-column: 6 / span 7;
+    grid-row: 1;
+    aspect-ratio: 4 / 5 !important;
+    z-index: 1;
+    box-shadow: 0 30px 70px rgb(0 0 0 / 0.6);
+  }
+
+  .people__c {
+    grid-column: 2 / span 6;
+    margin-top: -2rem;
+    z-index: 2;
+  }
+
+  /* ---------- festival ---------- */
+  .chapter--festival {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 5vw, 5rem);
+    align-items: center;
+    margin-bottom: 0;
+  }
+
+  .festival__strip {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 1rem;
+  }
+
+  .festival__strip figure {
+    overflow: hidden;
+  }
+
+  .festival__wide {
+    grid-column: 1 / -1;
+    aspect-ratio: 16 / 9;
+  }
+
+  .festival__wide > div {
+    height: 110%;
+  }
+
+  .festival__wall {
+    grid-column: 1 / span 6;
+    aspect-ratio: 3 / 2;
+    margin-top: -3rem;
+    margin-left: -1.5rem;
+    z-index: 1;
+    box-shadow: 0 30px 70px rgb(0 0 0 / 0.6);
+  }
+
+  .festival__smoke {
+    grid-column: 7 / span 6;
+    aspect-ratio: 3 / 2;
+  }
+
+  /* ---------- small screens ---------- */
+  @media (max-width: 63.99rem) {
+    .chapter--grill,
+    .chapter--people,
+    .chapter--festival {
+      grid-template-columns: 1fr;
+    }
+    .people__text {
+      order: -1;
+    }
+    .grill-collage {
+      grid-template-rows: repeat(12, minmax(0, 7vw));
+      min-height: 0;
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .grill-collage {
+      grid-template-rows: repeat(12, minmax(0, 9vw));
+    }
+    .grill-collage__main {
+      grid-column: 3 / span 8;
+    }
+    .people__a {
+      margin-top: 2.5rem;
+    }
+    .festival__wall {
+      margin-left: 0;
+      margin-top: -1.5rem;
+    }
+    .sound__inset {
+      width: min(70%, 18rem);
+    }
+  }
+</style>

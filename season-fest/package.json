@@ -1,0 +1,30 @@
+{
+  "name": "season-fest",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SEASON FEST 2026 — the Christmas Eve edition of MEAT & GREET. Harrow Park, Abuja. Produced by TCM × The Clique.",
+  "type": "module",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "og": "node scripts/render-og.mjs",
+    "qa": "node scripts/qa.mjs"
+  },
+  "dependencies": {
+    "@fontsource-variable/big-shoulders-display": "^5.3.0",
+    "@fontsource-variable/instrument-sans": "^5.3.0",
+    "@fontsource/instrument-serif": "^5.3.0",
+    "astro": "~7.3.8",
+    "gsap": "^3.15.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "@types/node": "^22.20.5",
+    "typescript": "^5.9.3"
+  }
+}

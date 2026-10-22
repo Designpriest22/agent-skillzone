@@ -1,0 +1,175 @@
+---
+import { Picture } from 'astro:assets';
+import { EVENT } from '../config/event';
+import { BRAND, PHOTOS } from '../config/media';
+---
+
+<section class="intro section" id="about" aria-labelledby="intro-title">
+  <div class="intro__grid wrap">
+    <p class="intro__label label label--ember" data-reveal>{EVENT.fullName}</p>
+
+    <h2 id="intro-title" class="intro__title">
+      <span class="intro__title-serif serif" data-split>Christmas Eve.</span>
+      <span class="intro__title-display display" data-split>Turned all the way up.</span>
+    </h2>
+
+    <p class="intro__lede" data-reveal>
+      Fire on the grill. Music in the air. Your people all around you. This Christmas Eve, MEAT &amp; GREET brings Abuja
+      together for a celebration of food, music, culture, and the moments that make the end of the year unforgettable.
+    </p>
+
+    <figure class="intro__photo" data-clip-reveal>
+      <div class="intro__photo-frame" data-parallax="-0.08">
+        <Picture
+          src={PHOTOS.guestWarmLight.src}
+          alt={PHOTOS.guestWarmLight.alt}
+          widths={[420, 640, 933]}
+          sizes="(max-width: 48rem) 70vw, 30vw"
+          formats={['avif', 'webp']}
+          loading="lazy"
+        />
+      </div>
+      <figcaption class="label">MEAT &amp; GREET, Abuja</figcaption>
+    </figure>
+
+    <div class="intro__edition" data-reveal>
+      <Picture
+        src={BRAND.meatAndGreet.src}
+        alt={BRAND.meatAndGreet.alt}
+        widths={[160, 320]}
+        sizes="120px"
+        formats={['avif', 'webp']}
+        fallbackFormat="webp"
+        loading="lazy"
+        class="intro__mg"
+      />
+      <p>
+        <strong>{EVENT.name} is the Christmas Eve edition of MEAT &amp; GREET.</strong> It adds a festive layer to the
+        format Abuja already knows: flame-led BBQ, Christmas details, music, social energy and a reason for friends to
+        meet before the year closes.
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .intro {
+    background:
+      radial-gradient(60% 50% at 0% 100%, rgb(74 12 17 / 0.55), transparent 70%),
+      var(--obsidian);
+    overflow: hidden;
+  }
+
+  .intro__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1rem, 2vw, 2rem);
+    row-gap: clamp(2rem, 5vw, 4rem);
+    align-items: start;
+  }
+
+  .intro__label {
+    grid-column: 1 / -1;
+  }
+
+  .intro__title {
+    grid-column: 1 / span 8;
+    display: grid;
+    gap: 0.1em;
+    margin: 0;
+  }
+
+  .intro__title-serif {
+    font-size: var(--step-l);
+    line-height: 0.95;
+    color: var(--ember);
+  }
+
+  .intro__title-display {
+    font-size: var(--step-xl);
+    max-width: 11ch;
+  }
+
+  .intro__lede {
+    grid-column: 9 / -1;
+    align-self: end;
+    font-size: var(--step-body-l);
+    line-height: 1.6;
+    color: var(--text);
+    max-width: 34ch;
+    text-wrap: pretty;
+    padding-bottom: 0.6rem;
+    border-left: 2px solid var(--ember);
+    padding-left: 1.25rem;
+  }
+
+  .intro__photo {
+    grid-column: 1 / span 5;
+    margin: 0;
+    display: grid;
+    gap: 0.75rem;
+  }
+
+  .intro__photo-frame {
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    transform: rotate(-1.5deg);
+    outline: 1px solid var(--line);
+    outline-offset: 10px;
+  }
+
+  .intro__photo-frame :global(picture) {
+    height: 100%;
+  }
+
+  .intro__photo-frame :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 30%;
+  }
+
+  .intro__edition {
+    grid-column: 7 / -1;
+    align-self: center;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.25rem;
+    align-items: start;
+    padding-top: 1.75rem;
+    border-top: 1px solid var(--line-strong);
+    color: var(--text-dim);
+    max-width: 36rem;
+  }
+
+  .intro__edition strong {
+    color: var(--snow);
+    font-weight: 600;
+  }
+
+  .intro__edition :global(.intro__mg) {
+    width: 6.5rem;
+    height: auto;
+    transform: rotate(-4deg);
+  }
+
+  @media (max-width: 63.99rem) {
+    .intro__title,
+    .intro__lede,
+    .intro__edition {
+      grid-column: 1 / -1;
+    }
+    .intro__photo {
+      grid-column: 1 / span 8;
+    }
+  }
+
+  @media (max-width: 47.99rem) {
+    .intro__photo {
+      grid-column: 1 / span 11;
+    }
+    .intro__edition {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

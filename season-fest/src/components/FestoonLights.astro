@@ -1,0 +1,128 @@
+---
+/**
+ * A string of outdoor festoon bulbs, drawn at build time. Two sagging spans
+ * meet in the middle like lights strung between poles at an open-air party.
+ */
+interface Props {
+  class?: string;
+  spans?: number;
+  bulbsPerSpan?: number;
+  sag?: number;
+  /** Unique prefix for gradient ids when used more than once per page. */
+  uid?: string;
+}
+
+const { class: className, spans = 2, bulbsPerSpan = 9, sag = 70, uid = 'fl' } = Astro.props;
+
+const W = 1600;
+const H = 190;
+const top = 14;
+const colors = ['warm', 'red', 'warm', 'ember', 'green', 'warm', 'red', 'ember', 'warm'];
+const spanW = W / spans;
+
+type Bulb = { x: number; y: number; c: string; d: number };
+const bulbs: Bulb[] = [];
+let path = '';
+
+for (let s = 0; s < spans; s++) {
+  const x0 = s * spanW;
+  const x1 = x0 + spanW;
+  const cx = (x0 + x1) / 2;
+  // Quadratic bezier whose midpoint sits `sag` below the anchors.
+  const cy = top + sag * 2;
+  path += `M${x0} ${top} Q${cx} ${cy} ${x1} ${top} `;
+  for (let i = 1; i <= bulbsPerSpan; i++) {
+    const t = i / (bulbsPerSpan + 1);
+    const x = (1 - t) ** 2 * x0 + 2 * (1 - t) * t * cx + t ** 2 * x1;
+    const y = (1 - t) ** 2 * top + 2 * (1 - t) * t * cy + t ** 2 * top;
+    bulbs.push({ x, y, c: colors[(i + s * 3) % colors.length], d: ((i * 7 + s * 5) % 11) * 0.37 });
+  }
+}
+---
+
+<svg
+  class:list={['festoon', className]}
+  viewBox={`0 0 ${W} ${H}`}
+  preserveAspectRatio="xMidYMin slice"
+  aria-hidden="true"
+  focusable="false"
+>
+  <defs>
+    <radialGradient id={`${uid}-glow-warm`}>
+      <stop offset="0" stop-color="#ffe7b8" stop-opacity=".95"></stop>
+      <stop offset=".35" stop-color="#ffb547" stop-opacity=".35"></stop>
+      <stop offset="1" stop-color="#ffb547" stop-opacity="0"></stop>
+    </radialGradient>
+    <radialGradient id={`${uid}-glow-red`}>
+      <stop offset="0" stop-color="#ffd0c4" stop-opacity=".95"></stop>
+      <stop offset=".35" stop-color="#ff3b2f" stop-opacity=".4"></stop>
+      <stop offset="1" stop-color="#ff3b2f" stop-opacity="0"></stop>
+    </radialGradient>
+    <radialGradient id={`${uid}-glow-ember`}>
+      <stop offset="0" stop-color="#ffe0c0" stop-opacity=".95"></stop>
+      <stop offset=".35" stop-color="#ff7a24" stop-opacity=".4"></stop>
+      <stop offset="1" stop-color="#ff7a24" stop-opacity="0"></stop>
+    </radialGradient>
+    <radialGradient id={`${uid}-glow-green`}>
+      <stop offset="0" stop-color="#d9ffe6" stop-opacity=".9"></stop>
+      <stop offset=".35" stop-color="#52b47a" stop-opacity=".35"></stop>
+      <stop offset="1" stop-color="#52b47a" stop-opacity="0"></stop>
+    </radialGradient>
+  </defs>
+  <path d={path} fill="none" stroke="#2a201c" stroke-width="2.2"></path>
+  {
+    bulbs.map((b) => (
+      <g class={`bulb bulb--${b.c}`} style={`--d:${b.d}s`} transform={`translate(${b.x.toFixed(1)} ${b.y.toFixed(1)})`}>
+        <line x1="0" y1="0" x2="0" y2="9" stroke="#2a201c" stroke-width="2" />
+        <rect x="-3.5" y="7" width="7" height="6" rx="1" fill="#3a2e28" />
+        <circle class="bulb__halo" cx="0" cy="22" r="30" fill={`url(#${uid}-glow-${b.c})`} />
+        <ellipse class="bulb__glass" cx="0" cy="21" rx="6" ry="8.5" />
+      </g>
+    ))
+  }
+</svg>
+
+<style>
+  .festoon {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    pointer-events: none;
+  }
+
+  .bulb__glass {
+    fill: #fff1d6;
+  }
+
+  .bulb--red .bulb__glass {
+    fill: #ffb4a6;
+  }
+
+  .bulb--ember .bulb__glass {
+    fill: #ffc79a;
+  }
+
+  .bulb--green .bulb__glass {
+    fill: #c4f2d4;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .bulb__halo,
+    .bulb__glass {
+      animation: twinkle 3.8s ease-in-out var(--d) infinite;
+    }
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    45% {
+      opacity: 0.55;
+    }
+    55% {
+      opacity: 0.9;
+    }
+  }
+</style>

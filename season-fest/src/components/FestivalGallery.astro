@@ -1,0 +1,252 @@
+---
+import { Picture } from 'astro:assets';
+import { SHOW_TIMELINE_QUOTES, TIMELINE_QUOTES, TIMELINE_SOURCE } from '../config/event';
+import { GALLERY_ROWS, PHOTOS } from '../config/media';
+---
+
+<section class="gallery section" id="atmosphere" aria-labelledby="gallery-title">
+  <header class="gallery__head wrap">
+    <p class="label label--ember" data-reveal>Previous editions</p>
+    <h2 id="gallery-title" class="gallery__title display" data-split>We’ve done this before.</h2>
+    <p class="lede" data-reveal>
+      Every photo here is from a real MEAT &amp; GREET night in Abuja. SEASON FEST takes that same energy into Christmas
+      Eve.
+    </p>
+  </header>
+
+  <figure class="feature" data-feature>
+    <div class="feature__frame" data-feature-frame>
+      <div class="feature__img" data-feature-img>
+        <Picture
+          src={PHOTOS.audienceFeature.src}
+          alt={PHOTOS.audienceFeature.alt}
+          widths={[640, 960, 1400, 2000]}
+          sizes="100vw"
+          formats={['avif', 'webp']}
+          loading="lazy"
+        />
+      </div>
+    </div>
+    <figcaption class="feature__cap wrap">
+      <span class="label">MEAT &amp; GREET · Abuja</span>
+      <span class="label">Previous edition</span>
+    </figcaption>
+  </figure>
+
+  <div class="rows" aria-label="More photos from previous MEAT & GREET editions" role="group">
+    {
+      GALLERY_ROWS.map((row, r) => (
+        <div class="row" data-gallery-row={r % 2 === 0 ? 'left' : 'right'}>
+          <ul class="row__track" role="list">
+            {row.map((photo) => (
+              <li class="row__item">
+                <Picture
+                  src={photo.src}
+                  alt={photo.alt}
+                  widths={[240, photo.src.width]}
+                  sizes="(max-width: 48rem) 15rem, 24rem"
+                  formats={['avif', 'webp']}
+                  loading="lazy"
+                />
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))
+    }
+  </div>
+
+  {
+    SHOW_TIMELINE_QUOTES && TIMELINE_QUOTES.length > 0 && (
+      <div class="timeline wrap">
+        <p class="label">Overheard on the timeline</p>
+        <ul class="timeline__list" role="list">
+          {TIMELINE_QUOTES.map((q, i) => (
+            <li class:list={['timeline__quote', `timeline__quote--${i % 3}`]} data-reveal>
+              <blockquote>
+                <p class="serif">“{q}”</p>
+              </blockquote>
+            </li>
+          ))}
+        </ul>
+        <p class="timeline__source">{TIMELINE_SOURCE}</p>
+      </div>
+    )
+  }
+</section>
+
+<style>
+  .gallery {
+    background:
+      radial-gradient(70% 40% at 100% 0%, rgb(74 12 17 / 0.5), transparent 70%),
+      var(--char);
+    overflow: hidden;
+  }
+
+  .gallery__head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(3rem, 7vw, 6rem);
+  }
+
+  .gallery__title {
+    font-size: var(--step-xl);
+    max-width: 12ch;
+  }
+
+  /* ---------- feature ---------- */
+  .feature {
+    margin: 0 0 clamp(3rem, 7vw, 6rem);
+  }
+
+  .feature__frame {
+    position: relative;
+    overflow: hidden;
+    height: min(88svh, 56rem);
+    min-height: 22rem;
+  }
+
+  .feature__img {
+    position: absolute;
+    inset: 0;
+  }
+
+  .feature__img :global(picture),
+  .feature__img :global(img) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .feature__img :global(img) {
+    object-fit: cover;
+    object-position: 60% 40%;
+  }
+
+  .feature__cap {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1rem;
+  }
+
+  /* ---------- rows ---------- */
+  .rows {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .row {
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+  }
+
+  .row::-webkit-scrollbar {
+    display: none;
+  }
+
+  .row__track {
+    display: flex;
+    gap: 1rem;
+    width: max-content;
+    margin: 0;
+    padding-inline: var(--gutter);
+  }
+
+  .row__item {
+    width: clamp(15rem, 26vw, 24rem);
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    flex: none;
+    scroll-snap-align: start;
+    background: var(--char-2);
+  }
+
+  .row__item :global(picture),
+  .row__item :global(img) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .row__item :global(img) {
+    object-fit: cover;
+    transition:
+      transform 0.8s var(--ease-out),
+      filter 0.5s;
+    filter: saturate(0.92) contrast(1.04);
+  }
+
+  .row__item:hover :global(img) {
+    transform: scale(1.05);
+    filter: saturate(1.1) contrast(1.06);
+  }
+
+  /* With motion, rows drift with the page scroll instead of swiping. */
+  :global(.motion-ready) .row {
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  :global(.motion-ready) .row__track {
+    will-change: transform;
+  }
+
+  /* ---------- timeline quotes ---------- */
+  .timeline {
+    margin-top: clamp(4rem, 9vw, 8rem);
+    display: grid;
+    gap: 2rem;
+  }
+
+  .timeline__list {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: clamp(1.5rem, 3vw, 2.5rem) clamp(1rem, 2vw, 2rem);
+    margin: 0;
+  }
+
+  .timeline__quote {
+    grid-column: span 4;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .timeline__quote blockquote {
+    margin: 0;
+  }
+
+  .timeline__quote p {
+    font-size: clamp(1.5rem, 2.4vw, 2.2rem);
+    line-height: 1.12;
+  }
+
+  .timeline__quote--1 p {
+    color: var(--gold);
+  }
+
+  .timeline__quote:nth-child(2),
+  .timeline__quote:nth-child(5) {
+    margin-top: 2.5rem;
+  }
+
+  .timeline__source {
+    font-size: 0.875rem;
+    color: var(--text-mute);
+  }
+
+  @media (max-width: 63.99rem) {
+    .timeline__quote {
+      grid-column: span 6;
+    }
+    .timeline__quote:nth-child(n) {
+      margin-top: 0;
+    }
+  }
+
+  @media (max-width: 40rem) {
+    .timeline__quote {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

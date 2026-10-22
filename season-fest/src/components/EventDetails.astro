@@ -1,0 +1,511 @@
+---
+import TicketCTA from './TicketCTA.astro';
+import SocialIcon from './SocialIcon.astro';
+import {
+  ANNOUNCEMENT_CHANNEL,
+  CONTACT,
+  EVENT,
+  FAQ,
+  SOCIALS,
+  VENUE,
+  googleCalendarUrl,
+  ticketsLive,
+} from '../config/event';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const time =
+  EVENT.startTime && EVENT.endTime
+    ? `${EVENT.startTime}–${EVENT.endTime}`
+    : EVENT.startTime
+      ? `From ${EVENT.startTime}`
+      : null;
+---
+
+<section class="details section" id="details" aria-labelledby="details-title">
+  <div class="wrap">
+    <header class="details__head">
+      <p class="label label--ember" data-reveal>Plan your night</p>
+      <h2 id="details-title" class="details__title display" data-split>The details</h2>
+    </header>
+
+    <div class="details__grid">
+      <dl class="facts" data-reveal>
+        <div class="facts__row">
+          <dt>Event</dt>
+          <dd>{EVENT.fullName} <span>by {EVENT.parentBrand}</span></dd>
+        </div>
+        <div class="facts__row">
+          <dt>Date</dt>
+          <dd><time datetime={EVENT.date}>{EVENT.dateLong}</time>{time && <span>{time} WAT</span>}</dd>
+        </div>
+        <div class="facts__row">
+          <dt>Venue</dt>
+          <dd>{VENUE.name} <span>{VENUE.streetAddress}, {VENUE.district}, {VENUE.city}</span></dd>
+        </div>
+        {
+          EVENT.ageRestriction && (
+            <div class="facts__row">
+              <dt>Age</dt>
+              <dd>{EVENT.ageRestriction}</dd>
+            </div>
+          )
+        }
+        {
+          EVENT.dressCode && (
+            <div class="facts__row">
+              <dt>Dress code</dt>
+              <dd>{EVENT.dressCode}</dd>
+            </div>
+          )
+        }
+        <div class="facts__row facts__row--tickets" id="tickets">
+          <dt>Tickets</dt>
+          <dd>
+            {
+              ticketsLive ? (
+                <>On sale now <span>Only buy from the official link.</span></>
+              ) : (
+                <>
+                  Official link coming soon
+                  <span>
+                    It will be announced on{' '}
+                    <a href={ANNOUNCEMENT_CHANNEL.url} target="_blank" rel="noopener">
+                      {ANNOUNCEMENT_CHANNEL.handle}
+                    </a>{' '}
+                    and posted here. Only buy from the official link.
+                  </span>
+                </>
+              )
+            }
+            <div class="facts__cta">
+              <TicketCTA location="details" />
+            </div>
+          </dd>
+        </div>
+        <div class="facts__row">
+          <dt>Produced by</dt>
+          <dd>The Capital Movement (TCM) × The Clique</dd>
+        </div>
+        <div class="facts__row">
+          <dt>Follow</dt>
+          <dd>
+            <ul class="socials" role="list">
+              {
+                SOCIALS.map((s) => (
+                  <li>
+                    <a href={s.url} target="_blank" rel="noopener">
+                      <SocialIcon network={s.network} />
+                      <span>{s.handle}</span>
+                    <span class="visually-hidden">, {s.label}, opens in a new tab</span>
+                    </a>
+                  </li>
+                ))
+              }
+            </ul>
+          </dd>
+        </div>
+        {
+          CONTACT.email && (
+            <div class="facts__row">
+              <dt>Enquiries</dt>
+              <dd>
+                <a class="facts__mail" href={`mailto:${CONTACT.email}`}>
+                  {CONTACT.email}
+                </a>
+              </dd>
+            </div>
+          )
+        }
+      </dl>
+
+      <div class="where" data-reveal>
+        <div class="map" data-map>
+          <div class="map__facade">
+            <svg class="map__grid" viewBox="0 0 400 300" aria-hidden="true" preserveAspectRatio="xMidYMid slice">
+              <defs>
+                <pattern id="map-grid" width="24" height="24" patternUnits="userSpaceOnUse">
+                  <path d="M24 0H0v24" fill="none" stroke="rgb(247 242 236 / .07)" stroke-width="1"></path>
+                </pattern>
+              </defs>
+              <rect width="400" height="300" fill="url(#map-grid)"></rect>
+              <path d="M-10 210 C 90 180, 160 230, 250 170 S 380 120, 420 140" fill="none" stroke="rgb(255 94 26 / .5)" stroke-width="3"></path>
+              <path d="M120 -10 L 160 320" fill="none" stroke="rgb(247 242 236 / .12)" stroke-width="6"></path>
+            </svg>
+            <div class="map__pin" aria-hidden="true">
+              <span></span>
+            </div>
+            <div class="map__label">
+              <p class="label label--ember">Harrow Park</p>
+              <p>{VENUE.streetAddress}<br />{VENUE.district}, {VENUE.city}</p>
+            </div>
+            <button class="map__load" type="button" data-map-load hidden>Show interactive map</button>
+          </div>
+          <template data-map-template>
+            <iframe
+              title="Map showing Harrow Park, Abuja"
+              src={VENUE.mapsEmbedUrl}
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              allowfullscreen></iframe>
+          </template>
+        </div>
+
+        <div class="where__links">
+          <a class="where__link" href={VENUE.mapsUrl} target="_blank" rel="noopener">
+            Open in Google Maps<span class="visually-hidden"> (opens in a new tab)</span>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
+          </a>
+          <a class="where__link" href={googleCalendarUrl} target="_blank" rel="noopener">
+            Add to Google Calendar<span class="visually-hidden"> (opens in a new tab)</span>
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M5 11 11 5M6 5h5v5" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
+          </a>
+          <a class="where__link" href={`${base}/season-fest-2026.ics`} download>
+            Download calendar file (.ics)
+            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v8m-4-4 4 4 4-4M3 13h10" fill="none" stroke="currentColor" stroke-width="1.6"></path></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="faq">
+      <h3 class="faq__title display" data-reveal>Good to know</h3>
+      <div class="faq__list">
+        {
+          FAQ.map((item) => (
+            <details class="faq__item" data-reveal>
+              <summary>
+                <span>{item.q}</span>
+                <i aria-hidden="true" />
+              </summary>
+              <p>{item.a}</p>
+            </details>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .details {
+    background: var(--char);
+    border-top: 1px solid var(--line);
+  }
+
+  .details__head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: clamp(2.5rem, 6vw, 5rem);
+  }
+
+  .details__title {
+    font-size: var(--step-xl);
+  }
+
+  .details__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(2.5rem, 5vw, 5rem);
+    align-items: start;
+  }
+
+  /* ---------- facts ---------- */
+  .facts {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .facts__row {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    gap: 1rem;
+    padding-block: 1.25rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .facts dt {
+    font: 700 var(--step-label) / 1.5 var(--font-display);
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--text-mute);
+    padding-top: 0.2rem;
+  }
+
+  .facts dd {
+    font: 800 clamp(1.3rem, 2vw, 1.65rem) / 1.15 var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .facts dd > span {
+    display: block;
+    margin-top: 0.4rem;
+    font: 400 1rem/1.5 var(--font-body);
+    text-transform: none;
+    letter-spacing: 0;
+    color: var(--text-dim);
+  }
+
+  .facts dd a {
+    color: var(--snow);
+  }
+
+  .facts__row--tickets dd {
+    color: var(--gold);
+  }
+
+  .facts__cta {
+    margin-top: 1.25rem;
+  }
+
+  .facts__mail {
+    font: 600 1.05rem/1.4 var(--font-body);
+    text-transform: none;
+    letter-spacing: 0;
+    word-break: break-word;
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem 1.25rem;
+    margin: 0;
+  }
+
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    font: 600 1rem/1 var(--font-body);
+    text-transform: none;
+    letter-spacing: 0;
+    text-decoration: none;
+    color: var(--snow);
+    transition: color 0.2s;
+  }
+
+  .socials a:hover {
+    color: var(--gold);
+  }
+
+  /* ---------- map ---------- */
+  .where {
+    display: grid;
+    gap: 1.25rem;
+    position: sticky;
+    top: calc(var(--header-h) + 1.5rem);
+  }
+
+  .map {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    background:
+      radial-gradient(60% 60% at 55% 55%, rgb(117 20 27 / 0.5), transparent 70%),
+      var(--obsidian);
+  }
+
+  .map__facade,
+  .map :global(iframe) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .map :global(iframe) {
+    filter: grayscale(0.4) contrast(1.05);
+  }
+
+  .map__grid {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .map__pin {
+    position: absolute;
+    left: 55%;
+    top: 46%;
+    width: 1.25rem;
+    height: 1.25rem;
+    border-radius: 50% 50% 50% 0;
+    background: var(--ember);
+    transform: translate(-50%, -100%) rotate(-45deg);
+    box-shadow: 0 0 0 6px rgb(255 94 26 / 0.2);
+  }
+
+  .map__pin span {
+    position: absolute;
+    inset: 0.35rem;
+    border-radius: 50%;
+    background: var(--obsidian);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .map__pin {
+      animation: pin-pulse 2.4s ease-out infinite;
+    }
+  }
+
+  @keyframes pin-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgb(255 94 26 / 0.45);
+    }
+    100% {
+      box-shadow: 0 0 0 22px rgb(255 94 26 / 0);
+    }
+  }
+
+  .map__label {
+    position: absolute;
+    left: 1.25rem;
+    bottom: 1.25rem;
+    right: 1.25rem;
+    display: grid;
+    gap: 0.35rem;
+    color: var(--text-dim);
+    font-size: 0.95rem;
+  }
+
+  .map__load {
+    position: absolute;
+    right: 1rem;
+    top: 1rem;
+    min-height: 2.75rem;
+    padding: 0.5rem 1rem;
+    background: var(--snow);
+    color: var(--obsidian);
+    border: 0;
+    font: 800 0.95rem/1 var(--font-display);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .map__load:hover {
+    background: var(--gold);
+  }
+
+  .where__links {
+    display: grid;
+  }
+
+  .where__link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    min-height: 3.25rem;
+    border-bottom: 1px solid var(--line);
+    font: 700 1.05rem/1.2 var(--font-display);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .where__link:hover {
+    color: var(--gold);
+  }
+
+  .where__link svg {
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+  }
+
+  /* ---------- faq ---------- */
+  .faq {
+    margin-top: clamp(4rem, 8vw, 7rem);
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: 2rem;
+  }
+
+  .faq__title {
+    font-size: var(--step-m);
+  }
+
+  .faq__list {
+    border-top: 1px solid var(--line-strong);
+  }
+
+  .faq__item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .faq__item summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    min-height: 3.75rem;
+    padding-block: 1rem;
+    cursor: pointer;
+    list-style: none;
+    font: 700 clamp(1.15rem, 1.6vw, 1.4rem) / 1.2 var(--font-display);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .faq__item summary i {
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    flex: none;
+  }
+
+  .faq__item summary i::before,
+  .faq__item summary i::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 100%;
+    height: 2px;
+    background: var(--ember);
+    transition: transform 0.35s var(--ease-out);
+  }
+
+  .faq__item summary i::after {
+    transform: rotate(90deg);
+  }
+
+  .faq__item[open] summary i::after {
+    transform: rotate(0);
+  }
+
+  .faq__item summary:hover {
+    color: var(--gold);
+  }
+
+  .faq__item p {
+    padding-bottom: 1.5rem;
+    max-width: 60ch;
+    color: var(--text-dim);
+  }
+
+  @media (max-width: 63.99rem) {
+    .details__grid,
+    .faq {
+      grid-template-columns: 1fr;
+    }
+    .where {
+      position: static;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .facts__row {
+      grid-template-columns: 1fr;
+      gap: 0.35rem;
+    }
+  }
+</style>

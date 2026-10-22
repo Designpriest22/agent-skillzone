@@ -1,0 +1,269 @@
+---
+import { Picture } from 'astro:assets';
+import { ANNOUNCEMENT_CHANNEL, EVENT, googleCalendarUrl, ticketsLive, venueOneLine } from '../config/event';
+import { BRAND } from '../config/media';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+---
+
+{
+  !ticketsLive && (
+    <dialog id="ticket-modal" class="tmodal" aria-labelledby="tmodal-title" aria-describedby="tmodal-desc">
+      <div class="tmodal__card">
+        <button class="tmodal__close" type="button" data-close-modal aria-label="Close">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="2" fill="none" />
+          </svg>
+        </button>
+
+        <div class="tmodal__stub" aria-hidden="true">
+          <span class="tmodal__stub-date">24.12</span>
+          <span class="tmodal__stub-sub">Christmas Eve</span>
+        </div>
+
+        <div class="tmodal__body">
+          <Picture
+            src={BRAND.seasonFest.src}
+            alt=""
+            widths={[360, 720]}
+            sizes="(max-width: 40rem) 60vw, 280px"
+            formats={['avif', 'webp']}
+            fallbackFormat="webp"
+            class="tmodal__logo"
+            loading="lazy"
+          />
+          <p class="label label--ember">Official tickets</p>
+          <h2 id="tmodal-title" class="tmodal__title display">
+            Tickets drop <span class="serif">soon.</span>
+          </h2>
+          <p id="tmodal-desc" class="tmodal__text">
+            The official {EVENT.name} ticket link hasn’t been released yet. When it goes live, every “Get your
+            ticket” button on this page will take you straight there.
+          </p>
+
+          <div class="tmodal__actions">
+            <a class="tmodal__primary" href={ANNOUNCEMENT_CHANNEL.url} target="_blank" rel="noopener">
+              <span>Follow {ANNOUNCEMENT_CHANNEL.handle} for the drop</span>
+              <span class="visually-hidden"> (opens Instagram in a new tab)</span>
+            </a>
+            <div class="tmodal__secondary">
+              <a href={googleCalendarUrl} target="_blank" rel="noopener">
+                Add to Google Calendar<span class="visually-hidden"> (opens in a new tab)</span>
+              </a>
+              <a href={`${base}/season-fest-2026.ics`} download>
+                Download .ics
+              </a>
+            </div>
+          </div>
+
+          <p class="tmodal__fine">
+            {EVENT.dateLong} · {venueOneLine}. Only buy from the official link. It will be shared here and on the
+            producers’ channels.
+          </p>
+        </div>
+      </div>
+    </dialog>
+  )
+}
+
+<style>
+  .tmodal {
+    width: min(100% - 2rem, 40rem);
+    max-height: min(100% - 2rem, 46rem);
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    overflow: visible;
+  }
+
+  .tmodal::backdrop {
+    background: rgb(8 4 3 / 0.78);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .tmodal[open] {
+    animation: modal-in 0.5s var(--ease-out);
+  }
+
+  .tmodal[open]::backdrop {
+    animation: fade-in 0.35s ease-out;
+  }
+
+  .tmodal__card {
+    position: relative;
+    display: grid;
+    grid-template-columns: 5.5rem 1fr;
+    max-height: inherit;
+    overflow: auto;
+    background:
+      radial-gradient(120% 90% at 100% 110%, rgb(255 94 26 / 0.28), transparent 55%),
+      radial-gradient(90% 70% at 0% 0%, rgb(117 20 27 / 0.55), transparent 60%),
+      var(--char);
+    border: 1px solid var(--line-strong);
+    box-shadow:
+      0 40px 120px rgb(0 0 0 / 0.6),
+      0 0 0 1px rgb(255 94 26 / 0.15);
+  }
+
+  .tmodal__stub {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.8rem;
+    background: var(--molten);
+    color: #1a0905;
+    writing-mode: vertical-rl;
+    transform: rotate(180deg);
+    border-left: 2px dashed rgb(26 9 5 / 0.35);
+  }
+
+  .tmodal__stub-date {
+    font: 900 2.6rem/1 var(--font-display);
+    letter-spacing: 0.04em;
+  }
+
+  .tmodal__stub-sub {
+    font: 700 0.8rem/1 var(--font-display);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  .tmodal__body {
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+  }
+
+  .tmodal__logo {
+    width: min(15rem, 70%);
+    height: auto;
+    margin-bottom: 0.5rem;
+  }
+
+  .tmodal__title {
+    font-size: clamp(2.6rem, 7vw, 3.75rem);
+  }
+
+  .tmodal__title .serif {
+    color: var(--gold);
+  }
+
+  .tmodal__text {
+    color: var(--text-dim);
+    max-width: 40ch;
+  }
+
+  .tmodal__actions {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 0.5rem;
+  }
+
+  .tmodal__primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.25rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--snow);
+    color: var(--obsidian);
+    font: 800 1.05rem/1.1 var(--font-display);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    transition: background 0.2s;
+  }
+
+  .tmodal__primary:hover {
+    background: var(--gold);
+  }
+
+  .tmodal__secondary {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem 1.5rem;
+  }
+
+  .tmodal__secondary a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    font-weight: 600;
+    color: var(--snow);
+  }
+
+  .tmodal__secondary a:hover {
+    color: var(--gold);
+  }
+
+  .tmodal__fine {
+    font-size: 0.875rem;
+    color: var(--text-mute);
+    border-top: 1px solid var(--line);
+    padding-top: 1rem;
+  }
+
+  .tmodal__close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 2;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+    transition:
+      background 0.2s,
+      transform 0.3s var(--ease-out);
+  }
+
+  .tmodal__close:hover {
+    background: rgb(247 242 236 / 0.1);
+    transform: rotate(90deg);
+  }
+
+  .tmodal__close svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  @media (max-width: 34rem) {
+    .tmodal__card {
+      grid-template-columns: 1fr;
+    }
+    .tmodal__stub {
+      writing-mode: horizontal-tb;
+      transform: none;
+      flex-direction: row;
+      justify-content: flex-start;
+      padding: 0.9rem 1.5rem;
+      border-left: 0;
+      border-bottom: 2px dashed rgb(26 9 5 / 0.35);
+    }
+    .tmodal__stub-date {
+      font-size: 1.9rem;
+    }
+  }
+
+  @keyframes modal-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.98);
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+    }
+  }
+</style>

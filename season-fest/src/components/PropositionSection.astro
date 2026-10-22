@@ -1,0 +1,248 @@
+---
+import { Picture } from 'astro:assets';
+import TicketCTA from './TicketCTA.astro';
+import FestoonLights from './FestoonLights.astro';
+import { EVENT, VENUE } from '../config/event';
+import { BRAND } from '../config/media';
+---
+
+<section class="prop section" id="christmas-eve" aria-labelledby="prop-title">
+  <div class="prop__lights" aria-hidden="true">
+    <FestoonLights uid="prop" spans={3} bulbsPerSpan={7} sag={55} />
+  </div>
+
+  <div class="prop__grid wrap">
+    <div class="prop__text">
+      <p class="label label--ember" data-reveal>{EVENT.weekday} · 24 December</p>
+      <h2 id="prop-title" class="prop__title display" data-split>
+        Your Christmas Eve plans just changed.
+      </h2>
+      <p class="lede" data-reveal>
+        Make room for good food, great music, familiar faces, new connections, and a Christmas Eve worth remembering.
+      </p>
+      <div class="prop__cta" data-reveal>
+        <TicketCTA location="proposition" />
+      </div>
+    </div>
+
+    <div class="stub-wrap" data-tilt data-reveal>
+      <div class="stub">
+        <div class="stub__main">
+          <div class="stub__brand">
+            <Picture
+              src={BRAND.seasonFest.src}
+              alt={EVENT.name}
+              widths={[480, 960]}
+              sizes="(max-width: 48rem) 70vw, 26rem"
+              formats={['avif', 'webp']}
+            fallbackFormat="webp"
+              loading="lazy"
+              class="stub__logo"
+            />
+            <p class="stub__by">by {EVENT.parentBrand}</p>
+          </div>
+          <dl class="stub__facts">
+            <div>
+              <dt>Date</dt>
+              <dd><time datetime={EVENT.date}>{EVENT.dateLong}</time></dd>
+            </div>
+            <div>
+              <dt>Venue</dt>
+              <dd>{VENUE.name}, {VENUE.city}</dd>
+            </div>
+            <div>
+              <dt>Produced by</dt>
+              <dd>TCM × The Clique</dd>
+            </div>
+          </dl>
+        </div>
+        <div class="stub__tear" aria-hidden="true">
+          <span class="stub__day">24</span>
+          <span class="stub__month">Dec</span>
+          <span class="stub__year">2026</span>
+          <span class="stub__code"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .prop {
+    background:
+      radial-gradient(80% 70% at 75% 60%, rgb(117 20 27 / 0.75), transparent 70%),
+      radial-gradient(50% 50% at 80% 100%, rgb(255 94 26 / 0.35), transparent 70%),
+      var(--obsidian);
+    overflow: hidden;
+    padding-top: calc(var(--section-y) + 3rem);
+  }
+
+  .prop__lights {
+    position: absolute;
+    inset: 0 0 auto;
+    opacity: 0.85;
+  }
+
+  .prop__grid {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: clamp(3rem, 6vw, 6rem);
+    align-items: center;
+  }
+
+  .prop__text {
+    display: grid;
+    gap: 1.5rem;
+  }
+
+  .prop__title {
+    font-size: clamp(3rem, 7.4vw, 7.25rem);
+    max-width: 13ch;
+  }
+
+  .prop__cta {
+    margin-top: 0.75rem;
+  }
+
+  /* ---------- ticket stub ---------- */
+  .stub-wrap {
+    perspective: 1200px;
+  }
+
+  .stub {
+    --notch: 1.1rem;
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 6.5rem;
+    color: var(--obsidian);
+    filter: drop-shadow(0 40px 60px rgb(0 0 0 / 0.55));
+    transform: rotate(-3deg);
+    transform-style: preserve-3d;
+  }
+
+  .stub__main,
+  .stub__tear {
+    background: var(--snow);
+  }
+
+  .stub__main {
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    display: grid;
+    gap: 1.5rem;
+    background:
+      radial-gradient(circle at 100% 0, transparent var(--notch), var(--snow) calc(var(--notch) + 0.5px)) top right / 51% 51% no-repeat,
+      radial-gradient(circle at 100% 100%, transparent var(--notch), var(--snow) calc(var(--notch) + 0.5px)) bottom right / 51% 51% no-repeat,
+      linear-gradient(var(--snow), var(--snow)) left / 50% 100% no-repeat;
+  }
+
+  .stub__brand {
+    background: var(--obsidian);
+    padding: 1.25rem 1.25rem 1rem;
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .stub__brand :global(.stub__logo) {
+    width: 100%;
+    height: auto;
+  }
+
+  .stub__by {
+    font: 700 0.8rem/1 var(--font-display);
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--silver);
+    text-align: center;
+  }
+
+  .stub__facts {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .stub__facts div {
+    display: grid;
+    gap: 0.15rem;
+    padding-bottom: 0.9rem;
+    border-bottom: 1px dashed rgb(11 8 7 / 0.25);
+  }
+
+  .stub__facts div:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .stub__facts dt {
+    font: 700 0.75rem/1 var(--font-display);
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: #6b5f58;
+  }
+
+  .stub__facts dd {
+    font: 800 clamp(1.3rem, 2vw, 1.6rem) / 1.1 var(--font-display);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .stub__tear {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    border-left: 2px dashed rgb(11 8 7 / 0.3);
+    background:
+      radial-gradient(circle at 0 0, transparent var(--notch), var(--ember) calc(var(--notch) + 0.5px)) top left / 51% 51% no-repeat,
+      radial-gradient(circle at 0 100%, transparent var(--notch), var(--ember) calc(var(--notch) + 0.5px)) bottom left / 51% 51% no-repeat,
+      linear-gradient(var(--ember), var(--ember)) right / 50% 100% no-repeat;
+  }
+
+  .stub__day {
+    font: 900 3.5rem/0.85 var(--font-display);
+  }
+
+  .stub__month,
+  .stub__year {
+    font: 800 1rem/1 var(--font-display);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .stub__code {
+    width: 2.6rem;
+    height: 5rem;
+    margin-top: 1rem;
+    background: repeating-linear-gradient(
+      180deg,
+      var(--obsidian) 0 2px,
+      transparent 2px 4px,
+      var(--obsidian) 4px 5px,
+      transparent 5px 8px,
+      var(--obsidian) 8px 11px,
+      transparent 11px 13px
+    );
+    opacity: 0.85;
+  }
+
+  @media (max-width: 63.99rem) {
+    .prop__grid {
+      grid-template-columns: 1fr;
+    }
+    .stub-wrap {
+      max-width: 30rem;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .stub {
+      grid-template-columns: 1fr 5rem;
+      --notch: 0.85rem;
+    }
+    .stub__day {
+      font-size: 2.75rem;
+    }
+  }
+</style>

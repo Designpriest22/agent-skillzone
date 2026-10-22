@@ -1,0 +1,319 @@
+---
+import { Picture } from 'astro:assets';
+import TicketCTA from './TicketCTA.astro';
+import { EVENT, venueOneLine } from '../config/event';
+import { BRAND } from '../config/media';
+
+const links = [
+  { href: '#experience', label: 'Experience' },
+  { href: '#atmosphere', label: 'Previous editions' },
+  { href: '#producers', label: 'Producers' },
+  { href: '#details', label: 'Details' },
+];
+---
+
+<header class="site-header" data-header>
+  <div class="site-header__inner">
+    <a class="brand" href="#top">
+      <Picture
+        src={BRAND.meatAndGreet.src}
+        alt=""
+        widths={[96, 192]}
+        sizes="64px"
+        formats={['avif', 'webp']}
+            fallbackFormat="webp"
+        class="brand__mg"
+        loading="eager"
+      />
+      <span class="brand__rule" aria-hidden="true"></span>
+      <span class="brand__name">
+        Season Fest
+        <span class="brand__date">{EVENT.dateCompact}</span>
+      </span>
+      <span class="visually-hidden">, back to top</span>
+    </a>
+
+    <nav class="site-nav" aria-label="Page sections">
+      <ul role="list">
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href}>{l.label}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="site-header__cta">
+      <TicketCTA variant="compact" location="header" />
+    </div>
+
+    <button class="menu-toggle" type="button" popovertarget="mobile-menu" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+  </div>
+
+  <div id="mobile-menu" class="mobile-menu" popover>
+    <div class="mobile-menu__top">
+      <span class="label">{EVENT.dateShort} · {venueOneLine}</span>
+      <button class="mobile-menu__close" type="button" popovertarget="mobile-menu" popovertargetaction="hide" aria-label="Close menu">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5l14 14M19 5 5 19" stroke="currentColor" stroke-width="2" fill="none"></path></svg>
+      </button>
+    </div>
+    <nav aria-label="Page sections (menu)">
+      <ul role="list" class="mobile-menu__links">
+        {
+          links.map((l) => (
+            <li>
+              <a href={l.href} data-menu-link>
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <TicketCTA variant="bar" location="mobile-menu" />
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    padding-top: env(safe-area-inset-top);
+    transition:
+      background-color 0.4s,
+      border-color 0.4s,
+      transform 0.5s var(--ease-out);
+    background: linear-gradient(rgb(11 8 7 / 0.7), rgb(11 8 7 / 0));
+    border-bottom: 1px solid transparent;
+  }
+
+  .site-header[data-scrolled] {
+    background: rgb(11 8 7 / 0.86);
+    border-bottom-color: var(--line);
+    backdrop-filter: blur(12px) saturate(1.2);
+    -webkit-backdrop-filter: blur(12px) saturate(1.2);
+  }
+
+  .site-header__inner {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    height: var(--header-h);
+    max-width: var(--max);
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+    margin-right: auto;
+    min-height: 2.75rem;
+  }
+
+  .brand :global(.brand__mg) {
+    width: 3.6rem;
+    height: auto;
+  }
+
+  .brand__rule {
+    width: 1px;
+    height: 1.75rem;
+    background: var(--line-strong);
+  }
+
+  .brand__name {
+    display: flex;
+    flex-direction: column;
+    font: 800 1.15rem/0.95 var(--font-display);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .brand__date {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.24em;
+    color: var(--ember);
+    margin-top: 0.2rem;
+  }
+
+  .site-nav {
+    display: none;
+  }
+
+  .site-nav ul {
+    display: flex;
+    gap: 0.25rem;
+    margin: 0;
+  }
+
+  .site-nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.75rem;
+    padding-inline: 0.85rem;
+    font: 700 0.95rem/1 var(--font-display);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--text-dim);
+    transition: color 0.2s;
+  }
+
+  .site-nav a:hover {
+    color: var(--snow);
+  }
+
+  .site-header__cta {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: grid;
+    place-content: center;
+    gap: 7px;
+    width: 2.9rem;
+    height: 2.9rem;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+  }
+
+  .menu-toggle span {
+    display: block;
+    width: 1.2rem;
+    height: 2px;
+    background: var(--snow);
+  }
+
+  .menu-toggle span:last-child {
+    width: 0.8rem;
+    justify-self: end;
+  }
+
+  @media (min-width: 40rem) {
+    .site-header__cta {
+      display: block;
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .site-nav {
+      display: block;
+    }
+    .menu-toggle {
+      display: none;
+    }
+  }
+
+  /* ---- mobile menu (native popover: works without JS) ---- */
+  .mobile-menu {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    max-height: none;
+    margin: 0;
+    padding: calc(env(safe-area-inset-top) + 1rem) var(--gutter) calc(env(safe-area-inset-bottom) + 1.5rem);
+    border: 0;
+    color: var(--text);
+    background:
+      radial-gradient(120% 60% at 50% 115%, rgb(255 94 26 / 0.45), transparent 60%),
+      radial-gradient(100% 50% at 50% 100%, rgb(117 20 27 / 0.8), transparent 70%),
+      var(--obsidian);
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .mobile-menu:popover-open {
+    display: flex;
+  }
+
+  .mobile-menu__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .mobile-menu__close {
+    display: grid;
+    place-items: center;
+    width: 2.9rem;
+    height: 2.9rem;
+    flex: none;
+    background: transparent;
+    border: 1px solid var(--line-strong);
+    border-radius: 50%;
+  }
+
+  .mobile-menu__close svg {
+    width: 1.1rem;
+    height: 1.1rem;
+  }
+
+  .mobile-menu nav {
+    flex: 1;
+    display: flex;
+    align-items: center;
+  }
+
+  .mobile-menu__links {
+    display: grid;
+    gap: 0.25rem;
+    margin: 0;
+  }
+
+  .mobile-menu__links a {
+    display: block;
+    padding-block: 0.3rem;
+    font: 800 clamp(2.75rem, 13vw, 4.5rem) / 0.95 var(--font-display);
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  .mobile-menu__links a:hover,
+  .mobile-menu__links a:focus-visible {
+    color: var(--ember);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .mobile-menu:popover-open {
+      animation: menu-in 0.45s var(--ease-out);
+    }
+    .mobile-menu:popover-open .mobile-menu__links li {
+      animation: menu-link 0.6s var(--ease-out) both;
+    }
+    .mobile-menu:popover-open .mobile-menu__links li:nth-child(2) {
+      animation-delay: 0.05s;
+    }
+    .mobile-menu:popover-open .mobile-menu__links li:nth-child(3) {
+      animation-delay: 0.1s;
+    }
+    .mobile-menu:popover-open .mobile-menu__links li:nth-child(4) {
+      animation-delay: 0.15s;
+    }
+  }
+
+  @keyframes menu-in {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes menu-link {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+  }
+</style>

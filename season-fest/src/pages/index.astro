@@ -1,0 +1,36 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import HeroSection from '../components/HeroSection.astro';
+import IntroSection from '../components/IntroSection.astro';
+import ExperienceSection from '../components/ExperienceSection.astro';
+import FestivalGallery from '../components/FestivalGallery.astro';
+import PropositionSection from '../components/PropositionSection.astro';
+import ProducerSection from '../components/ProducerSection.astro';
+import EventDetails from '../components/EventDetails.astro';
+import FinalCTA from '../components/FinalCTA.astro';
+import Footer from '../components/Footer.astro';
+import TicketModal from '../components/TicketModal.astro';
+import MobileTicketBar from '../components/MobileTicketBar.astro';
+---
+
+<Base>
+  <Header />
+  <main id="main">
+    <HeroSection />
+    <IntroSection />
+    <ExperienceSection />
+    <FestivalGallery />
+    <PropositionSection />
+    <ProducerSection />
+    <EventDetails />
+    <FinalCTA />
+  </main>
+  <Footer />
+  <MobileTicketBar />
+  <TicketModal />
+
+  <script>
+    import '../scripts/main';
+  </script>
+</Base>
