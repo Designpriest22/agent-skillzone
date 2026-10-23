@@ -1,0 +1,1212 @@
+<title>Destination Nigeria Identity</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Four logo concepts and a working brand guide for Destination Nigeria.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@400;500&family=Onest:wght@400;500;600;700&family=Unbounded:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: a brand book. Full-bleed chapter bands over a 1200px column; four
+   concept spreads built on one repeated artboard grid; a sticky switcher pins
+   the guide to whichever concept is being judged. */
+:root {
+  --paper: #F3F6F3;
+  --surface: #FFFFFF;
+  --ink: #0B2A1F;
+  --ink-2: #4A6157;
+  --line: #D3DED7;
+  --accent: #00754A;
+  --accent-2: #232C63;
+  --warm: #B4472A;
+  --grid: rgba(0, 117, 74, .16);
+  --cl: #B4472A;
+  --ok: #00754A;
+  --mid: #9A6A12;
+  --no: #B4472A;
+
+  --display: "Unbounded", "Arial Black", system-ui, sans-serif;
+  --text: "Onest", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "Martian Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* Type scale, ratio 1.25 from 16px */
+  --t-13: .8rem; --t-16: 1rem; --t-20: 1.25rem; --t-25: 1.5625rem;
+  --t-31: 1.953rem; --t-39: 2.441rem; --t-49: 3.052rem; --t-61: 3.815rem;
+
+  /*LOGO-CONST*/
+  /*LOGO-LIGHT*/
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #071A13; --surface: #0D251C; --ink: #E6F0EA; --ink-2: #9DB5A9; --line: #1E4034;
+    --accent: #3DBE7F; --accent-2: #9AA6FF; --warm: #E58463; --grid: rgba(61, 190, 127, .2); --cl: #F2A93B;
+    --ok: #3DBE7F; --mid: #F2C66B; --no: #F08A6A;
+    /*LOGO-DARK*/
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #071A13; --surface: #0D251C; --ink: #E6F0EA; --ink-2: #9DB5A9; --line: #1E4034;
+  --accent: #3DBE7F; --accent-2: #9AA6FF; --warm: #E58463; --grid: rgba(61, 190, 127, .2); --cl: #F2A93B;
+  --ok: #3DBE7F; --mid: #F2C66B; --no: #F08A6A;
+  /*LOGO-DARK*/
+  color-scheme: dark;
+}
+
+/*LOGO-RULES*/
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { transition: none !important; animation: none !important; } }
+body { background: var(--paper); color: var(--ink); font: 400 var(--t-16)/1.6 var(--text); font-feature-settings: "ss01"; }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 30; background: var(--paper); }
+h1, h2, h3, h4 { font-family: var(--display); font-weight: 600; margin: 0; text-wrap: balance; letter-spacing: -.01em; }
+p { margin: 0; }
+ul { margin: 0; padding: 0; list-style: none; }
+figure { margin: 0; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+.wrap { max-width: 1232px; margin-inline: auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.band { padding-block: clamp(56px, 8vw, 112px); }
+.band + .band { border-top: 1px solid var(--line); }
+.band-surface { background: var(--surface); }
+.eyebrow { font: 500 .72rem/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.section-head { display: grid; gap: 14px; max-width: 760px; margin-bottom: clamp(32px, 4vw, 56px); }
+.section-head h2 { font-size: clamp(var(--t-31), 4vw, var(--t-49)); line-height: 1.08; }
+.section-head p:not(.eyebrow) { font-size: var(--t-20); line-height: 1.5; color: var(--ink-2); max-width: 62ch; }
+.vh { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Logos: every instance is an <svg><use> of a generated symbol */
+.lg { display: block; width: 100%; height: auto; overflow: visible; }
+.pos { background: var(--p-cotton); color: var(--p-forest); }
+.rev { background: var(--p-forest); color: var(--p-cotton); box-shadow: inset 0 0 0 1px var(--line); }
+
+/* ---------------------------------------------------------------- hero */
+.hero { padding-block: clamp(40px, 7vw, 96px) clamp(48px, 7vw, 88px); }
+.hero-top { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 64px); align-items: end; }
+.hero h1 { font-size: clamp(2.5rem, 7.4vw, 5.6rem); line-height: .98; font-weight: 700; letter-spacing: -.035em; margin-top: 18px; }
+.hero h1 span { display: block; color: var(--accent); }
+.hero-lede { font-size: var(--t-20); line-height: 1.5; color: var(--ink-2); max-width: 46ch; }
+.theme-line { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-top: 22px; font: 600 var(--t-16)/1.2 var(--display); }
+.theme-line span { display: inline-flex; align-items: center; gap: 9px; }
+.theme-line i { width: 10px; height: 22px; display: inline-block; }
+.tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; margin-top: clamp(36px, 5vw, 64px); }
+.tile { position: relative; aspect-ratio: 4 / 5; display: grid; grid-template-rows: 1fr auto; padding: clamp(14px, 2vw, 22px); text-decoration: none; border-radius: 4px; overflow: hidden; }
+.tile .lg { width: 66%; margin: auto; align-self: center; transition: transform .4s cubic-bezier(.2, .7, .2, 1); }
+.tile:hover .lg { transform: translateY(-4px) scale(1.03); }
+.tile-label { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.tile-label b { font: 600 var(--t-16)/1.2 var(--display); }
+.tile-label span { font: 500 .7rem/1 var(--mono); letter-spacing: .06em; }
+.tile-confluence { background: var(--p-forest); color: var(--p-cotton); box-shadow: inset 0 0 0 1px var(--line); }
+.tile-gate { background: var(--p-laterite); color: var(--p-cotton); }
+.tile-gate .lg { --ra: var(--p-cotton); --rc: var(--p-gold); }
+.tile-strips { background: var(--p-cotton); color: var(--p-forest); box-shadow: inset 0 0 0 1px var(--line); }
+.tile-nok { background: var(--p-gold); color: var(--p-forest); }
+.tile-nok .lg { --ra: var(--p-forest); --rb: var(--p-forest); }
+.toc { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 28px; padding-top: 18px; border-top: 1px solid var(--line); font: 500 .72rem/1.6 var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.toc a { color: var(--ink-2); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+
+/* ---------------------------------------------------------------- brief */
+.brief-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.brief-grid article { background: var(--surface); padding: clamp(20px, 3vw, 32px); display: grid; gap: 10px; align-content: start; }
+.brief-grid h3 { font-size: var(--t-20); line-height: 1.25; }
+.brief-grid p { color: var(--ink-2); max-width: 54ch; }
+.journey { margin-top: clamp(36px, 5vw, 56px); }
+.journey ol { list-style: none; margin: 14px 0 0; padding: 0; display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); gap: 0; counter-reset: j; }
+.journey li { counter-increment: j; position: relative; padding: 14px 10px 0 0; border-top: 3px solid var(--accent); font: 500 var(--t-13)/1.35 var(--text); }
+.journey li::before { content: counter(j, decimal-leading-zero); display: block; font: 500 .66rem/1 var(--mono); color: var(--ink-2); margin-bottom: 8px; letter-spacing: .06em; }
+.journey li:nth-child(n+4) { border-top-color: var(--accent-2); }
+.journey li:nth-child(n+7) { border-top-color: var(--warm); }
+
+/* ---------------------------------------------------------------- concepts */
+.concept { padding-block: clamp(48px, 7vw, 96px); border-top: 1px solid var(--line); }
+.concept:nth-of-type(even) { background: var(--surface); }
+.c-head { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: clamp(16px, 3vw, 36px); align-items: end; margin-bottom: clamp(24px, 3.5vw, 44px); }
+.c-num { font: 700 clamp(4rem, 11vw, 8.5rem)/.8 var(--display); letter-spacing: -.05em; color: var(--accent); }
+.k-gate-num { color: var(--warm); }
+.k-strips-num { color: var(--accent-2); }
+.k-nok-num { color: var(--ink); }
+.c-name { font-size: clamp(var(--t-31), 4.6vw, var(--t-61)); line-height: 1; letter-spacing: -.03em; margin-top: 8px; }
+.c-line { font: 500 var(--t-20)/1.3 var(--text); color: var(--ink-2); margin-top: 8px; }
+.c-grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(24px, 4vw, 56px); align-items: start; }
+.c-text { display: grid; gap: 22px; }
+.c-idea { font-size: 1.0625rem; line-height: 1.65; }
+.c-text h4 { font: 500 .72rem/1.4 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); margin-bottom: 10px; }
+.reads li { padding: 9px 0; border-top: 1px solid var(--line); font-weight: 500; }
+.reads li:last-child { border-bottom: 1px solid var(--line); }
+.pc { display: grid; gap: 22px; }
+.pc li { position: relative; padding-left: 20px; color: var(--ink-2); font-size: .95rem; line-height: 1.5; }
+.pc li + li { margin-top: 9px; }
+.pc li::before { content: ""; position: absolute; left: 0; top: .5em; width: 8px; height: 8px; background: var(--accent); }
+.pc .cons li::before { background: var(--warm); border-radius: 50%; }
+.c-vis { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+.v { position: relative; border-radius: 4px; overflow: hidden; display: grid; place-items: center; padding: clamp(14px, 2.4vw, 28px) clamp(14px, 2.4vw, 28px) 38px; }
+.v.pos { box-shadow: inset 0 0 0 1px var(--line); }
+.v figcaption { position: absolute; left: 12px; bottom: 11px; right: 12px; font: 500 .62rem/1.2 var(--mono); letter-spacing: .07em; text-transform: uppercase; opacity: .62; }
+.v-main { grid-column: span 4; grid-row: span 2; aspect-ratio: 1; }
+.v-main .lg { width: 72%; }
+.v-rev, .v-con { grid-column: span 2; aspect-ratio: 1; }
+.v-rev .lg, .v-con .lg { width: 70%; }
+.v-con { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--ink); }
+.concept:nth-of-type(even) .v-con { background: var(--paper); }
+.v-con .stack { position: relative; width: 78%; aspect-ratio: 1; }
+.v-con .stack svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.v-con .ghost { opacity: .13; --ra: currentColor; --rb: currentColor; --rc: currentColor; }
+.v-lock { grid-column: span 4; min-height: 170px; }
+.v-lock .lg { width: min(100%, 440px); }
+.v-stack { grid-column: span 2; min-height: 170px; }
+.v-stack .lg { width: min(86%, 170px); }
+.v-sizes { grid-column: span 6; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: flex-start; gap: 22px 26px; padding-bottom: 40px; }
+.v-sizes .sz { display: grid; justify-items: start; gap: 8px; font: 500 .6rem/1 var(--mono); opacity: .9; }
+.v-sizes .sz span { opacity: .62; letter-spacing: .05em; }
+.v-sizes .tabmock { display: flex; align-items: center; gap: 8px; padding: 7px 12px 7px 9px; background: var(--p-paper-tab, #E8EEEA); border-radius: 8px 8px 0 0; font: 500 .72rem/1 var(--text); color: #2A3B34; }
+
+/* ---------------------------------------------------------------- compare */
+.cmp-wrap { overflow-x: auto; border: 1px solid var(--line); background: var(--surface); }
+.cmp { width: 100%; border-collapse: collapse; min-width: 680px; }
+.cmp th, .cmp td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.cmp thead th { font: 500 .68rem/1.3 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2); }
+.cmp tbody th { font-weight: 500; width: 34%; }
+.cmp tfoot th, .cmp tfoot td { border-bottom: 0; font-family: var(--display); font-weight: 600; }
+.score { display: inline-flex; align-items: center; gap: 10px; font: 500 .75rem/1 var(--mono); font-variant-numeric: tabular-nums; }
+.dots { position: relative; width: 66px; height: 10px; background: repeating-linear-gradient(90deg, var(--line) 0 10px, transparent 10px 14px); }
+.dots::before { content: ""; position: absolute; inset: 0 auto 0 0; width: calc(var(--v) * 14px - 4px); background: repeating-linear-gradient(90deg, var(--accent) 0 10px, transparent 10px 14px); }
+.cmp .best { color: var(--accent); }
+.cmp-note { margin-top: 12px; color: var(--ink-2); font-size: .9rem; }
+.rec { margin-top: clamp(32px, 4vw, 48px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); border-radius: 4px; overflow: hidden; }
+.rec-text { padding: clamp(24px, 4vw, 48px); display: grid; gap: 14px; align-content: center; }
+.rec-text .eyebrow { color: var(--p-gold); }
+.rec-text h3 { font-size: clamp(var(--t-25), 3vw, var(--t-39)); line-height: 1.1; }
+.rec-text p:not(.eyebrow) { color: rgba(255, 255, 255, .78); max-width: 52ch; }
+.rec-vis { position: relative; min-height: 300px; display: grid; place-items: center; }
+.rec-vis .cloth { position: absolute; inset: auto 0 0 0; width: 100%; height: 34%; }
+.rec-vis .lg { width: 42%; max-width: 220px; position: relative; margin-bottom: 18%; }
+
+/* ---------------------------------------------------------------- guide */
+.guide-intro { padding-block: clamp(56px, 8vw, 104px) 28px; }
+.switch { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--paper); border-block: 1px solid var(--line); }
+.switch .wrap { display: flex; align-items: center; gap: 10px 18px; padding-block: 10px; flex-wrap: wrap; }
+.switch-label { font: 500 .66rem/1.3 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2); }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.seg label { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px 6px 7px; border: 1px solid var(--line); border-radius: 999px; cursor: pointer; font: 500 var(--t-13)/1 var(--text); color: var(--ink); background: var(--surface); transition: border-color .2s, background .2s; }
+.seg label .lg { width: 22px; height: 22px; padding: 2px; background: var(--p-cotton); border-radius: 50%; }
+.seg label:hover { border-color: var(--accent); }
+.seg input:checked + label { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+.seg input:focus-visible + label { outline: 2px solid var(--accent); outline-offset: 2px; }
+.rec-chip { font: 500 .58rem/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; padding: 3px 6px; border-radius: 3px; background: var(--p-gold); color: var(--p-forest); }
+.gsec { padding-block: clamp(48px, 7vw, 96px); border-top: 1px solid var(--line); }
+.gsec:first-of-type { border-top: 0; }
+.gsec h3 { font-size: clamp(var(--t-25), 3vw, var(--t-39)); line-height: 1.1; }
+.sub { display: grid; gap: 12px; margin-bottom: 26px; max-width: 760px; }
+.sub p:not(.eyebrow) { color: var(--ink-2); font-size: 1.0625rem; }
+.sub-gap { margin-top: clamp(40px, 5vw, 64px); }
+
+.suite { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+.suite .v { min-height: 220px; }
+.s-wide { grid-column: span 4; }
+.s-narrow { grid-column: span 2; }
+.s-third { grid-column: span 2; }
+.s-wide .lg { width: min(88%, 460px); }
+.s-narrow .lg { width: min(78%, 190px); }
+.s-third .lg { width: min(86%, 300px); }
+.s-third .lg.is-mark { width: min(60%, 150px); }
+.mono-green { background: var(--p-green); color: var(--p-cotton); }
+.mono-ink { background: var(--p-cotton); color: var(--p-forest); box-shadow: inset 0 0 0 1px var(--line); }
+
+.rules { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 10px; }
+.clear { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border-radius: 4px; padding: clamp(28px, 5vw, 56px); display: grid; place-items: center; gap: 18px; }
+.clear-box { position: relative; padding: 22px; outline: 1.5px dashed var(--warm); outline-offset: 0; max-width: 100%; }
+.clear-box .lg { width: min(56vw, 360px); }
+.clear-box .x { position: absolute; font: 500 .66rem/1 var(--mono); color: var(--warm); }
+.clear-box .x-t { top: 5px; left: 50%; transform: translateX(-50%); }
+.clear-box .x-b { bottom: 5px; left: 50%; transform: translateX(-50%); }
+.clear-box .x-l { left: 6px; top: 50%; transform: translateY(-50%); }
+.clear-box .x-r { right: 6px; top: 50%; transform: translateY(-50%); }
+.clear p { color: var(--ink-2); font-size: .92rem; max-width: 46ch; text-align: center; }
+.minsz { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border-radius: 4px; padding: clamp(22px, 3vw, 32px); display: grid; gap: 22px; align-content: start; }
+.minsz-row { display: flex; align-items: flex-end; gap: 16px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+.minsz-row:last-of-type { border-bottom: 0; padding-bottom: 0; }
+.minsz-row dl { margin: 0; display: grid; gap: 4px; }
+.minsz-row dt { font: 500 .66rem/1.3 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2); }
+.minsz-row dd { margin: 0; font: 600 var(--t-16)/1.3 var(--display); }
+.minsz-note { color: var(--ink-2); font-size: .9rem; }
+
+.donts { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 10px; }
+.dont { position: relative; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border-radius: 4px; overflow: hidden; display: grid; grid-template-rows: auto auto; }
+.dont .stage { aspect-ratio: 1; display: grid; place-items: center; background: var(--p-cotton); overflow: hidden; }
+.dont .stage .lg { width: 52%; }
+.dont figcaption { padding: 10px 12px 12px; font-size: .82rem; line-height: 1.35; color: var(--ink-2); }
+.dont figcaption b { display: block; font: 500 .62rem/1.2 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--no); margin-bottom: 4px; }
+.d-stretch .lg { transform: scaleX(1.5) scaleY(.82); }
+.d-rotate .lg { transform: rotate(-16deg); }
+.d-recolour .lg { filter: hue-rotate(155deg) saturate(1.5); }
+.d-effect .lg { filter: drop-shadow(5px 6px 0 rgba(11, 42, 31, .35)) drop-shadow(0 0 10px rgba(242, 169, 59, .9)); }
+.d-contrast .stage { background: #F7E2B8; }
+.d-contrast .lg { --ra: #F2C980; --rb: #EDB65E; --rc: #FFFFFF; }
+.d-busy .stage { background: repeating-linear-gradient(115deg, #00754A 0 9px, #F2A93B 9px 18px, #232C63 18px 27px, #B4472A 27px 36px); }
+
+/* colour */
+.palette { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.sw { border-radius: 4px; overflow: hidden; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); display: grid; grid-template-rows: auto 1fr; }
+.sw-chip { background: var(--sw); color: var(--p-cotton); min-height: 150px; padding: 16px; display: flex; align-items: flex-end; }
+.sw-light .sw-chip { color: var(--p-forest); box-shadow: inset 0 -1px 0 var(--line); }
+.sw-name { font: 600 var(--t-20)/1.1 var(--display); }
+.sw-body { padding: 16px; display: grid; gap: 14px; align-content: space-between; }
+.sw-body p { font-size: .9rem; color: var(--ink-2); line-height: 1.5; }
+.sw-codes { margin: 0; display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 4px 18px; }
+.sw-codes dt { font: 500 .58rem/1.2 var(--mono); letter-spacing: .07em; color: var(--ink-2); }
+.sw-codes dd { margin: 0; font: 500 .72rem/1.3 var(--mono); font-variant-numeric: tabular-nums; }
+.ratio { display: flex; height: 64px; border-radius: 4px; overflow: hidden; box-shadow: inset 0 0 0 1px var(--line); }
+.ratio div { position: relative; display: flex; align-items: flex-end; padding: 8px 10px; font: 500 .62rem/1.2 var(--mono); letter-spacing: .04em; min-width: 0; }
+.ratio span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ratio-legend { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 10px; font-size: .85rem; color: var(--ink-2); }
+.ctab-wrap { overflow-x: auto; border: 1px solid var(--line); background: var(--surface); }
+.ctab { width: 100%; border-collapse: collapse; min-width: 520px; }
+.ctab td { padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+.ctab tr:last-child td { border-bottom: 0; }
+.ctab .num { font: 500 .8rem/1 var(--mono); font-variant-numeric: tabular-nums; }
+.pair { display: inline-grid; place-items: center; width: 48px; height: 34px; border-radius: 3px; background: var(--bg); color: var(--fg); font: 700 .95rem/1 var(--display); box-shadow: inset 0 0 0 1px var(--line); }
+.verdict { font: 500 .66rem/1.2 var(--mono); letter-spacing: .05em; text-transform: uppercase; padding: 4px 7px; border-radius: 3px; border: 1px solid currentColor; }
+.v-ok { color: var(--ok); } .v-mid { color: var(--mid); } .v-no { color: var(--no); }
+
+/* pattern */
+.cloth-band { display: block; width: 100%; height: clamp(120px, 16vw, 190px); border-radius: 4px; }
+.cloth-notes { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; margin-top: 22px; }
+.cloth-notes p { color: var(--ink-2); font-size: .95rem; }
+.cloth-notes b { display: block; color: var(--ink); font-weight: 600; margin-bottom: 4px; }
+
+/* type */
+.specimens { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.spec { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border-radius: 4px; padding: clamp(18px, 2.6vw, 28px); display: grid; gap: 16px; align-content: space-between; min-height: 300px; }
+.spec-glyph { font-size: clamp(4rem, 8vw, 6.4rem); line-height: .9; letter-spacing: -.03em; }
+.spec-1 .spec-glyph { font-family: var(--display); font-weight: 700; color: var(--accent); }
+.spec-2 .spec-glyph { font-family: var(--text); font-weight: 600; }
+.spec-3 .spec-glyph { font-family: var(--mono); font-weight: 400; font-size: clamp(3rem, 6vw, 4.6rem); color: var(--accent-2); }
+.spec h4 { font-size: var(--t-20); }
+.spec-3 h4 { font-family: var(--mono); font-weight: 500; }
+.spec-2 h4 { font-family: var(--text); font-weight: 600; }
+.spec p { color: var(--ink-2); font-size: .9rem; }
+.spec .meta { font: 500 .62rem/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+.langs { margin-top: 10px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.lang-card { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border-radius: 4px; padding: clamp(18px, 2.6vw, 28px); display: grid; gap: 14px; }
+.hello { display: grid; gap: 4px; font: 600 clamp(var(--t-25), 3.4vw, var(--t-39))/1.15 var(--display); letter-spacing: -.015em; }
+.hello small { font: 500 .66rem/1.4 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2); }
+.hello div { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding-block: 6px; border-bottom: 1px solid var(--line); }
+.places li { display: flex; justify-content: space-between; gap: 14px; flex-wrap: wrap; padding: 10px 0; border-bottom: 1px solid var(--line); font-size: 1.05rem; font-weight: 500; }
+.places li span:last-child { font: 500 .66rem/1.8 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); }
+.glyphs { font: 500 var(--t-25)/1.3 var(--text); letter-spacing: .08em; color: var(--accent); }
+.scale { margin-top: 10px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border-radius: 4px; overflow-x: auto; }
+.scale table { width: 100%; border-collapse: collapse; min-width: 620px; }
+.scale td { padding: 12px 16px; border-bottom: 1px solid var(--line); vertical-align: baseline; white-space: nowrap; }
+.scale tr:last-child td { border-bottom: 0; }
+.scale .k { font: 500 .66rem/1.3 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--ink-2); width: 1%; }
+.scale .spec-line { white-space: normal; }
+
+/* pillars */
+.pillars { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.pillar { border-radius: 4px; overflow: hidden; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); display: grid; grid-template-rows: auto 1fr; }
+.pillar-top { padding: 22px 20px 20px; min-height: 150px; display: flex; flex-direction: column; justify-content: space-between; gap: 22px; }
+.pillar-top b { font: 700 clamp(var(--t-25), 3vw, var(--t-39))/1 var(--display); letter-spacing: -.02em; }
+.pillar-top span { font: 500 .62rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; }
+.pl-exp .pillar-top { background: var(--p-gold); color: var(--p-forest); }
+.pl-inv .pillar-top { background: var(--p-green); color: var(--p-cotton); }
+.pl-exp-x .pillar-top { background: var(--p-indigo); color: var(--p-cotton); }
+.pillar-body { padding: 18px 20px 22px; display: grid; gap: 12px; align-content: start; }
+.pillar-body p { color: var(--ink-2); font-size: .95rem; }
+.pillar-body q { quotes: none; font: 600 1.05rem/1.4 var(--display); letter-spacing: -.01em; }
+
+/* architecture */
+.arch { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.arch .v { min-height: 200px; justify-items: start; padding-left: clamp(18px, 3vw, 36px); }
+.arch .v .lg { width: min(100%, 360px); }
+.event { display: flex; align-items: center; gap: 16px; }
+.arch .event .lg { width: 64px; flex: none; }
+.event-name { display: block; font: 700 clamp(1.05rem, 2.2vw, 1.45rem)/1.05 var(--display); letter-spacing: -.01em; text-transform: uppercase; }
+.event-meta { display: block; font: 500 .66rem/1.4 var(--mono); letter-spacing: .07em; text-transform: uppercase; margin-top: 8px; opacity: .8; }
+.partner { display: flex; align-items: center; gap: clamp(12px, 2vw, 22px); flex-wrap: wrap; }
+.arch .partner .lg { width: min(52vw, 230px); }
+.partner-rule { width: 1px; align-self: stretch; background: currentColor; opacity: .35; }
+.partner-name { display: grid; gap: 4px; }
+.partner-name small { font: 500 .6rem/1.2 var(--mono); letter-spacing: .07em; text-transform: uppercase; opacity: .7; }
+.partner-name span { font: 500 var(--t-16)/1.25 var(--text); }
+.weeks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.week { background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border-radius: 4px; overflow: hidden; display: grid; grid-template-rows: 6px auto; }
+.week::before { content: ""; background: var(--wk); }
+.week div { padding: 14px 16px 18px; display: grid; gap: 6px; align-content: start; }
+.week .n { font: 500 .66rem/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.week b { font: 600 var(--t-16)/1.25 var(--display); }
+.week p { font-size: .88rem; color: var(--ink-2); line-height: 1.45; }
+.wk-exp { --wk: var(--p-gold); } .wk-inv { --wk: var(--p-green); } .wk-exl { --wk: var(--p-indigo); }
+.week.finale { background: var(--p-forest); color: var(--p-cotton); box-shadow: none; }
+.week.finale::before { background: repeating-linear-gradient(90deg, var(--p-green) 0 12px, var(--p-gold) 12px 16px, var(--p-indigo) 16px 28px, var(--p-gold) 28px 32px); }
+.week.finale .n, .week.finale p { color: rgba(255, 255, 255, .74); }
+
+/* voice */
+.principles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); }
+.principles article { background: var(--surface); padding: 20px; display: grid; gap: 8px; align-content: start; }
+.principles h4 { font-size: var(--t-16); line-height: 1.3; }
+.principles p { font-size: .92rem; color: var(--ink-2); }
+.dodont { margin-top: 10px; display: grid; gap: 10px; }
+.dd { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 10px; }
+.dd > div { padding: 16px 18px; border-radius: 4px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+.dd small { display: block; font: 500 .62rem/1.2 var(--mono); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 8px; }
+.dd .say small { color: var(--ok); }
+.dd .avoid small { color: var(--no); }
+.dd .avoid p { color: var(--ink-2); text-decoration: line-through; text-decoration-color: var(--no); text-decoration-thickness: 1px; }
+.dd .say p { font-weight: 500; }
+
+/* imagery */
+.img-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; }
+.img-grid article { padding-top: 14px; border-top: 3px solid var(--accent); display: grid; gap: 8px; align-content: start; }
+.img-grid article:nth-child(4) { border-top-color: var(--accent-2); }
+.img-grid article:nth-child(5) { border-top-color: var(--warm); }
+.img-grid h4 { font-size: var(--t-16); line-height: 1.3; }
+.img-grid p { font-size: .9rem; color: var(--ink-2); }
+.caption-spec { margin-top: 26px; padding: 18px 20px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); border-radius: 4px; display: grid; gap: 10px; }
+.caption-spec code { font: 400 .8rem/1.6 var(--mono); overflow-wrap: anywhere; }
+.caption-spec code b { font: 600 .9rem/1.6 var(--text); color: var(--accent); }
+
+/* applications */
+.apps { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 10px; }
+.app { display: grid; gap: 10px; align-content: start; }
+.app figcaption { font: 500 .64rem/1.3 var(--mono); letter-spacing: .07em; text-transform: uppercase; color: var(--ink-2); }
+.app-social { grid-column: span 5; }
+.app-badge { grid-column: span 3; }
+.app-sign { grid-column: span 12; }
+.app-icon { grid-column: span 4; }
+.soc { position: relative; aspect-ratio: 1; border-radius: 4px; overflow: hidden; padding: 7% 7% 0; display: grid; grid-template-rows: auto 1fr auto auto; gap: 4%; }
+.soc-week { font: 500 clamp(.6rem, 1vw, .72rem)/1.3 var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--p-gold); }
+.soc-head { font: 700 clamp(1.4rem, 3.1vw, 2.35rem)/1.04 var(--display); letter-spacing: -.025em; align-self: center; text-wrap: balance; }
+.soc-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; font: 500 clamp(.55rem, .9vw, .66rem)/1 var(--mono); letter-spacing: .04em; opacity: .9; }
+.soc-foot .lg { width: 48%; }
+.soc .cloth { display: block; width: 114%; margin-left: -7%; height: 30px; }
+.badge { position: relative; aspect-ratio: 100 / 140; border-radius: 6px; box-shadow: inset 0 0 0 1px var(--line); overflow: hidden; display: grid; grid-template-rows: 14% auto auto auto 1fr auto; justify-items: center; text-align: center; padding-bottom: 8%; }
+.badge .cloth { width: 100%; height: 100%; display: block; }
+.badge-hole { position: absolute; top: 5%; left: 50%; width: 22%; height: 4%; transform: translateX(-50%); background: var(--paper); border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line); }
+.badge .lg { width: 34%; margin-top: 12%; }
+.badge-ev { font: 700 clamp(.62rem, 1.1vw, .8rem)/1.15 var(--display); text-transform: uppercase; margin-top: 7%; padding-inline: 10%; }
+.badge-ed { font: 500 clamp(.5rem, .8vw, .58rem)/1 var(--mono); letter-spacing: .08em; text-transform: uppercase; margin-top: 4%; opacity: .7; }
+.badge-person { align-self: end; display: grid; gap: 4px; }
+.badge-person b { font: 600 clamp(.85rem, 1.5vw, 1.05rem)/1.1 var(--text); }
+.badge-person span { font-size: clamp(.6rem, 1vw, .72rem); opacity: .7; }
+.badge-role { margin-top: 8%; width: 100%; padding: 4% 0; background: var(--p-green); color: var(--p-cotton); font: 600 clamp(.6rem, 1vw, .75rem)/1 var(--display); letter-spacing: .16em; text-transform: uppercase; }
+.sign { border-radius: 4px; overflow: hidden; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0; }
+.sign-main { padding: clamp(20px, 4vw, 44px); display: grid; gap: 14px; align-content: center; }
+.sign-hello { font: 700 clamp(1.7rem, 5vw, 3.6rem)/1 var(--display); letter-spacing: -.03em; }
+.sign-langs { font: 500 clamp(.95rem, 2vw, 1.35rem)/1.3 var(--text); color: var(--p-gold); display: flex; flex-wrap: wrap; gap: 4px 18px; }
+.sign-side { display: grid; grid-template-rows: 1fr auto; background: var(--p-green); min-width: clamp(130px, 26vw, 300px); }
+.sign-way { padding: clamp(16px, 3vw, 30px); display: grid; gap: 12px; align-content: center; }
+.sign-dir { display: flex; align-items: center; gap: 12px; font: 600 clamp(.85rem, 1.8vw, 1.2rem)/1.1 var(--display); }
+.sign-dir svg { width: clamp(22px, 3vw, 34px); height: auto; flex: none; }
+.sign-mark { padding: 0 clamp(16px, 3vw, 30px) clamp(16px, 3vw, 26px); display: flex; justify-content: flex-end; }
+.sign-mark .lg { width: clamp(38px, 6vw, 64px); }
+.icon-stage { aspect-ratio: 1; border-radius: 4px; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); display: grid; place-items: center; gap: 16px; padding: 18px; align-content: center; }
+.appicon { width: clamp(84px, 12vw, 120px); aspect-ratio: 1; border-radius: 23%; display: grid; place-items: center; box-shadow: 0 10px 24px rgba(11, 42, 31, .25); }
+.appicon .lg { width: 66%; }
+.tabbar { display: flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 8px 8px 0 0; background: #E6ECE8; color: #23342D; font: 500 .74rem/1 var(--text); max-width: 100%; }
+.tabbar .lg { width: 16px; flex: none; }
+.tabbar span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+
+footer { padding-block: 48px 64px; border-top: 1px solid var(--line); color: var(--ink-2); font-size: .9rem; }
+footer .wrap { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 24px; }
+footer code { font: 400 .78rem/1.5 var(--mono); }
+
+/* ---------------------------------------------------------------- responsive */
+@media (max-width: 960px) {
+  .hero-top { grid-template-columns: minmax(0, 1fr); }
+  .c-grid { grid-template-columns: minmax(0, 1fr); }
+  .journey ol { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 18px; }
+  .rules { grid-template-columns: minmax(0, 1fr); }
+  .donts { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .palette { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .specimens { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .spec-1 { grid-column: span 2; }
+  .principles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .img-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); row-gap: 22px; }
+  .app-social { grid-column: span 7; }
+  .app-badge { grid-column: span 5; }
+  .app-icon { grid-column: span 12; }
+  .icon-stage { aspect-ratio: auto; grid-auto-flow: column; justify-content: start; }
+}
+@media (max-width: 640px) {
+  .tiles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .brief-grid { grid-template-columns: minmax(0, 1fr); }
+  .c-vis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .v-main, .v-lock, .v-sizes { grid-column: span 2; grid-row: auto; }
+  .v-rev, .v-con, .v-stack { grid-column: span 1; }
+  .v-stack { grid-column: span 2; }
+  .rec { grid-template-columns: minmax(0, 1fr); }
+  .suite { grid-template-columns: minmax(0, 1fr); }
+  .s-wide, .s-narrow, .s-third { grid-column: auto; }
+  .donts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .palette { grid-template-columns: minmax(0, 1fr); }
+  .cloth-notes { grid-template-columns: minmax(0, 1fr); }
+  .specimens, .langs { grid-template-columns: minmax(0, 1fr); }
+  .spec-1 { grid-column: auto; }
+  .pillars { grid-template-columns: minmax(0, 1fr); }
+  .arch { grid-template-columns: minmax(0, 1fr); }
+  .weeks { grid-template-columns: minmax(0, 1fr); }
+  .principles { grid-template-columns: minmax(0, 1fr); }
+  .dd { grid-template-columns: minmax(0, 1fr); }
+  .img-grid { grid-template-columns: minmax(0, 1fr); }
+  .app-social, .app-badge, .app-sign, .app-icon { grid-column: span 12; }
+  .app-badge .badge { max-width: 300px; }
+  .sign { grid-template-columns: minmax(0, 1fr); }
+  .sign-side { min-width: 0; grid-template-columns: minmax(0, 1fr) auto; grid-template-rows: auto; }
+  .sign-mark { padding: clamp(16px, 3vw, 30px); align-items: center; }
+  footer .wrap { grid-template-columns: minmax(0, 1fr); }
+  .seg label span.long { display: none; }
+  .c-head { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .c-num { font-size: 4.2rem; }
+  .icon-stage { grid-auto-flow: row; justify-content: center; justify-items: center; }
+  .tabbar { min-width: 0; }
+}
+</style>
+
+<!--SYMBOLS-->
+
+<header class="hero">
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+        <p class="eyebrow">Identity concepts and brand guide · Draft 1 for review · October 2026</p>
+        <h1>Destination <span>Nigeria</span></h1>
+      </div>
+      <div>
+        <p class="hero-lede">Four logo directions for the national platform for tourism development, investment and destination marketing, followed by a working brand guide. The guide shows how the chosen mark carries through National Tourism Week, the eight-week campaign and every partner state.</p>
+        <p class="theme-line" aria-label="Experience. Invest. Explore.">
+          <span><i style="background:var(--p-gold)"></i>Experience.</span>
+          <span><i style="background:var(--accent)"></i>Invest.</span>
+          <span><i style="background:var(--accent-2)"></i>Explore.</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="tiles">
+      <a class="tile tile-confluence" href="#confluence">
+        <svg class="lg k-confluence cw-rev" viewBox="0 0 100 100" role="img" aria-label="Concept 01, Confluence"><use href="#m-confluence"/></svg>
+        <span class="tile-label"><b>Confluence</b><span>01</span></span>
+      </a>
+      <a class="tile tile-gate" href="#gate">
+        <svg class="lg k-gate" viewBox="0 0 100 100" role="img" aria-label="Concept 02, Ƙofa"><use href="#m-gate"/></svg>
+        <span class="tile-label"><b>Ƙofa</b><span>02</span></span>
+      </a>
+      <a class="tile tile-strips" href="#strips">
+        <svg class="lg k-strips cw-pos" viewBox="0 0 100 100" role="img" aria-label="Concept 03, Aso-oke"><use href="#m-strips"/></svg>
+        <span class="tile-label"><b>Aso-oke</b><span>03</span></span>
+      </a>
+      <a class="tile tile-nok" href="#nok">
+        <svg class="lg k-nok" viewBox="0 0 100 100" role="img" aria-label="Concept 04, Nok"><use href="#m-nok"/></svg>
+        <span class="tile-label"><b>Nok</b><span>04</span></span>
+      </a>
+    </div>
+
+    <nav class="toc" aria-label="Contents">
+      <a href="#brief">Brief</a><a href="#confluence">Concepts</a><a href="#compare">Recommendation</a><a href="#logo">Logo</a><a href="#colour">Colour</a><a href="#pattern">Pattern</a><a href="#type">Type</a><a href="#pillars">Pillars</a><a href="#architecture">Architecture</a><a href="#voice">Voice</a><a href="#imagery">Imagery</a><a href="#applications">Applications</a>
+    </nav>
+  </div>
+</header>
+
+<section class="band band-surface" id="brief">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The brief</p>
+      <h2>What the identity has to carry</h2>
+      <p>Destination Nigeria brings public institutions, states, businesses, communities and creative partners together around one visitor journey. The identity is the thing they all sign.</p>
+    </div>
+    <div class="brief-grid">
+      <article>
+        <h3>One platform, many owners</h3>
+        <p>Federal and state institutions, operators, communities and creative partners will all put their names to the same work. The mark has to sit comfortably beside a state seal, an airline logo and a community co-operative.</p>
+      </article>
+      <article>
+        <h3>Honest about safety</h3>
+        <p>The concept note is clear that the campaign should not claim every destination is risk-free. The identity should feel calm and credible: the voice of verified information, not a hard sell.</p>
+      </article>
+      <article>
+        <h3>Practical before promotional</h3>
+        <p>Promotion only works if the visitor journey works. The brand has to live on booking pages, arrival signage, training certificates and feedback forms as easily as on a campaign film.</p>
+      </article>
+      <article>
+        <h3>Every region, one country</h3>
+        <p>A national brand cannot belong to one region, one faith or one ethnic group. Each concept is tested against that, and its watch-outs say where it leans.</p>
+      </article>
+    </div>
+    <div class="journey">
+      <p class="eyebrow">The visitor journey the platform sets out to improve</p>
+      <ol>
+        <li>Discovery</li><li>Trip planning</li><li>Travel authorization</li><li>Arrival</li><li>Movement</li><li>Accommodation</li><li>Attractions</li><li>Events</li><li>Post-visit feedback</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="band" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="section-head" style="margin-bottom:0">
+      <p class="eyebrow">Four concepts</p>
+      <h2>Four ideas, each found only in Nigeria</h2>
+      <p>Every concept starts from a place, a craft or an object that exists nowhere else. All four work in one colour and hold up at favicon size, and they are finished to the same level so they can be judged on the idea.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 01 -->
+<section class="concept" id="confluence">
+  <div class="wrap">
+    <header class="c-head">
+      <span class="c-num" aria-hidden="true">01</span>
+      <div>
+        <p class="eyebrow">Lokoja, Kogi State · 7.80° N, 6.74° E</p>
+        <h3 class="c-name">Confluence</h3>
+        <p class="c-line">Where the Niger meets the Benue</p>
+      </div>
+    </header>
+    <div class="c-grid">
+      <div class="c-text">
+        <p class="c-idea">At Lokoja the country's two great rivers meet and run on side by side, each holding its own colour for a long stretch before they mix. The mark draws that moment: two currents arrive from opposite banks and travel on together. It is the platform's job in one shape. Federal and state, public and private, host and visitor move the same way without losing who they are.</p>
+        <div>
+          <h4>It reads as</h4>
+          <ul class="reads"><li>Two rivers joining at the confluence</li><li>A figure with arms raised in welcome</li><li>A fork in the road, where a journey starts</li></ul>
+        </div>
+        <div class="pc">
+          <div><h4>Strengths</h4><ul class="pros">
+            <li>Rooted at the geographic centre of the country, where north and south meet.</li>
+            <li>The simplest silhouette of the four, clear at 16 px.</li>
+            <li>The two bands give co-branding a natural logic: one current is the platform, the other the partner.</li>
+          </ul></div>
+          <div><h4>Watch-outs</h4><ul class="cons">
+            <li>Raised-arms figures are common in charity and sport marks, so launch communications should lead with the rivers.</li>
+            <li>The Y echoes the wavy band on the national coat of arms. That helps recognition, and it needs a clearance check with the federal office responsible for national symbols.</li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="c-vis">
+        <figure class="v v-main pos"><svg class="lg k-confluence" viewBox="0 0 100 100" role="img" aria-label="Confluence mark"><use href="#m-confluence"/></svg><figcaption>Positive</figcaption></figure>
+        <figure class="v v-rev rev"><svg class="lg k-confluence" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg><figcaption>Reverse</figcaption></figure>
+        <figure class="v v-con"><div class="stack"><svg class="lg k-confluence ghost" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#c-confluence"/></svg></div><figcaption>Construction</figcaption></figure>
+        <figure class="v v-lock pos"><svg class="lg k-confluence" viewBox="{{vb:t:confluence}}" role="img" aria-label="Confluence horizontal lockup with theme line"><use href="#t-confluence"/></svg><figcaption>Horizontal, with theme line</figcaption></figure>
+        <figure class="v v-stack pos"><svg class="lg k-confluence" viewBox="{{vb:s:confluence}}" aria-hidden="true"><use href="#s-confluence"/></svg><figcaption>Stacked</figcaption></figure>
+        <figure class="v v-sizes pos">
+          <span class="sz"><svg class="lg k-confluence" style="width:16px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-confluence"/></svg><span>16</span></span>
+          <span class="sz"><svg class="lg k-confluence" style="width:24px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-confluence"/></svg><span>24</span></span>
+          <span class="sz"><svg class="lg k-confluence" style="width:32px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg><span>32</span></span>
+          <span class="sz"><svg class="lg k-confluence" style="width:48px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg><span>48</span></span>
+          <span class="sz"><svg class="lg k-confluence mono" style="width:48px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg><span>1 colour</span></span>
+          <span class="sz"><span class="tabmock"><svg class="lg k-confluence" style="width:16px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-confluence"/></svg>Destination Nigeria</span><span>Browser tab</span></span>
+          <figcaption>Size test, px</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 02 -->
+<section class="concept" id="gate">
+  <div class="wrap">
+    <header class="c-head">
+      <span class="c-num k-gate-num" aria-hidden="true">02</span>
+      <div>
+        <p class="eyebrow">Kano city walls · 12.00° N, 8.52° E</p>
+        <h3 class="c-name">Ƙofa</h3>
+        <p class="c-line">The gate where travellers were received</p>
+      </div>
+    </header>
+    <div class="c-grid">
+      <div class="c-text">
+        <p class="c-idea">Ƙofa is Hausa for gate. The old walls of Kano were pierced by more than a dozen of them, and the gate was where a traveller was met and welcomed into the city. The mark is a tapering mud wall crowned with zanko pinnacles, a parabolic doorway, and the sun resting on the threshold. It puts arrival, the moment the concept note most wants to improve, at the centre of the brand.</p>
+        <div>
+          <h4>It reads as</h4>
+          <ul class="reads"><li>A city gate, open to the visitor</li><li>A building: hotels, venues, investment</li><li>Sunrise seen through a doorway</li></ul>
+        </div>
+        <div class="pc">
+          <div><h4>Strengths</h4><ul class="pros">
+            <li>Speaks directly to arrival and welcome, the heart of the visitor journey.</li>
+            <li>Architecture links naturally to investment, hospitality and infrastructure.</li>
+            <li>The laterite palette stands apart from the green most national marks default to.</li>
+          </ul></div>
+          <div><h4>Watch-outs</h4><ul class="cons">
+            <li>Zanko and mud walls are Hausa architecture, so audiences in the south and east may read the mark as northern rather than national.</li>
+            <li>Arched doorways can carry religious associations. The parabola is kept plain for that reason, and it should still be tested with audiences.</li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="c-vis">
+        <figure class="v v-main pos"><svg class="lg k-gate" viewBox="0 0 100 100" role="img" aria-label="Ƙofa mark"><use href="#m-gate"/></svg><figcaption>Positive</figcaption></figure>
+        <figure class="v v-rev rev"><svg class="lg k-gate" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-gate"/></svg><figcaption>Reverse</figcaption></figure>
+        <figure class="v v-con"><div class="stack"><svg class="lg k-gate ghost" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-gate"/></svg><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#c-gate"/></svg></div><figcaption>Construction</figcaption></figure>
+        <figure class="v v-lock pos"><svg class="lg k-gate" viewBox="{{vb:t:gate}}" role="img" aria-label="Ƙofa horizontal lockup with theme line"><use href="#t-gate"/></svg><figcaption>Horizontal, with theme line</figcaption></figure>
+        <figure class="v v-stack pos"><svg class="lg k-gate" viewBox="{{vb:s:gate}}" aria-hidden="true"><use href="#s-gate"/></svg><figcaption>Stacked</figcaption></figure>
+        <figure class="v v-sizes pos">
+          <span class="sz"><svg class="lg k-gate" style="width:16px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-gate"/></svg><span>16</span></span>
+          <span class="sz"><svg class="lg k-gate" style="width:24px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-gate"/></svg><span>24</span></span>
+          <span class="sz"><svg class="lg k-gate" style="width:32px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-gate"/></svg><span>32</span></span>
+          <span class="sz"><svg class="lg k-gate" style="width:48px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-gate"/></svg><span>48</span></span>
+          <span class="sz"><svg class="lg k-gate mono" style="width:48px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-gate"/></svg><span>1 colour</span></span>
+          <span class="sz"><span class="tabmock"><svg class="lg k-gate" style="width:16px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-gate"/></svg>Destination Nigeria</span><span>Browser tab</span></span>
+          <figcaption>Size test, px</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 03 -->
+<section class="concept" id="strips">
+  <div class="wrap">
+    <header class="c-head">
+      <span class="c-num k-strips-num" aria-hidden="true">03</span>
+      <div>
+        <p class="eyebrow">Iseyin · Akwete · Okene · Bida</p>
+        <h3 class="c-name">Aso-oke</h3>
+        <p class="c-line">Many strips, one cloth</p>
+      </div>
+    </header>
+    <div class="c-grid">
+      <div class="c-text">
+        <p class="c-idea">Across Nigeria, cloth is woven on narrow looms in long strips and then sewn edge to edge: aso-oke in Iseyin, akwete in Abia, Ebira weaving in Okene, Nupe weaving in Bida. Each strip is finished on its own, and the cloth only exists once they are joined. The mark is that cloth, lifting like a flag, with two gold weft threads running through every strip.</p>
+        <div>
+          <h4>It reads as</h4>
+          <ul class="reads"><li>Hand-woven strip cloth</li><li>A flag lifting in the wind</li><li>A folded travel map</li></ul>
+        </div>
+        <div class="pc">
+          <div><h4>Strengths</h4><ul class="pros">
+            <li>The strongest system of the four: every state can have its own strip, and the 36 states and the FCT make one cloth.</li>
+            <li>The folded-map reading ties it to discovery and trip planning.</li>
+            <li>Puts the creative economy, one of the platform's objectives, at the front.</li>
+          </ul></div>
+          <div><h4>Watch-outs</h4><ul class="cons">
+            <li>Seven strips need a simpler three-strip version below 32 px.</li>
+            <li>Aso-oke is the best-known name and it is Yoruba, so the launch story must name the weaving traditions of other regions too.</li>
+            <li>More colours to control in print and on partner materials.</li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="c-vis">
+        <figure class="v v-main pos"><svg class="lg k-strips" viewBox="0 0 100 100" role="img" aria-label="Aso-oke mark"><use href="#m-strips"/></svg><figcaption>Positive</figcaption></figure>
+        <figure class="v v-rev rev"><svg class="lg k-strips" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-strips"/></svg><figcaption>Reverse</figcaption></figure>
+        <figure class="v v-con"><div class="stack"><svg class="lg k-strips ghost" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-strips"/></svg><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#c-strips"/></svg></div><figcaption>Construction</figcaption></figure>
+        <figure class="v v-lock pos"><svg class="lg k-strips" viewBox="{{vb:t:strips}}" role="img" aria-label="Aso-oke horizontal lockup with theme line"><use href="#t-strips"/></svg><figcaption>Horizontal, with theme line</figcaption></figure>
+        <figure class="v v-stack pos"><svg class="lg k-strips" viewBox="{{vb:s:strips}}" aria-hidden="true"><use href="#s-strips"/></svg><figcaption>Stacked</figcaption></figure>
+        <figure class="v v-sizes pos">
+          <span class="sz"><svg class="lg k-strips" style="width:16px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-strips"/></svg><span>16 · 3 strips</span></span>
+          <span class="sz"><svg class="lg k-strips" style="width:24px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-strips"/></svg><span>24 · 3 strips</span></span>
+          <span class="sz"><svg class="lg k-strips" style="width:32px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-strips"/></svg><span>32</span></span>
+          <span class="sz"><svg class="lg k-strips" style="width:48px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-strips"/></svg><span>48</span></span>
+          <span class="sz"><svg class="lg k-strips mono" style="width:48px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-strips"/></svg><span>1 colour</span></span>
+          <span class="sz"><span class="tabmock"><svg class="lg k-strips" style="width:16px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-strips"/></svg>Destination Nigeria</span><span>Browser tab</span></span>
+          <figcaption>Size test, px</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ 04 -->
+<section class="concept" id="nok">
+  <div class="wrap">
+    <header class="c-head">
+      <span class="c-num k-nok-num" aria-hidden="true">04</span>
+      <div>
+        <p class="eyebrow">Nok, Kaduna State · c. 1500 BCE to 1 CE</p>
+        <h3 class="c-name">Nok</h3>
+        <p class="c-line">See it for yourself</p>
+      </div>
+    </header>
+    <div class="c-grid">
+      <div class="c-text">
+        <p class="c-idea">The terracotta heads of the Nok culture are among the oldest figurative sculpture in sub-Saharan Africa, and their eyes are unmistakable: a flat upper lid, a full lower lid and a pupil pierced right through the clay. The mark takes that eye and sets it under a crescent brow. It invites visitors to come and look, and it promises that what they see is what they will find.</p>
+        <div>
+          <h4>It reads as</h4>
+          <ul class="reads"><li>The eye of a Nok terracotta head</li><li>The sun sinking below the horizon</li><li>A calabash bowl, offered in welcome</li></ul>
+        </div>
+        <div class="pc">
+          <div><h4>Strengths</h4><ul class="pros">
+            <li>Heritage of world standing, known to museums and scholars everywhere.</li>
+            <li>The most ownable silhouette of the four.</li>
+            <li>"See it for yourself" backs the campaign's promise of verified experiences.</li>
+          </ul></div>
+          <div><h4>Watch-outs</h4><ul class="cons">
+            <li>A single large eye can feel watchful, so it should not be used very large or alone on security-related material.</li>
+            <li>Nok terracottas are at the centre of anti-looting work. Telling the heritage story with the national museums will keep the brand on the right side of it.</li>
+            <li>The serif wordmark has no Nigerian-language characters, so Hausa, Yoruba and Igbo headlines must use the display face.</li>
+          </ul></div>
+        </div>
+      </div>
+      <div class="c-vis">
+        <figure class="v v-main pos"><svg class="lg k-nok" viewBox="0 0 100 100" role="img" aria-label="Nok mark"><use href="#m-nok"/></svg><figcaption>Positive</figcaption></figure>
+        <figure class="v v-rev rev"><svg class="lg k-nok" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-nok"/></svg><figcaption>Reverse</figcaption></figure>
+        <figure class="v v-con"><div class="stack"><svg class="lg k-nok ghost" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-nok"/></svg><svg viewBox="0 0 100 100" aria-hidden="true"><use href="#c-nok"/></svg></div><figcaption>Construction</figcaption></figure>
+        <figure class="v v-lock pos"><svg class="lg k-nok" viewBox="{{vb:t:nok}}" role="img" aria-label="Nok horizontal lockup with theme line"><use href="#t-nok"/></svg><figcaption>Horizontal, with theme line</figcaption></figure>
+        <figure class="v v-stack pos"><svg class="lg k-nok" viewBox="{{vb:s:nok}}" aria-hidden="true"><use href="#s-nok"/></svg><figcaption>Stacked</figcaption></figure>
+        <figure class="v v-sizes pos">
+          <span class="sz"><svg class="lg k-nok" style="width:16px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-nok"/></svg><span>16</span></span>
+          <span class="sz"><svg class="lg k-nok" style="width:24px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-nok"/></svg><span>24</span></span>
+          <span class="sz"><svg class="lg k-nok" style="width:32px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-nok"/></svg><span>32</span></span>
+          <span class="sz"><svg class="lg k-nok" style="width:48px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-nok"/></svg><span>48</span></span>
+          <span class="sz"><svg class="lg k-nok mono" style="width:48px" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-nok"/></svg><span>1 colour</span></span>
+          <span class="sz"><span class="tabmock"><svg class="lg k-nok" style="width:16px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-nok"/></svg>Destination Nigeria</span><span>Browser tab</span></span>
+          <figcaption>Size test, px</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ compare -->
+<section class="band band-surface" id="compare">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">Recommendation</p>
+      <h2>How the concepts compare</h2>
+      <p>Scored against the brief. The scores are the studio's judgement, and they should be tested with audiences in all six geopolitical zones before a decision is final.</p>
+    </div>
+    <div class="cmp-wrap">
+      <table class="cmp">
+        <thead><tr><th scope="col">Criterion</th><th scope="col">01 Confluence</th><th scope="col">02 Ƙofa</th><th scope="col">03 Aso-oke</th><th scope="col">04 Nok</th></tr></thead>
+        <tbody>
+          <tr><th scope="row">Belongs to every region</th>
+            <td><span class="score"><span class="dots" style="--v:5"></span>5</span></td><td><span class="score"><span class="dots" style="--v:2"></span>2</span></td><td><span class="score"><span class="dots" style="--v:3"></span>3</span></td><td><span class="score"><span class="dots" style="--v:4"></span>4</span></td></tr>
+          <tr><th scope="row">Tells the platform's story</th>
+            <td><span class="score"><span class="dots" style="--v:5"></span>5</span></td><td><span class="score"><span class="dots" style="--v:4"></span>4</span></td><td><span class="score"><span class="dots" style="--v:5"></span>5</span></td><td><span class="score"><span class="dots" style="--v:3"></span>3</span></td></tr>
+          <tr><th scope="row">Clear at 16 px</th>
+            <td><span class="score"><span class="dots" style="--v:5"></span>5</span></td><td><span class="score"><span class="dots" style="--v:4"></span>4</span></td><td><span class="score"><span class="dots" style="--v:3"></span>3</span></td><td><span class="score"><span class="dots" style="--v:4"></span>4</span></td></tr>
+          <tr><th scope="row">Flexes into a system of states, weeks and events</th>
+            <td><span class="score"><span class="dots" style="--v:4"></span>4</span></td><td><span class="score"><span class="dots" style="--v:3"></span>3</span></td><td><span class="score"><span class="dots" style="--v:5"></span>5</span></td><td><span class="score"><span class="dots" style="--v:2"></span>2</span></td></tr>
+          <tr><th scope="row">Ownable among national tourism brands</th>
+            <td><span class="score"><span class="dots" style="--v:3"></span>3</span></td><td><span class="score"><span class="dots" style="--v:4"></span>4</span></td><td><span class="score"><span class="dots" style="--v:4"></span>4</span></td><td><span class="score"><span class="dots" style="--v:5"></span>5</span></td></tr>
+        </tbody>
+        <tfoot><tr><th scope="row">Total, out of 25</th><td class="best">22</td><td>17</td><td>20</td><td>18</td></tr></tfoot>
+      </table>
+    </div>
+
+    <div class="rec rev">
+      <div class="rec-text">
+        <p class="eyebrow">Recommended route</p>
+        <h3>Confluence as the mark, the strip cloth as the pattern</h3>
+        <p>Take 01 forward as the master mark and borrow the strip weave from 03 as the supporting graphic. The rivers say what the platform does. The cloth gives every partner state its own strip inside one national system.</p>
+      </div>
+      <div class="rec-vis">
+        <svg class="lg k-confluence" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg>
+        <svg class="cloth" viewBox="0 0 370 120" preserveAspectRatio="none" aria-hidden="true"><use href="#cloth"/></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ guide -->
+<div class="guide" id="guide">
+  <div class="guide-intro">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:0">
+        <p class="eyebrow">Brand guide</p>
+        <h2>The working guide</h2>
+        <p>Written for the recommended route. Switch the concept to see any of the four marks carried through the same system: colour, type, pattern, voice and applications stay the same.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="switch">
+    <div class="wrap">
+      <span class="switch-label" id="switch-label">Guide shown with</span>
+      <div class="seg" role="radiogroup" aria-labelledby="switch-label">
+        <input type="radio" name="concept" id="pick-confluence" value="confluence" checked><label for="pick-confluence"><svg class="lg k-confluence cw-pos" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-confluence"/></svg><span>01 <span class="long">Confluence</span></span><span class="rec-chip">Rec.</span></label>
+        <input type="radio" name="concept" id="pick-gate" value="gate"><label for="pick-gate"><svg class="lg k-gate cw-pos" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-gate"/></svg><span>02 <span class="long">Ƙofa</span></span></label>
+        <input type="radio" name="concept" id="pick-strips" value="strips"><label for="pick-strips"><svg class="lg k-strips cw-pos" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-strips"/></svg><span>03 <span class="long">Aso-oke</span></span></label>
+        <input type="radio" name="concept" id="pick-nok" value="nok"><label for="pick-nok"><svg class="lg k-nok cw-pos" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-nok"/></svg><span>04 <span class="long">Nok</span></span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- logo -->
+  <section class="gsec" id="logo">
+    <div class="wrap">
+      <div class="sub">
+        <p class="eyebrow">Guide · Logo</p>
+        <h3>The logo suite</h3>
+        <p>Use the horizontal lockup by default. Use the stacked version where space is square or tall, and the mark alone only where Destination Nigeria is already named nearby: app icons, social avatars, pattern sign-offs.</p>
+      </div>
+      <div class="suite">
+        <figure class="v s-wide pos"><svg class="lg js-k k-confluence" data-kind="h" viewBox="{{vb:h:confluence}}" role="img" aria-label="Primary horizontal lockup"><use href="#h-confluence"/></svg><figcaption>Primary · horizontal</figcaption></figure>
+        <figure class="v s-narrow pos"><svg class="lg js-k k-confluence" data-kind="s" viewBox="{{vb:s:confluence}}" aria-hidden="true"><use href="#s-confluence"/></svg><figcaption>Stacked</figcaption></figure>
+        <figure class="v s-third pos"><svg class="lg js-k k-confluence is-mark" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg><figcaption>Mark</figcaption></figure>
+        <figure class="v s-third rev"><svg class="lg js-k k-confluence" data-kind="h" viewBox="{{vb:h:confluence}}" aria-hidden="true"><use href="#h-confluence"/></svg><figcaption>Reverse, on Forest Night</figcaption></figure>
+        <figure class="v s-third pos"><svg class="lg js-k k-confluence" data-kind="t" viewBox="{{vb:t:confluence}}" aria-hidden="true"><use href="#t-confluence"/></svg><figcaption>With theme line</figcaption></figure>
+        <figure class="v s-wide mono-green"><svg class="lg js-k k-confluence mono" data-kind="h" viewBox="{{vb:h:confluence}}" aria-hidden="true"><use href="#h-confluence"/></svg><figcaption>One colour, Cotton on Niger Green</figcaption></figure>
+        <figure class="v s-narrow mono-ink"><svg class="lg js-k k-confluence mono" data-kind="s" viewBox="{{vb:s:confluence}}" aria-hidden="true"><use href="#s-confluence"/></svg><figcaption>One colour, Forest Night</figcaption></figure>
+      </div>
+
+      <div class="sub sub-gap">
+        <h3>Clear space and minimum size</h3>
+      </div>
+      <div class="rules">
+        <div class="clear">
+          <div class="clear-box">
+            <svg class="lg js-k k-confluence" data-kind="h" viewBox="{{vb:h:confluence}}" role="img" aria-label="Lockup with clear space"><use href="#h-confluence"/></svg>
+            <span class="x x-t">x</span><span class="x x-b">x</span><span class="x x-l">x</span><span class="x x-r">x</span>
+          </div>
+          <p>Keep clear space of x on every side, where x is a quarter of the mark's height. Nothing enters it, including state seals, partner logos and the edge of the page.</p>
+        </div>
+        <div class="minsz">
+          <div class="minsz-row">
+            <svg class="lg js-k k-confluence" data-kind="h" style="width:120px" viewBox="{{vb:h:confluence}}" aria-hidden="true"><use href="#h-confluence"/></svg>
+            <dl><dt>Horizontal lockup</dt><dd>120 px · 35 mm</dd></dl>
+          </div>
+          <div class="minsz-row">
+            <svg class="lg js-k k-confluence" data-kind="s" style="width:72px" viewBox="{{vb:s:confluence}}" aria-hidden="true"><use href="#s-confluence"/></svg>
+            <dl><dt>Stacked</dt><dd>72 px · 22 mm</dd></dl>
+          </div>
+          <div class="minsz-row">
+            <svg class="lg js-k k-confluence" data-kind="ms" style="width:24px" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-confluence"/></svg>
+            <dl><dt>Mark alone</dt><dd>24 px · 8 mm</dd></dl>
+          </div>
+          <p class="minsz-note" data-show="strips" hidden>Below 32 px the Aso-oke mark switches to its three-strip version automatically in the files marked <code>small</code>.</p>
+          <p class="minsz-note" data-show="nok" hidden>Below 24 px the Nok eye loses its pupil; use the full lockup instead.</p>
+          <p class="minsz-note" data-show="confluence gate">Below these sizes, set the name in type rather than shrinking the logo.</p>
+        </div>
+      </div>
+
+      <div class="sub sub-gap">
+        <h3>Don't</h3>
+        <p>The logo is drawn, not typed. Use the master files as supplied.</p>
+      </div>
+      <div class="donts">
+        <figure class="dont d-stretch"><div class="stage"><svg class="lg js-k k-confluence cw-pos" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg></div><figcaption><b>Don't</b>Stretch or squash it</figcaption></figure>
+        <figure class="dont d-rotate"><div class="stage"><svg class="lg js-k k-confluence cw-pos" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg></div><figcaption><b>Don't</b>Rotate or tilt it</figcaption></figure>
+        <figure class="dont d-recolour"><div class="stage"><svg class="lg js-k k-confluence cw-pos" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg></div><figcaption><b>Don't</b>Recolour it outside the palette</figcaption></figure>
+        <figure class="dont d-effect"><div class="stage"><svg class="lg js-k k-confluence cw-pos" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg></div><figcaption><b>Don't</b>Add shadows, glows or bevels</figcaption></figure>
+        <figure class="dont d-contrast"><div class="stage"><svg class="lg js-k k-confluence" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg></div><figcaption><b>Don't</b>Set it in low contrast</figcaption></figure>
+        <figure class="dont d-busy"><div class="stage"><svg class="lg js-k k-confluence cw-pos" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg></div><figcaption><b>Don't</b>Place it on a busy ground without a panel</figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- colour -->
+  <section class="gsec" id="colour">
+    <div class="wrap">
+      <div class="sub">
+        <p class="eyebrow">Guide · Colour</p>
+        <h3>Six colours from Nigerian materials</h3>
+        <p>Each colour is named for something a visitor will actually see. Green leads, white gives room, and the warm colours are kept for emphasis.</p>
+      </div>
+      <div class="palette">
+<!--PALETTE-->
+      </div>
+      <div class="sub sub-gap">
+        <h3>Proportion</h3>
+        <p>Roughly 60 parts ground, 30 parts green, 10 parts accent. The flag green (#008751) is kept for official contexts that require it.</p>
+      </div>
+      <div class="ratio" role="img" aria-label="Colour proportions: Cotton 55 percent, Forest Night 20, Niger Green 13, Etu Indigo 6, Palm Gold 4, Laterite 2">
+        <div style="flex:55;background:var(--p-cotton);color:var(--p-forest)"><span>Cotton 55%</span></div>
+        <div style="flex:20;background:var(--p-forest);color:var(--p-cotton)"><span>Forest Night 20%</span></div>
+        <div style="flex:13;background:var(--p-green);color:var(--p-cotton)"><span>Niger Green 13%</span></div>
+        <div style="flex:6;background:var(--p-indigo);color:var(--p-cotton)"><span>6%</span></div>
+        <div style="flex:4;background:var(--p-gold);color:var(--p-forest)"><span>4%</span></div>
+        <div style="flex:2;background:var(--p-laterite)"></div>
+      </div>
+      <p class="ratio-legend"><span>Etu Indigo 6%</span><span>Palm Gold 4%</span><span>Laterite 2%</span></p>
+
+      <div class="sub sub-gap">
+        <h3>Contrast</h3>
+        <p>Ratios are calculated with the WCAG 2.2 formula. Palm Gold never carries text on white.</p>
+      </div>
+      <div class="ctab-wrap">
+        <table class="ctab"><tbody>
+<!--CONTRAST-->
+        </tbody></table>
+      </div>
+      <p class="cmp-note">CMYK values are conversion starting points. Proof them on the chosen paper stock before a print run.</p>
+    </div>
+  </section>
+
+  <!-- pattern -->
+  <section class="gsec" id="pattern">
+    <div class="wrap">
+      <div class="sub">
+        <p class="eyebrow">Guide · Pattern</p>
+        <h3>The cloth: 37 strips, one country</h3>
+        <p>The supporting pattern is borrowed from concept 03 whichever mark is chosen. There is one strip for each of the 36 states and one for the Federal Capital Territory, each with its own base tone and weft placement.</p>
+      </div>
+      <svg class="cloth-band" viewBox="0 0 370 120" preserveAspectRatio="none" role="img" aria-label="The cloth pattern: 37 woven strips"><use href="#cloth"/></svg>
+      <div class="cloth-notes">
+        <p><b>Edges, not backgrounds</b>Run the cloth along the top or bottom of a layout, or down a spine. Never put text on it.</p>
+        <p><b>A strip for each state</b>A partner state uses its own strip as the accent on co-branded material, so every state's work is recognisably part of the whole.</p>
+        <p><b>Crop, don't redraw</b>Crop the master cloth to the space you have. Don't reorder, recolour or stretch individual strips.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- type -->
+  <section class="gsec" id="type">
+    <div class="wrap">
+      <div class="sub">
+        <p class="eyebrow">Guide · Typography</p>
+        <h3>Type that can spell Nigeria's languages</h3>
+        <p>Both main faces carry the full Hausa, Yoruba and Igbo character sets, including hooked letters, underdots and tone marks. Many popular typefaces do not, and the brand should never have to choose between a font and a correct spelling. All three are free under the SIL Open Font License.</p>
+      </div>
+      <div class="specimens">
+        <article class="spec spec-1">
+          <span class="spec-glyph" aria-hidden="true">Ƙọ Ẹ</span>
+          <div><h4>Unbounded</h4><p>Display. Headlines, campaign lines, big numbers. Bold and wide; use it sparingly and large.</p></div>
+          <p class="meta">Weights 500 · 600 · 700 · line height 1.0 to 1.1</p>
+        </article>
+        <article class="spec spec-2">
+          <span class="spec-glyph" aria-hidden="true">Ṣụ ɗ</span>
+          <div><h4>Onest</h4><p>Text. Body copy, interfaces, signage, forms. Open and even at small sizes.</p></div>
+          <p class="meta">Weights 400 · 500 · 600 · line height 1.5 to 1.65</p>
+        </article>
+        <article class="spec spec-3">
+          <span class="spec-glyph" aria-hidden="true">07°</span>
+          <div><h4>Martian Mono</h4><p>Data. Dates, references, coordinates, booking codes. Latin and Yoruba only, so never for Hausa text.</p></div>
+          <p class="meta">Weights 400 · 500 · tracked +6%</p>
+        </article>
+      </div>
+      <div class="langs">
+        <div class="lang-card">
+          <div class="hello">
+            <div><span lang="ha">Barka da zuwa</span><small>Hausa</small></div>
+            <div><span lang="yo">Ẹ káàbọ̀</span><small>Yoruba</small></div>
+            <div><span lang="ig">Nnọọ</span><small>Igbo</small></div>
+            <div><span>Welcome</span><small>English</small></div>
+          </div>
+        </div>
+        <div class="lang-card">
+          <p class="glyphs" aria-label="Characters the brand fonts must support">Ɓ ɓ Ɗ ɗ Ƙ ƙ Ẹ ẹ Ọ ọ Ṣ ṣ Ụ ụ Ị ị</p>
+          <ul class="places">
+            <li><span lang="yo">Ọ̀ṣun-Òṣogbo Sacred Grove</span><span>Osun</span></li>
+            <li><span lang="ha">Ƙofar Mata dye pits</span><span>Kano</span></li>
+            <li><span lang="ig">Ọgbụnike Caves</span><span>Anambra</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="scale">
+        <table><tbody>
+          <tr><td class="k">61</td><td class="spec-line" style="font:700 var(--t-61)/1 var(--display);letter-spacing:-.03em">Display</td><td class="k">Unbounded 700 · Hero lines</td></tr>
+          <tr><td class="k">39</td><td class="spec-line" style="font:600 var(--t-39)/1.1 var(--display);letter-spacing:-.02em">Headline</td><td class="k">Unbounded 600 · Section titles</td></tr>
+          <tr><td class="k">25</td><td class="spec-line" style="font:600 var(--t-25)/1.2 var(--display)">Subhead</td><td class="k">Unbounded 600 · Cards, lockups</td></tr>
+          <tr><td class="k">20</td><td class="spec-line" style="font:400 var(--t-20)/1.5 var(--text)">Lead paragraph for introductions</td><td class="k">Onest 400</td></tr>
+          <tr><td class="k">16</td><td class="spec-line" style="font:400 var(--t-16)/1.6 var(--text)">Body text for guides, booking pages and reports</td><td class="k">Onest 400</td></tr>
+          <tr><td class="k">13</td><td class="spec-line" style="font:500 var(--t-13)/1.4 var(--mono);letter-spacing:.06em;text-transform:uppercase">Label · Week 7 · Ref DN-0142</td><td class="k">Martian Mono 500</td></tr>
+        </tbody></table>
+      </div>
+    </div>
+  </section>
+
+  <!-- pillars -->
+  <section class="gsec" id="pillars">
+    <div class="wrap">
+      <div class="sub">
+        <p class="eyebrow">Guide · Theme</p>
+        <h3>Experience. Invest. Explore.</h3>
+        <p>The theme line doubles as a colour code. Every piece of campaign content belongs to one of the three, and wears its colour.</p>
+      </div>
+      <div class="pillars">
+        <article class="pillar pl-exp">
+          <div class="pillar-top"><span>Palm Gold</span><b>Experience.</b></div>
+          <div class="pillar-body"><p>Culture, festivals, cuisine, music, film and fashion: the creative economy as a reason to travel.</p><q>Durbar, Argungu, Ọ̀ṣun-Òṣogbo. Festivals with dates you can plan around.</q></div>
+        </article>
+        <article class="pillar pl-inv">
+          <div class="pillar-top"><span>Niger Green</span><b>Invest.</b></div>
+          <div class="pillar-body"><p>Investment-ready tourism products, state opportunities, travel buyers and development partners.</p><q>Project summaries from host states, each with a named contact.</q></div>
+        </article>
+        <article class="pillar pl-exp-x">
+          <div class="pillar-top"><span>Etu Indigo</span><b>Explore.</b></div>
+          <div class="pillar-body"><p>Verified destinations, trip planning, access information and responsible travel options.</p><q>Verified places, with current guidance on getting there and getting around.</q></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- architecture -->
+  <section class="gsec" id="architecture">
+    <div class="wrap">
+      <div class="sub">
+        <p class="eyebrow">Guide · Architecture</p>
+        <h3>One master brand, many signatures</h3>
+        <p>The platform signs everything. National Tourism Week and partner states sit beside it, never inside it.</p>
+      </div>
+      <div class="arch">
+        <figure class="v pos"><svg class="lg js-k k-confluence" data-kind="h" viewBox="{{vb:h:confluence}}" role="img" aria-label="Master brand"><use href="#h-confluence"/></svg><figcaption>Master brand</figcaption></figure>
+        <figure class="v rev">
+          <div class="event">
+            <svg class="lg js-k k-confluence" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg>
+            <div><span class="event-name">National<br>Tourism Week</span><span class="event-meta">Destination Nigeria · Edition 01 · Seven days</span></div>
+          </div>
+          <figcaption>Event</figcaption>
+        </figure>
+        <figure class="v pos" style="grid-column:1 / -1">
+          <div class="partner">
+            <svg class="lg js-k k-confluence" data-kind="h" viewBox="{{vb:h:confluence}}" aria-hidden="true"><use href="#h-confluence"/></svg>
+            <span class="partner-rule" aria-hidden="true"></span>
+            <span class="partner-name"><small>Host state</small><span>[State name] State Government</span></span>
+          </div>
+          <figcaption>Partner lockup · the state's seal sits outside the clear space</figcaption>
+        </figure>
+      </div>
+
+      <div class="sub sub-gap">
+        <h3>The eight-week countdown</h3>
+        <p>From the concept note's campaign plan. Each week takes the colour of its pillar, so the run-up to Tourism Week reads as one sequence across channels.</p>
+      </div>
+      <div class="weeks">
+        <article class="week wk-inv"><div><span class="n">Week 8</span><b>Online national launch</b><p>Concept, campaign film, web hub and countdown.</p></div></article>
+        <article class="week wk-exl"><div><span class="n">Week 7</span><b>Discover Nigeria</b><p>Verified destinations and creator stories.</p></div></article>
+        <article class="week wk-exp"><div><span class="n">Week 6</span><b>Schools and universities</b><p>Talks, an essay and creative challenge, virtual tours.</p></div></article>
+        <article class="week wk-exl"><div><span class="n">Week 5</span><b>Travel offers</b><p>Hotels, airlines and tour operators publish packages.</p></div></article>
+        <article class="week wk-exp"><div><span class="n">Week 4</span><b>Media and diaspora</b><p>Interviews, explainers and diaspora conversations.</p></div></article>
+        <article class="week wk-exp"><div><span class="n">Week 3</span><b>Community tourism</b><p>Locally led tours, clean-up and heritage activity.</p></div></article>
+        <article class="week wk-inv"><div><span class="n">Week 2</span><b>Business and investment</b><p>Tourism business and investment stories.</p></div></article>
+        <article class="week wk-inv"><div><span class="n">Week 1</span><b>Countdown</b><p>Press briefings, access information and programme reminders.</p></div></article>
+        <article class="week finale"><div><span class="n">Seven days</span><b>National Tourism Week</b><p>The culmination, followed by a 12-month action agenda.</p></div></article>
+      </div>
+    </div>
+  </section>
+
+  <!-- voice -->
+  <section class="gsec" id="voice">
+    <div class="wrap">
+      <div class="sub">
+        <p class="eyebrow">Guide · Voice</p>
+        <h3>Warm, specific, straight</h3>
+        <p>The brand speaks like a well-informed host: glad you are coming, clear about what to expect.</p>
+      </div>
+      <div class="principles">
+        <article><h4>Say what is verified</h4><p>Name the place, the date and the operator. If something is not confirmed, say so.</p></article>
+        <article><h4>Be straight about risk</h4><p>Give visitors what they need to make informed choices. Never claim a destination is risk-free.</p></article>
+        <article><h4>Welcome in every language</h4><p>Hausa, Yoruba, Igbo, Pidgin and English all belong, spelled with their proper characters and tone marks.</p></article>
+        <article><h4>Show the work</h4><p>Point to commitments, owners and results. The 12-month action agenda is part of the story.</p></article>
+      </div>
+      <div class="dodont">
+        <div class="dd"><div class="avoid"><small>Avoid</small><p>Nigeria is 100% safe. Just come!</p></div><div class="say"><small>Say</small><p>Verified experiences, with current travel guidance from host states and operators.</p></div></div>
+        <div class="dd"><div class="avoid"><small>Avoid</small><p>Unlock limitless opportunities in the giant of Africa.</p></div><div class="say"><small>Say</small><p>Investment-ready projects from host states, each with a summary and a named contact.</p></div></div>
+        <div class="dd"><div class="avoid"><small>Avoid</small><p>Amazing deals!!! Book now before it's too late.</p></div><div class="say"><small>Say</small><p>Packages from partner hotels, airlines and tour operators, with dates, terms and booking links.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- imagery -->
+  <section class="gsec" id="imagery">
+    <div class="wrap">
+      <div class="sub">
+        <p class="eyebrow">Guide · Imagery</p>
+        <h3>Real places, real hosts, permission on file</h3>
+        <p>The concept note asks for a media toolkit with verified information and image permissions. These rules make that the house style.</p>
+      </div>
+      <div class="img-grid">
+        <article><h4>Name the place</h4><p>Every image carries its location and state. If it can't be named, it isn't used.</p></article>
+        <article><h4>Hosts, not props</h4><p>Show people as guides, cooks, artists and operators, named where they agree to it.</p></article>
+        <article><h4>Permission on file</h4><p>Release and consent recorded for every image. Community shoots also need a safety plan and a local benefit record.</p></article>
+        <article><h4>Light as it is</h4><p>Natural light and honest colour. No heavy filters, no skies swapped in.</p></article>
+        <article><h4>Leave out</h4><p>Safari clichés borrowed from elsewhere, poverty imagery, and crowds staged for the camera.</p></article>
+      </div>
+      <div class="caption-spec">
+        <p class="eyebrow">Caption format</p>
+        <code><b>Place, State</b> · Photo: Name Surname · Permission ref. DN-IMG-0000</code>
+        <code lang="yo"><b>Ọ̀ṣun-Òṣogbo Sacred Grove, Osun State</b> · Photo: Name Surname · Permission ref. DN-IMG-0001</code>
+      </div>
+    </div>
+  </section>
+
+  <!-- applications -->
+  <section class="gsec" id="applications">
+    <div class="wrap">
+      <div class="sub">
+        <p class="eyebrow">Guide · Applications</p>
+        <h3>In use</h3>
+        <p>Every logo on this page follows the concept switcher, so each route can be judged in context.</p>
+      </div>
+      <div class="apps">
+        <figure class="app app-social">
+          <div class="soc rev">
+            <p class="soc-week">Week 7 · Discover Nigeria</p>
+            <p class="soc-head">Verified places, told by the people who know them.</p>
+            <div class="soc-foot"><svg class="lg js-k k-confluence" data-kind="h" viewBox="{{vb:h:confluence}}" aria-hidden="true"><use href="#h-confluence"/></svg><span>#DestinationNigeria</span></div>
+            <svg class="cloth" viewBox="0 0 370 120" preserveAspectRatio="none" aria-hidden="true"><use href="#cloth"/></svg>
+          </div>
+          <figcaption>Campaign post · 1080 × 1080</figcaption>
+        </figure>
+        <figure class="app app-badge">
+          <div class="badge pos">
+            <svg class="cloth" viewBox="0 0 370 120" preserveAspectRatio="none" aria-hidden="true"><use href="#cloth"/></svg>
+            <span class="badge-hole" aria-hidden="true"></span>
+            <svg class="lg js-k k-confluence" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg>
+            <p class="badge-ev">National Tourism Week</p>
+            <p class="badge-ed">Edition 01</p>
+            <div class="badge-person"><b>Name Surname</b><span>Organisation</span></div>
+            <div class="badge-role">Delegate</div>
+          </div>
+          <figcaption>Delegate badge · 100 × 140 mm</figcaption>
+        </figure>
+        <figure class="app app-icon">
+          <div class="icon-stage">
+            <div class="appicon rev"><svg class="lg js-k k-confluence" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg></div>
+            <div class="tabbar"><svg class="lg js-k k-confluence" data-kind="ms" viewBox="0 0 100 100" aria-hidden="true"><use href="#ms-confluence"/></svg><span>Destination Nigeria · Plan your visit</span></div>
+          </div>
+          <figcaption>App icon and browser tab</figcaption>
+        </figure>
+        <figure class="app app-sign">
+          <div class="sign rev">
+            <div class="sign-main">
+              <p class="sign-hello">Welcome to Nigeria</p>
+              <p class="sign-langs"><span lang="ha">Barka da zuwa</span><span lang="yo">Ẹ káàbọ̀</span><span lang="ig">Nnọọ</span></p>
+            </div>
+            <div class="sign-side">
+              <div class="sign-way">
+                <span class="sign-dir"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 16h20M16 7l9 9-9 9" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square"/></svg>Immigration</span>
+                <span class="sign-dir"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 4v20M7 16l9 9 9-9" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="square"/></svg>Baggage hall</span>
+              </div>
+              <div class="sign-mark"><svg class="lg js-k k-confluence mono" data-kind="m" viewBox="0 0 100 100" aria-hidden="true"><use href="#m-confluence"/></svg></div>
+            </div>
+          </div>
+          <figcaption>Arrival hall sign</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>Draft 1 for review, prepared from the Destination Nigeria executive concept note. Marks are original drawings; none uses the national coat of arms or any official seal. Audience testing and a trademark search should come before adoption.</p>
+    <p>Master files: <code>destination-nigeria/brand/logos/</code><br>Fonts: Unbounded, Onest, Martian Mono (SIL OFL)</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  var VB = /*VB*/;
+  var KEYS = Object.keys(VB);
+  var root = document.documentElement;
+
+  function apply(key) {
+    if (!VB[key]) return;
+    document.querySelectorAll('.js-k').forEach(function (svg) {
+      var kind = svg.getAttribute('data-kind');
+      svg.setAttribute('viewBox', VB[key][kind]);
+      svg.querySelector('use').setAttribute('href', '#' + kind + '-' + key);
+      KEYS.forEach(function (k) { svg.classList.remove('k-' + k); });
+      svg.classList.add('k-' + key);
+    });
+    document.querySelectorAll('[data-show]').forEach(function (el) {
+      el.hidden = el.getAttribute('data-show').split(' ').indexOf(key) < 0;
+    });
+    var input = document.getElementById('pick-' + key);
+    if (input) input.checked = true;
+    root.setAttribute('data-concept', key);
+  }
+
+  document.querySelectorAll('input[name="concept"]').forEach(function (input) {
+    input.addEventListener('change', function () {
+      apply(input.value);
+      try { localStorage.setItem('dn-concept', input.value); } catch (e) {}
+    });
+  });
+
+  var start = 'confluence';
+  try { start = localStorage.getItem('dn-concept') || start; } catch (e) {}
+  var hash = location.hash.replace('#', '');
+  if (VB[hash]) start = hash;
+  if (start !== 'confluence') apply(start);
+})();
+</script>
