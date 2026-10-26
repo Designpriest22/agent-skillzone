@@ -28,8 +28,11 @@ export default function StatesPage() {
         lede="Thirty-six states and the Federal Capital Territory across six geopolitical zones. Select a state on the map, use the finder, or browse the list below."
         plate={pagePlate.states}
       />
-      <section className="section section--deep" aria-label="Interactive map">
+      <section className="section section--deep" aria-labelledby="map-title">
         <div className="container">
+          <h2 id="map-title" className="visually-hidden">
+            Interactive map of Nigeria
+          </h2>
           <NigeriaMap {...mapProps()} />
         </div>
       </section>

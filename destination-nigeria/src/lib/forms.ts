@@ -1,4 +1,7 @@
-import { z } from "zod";
+import { config, z } from "zod";
+
+// No runtime code generation: keeps the strict Content-Security-Policy (no unsafe-eval) clean.
+config({ jitless: true });
 
 /**
  * Form definitions shared by the client (inline validation) and the server

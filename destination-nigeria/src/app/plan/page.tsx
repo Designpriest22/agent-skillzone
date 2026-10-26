@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Suspense } from "react";
 import { Eyebrow } from "@/components/brand";
 import { ItineraryBuilder } from "@/components/ItineraryBuilder";
 import { PageHero } from "@/components/PageHero";
@@ -48,9 +47,7 @@ export default function PlanPage() {
             </h2>
             <p className="lede">Order your stops, set how many days you want in each, add notes, then download, print or share your plan.</p>
           </div>
-          <Suspense fallback={<p className="muted">Loading your shortlist…</p>}>
-            <ItineraryBuilder lookup={lookup} siteUrl={siteUrl()} />
-          </Suspense>
+          <ItineraryBuilder lookup={lookup} siteUrl={siteUrl()} />
         </div>
       </section>
 

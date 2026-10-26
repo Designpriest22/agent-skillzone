@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Suspense } from "react";
 import { Eyebrow, RevealWords } from "@/components/brand";
 import { DestinationExplorer } from "@/components/DestinationExplorer";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
@@ -78,9 +77,7 @@ export default function HomePage() {
               Search by region, state or the kind of experience you are after. Every listing shows where it is and what has been checked, so you can plan with confidence.
             </p>
           </div>
-          <Suspense fallback={<p className="muted">Loading destinations…</p>}>
-            <DestinationExplorer items={items} states={states} limit={8} />
-          </Suspense>
+          <DestinationExplorer items={items} states={states} limit={8} />
         </div>
       </section>
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { useSound } from "./sound";
 
 const SEEN = "dn:welcomed";
@@ -25,9 +25,19 @@ export function Welcome() {
   const { setEnabled } = useSound();
   const [leaving, setLeaving] = useState(false);
 
-  useEffect(() => {
-    if (welcomePending()) ref.current?.showModal();
-    else window.dispatchEvent(new Event(ENTERED_EVENT));
+  // The dialog is server-rendered open (non-modal) so it paints immediately; an inline
+  // script removes it before paint for returning visitors. On hydration it becomes a
+  // true modal so focus is trapped and the page behind is inert.
+  // Layout effect: upgrade to modal before the browser paints or handles input after hydration.
+  useLayoutEffect(() => {
+    const d = ref.current;
+    if (!d) return;
+    if (welcomePending()) {
+      if (d.open) d.close();
+      d.showModal();
+    } else if (d.open) {
+      d.close();
+    }
   }, []);
 
   function enter(withSound: boolean) {
@@ -40,19 +50,23 @@ export function Welcome() {
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       ref.current?.close();
-      window.dispatchEvent(new Event(ENTERED_EVENT));
+      window.dispatchEvent(new CustomEvent(ENTERED_EVENT, { detail: { fromWelcome: true } }));
       return;
     }
     setLeaving(true);
     window.setTimeout(() => {
       ref.current?.close();
       setLeaving(false);
-      window.dispatchEvent(new Event(ENTERED_EVENT));
+      window.dispatchEvent(new CustomEvent(ENTERED_EVENT, { detail: { fromWelcome: true } }));
     }, 650);
   }
 
   return (
+    <>
     <dialog
+      id="dn-welcome"
+      open
+      suppressHydrationWarning
       ref={ref}
       className={`welcome on-dark${leaving ? " is-leaving" : ""}`}
       aria-labelledby="welcome-title"
@@ -81,5 +95,13 @@ export function Welcome() {
         </div>
       </div>
     </dialog>
+    <script dangerouslySetInnerHTML={{ __html: HIDE_IF_WELCOMED }} />
+    <noscript>
+      <style>{"#dn-welcome{display:none!important}"}</style>
+    </noscript>
+    </>
   );
 }
+
+/** Runs during HTML parsing, before first paint, so returning visitors never see the welcome flash. */
+const HIDE_IF_WELCOMED = `try{if(localStorage.getItem('${SEEN}')==='1'){var w=document.getElementById('dn-welcome');if(w)w.removeAttribute('open')}}catch(e){}`;

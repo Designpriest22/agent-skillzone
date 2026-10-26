@@ -3,9 +3,10 @@
 /*
  * Destination Nigeria — design tokens.
  * Palette derived from the official logo: forest #103428, ridge #2c5040, sun #e8a432.
- * Measured contrast (WCAG 2.2): charcoal on ivory 16.4:1, forest on ivory 12.9:1,
- * ivory on forest 12.9:1, charcoal on sun 8.7:1, sun-text on ivory 5.2:1,
- * ink-soft on ivory 7.6:1. Sun (#e8a432) on ivory is 2.1:1, so it is never used for text on light grounds.
+ * Measured contrast (WCAG 2.2): charcoal on ivory 15.8:1, forest on ivory 12.2:1,
+ * charcoal on sun 8.2:1, sun on forest-deep 7.7:1, sun-text on ivory 5.3:1,
+ * ink-soft on ivory 7.5:1, ivory on adire 10.9:1. Sun (#e8a432) on ivory is 1.9:1,
+ * so it is never used for text on light grounds.
  * See docs/DESIGN_SYSTEM.md.
  */
 :root {
@@ -29,9 +30,9 @@
   --success: #1f6b3a;
 
   /* type */
-  --font-display: "Bodoni Moda Variable", "Bodoni 72", Didot, Georgia, serif;
-  --font-sans: "Instrument Sans Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-display: var(--nf-display), "Bodoni 72", Didot, Georgia, serif;
+  --font-sans: var(--nf-sans), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: var(--nf-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
   --step--1: clamp(0.8rem, 0.78rem + 0.1vw, 0.875rem);
   --step-0: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
   --step-1: clamp(1.15rem, 1.08rem + 0.35vw, 1.35rem);
@@ -896,26 +897,25 @@ p {
   }
 }
 
-/* opening sequence */
+/* opening sequence: pure CSS, so the hero paints without waiting for JavaScript */
 @media (prefers-reduced-motion: no-preference) {
-  .js .hero [data-enter] {
+  .hero [data-enter] {
+    animation: enter 900ms var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 110ms + 100ms);
+  }
+  .hero .hero-film {
+    animation: film-in 1.4s var(--ease-out) both;
+  }
+}
+@keyframes enter {
+  from {
     opacity: 0;
     transform: translateY(18px);
   }
-  .js .hero.is-entered [data-enter] {
-    opacity: 1;
-    transform: none;
-    transition:
-      opacity 900ms var(--ease-out),
-      transform 900ms var(--ease-out);
-    transition-delay: calc(var(--i, 0) * 110ms + 120ms);
-  }
-  .js .hero .hero-film {
+}
+@keyframes film-in {
+  from {
     opacity: 0;
-    transition: opacity 1.4s var(--ease-out);
-  }
-  .js .hero.is-entered .hero-film {
-    opacity: 1;
   }
 }
 
@@ -2279,4 +2279,20 @@ a.tool:hover {
   .exp-panel {
     min-height: 20rem;
   }
+}
+/* Dialogs live inside the click-through header; restore interaction. */
+.site-header dialog {
+  pointer-events: auto;
+}
+.stack,
+.stack-lg {
+  align-content: start;
+}
+.journey--light li {
+  border-color: var(--line);
+  color: var(--charcoal);
+}
+.journey--light li::before {
+  background: var(--sage-soft);
+  color: var(--forest);
 }

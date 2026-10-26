@@ -139,7 +139,7 @@ export function NigeriaMap({ states, destinations, indexableStates }: { states: 
                 placeholder="Type a state or capital, e.g. Calabar"
                 value={finder}
                 onChange={(e) => setFinder(e.target.value)}
-                aria-controls={`${uid}-finder-list`}
+                aria-controls={finderMatches.length > 0 ? `${uid}-finder-list` : undefined}
                 aria-describedby={`${uid}-finder-count`}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && finderMatches[0]) {

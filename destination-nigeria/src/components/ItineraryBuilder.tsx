@@ -1,20 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import type { Destination, State } from "@/content/schema";
 import { track } from "@/lib/analytics";
 import { decodePlan, encodePlan, itineraryText } from "@/lib/itinerary";
 import { shortlist, useShortlist } from "@/lib/shortlist";
 
+function subscribeLocation(cb: () => void) {
+  window.addEventListener("popstate", cb);
+  return () => window.removeEventListener("popstate", cb);
+}
+
 type Lookup = Record<string, { d: Destination; s: State; plateSrc: string }>;
 
 export function ItineraryBuilder({ lookup, siteUrl }: { lookup: Lookup; siteUrl: string }) {
   const stops = useShortlist();
-  const params = useSearchParams();
   const [copied, setCopied] = useState<"idle" | "copied" | "failed">("idle");
-  const shared = params.get("plan");
+  const shared = useSyncExternalStore(subscribeLocation, () => new URLSearchParams(window.location.search).get("plan"), () => null);
   const sharedStops = useMemo(() => (shared ? decodePlan(shared, (slug) => slug in lookup) : []), [shared, lookup]);
   const valid = stops.filter((s) => lookup[s.slug]);
   const totalDays = valid.reduce((n, s) => n + s.days, 0);
@@ -35,7 +38,7 @@ export function ItineraryBuilder({ lookup, siteUrl }: { lookup: Lookup; siteUrl:
   }
 
   async function copyLink() {
-    const url = `${siteUrl}/plan?plan=${encodeURIComponent(encodePlan(valid))}#itinerary`;
+    const url = `${window.location.origin}/plan?plan=${encodeURIComponent(encodePlan(valid))}#itinerary`;
     try {
       await navigator.clipboard.writeText(url);
       setCopied("copied");

@@ -1,4 +1,3 @@
-import { Suspense } from "react";
 import { DestinationExplorer } from "@/components/DestinationExplorer";
 import { JsonLd } from "@/components/JsonLd";
 import { PageHero } from "@/components/PageHero";
@@ -33,9 +32,7 @@ export default function DestinationsPage() {
       <JsonLd data={itemListLd("Destinations in Nigeria", destinations.map((d) => ({ name: d.name, path: `/destinations/${d.slug}` })))} />
       <section className="section section--paper" id="find-your-nigeria" aria-label="Destination explorer">
         <div className="container">
-          <Suspense fallback={<p className="muted">Loading destinations…</p>}>
-            <DestinationExplorer items={explorerItems()} states={states} headingLevel={2} />
-          </Suspense>
+          <DestinationExplorer items={explorerItems()} states={states} headingLevel={2} />
           <p className="muted" style={{ marginTop: "3rem", fontSize: "0.9rem", maxWidth: "48rem" }}>
             Every destination is a well-documented public place, written from the reference sources listed on its page and awaiting verification by the relevant state authority. Visiting arrangements, prices and access are never shown as fact until an operator or authority confirms them.
           </p>

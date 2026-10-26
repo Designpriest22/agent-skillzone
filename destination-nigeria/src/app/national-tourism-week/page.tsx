@@ -90,11 +90,9 @@ export default function NtwPage() {
           <div className="prose">
             <p>{proposition.why[1]}</p>
             <p>The week brings the people responsible for each stage of the visitor journey into one room, and asks them to leave with commitments:</p>
-            <ol className="journey" style={{ color: "var(--charcoal)" }} aria-label="Visitor journey stages">
+            <ol className="journey journey--light" aria-label="Visitor journey stages">
               {visitorJourney.map((j) => (
-                <li key={j.id} style={{ borderColor: "var(--line)" }}>
-                  {j.label}
-                </li>
+                <li key={j.id}>{j.label}</li>
               ))}
             </ol>
           </div>

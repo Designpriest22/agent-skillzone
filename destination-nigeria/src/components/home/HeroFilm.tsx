@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState, useSyncExternalStore } from "react";
 import type { HeroFilm as HeroFilmMedia } from "@/content/media";
 import { ENTERED_EVENT, welcomePending } from "../Welcome";
 
@@ -56,19 +56,21 @@ export function HeroFilm({ scenes, video, children }: { scenes: HeroScene[]; vid
     };
   }, [index, scenes, svgs, video]);
 
-  // Opening sequence starts once the visitor has entered (immediately on repeat visits).
+  // Scenes start advancing once the visitor has entered. If they entered through the
+  // welcome screen, the CSS opening sequence is replayed so they see it.
+  const [replay, setReplay] = useState(0);
   useEffect(() => {
-    const onEnter = () => setEntered(true);
+    const onEnter = (e: Event) => {
+      setEntered(true);
+      if ((e as CustomEvent<{ fromWelcome?: boolean }>).detail?.fromWelcome) setReplay((r) => r + 1);
+    };
     window.addEventListener(ENTERED_EVENT, onEnter);
-    // Repeat visitors (or no welcome on this page): start straight away, on the next frame
-    // so the hidden starting state paints first and the entrance can animate.
-    const raf = welcomePending() && document.querySelector("dialog.welcome") ? 0 : requestAnimationFrame(onEnter);
+    const raf = welcomePending() && document.querySelector("dialog.welcome") ? 0 : requestAnimationFrame(() => setEntered(true));
     return () => {
       window.removeEventListener(ENTERED_EVENT, onEnter);
       cancelAnimationFrame(raf);
     };
   }, []);
-
 
   // Advance scenes; also stop when the hero is off-screen or the tab is hidden.
   const [visible, setVisible] = useState(true);
@@ -97,7 +99,7 @@ export function HeroFilm({ scenes, video, children }: { scenes: HeroScene[]; vid
   const current = scenes[index]!;
 
   return (
-    <section ref={root} className={`hero on-dark${paused ? " is-paused" : ""}${entered ? " is-entered" : ""}`} aria-label="Introduction">
+    <section ref={root} className={`hero on-dark${paused ? " is-paused" : ""}`} aria-label="Introduction">
       <div className="hero-film" aria-hidden="true">
         {video ? (
           <video ref={videoRef} className="hero-video" muted loop playsInline autoPlay={!paused} preload="metadata" poster={video.poster}>
@@ -115,7 +117,7 @@ export function HeroFilm({ scenes, video, children }: { scenes: HeroScene[]; vid
       <div className="hero-scrim" aria-hidden="true" />
       <div className="hero-grain" aria-hidden="true" />
 
-      {children}
+      <Fragment key={replay}>{children}</Fragment>
 
       <div className="hero-controls">
         <div className="container cluster" style={{ gap: "1rem" }}>

@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import "@fontsource-variable/bodoni-moda/opsz.css";
-import "@fontsource-variable/bodoni-moda/opsz-italic.css";
-import "@fontsource-variable/instrument-sans/wdth.css";
-import "@fontsource/ibm-plex-mono/500.css";
 import "./globals.css";
+import { display, mono, sans } from "./fonts";
 import { ConsentManager } from "@/components/Consent";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
@@ -30,15 +27,12 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-/**
- * `js` is set before paint so reveal animations start hidden only when
- * scripts run. A safety timer reveals the hero if the app bundle never loads.
- */
-const bootScript = `document.documentElement.classList.add('js');setTimeout(function(){var h=document.querySelector('.hero');if(h&&!h.classList.contains('is-entered')&&!document.querySelector('dialog.welcome[open]'))h.classList.add('is-entered')},4000);`;
+/** `js` is set before paint so scroll-reveal starting states apply only when scripts run. */
+const bootScript = `document.documentElement.classList.add('js');`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang={site.lang} suppressHydrationWarning>
+    <html lang={site.lang} className={`${display.variable} ${sans.variable} ${mono.variable}`} suppressHydrationWarning>
       <head>
         <script dangerouslySetInnerHTML={{ __html: bootScript }} />
         <link rel="preload" href="/brand/destination-nigeria-logo-reverse.svg" as="image" type="image/svg+xml" />

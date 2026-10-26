@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useMemo, useRef, useState, useSyncExternalStore } from "react";
 import { categories } from "@/content/categories";
 import type { CategoryId, State, ZoneId } from "@/content/schema";
 import { zones } from "@/content/states";
@@ -13,9 +13,28 @@ import { ShortlistButton } from "./ShortlistButton";
 
 type Item = ExplorerItem;
 
+/**
+ * Filters live in the URL so results can be shared and bookmarked. The URL is read
+ * directly (not with useSearchParams) so the page stays statically rendered with the
+ * full grid, instead of swapping in a loading fallback that would shift the layout.
+ */
+const URL_EVENT = "dn:urlchange";
+function subscribeUrl(cb: () => void) {
+  window.addEventListener("popstate", cb);
+  window.addEventListener(URL_EVENT, cb);
+  return () => {
+    window.removeEventListener("popstate", cb);
+    window.removeEventListener(URL_EVENT, cb);
+  };
+}
+function replaceUrl(url: string) {
+  window.history.replaceState(null, "", url);
+  window.dispatchEvent(new Event(URL_EVENT));
+}
+
 export function DestinationExplorer({ items, states, limit, headingLevel = 3 }: { items: Item[]; states: State[]; limit?: number; headingLevel?: 2 | 3 }) {
-  const params = useSearchParams();
-  const router = useRouter();
+  const search = useSyncExternalStore(subscribeUrl, () => window.location.search, () => "");
+  const params = useMemo(() => new URLSearchParams(search), [search]);
   const pathname = usePathname();
   const f = {
     q: params.get("q") ?? "",
@@ -34,7 +53,7 @@ export function DestinationExplorer({ items, states, limit, headingLevel = 3 }: 
     const sp = new URLSearchParams();
     for (const [k, v] of Object.entries(merged)) if (v) sp.set(k, v);
     const qs = sp.toString();
-    router.replace(qs ? `${pathname}?${qs}#find-your-nigeria` : `${pathname}#find-your-nigeria`, { scroll: false });
+    replaceUrl(qs ? `${pathname}?${qs}` : pathname);
     if (event === "destination_filter") track("destination_filter", { filter: Object.keys(next)[0] ?? "", value: Object.values(next)[0] ?? "" });
   }
 
@@ -114,7 +133,7 @@ export function DestinationExplorer({ items, states, limit, headingLevel = 3 }: 
           <div className="cluster">
             <button type="button" className="btn btn--forest btn--sm" onClick={() => {
                 setResetKey((k) => k + 1);
-                router.replace(`${pathname}#find-your-nigeria`, { scroll: false });
+                replaceUrl(pathname);
               }}>
               Clear filters
             </button>

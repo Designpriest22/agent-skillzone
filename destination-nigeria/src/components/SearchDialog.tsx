@@ -61,7 +61,7 @@ export function SearchDialog({ open, onClose }: { open: boolean; onClose: () => 
           placeholder="Search destinations, states, stories…"
           value={q}
           onChange={(e) => setQ(e.target.value)}
-          aria-controls="site-search-results"
+          aria-controls={results.length > 0 ? "site-search-results" : undefined}
           aria-describedby="site-search-status"
         />
         <button type="button" className="btn btn--ghost" onClick={onClose}>

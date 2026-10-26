@@ -2,7 +2,7 @@
   "name": "destination-nigeria",
   "version": "0.1.0",
   "private": true,
-  "description": "Destination Nigeria — national tourism development, investment and destination-marketing platform.",
+  "description": "Destination Nigeria \u2014 national tourism development, investment and destination-marketing platform.",
   "engines": {
     "node": ">=20.18"
   },
@@ -14,9 +14,10 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "test:e2e": "playwright test",
-    "content:check": "tsx scripts/check-content.ts",
+    "content:check": "vitest run tests/content.test.ts",
     "audio:build": "python3 scripts/build-sonic-logo.py",
-    "map:build": "tsx scripts/build-map.ts"
+    "map:build": "tsx scripts/build-map.ts && node scripts/map-centroids.cjs",
+    "check": "npm run lint && npm run typecheck && npm test"
   },
   "dependencies": {
     "@fontsource-variable/bodoni-moda": "^5.3.0",
@@ -29,6 +30,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@playwright/test": "1.63.0",
     "@svg-maps/nigeria": "^2.0.0",
     "@tailwindcss/postcss": "^4.3.3",
