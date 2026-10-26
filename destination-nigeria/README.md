@@ -49,6 +49,11 @@ With `FORMS_FILE_STORE=1`, form submissions are written to `.data/submissions.js
 | `npm run test:e2e` | Browser tests (desktop and mobile, including axe accessibility scans). Run `npm run build` first |
 | `npm run audio:build` | Regenerate the welcome sound from source |
 | `npm run map:build` | Rebuild the state outlines and pin positions from `@svg-maps/nigeria` |
+| `npm run export:html` | With the production server running (`EXPORT_FROM=http://localhost:3000`), write a single self-contained, offline HTML file of the home page to `export/destination-nigeria-home.html` |
+
+## Standalone HTML export
+
+`export/destination-nigeria-home.html` is a single file (about 2 MB) that opens in any modern browser with no server or network. It inlines styles, fonts, logo, illustrations and the welcome sound, and includes a small script for the welcome screen and sound, hero film, destination filters, shortlist, state map, search, menu and destination details. Links to other pages show a notice, and forms are disabled because they need the live server. Regenerate it with `npm run export:html` after content or design changes.
 
 ## Documentation
 
