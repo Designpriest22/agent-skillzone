@@ -20,7 +20,7 @@ DEADLINE = 'Wednesday 28 October'
 
 
 def load_docs():
-    for m in ('p_signage', 'p_menus', 'p_access', 'p_activations', 'p_decor_crew'):
+    for m in ('p_signage', 'p_menus', 'p_access', 'p_activations', 'p_decor_crew', 'p_vip'):
         __import__(m).build()
     return lib.REGISTRY
 
@@ -39,7 +39,8 @@ def jpg_preview(d, i, longest=1500):
 
 
 def size_str(d):
-    s = f'{d.w:g} x {d.h:g} mm'
+    k = 1 if d.scale == 10 else d.scale
+    s = f'{d.w / k:g} x {d.h / k:g} mm'
     if d.scale == 10:
         s += ' (file at 1:10)'
     return s
@@ -93,7 +94,7 @@ def proof_book(docs):
     rows = ''
     for d in docs:
         rows += (f'<tr><td class="anton" style="color:{RED}">{d.num}</td><td>{esc(d.title)}</td><td>{esc(d.zone)}</td><td>{esc(d.qty)}</td>'
-                 f'<td class="mono">{size_str(d)}</td><td class="mono">{d.bleed:g} mm</td></tr>')
+                 f'<td class="mono">{size_str(d)}</td><td class="mono">{d.bleed / (1 if d.scale == 10 else d.scale):g} mm</td></tr>')
     tbl = (f'<table style="width:100%;border-collapse:collapse;font-family:Archivo;font-size:2.7mm;color:{BONE}">'
            f'<tr style="font-family:Anton;color:{EMBER};letter-spacing:.1em"><td>#</td><td>ITEM</td><td>ZONE</td><td>QTY</td><td>FINISHED SIZE</td><td>BLEED</td></tr>{rows}</table>')
     pb.css = 'td{padding:1.15mm 2mm;border-bottom:.2mm solid rgba(239,230,214,.18)}'
@@ -112,7 +113,7 @@ def proof_book(docs):
                        f'<img src="file://{p}" style="max-width:100%;max-height:100%;box-shadow:0 2mm 8mm rgba(0,0,0,.6)"></div>' for p in imgs)
         notes = ''.join(f'<li style="margin-bottom:2mm">{n_}</li>' for n_ in d.notes)
         files = d.fname() + '.pdf'
-        spec = [('ZONE', d.zone), ('QUANTITY', d.qty), ('FINISHED SIZE', size_str(d)), ('BLEED', f'{d.bleed:g} mm all round'),
+        spec = [('ZONE', d.zone), ('QUANTITY', d.qty), ('FINISHED SIZE', size_str(d)), ('BLEED', f'{d.bleed / (1 if d.scale == 10 else d.scale):g} mm all round'),
                 ('PAGES', f'{len(d.pages)}'), ('SPEC', d.spec)]
         sp = ''.join(f'<div style="margin-bottom:3mm"><div class="anton" style="font-size:2.9mm;color:{EMBER};letter-spacing:.2em">{a}</div>'
                      f'<div class="sans" style="font-size:3.5mm;color:{BONE};line-height:1.35;margin-top:.6mm">{esc(b)}</div></div>' for a, b in spec)
@@ -195,6 +196,7 @@ FOLDERS (numbers match the print checklist)
   05_Decor        items 31-35   hazard decals, ghost balloon cut file (PDF + SVG), bottle
                                 labels, IV-bag labels, sponsor lockup frames
   06_Crew         items 36-37   crew pack (6pp A4), radio call sheet
+  07_VIP-Tables   item 38       VIP table packages menu: A2 board, A4 table menu, 1080x1350 social (added)
   _source         Build scripts + fonts. Change data (prices, counts, copy) and rebuild.
 
 FILE FORMAT
@@ -248,7 +250,8 @@ def package():
         w = csv.writer(f)
         w.writerow(['Item', 'Title', 'Area', 'Zone', 'Qty', 'Finished W mm', 'Finished H mm', 'Bleed mm', 'File scale', 'Pages', 'Spec', 'File', 'Notes'])
         for d in docs:
-            w.writerow([d.num, d.title, d.area, d.zone, d.qty, d.w, d.h, d.bleed, '1:10' if d.scale == 10 else '1:1', len(d.pages), d.spec,
+            k = 1 if d.scale == 10 else d.scale
+            w.writerow([d.num, d.title, d.area, d.zone, d.qty, d.w / k, d.h / k, d.bleed / k, '1:10' if d.scale == 10 else '1:1', len(d.pages), d.spec,
                         f'{d.folder}/{d.fname()}.pdf', ' | '.join(d.notes)])
     with open(os.path.join(OUT, '00_README.txt'), 'w') as f:
         f.write(README.format(deadline=DEADLINE))

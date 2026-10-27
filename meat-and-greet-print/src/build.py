@@ -6,7 +6,7 @@ import sys
 import lib
 import textures
 
-MODULES = ['p_signage', 'p_menus', 'p_access', 'p_activations', 'p_decor_crew']
+MODULES = ['p_signage', 'p_menus', 'p_access', 'p_activations', 'p_decor_crew', 'p_vip']
 
 
 def main():

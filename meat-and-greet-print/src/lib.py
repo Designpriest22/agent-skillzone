@@ -193,7 +193,8 @@ class Doc:
 
     def fname(self):
         sc = '_SCALE-1to10' if self.scale == 10 else ''
-        return f'{self.num}_{self.slug}_{int(self.w)}x{int(self.h)}mm{sc}'
+        k = 1 if self.scale == 10 else self.scale   # other scales = design drawn larger, output at real size
+        return f'{self.num}_{self.slug}_{int(self.w / k)}x{int(self.h / k)}mm{sc}'
 
 
 REGISTRY = []
