@@ -145,24 +145,16 @@ def s1():
 
 
 def s2():
-    grid = ''.join(f'<path d="M{x},0 L{x},1350" stroke="{CREAM}" stroke-width="1" opacity=".07"/>' for x in range(0, 1081, 60))
-    grid += ''.join(f'<path d="M0,{y} L1080,{y}" stroke="{CREAM}" stroke-width="1" opacity=".07"/>' for y in range(0, 1351, 60))
-    rings = ''.join(f'<circle cx="540" cy="520" r="{r}" fill="none" stroke="{AMBER}" stroke-width="{w}" opacity="{o}" stroke-dasharray="{d}"/>'
-                    for r, w, o, d in ((120, 3, .9, '0'), (230, 2, .55, '6 10'), (340, 1.5, .35, '2 10')))
-    axes = (f'<path d="M540,140 L540,860 M160,520 L920,520" stroke="{CREAM}" stroke-width="2" opacity=".45"/>'
-            f'<circle cx="540" cy="520" r="14" fill="{EMBER}"/><circle cx="540" cy="520" r="34" fill="none" stroke="{CREAM}" stroke-width="3"/>')
-    labels = ''.join(f'<text x="{x}" y="{y}" text-anchor="{a}" font-family="Mono" font-size="19" letter-spacing="3" fill="{CREAM}" opacity=".75">{t}</text>'
-                     for x, y, a, t in ((540, 128, 'middle', 'NORTH'), (540, 888, 'middle', 'SOUTH'), (150, 512, 'end', 'WEST'), (930, 512, 'start', 'EAST')))
-    langs = ''.join(f'<text x="{x}" y="{y}" text-anchor="middle" font-family="Anton" font-size="{fs}" fill="{c}" opacity="{o}">{t}</text>'
-                    for x, y, fs, c, o, t in ((540, 300, 40, CREAM, .9, 'HAUSA'), (300, 600, 40, CREAM, .9, 'YORUBA'), (790, 610, 40, CREAM, .9, 'IGBO'),
-                                              (420, 410, 26, AMBER, .9, 'FULFULDE'), (690, 440, 26, AMBER, .9, 'GBAGYI'), (470, 760, 26, AMBER, .9, 'PIDGIN'),
-                                              (660, 720, 26, AMBER, .9, 'AFROBEATS')))
-    return (f'<div class="full" style="background:radial-gradient(ellipse 60% 45% at 50% 38%, #3a2216, {CHAR} 75%)"></div>'
-            f'<svg class="full" width="1080" height="1350" viewBox="0 0 1080 1350">{grid}{rings}{axes}{labels}{langs}</svg>'
+    langs = ' &middot; '.join(['HAUSA', 'YORUBA', 'IGBO', 'FULFULDE', 'GBAGYI', 'PIDGIN'])
+    return (f'<div class="photo" style="left:0;top:0;width:1080px;height:880px;background-image:url({PH("crowd-red-group.jpg")});background-position:50% 22%"></div>'
+            f'<div class="a" style="left:0;top:0;width:1080px;height:240px;background:linear-gradient(180deg, rgba(23,18,15,.75), rgba(23,18,15,0))"></div>'
+            f'<div class="a" style="left:0;top:560px;width:1080px;height:330px;background:linear-gradient(180deg, rgba(23,18,15,0), {CHAR} 92%)"></div>'
+            f'<div class="a" style="left:0;top:880px;width:1080px;height:470px;background:{CHAR}"></div>'
             + grain(.12) + topbar(2) +
-            f'<div class="a h" style="left:68px;top:905px;width:950px;font-size:104px">Built where<br><span style="color:{AMBER}">Nigeria meets.</span></div>'
-            f'<div class="a b" style="left:72px;top:1110px;width:900px;font-size:30px;opacity:.92">Abuja was planned at the centre of the country, a capital meant to belong to all of it. Grow up here and your soundtrack is never one language.</div>'
-            + bottombar(left='CAPITAL SINCE 1991 &middot; PLANNED CITY'))
+            f'<div class="a m" style="left:72px;top:810px;color:{AMBER};font-weight:600;font-size:18px">{langs}</div>'
+            f'<div class="a h" style="left:68px;top:850px;width:950px;font-size:104px">Built where<br><span style="color:{AMBER}">Nigeria meets.</span></div>'
+            f'<div class="a b" style="left:72px;top:1058px;width:900px;font-size:30px;opacity:.92">Abuja was planned at the centre of the country, a capital meant to belong to all of it. Grow up here and your soundtrack is never one language.</div>'
+            + bottombar(left='THE MEAT &amp; GREET CROWD &middot; ABUJA'))
 
 
 def s3():
@@ -225,34 +217,29 @@ def s5():
 
 
 def s6():
-    word = lambda t, c, lang, top: (f'<div class="a h" style="left:64px;top:{top}px;font-size:250px;line-height:.86;color:{c}">{t}</div>'
-                                   f'<div class="a" style="left:560px;top:{top + 70}px"><div class="m" style="font-size:20px;color:{CREAM};opacity:.75">{lang}</div>'
+    word = lambda t, c, lang, top: (f'<div class="a h" style="left:64px;top:{top}px;font-size:250px;line-height:.86;color:{c};text-shadow:0 10px 40px rgba(0,0,0,.45)">{t}</div>'
+                                   f'<div class="a" style="left:560px;top:{top + 70}px"><div class="m" style="font-size:20px;color:{CREAM};opacity:.85">{lang}</div>'
                                    f'<div class="h" style="font-size:44px;color:{CREAM};margin-top:6px">&ldquo;COME&rdquo;</div></div>')
-    return (f'<div class="full" style="background:radial-gradient(ellipse 70% 50% at 30% 40%, #2c1a12, {CHAR} 70%)"></div>'
-            f'<div class="photo" style="left:880px;top:0;width:200px;height:1350px;background-image:url({PH("fk-silver-portrait.jpg")});background-repeat:no-repeat;background-size:2200px auto;background-position:-1010px -1420px;filter:grayscale(.2) contrast(1.1)"></div>'
-            f'<div class="a" style="left:880px;top:0;width:200px;height:1350px;background:linear-gradient(90deg,{CHAR},rgba(23,18,15,.1) 60%)"></div>'
+    return (f'<div class="photo full" style="background-image:url({PH("crowd-singing.jpg")});background-position:58% 30%"></div>'
+            f'<div class="full" style="background:linear-gradient(90deg, rgba(23,18,15,.92) 0%, rgba(23,18,15,.7) 42%, rgba(23,18,15,.08) 100%)"></div>'
+            f'<div class="full" style="background:linear-gradient(180deg, rgba(23,18,15,0) 55%, {CHAR} 80%)"></div>'
             + topbar(6) +
             word('WA.', CREAM, 'YORUBA', 190) + word('ZO.', AMBER, 'HAUSA', 420) + word('BIA.', RED, 'IGBO', 650) +
-            f'<div class="a b" style="left:72px;top:930px;width:780px;font-size:31px">When &ldquo;Gen-Z Arewa&rdquo; grew into <b style="font-weight:700;color:{AMBER}">&ldquo;Gen-Z Arewazobia&rdquo;</b>, the title said what Abuja has always known: one city, every tongue.</div>'
-            f'<div class="a b" style="left:72px;top:1100px;width:780px;font-size:31px;opacity:.85">Abuja didn&rsquo;t build this sound alone. But it&rsquo;s where those sounds were already in the same room.</div>'
+            f'<div class="a b" style="left:72px;top:930px;width:860px;font-size:31px">When &ldquo;Gen-Z Arewa&rdquo; grew into <b style="font-weight:700;color:{AMBER}">&ldquo;Gen-Z Arewazobia&rdquo;</b>, the title said what Abuja has always known: one city, every tongue.</div>'
+            f'<div class="a b" style="left:72px;top:1100px;width:860px;font-size:31px;opacity:.85">Abuja didn&rsquo;t build this sound alone. But it&rsquo;s where those sounds were already in the same room.</div>'
             + grain(.12) + bottombar(left='THE CAPITAL IN THE CONVERSATION'))
 
 
 def s7():
-    rays = ''.join(f'<path d="M540,1350 L{540 + 2200 * __import__("math").cos(a):.0f},{1350 - 2200 * __import__("math").sin(a):.0f} L{540 + 2200 * __import__("math").cos(a + .07):.0f},{1350 - 2200 * __import__("math").sin(a + .07):.0f} Z" fill="#000" opacity=".22"/>'
-                   for a in [i * .14 for i in range(23)])
-    return (tex('board_red.jpg') +
-            f'<svg class="full" width="1080" height="1350">{rays}</svg>'
-            f'<div class="full" style="background:radial-gradient(ellipse 70% 55% at 50% 100%, rgba(224,89,42,.35), rgba(11,9,9,.55) 80%)"></div>'
-            + tex('smoke_bone.png', .35, 'top:55%;height:50%;object-fit:fill') + tex('smoke_red.png', .9, 'top:50%;height:55%;object-fit:fill') +
-            topbar(7) +
-            f'<div class="a h" style="left:40px;top:230px;width:1000px;font-size:430px;color:transparent;-webkit-text-stroke:3px rgba(239,230,214,.22);line-height:.85">31.10</div>'
-            f'<img class="a" src="file://{HERE}/art/stage-led.png" style="left:96px;top:196px;width:640px;transform:rotate(-3.5deg);border:8px solid {CREAM};box-shadow:0 26px 50px rgba(0,0,0,.55)">'
-            f'<img class="a" src="file://{HERE}/art/skull-banner.png" style="left:790px;top:150px;width:160px;transform:rotate(4deg);border:6px solid {CREAM};box-shadow:0 26px 50px rgba(0,0,0,.55)">'
-            f'<div class="a m" style="left:100px;top:582px;color:{CREAM};opacity:.85;font-size:15px;transform:rotate(-3.5deg)">STAGE ART &middot; FIRSTKLAZ MEATING</div>'
-            f'<div class="a m" style="left:72px;top:660px;color:{CREAM};font-weight:600">31 October &middot; Halloween BBQ Party &middot; Meat &amp; Greet</div>'
-            f'<div class="a h" style="left:68px;top:704px;width:960px;font-size:122px">Now the next<br>chapter gets<br><span style="color:{BLACK if False else "#0B0909"}">louder.</span></div>'
-            f'<div class="a b" style="left:72px;top:1080px;width:920px;font-size:32px">Red light. Smoke. Suya and ribs off the grill. A whole compound in costume. Then the curtain opens on FirstKlaz.</div>'
+    return (f'<div class="photo full" style="background-image:url({PH("crowd-red-suya.jpg")});background-position:50% 76%"></div>'
+            f'<div class="full" style="background:linear-gradient(180deg, rgba(11,9,9,.45) 0%, rgba(11,9,9,0) 22%, rgba(11,9,9,0) 40%, rgba(40,6,8,.85) 60%, #0B0909 82%)"></div>'
+            f'<div class="a" style="left:700px;top:175px;width:300px;padding:12px 12px 44px;background:{CREAM};transform:rotate(4deg);box-shadow:0 26px 50px rgba(0,0,0,.55)">'
+            f'<div class="photo raw" style="position:relative;width:276px;height:220px;background-image:url({PH("crowd-suya-laugh.jpg")});background-position:58% 50%;filter:sepia(.1) contrast(1.05)"></div>'
+            f'<div class="m" style="position:absolute;left:14px;bottom:12px;color:{CHAR};font-size:13px;font-weight:600">MEAT &amp; GREET &middot; PAST EDITION</div></div>'
+            + topbar(7) +
+            f'<div class="a m" style="left:72px;top:690px;color:{CREAM};font-weight:600">31 October &middot; Halloween BBQ Party &middot; Meat &amp; Greet</div>'
+            f'<div class="a h" style="left:68px;top:734px;width:960px;font-size:116px">Now the next<br>chapter gets<br><span style="color:{EMBER}">louder.</span></div>'
+            f'<div class="a b" style="left:72px;top:1090px;width:920px;font-size:32px">Red light. Smoke. Suya and ribs off the grill. A whole compound in costume. Then the curtain opens on FirstKlaz.</div>'
             + grain(.14) + bottombar(left='COSTUME OR ALL-BLACK &middot; COME DRESSED TO KILL'))
 
 
