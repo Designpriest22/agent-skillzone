@@ -88,16 +88,13 @@ def frame(T=26):
 
 
 def header(game, title, step=''):
-    """Top bar inside Instagram's safe zone (progress bar + profile sit above y~200)."""
+    """Logo + game name, inside Instagram's safe zone (progress bar + profile sit above y~200)."""
     return (logo(130, 64, 150) +
-            f'<div class="a" style="right:64px;top:160px;text-align:right">'
-            f'<div class="m" style="font-size:22px;color:{EMBER};font-weight:600">MEATING GAMES &middot; {game}</div>'
-            f'<div class="h" style="font-size:44px;margin-top:8px">{title}</div>'
-            + (f'<div class="m" style="font-size:20px;margin-top:8px;opacity:.75">{step}</div>' if step else '') + '</div>')
+            f'<div class="a h" style="right:64px;top:178px;text-align:right;font-size:44px">{title}</div>')
 
 
-def footer(txt=EVENT):
-    return f'<div class="a m" style="left:0;width:{W}px;text-align:center;bottom:250px;font-size:22px;opacity:.85">{txt}</div>'
+def footer(txt=''):
+    return ''
 
 
 def zone(x, y, w, h, kind, note=''):
@@ -117,16 +114,14 @@ def cover():
              ('04', 'Count the skulls', 'Seek &amp; find'), ('05', 'Your Halloween alias', 'Birth month'), ('06', 'Choose your night', 'Story game')]
     rows = ''.join(f'<div style="display:flex;align-items:baseline;gap:22px;padding:11px 0;border-top:2px solid rgba(239,230,214,.18)">'
                    f'<div class="h" style="font-size:40px;color:{EMBER};width:60px">{n}</div><div class="h" style="font-size:40px;flex:1">{t}</div>'
-                   f'<div class="m" style="font-size:20px;opacity:.75">{k}</div></div>' for n, t, k in games)
+                   '</div>' for n, t, k in games)
     add('00_Cover',
         f'<div class="photo" style="left:0;top:0;width:{W}px;height:900px;background-image:url({PH("fk-black-leaning.jpg")});background-position:50% 18%"></div>'
         f'<div class="a" style="left:0;top:0;width:{W}px;height:900px;background:linear-gradient(180deg,rgba(11,9,9,.55),rgba(11,9,9,0) 25%,rgba(11,9,9,0) 55%,{CHAR} 98%)"></div>'
         + grain() + logo(170, 64, 150) +
-        f'<div class="a m" style="left:72px;top:680px;color:{EMBER};font-weight:600">FirstKlaz &times; Meat &amp; Greet</div>'
         f'<div class="a br" style="left:64px;top:715px;font-size:140px;color:{CREAM}">Meating</div>'
         f'<div class="a br" style="left:64px;top:845px;font-size:140px;color:{RED};text-shadow:0 0 30px rgba(179,18,28,.5)">Games</div>'
-        f'<div class="a" style="left:72px;top:1080px;width:936px">{rows}</div>'
-        f'<div class="a b" style="left:72px;top:1010px;font-size:30px;opacity:.85">Six games before the gates open. Tap through. Play along.</div>'
+        f'<div class="a" style="left:72px;top:1040px;width:936px">{rows}</div>'
         + footer())
 
 
@@ -157,7 +152,6 @@ def quiz():
         tex('board_black.jpg') + f'<div class="full" style="background:radial-gradient(ellipse 70% 30% at 50% 10%, rgba(179,18,28,.55), rgba(11,9,9,0) 70%)"></div>'
         + grain() + header('01', 'How FirstKlaz are you?', 'Answers') +
         f'<div class="a" style="left:72px;top:380px;width:936px">{rows}</div>'
-        f'<div class="a b" style="left:72px;top:1480px;width:936px;font-size:36px">4/4? You&rsquo;re front row on 31.10.<br>Under that? Study up. The set list won&rsquo;t wait.</div>'
         + footer())
 
 
@@ -201,7 +195,7 @@ def unscramble():
     add('03-1_Unscramble',
         tex('board_black.jpg') + f'<div class="full" style="background:radial-gradient(ellipse 80% 30% at 50% 22%, rgba(224,89,42,.35), rgba(11,9,9,0) 70%)"></div>'
         + grain() + header('03', 'Unscramble the night', 'Six words &middot; one night') +
-        f'<div class="a b" style="left:72px;top:400px;width:936px;font-size:38px">Every word is part of 31.10. Unscramble all six and send them in.</div>'
+        f'<div class="a b" style="left:72px;top:400px;width:936px;font-size:38px">Six words from 31.10. Unscramble them.</div>'
         f'<div class="a" style="left:0;top:520px;width:{W}px">{rows}</div>'
         + footer('Answers tomorrow'),
         [zone(140, 1310, 800, 300, 'QUESTION STICKER', '&ldquo;Drop your answers&rdquo; &mdash; reshare the best replies')])
@@ -209,7 +203,6 @@ def unscramble():
     add('03-2_Unscramble-Answers',
         tex('board_black.jpg') + grain() + header('03', 'Unscramble the night', 'Answers') +
         f'<div class="a" style="left:0;top:470px;width:{W}px">{rows}</div>'
-        f'<div class="a b" style="left:72px;top:1380px;width:936px;font-size:38px;text-align:center">Six for six? Then you already know where you&rsquo;re going.</div>'
         + footer())
 
 
@@ -288,7 +281,6 @@ def birth_month():
         + grain() + header('05', 'Your Halloween alias', 'Birth month decides') +
         f'<div class="a h" style="left:72px;top:350px;width:936px;font-size:66px">Your birth month is<br><span style="color:{EMBER}">your alias on 31.10.</span></div>'
         f'<div class="a" style="left:72px;top:520px;width:936px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px">{cards}</div>'
-        f'<div class="a b" style="left:72px;top:1458px;width:936px;font-size:32px;text-align:center">Screenshot. Share yours. Tag who&rsquo;s pulling up.</div>'
         ,
         [zone(240, 1520, 600, 110, 'ADD YOURS STICKER', '&ldquo;Your alias + your fit&rdquo;')])
 
@@ -306,7 +298,6 @@ def choose():
         f'<div class="full" style="background:{shade}"></div>' + grain() + header('06', 'Choose your night', 'Start') +
         f'<div class="a br" style="left:64px;top:1000px;font-size:140px">Choose</div>'
         f'<div class="a br" style="left:64px;top:1130px;font-size:140px;color:{RED}">your night.</div>'
-        f'<div class="a b" style="left:72px;top:1320px;width:936px;font-size:40px">Three choices. Vote on each one. Tap through to see how the night ends.</div>'
         + footer())
     for i, (ph, pos, head, body, a, b) in enumerate(steps):
         add(f'06-{i + 2}_Choose-Your-Night',

@@ -64,7 +64,7 @@ def topbar(n, dark=False, logo_on=True):
     return ((logo(150) if logo_on else '') +
             f'<div class="a" style="right:72px;top:70px;display:flex;align-items:center;gap:16px">'
             f'<div style="text-align:right"><div class="m" style="color:{c};font-weight:600;font-size:21px">{n:02d} / 08</div>'
-            f'<div class="m" style="color:{c};opacity:.72;font-size:15px;margin-top:6px">ABJ 9.0765&deg;N 7.3986&deg;E</div></div>'
+            '</div>'
             f'{crosshair(48, c)}</div>')
 
 
@@ -76,8 +76,7 @@ def swipe():
 
 def bottombar(left='MEAT &amp; GREET &times; FIRSTKLAZ', right='SWIPE', color=CREAM):
     rt = swipe() if right == 'SWIPE' else f'<div class="m" style="color:{color};opacity:.8;font-size:17px">{right}</div>'
-    return (f'<div class="a m" style="left:72px;bottom:56px;color:{color};opacity:.8;font-size:17px">{left}</div>'
-            f'<div class="a" style="right:72px;bottom:50px">{rt}</div>')
+    return f'<div class="a" style="right:72px;bottom:50px">{rt}</div>'
 
 
 def frame(T=28):
@@ -164,8 +163,7 @@ def s3():
             f'<div class="a" style="left:72px;top:190px;width:936px;height:680px;background:#0a0807;transform:rotate(-1.2deg);box-shadow:0 30px 60px rgba(0,0,0,.6)">'
             f'<div class="photo raw" style="left:18px;top:40px;width:900px;height:600px;background-image:url({PH("fk-black-leaning.jpg")});background-position:50% 20%;filter:grayscale(1) sepia(.55) contrast(1.15) brightness(.95)"></div>'
             f'<div class="photo" style="left:18px;top:40px;width:900px;height:600px;background:{AMBER};mix-blend-mode:multiply;opacity:.35"></div>'
-            f'<svg class="a" style="left:0;top:0" width="936" height="680">{sprockets}</svg>'
-            f'<div class="a m" style="left:22px;top:648px;color:{AMBER};font-size:14px">FK-03 &nbsp;&#9654; &nbsp;KODAK-STYLE CONTACT &middot; ARCHIVE</div></div>' +
+            f'<svg class="a" style="left:0;top:0" width="936" height="680">{sprockets}</svg>''</div>' +
             f'<div class="a m" style="left:72px;top:908px;color:{AMBER};font-weight:600">Before 2024 &middot; by his own account</div>'
             f'<div class="a h" style="left:68px;top:948px;width:960px;font-size:76px">Before the name travelled,<br><span style="color:{AMBER}">the sound was taking shape.</span></div>'
             f'<div class="a b" style="left:72px;top:1100px;width:930px;font-size:28.5px;opacity:.92">Roots in Nasarawa, raised in Abuja. A church choir. His father&rsquo;s R&amp;B, rock and reggae on repeat. A school nickname, &ldquo;first class&rdquo;, he decided to keep. Then years of putting singles out himself.</div>'
@@ -212,7 +210,6 @@ def s5():
             f'<div class="a" style="left:72px;top:500px;width:560px">{rows}</div>'
             f'<div class="a b" style="left:72px;top:1196px;width:560px;font-size:21px;opacity:.85;line-height:1.35">Then came <i>Dejavu</i>, and in 2026, <i>Tsammani</i> and <i>Salama</i>. The story kept moving.</div>'
             + grain(.12) +
-            f'<div class="a m" style="left:72px;bottom:54px;color:{CREAM};opacity:.8;font-size:17px">MEAT &amp; GREET &times; FIRSTKLAZ</div>'
             f'<div class="a" style="right:72px;bottom:50px;padding:8px 12px;background:rgba(23,18,15,.75)">{swipe()}</div>')
 
 
@@ -233,9 +230,9 @@ def s6():
 def s7():
     return (f'<div class="photo full" style="background-image:url({PH("crowd-red-suya.jpg")});background-position:50% 76%"></div>'
             f'<div class="full" style="background:linear-gradient(180deg, rgba(11,9,9,.45) 0%, rgba(11,9,9,0) 22%, rgba(11,9,9,0) 40%, rgba(40,6,8,.85) 60%, #0B0909 82%)"></div>'
-            f'<div class="a" style="left:700px;top:175px;width:300px;padding:12px 12px 44px;background:{CREAM};transform:rotate(4deg);box-shadow:0 26px 50px rgba(0,0,0,.55)">'
+            f'<div class="a" style="left:700px;top:175px;width:300px;padding:12px;background:{CREAM};transform:rotate(4deg);box-shadow:0 26px 50px rgba(0,0,0,.55)">'
             f'<div class="photo raw" style="position:relative;width:276px;height:220px;background-image:url({PH("crowd-suya-laugh.jpg")});background-position:58% 50%;filter:sepia(.1) contrast(1.05)"></div>'
-            f'<div class="m" style="position:absolute;left:14px;bottom:12px;color:{CHAR};font-size:13px;font-weight:600">MEAT &amp; GREET &middot; PAST EDITION</div></div>'
+            f'</div>'
             + topbar(7) +
             f'<div class="a m" style="left:72px;top:690px;color:{CREAM};font-weight:600">31 October &middot; Halloween BBQ Party &middot; Meat &amp; Greet</div>'
             f'<div class="a h" style="left:68px;top:734px;width:960px;font-size:116px">Now the next<br>chapter gets<br><span style="color:{EMBER}">louder.</span></div>'
@@ -264,7 +261,6 @@ def s8():
             f'<div style="width:150px;background:{RED};display:flex;align-items:center;justify-content:center;-webkit-mask:radial-gradient(circle 14px at 0 50%, transparent 98%, #000)">'
             f'<div class="h" style="font-size:40px;color:{CREAM}">31.10</div></div></div>'
             + grain(.12) +
-            f'<div class="a m" style="left:72px;bottom:46px;color:{CREAM};opacity:.75;font-size:16px">Send this to who you&rsquo;re pulling up with.</div>'
             f'<div class="a m" style="right:72px;bottom:46px;color:{CREAM};opacity:.75;font-size:16px">A TCM PRODUCTION</div>')
 
 
