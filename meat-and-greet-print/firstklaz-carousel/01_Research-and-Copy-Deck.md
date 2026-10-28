@@ -176,3 +176,15 @@ Headline / body / meta. Body copy is capped at about 45 words per slide for mobi
   - Slide 8: silver portrait.
 - Slides 2 and 7 are type and graphics only (no Abuja or crowd photos supplied).
 - Slide 8 shows only confirmed details (31 October, Abuja, Partyverse). Venue, time and the direct link are switched off until confirmed. "Link in bio" assumes the ticket link goes in the Meat & Greet bio.
+
+## 7. Revision after the Mainland Block Party reference
+
+Taken from the reference (as principles, not visuals):
+- A series frame on every slide. Theirs is camouflage; ours is a border of the embroidery from his kaftans.
+- One photo grade across all slides, so the set reads as one piece.
+- Time markers on the kickers (Before 2024 / 2024 / 31 October) to pace the story like theirs does.
+- A larger body copy size.
+- A graphic SWIPE cue on slides 1–7.
+- Slide 7 shows our real campaign artwork (stage LED still, skull banner), the way their slide shows the tour posters.
+
+Deliberately not taken: camouflage, medals, star columns, the green/yellow palette.

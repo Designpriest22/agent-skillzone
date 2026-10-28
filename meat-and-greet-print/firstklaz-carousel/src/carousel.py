@@ -43,6 +43,7 @@ html,body{{width:1080px;height:1350px;background:{CHAR};overflow:hidden}}
 .b{{font-family:Archivo;font-weight:500;font-size:33px;line-height:1.38;color:{CREAM}}}
 .m{{font-family:Mono;font-size:19px;letter-spacing:.14em;text-transform:uppercase}}
 .photo{{position:absolute;background-size:cover;background-position:center}}
+.photo:not(.raw){{filter:sepia(.16) saturate(.94) contrast(1.06) brightness(.98) !important}}
 .mg-keyline{{fill:#fff}}.mg-panel{{fill:#0B0909}}.mg-amp{{fill:#D81E1E}}.mg-flame{{fill:#F05A28}}.mg-steak{{fill:#A3171E}}
 svg{{display:block}}
 """
@@ -67,9 +68,38 @@ def topbar(n, dark=False, logo_on=True):
             f'{crosshair(48, c)}</div>')
 
 
-def bottombar(left='MEAT &amp; GREET &times; FIRSTKLAZ', right='SWIPE &rarr;', color=CREAM):
-    return (f'<div class="a m" style="left:72px;bottom:54px;color:{color};opacity:.8;font-size:17px">{left}</div>'
-            f'<div class="a m" style="right:72px;bottom:54px;color:{color};opacity:.8;font-size:17px">{right}</div>')
+def swipe():
+    chev = ''.join(f'<path d="M{x},2 L{x + 12},14 L{x},26" fill="none" stroke="{AMBER}" stroke-width="5" stroke-linecap="square"/>' for x in (2, 16, 30))
+    return (f'<div style="display:flex;align-items:center;gap:12px"><svg width="46" height="28">{chev}</svg>'
+            f'<span class="m" style="color:{CREAM};font-weight:600;font-size:20px;letter-spacing:.3em">SWIPE</span></div>')
+
+
+def bottombar(left='MEAT &amp; GREET &times; FIRSTKLAZ', right='SWIPE', color=CREAM):
+    rt = swipe() if right == 'SWIPE' else f'<div class="m" style="color:{color};opacity:.8;font-size:17px">{right}</div>'
+    return (f'<div class="a m" style="left:72px;bottom:56px;color:{color};opacity:.8;font-size:17px">{left}</div>'
+            f'<div class="a" style="right:72px;bottom:50px">{rt}</div>')
+
+
+def frame(T=28):
+    """Series frame: the kaftan-embroidery band around every slide."""
+    s = T / 44
+    def cell(i, x, y, rot=0):
+        g = f'<g transform="translate({x},{y}) rotate({rot} {T/2} {T/2}) scale({s})">'
+        if i % 2 == 0:
+            g += (f'<rect x="5" y="5" width="34" height="34" fill="none" stroke="#7a5a44" stroke-width="3"/>'
+                  f'<path d="M22,10 L34,22 L22,34 L10,22 Z" fill="{AMBER}"/><rect x="19" y="19" width="6" height="6" fill="#120E0C"/>')
+        else:
+            g += (f'<path d="M5,8 L22,20 L39,8 M5,22 L22,34 L39,22" fill="none" stroke="{AMBER}" stroke-width="3" opacity=".75"/>'
+                  f'<rect x="19" y="36" width="6" height="6" fill="#7a5a44"/>')
+        return g + '</g>'
+    c = []
+    for i in range(int(1080 / T) + 1):
+        c.append(cell(i, i * T, 0)); c.append(cell(i + 1, i * T, 1350 - T))
+    for j in range(1, int(1350 / T)):
+        c.append(cell(j, 0, j * T, 90)); c.append(cell(j + 1, 1080 - T, j * T, 90))
+    return (f'<svg class="full" width="1080" height="1350" style="pointer-events:none">'
+            f'<path d="M0,0 H1080 V1350 H0 Z M{T},{T} V{1350 - T} H{1080 - T} V{T} Z" fill="#120E0C" fill-rule="evenodd"/>{"".join(c)}'
+            f'<rect x="{T + 6}" y="{T + 6}" width="{1080 - 2 * T - 12}" height="{1350 - 2 * T - 12}" fill="none" stroke="{CREAM}" stroke-opacity=".35" stroke-width="1.5"/></svg>')
 
 
 def placket(w, h, vertical=True, c1=AMBER, c2=CREAM, bg=CHAR):
@@ -107,11 +137,11 @@ def s1():
             f'<div class="full" style="background:linear-gradient(180deg, rgba(23,18,15,.55) 0%, rgba(23,18,15,0) 22%, rgba(23,18,15,0) 42%, rgba(23,18,15,.88) 66%, {CHAR} 84%)"></div>'
             + grain(.14) + topbar(1) +
             f'<div class="a" style="left:0;top:262px;width:14px;height:500px">{placket(14, 500)}</div>'
-            f'<div class="a m" style="left:72px;top:812px;color:{AMBER};font-weight:600">Meat &amp; Greet presents &middot; FirstKlaz</div>'
-            f'<div class="a h" style="left:68px;top:856px;width:950px;font-size:104px;color:{CREAM}">Abuja didn&rsquo;t just<br>hear the sound.</div>'
-            f'<div class="a h" style="left:68px;top:1056px;width:950px;font-size:104px;color:{AMBER}">It helped shape it.</div>'
-            f'<div class="a b" style="left:72px;top:1180px;width:860px;font-size:28px;opacity:.9">A city where North and South share the same streets. On 31 October, FirstKlaz brings that sound home.</div>'
-            + bottombar(right='SWIPE &rarr;'))
+            f'<div class="a m" style="left:72px;top:782px;color:{AMBER};font-weight:600">Meat &amp; Greet presents &middot; FirstKlaz</div>'
+            f'<div class="a h" style="left:68px;top:826px;width:950px;font-size:104px;color:{CREAM}">Abuja didn&rsquo;t just<br>hear the sound.</div>'
+            f'<div class="a h" style="left:68px;top:1026px;width:950px;font-size:104px;color:{AMBER}">It helped shape it.</div>'
+            f'<div class="a b" style="left:72px;top:1150px;width:880px;font-size:31px;opacity:.92">A city where North and South share the same streets. On 31 October, FirstKlaz brings that sound home.</div>'
+            + bottombar())
 
 
 def s2():
@@ -130,8 +160,8 @@ def s2():
     return (f'<div class="full" style="background:radial-gradient(ellipse 60% 45% at 50% 38%, #3a2216, {CHAR} 75%)"></div>'
             f'<svg class="full" width="1080" height="1350" viewBox="0 0 1080 1350">{grid}{rings}{axes}{labels}{langs}</svg>'
             + grain(.12) + topbar(2) +
-            f'<div class="a h" style="left:68px;top:930px;width:950px;font-size:108px">Built where<br><span style="color:{AMBER}">Nigeria meets.</span></div>'
-            f'<div class="a b" style="left:72px;top:1146px;width:900px;font-size:27px;opacity:.9">Abuja was planned at the centre of the country, a capital meant to belong to all of it. Grow up here and your soundtrack is never one language.</div>'
+            f'<div class="a h" style="left:68px;top:905px;width:950px;font-size:104px">Built where<br><span style="color:{AMBER}">Nigeria meets.</span></div>'
+            f'<div class="a b" style="left:72px;top:1110px;width:900px;font-size:30px;opacity:.92">Abuja was planned at the centre of the country, a capital meant to belong to all of it. Grow up here and your soundtrack is never one language.</div>'
             + bottombar(left='CAPITAL SINCE 1991 &middot; PLANNED CITY'))
 
 
@@ -140,13 +170,13 @@ def s3():
     return (f'<div class="full" style="background:{CHAR}"></div>' + tex('paper.jpg', .06) +
             topbar(3) +
             f'<div class="a" style="left:72px;top:190px;width:936px;height:680px;background:#0a0807;transform:rotate(-1.2deg);box-shadow:0 30px 60px rgba(0,0,0,.6)">'
-            f'<div class="photo" style="left:18px;top:40px;width:900px;height:600px;background-image:url({PH("fk-black-leaning.jpg")});background-position:50% 20%;filter:grayscale(1) sepia(.55) contrast(1.15) brightness(.95)"></div>'
+            f'<div class="photo raw" style="left:18px;top:40px;width:900px;height:600px;background-image:url({PH("fk-black-leaning.jpg")});background-position:50% 20%;filter:grayscale(1) sepia(.55) contrast(1.15) brightness(.95)"></div>'
             f'<div class="photo" style="left:18px;top:40px;width:900px;height:600px;background:{AMBER};mix-blend-mode:multiply;opacity:.35"></div>'
             f'<svg class="a" style="left:0;top:0" width="936" height="680">{sprockets}</svg>'
             f'<div class="a m" style="left:22px;top:648px;color:{AMBER};font-size:14px">FK-03 &nbsp;&#9654; &nbsp;KODAK-STYLE CONTACT &middot; ARCHIVE</div></div>' +
-            f'<div class="a m" style="left:72px;top:908px;color:{AMBER};font-weight:600">By his own account</div>'
+            f'<div class="a m" style="left:72px;top:908px;color:{AMBER};font-weight:600">Before 2024 &middot; by his own account</div>'
             f'<div class="a h" style="left:68px;top:948px;width:960px;font-size:76px">Before the name travelled,<br><span style="color:{AMBER}">the sound was taking shape.</span></div>'
-            f'<div class="a b" style="left:72px;top:1112px;width:930px;font-size:26px;opacity:.9">Roots in Nasarawa, raised in Abuja. A church choir. His father&rsquo;s R&amp;B, rock and reggae on repeat. A school nickname, &ldquo;first class&rdquo;, he decided to keep. Then years of putting singles out himself.</div>'
+            f'<div class="a b" style="left:72px;top:1100px;width:930px;font-size:28.5px;opacity:.92">Roots in Nasarawa, raised in Abuja. A church choir. His father&rsquo;s R&amp;B, rock and reggae on repeat. A school nickname, &ldquo;first class&rdquo;, he decided to keep. Then years of putting singles out himself.</div>'
             + grain(.18) + bottombar())
 
 
@@ -156,8 +186,9 @@ def s4():
             f'<div class="a" style="left:0;top:830px;width:1080px;height:22px">{placket(1080, 22, vertical=False, bg=EARTH)}</div>'
             f'<div class="a" style="left:0;top:852px;width:1080px;height:498px;background:{CHAR}"></div>'
             + topbar(4) +
-            f'<div class="a h" style="left:68px;top:890px;width:960px;font-size:100px"><span style="color:{AMBER}">Fuji</span> in one hand.<br><span style="color:{AMBER}">Arewa</span> in the other.</div>'
-            f'<div class="a b" style="left:72px;top:1098px;width:936px;font-size:26.5px;opacity:.92">Fuji grit. Northern melodies and talking drums. Afrobeats bounce underneath. Old-school sounds, new-school melodies, he says. That&rsquo;s why every title starts with Gen-Z.</div>'
+            f'<div class="a m" style="left:72px;top:880px;color:{AMBER};font-weight:600">2024 &middot; the formula</div>'
+            f'<div class="a h" style="left:68px;top:920px;width:960px;font-size:92px"><span style="color:{AMBER}">Fuji</span> in one hand.<br><span style="color:{AMBER}">Arewa</span> in the other.</div>'
+            f'<div class="a b" style="left:72px;top:1110px;width:936px;font-size:29.5px;opacity:.94">Fuji grit. Northern melodies and talking drums. Afrobeats bounce underneath. Old-school sounds, new-school melodies, he says. That&rsquo;s why every title starts with Gen-Z.</div>'
             + grain(.12) + bottombar(left='OLD RECORDS / NEW BLOOD'))
 
 
@@ -184,13 +215,13 @@ def s5():
             + logo(150) +
             f'<div class="a" style="left:740px;top:70px;display:flex;flex-direction:column;align-items:flex-end;width:268px">'
             f'<div class="m" style="color:{CREAM};font-weight:600;font-size:21px;text-shadow:0 2px 10px rgba(0,0,0,.6)">05 / 08</div></div>'
-            f'<div class="a m" style="left:72px;top:250px;color:{AMBER};font-weight:600">Side A &middot; the Gen-Z series</div>'
+            f'<div class="a m" style="left:72px;top:250px;color:{AMBER};font-weight:600">2024 &middot; side A &middot; the Gen-Z series</div>'
             f'<div class="a h" style="left:68px;top:292px;width:580px;font-size:96px">Four records.<br><span style="color:{AMBER}">One identity.</span></div>'
             f'<div class="a" style="left:72px;top:500px;width:560px">{rows}</div>'
             f'<div class="a b" style="left:72px;top:1196px;width:560px;font-size:21px;opacity:.85;line-height:1.35">Then came <i>Dejavu</i>, and in 2026, <i>Tsammani</i> and <i>Salama</i>. The story kept moving.</div>'
             + grain(.12) +
             f'<div class="a m" style="left:72px;bottom:54px;color:{CREAM};opacity:.8;font-size:17px">MEAT &amp; GREET &times; FIRSTKLAZ</div>'
-            f'<div class="a m" style="right:40px;bottom:54px;color:{CREAM};font-size:17px;text-shadow:0 2px 10px rgba(0,0,0,.8)">SWIPE &rarr;</div>')
+            f'<div class="a" style="right:72px;bottom:50px;padding:8px 12px;background:rgba(23,18,15,.75)">{swipe()}</div>')
 
 
 def s6():
@@ -202,8 +233,8 @@ def s6():
             f'<div class="a" style="left:880px;top:0;width:200px;height:1350px;background:linear-gradient(90deg,{CHAR},rgba(23,18,15,.1) 60%)"></div>'
             + topbar(6) +
             word('WA.', CREAM, 'YORUBA', 190) + word('ZO.', AMBER, 'HAUSA', 420) + word('BIA.', RED, 'IGBO', 650) +
-            f'<div class="a b" style="left:72px;top:930px;width:780px;font-size:29px">When &ldquo;Gen-Z Arewa&rdquo; grew into <b style="font-weight:700;color:{AMBER}">&ldquo;Gen-Z Arewazobia&rdquo;</b>, the title said what Abuja has always known: one city, every tongue.</div>'
-            f'<div class="a b" style="left:72px;top:1092px;width:780px;font-size:29px;opacity:.82">Abuja didn&rsquo;t build this sound alone. But it&rsquo;s where those sounds were already in the same room.</div>'
+            f'<div class="a b" style="left:72px;top:930px;width:780px;font-size:31px">When &ldquo;Gen-Z Arewa&rdquo; grew into <b style="font-weight:700;color:{AMBER}">&ldquo;Gen-Z Arewazobia&rdquo;</b>, the title said what Abuja has always known: one city, every tongue.</div>'
+            f'<div class="a b" style="left:72px;top:1100px;width:780px;font-size:31px;opacity:.85">Abuja didn&rsquo;t build this sound alone. But it&rsquo;s where those sounds were already in the same room.</div>'
             + grain(.12) + bottombar(left='THE CAPITAL IN THE CONVERSATION'))
 
 
@@ -215,10 +246,13 @@ def s7():
             f'<div class="full" style="background:radial-gradient(ellipse 70% 55% at 50% 100%, rgba(224,89,42,.35), rgba(11,9,9,.55) 80%)"></div>'
             + tex('smoke_bone.png', .35, 'top:55%;height:50%;object-fit:fill') + tex('smoke_red.png', .9, 'top:50%;height:55%;object-fit:fill') +
             topbar(7) +
-            f'<div class="a h" style="left:40px;top:180px;width:1000px;font-size:430px;color:transparent;-webkit-text-stroke:3px rgba(239,230,214,.5);line-height:.85">31.10</div>'
-            f'<div class="a m" style="left:72px;top:660px;color:{CREAM};font-weight:600">Halloween BBQ Party &middot; Meat &amp; Greet</div>'
+            f'<div class="a h" style="left:40px;top:230px;width:1000px;font-size:430px;color:transparent;-webkit-text-stroke:3px rgba(239,230,214,.22);line-height:.85">31.10</div>'
+            f'<img class="a" src="file://{HERE}/art/stage-led.png" style="left:96px;top:196px;width:640px;transform:rotate(-3.5deg);border:8px solid {CREAM};box-shadow:0 26px 50px rgba(0,0,0,.55)">'
+            f'<img class="a" src="file://{HERE}/art/skull-banner.png" style="left:790px;top:150px;width:160px;transform:rotate(4deg);border:6px solid {CREAM};box-shadow:0 26px 50px rgba(0,0,0,.55)">'
+            f'<div class="a m" style="left:100px;top:582px;color:{CREAM};opacity:.85;font-size:15px;transform:rotate(-3.5deg)">STAGE ART &middot; FIRSTKLAZ MEATING</div>'
+            f'<div class="a m" style="left:72px;top:660px;color:{CREAM};font-weight:600">31 October &middot; Halloween BBQ Party &middot; Meat &amp; Greet</div>'
             f'<div class="a h" style="left:68px;top:704px;width:960px;font-size:122px">Now the next<br>chapter gets<br><span style="color:{BLACK if False else "#0B0909"}">louder.</span></div>'
-            f'<div class="a b" style="left:72px;top:1080px;width:920px;font-size:30px">Red light. Smoke. Suya and ribs off the grill. A whole compound in costume. Then the curtain opens on FirstKlaz.</div>'
+            f'<div class="a b" style="left:72px;top:1080px;width:920px;font-size:32px">Red light. Smoke. Suya and ribs off the grill. A whole compound in costume. Then the curtain opens on FirstKlaz.</div>'
             + grain(.14) + bottombar(left='COSTUME OR ALL-BLACK &middot; COME DRESSED TO KILL'))
 
 
@@ -234,7 +268,7 @@ def s8():
             f'<div class="a m" style="left:72px;top:1100px;color:{CREAM};font-weight:600;font-size:21px">{EVENT["date"]} &middot; {place}</div>'
             f'<div class="a m" style="left:72px;top:1136px;color:{CREAM};opacity:.75;font-size:17px">Halloween BBQ Party &middot; costume or all-black</div>'
             # ticket stub CTA
-            f'<div class="a" style="left:72px;top:1186px;width:936px;height:96px;display:flex">'
+            f'<div class="a" style="left:72px;top:1172px;width:936px;height:96px;display:flex">'
             f'<div style="flex:1;background:{RED};display:flex;align-items:center;justify-content:space-between;padding:0 30px;'
             f'-webkit-mask:radial-gradient(circle 14px at 100% 50%, transparent 98%, #000)">'
             f'<div class="h" style="font-size:46px;color:{CREAM}">{EVENT["tickets"]}</div>'
@@ -243,8 +277,8 @@ def s8():
             f'<div style="width:150px;background:{RED};display:flex;align-items:center;justify-content:center;-webkit-mask:radial-gradient(circle 14px at 0 50%, transparent 98%, #000)">'
             f'<div class="h" style="font-size:40px;color:{CREAM}">31.10</div></div></div>'
             + grain(.12) +
-            f'<div class="a m" style="left:72px;bottom:30px;color:{CREAM};opacity:.75;font-size:16px">Send this to who you&rsquo;re pulling up with.</div>'
-            f'<div class="a m" style="right:72px;bottom:30px;color:{CREAM};opacity:.75;font-size:16px">A TCM PRODUCTION</div>')
+            f'<div class="a m" style="left:72px;bottom:46px;color:{CREAM};opacity:.75;font-size:16px">Send this to who you&rsquo;re pulling up with.</div>'
+            f'<div class="a m" style="right:72px;bottom:46px;color:{CREAM};opacity:.75;font-size:16px">A TCM PRODUCTION</div>')
 
 
 SLIDES = [s1, s2, s3, s4, s5, s6, s7, s8]
@@ -257,7 +291,7 @@ def main():
     paths = []
     for fn, name in zip(SLIDES, NAMES):
         p = os.path.join(HERE, 'html', name + '.html')
-        open(p, 'w').write(f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body><div class="s">{fn()}</div></body></html>')
+        open(p, 'w').write(f'<!doctype html><html><head><meta charset="utf-8"><style>{CSS}</style></head><body><div class="s">{fn()}{frame()}</div></body></html>')
         paths.append((p, os.path.join(OUT, f'MG-x-FirstKlaz_{name}.png')))
     js = os.path.join(HERE, 'shoot.js')
     open(js, 'w').write("""const {chromium}=require('playwright');(async()=>{const b=await chromium.launch();
