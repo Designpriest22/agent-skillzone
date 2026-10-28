@@ -41,6 +41,14 @@ MIX_CSS = CSS + """
 .rim{position:absolute;inset:0;background:radial-gradient(ellipse 60% 70% at 85% 35%, rgba(255,80,40,.45), rgba(0,0,0,0) 60%);mix-blend-mode:screen}
 .shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.7) 0%,rgba(0,0,0,0) 22%,rgba(0,0,0,0) 48%,rgba(0,0,0,.85) 68%,#000 92%)}
 .chrome.a{position:absolute}
+.blk{position:absolute;left:72px;width:936px;text-align:center;opacity:0}
+.kick{font-family:Anton;font-size:30px;letter-spacing:.34em;color:#EFE6D6;display:flex;align-items:center;justify-content:center;gap:20px;margin-bottom:16px;text-transform:uppercase;white-space:nowrap}
+.kick .rule{display:inline-block;height:5px;background:#D0141E;width:0}
+.kick .kt{opacity:0}
+.hl{overflow:hidden;font-family:Anton;text-transform:uppercase;line-height:1.02;color:#EFE6D6;white-space:nowrap;padding:0 10px}
+.hl .ln{display:block;text-shadow:0 8px 30px rgba(0,0,0,.65)}
+.hl.red{color:#D0141E}.hl.red .ln{text-shadow:0 0 26px rgba(208,20,30,.45),0 8px 30px rgba(0,0,0,.6)}
+.minor{font-family:Anton;letter-spacing:.14em;color:#EFE6D6;text-transform:uppercase;white-space:nowrap}
 .mg-keyline{fill:#fff}.mg-panel{fill:#0B0909}.mg-amp{fill:#D81E1E}.mg-flame{fill:#F05A28}.mg-steak{fill:#A3171E}
 #pL .spook{filter:grayscale(.7) contrast(1.25) brightness(.95)!important}#pL .blood{opacity:.4}
 .bat{position:absolute;left:0;top:0;width:200px;height:100px;filter:drop-shadow(0 0 4px rgba(208,20,30,.65))}
@@ -100,51 +108,32 @@ def html():
 {photo('pE', 'fk-black-standing.jpg', '50% 30%')}
 <img id="fogP" class="a" src="file://{TEX}/smoke_bone.png" style="left:-20%;top:1250px;width:140%;height:700px;object-fit:fill;opacity:0">
 
-<!-- cold open -->
-<div id="abuja" class="a c wet" style="top:620px;font-size:210px">Abuja...</div>
-<div id="dripA" class="a" style="left:180px;top:805px;transform-origin:50% 0">{drips_svg(720, 240, 14, 3)}</div>
-{chrome('Do you dare?', 120, 1010, 'dare')}
-
-<!-- him -->
-{chrome('FirstKlaz', 200, 1150, 'fk')}
-<div id="haunt" class="a c wet" style="top:1390px;font-size:104px;line-height:.95">is haunting<br>the capital</div>
-
-<!-- wicked -->
-{chrome('Something', 150, 1040, 'w1')}
-{chrome('Wicked', 210, 1190, 'w2')}
-<div id="w3" class="a c wet" style="top:1445px;font-size:110px">is on the grill.</div>
-
-<!-- dress code -->
-<div id="k1" class="a c dirt" style="top:1180px;font-size:250px">COME</div>
-<div id="k2" class="a c dirt" style="top:1180px;font-size:200px">DRESSED</div>
-<div id="k3" class="a c dirt" style="top:1180px;font-size:220px;color:#D0141E;text-shadow:0 0 30px rgba(208,20,30,.6)">TO KILL.</div>
-
-<!-- details -->
-<div id="d1" class="a c dirt" style="top:380px;font-size:280px">31ST</div>
-<div id="d1b" class="a c dirt" style="top:650px;font-size:280px;color:#D0141E;text-shadow:0 0 30px rgba(208,20,30,.6)">OCT</div>
-<div id="d2" class="a c dirt" style="top:935px;font-size:170px">5PM</div>
-<div id="d3" class="a c dirt" style="top:1125px;font-size:92px;text-transform:uppercase">Doxa Park, Abuja</div>
-<div id="d4" class="a c wet" style="top:1250px;font-size:132px;line-height:.95">Halloween<br>BBQ Party</div>
+<div id="bats" class="L">{bats}</div>
+<!-- brand type system: Anton only, cream + blood red, kicker with red rules, one entrance motion -->
+<div id="b1" class="blk" style="top:1130px"><div class="kick"><span class="rule"></span><span class="kt">Meat &amp; Greet presents</span><span class="rule"></span></div><div class="hl" style="font-size:200px"><span class="ln">Abuja,</span></div><div class="hl red" style="font-size:120px"><span class="ln">Do you dare?</span></div></div>
+<div id="b2" class="blk" style="top:1200px"><div class="kick"><span class="rule"></span><span class="kt">Live &middot; Sat 31 Oct</span><span class="rule"></span></div><div class="hl" style="font-size:200px"><span class="ln">FirstKlaz</span></div><div class="hl red" style="font-size:80px"><span class="ln">is haunting the capital</span></div></div>
+<div id="b3" class="blk" style="top:1210px"><div class="kick"><span class="rule"></span><span class="kt">Halloween BBQ Party</span><span class="rule"></span></div><div class="hl" style="font-size:120px"><span class="ln">Something wicked</span></div><div class="hl red" style="font-size:104px"><span class="ln">is on the grill.</span></div></div>
+<div id="b4" class="blk" style="top:1250px"><div class="kick"><span class="rule"></span><span class="kt">The dress code</span><span class="rule"></span></div><div style="position:relative;height:220px"><div id="k1" class="hl" style="position:absolute;left:0;right:0;top:0;font-size:210px"><span class="ln">Come</span></div><div id="k2" class="hl" style="position:absolute;left:0;right:0;top:0;font-size:210px"><span class="ln">Dressed</span></div><div id="k3" class="hl red" style="position:absolute;left:0;right:0;top:0;font-size:210px"><span class="ln">To kill.</span></div></div></div>
+<div id="b5" class="blk" style="top:640px"><div class="kick"><span class="rule"></span><span class="kt">Halloween BBQ Party</span><span class="rule"></span></div><div class="hl" style="font-size:190px"><span class="ln">Sat 31 Oct</span></div><div class="hl red" style="font-size:190px"><span class="ln">5PM</span></div><div class="hl" style="font-size:104px"><span class="ln">Doxa Park, Abuja</span></div></div>
 
 <!-- lockup -->
 <div id="lock" class="L" style="opacity:0">
-  <div id="lglow" class="a" style="left:{W / 2 - 330}px;top:300px;width:660px;height:760px;background:radial-gradient(ellipse 50% 50% at 50% 50%, rgba(208,20,30,.7), rgba(0,0,0,0) 70%)"></div>
-  <div id="coffin" class="a" style="left:{W / 2 - 260}px;top:350px;width:520px;height:670px;clip-path:{COFFIN};background:#D0141E;padding:10px">
+  <div id="lglow" class="a" style="left:{W / 2 - 330}px;top:270px;width:660px;height:760px;background:radial-gradient(ellipse 50% 50% at 50% 50%, rgba(208,20,30,.7), rgba(0,0,0,0) 70%)"></div>
+  <div id="coffin" class="a" style="left:{W / 2 - 245}px;top:330px;width:490px;height:630px;clip-path:{COFFIN};background:#D0141E;padding:10px">
     <div class="L" style="inset:10px;clip-path:{COFFIN};overflow:hidden">{photo('pL', 'fk-silver-portrait.jpg', '50% 20%').replace('opacity:0;', '')}</div></div>
   <div id="lg" class="a" style="left:{W / 2 - 95}px;top:175px;width:190px;height:151px">{logo(190, 0, 0)}</div>
-  {chrome('FirstKlaz', 165, 1035, 'l1')}
-  <div id="l2" class="a c wet" style="top:1200px;font-size:170px">Meating</div>
-  <div id="l3" class="a c dirt" style="top:1395px;font-size:52px">SAT 31 OCT &middot; 5PM &middot; DOXA PARK, ABUJA</div>
-  <div id="tix" class="a" style="left:110px;top:1480px;width:860px;height:150px;display:flex">
+  <div id="b6" class="blk" style="top:985px"><div class="kick"><span class="rule"></span><span class="kt">Halloween BBQ Party</span><span class="rule"></span></div><div class="hl" style="font-size:150px"><span class="ln">FirstKlaz</span></div><div class="hl red" style="font-size:150px"><span class="ln">Meating</span></div></div>
+  <div id="l3" class="a minor c" style="top:1388px;font-size:44px;opacity:0">Sat 31 Oct &middot; 5PM &middot; Doxa Park, Abuja</div>
+  <div id="tix" class="a" style="left:110px;top:1462px;width:860px;height:150px;display:flex">
     <div style="flex:1;background:#B3121C;display:flex;flex-direction:column;justify-content:center;padding:0 36px;-webkit-mask:radial-gradient(circle 18px at 100% 50%,transparent 98%,#000)">
       <div style="font-family:Anton;font-size:70px;line-height:1;text-transform:uppercase">Get tickets</div>
-      <div style="font-family:Anton;font-size:30px;letter-spacing:.08em;margin-top:6px;opacity:.95">PV.RSVP/FIRSTKLAZ-MEATING</div></div>
+      <div style="font-family:Anton;font-size:30px;letter-spacing:.14em;margin-top:6px;opacity:.95">PV.RSVP/FIRSTKLAZ-MEATING</div></div>
     <div style="width:0;border-left:4px dashed #050303"></div>
     <div style="width:180px;background:#B3121C;display:flex;align-items:center;justify-content:center;-webkit-mask:radial-gradient(circle 18px at 0 50%,transparent 98%,#000)">
       <div style="font-family:Anton;font-size:60px">18+</div></div></div>
 </div>
 
-<div id="bats" class="L">{bats}</div>
+<div id="mini" class="a" style="left:64px;top:150px;width:150px;height:119px;opacity:0">{logo(150, 0, 0)}</div>
 <div id="embers" class="L">{embers}</div>
 </div>
 <img id="grain" class="L" src="file://{GRAIN}" style="width:130%;height:130%;opacity:.2;mix-blend-mode:overlay">
@@ -165,8 +154,20 @@ const E={out3:x=>1-Math.pow(1-x,3),io3:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,ou
 const rnd=i=>{const s=Math.sin(i*127.1+311.7)*43758.5453;return s-Math.floor(s)};
 const op=(el,v)=>el.style.opacity=v;
 const LIGHTNING=[[.25,1],[.45,1],[2.0,1],[4.3,1],[6.5,.4],[8.4,1],[11.2,1]];
-const HITS=[.25,2.0,2.35,4.3,4.55,4.75,6.5,7.15,7.8,8.4,8.65,8.9,9.2,9.7,11.2,12.0,12.55];
+const HITS=[.25,2.0,2.45,4.3,4.65,6.55,7.2,7.85,8.4,8.75,9.05,9.35,11.2,12.1,12.75];
 const BEAT=60/140;
+function block(id,t,t0,t1,stag=.14){
+  const el=$(id); if(t<t0||t>=t1){op(el,0);return}
+  op(el,1-P(t,t1-.12,t1));
+  const k=E.out3(P(t,t0,t0+.45)); el.querySelectorAll('.rule').forEach(r=>r.style.width=(k*64)+'px');
+  const kt=el.querySelector('.kt'); kt.style.opacity=P(t,t0+.1,t0+.4); kt.style.letterSpacing=L(.6,.34,E.out3(P(t,t0,t0+.6)))+'em';
+  el.querySelectorAll('.hl:not([id]) .ln').forEach((ln,i)=>{const s=t0+.15+i*stag, e=E.outX(P(t,s,s+.5));
+    ln.style.transform=`translateY(${(1-e)*108}%)`; ln.style.filter=`blur(${(1-e)*6}px)`;});
+}
+function word(id,t,t0,t1){ // single-line swap used by the dress-code beat
+  const el=$(id); if(t<t0||t>=t1){op(el,0);return} op(el,1);
+  const e=E.outX(P(t,t0,t0+.35)); el.firstElementChild.style.transform=`translateY(${(1-e)*108}%)`;
+}
 function slam(el,t,t0,{dur=.3,from=1.8,blur=16,out=99}={}){
   if(t<t0||t>=out){op(el,0);return}
   const e=E.outX(P(t,t0,t0+dur)); op(el,cl(P(t,t0,t0+dur*.4)));
@@ -204,7 +205,7 @@ function render(t){
   let sx=0,sy=0; for(const s of HITS){ if(t>=s){const d=t-s,a=Math.exp(-d*10)*12; sx+=a*Math.sin(d*70); sy+=a*Math.cos(d*53);} }
   $('cam').style.transform=`translate(${sx}px,${sy}px)`;
   $('grain').style.transform=`translate(${-rnd(Math.floor(t*30))*20}%,${-rnd(Math.floor(t*30)+5)*20}%)`;
-  op($('border'),E.out3(P(t,8.4,8.9)));                          // kaftan border frames the info half
+  op($('border'),E.out3(P(t,.1,1.0)));                            // kaftan border: brand frame, whole piece
 
   // world
   const inPhoto = t>=2.0 && t<8.4;
@@ -234,18 +235,12 @@ function render(t){
   }
   op($('fogP'), inPhoto?.45:0); $('fogP').style.transform=`translateX(${-t*2}%)`;
 
-  // cold open
-  bleed($('abuja'),t,.7,.9,2.0); const dA=E.out3(P(t,1.0,1.9)); $('dripA').style.transform=`scaleY(${dA})`; op($('dripA'),t>1.0&&t<2.0?1:0);
-  slam($('dare'),t,1.35,{from:1.6,out:2.0});
-  // him
-  slam($('fk'),t,2.35,{from:2.2,out:4.25}); bleed($('haunt'),t,2.9,.7,4.25);
-  // wicked
-  slam($('w1'),t,4.55,{from:1.5,out:6.45}); slam($('w2'),t,4.75,{from:2.0,out:6.45}); bleed($('w3'),t,5.3,.7,6.45);
-  // dress code
-  slam($('k1'),t,6.55,{from:2,out:7.15}); slam($('k2'),t,7.2,{from:2,out:7.8}); slam($('k3'),t,7.85,{from:2.2,out:8.4});
-  // details
-  slam($('d1'),t,8.65,{from:1.9,out:11.2}); slam($('d1b'),t,8.9,{from:2.2,out:11.2}); slam($('d2'),t,9.2,{from:2,out:11.2});
-  slam($('d3'),t,9.7,{from:1.6,out:11.2}); bleed($('d4'),t,10.2,.5,11.2);
+  // text: one system, one motion
+  block('b1',t,.75,2.0,.45);
+  block('b2',t,2.3,4.3); block('b3',t,4.5,6.5);
+  block('b4',t,6.5,8.4); word('k1',t,6.55,7.15); word('k2',t,7.2,7.8); word('k3',t,7.85,8.4);
+  block('b5',t,8.6,11.2,.3);
+  op($('mini'),(t>.4&&t<11.2)?cl(P(t,.4,.8))*(1-P(t,11.1,11.2)):0);
 
   // lockup
   op($('lock'),t>=11.2?1:0);
@@ -253,7 +248,7 @@ function render(t){
   $('pL').firstElementChild.style.transform=`scale(${L(1.15,1.0,E.out3(P(t,11.3,15)))})`;
   op($('lglow'),cl(P(t,11.5,12))*(.75+.25*Math.sin(t*9)));
   const lg=E.back(P(t,11.6,12.0)); $('lg').style.transform=`scale(${lg})`;
-  slam($('l1'),t,12.0,{from:2.0}); bleed($('l2'),t,12.3,.5);
+  block('b6',t,11.95,99);
   const l3=E.out3(P(t,12.55,12.9)); op($('l3'),l3); $('l3').style.transform=`translateY(${L(40,0,l3)}px)`;
   let pulse=0; for(let k=13.4;k<15;k+=BEAT*2) if(t>=k) pulse=Math.max(pulse,1-P(t,k,k+.3));
   const tx=E.back(P(t,12.75,13.15)); $('tix').style.transform=`translateY(${L(500,0,tx)}px) scale(${1+pulse*.035})`; op($('tix'),t>=12.75?1:0);
@@ -360,7 +355,7 @@ def audio(path):
         put(bell(f), tm, .85)
     for s in (2.0, 6.5, 11.2):
         put(boom(), s, 1)
-    for s in (2.35, 4.55, 4.75, 6.55, 7.2, 7.85, 8.65, 8.9, 9.2, 9.7, 12.0):
+    for s in (.9, 2.45, 4.65, 6.55, 7.2, 7.85, 8.75, 9.05, 9.35, 12.1):
         put(clang(), s, .75)
     beat = 60 / 140; k = 0
     while 2.0 + k * beat < 14.4:
