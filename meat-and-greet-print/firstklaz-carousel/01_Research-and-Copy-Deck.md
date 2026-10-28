@@ -160,3 +160,19 @@ Headline / body / meta. Body copy is capped at about 45 words per slide for mobi
    - Whether the ₦200K costume prize (from the same listing) can be mentioned.
 4. **The Mainland Block Party reference carousel:** it didn't come through in this session.
 5. **Fact sign-off:** confirm items 7, 9 and 10 with his team, or approve the "by his own account" wording.
+
+---
+
+## 6. Stage 2: artwork (delivered)
+
+- `export/`: 8 slides at 1080 × 1350 PNG, plus `Carousel-Preview.png` (grid) and `Carousel-Strip.jpg` (swipe order).
+- `src/carousel.py`: editable source. All copy and the `EVENT` details (venue, time, link) live at the top. Re-run `python3 carousel.py`.
+- Photo casting, each image used once:
+  - Slide 1: brown profile.
+  - Slide 3: black leaning, as an archive contact sheet.
+  - Slide 4: blue seated.
+  - Slide 5: black standing.
+  - Slide 6: placket embroidery detail from the silver look.
+  - Slide 8: silver portrait.
+- Slides 2 and 7 are type and graphics only (no Abuja or crowd photos supplied).
+- Slide 8 shows only confirmed details (31 October, Abuja, Partyverse). Venue, time and the direct link are switched off until confirmed. "Link in bio" assumes the ticket link goes in the Meat & Greet bio.
