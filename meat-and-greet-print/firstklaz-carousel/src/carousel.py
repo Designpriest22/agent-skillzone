@@ -20,10 +20,10 @@ CHAR, EARTH, AMBER, CREAM, RED, EMBER = '#17120F', '#4A2A1C', '#C8641E', '#EFE6D
 EVENT = {
     'date': 'SATURDAY 31 OCTOBER',
     'place': 'ABUJA',
-    'venue': None,          # e.g. 'XYZ GARDENS, WUSE 2'
-    'time': None,           # e.g. '7PM'
-    'tickets': 'TICKETS ON PARTYVERSE',
-    'link': 'LINK IN BIO',
+    'venue': 'DOXA PARK',
+    'time': '5PM',
+    'tickets': 'GET TICKETS',
+    'link': 'PV.RSVP/FIRSTKLAZ-MEATING',
 }
 
 CSS = f"""
@@ -244,7 +244,7 @@ def s7():
 
 
 def s8():
-    place = EVENT['place'] + (f' &middot; {EVENT["venue"]}' if EVENT['venue'] else '') + (f' &middot; {EVENT["time"]}' if EVENT['time'] else '')
+    place = (f'{EVENT["venue"]}, ' if EVENT['venue'] else '') + EVENT['place'] + (f' &middot; {EVENT["time"]}' if EVENT['time'] else '')
     return (f'<div class="photo" style="left:0;top:0;width:1080px;height:860px;background-image:url({PH("fk-silver-portrait.jpg")});background-position:50% 22%;filter:contrast(1.05) sepia(.08)"></div>'
             f'<div class="a" style="left:0;top:560px;width:1080px;height:300px;background:linear-gradient(180deg,rgba(23,18,15,0),{CHAR})"></div>'
             f'<div class="a" style="left:0;top:0;width:1080px;height:220px;background:linear-gradient(180deg,rgba(23,18,15,.55),rgba(23,18,15,0))"></div>'
@@ -253,13 +253,13 @@ def s8():
             f'<div class="a h" style="left:68px;top:812px;width:960px;font-size:108px">Abuja, this chapter<br><span style="color:{AMBER}">is yours.</span></div>'
             f'<div class="a" style="left:72px;top:1030px;font-family:Brush;font-size:56px;color:{CREAM};line-height:1">FirstKlaz Meating</div>'
             f'<div class="a m" style="left:72px;top:1100px;color:{CREAM};font-weight:600;font-size:21px">{EVENT["date"]} &middot; {place}</div>'
-            f'<div class="a m" style="left:72px;top:1136px;color:{CREAM};opacity:.75;font-size:17px">Halloween BBQ Party &middot; costume or all-black</div>'
+            f'<div class="a m" style="left:72px;top:1136px;color:{CREAM};opacity:.75;font-size:17px">Halloween BBQ Party &middot; costume or all-black &middot; 18+</div>'
             # ticket stub CTA
             f'<div class="a" style="left:72px;top:1172px;width:936px;height:96px;display:flex">'
             f'<div style="flex:1;background:{RED};display:flex;align-items:center;justify-content:space-between;padding:0 30px;'
             f'-webkit-mask:radial-gradient(circle 14px at 100% 50%, transparent 98%, #000)">'
             f'<div class="h" style="font-size:46px;color:{CREAM}">{EVENT["tickets"]}</div>'
-            f'<div class="m" style="color:{CREAM};font-weight:600;font-size:20px">{EVENT["link"]} &rarr;</div></div>'
+            f'<div class="m" style="color:{CREAM};font-weight:600;font-size:24px;letter-spacing:.06em">{EVENT["link"].lower()} &rarr;</div></div>'
             f'<div style="width:0;border-left:3px dashed {CHAR}"></div>'
             f'<div style="width:150px;background:{RED};display:flex;align-items:center;justify-content:center;-webkit-mask:radial-gradient(circle 14px at 0 50%, transparent 98%, #000)">'
             f'<div class="h" style="font-size:40px;color:{CREAM}">31.10</div></div></div>'

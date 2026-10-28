@@ -188,3 +188,6 @@ Taken from the reference (as principles, not visuals):
 - Slide 7 shows our real campaign artwork (stage LED still, skull banner), the way their slide shows the tour posters.
 
 Deliberately not taken: camouflage, medals, star columns, the green/yellow palette.
+
+## 8. Event details confirmed (official flyer)
+Saturday 31 October · Doxa Park, Abuja · 5PM · 18+ · tickets at pv.rsvp/firstklaz-meating. This replaces the third-party 7–11pm listing.
