@@ -1,12 +1,12 @@
 # Quality assurance report
 
-Automated checks run by `16_SOURCE_FILES/build/qa.py`: **52 / 54 passed.**
+Automated checks run by `16_SOURCE_FILES/build/qa.py`: **59 / 59 passed.**
 
-Kit size: 195.8 MB · 1092 files (1009 deliverables outside the build sources).
+Kit size: 213.8 MB · 1104 files (1021 deliverables outside the build sources).
 
 | Area | Check | Result | Detail |
 |---|---|---|---|
-| Vector | 373 SVG files parse as valid XML | ❌ Fail | DN_icon_media-press_solid.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_line.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_solid.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_line.svg: not well-formed (invalid token): line 2, column 25 |
+| Vector | 373 SVG files parse as valid XML | ✅ Pass |  |
 | Vector | Every SVG (except the sprite) has a viewBox | ✅ Pass |  |
 | Vector | Logo SVGs contain no embedded raster images | ✅ Pass |  |
 | Logo | Primary master reuses all 24 supplied paths verbatim | ✅ Pass | 24 supplied paths |
@@ -44,9 +44,14 @@ Kit size: 195.8 MB · 1092 files (1009 deliverables outside the build sources).
 | Motion | DN_motion_B_minimal-reveal_light_1080x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
 | Motion | DN_motion_B_minimal-reveal_light_1920x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
 | Motion | DN_motion_C_presentation-opener_1920x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
+| Motion | DN_motion_E_symbol_ALPHA_1080x1080.webm carries an alpha channel | ✅ Pass | yuv420p |
+| Motion | DN_motion_E_symbol_ALPHA_1080x1080_alpha-PNG.mov carries an alpha channel | ✅ Pass | rgba |
+| Motion | DN_motion_E_symbol_on-forest_1080x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
+| Motion | DN_motion_E_symbol_on-ivory_1080x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
+| Motion | DN_motion_D_brand-loop_1080x1920.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
 | Motion | DN_motion_D_brand-loop_1920x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
 | Motion | DN_motion_D_brand-loop_with-logo_1920x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
-| Motion | All five animations (A–E) rendered | ❌ Fail | A, B, C, D |
+| Motion | All five animations (A–E) rendered | ✅ Pass | A, B, C, D, E |
 | Motion | Loop D is seamless (seam ≤ 2× typical frame step) | ✅ Pass | seam 0.363 vs step 0.281 |
 | Motion | 5 Lottie files are valid Bodymovin JSON (rendered in lottie-web 5.12.2) | ✅ Pass |  |
 | Sonic | DN_sonic-intro-bed_30s_seamless-loop.wav: 48 kHz 24-bit stereo | ✅ Pass | 48000 pcm_s24le 2ch 30.00s |
@@ -83,6 +88,12 @@ Kit size: 195.8 MB · 1092 files (1009 deliverables outside the build sources).
 | DN_motion_B_minimal-reveal_light_1920x1080.webm | vp9 | 1920x1080 | 2.51s | yuv420p | yes |
 | DN_motion_C_presentation-opener_1920x1080.mp4 | h264 | 1920x1080 | 8.00s | yuv420p | yes |
 | DN_motion_C_presentation-opener_1920x1080.webm | vp9 | 1920x1080 | 8.01s | yuv420p | yes |
+| DN_motion_E_symbol_ALPHA_1080x1080.webm | vp9 | 1080x1080 | 3.00s | yuv420p | no |
+| DN_motion_E_symbol_ALPHA_1080x1080_alpha-PNG.mov | png | 1080x1080 | 3.00s | rgba | no |
+| DN_motion_E_symbol_on-forest_1080x1080.mp4 | h264 | 1080x1080 | 3.00s | yuv420p | yes |
+| DN_motion_E_symbol_on-forest_1080x1080.webm | vp9 | 1080x1080 | 3.01s | yuv420p | yes |
+| DN_motion_E_symbol_on-ivory_1080x1080.mp4 | h264 | 1080x1080 | 3.00s | yuv420p | no |
+| DN_motion_D_brand-loop_1080x1920.mp4 | h264 | 1080x1920 | 20.00s | yuv420p | no |
 | DN_motion_D_brand-loop_1920x1080.mp4 | h264 | 1920x1080 | 20.00s | yuv420p | no |
 | DN_motion_D_brand-loop_1920x1080.webm | vp9 | 1920x1080 | 20.00s | yuv420p | no |
 | DN_motion_D_brand-loop_with-logo_1920x1080.mp4 | h264 | 1920x1080 | 20.00s | yuv420p | no |
@@ -113,8 +124,3 @@ These were reviewed by rendering contact sheets during production:
 - Sonic logo had a click where a bell note was cut. Added a 30 ms release taper to every voice.
 - Motion D logo was missing its wordmark (closed mask). Opened the mask.
 - ffmpeg fade parameter format failed. Fixed the render script.
-
-## Open issues
-
-- Vector: 373 SVG files parse as valid XML — DN_icon_media-press_solid.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_line.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_solid.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_line.svg: not well-formed (invalid token): line 2, column 25
-- Motion: All five animations (A–E) rendered — A, B, C, D

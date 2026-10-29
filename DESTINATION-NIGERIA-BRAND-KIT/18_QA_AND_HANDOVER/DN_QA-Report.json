@@ -3,8 +3,8 @@
   {
    "area": "Vector",
    "check": "373 SVG files parse as valid XML",
-   "ok": false,
-   "detail": "DN_icon_media-press_solid.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_line.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_solid.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_line.svg: not well-formed (invalid token): line 2, column 25"
+   "ok": true,
+   "detail": ""
   },
   {
    "area": "Vector",
@@ -230,6 +230,36 @@
   },
   {
    "area": "Motion",
+   "check": "DN_motion_E_symbol_ALPHA_1080x1080.webm carries an alpha channel",
+   "ok": true,
+   "detail": "yuv420p"
+  },
+  {
+   "area": "Motion",
+   "check": "DN_motion_E_symbol_ALPHA_1080x1080_alpha-PNG.mov carries an alpha channel",
+   "ok": true,
+   "detail": "rgba"
+  },
+  {
+   "area": "Motion",
+   "check": "DN_motion_E_symbol_on-forest_1080x1080.mp4 is H.264 yuv420p",
+   "ok": true,
+   "detail": "yuv420p"
+  },
+  {
+   "area": "Motion",
+   "check": "DN_motion_E_symbol_on-ivory_1080x1080.mp4 is H.264 yuv420p",
+   "ok": true,
+   "detail": "yuv420p"
+  },
+  {
+   "area": "Motion",
+   "check": "DN_motion_D_brand-loop_1080x1920.mp4 is H.264 yuv420p",
+   "ok": true,
+   "detail": "yuv420p"
+  },
+  {
+   "area": "Motion",
    "check": "DN_motion_D_brand-loop_1920x1080.mp4 is H.264 yuv420p",
    "ok": true,
    "detail": "yuv420p"
@@ -243,8 +273,8 @@
   {
    "area": "Motion",
    "check": "All five animations (A–E) rendered",
-   "ok": false,
-   "detail": "A, B, C, D"
+   "ok": true,
+   "detail": "A, B, C, D, E"
   },
   {
    "area": "Motion",
@@ -325,10 +355,7 @@
    "detail": ""
   }
  ],
- "issues": [
-  "Vector: 373 SVG files parse as valid XML — DN_icon_media-press_solid.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_line.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_solid.svg: not well-formed (invalid token): line 2, column 25; DN_icon_media-press_line.svg: not well-formed (invalid token): line 2, column 25",
-  "Motion: All five animations (A–E) rendered — A, B, C, D"
- ],
+ "issues": [],
  "video_table": [
   [
    "DN_motion_A_cinematic-reveal_dark_1920x1080.mp4",
@@ -475,6 +502,54 @@
    "yes"
   ],
   [
+   "DN_motion_E_symbol_ALPHA_1080x1080.webm",
+   "vp9",
+   "1080x1080",
+   "3.00s",
+   "yuv420p",
+   "no"
+  ],
+  [
+   "DN_motion_E_symbol_ALPHA_1080x1080_alpha-PNG.mov",
+   "png",
+   "1080x1080",
+   "3.00s",
+   "rgba",
+   "no"
+  ],
+  [
+   "DN_motion_E_symbol_on-forest_1080x1080.mp4",
+   "h264",
+   "1080x1080",
+   "3.00s",
+   "yuv420p",
+   "yes"
+  ],
+  [
+   "DN_motion_E_symbol_on-forest_1080x1080.webm",
+   "vp9",
+   "1080x1080",
+   "3.01s",
+   "yuv420p",
+   "yes"
+  ],
+  [
+   "DN_motion_E_symbol_on-ivory_1080x1080.mp4",
+   "h264",
+   "1080x1080",
+   "3.00s",
+   "yuv420p",
+   "no"
+  ],
+  [
+   "DN_motion_D_brand-loop_1080x1920.mp4",
+   "h264",
+   "1080x1920",
+   "20.00s",
+   "yuv420p",
+   "no"
+  ],
+  [
    "DN_motion_D_brand-loop_1920x1080.mp4",
    "h264",
    "1920x1080",
@@ -500,28 +575,28 @@
   ]
  ],
  "summary": {
-  "files": 1092,
-  "deliverables": 1009,
+  "files": 1104,
+  "deliverables": 1021,
   "by_type": {
    ".svg": 366,
-   ".png": 233,
+   ".png": 235,
    ".pdf": 114,
    ".jpg": 108,
    ".eps": 26,
-   ".md": 24,
+   ".md": 25,
    ".docx": 22,
    ".ttf": 18,
    ".webp": 14,
-   ".json": 12,
+   ".json": 13,
    ".html": 12,
-   ".mp4": 9,
-   ".webm": 9,
-   ".gif": 7,
+   ".mp4": 12,
+   ".webm": 11,
+   ".gif": 9,
    ".dotx": 5,
+   ".mov": 4,
    ".wav": 3,
    ".mp3": 3,
    ".xlsx": 3,
-   ".mov": 3,
    ".txt": 3,
    ".ase": 2,
    ".csv": 2,
@@ -535,6 +610,6 @@
    ".ico": 1,
    ".webmanifest": 1
   },
-  "size_mb": 195.8
+  "size_mb": 213.8
  }
 }
