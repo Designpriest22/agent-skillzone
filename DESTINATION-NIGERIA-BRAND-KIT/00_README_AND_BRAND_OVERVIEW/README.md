@@ -15,7 +15,7 @@ A complete brand identity system for Destination Nigeria, the national tourism d
 | `04_VECTOR_GRAPHICS_AND_ICONS` | 32-icon family (line and solid), patterns, horizon ribbons, maps and routes, campaign lockups, badges, avatars, dividers, section markers, photo masks, watermarks |
 | `05_BACKGROUNDS_AND_TEXTURES` | 14 backgrounds × 16:9, 4:5, 9:16, A4 portrait and landscape (vector PDF); SVG sources; overlays; grain |
 | `06_PHOTOGRAPHY_AND_MEDIA` | Labelled image placeholders, image register, licences and attribution |
-| `07_MOTION_IDENTITY` | Animations A–E: MP4, WebM, alpha MOV and WebM, GIF, Lottie, final frames; HTML source compositions and renderer |
+| `07_MOTION_IDENTITY` | **25 s illustrated brand intro (16:9, 1:1, 4:5, 9:16)** · Animations A–E: MP4, WebM, alpha MOV and WebM, GIF, Lottie, final frames; HTML source compositions and renderer |
 | `08_SONIC_IDENTITY` | Sonic logo (6.5 s), sting (2.5 s), 30 s seamless intro bed: WAV 48/24 + MP3 |
 | `09_DOCUMENT_TEMPLATES` | 22 Word templates (letterhead, memo, report, proposal, minutes, invoice, quotation, press × 6, workshop × 6, investment profile) + PDF + DOTX; calculating XLSX; business cards; email signature |
 | `10_PRESENTATION_TEMPLATES` | PowerPoint master (21 layouts) + sample deck (PPTX, POTX, PDF) |

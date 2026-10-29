@@ -1,0 +1,344 @@
+<!doctype html><html><head><meta charset="utf-8"><title>F — Brand intro (25 s)</title></head><body>
+<script src="dn-logo-data.js"></script><script src="dn-intro-data.js"></script><script src="dn-motion.js"></script><script src="dn-illustration.js"></script>
+<script>
+// F — 25 s brand intro. ?w=&h= sets the format (1920x1080, 1080x1080, 1080x1350, 1080x1920). ?scrub&play to preview.
+// Story: Dawn → EXPERIENCE (festival) → INVEST (waterfront) → EXPLORE (map → landscape) → logo + campaign line.
+// All timings come from dn-intro-data.js, shared with the soundtrack (16_SOURCE_FILES/build/intro.py).
+const { P, E, seg, lerp, clamp, stage, logo, campaign } = DNM;
+const { el, g, path, id, tf, lin, rad, blur, drummer, dancer, traveller, professional, palm, acacia, bird, elephant, inselberg, stringLights, waterfall, sm } = DNIL;
+const T = DNI.T, C = DN.C;
+window.DURATION = T.dur; window.FPS = 30;
+const { svg, defs } = stage();
+const W = P.w, H = P.h, u = Math.min(W, H) / 1080, land = W / H > 1.3, tall = H / W > 1.5;
+const rnd = (() => { let s = 7; return () => (s = (s * 16807) % 2147483647) / 2147483647; })();
+const mix = (a, b, k) => { const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)); const A = p(a), B = p(b); return '#' + A.map((v, i) => Math.round(v + (B[i] - v) * k).toString(16).padStart(2, '0')).join(''); };
+const vis = (n, a, b, t) => n.setAttribute('display', t >= a && t <= b ? 'inline' : 'none');
+function ridgeD(w, base, amp, freq, seed, h = H) { let d = `M-20,${h + 20} L-20,${base}`; for (let x = -20; x <= w + 20; x += 12) { const y = base - amp * (Math.sin(x / w * Math.PI * 2 * freq + seed) * .6 + Math.sin(x / w * Math.PI * 2 * freq * 2.3 + seed * 1.7) * .3 + Math.sin(x / w * Math.PI * 2 * freq * 5.1 + seed * .3) * .1); d += ` L${x},${y.toFixed(1)}`; } return d + ` L${w + 20},${h + 20} Z`; }
+function grass(p, y0, w, n, col, hgt = 18) { let d = ''; for (let i = 0; i < n; i++) { const x = rnd() * w, y = y0 + rnd() * 12, h = (hgt + rnd() * hgt) * u; d += `M${x},${y} q${-3 * u},${-h * .6} ${-6 * u},${-h} M${x},${y} q${2 * u},${-h * .7} ${5 * u},${-h * .9} `; } return path(p, d, 'none', { stroke: col, 'stroke-width': 2.2 * u, 'stroke-linecap': 'round' }); }
+
+// ------------------------------------------------------------------ layout per format
+const L = land ? { tx: W * .075, ty: H * .36, anchor: 'start', availW: W * .44, cx: W * .68, ground: H * .93, cs: H / 1080 * .95 }
+  : { tx: W / 2, ty: tall ? H * .2 : H * .13, anchor: 'middle', availW: W * .86, cx: W / 2, ground: tall ? H * .84 : H * .955, cs: u * (tall ? 1.08 : (H / W > 1.15 ? .9 : .78)) };
+const horizon = land ? H * .64 : (tall ? H * .66 : H * .62);
+const hF = land ? 1 : (tall ? .95 : .7);   // skyline/crane height factor so headlines stay clear
+
+// kinetic word: tracking-in + gold sun dot + sub line
+function Word(parent, word, sub, color) {
+  const root = g(parent);
+  const fs = Math.min(land ? 150 * H / 1080 : 132 * u, L.availW / (word.length * .78));
+  const t1 = el('text', { x: 0, y: 0, 'font-family': 'Inter, Arial, sans-serif', 'font-weight': 600, 'font-size': fs, fill: color, 'text-anchor': L.anchor }, root); t1.textContent = word;
+  const dot = el('circle', { r: fs * .11, fill: C.gold }, root);
+  const t2 = el('text', { x: 0, y: fs * .62, 'font-family': "'Source Serif 4', Georgia, serif", 'font-style': 'italic', 'font-size': fs * .27, fill: color, 'text-anchor': L.anchor }, root); t2.textContent = sub;
+  const bar = el('rect', { y: fs * .2, height: Math.max(2, fs * .03), fill: C.gold }, root);
+  tf(root, `translate(${L.tx},${L.ty + fs * .8})`);
+  return {
+    g: root, fs, update(t, t0, t1end) {
+      const k = seg(t, t0, t0 + .7, E.outExpo), out = seg(t, t1end - .5, t1end, E.inOutCubic);
+      root.setAttribute('opacity', k * (1 - out));
+      const ls = lerp(.55, .08, k);
+      t1.setAttribute('letter-spacing', `${ls}em`);
+      t1.setAttribute('transform', `translate(0,${(1 - k) * fs * .25 - out * fs * .2})`);
+      const len = t1.getComputedTextLength();
+      const right = L.anchor === 'start' ? len - ls * fs : len / 2 - ls * fs / 2;
+      dot.setAttribute('cx', right + fs * .17); dot.setAttribute('cy', -fs * .11 + (1 - k) * fs * .25 - out * fs * .2);
+      const d = seg(t, t0 + .35, t0 + .75, E.outBack); dot.setAttribute('transform', `translate(${right + fs * .17},${-fs * .11}) scale(${Math.max(0, d)}) translate(${-(right + fs * .17)},${fs * .11})`);
+      const sk = seg(t, t0 + .5, t0 + 1.1, E.outCubic); t2.setAttribute('opacity', sk); t2.setAttribute('transform', `translate(0,${(1 - sk) * 14})`);
+      const bw = fs * 1.2 * seg(t, t0 + .4, t0 + 1.1, E.outCubic); bar.setAttribute('width', bw); bar.setAttribute('x', L.anchor === 'start' ? 0 : -bw / 2); bar.setAttribute('y', fs * .95);
+    },
+  };
+}
+function scrim(parent, dark = true) {
+  if (!land) return el('rect', { width: W, height: H * .42, fill: lin(defs, [[0, dark ? C.forest : C.ivory, dark ? .55 : .75], [1, dark ? C.forest : C.ivory, 0]], 0, 1) }, parent);
+  return el('rect', { width: W * .62, height: H, fill: lin(defs, [[0, dark ? C.forest : C.ivory, dark ? .62 : .9], [.55, dark ? C.forest : C.ivory, dark ? .3 : .55], [1, dark ? C.forest : C.ivory, 0]], 1, 0) }, parent);
+}
+
+// ================================================================== 1 DAWN
+const sD = g(svg);
+const skyStops = [];
+const skyId = id('sky'); const skyLg = el('linearGradient', { id: skyId, x1: 0, y1: 0, x2: 0, y2: 1 }, defs);
+[0, .55, .9].forEach(o => skyStops.push(el('stop', { offset: o }, skyLg)));
+const camD = g(sD);
+el('rect', { x: -W * .1, y: -H * .1, width: W * 1.2, height: H * 1.2, fill: `url(#${skyId})` }, camD);
+const stars = g(camD); const starEls = [...Array(90)].map(() => el('circle', { cx: rnd() * W, cy: rnd() * horizon * .8, r: (.8 + rnd() * 1.6) * u, fill: '#FFF7E0' }, stars));
+const sunX = land ? W * .7 : W * .64;
+const sunG = g(camD);
+el('circle', { r: 330 * u, fill: rad(defs, [[0, '#FFD98A', .75], [.35, C.gold, .25], [1, C.gold, 0]]) }, sunG);
+el('circle', { r: 62 * u, fill: '#F6C86A' }, sunG);
+const farR = path(camD, ridgeD(W, horizon - 40 * u, 26 * u, 1.3, 2), '#2E5444');
+const rockW = Math.min(W * .62, 940 * u), rockX = sunX - rockW * .78;
+const rock = inselberg(camD, defs, rockW, rockW * .5); tf(rock, `translate(${rockX},${horizon + 26 * u})`);
+const mist1 = el('ellipse', { cx: W * .3, cy: horizon + 10 * u, rx: W * .5, ry: 40 * u, fill: '#F5F0E6', opacity: .25, filter: blur(defs, 18 * u) }, camD);
+const nearR1 = path(camD, ridgeD(W, horizon + 70 * u, 30 * u, .9, 5), '#173D30');
+const tree1 = g(camD); tf(tree1, `translate(${W * (land ? .14 : .12)},${horizon + 66 * u}) scale(${1.3 * u})`); acacia(tree1, 1, '#123126');
+const tree2 = g(camD); tf(tree2, `translate(${W * .9},${horizon + 90 * u}) scale(${.9 * u})`); acacia(tree2, 1, '#123126');
+const nearR2 = path(camD, ridgeD(W, horizon + 150 * u, 22 * u, 1.6, 9), '#0E2C22');
+grass(camD, horizon + 150 * u, W, 160, '#173D30', 16);
+const birdsD = [...Array(9)].map(() => bird(camD, '#10241C'));
+scrim(sD, true).setAttribute('opacity', .8);
+const head1 = g(sD); tf(head1, `translate(${L.tx},${L.ty})`);
+const ovl = el('text', { 'font-family': 'Inter, Arial', 'font-weight': 600, 'font-size': 22 * u * (land ? 1.15 : 1.1), 'letter-spacing': '.3em', fill: C.gold, 'text-anchor': L.anchor }, head1); ovl.textContent = 'DESTINATION NIGERIA';
+const hfs = Math.min(land ? 104 * H / 1080 : 96 * u, L.availW / 8.2);
+const hl = el('text', { y: hfs * 1.15, 'font-family': "'Playfair Display', Georgia, serif", 'font-weight': 500, 'font-size': hfs, fill: C.ivory, 'text-anchor': L.anchor }, head1); hl.textContent = 'Horizons, opened.';
+
+// ================================================================== 2 EXPERIENCE (dusk festival)
+const sE = g(svg); const irisE = id('iris'); const cpE = el('clipPath', { id: irisE }, defs); const irisCE = el('circle', { r: 0 }, cpE);
+sE.setAttribute('clip-path', `url(#${irisE})`);
+const camE = g(sE);
+el('rect', { x: -W * .1, y: -H * .1, width: W * 1.2, height: H * 1.2, fill: lin(defs, [[0, '#0E2C22'], [.45, '#3E2A22'], [.85, '#B8652E'], [1, '#E8A432']], 0, 1) }, camE);
+el('circle', { cx: W * (land ? .32 : .5), cy: horizon + 30 * u, r: 120 * u, fill: '#F2B24E', opacity: .9 }, camE);
+// town: Hausa-style flat roofs with zanko pinnacles, relief patterns, glowing windows and doors
+const town = g(camE); const windows = [];
+for (let x = -40 * u; x < W + 40 * u;) {
+  const bw = (150 + rnd() * 140) * u, bh = (150 + rnd() * 190) * u, top = horizon + 40 * u - bh, col = rnd() > .5 ? '#3A2A22' : '#33251E';
+  path(town, `M${x},${horizon + 60 * u} V${top} h${bw} V${horizon + 60 * u} Z`, col);
+  for (const px of [x, x + bw - 18 * u]) path(town, `M${px},${top} l${9 * u},${-34 * u} l${9 * u},${34 * u} Z`, col);
+  path(town, `M${x + bw * .1},${top + 22 * u} h${bw * .8}`, 'none', { stroke: '#5A4232', 'stroke-width': 3 * u });
+  for (let k = 0; k < Math.floor(bw / (36 * u)); k++) el('circle', { cx: x + 22 * u + k * 34 * u, cy: top + 40 * u, r: 6 * u, fill: 'none', stroke: '#5A4232', 'stroke-width': 2.5 * u }, town);
+  const dw = 34 * u, dx = x + bw * .5 - dw / 2, dy = horizon + 60 * u;
+  path(town, `M${dx},${dy} v${-58 * u} a${dw / 2},${dw / 2} 0 0 1 ${dw},0 v${58 * u} Z`, '#F0A43C', { opacity: .85 });
+  const wn = el('rect', { x: x + bw * .2, y: top + 70 * u, width: 22 * u, height: 26 * u, rx: 11 * u, fill: '#FFC867' }, town); windows.push(wn);
+  x += bw + 8 * u;
+}
+const lights = [stringLights(camE, defs, -20, W * .55, H * (land ? .14 : .1), 50 * u, 11), stringLights(camE, defs, W * .45, W + 20, H * (land ? .1 : .08), 46 * u, 10), stringLights(camE, defs, W * .1, W * .95, H * (land ? .24 : .3), 60 * u, 14)];
+el('rect', { x: -W * .1, y: horizon + 55 * u, width: W * 1.2, height: H, fill: lin(defs, [[0, '#3A2618'], [1, '#170E09']], 0, 1) }, camE);
+// stall: pot of jollof on a fire, steam rising
+const stall = g(camE); const stX = land ? W * .44 : W * .84, stY = horizon + 120 * u;
+tf(stall, `translate(${stX},${stY}) scale(${u * (land ? 1 : .8)})`);
+path(stall, 'M-70,0 L-40,-30 L40,-30 L70,0 Z', '#2B1E16');
+el('ellipse', { cx: 0, cy: -10, rx: 40, ry: 10, fill: '#F08A2A', opacity: .8, filter: blur(defs, 6) }, stall);
+path(stall, 'M-46,-34 C-50,-90 50,-90 46,-34 Z', '#1B1512'); el('ellipse', { cx: 0, cy: -84, rx: 44, ry: 9, fill: '#2B2420' }, stall);
+el('ellipse', { cx: 0, cy: -84, rx: 38, ry: 6, fill: '#C0442A' }, stall);
+const steam = [...Array(5)].map(() => path(stall, '', 'none', { stroke: '#F5F0E6', 'stroke-width': 6, 'stroke-linecap': 'round', opacity: .35, filter: blur(defs, 3) }));
+const embers = [...Array(36)].map(() => ({ c: el('circle', { r: (1.5 + rnd() * 2.5) * u, fill: '#FFD27A' }, camE), x: rnd() * W, s: .3 + rnd() * .7, p: rnd() * 10 }));
+const dr = drummer(camE, defs, T.drum), dc = dancer(g(camE), defs);
+const dancerWrap = dc.g.parentNode;
+const pScale = land ? L.cs : L.cs * .86;
+tf(dr.g, `translate(${land ? L.cx - 210 * L.cs : W * .3},${L.ground}) scale(${pScale})`);
+tf(dancerWrap, `translate(${land ? L.cx + 190 * L.cs : W * .73},${L.ground}) scale(${-pScale},${pScale})`);
+scrim(sE, true);
+const wE = Word(sE, 'EXPERIENCE', 'Culture, music, food and festivals.', C.ivory);
+
+// ================================================================== 3 INVEST (waterfront, day)
+const sI = g(svg); const wipeI = id('wipe'); const cpI = el('clipPath', { id: wipeI }, defs); const wipeR = el('rect', { x: 0, y: 0, height: H, width: 0 }, cpI);
+sI.setAttribute('clip-path', `url(#${wipeI})`);
+const camI = g(sI);
+el('rect', { x: -W * .1, y: -H * .1, width: W * 1.2, height: H * 1.2, fill: lin(defs, [[0, '#B9D3CC'], [.7, '#EEF0E4'], [1, C.ivory]], 0, 1) }, camI);
+el('circle', { cx: W * .86, cy: H * .14, r: 54 * u, fill: C.gold }, camI);
+el('circle', { cx: W * .86, cy: H * .14, r: 120 * u, fill: rad(defs, [[0, C.gold, .35], [1, C.gold, 0]]) }, camI);
+const lineG = g(camI);
+const growth = path(lineG, '', 'none', { stroke: C.gold, 'stroke-width': 6 * u, 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': 1 });
+const gpts = land ? [[.5, .52], [.58, .44], [.65, .47], [.73, .35], [.8, .38], [.9, .2]] : [[.1, .48], [.28, .42], [.42, .45], [.6, .33], [.74, .36], [.9, .22]];
+growth.setAttribute('d', 'M' + gpts.map(([x, y]) => `${W * x},${H * y}`).join(' L'));
+const nodes = gpts.map(([x, y]) => el('circle', { cx: W * x, cy: H * y, r: 9 * u, fill: C.ivory, stroke: C.gold, 'stroke-width': 4 * u }, lineG));
+const skyline = g(camI); const winI = [];
+const sky0 = horizon;
+let towerX = W * (land ? .62 : .66);
+for (let x = -30 * u; x < W + 30 * u;) {
+  const bw = (70 + rnd() * 90) * u; let bh = (110 + rnd() * 230) * u * hF;
+  if (Math.abs(x - towerX) < bw) bh = 430 * u * hF;
+  const col = rnd() > .5 ? '#2C5040' : '#3E6352';
+  path(skyline, `M${x},${sky0} V${sky0 - bh} h${bw} V${sky0} Z`, col);
+  path(skyline, `M${x + bw * .72},${sky0} V${sky0 - bh} h${bw * .28} V${sky0} Z`, '#173D30', { opacity: .35 });
+  if (bh > 400 * u * hF - 1) { path(skyline, `M${x + bw * .2},${sky0 - bh} l${bw * .3},${-60 * u} l${bw * .3},${60 * u} Z`, '#2C5040'); path(skyline, `M${x + bw * .5},${sky0 - bh - 60 * u} v${-50 * u}`, 'none', { stroke: '#2C5040', 'stroke-width': 4 * u }); }
+  for (let yy = sky0 - bh + 16 * u; yy < sky0 - 14 * u; yy += 22 * u) for (let xx = x + 10 * u; xx < x + bw - 16 * u; xx += 18 * u) { const w = el('rect', { x: xx, y: yy, width: 9 * u, height: 12 * u, fill: '#F5F0E6', opacity: .35 + rnd() * .35 }, skyline); if (rnd() < .06) winI.push(w); }
+  x += bw + 4 * u;
+}
+// hotel under construction + tower crane
+const site = g(camI); const sX = W * (land ? .2 : .08), sW = 220 * u, sH = 300 * u * hF;
+for (let f = 0; f <= 6; f++) path(site, `M${sX},${sky0 - f * sH / 6} h${sW}`, 'none', { stroke: '#5F6662', 'stroke-width': 6 * u });
+for (let c = 0; c <= 4; c++) path(site, `M${sX + c * sW / 4},${sky0} v${-sH}`, 'none', { stroke: '#5F6662', 'stroke-width': 5 * u });
+for (let f = 0; f < 4; f++) el('rect', { x: sX, y: sky0 - (f + 1) * sH / 6, width: sW, height: sH / 6, fill: '#E7DFCF', opacity: .9 }, site);
+const mastX = sX + sW + 50 * u, mastTop = sky0 - 560 * u * hF;
+el('rect', { x: mastX - 10 * u, y: mastTop, width: 20 * u, height: 560 * u * hF, fill: 'none', stroke: C.golddeep, 'stroke-width': 3 * u }, site);
+let zz = ''; for (let y = mastTop; y < sky0; y += 20 * u) zz += `M${mastX - 10 * u},${y} L${mastX + 10 * u},${y + 20 * u} M${mastX + 10 * u},${y} L${mastX - 10 * u},${y + 20 * u} `;
+path(site, zz, 'none', { stroke: C.golddeep, 'stroke-width': 1.6 * u });
+const jibL = 420 * u;
+path(site, `M${mastX + 60 * u},${mastTop} h${-jibL - 60 * u} M${mastX + 60 * u},${mastTop + 18 * u} h${-jibL - 60 * u} M${mastX},${mastTop - 40 * u} L${mastX - jibL},${mastTop} M${mastX},${mastTop - 40 * u} L${mastX + 60 * u},${mastTop}`, 'none', { stroke: C.golddeep, 'stroke-width': 3 * u });
+el('rect', { x: mastX + 40 * u, y: mastTop + 4 * u, width: 30 * u, height: 26 * u, fill: '#5F6662' }, site);
+const trolley = el('rect', { width: 20 * u, height: 10 * u, fill: '#1B201E' }, site);
+const cable = path(site, '', 'none', { stroke: '#1B201E', 'stroke-width': 2 * u });
+const beam = el('rect', { width: 110 * u, height: 14 * u, fill: C.laterite }, site);
+// lagoon + reflections + boats
+el('rect', { x: -W * .1, y: sky0, width: W * 1.2, height: H, fill: lin(defs, [[0, '#7FA9A3'], [1, '#2E6E76']], 0, 1) }, camI);
+const refl = el('use', { href: '#' + (skyline.id = id('skl')), opacity: .22, transform: `translate(0,${2 * sky0}) scale(1,-1)` }, camI);
+const ripples = [...Array(14)].map((_, i) => el('rect', { y: sky0 + (12 + i * 16) * u, height: 2 * u, fill: '#FFFFFF', opacity: .35 }, camI));
+const boats = [0, 1].map(i => { const b = g(camI); path(b, `M-60,0 L60,0 L44,18 L-48,18 Z`, '#0E2C22'); path(b, 'M-34,0 L-30,-26 L30,-26 L34,0 Z', i ? C.laterite : C.gold); path(b, 'M-80,22 h30 M60,22 h30', 'none', { stroke: '#FFFFFF', 'stroke-width': 3, opacity: .6 }); return b; });
+el('rect', { x: -W * .1, y: horizon + (land ? 170 : 210) * u, width: W * 1.2, height: H, fill: lin(defs, [[0, '#E7DFCF'], [1, '#CFC5B1']], 0, 1) }, camI);
+for (let i = 0; i < 12; i++) path(camI, `M${W * i / 11},${horizon + (land ? 170 : 210) * u} L${W * i / 11 + (i - 5.5) * 80 * u},${H}`, 'none', { stroke: '#BDB29B', 'stroke-width': 2 * u });
+const cards = [['Verified project profiles', 'M4 18 L10 12 L14 15 L20 7'], ['Partnership frameworks', 'M7 12 m-4 0 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0 M17 12 m-4 0 a4 4 0 1 0 8 0 a4 4 0 1 0 -8 0']].map(([txt, ic], i) => {
+  const c = g(camI); const cw = 360 * u, ch = 84 * u;
+  el('rect', { width: cw, height: ch, rx: 16 * u, fill: '#FFFFFF', opacity: .95 }, c);
+  el('rect', { x: 16 * u, y: 16 * u, width: 52 * u, height: 52 * u, rx: 12 * u, fill: C.forest }, c);
+  el('path', { d: ic, transform: `translate(${22 * u},${22 * u}) scale(${1.7 * u})`, fill: 'none', stroke: C.gold, 'stroke-width': 2, 'stroke-linecap': 'round' }, c);
+  const tx = el('text', { x: 84 * u, y: 52 * u, 'font-family': 'Inter, Arial', 'font-weight': 600, 'font-size': 24 * u, fill: C.forest }, c); tx.textContent = txt;
+  return c;
+});
+const pro = professional(g(camI), defs); const proWrap = pro.g.parentNode;
+tf(proWrap, `translate(${land ? L.cx + 120 * L.cs : W * .5},${L.ground}) scale(${-L.cs * (land ? 1 : .95)},${L.cs * (land ? 1 : .95)})`);
+const ribbon = path(svg, '', lin(defs, [[0, C.gold, 0], [.4, C.gold, 1], [.6, '#F6CD72', 1], [1, C.gold, 0]], 1, 0));
+scrim(sI, false);
+const wI = Word(sI, 'INVEST', 'Credible, coordinated opportunities.', C.forest);
+
+// ================================================================== 4 MAP → EXPLORE
+const sM = g(svg); const irisM = id('iris'); const cpM = el('clipPath', { id: irisM }, defs); const irisCM = el('circle', { cx: W / 2, cy: H / 2, r: 0 }, cpM);
+sM.setAttribute('clip-path', `url(#${irisM})`);
+el('rect', { width: W, height: H, fill: C.ivory }, sM);
+const pid = id('tile'); const pat = el('pattern', { id: pid, width: 480, height: 480, patternUnits: 'userSpaceOnUse' }, defs); pat.innerHTML = DN.contourTile;
+el('rect', { width: W, height: H, fill: `url(#${pid})`, opacity: .35 }, sM);
+const mapBox = land ? { x: W * .52, y: H * .14, w: W * .42 } : { x: W * .1, y: tall ? H * .38 : H * .36, w: W * .8 };
+const ms = mapBox.w / DNI.map.w; const mapG = g(sM);
+const mapInner = g(mapG); tf(mapInner, `translate(${mapBox.x},${mapBox.y}) scale(${ms})`);
+const ngFill = path(mapInner, DNI.map.d, C.sage, { opacity: 0 });
+const ngLine = path(mapInner, DNI.map.d, 'none', { stroke: C.forest, 'stroke-width': 2.5 / ms * u, pathLength: 1, 'stroke-dasharray': 1, 'stroke-linejoin': 'round' });
+const cty = DNI.map.cities;
+const routes = DNI.map.routes.map(([a, b]) => { const [x1, y1] = cty[a], [x2, y2] = cty[b]; const mx = (x1 + x2) / 2 - (y2 - y1) * .2, my = (y1 + y2) / 2 + (x2 - x1) * .2; return path(mapInner, `M${x1},${y1} Q${mx},${my} ${x2},${y2}`, 'none', { stroke: C.confluence, 'stroke-width': 4 / ms * u, 'stroke-linecap': 'round', pathLength: 1, 'stroke-dasharray': 1 }); });
+const pinNames = ['Lagos', 'Abuja', 'Kano', 'Calabar'];
+const pins = pinNames.map(n => { const [x, y] = cty[n]; const p = g(mapInner, { transform: `translate(${x},${y})` }); const pg = g(p);
+  path(pg, 'M0,0 C-14,-20 -18,-28 -18,-36 a18,18 0 0 1 36,0 c0,8 -4,16 -18,36 Z', n === 'Abuja' ? C.gold : C.forest, { transform: `scale(${1.3 * u / ms})` });
+  el('circle', { cx: 0, cy: -36 * 1.3 * u / ms, r: 6 * 1.3 * u / ms, fill: C.ivory }, pg);
+  const lb = el('text', { x: 24 * u / ms, y: -30 * u / ms, 'font-family': 'Inter, Arial', 'font-weight': 600, 'font-size': 24 * u / ms, fill: C.forest }, pg); lb.textContent = n; return pg; });
+const sX_ = g(svg); // explore landscape
+const camX = g(sX_);
+el('rect', { x: -W * .1, y: -H * .1, width: W * 1.2, height: H * 1.2, fill: lin(defs, [[0, '#BFD6CF'], [.6, '#F3E2BC'], [1, '#F3D9A6']], 0, 1) }, camX);
+el('circle', { cx: W * .78, cy: H * .2, r: 70 * u, fill: '#F6C86A' }, camX);
+el('circle', { cx: W * .78, cy: H * .2, r: 200 * u, fill: rad(defs, [[0, '#FFE2A0', .55], [1, '#FFE2A0', 0]]) }, camX);
+path(camX, ridgeD(W, horizon - 90 * u, 60 * u, .8, 3), '#A9BFA9');
+path(camX, ridgeD(W, horizon - 30 * u, 44 * u, 1.2, 8), '#7E9C86');
+const wf = waterfall(camX, defs, 150 * u, 300 * u); tf(wf.g, `translate(${W * (land ? .3 : .28)},${horizon + 30 * u})`);
+path(camX, ridgeD(W, horizon + 40 * u, 30 * u, 1.4, 1), '#4E7A62');
+const river = path(camX, `M${W * (land ? .25 : .2)},${horizon + 40 * u} C${W * .3},${horizon + 140 * u} ${W * .12},${horizon + 200 * u} ${W * .05},${H}  L${W * .28},${H} C${W * .3},${horizon + 220 * u} ${W * .4},${horizon + 140 * u} ${W * (land ? .35 : .36)},${horizon + 40 * u} Z`, '#8DBDB8');
+const rivRip = path(camX, `M${W * .3},${horizon + 60 * u} C${W * .32},${horizon + 150 * u} ${W * .18},${horizon + 210 * u} ${W * .16},${H}`, 'none', { stroke: '#FFFFFF', 'stroke-width': 3 * u, 'stroke-dasharray': `${20 * u} ${30 * u}`, opacity: .7 });
+const ele = elephant(g(camX), defs); const eleWrap = ele.g.parentNode;
+const palms = [[land ? .9 : .86, 1.05, -6], [land ? .97 : .98, .85, 10], [land ? .06 : .06, .95, 9]].map(([x, s, lean]) => { const p = palm(g(camX), defs, 420, lean); tf(p.g.parentNode, `translate(${W * x},${horizon + 150 * u}) scale(${s * u * (tall ? 1.15 : 1)})`); return p; });
+const trail = g(camX);
+path(trail, `M-20,${L.ground - 30 * u} C${W * .3},${L.ground - 60 * u} ${W * .7},${L.ground - 10 * u} ${W + 20},${L.ground - 40 * u} L${W + 20},${H + 20} L-20,${H + 20} Z`, '#D8C49B');
+const scroll = g(trail); const tufts = grass(scroll, L.ground - 40 * u, W * 2, 220, '#6F8F5A', 22); grass(scroll, L.ground + 10 * u, W * 2, 160, '#8C7A4E', 14);
+const stones = [...Array(12)].map(() => el('ellipse', { cx: rnd() * W * 2, cy: L.ground - 10 * u + rnd() * 50 * u, rx: (6 + rnd() * 10) * u, ry: (4 + rnd() * 5) * u, fill: '#A8926A' }, scroll));
+const tr = traveller(g(camX), defs); const trWrap = tr.g.parentNode;
+tf(trWrap, `translate(${land ? L.cx : W * .5},${L.ground}) scale(${L.cs})`);
+const birdsX = [...Array(5)].map(() => bird(camX, '#2C5040'));
+const scrX = scrim(svg, false);
+const wX = Word(svg, 'EXPLORE', 'From the coast to the plateau.', C.forest);
+
+// ================================================================== 5 LOGO
+const sL = g(svg); const irisL = id('iris'); const cpL = el('clipPath', { id: irisL }, defs); const irisCL = el('circle', { cx: W / 2, cy: H / 2, r: 0 }, cpL);
+sL.setAttribute('clip-path', `url(#${irisL})`);
+el('rect', { width: W, height: H, fill: C.forest }, sL);
+el('rect', { width: W, height: H, fill: rad(defs, [[0, C.ridge, .95], [1, C.forest, 0]], .5, .42, .65) }, sL);
+const LW = Math.min(W * (land ? .5 : .78), H * 1.1), lsc = LW / DN.W, lx0 = (W - LW) / 2, ly0 = H * (tall ? .42 : .4) - DN.H * lsc / 2;
+const sunLX = lx0 + 104.07 * lsc, sunLY = ly0 + 6.62 * lsc;
+const ringsL = [...Array(6)].map(() => el('circle', { cx: sunLX, cy: sunLY, fill: 'none', stroke: C.gold, 'stroke-width': 1.4 * u }, sL));
+const ribL = g(sL); tf(ribL, `translate(0,${H - Math.min(W, H) * .2}) scale(${W / 1200})`);
+const rbpaths = [[[-60, 120], [260, 40], [520, 30], [1260, 110], 18, C.gold], [[520, 140], [700, 80], [880, 70], [1260, 128], 11, C.ivory]];
+const LG = logo(sL, defs, DN.colourways.reversed, { bloom: true }); LG.outline.setAttribute('display', 'none');
+tf(LG.root, `translate(${lx0},${ly0}) scale(${lsc})`);
+const campL = campaign(sL, C.ivory, C.gold); const ccs = LW * .78 / campL.width;
+tf(campL.root, `translate(${(W - campL.width * ccs) / 2},${ly0 + DN.H * lsc + H * (land ? .1 : .07)}) scale(${ccs})`);
+const ribbonsL = rbpaths.map(([p0, p1, p2, p3, w, col]) => { const N = 80; let top = [], bot = []; for (let i = 0; i <= N; i++) { const t = i / N, m = 1 - t; const x = m ** 3 * p0[0] + 3 * m * m * t * p1[0] + 3 * m * t * t * p2[0] + t ** 3 * p3[0], y = m ** 3 * p0[1] + 3 * m * m * t * p1[1] + 3 * m * t * t * p2[1] + t ** 3 * p3[1]; const pr = Math.pow(t < .45 ? Math.sin(Math.PI / 2 * t / .45) : Math.sin(Math.PI / 2 * (1 - t) / .55), .9) * w / 2; top.push([x, y - pr]); bot.push([x, y + pr * .35]); } return path(ribL, 'M' + top.concat(bot.reverse()).map(p => p.map(v => v.toFixed(1)).join(',')).join(' L') + 'Z', col, { opacity: 0 }); });
+
+// grain + vignette over everything
+const gpid = id('grain'); const gpat = el('pattern', { id: gpid, width: 512, height: 512, patternUnits: 'userSpaceOnUse' }, defs);
+el('image', { href: '../../05_BACKGROUNDS_AND_TEXTURES/textures/DN_texture_paper-grain_tile1024.png', width: 512, height: 512 }, gpat);
+el('rect', { width: W, height: H, fill: `url(#${gpid})`, opacity: .55, 'pointer-events': 'none' }, svg);
+el('rect', { width: W, height: H, fill: rad(defs, [[.6, '#000', 0], [1, '#000', .28]], .5, .5, .75), 'pointer-events': 'none' }, svg);
+
+// ================================================================== timeline
+const diag = Math.hypot(W, H);
+window.renderAt = t => {
+  // ---- dawn
+  vis(sD, T.dawn[0], T.dawn[1], t);
+  if (t <= T.dawn[1]) {
+    const k = sm(.1, 3.8, t);
+    [['#06150F', '#163A2E'], ['#10291F', '#8C7B4A'], ['#1E3B30', '#F2C46B']].forEach(([a, b], i) => skyStops[i].setAttribute('stop-color', mix(a, b, k)));
+    starEls.forEach((s, i) => s.setAttribute('opacity', (1 - sm(.6, 3, t)) * (.5 + .5 * Math.sin(t * 3 + i))));
+    const sy = horizon + 90 * u - 250 * u * E.outCubic(clamp((t - .2) / 4.6));
+    tf(sunG, `translate(${sunX},${sy})`);
+    farR.setAttribute('fill', mix('#0B2219', '#5E7A64', k));
+    tf(camD, `translate(${W / 2},${H / 2}) scale(${1 + .06 * t / 4.9}) translate(${-W / 2},${-H / 2})`);
+    mist1.setAttribute('cx', W * .3 + t * 30 * u);
+    birdsD.forEach((b, i) => { const p = clamp((t - .3 - i * .05) / 4.4), row = Math.abs(i - 4); b.set(-100 * u + p * (W + 260 * u) - row * 46 * u, H * .3 + row * 26 * u + Math.sin(t * 2 + i) * 6 * u, 1.3 * u, Math.sin(t * 11 + i * 1.3)); });
+    const a = seg(t, T.headline[0], T.headline[0] + .8, E.outCubic), o = seg(t, T.headline[1] - .4, T.headline[1] + .2);
+    head1.setAttribute('opacity', a * (1 - o)); hl.setAttribute('letter-spacing', `${lerp(.12, 0, a)}em`);
+    tf(head1, `translate(${L.tx},${L.ty + (1 - a) * 20 * u})`);
+  }
+  // ---- experience
+  vis(sE, T.exp[0], T.exp[1], t);
+  if (t >= T.exp[0] && t <= T.exp[1]) {
+    const ir = seg(t, T.iris1[0], T.iris1[1], E.inOutCubic);
+    irisCE.setAttribute('cx', sunX); irisCE.setAttribute('cy', horizon - 120 * u); irisCE.setAttribute('r', ir * diag * 1.1);
+    tf(camE, `translate(${W / 2},${H / 2}) scale(${1.06 - .06 * seg(t, T.exp[0], T.exp[1], E.linear)}) translate(${-W / 2},${-H / 2})`);
+    lights.forEach(l => l.update(t)); dr.update(t); dc.update(t);
+    windows.forEach((w, i) => w.setAttribute('opacity', .7 + .3 * Math.sin(t * 2 + i)));
+    steam.forEach((s, i) => { const ph = (t * .6 + i / 5) % 1; s.setAttribute('d', `M${-20 + i * 10},-96 c${10 * Math.sin(t * 2 + i)},${-30} ${-10},${-50} ${6 * Math.sin(t + i)},${-90 * ph - 20}`); s.setAttribute('opacity', .4 * (1 - ph)); });
+    embers.forEach(e => { const y = (H - ((t * 60 * e.s + e.p * 100) % (H * .8))) ; e.c.setAttribute('cx', e.x + 20 * u * Math.sin(t * e.s * 2 + e.p)); e.c.setAttribute('cy', y); e.c.setAttribute('opacity', .6 * Math.sin(Math.PI * clamp((H - y) / (H * .8)))); });
+    wE.update(t, T.expWord, T.exp[1] - .45);
+  }
+  // ---- invest
+  vis(sI, T.inv[0], T.inv[1], t); ribbon.setAttribute('display', t >= T.wipe2[0] && t <= T.wipe2[1] + .05 ? 'inline' : 'none');
+  if (t >= T.inv[0] && t <= T.inv[1]) {
+    const wp = seg(t, T.wipe2[0], T.wipe2[1], E.inOutCubic), wx = wp * (W + 300 * u);
+    wipeR.setAttribute('width', Math.max(0, wx - 60 * u));
+    ribbon.setAttribute('d', `M${wx - 300 * u},0 L${wx},0 L${wx - 160 * u},${H} L${wx - 460 * u},${H} Z`);
+    tf(camI, `translate(${W / 2},${H / 2}) scale(${1.05 - .05 * seg(t, T.inv[0], T.inv[1], E.linear)}) translate(${-W / 2},${-H / 2})`);
+    const gk = seg(t, T.invWord + .3, T.invWord + 2.4, E.inOutCubic);
+    growth.setAttribute('stroke-dashoffset', 1 - gk);
+    nodes.forEach((n, i) => { const s = seg(t, T.invWord + .3 + i * .4, T.invWord + .6 + i * .4, E.outBack); n.setAttribute('r', Math.max(0, 9 * u * s)); });
+    const cp = seg(t, T.invWord + 1, T.invWord + 3.5, E.inOutSine);
+    tf(trolley, `translate(${mastX - 100 * u - 260 * u * cp},${mastTop + 18 * u})`);
+    const tx = mastX - 90 * u - 260 * u * cp, drop = 160 * u + 120 * u * seg(t, T.invWord + 3.5, T.inv[1], E.inOutSine);
+    cable.setAttribute('d', `M${tx},${mastTop + 28 * u} V${mastTop + drop}`);
+    tf(beam, `translate(${tx - 55 * u},${mastTop + drop}) rotate(${3 * Math.sin(t * 2)} ${55 * u} 0)`);
+    ripples.forEach((r, i) => { const off = (t * 40 * u * (1 + i % 3 * .3) + i * 140 * u) % (W + 200 * u) - 100 * u; r.setAttribute('x', off); r.setAttribute('width', (60 + i % 4 * 40) * u); });
+    boats.forEach((b, i) => tf(b, `translate(${(i ? W * 1.1 - (t - T.inv[0]) * 70 * u : -W * .1 + (t - T.inv[0]) * 95 * u)},${sky0 + (40 + i * 70) * u}) scale(${u * (i ? .8 : 1)})`));
+    winI.forEach((w, i) => w.setAttribute('opacity', Math.sin(t * 1.5 + i) > .7 ? .95 : .4));
+    cards.forEach((c, i) => { if (!land) { c.setAttribute('display', 'none'); return; } const s = seg(t, T.invWord + 1.4 + i * .5, T.invWord + 1.9 + i * .5, E.outBack); const [cx, cy] = land ? [W * (.5 + i * .17), H * (.6 - i * .26) - 260 * u * 0] : [W * (.06 + i * .5), H * (tall ? .3 : .26)];
+      const cs2 = land ? 1 : (tall ? .82 : .62); tf(c, `translate(${cx},${land ? H * (.12 + i * .13) : cy + i * 0}) scale(${Math.max(0, s) * cs2})`); c.setAttribute('opacity', clamp(s * 2)); });
+    pro.update(t, T.invWord + .2);
+    wI.update(t, T.invWord, T.inv[1] - .4);
+  }
+  // ---- map
+  vis(sM, T.map[0], T.map[1], t);
+  if (t >= T.map[0] && t <= T.map[1]) {
+    irisCM.setAttribute('r', seg(t, T.iris3[0], T.iris3[1], E.inOutCubic) * diag * .6);
+    ngLine.setAttribute('stroke-dashoffset', 1 - seg(t, T.iris3[0] + .2, T.iris3[0] + 1.3, E.inOutCubic));
+    ngFill.setAttribute('opacity', .8 * seg(t, T.iris3[0] + .9, T.iris3[0] + 1.6));
+    routes.forEach((r, i) => r.setAttribute('stroke-dashoffset', 1 - seg(t, T.pins[0] + i * .25, T.pins[0] + .7 + i * .25, E.inOutCubic)));
+    pins.forEach((p, i) => { const s = seg(t, T.pins[i], T.pins[i] + .35, E.outBack); tf(p, `scale(${Math.max(0, s)})`); });
+    const z = seg(t, T.zoom[0], T.zoom[1], E.inOutCubic), [jx, jy] = cty['Jos'];
+    const fx = mapBox.x + jx * ms, fy = mapBox.y + jy * ms;
+    tf(mapG, `translate(${fx},${fy}) scale(${1 + 5 * z}) translate(${-fx},${-fy})`);
+    sM.setAttribute('opacity', 1 - seg(t, T.zoom[0] + .2, T.zoom[1]));
+  }
+  // ---- explore landscape
+  vis(sX_, T.explore[0], T.explore[1], t);
+  if (t >= T.explore[0] && t <= T.explore[1]) {
+    const z = seg(t, T.zoom[0], T.zoom[1], E.inOutCubic);
+    sX_.setAttribute('opacity', seg(t, T.zoom[0], T.zoom[1] - .1));
+    tf(camX, `translate(${W / 2},${H / 2}) scale(${1.14 - .14 * z + .03 * seg(t, T.zoom[1], T.explore[1], E.linear)}) translate(${-W / 2},${-H / 2})`);
+    tf(scroll, `translate(${-((t - T.explore[0]) * 160 * u) % W},0)`);
+    rivRip.setAttribute('stroke-dashoffset', -t * 60 * u);
+    wf.update(t); palms.forEach(p => p.update(t)); ele.update(t); tr.update(t, 1);
+    tf(eleWrap, `translate(${W * (land ? .5 : .74) - (t - T.explore[0]) * 16 * u},${horizon + 70 * u}) scale(${-.48 * u * (tall ? 1.1 : 1)},${.48 * u * (tall ? 1.1 : 1)})`);
+    birdsX.forEach((b, i) => { const p = clamp((t - T.explore[0] - i * .1) / 3.6); b.set(W * 1.05 - p * W * .8 - i * 40 * u, H * .18 + i * 22 * u, 1.1 * u, Math.sin(t * 10 + i)); });
+  }
+  vis(wX.g, T.map[0], T.explore[1], t); vis(scrX, T.zoom[0], T.explore[1], t); scrX.setAttribute('opacity', seg(t, T.zoom[0], T.zoom[1]) * (1 - seg(t, T.explore[1] - .5, T.explore[1])));
+  if (t >= T.map[0] && t <= T.explore[1]) wX.update(t, T.expoWord, T.explore[1] - .5);
+  // ---- logo
+  vis(sL, T.logo[0], T.dur + 1, t);
+  if (t >= T.logo[0]) {
+    irisCL.setAttribute('r', seg(t, T.logoIn[0], T.logoIn[1], E.inOutCubic) * diag * .6);
+    ringsL.forEach((r, i) => { const ph = ((t * .16 + i / ringsL.length) % 1); r.setAttribute('r', H * (.08 + .62 * ph)); r.setAttribute('stroke-opacity', (1 - ph) * .3 * seg(t, T.logo[0] + .3, T.logo[0] + 1.5)); });
+    ribbonsL.forEach((r, i) => r.setAttribute('opacity', .9 * seg(t, T.logo[0] + .3 + i * .2, T.logo[0] + 1.2 + i * .2)));
+    const l = seg(t, T.logo[0] + .45, T.logo[0] + 1.3, E.outCubic);
+    LG.land.setAttribute('opacity', l); LG.land.setAttribute('transform', `translate(0,${4 * (1 - l)})`);
+    const k = seg(t, T.sun - .75, T.sun, E.outCubic);
+    LG.sun.setAttribute('transform', `translate(0,${7 * (1 - k)})`); LG.sun.setAttribute('opacity', seg(t, T.sun - .75, T.sun - .4));
+    LG.bloom.setAttribute('opacity', seg(t, T.sun - .4, T.sun) * .8 - seg(t, T.sun + .2, T.sun + 1.4) * .5);
+    LG.bloom.setAttribute('r', 18 + 10 * seg(t, T.sun - .5, T.sun + .4, E.outCubic));
+    LG.wipe.setAttribute('x', lerp(-195, 0, seg(t, T.sun - .45, T.sun + .5)));
+    const n = seg(t, T.sun + .2, T.sun + .75, E.outCubic); LG.nigeria.setAttribute('opacity', n); LG.nigeria.setAttribute('transform', `translate(0,${2.5 * (1 - n)})`);
+    campL.words.forEach((w, i) => { const a = seg(t, T.camp + i * .18, T.camp + .45 + i * .18, E.outCubic); w.g.setAttribute('opacity', a); w.g.setAttribute('transform', `translate(0,${9 * (1 - a)})`); w.c.setAttribute('transform', `scale(${Math.max(0, seg(t, T.camp + .2 + i * .18, T.camp + .5 + i * .18, E.outBack))})`); });
+  }
+};
+renderAt(12); DNM.scrubber(); window.ready = true;
+</script></body></html>

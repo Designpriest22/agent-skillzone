@@ -12,7 +12,7 @@ python3 icons.py
 python3 graphics.py && R _jobs_graphics.json
 python3 backgrounds.py && R _jobs_backgrounds.json
 python3 sonic.py
-python3 motion.py && python3 lottie.py && (cd ../../07_MOTION_IDENTITY/SOURCE_PROJECTS && node render_motion.mjs)
+python3 motion.py && python3 intro.py && python3 lottie.py && (cd ../../07_MOTION_IDENTITY/SOURCE_PROJECTS && node render_motion.mjs)
 python3 documents.py && (cd ../../09_DOCUMENT_TEMPLATES && for f in */*.docx; do soffice --headless --convert-to pdf --outdir "$(dirname "$f")" "$f" >/dev/null; done)
 python3 cards.py && R _jobs_cards.json
 python3 pptx_build.py && (cd ../../10_PRESENTATION_TEMPLATES && soffice --headless --convert-to pdf DN_Presentation-Template_16x9.pptx >/dev/null)

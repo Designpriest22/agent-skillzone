@@ -6,6 +6,7 @@
 | B | Minimal digital reveal | 2.5 s | 16:9 light and dark, 1:1, 9:16 MP4 (with sting), WebM, GIF; alpha MOV (PNG codec) and WebM; **Lottie** |
 | C | Presentation opener | 8.0 s | MP4 and WebM (bed plus sonic logo), GIF, final frame |
 | D | Seamless brand loop | 20.0 s | 16:9 (clean and with logo), 9:16; perfect loop (every motion is periodic); silent |
+| F | **Brand intro — illustrated motion graphics** (see `BRAND_INTRO_25s/README.md`) | 25.0 s | 16:9, 1:1, 4:5, 9:16 MP4 with synced soundtrack; 16:9 WebM; captions (SRT); end frames; storyboard |
 | E | Symbol animation (Horizon Roundel) | 3.0 s | On ivory and on forest (with sting); alpha MOV (PNG codec) and WebM; **Lottie** |
 
 All are 30 fps, H.264 High (yuv420p, BT.709), with a stable final frame and no flicker. Audio is AAC 256 kbps (MP4) or Opus (WebM).

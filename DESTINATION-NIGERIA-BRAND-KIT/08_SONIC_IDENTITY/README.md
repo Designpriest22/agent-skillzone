@@ -4,6 +4,7 @@
 |---|---|---|---|
 | `DN_sonic-logo_primary_6-5s.wav/.mp3` | 6.5 s | −16 LUFS, −1 dBTP | Logo reveal A, presentations, film end cards |
 | `DN_sonic-sting_2-5s.wav/.mp3` | 2.5 s | −16 LUFS | Web welcome, social intros, B and E |
+| `DN_sonic-brand-intro_25s.wav/.mp3` | 25 s | −16 LUFS | Soundtrack of the 25 s brand intro (F); synced to its timeline |
 | `DN_sonic-intro-bed_30s_seamless-loop.wav/.mp3` | 30 s | −18 LUFS | Event openings, holding screens, under voice-over (loops seamlessly) |
 
 The masters are WAV, 48 kHz, 24-bit stereo. The MP3s are 320 kbps.

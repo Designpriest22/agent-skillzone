@@ -32,6 +32,10 @@ const JOBS = [
   { name: 'D_brand-loop_1080x1920', comp: 'D_seamless-brand-loop.html', q: 'logo=0&w=1080&h=1920', w: 1080, h: 1920, dir: 'LOOPS', out: ['mp4'] },
   { name: 'E_symbol_on-ivory_1080x1080', comp: 'E_symbol-animation.html', q: 'theme=light', w: 1080, h: 1080, dir: 'LOGO_INTROS', out: ['mp4', 'gif', 'png'] },
   { name: 'E_symbol_on-forest_1080x1080', comp: 'E_symbol-animation.html', q: 'theme=dark', w: 1080, h: 1080, dir: 'LOGO_INTROS', out: ['mp4', 'webm', 'gif'], audio: 'DN_sonic-sting_2-5s.wav' },
+  { name: 'F_brand-intro-25s_16x9_1920x1080', comp: 'F_brand-intro-25s.html', q: 'w=1920&h=1080', w: 1920, h: 1080, dir: 'BRAND_INTRO_25s', out: ['mp4', 'webm', 'png'], audio: 'DN_sonic-brand-intro_25s.wav' },
+  { name: 'F_brand-intro-25s_1x1_1080x1080', comp: 'F_brand-intro-25s.html', q: 'w=1080&h=1080', w: 1080, h: 1080, dir: 'BRAND_INTRO_25s', out: ['mp4', 'png'], audio: 'DN_sonic-brand-intro_25s.wav' },
+  { name: 'F_brand-intro-25s_4x5_1080x1350', comp: 'F_brand-intro-25s.html', q: 'w=1080&h=1350', w: 1080, h: 1350, dir: 'BRAND_INTRO_25s', out: ['mp4', 'png'], audio: 'DN_sonic-brand-intro_25s.wav' },
+  { name: 'F_brand-intro-25s_9x16_1080x1920', comp: 'F_brand-intro-25s.html', q: 'w=1080&h=1920', w: 1080, h: 1920, dir: 'BRAND_INTRO_25s', out: ['mp4', 'png'], audio: 'DN_sonic-brand-intro_25s.wav' },
   { name: 'E_symbol_ALPHA_1080x1080', comp: 'E_symbol-animation.html', q: 'transparent=1', w: 1080, h: 1080, dir: 'LOGO_INTROS', out: ['mov', 'webm-alpha', 'png'], alpha: true },
 ];
 
@@ -54,12 +58,17 @@ async function render(browser, j) {
   const frames = Math.round(DURATION * FPS);
   const dir = path.join(TMP, j.name);
   fs.rmSync(dir, { recursive: true, force: true }); fs.mkdirSync(dir, { recursive: true });
+  // opaque jobs capture JPEG q95 intermediates (PNG encoding of film grain is ~8x slower); alpha jobs keep PNG
+  const ext = j.alpha ? 'png' : 'jpg';
   for (let f = 0; f < frames; f++) {
     await page.evaluate(t => window.renderAt(t), f / FPS);
-    await page.screenshot({ path: path.join(dir, `f${String(f).padStart(5, '0')}.png`), omitBackground: !!j.alpha });
+    await page.screenshot(j.alpha ? { path: path.join(dir, `f${String(f).padStart(5, '0')}.png`), omitBackground: true }
+      : { path: path.join(dir, `f${String(f).padStart(5, '0')}.jpg`), type: 'jpeg', quality: 95 });
   }
+  await page.evaluate(t => window.renderAt(t), (frames - 1) / FPS);
+  await page.screenshot({ path: path.join(dir, 'final.png'), omitBackground: !!j.alpha });
   await page.close();
-  const seq = ['-framerate', String(FPS), '-i', path.join(dir, 'f%05d.png')];
+  const seq = ['-framerate', String(FPS), '-i', path.join(dir, `f%05d.${ext}`)];
   const od = path.join(OUT, j.dir); fs.mkdirSync(od, { recursive: true });
   const base = path.join(od, 'DN_motion_' + j.name);
   let audio = [];
@@ -86,7 +95,7 @@ async function render(browser, j) {
       const w = Math.min(640, j.w), t = o === 'gif-short' ? ['-t', '6'] : [];
       ff([...seq, ...t, '-vf', `fps=15,scale=${w}:-1:flags=lanczos,split[a][b];[a]palettegen=stats_mode=diff[p];[b][p]paletteuse=dither=sierra2_4a`, base + '_preview.gif']);
     }
-    if (o === 'png') fs.copyFileSync(path.join(dir, `f${String(frames - 1).padStart(5, '0')}.png`), base + '_final-frame.png');
+    if (o === 'png') fs.copyFileSync(path.join(dir, 'final.png'), base + '_final-frame.png');
   }
   fs.rmSync(dir, { recursive: true, force: true });
   console.log('✓', j.name, `${frames} frames`);
