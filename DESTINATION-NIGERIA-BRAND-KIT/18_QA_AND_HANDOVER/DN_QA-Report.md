@@ -1,8 +1,8 @@
 # Quality assurance report
 
-Automated checks run by `16_SOURCE_FILES/build/qa.py`: **59 / 59 passed.**
+Automated checks run by `16_SOURCE_FILES/build/qa.py`: **65 / 65 passed.**
 
-Kit size: 213.8 MB · 1104 files (1021 deliverables outside the build sources).
+Kit size: 278.9 MB · 1128 files (1041 deliverables outside the build sources).
 
 | Area | Check | Result | Detail |
 |---|---|---|---|
@@ -19,7 +19,7 @@ Kit size: 213.8 MB · 1104 files (1021 deliverables outside the build sources).
 | Backgrounds | Every background exported as 9x16_1080x1920.jpg | ✅ Pass |  |
 | Backgrounds | Every background exported as A4-portrait.pdf | ✅ Pass |  |
 | Backgrounds | Every background exported as A4-landscape.pdf | ✅ Pass |  |
-| PDF | 114 PDFs open | ✅ Pass |  |
+| PDF | 116 PDFs open | ✅ Pass |  |
 | Documents | 22 template PDFs are A4 | ✅ Pass |  |
 | Guidelines | Guidelines PDF is A4 landscape with at least 30 pages | ✅ Pass | 36 pages |
 | Guidelines | All fonts embedded in the guidelines PDF | ✅ Pass | 12 fonts; 0 not embedded |
@@ -31,6 +31,10 @@ Kit size: 213.8 MB · 1104 files (1021 deliverables outside the build sources).
 | Presentation | PPTX master has ≥ 19 named layouts | ✅ Pass | 21 layouts, 21 sample slides |
 | Presentation | Sample deck contains native editable chart and table | ✅ Pass | 1 chart(s), 1 table(s) |
 | Documents | Invoice XLSX calculates (formulas present) | ✅ Pass | 13 formulas |
+| Motion | DN_motion_F_brand-intro-25s_16x9_1920x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
+| Motion | DN_motion_F_brand-intro-25s_1x1_1080x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
+| Motion | DN_motion_F_brand-intro-25s_4x5_1080x1350.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
+| Motion | DN_motion_F_brand-intro-25s_9x16_1080x1920.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
 | Motion | DN_motion_A_cinematic-reveal_dark_1920x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
 | Motion | DN_motion_A_cinematic-reveal_fullcolour_ALPHA_1920x1080.webm carries an alpha channel | ✅ Pass | yuv420p |
 | Motion | DN_motion_A_cinematic-reveal_fullcolour_ALPHA_1920x1080_alpha-PNG.mov carries an alpha channel | ✅ Pass | rgba |
@@ -51,9 +55,11 @@ Kit size: 213.8 MB · 1104 files (1021 deliverables outside the build sources).
 | Motion | DN_motion_D_brand-loop_1080x1920.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
 | Motion | DN_motion_D_brand-loop_1920x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
 | Motion | DN_motion_D_brand-loop_with-logo_1920x1080.mp4 is H.264 yuv420p | ✅ Pass | yuv420p |
-| Motion | All five animations (A–E) rendered | ✅ Pass | A, B, C, D, E |
+| Motion | All five animations (A–E) rendered | ✅ Pass | A, B, C, D, E, F |
 | Motion | Loop D is seamless (seam ≤ 2× typical frame step) | ✅ Pass | seam 0.363 vs step 0.281 |
 | Motion | 5 Lottie files are valid Bodymovin JSON (rendered in lottie-web 5.12.2) | ✅ Pass |  |
+| Sonic | DN_sonic-brand-intro_25s.wav: 48 kHz 24-bit stereo | ✅ Pass | 48000 pcm_s24le 2ch 25.00s |
+| Sonic | DN_sonic-brand-intro_25s.wav: loudness -15.8 LUFS, true peak -1.0 dBFS ≤ −1 | ✅ Pass |  |
 | Sonic | DN_sonic-intro-bed_30s_seamless-loop.wav: 48 kHz 24-bit stereo | ✅ Pass | 48000 pcm_s24le 2ch 30.00s |
 | Sonic | DN_sonic-intro-bed_30s_seamless-loop.wav: loudness -18.0 LUFS, true peak -5.3 dBFS ≤ −1 | ✅ Pass |  |
 | Sonic | Intro bed loop seam is continuous | ✅ Pass | seam 0.00009, mean step 0.00597 |
@@ -61,7 +67,7 @@ Kit size: 213.8 MB · 1104 files (1021 deliverables outside the build sources).
 | Sonic | DN_sonic-logo_primary_6-5s.wav: loudness -15.6 LUFS, true peak -2.6 dBFS ≤ −1 | ✅ Pass |  |
 | Sonic | DN_sonic-sting_2-5s.wav: 48 kHz 24-bit stereo | ✅ Pass | 48000 pcm_s24le 2ch 2.50s |
 | Sonic | DN_sonic-sting_2-5s.wav: loudness -16.0 LUFS, true peak -5.3 dBFS ≤ −1 | ✅ Pass |  |
-| Sonic | MP3 versions exist for every WAV | ✅ Pass | 3 MP3 |
+| Sonic | MP3 versions exist for every WAV | ✅ Pass | 4 MP3 |
 | Social | At least 8 template families with PNG examples | ✅ Pass | 8 families, 40 PNGs |
 | Organisation | No spaces in file names | ✅ Pass |  |
 | Organisation | Deliverables follow the DN_ naming convention | ✅ Pass |  |
@@ -70,6 +76,11 @@ Kit size: 213.8 MB · 1104 files (1021 deliverables outside the build sources).
 
 | File | Codec | Size | Duration | Pixel format | Audio |
 |---|---|---|---|---|---|
+| DN_motion_F_brand-intro-25s_16x9_1920x1080.mp4 | h264 | 1920x1080 | 25.00s | yuv420p | yes |
+| DN_motion_F_brand-intro-25s_16x9_1920x1080.webm | vp9 | 1920x1080 | 25.01s | yuv420p | yes |
+| DN_motion_F_brand-intro-25s_1x1_1080x1080.mp4 | h264 | 1080x1080 | 25.00s | yuv420p | yes |
+| DN_motion_F_brand-intro-25s_4x5_1080x1350.mp4 | h264 | 1080x1350 | 25.00s | yuv420p | yes |
+| DN_motion_F_brand-intro-25s_9x16_1080x1920.mp4 | h264 | 1080x1920 | 25.00s | yuv420p | yes |
 | DN_motion_A_cinematic-reveal_dark_1920x1080.mp4 | h264 | 1920x1080 | 7.00s | yuv420p | yes |
 | DN_motion_A_cinematic-reveal_dark_1920x1080.webm | vp9 | 1920x1080 | 7.01s | yuv420p | yes |
 | DN_motion_A_cinematic-reveal_fullcolour_ALPHA_1920x1080.webm | vp9 | 1920x1080 | 7.00s | yuv420p | no |
