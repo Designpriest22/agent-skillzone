@@ -1,0 +1,53 @@
+<!doctype html><html><head><meta charset="utf-8"><title>A — Cinematic logo reveal (7 s)</title></head><body>
+<script src="dn-logo-data.js"></script><script src="dn-motion.js"></script>
+<script>
+// A — Primary cinematic logo reveal. ?theme=dark|light  ?transparent=1  ?w=&h=  ?scrub&play
+const { P, E, seg, lerp, el, stage, logo, campaign, bgGradient } = DNM;
+window.DURATION = 7.0; window.FPS = 30;
+const { svg, defs } = stage();
+const dark = P.theme !== 'light';
+if (!P.transparent) dark
+  ? bgGradient(svg, defs, [[0, DN.C.ridge], [.55, DN.C.forest], [1, DN.C.charcoal]], .5, .42, .85)
+  : bgGradient(svg, defs, [[0, '#FFFFFF'], [.6, DN.C.ivory], [1, DN.C.haze]], .5, .42, .9);
+const cw = dark ? DN.colourways.reversed : DN.colourways.fullcolour;
+const LW = Math.min(P.w * .56, P.h * 1.25), s = LW / DN.W;
+const x0 = (P.w - LW) / 2, y0 = P.h * .43 - DN.H * s / 2;
+const wrap = el('g', {}, svg), inner = el('g', {}, wrap);
+// horizon glow line (dawn)
+const gfid = DNM.id('blur'); const f = el('filter', { id: gfid, x: '-50%', y: '-500%', width: '200%', height: '1100%' }, defs);
+el('feGaussianBlur', { stdDeviation: .9 }, f);
+const glow = el('rect', { y: 21.2, height: .9, rx: .45, fill: DN.C.gold, filter: `url(#${gfid})` }, inner);
+const L = logo(inner, defs, cw, { bloom: true, outlineWidth: .32,
+  outline: dark ? { horizon: DN.C.gold, horizon_small: DN.C.gold, ridge: DN.C.ivory, monolith: DN.C.ivory } : {} });
+const camp = campaign(svg, dark ? DN.C.ivory : DN.C.forest, DN.C.gold);
+const cs = LW * .74 / camp.width, cx0 = (P.w - camp.width * cs) / 2, cy0 = y0 + DN.H * s + P.h * .1;
+window.renderAt = t => {
+  const sc = 1.045 - .045 * seg(t, 0, 6.2, E.outCubic);
+  wrap.setAttribute('transform', `translate(${P.w / 2},${y0 + DN.H * s / 2}) scale(${sc}) translate(${-P.w / 2},${-(y0 + DN.H * s / 2)})`);
+  inner.setAttribute('transform', `translate(${x0},${y0}) scale(${s})`);
+  const g = seg(t, .15, 1.4, E.outCubic);
+  glow.setAttribute('x', 66 - 50 * g); glow.setAttribute('width', 100 * g);
+  glow.setAttribute('opacity', seg(t, .15, .6) * (1 - seg(t, 2.1, 2.9)) * .95);
+  ['horizon', 'horizon_small', 'ridge', 'monolith'].forEach((n, i) => {
+    L.outlines[n].setAttribute('stroke-dashoffset', 1 - seg(t, .95 + i * .2, 2.15 + i * .12));
+  });
+  L.outline.setAttribute('opacity', 1 - seg(t, 2.3, 2.9));
+  L.land.setAttribute('opacity', seg(t, 1.85, 2.7));
+  const k = seg(t, 2.45, 3.4, E.outCubic);
+  L.sun.setAttribute('transform', `translate(0,${7 * (1 - k)})`);
+  L.sun.setAttribute('opacity', seg(t, 2.45, 2.85));
+  L.bloom.setAttribute('opacity', seg(t, 2.7, 3.3) * .75 - seg(t, 3.5, 5.2) * .5);
+  L.bloom.setAttribute('r', 18 + 10 * seg(t, 2.6, 3.6, E.outCubic));
+  L.wipe.setAttribute('x', lerp(-195, 0, seg(t, 3.4, 4.65)));
+  const n = seg(t, 4.2, 5.0, E.outCubic);
+  L.nigeria.setAttribute('opacity', n); L.nigeria.setAttribute('transform', `translate(0,${2.5 * (1 - n)})`);
+  camp.words.forEach((w, i) => {
+    const a = seg(t, 5.3 + i * .24, 5.95 + i * .24, E.outCubic);
+    w.g.setAttribute('opacity', a); w.g.setAttribute('transform', `translate(0,${9 * (1 - a)})`);
+    const d = seg(t, 5.6 + i * .24, 6.05 + i * .24, E.outBack);
+    w.c.setAttribute('transform', `scale(${Math.max(d, 0)})`);
+  });
+  camp.root.setAttribute('transform', `translate(${cx0},${cy0}) scale(${cs})`);
+};
+renderAt(window.DURATION); DNM.scrubber(); window.ready = true;
+</script></body></html>

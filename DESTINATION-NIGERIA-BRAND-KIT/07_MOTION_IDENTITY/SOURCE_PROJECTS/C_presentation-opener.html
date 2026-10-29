@@ -1,0 +1,63 @@
+<!doctype html><html><head><meta charset="utf-8"><title>C — Presentation opener (8 s)</title></head><body>
+<script src="dn-logo-data.js"></script><script src="dn-motion.js"></script>
+<script>
+// C — Premium opener for institutional presentations, investment decks and official events.
+const { P, E, seg, lerp, el, stage, logo, campaign, bgGradient } = DNM;
+window.DURATION = 8.0; window.FPS = 30;
+const { svg, defs } = stage();
+el('rect', { width: P.w, height: P.h, fill: DN.C.forest }, svg);
+bgGradient(svg, defs, [[0, DN.C.ridge, .95], [1, DN.C.forest, 0]], .5, .42, .62);
+// fine structural grid
+for (let i = 0; i <= 12; i++) el('path', { d: `M${P.w * (.06 + .88 * i / 12)},0 V${P.h}`, stroke: DN.C.ivory, 'stroke-opacity': .04 }, svg);
+const LW = P.w * .5, s = LW / DN.W, x0 = (P.w - LW) / 2, y0 = P.h * .4 - DN.H * s / 2;
+const sunX = x0 + 104.07 * s, sunY = y0 + 6.62 * s;
+const rings = [...Array(6)].map(() => el('circle', { cx: sunX, cy: sunY, fill: 'none', stroke: DN.C.gold, 'stroke-width': 1.4 }, svg));
+// horizon ribbons sweeping across the base
+const cid = DNM.id('sweep'); const cp = el('clipPath', { id: cid }, defs);
+const sweep = el('rect', { x: 0, y: 0, height: P.h, width: 0 }, cp);
+const rib = el('g', { 'clip-path': `url(#${cid})` }, svg);
+const W = P.w, H = P.h, y = H * .86;
+function ribbon(p0, p1, p2, p3, w, col, op) {
+  const N = 90, pts = [], bot = [];
+  for (let i = 0; i <= N; i++) {
+    const t = i / N, mt = 1 - t;
+    const x = mt ** 3 * p0[0] + 3 * mt * mt * t * p1[0] + 3 * mt * t * t * p2[0] + t ** 3 * p3[0];
+    const yy = mt ** 3 * p0[1] + 3 * mt * mt * t * p1[1] + 3 * mt * t * t * p2[1] + t ** 3 * p3[1];
+    const prof = Math.pow(t < .45 ? Math.sin(Math.PI / 2 * t / .45) : Math.sin(Math.PI / 2 * (1 - t) / .55), .9) * w / 2;
+    pts.push([x, yy - prof]); bot.push([x, yy + prof * .35]);
+  }
+  const d = 'M' + pts.concat(bot.reverse()).map(p => p.map(v => v.toFixed(1)).join(',')).join(' L') + 'Z';
+  return el('path', { d, fill: col, 'fill-opacity': op }, rib);
+}
+ribbon([-.05 * W, y + 50], [.25 * W, y - 40], [.55 * W, y - 50], [1.05 * W, y + 30], 20, DN.C.gold, .95);
+ribbon([.45 * W, y + 70], [.65 * W, y + 10], [.85 * W, y], [1.05 * W, y + 50], 12, DN.C.ivory, .85);
+ribbon([.08 * W, y + 92], [.16 * W, y + 76], [.24 * W, y + 72], [.32 * W, y + 70], 7, DN.C.ivory, .7);
+const L = logo(svg, defs, DN.colourways.reversed, { bloom: true });
+L.outline.setAttribute('display', 'none');
+L.root.setAttribute('transform', `translate(${x0},${y0}) scale(${s})`);
+const camp = campaign(svg, DN.C.ivory, DN.C.gold);
+const cs = LW * .74 / camp.width;
+camp.root.setAttribute('transform', `translate(${(P.w - camp.width * cs) / 2},${y0 + DN.H * s + P.h * .1}) scale(${cs})`);
+window.renderAt = t => {
+  sweep.setAttribute('width', P.w * seg(t, .3, 2.4, E.inOutCubic));
+  rings.forEach((r, i) => {           // light radiating from the sun, continuous
+    const ph = ((t * .16 + i / rings.length) % 1);
+    r.setAttribute('r', P.h * (.08 + .62 * ph));
+    r.setAttribute('stroke-opacity', (1 - ph) * .32 * seg(t, .2, 1.6));
+  });
+  const l = seg(t, 1.5, 2.4, E.outCubic);
+  L.land.setAttribute('opacity', l); L.land.setAttribute('transform', `translate(0,${4 * (1 - l)})`);
+  const k = seg(t, 2.1, 3.0, E.outCubic);
+  L.sun.setAttribute('transform', `translate(0,${6 * (1 - k)})`); L.sun.setAttribute('opacity', seg(t, 2.1, 2.5));
+  L.bloom.setAttribute('opacity', seg(t, 2.4, 2.9) * .7 - seg(t, 3.1, 4.6) * .45);
+  L.wipe.setAttribute('x', lerp(-195, 0, seg(t, 2.8, 3.9)));
+  const n = seg(t, 3.5, 4.2, E.outCubic);
+  L.nigeria.setAttribute('opacity', n); L.nigeria.setAttribute('transform', `translate(0,${2.5 * (1 - n)})`);
+  camp.words.forEach((w, i) => {
+    const a = seg(t, 4.5 + i * .25, 5.1 + i * .25, E.outCubic);
+    w.g.setAttribute('opacity', a); w.g.setAttribute('transform', `translate(0,${9 * (1 - a)})`);
+    w.c.setAttribute('transform', `scale(${Math.max(seg(t, 4.8 + i * .25, 5.25 + i * .25, E.outBack), 0)})`);
+  });
+};
+renderAt(6); DNM.scrubber(); window.ready = true;
+</script></body></html>

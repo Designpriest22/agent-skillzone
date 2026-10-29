@@ -1,0 +1,187 @@
+[
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/programme/DN_event-programme_A4_cover.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_event-programme_A4_cover.png",
+  "w": 1600,
+  "h": 2244,
+  "direct": false,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/programme/DN_event-programme_A4_cover.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/programme/DN_event-programme_A4_cover_print.pdf",
+  "w": 816.3779527559055,
+  "h": 1145.1968503937007,
+  "format": "pdf",
+  "pdfW": "216mm",
+  "pdfH": "303mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/programme/DN_event-programme_A4_running-order.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_event-programme_A4_running-order.png",
+  "w": 1600,
+  "h": 2244,
+  "direct": false,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/programme/DN_event-programme_A4_running-order.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/programme/DN_event-programme_A4_running-order_print.pdf",
+  "w": 816.3779527559055,
+  "h": 1145.1968503937007,
+  "format": "pdf",
+  "pdfW": "216mm",
+  "pdfH": "303mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/speaker/DN_speaker-profile_1080x1350.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_speaker-profile_1080x1350.png",
+  "w": 1080,
+  "h": 1350,
+  "direct": true,
+  "scale": 1.0
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/backdrop/DN_stage-screen_16x9_3840x2160.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_stage-screen_16x9_3840x2160.png",
+  "w": 3840,
+  "h": 2160,
+  "direct": true,
+  "scale": 0.5
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/backdrop/DN_media-wall_step-and-repeat_3000x2400mm.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_media-wall_step-and-repeat_3000x2400mm.png",
+  "w": 1500,
+  "h": 1200,
+  "direct": false,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/backdrop/DN_media-wall_step-and-repeat_3000x2400mm.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/backdrop/DN_media-wall_step-and-repeat_3000x2400mm_print.pdf",
+  "w": 4000.0,
+  "h": 3200.0,
+  "format": "pdf",
+  "pdfW": "3000mm",
+  "pdfH": "2400mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/invitation/DN_digital-invitation_1080x1350.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_digital-invitation_1080x1350.png",
+  "w": 1080,
+  "h": 1350,
+  "direct": true,
+  "scale": 1.0
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/badges/DN_name-badge_A6.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_name-badge_A6.png",
+  "w": 700,
+  "h": 971,
+  "direct": false,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/badges/DN_name-badge_A6.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/badges/DN_name-badge_A6_print.pdf",
+  "w": 419.52755905511816,
+  "h": 582.0472440944882,
+  "format": "pdf",
+  "pdfW": "111mm",
+  "pdfH": "154mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/signage/DN_directional-sign_A2_left.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_directional-sign_A2_left.png",
+  "w": 600,
+  "h": 849,
+  "direct": false,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/signage/DN_directional-sign_A2_left.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/signage/DN_directional-sign_A2_left_print.pdf",
+  "w": 1587.4015748031497,
+  "h": 2245.0393700787404,
+  "format": "pdf",
+  "pdfW": "420mm",
+  "pdfH": "594mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/signage/DN_directional-sign_A2_right.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_directional-sign_A2_right.png",
+  "w": 600,
+  "h": 849,
+  "direct": false,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/signage/DN_directional-sign_A2_right.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/signage/DN_directional-sign_A2_right_print.pdf",
+  "w": 1587.4015748031497,
+  "h": 2245.0393700787404,
+  "format": "pdf",
+  "pdfW": "420mm",
+  "pdfH": "594mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/signage/DN_directional-sign_A2_up.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_directional-sign_A2_up.png",
+  "w": 600,
+  "h": 849,
+  "direct": false,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/signage/DN_directional-sign_A2_up.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/signage/DN_directional-sign_A2_up_print.pdf",
+  "w": 1587.4015748031497,
+  "h": 2245.0393700787404,
+  "format": "pdf",
+  "pdfW": "420mm",
+  "pdfH": "594mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/sponsors/DN_sponsor-acknowledgement_1920x1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_sponsor-acknowledgement_1920x1080.png",
+  "w": 1920,
+  "h": 1080,
+  "direct": true,
+  "scale": 1.0
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/exhibition/DN_roll-up-banner_850x2000mm.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_roll-up-banner_850x2000mm.png",
+  "w": 500,
+  "h": 1176,
+  "direct": false,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/exhibition/DN_roll-up-banner_850x2000mm.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/exhibition/DN_roll-up-banner_850x2000mm_print.pdf",
+  "w": 3212.5984251968507,
+  "h": 7559.055118110236,
+  "format": "pdf",
+  "pdfW": "850mm",
+  "pdfH": "2000mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/exhibition/DN_exhibition-panel_2000x1000mm.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/_previews/DN_exhibition-panel_2000x1000mm.png",
+  "w": 1600,
+  "h": 800,
+  "direct": false,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/exhibition/DN_exhibition-panel_2000x1000mm.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/13_EVENT_AND_SIGNAGE/exhibition/DN_exhibition-panel_2000x1000mm_print.pdf",
+  "w": 4000.0,
+  "h": 2000.0,
+  "format": "pdf",
+  "pdfW": "2000mm",
+  "pdfH": "1000mm"
+ }
+]

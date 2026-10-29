@@ -1,0 +1,22 @@
+[
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/14_BRAND_GUIDELINES/source/DN_Brand-Guidelines.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/14_BRAND_GUIDELINES/DN_Brand-Guidelines_v1.0.pdf",
+  "w": 1123,
+  "h": 794,
+  "format": "pdf",
+  "pdfW": "297mm",
+  "pdfH": "210mm",
+  "wait": 500
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/14_BRAND_GUIDELINES/source/DN_Brand-Quick-Reference.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/14_BRAND_GUIDELINES/DN_Brand-Quick-Reference_v1.0.pdf",
+  "w": 794,
+  "h": 1123,
+  "format": "pdf",
+  "pdfW": "210mm",
+  "pdfH": "297mm",
+  "wait": 300
+ }
+]

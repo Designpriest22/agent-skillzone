@@ -1,0 +1,58 @@
+{
+  "discover-destination": {
+    "overline": "DISCOVER · [STATE]",
+    "title": "[Destination name]",
+    "body": "[One line on why it is worth the journey]",
+    "cta": "Plan your visit",
+    "image": "dawn"
+  },
+  "experience-culture": {
+    "overline": "EXPERIENCE · [CITY]",
+    "title": "[Festival or cultural experience]",
+    "body": "[Dates — confirmed only] · [Venue]",
+    "cta": "Learn more",
+    "image": "dusk"
+  },
+  "explore-business": {
+    "overline": "EXPLORE · TOURISM BUSINESS",
+    "title": "[Business name]",
+    "body": "[Category] · [Location]",
+    "cta": "[website or handle]",
+    "image": "day"
+  },
+  "meet-partner": {
+    "overline": "MEET THE PARTNER",
+    "title": "[Partner name]",
+    "body": "“[Short approved quote]”",
+    "cta": "[Role, organisation]",
+    "image": "day"
+  },
+  "investment-opportunity": {
+    "overline": "INVEST · OPPORTUNITY",
+    "title": "[Project title]",
+    "facts": [
+      "Location: [State]",
+      "Category: [Type]",
+      "Stage: [Stage]"
+    ],
+    "cta": "Request the profile"
+  },
+  "national-tourism-week": {
+    "overline": "ANNOUNCEMENT",
+    "title": "National Tourism Week",
+    "body": "[Year] · [Dates — publish only once officially confirmed]",
+    "cta": "[Venue / city]"
+  },
+  "industry-insight": {
+    "overline": "INDUSTRY INSIGHT",
+    "figure": "[00%]",
+    "body": "[What the figure measures, in one sentence]",
+    "source": "Source: [verified source, year]"
+  },
+  "official-news": {
+    "overline": "OFFICIAL",
+    "title": "[Headline of the announcement]",
+    "body": "[One or two sentences of verified detail.]",
+    "date": "[DD Month YYYY]"
+  }
+}

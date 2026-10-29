@@ -1,0 +1,47 @@
+<!doctype html><html><head><meta charset="utf-8"><title>D — Seamless brand loop (20 s)</title></head><body>
+<script src="dn-logo-data.js"></script><script src="dn-motion.js"></script>
+<script>
+// D — Seamless background loop for screens, signage and event environments. Every motion is periodic
+// in DURATION, so frame 0 follows the last frame with no visible seam. ?logo=1 adds a corner logo.
+const { P, E, el, stage, logo } = DNM;
+const T = window.DURATION = 20.0; window.FPS = 30;
+const { svg, defs } = stage();
+el('rect', { width: P.w, height: P.h, fill: DN.C.forest }, svg);
+DNM.bgGradient(svg, defs, [[0, DN.C.ridge, .8], [1, DN.C.forest, 0]], .72, .3, .7);
+const pid = DNM.id('tile');
+const pat = el('pattern', { id: pid, width: 480, height: 480, patternUnits: 'userSpaceOnUse' }, defs);
+pat.innerHTML = DN.contourTile;
+const topo = el('rect', { width: P.w, height: P.h, fill: `url(#${pid})`, opacity: .07 }, svg);
+const m = Math.min(P.w, P.h), sx = P.w * .74, sy = P.h * .32;
+const rings = [...Array(5)].map(() => el('circle', { cx: sx, cy: sy, fill: 'none', stroke: DN.C.gold, 'stroke-width': 1.2 }, svg));
+const gid = DNM.id('g'); const rg = el('radialGradient', { id: gid }, defs);
+el('stop', { offset: 0, 'stop-color': DN.C.gold, 'stop-opacity': .55 }, rg); el('stop', { offset: 1, 'stop-color': DN.C.gold, 'stop-opacity': 0 }, rg);
+const glow = el('circle', { cx: sx, cy: sy, r: m * .2, fill: `url(#${gid})` }, svg);
+el('circle', { cx: sx, cy: sy, r: m * .045, fill: DN.C.gold }, svg);
+const lines = [...Array(7)].map((_, i) => el('path', { fill: 'none', stroke: i % 3 === 0 ? DN.C.gold : DN.C.sage,
+  'stroke-opacity': i % 3 === 0 ? .35 : .22, 'stroke-width': i % 3 === 0 ? 2 : 1.2, 'stroke-linecap': 'round' }, svg));
+if (P.logo) {
+  const L = logo(svg, defs, DN.colourways.reversed); L.outline.setAttribute('display', 'none'); L.wipe.setAttribute('x', 0);
+  const lw = Math.min(P.w, P.h) * .26; L.root.setAttribute('transform', `translate(${P.w * .05},${P.h - P.h * .06 - DN.H * lw / DN.W}) scale(${lw / DN.W})`);
+}
+window.renderAt = t => {
+  const ph = 2 * Math.PI * (t / T);
+  topo.setAttribute('x', 0);
+  pat.setAttribute('patternTransform', `translate(${480 * t / T},0)`);   // moves exactly one tile per loop
+  glow.setAttribute('opacity', .55 + .25 * Math.sin(2 * ph));
+  rings.forEach((r, i) => {
+    const k = (t / T * 2 + i / rings.length) % 1;
+    r.setAttribute('r', m * (.06 + .5 * k)); r.setAttribute('stroke-opacity', .3 * Math.sin(Math.PI * k));
+  });
+  lines.forEach((p, i) => {
+    const base = P.h * (.6 + i * .055), A = m * (.018 + .008 * (i % 3)), lam = P.w / (1 + (i % 2));
+    let d = '';
+    for (let x = -20; x <= P.w + 20; x += 16) {
+      const yy = base + A * Math.sin(2 * Math.PI * x / lam + ph * (i % 2 ? 1 : -1) + i) + A * .4 * Math.sin(2 * Math.PI * x / (lam / 3) + 2 * ph);
+      d += (d ? ' L' : 'M') + x + ',' + yy.toFixed(1);
+    }
+    p.setAttribute('d', d);
+  });
+};
+renderAt(0); DNM.scrubber(); window.ready = true;
+</script></body></html>

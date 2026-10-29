@@ -1,0 +1,139 @@
+{
+  "version": 8,
+  "name": "Destination Nigeria",
+  "glyphs": "[your-glyphs-url]/{fontstack}/{range}.pbf",
+  "sources": {
+    "basemap": {
+      "type": "vector",
+      "url": "[your-vector-tiles-url \u2014 e.g. OpenMapTiles-compatible]"
+    }
+  },
+  "layers": [
+    {
+      "id": "background",
+      "type": "background",
+      "paint": {
+        "background-color": "#F5F0E6"
+      }
+    },
+    {
+      "id": "water",
+      "type": "fill",
+      "source": "basemap",
+      "source-layer": "water",
+      "paint": {
+        "fill-color": "#CFE0DA"
+      }
+    },
+    {
+      "id": "waterway",
+      "type": "line",
+      "source": "basemap",
+      "source-layer": "waterway",
+      "paint": {
+        "line-color": "#9FC2BC",
+        "line-width": 1.2
+      }
+    },
+    {
+      "id": "landcover-park",
+      "type": "fill",
+      "source": "basemap",
+      "source-layer": "park",
+      "paint": {
+        "fill-color": "#A9BFA9",
+        "fill-opacity": 0.45
+      }
+    },
+    {
+      "id": "roads-minor",
+      "type": "line",
+      "source": "basemap",
+      "source-layer": "transportation",
+      "filter": [
+        "in",
+        "class",
+        "minor",
+        "service"
+      ],
+      "paint": {
+        "line-color": "#FFFFFF",
+        "line-width": 1
+      }
+    },
+    {
+      "id": "roads-major",
+      "type": "line",
+      "source": "basemap",
+      "source-layer": "transportation",
+      "filter": [
+        "in",
+        "class",
+        "primary",
+        "trunk",
+        "motorway"
+      ],
+      "paint": {
+        "line-color": "#D8C49B",
+        "line-width": 2
+      }
+    },
+    {
+      "id": "boundary-country",
+      "type": "line",
+      "source": "basemap",
+      "source-layer": "boundary",
+      "filter": [
+        "==",
+        "admin_level",
+        2
+      ],
+      "paint": {
+        "line-color": "#103428",
+        "line-width": 1.4
+      }
+    },
+    {
+      "id": "boundary-state",
+      "type": "line",
+      "source": "basemap",
+      "source-layer": "boundary",
+      "filter": [
+        "==",
+        "admin_level",
+        4
+      ],
+      "paint": {
+        "line-color": "#4E7A62",
+        "line-width": 0.8,
+        "line-dasharray": [
+          2,
+          2
+        ]
+      }
+    },
+    {
+      "id": "place-city",
+      "type": "symbol",
+      "source": "basemap",
+      "source-layer": "place",
+      "filter": [
+        "==",
+        "class",
+        "city"
+      ],
+      "layout": {
+        "text-field": "{name}",
+        "text-font": [
+          "Inter SemiBold"
+        ],
+        "text-size": 13
+      },
+      "paint": {
+        "text-color": "#103428",
+        "text-halo-color": "#F5F0E6",
+        "text-halo-width": 1.5
+      }
+    }
+  ]
+}

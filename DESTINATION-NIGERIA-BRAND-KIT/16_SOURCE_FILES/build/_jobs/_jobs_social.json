@@ -1,0 +1,282 @@
+[
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_ig-portrait_1080x1350.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_ig-portrait_1080x1350.png",
+  "w": 1080,
+  "h": 1350,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_square_1080x1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_square_1080x1080.png",
+  "w": 1080,
+  "h": 1080,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_story_1080x1920.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_story_1080x1920.png",
+  "w": 1080,
+  "h": 1920,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_landscape_1200x675.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_landscape_1200x675.png",
+  "w": 1200,
+  "h": 675,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/experience-culture/DN_social_experience-culture_ig-portrait_1080x1350.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/experience-culture/DN_social_experience-culture_ig-portrait_1080x1350.png",
+  "w": 1080,
+  "h": 1350,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/experience-culture/DN_social_experience-culture_square_1080x1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/experience-culture/DN_social_experience-culture_square_1080x1080.png",
+  "w": 1080,
+  "h": 1080,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/experience-culture/DN_social_experience-culture_story_1080x1920.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/experience-culture/DN_social_experience-culture_story_1080x1920.png",
+  "w": 1080,
+  "h": 1920,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/experience-culture/DN_social_experience-culture_landscape_1200x675.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/experience-culture/DN_social_experience-culture_landscape_1200x675.png",
+  "w": 1200,
+  "h": 675,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/explore-business/DN_social_explore-business_ig-portrait_1080x1350.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/explore-business/DN_social_explore-business_ig-portrait_1080x1350.png",
+  "w": 1080,
+  "h": 1350,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/explore-business/DN_social_explore-business_square_1080x1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/explore-business/DN_social_explore-business_square_1080x1080.png",
+  "w": 1080,
+  "h": 1080,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/explore-business/DN_social_explore-business_story_1080x1920.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/explore-business/DN_social_explore-business_story_1080x1920.png",
+  "w": 1080,
+  "h": 1920,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/explore-business/DN_social_explore-business_landscape_1200x675.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/explore-business/DN_social_explore-business_landscape_1200x675.png",
+  "w": 1200,
+  "h": 675,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/meet-partner/DN_social_meet-partner_ig-portrait_1080x1350.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/meet-partner/DN_social_meet-partner_ig-portrait_1080x1350.png",
+  "w": 1080,
+  "h": 1350,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/meet-partner/DN_social_meet-partner_square_1080x1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/meet-partner/DN_social_meet-partner_square_1080x1080.png",
+  "w": 1080,
+  "h": 1080,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/meet-partner/DN_social_meet-partner_story_1080x1920.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/meet-partner/DN_social_meet-partner_story_1080x1920.png",
+  "w": 1080,
+  "h": 1920,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/meet-partner/DN_social_meet-partner_landscape_1200x675.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/meet-partner/DN_social_meet-partner_landscape_1200x675.png",
+  "w": 1200,
+  "h": 675,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_ig-portrait_1080x1350.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_ig-portrait_1080x1350.png",
+  "w": 1080,
+  "h": 1350,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_square_1080x1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_square_1080x1080.png",
+  "w": 1080,
+  "h": 1080,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_story_1080x1920.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_story_1080x1920.png",
+  "w": 1080,
+  "h": 1920,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_landscape_1200x675.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_landscape_1200x675.png",
+  "w": 1200,
+  "h": 675,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_ig-portrait_1080x1350.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_ig-portrait_1080x1350.png",
+  "w": 1080,
+  "h": 1350,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_square_1080x1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_square_1080x1080.png",
+  "w": 1080,
+  "h": 1080,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_story_1080x1920.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_story_1080x1920.png",
+  "w": 1080,
+  "h": 1920,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_landscape_1200x675.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_landscape_1200x675.png",
+  "w": 1200,
+  "h": 675,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/industry-insight/DN_social_industry-insight_ig-portrait_1080x1350.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/industry-insight/DN_social_industry-insight_ig-portrait_1080x1350.png",
+  "w": 1080,
+  "h": 1350,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/industry-insight/DN_social_industry-insight_square_1080x1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/industry-insight/DN_social_industry-insight_square_1080x1080.png",
+  "w": 1080,
+  "h": 1080,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/industry-insight/DN_social_industry-insight_story_1080x1920.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/industry-insight/DN_social_industry-insight_story_1080x1920.png",
+  "w": 1080,
+  "h": 1920,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/industry-insight/DN_social_industry-insight_landscape_1200x675.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/industry-insight/DN_social_industry-insight_landscape_1200x675.png",
+  "w": 1200,
+  "h": 675,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/official-news/DN_social_official-news_ig-portrait_1080x1350.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/official-news/DN_social_official-news_ig-portrait_1080x1350.png",
+  "w": 1080,
+  "h": 1350,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/official-news/DN_social_official-news_square_1080x1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/official-news/DN_social_official-news_square_1080x1080.png",
+  "w": 1080,
+  "h": 1080,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/official-news/DN_social_official-news_story_1080x1920.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/official-news/DN_social_official-news_story_1080x1920.png",
+  "w": 1080,
+  "h": 1920,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/official-news/DN_social_official-news_landscape_1200x675.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/official-news/DN_social_official-news_landscape_1200x675.png",
+  "w": 1200,
+  "h": 675,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_youtube-thumb_1280x720.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_youtube-thumb_1280x720.png",
+  "w": 1280,
+  "h": 720,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_web-banner_1920x600.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_web-banner_1920x600.png",
+  "w": 1920,
+  "h": 600,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_mpu_300x250.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_mpu_300x250.png",
+  "w": 300,
+  "h": 250,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_leaderboard_728x90.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/national-tourism-week/DN_social_national-tourism-week_leaderboard_728x90.png",
+  "w": 728,
+  "h": 90,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_youtube-thumb_1280x720.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_youtube-thumb_1280x720.png",
+  "w": 1280,
+  "h": 720,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_web-banner_1920x600.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/discover-destination/DN_social_discover-destination_web-banner_1920x600.png",
+  "w": 1920,
+  "h": 600,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_mpu_300x250.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_mpu_300x250.png",
+  "w": 300,
+  "h": 250,
+  "direct": true
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_leaderboard_728x90.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/11_SOCIAL_MEDIA_TEMPLATES/investment-opportunity/DN_social_investment-opportunity_leaderboard_728x90.png",
+  "w": 728,
+  "h": 90,
+  "direct": true
+ }
+]

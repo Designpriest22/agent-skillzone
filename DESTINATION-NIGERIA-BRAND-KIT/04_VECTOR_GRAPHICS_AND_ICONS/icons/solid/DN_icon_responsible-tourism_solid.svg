@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24" width="24" height="24" role="img" aria-labelledby="title desc">
+<title id="title">Responsible tourism icon (solid)</title>
+<desc id="desc">Destination Nigeria icon family. 24 × 24 grid, 1.5 stroke.</desc>
+<mask id="mresponsible-tourism" maskUnits="userSpaceOnUse" x="0" y="0" width="24" height="24"><rect width="24" height="24" fill="#fff"/><g fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round"></g></mask><g mask="url(#mresponsible-tourism)"><g fill="#103428" stroke="#103428" stroke-width="1.5" stroke-linejoin="round"><path d="M12 12.25C9 12.25 7.5 10.25 7.5 7.25c3 0 4.5 2 4.5 5zM12 12.25c0-3.75 2-5.75 5.5-5.75 0 3.5-2 5.75-5.5 5.75z"/></g></g><g fill="none" stroke="#103428" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3.25 15.75h3l3.25 2.5h5.25c.9 0 1.6-.55 1.9-1.25l3.6-4.25"/><path d="M9.5 15.75h4.75"/></g>
+</svg>

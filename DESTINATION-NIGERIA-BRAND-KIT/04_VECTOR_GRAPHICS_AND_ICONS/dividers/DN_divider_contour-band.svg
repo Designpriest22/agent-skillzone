@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 60" width="1200" height="60" role="img" aria-labelledby="title desc">
+<title id="title">Divider — contour-band</title>
+<desc id="desc"></desc>
+<path d="M0,20 C300,8 700,34 1200,18" fill="none" stroke="#103428" stroke-opacity="0.6" stroke-width="1.2"/><path d="M0,27 C300,15 700,41 1200,25" fill="none" stroke="#103428" stroke-opacity="0.44999999999999996" stroke-width="1.2"/><path d="M0,34 C300,22 700,48 1200,32" fill="none" stroke="#103428" stroke-opacity="0.3" stroke-width="1.2"/><path d="M0,41 C300,29 700,55 1200,39" fill="none" stroke="#103428" stroke-opacity="0.15000000000000002" stroke-width="1.2"/>
+</svg>

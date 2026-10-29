@@ -1,0 +1,497 @@
+[
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/patterns/DN_pattern_contour_on-ivory_tile480.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/patterns/DN_pattern_contour_on-ivory_tile480.png",
+  "w": 480,
+  "h": 480,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/patterns/DN_pattern_contour_on-forest_tile480.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/patterns/DN_pattern_contour_on-forest_tile480.png",
+  "w": 480,
+  "h": 480,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/patterns/DN_pattern_horizon-lines_on-ivory_tile480.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/patterns/DN_pattern_horizon-lines_on-ivory_tile480.png",
+  "w": 480,
+  "h": 480,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/patterns/DN_pattern_horizon-lines_on-forest_tile480.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/patterns/DN_pattern_horizon-lines_on-forest_tile480.png",
+  "w": 480,
+  "h": 480,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/patterns/DN_pattern_sun-grid_on-ivory_tile480.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/patterns/DN_pattern_sun-grid_on-ivory_tile480.png",
+  "w": 480,
+  "h": 480,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/patterns/DN_pattern_sun-grid_on-forest_tile480.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/patterns/DN_pattern_sun-grid_on-forest_tile480.png",
+  "w": 480,
+  "h": 480,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/patterns/DN_pattern_confluence_on-ivory_tile480.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/patterns/DN_pattern_confluence_on-ivory_tile480.png",
+  "w": 480,
+  "h": 480,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/patterns/DN_pattern_confluence_on-forest_tile480.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/patterns/DN_pattern_confluence_on-forest_tile480.png",
+  "w": 480,
+  "h": 480,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/horizon-shapes/DN_horizon-ribbons_forest.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/horizon-shapes/DN_horizon-ribbons_forest.png",
+  "w": 1200,
+  "h": 180,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/horizon-shapes/DN_horizon-ribbons_ivory.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/horizon-shapes/DN_horizon-ribbons_ivory.png",
+  "w": 1200,
+  "h": 180,
+  "scale": 1,
+  "transparent": false,
+  "bg": "#103428"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/horizon-shapes/DN_horizon-ribbons_gold.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/horizon-shapes/DN_horizon-ribbons_gold.png",
+  "w": 1200,
+  "h": 180,
+  "scale": 1,
+  "transparent": false,
+  "bg": "#103428"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/horizon-shapes/DN_landscape-band_layered_1920x480.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/horizon-shapes/DN_landscape-band_layered_1920x480.png",
+  "w": 1920,
+  "h": 480,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/horizon-shapes/DN_landscape-band_translucent-ivory_1920x480.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/horizon-shapes/DN_landscape-band_translucent-ivory_1920x480.png",
+  "w": 1920,
+  "h": 480,
+  "scale": 1,
+  "transparent": false,
+  "bg": "#103428"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/horizon-shapes/DN_contour-lines_strip_1920x512.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/horizon-shapes/DN_contour-lines_strip_1920x512.png",
+  "w": 1920,
+  "h": 512,
+  "scale": 1,
+  "transparent": false,
+  "bg": "#F5F0E6"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/geometric-elements/DN_sun-disc.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/geometric-elements/DN_sun-disc.png",
+  "w": 200,
+  "h": 200,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/geometric-elements/DN_rising-sun.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/geometric-elements/DN_rising-sun.png",
+  "w": 200,
+  "h": 100,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/geometric-elements/DN_sun-rings.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/geometric-elements/DN_sun-rings.png",
+  "w": 240,
+  "h": 240,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/geometric-elements/DN_inselberg-dome.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/geometric-elements/DN_inselberg-dome.png",
+  "w": 300,
+  "h": 160,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/geometric-elements/DN_arch-frame.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/geometric-elements/DN_arch-frame.png",
+  "w": 300,
+  "h": 400,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/geometric-elements/DN_quarter-horizon.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/geometric-elements/DN_quarter-horizon.png",
+  "w": 300,
+  "h": 300,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/dividers/DN_divider_horizon.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/dividers/DN_divider_horizon.png",
+  "w": 1200,
+  "h": 60,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/dividers/DN_divider_hairline-sun.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/dividers/DN_divider_hairline-sun.png",
+  "w": 1200,
+  "h": 60,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/dividers/DN_divider_contour-band.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/dividers/DN_divider_contour-band.png",
+  "w": 1200,
+  "h": 60,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/dividers/DN_divider_route.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/dividers/DN_divider_route.png",
+  "w": 1200,
+  "h": 60,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/section-markers/DN_section-marker_01.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/section-markers/DN_section-marker_01.png",
+  "w": 120,
+  "h": 120,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/section-markers/DN_section-marker_02.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/section-markers/DN_section-marker_02.png",
+  "w": 120,
+  "h": 120,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/section-markers/DN_section-marker_03.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/section-markers/DN_section-marker_03.png",
+  "w": 120,
+  "h": 120,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/maps/DN_map_nigeria_routes_light.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/maps/DN_map_nigeria_routes_light.png",
+  "w": 1000,
+  "h": 821,
+  "scale": 2,
+  "transparent": false,
+  "bg": "#F5F0E6"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/maps/DN_map_nigeria_routes_dark.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/maps/DN_map_nigeria_routes_dark.png",
+  "w": 1000,
+  "h": 821,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/maps/DN_map_nigeria_silhouette_forest.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/maps/DN_map_nigeria_silhouette_forest.png",
+  "w": 600,
+  "h": 489,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/maps/DN_map_nigeria_outline_contour.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/maps/DN_map_nigeria_outline_contour.png",
+  "w": 600,
+  "h": 489,
+  "scale": 1,
+  "transparent": false,
+  "bg": "#F5F0E6"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/maps/DN_route-kit.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/maps/DN_route-kit.png",
+  "w": 760,
+  "h": 80,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/campaign-lockups/DN_campaign-line_forest.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/campaign-lockups/DN_campaign-line_forest.png",
+  "w": 428,
+  "h": 26,
+  "scale": 4,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/campaign-lockups/DN_lockup_logo-campaign_stacked_forest.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/campaign-lockups/DN_lockup_logo-campaign_stacked_forest.png",
+  "w": 601,
+  "h": 312,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/campaign-lockups/DN_lockup_logo-campaign_horizontal_forest.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/campaign-lockups/DN_lockup_logo-campaign_horizontal_forest.png",
+  "w": 1234,
+  "h": 236,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/campaign-lockups/DN_campaign-line_white.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/campaign-lockups/DN_campaign-line_white.png",
+  "w": 428,
+  "h": 26,
+  "scale": 4,
+  "transparent": false,
+  "bg": "#103428"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/campaign-lockups/DN_lockup_logo-campaign_stacked_white.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/campaign-lockups/DN_lockup_logo-campaign_stacked_white.png",
+  "w": 601,
+  "h": 312,
+  "scale": 2,
+  "transparent": false,
+  "bg": "#103428"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/campaign-lockups/DN_lockup_logo-campaign_horizontal_white.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/campaign-lockups/DN_lockup_logo-campaign_horizontal_white.png",
+  "w": 1234,
+  "h": 236,
+  "scale": 2,
+  "transparent": false,
+  "bg": "#103428"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/badges/DN_badge_campaign-seal_ivory.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/badges/DN_badge_campaign-seal_ivory.png",
+  "w": 400,
+  "h": 400,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/badges/DN_badge_campaign-seal_forest.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/badges/DN_badge_campaign-seal_forest.png",
+  "w": 400,
+  "h": 400,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/badges/DN_badge_partner_light.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/badges/DN_badge_partner_light.png",
+  "w": 400,
+  "h": 200,
+  "scale": 2,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/badges/DN_badge_event_editable.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/badges/DN_badge_event_editable.png",
+  "w": 600,
+  "h": 300,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/social-avatars/DN_avatar_roundel_forest_1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/social-avatars/DN_avatar_roundel_forest_1080.png",
+  "w": 1080,
+  "h": 1080,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/social-avatars/DN_avatar_roundel_ivory_1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/social-avatars/DN_avatar_roundel_ivory_1080.png",
+  "w": 1080,
+  "h": 1080,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/social-avatars/DN_avatar_roundel_gold_1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/social-avatars/DN_avatar_roundel_gold_1080.png",
+  "w": 1080,
+  "h": 1080,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/social-avatars/DN_avatar_logo_ivory_1080.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/social-avatars/DN_avatar_logo_ivory_1080.png",
+  "w": 1080,
+  "h": 1080,
+  "scale": 1,
+  "transparent": true,
+  "bg": "transparent"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/watermarks/DN_watermark_logo_white-35pct.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/watermarks/DN_watermark_logo_white-35pct.png",
+  "w": 600,
+  "h": 236,
+  "scale": 1,
+  "transparent": false,
+  "bg": "#2C5040"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/watermarks/DN_watermark_roundel_white-35pct.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/_previews/watermarks/DN_watermark_roundel_white-35pct.png",
+  "w": 300,
+  "h": 300,
+  "scale": 1,
+  "transparent": false,
+  "bg": "#2C5040"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dawn_3x2.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dawn_3x2.jpg",
+  "w": 1920,
+  "h": 1280,
+  "quality": 88
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dawn_4x5.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dawn_4x5.jpg",
+  "w": 1080,
+  "h": 1350,
+  "quality": 88
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dawn_9x16.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dawn_9x16.jpg",
+  "w": 1080,
+  "h": 1920,
+  "quality": 88
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-day_3x2.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-day_3x2.jpg",
+  "w": 1920,
+  "h": 1280,
+  "quality": 88
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-day_4x5.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-day_4x5.jpg",
+  "w": 1080,
+  "h": 1350,
+  "quality": 88
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-day_9x16.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-day_9x16.jpg",
+  "w": 1080,
+  "h": 1920,
+  "quality": 88
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dusk_3x2.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dusk_3x2.jpg",
+  "w": 1920,
+  "h": 1280,
+  "quality": 88
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dusk_4x5.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dusk_4x5.jpg",
+  "w": 1080,
+  "h": 1350,
+  "quality": 88
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dusk_9x16.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/06_PHOTOGRAPHY_AND_MEDIA/placeholders/DN_placeholder_landscape-dusk_9x16.jpg",
+  "w": 1080,
+  "h": 1920,
+  "quality": 88
+ }
+]

@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><title>B — Minimal digital reveal (2.5 s)</title></head><body>
+<script src="dn-logo-data.js"></script><script src="dn-motion.js"></script>
+<script>
+// B — Minimal reveal for web welcome, short social and bumpers. ?theme=light|dark ?w=&h= ?transparent=1
+const { P, E, seg, lerp, el, stage, logo } = DNM;
+window.DURATION = 2.5; window.FPS = 30;
+const { svg, defs } = stage();
+const dark = P.theme === 'dark';
+if (!P.transparent) el('rect', { width: P.w, height: P.h, fill: dark ? DN.C.forest : DN.C.ivory }, svg);
+const L = logo(svg, defs, dark ? DN.colourways.reversed : DN.colourways.fullcolour);
+L.outline.setAttribute('display', 'none');
+const LW = Math.min(P.w * .52, P.w * .78, P.h * 1.1), s = LW / DN.W;
+L.root.setAttribute('transform', `translate(${(P.w - LW) / 2},${(P.h - DN.H * s) / 2}) scale(${s})`);
+window.renderAt = t => {
+  const k = seg(t, 0, .5, E.outBack);
+  L.sun.setAttribute('transform', `translate(104.07,6.62) scale(${Math.max(k, 0)}) translate(-104.07,-6.62)`);
+  const l = seg(t, .25, .95, E.outCubic);
+  L.land.setAttribute('opacity', l); L.land.setAttribute('transform', `translate(0,${3 * (1 - l)})`);
+  L.wipe.setAttribute('x', lerp(-195, 0, seg(t, .55, 1.45)));
+  const n = seg(t, 1.1, 1.7, E.outCubic);
+  L.nigeria.setAttribute('opacity', n); L.nigeria.setAttribute('transform', `translate(0,${2 * (1 - n)})`);
+};
+renderAt(window.DURATION); DNM.scrubber(); window.ready = true;
+</script></body></html>

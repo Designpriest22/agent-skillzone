@@ -1,0 +1,33 @@
+<!doctype html><html><head><meta charset="utf-8"><title>E — Symbol animation (3 s)</title></head><body>
+<script src="dn-logo-data.js"></script><script src="dn-motion.js"></script>
+<script>
+// E — Horizon Roundel animation for avatars, transitions and compact moments. ?theme=light|dark ?transparent=1
+const { P, E, seg, el, stage, roundel } = DNM;
+window.DURATION = 3.0; window.FPS = 30;
+P.w = P.h = Math.min(P.w, P.h);
+const { svg, defs } = stage();
+if (!P.transparent) el('rect', { width: P.w, height: P.h, fill: P.theme === 'dark' ? DN.C.forest : DN.C.ivory }, svg);
+const onDark = P.theme === 'dark' && !P.transparent;
+const R = roundel(svg, defs, onDark ? DN.C.ivory : DN.C.forest, onDark ? DN.colourways.fullcolour : DN.colourways.reversed);
+const D = P.w * .72, s = D / (2 * R.r);
+const g = el('g', {}, svg); g.appendChild(R.root);
+const gid = DNM.id('sg'); const rg = el('radialGradient', { id: gid }, defs);
+el('stop', { offset: 0, 'stop-color': DN.C.gold, 'stop-opacity': .7 }, rg); el('stop', { offset: 1, 'stop-color': DN.C.gold, 'stop-opacity': 0 }, rg);
+const glow = el('circle', { cx: 104.07, cy: 6.62, r: 16, fill: `url(#${gid})`, opacity: 0 }, R.sunWrap);
+R.sunWrap.insertBefore(glow, R.sun);
+window.renderAt = t => {
+  const k = seg(t, 0, .7, E.outBack);
+  g.setAttribute('transform', `translate(${P.w / 2},${P.h / 2}) scale(${s * (.82 + .18 * k)}) translate(${-R.cx},${-R.cy})`);
+  R.root.setAttribute('opacity', seg(t, 0, .3));
+  for (const [i, n] of ['horizon', 'horizon_small'].entries()) R.outlines[n].setAttribute('stroke-dashoffset', 1 - seg(t, .45 + i * .15, 1.25 + i * .1));
+  const f = seg(t, 1.05, 1.5);
+  R.hz.setAttribute('opacity', f);
+  for (const n in R.outlines) R.outlines[n].setAttribute('opacity', 1 - f);
+  const m = seg(t, .85, 1.75, E.outCubic);
+  R.mt.setAttribute('transform', `translate(0,${26 * (1 - m)})`);
+  const u = seg(t, 1.55, 2.15, E.outBack);
+  R.sun.setAttribute('transform', `translate(104.07,6.62) scale(${Math.max(u, 0)}) translate(-104.07,-6.62)`);
+  glow.setAttribute('opacity', seg(t, 1.7, 2.1) - .6 * seg(t, 2.2, 2.9));
+};
+renderAt(window.DURATION); DNM.scrubber(); window.ready = true;
+</script></body></html>

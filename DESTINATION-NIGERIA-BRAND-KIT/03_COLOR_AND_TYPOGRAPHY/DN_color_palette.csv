@@ -1,0 +1,16 @@
+key,name,hex,rgb,cmyk,group,source,use,on_white,on_ivory,on_forest,text_on,pantone
+forest,Forest Deep,#103428,"16, 52, 40",85/45/75/60,primary,sampled,"Primary brand colour. Wordmark, headlines, institutional backgrounds, body text on light grounds.",13.6,11.98,1.0,White,3435 C or 553 C (evaluate)
+ridge,Ridge Green,#2C5040,"44, 80, 64",75/35/65/40,primary,sampled,"Mountain tone in the logo. Secondary backgrounds, panels, charts, hover states.",9.02,7.94,1.51,White,
+gold,Sun Gold,#E8A432,"232, 164, 50",5/38/88/0,primary,sampled,"The sun. Single focal accent: sun disc, key numbers, buttons on dark. Never for small text on light.",2.15,1.89,6.34,Forest Deep,7409 C or 7563 C (evaluate)
+ivory,Harmattan Ivory,#F5F0E6,"245, 240, 230",2/4/9/0,primary,recommended,"Default light ground for documents, presentations and web. Warmer than white.",1.14,1.0,11.98,Forest Deep,
+white,White,#FFFFFF,"255, 255, 255",0/0/0/0,primary,sampled,"Reversed logo, paper white, UI surfaces.",1.0,1.14,13.6,Forest Deep,
+mist,Mist,#EAEAEA,"234, 234, 234",0/0/0/10,secondary,sampled,Horizon line tone in the supplied reversed logo. Hairlines and dividers on dark grounds.,1.2,1.06,11.31,Forest Deep,
+canopy,Canopy Green,#4E7A62,"78, 122, 98",68/25/62/10,secondary,recommended,"Supporting green for charts, icons and illustration layers.",4.9,4.32,2.77,White,
+sage,Sage,#A9BFA9,"169, 191, 169",35/12/35/0,secondary,recommended,"Light green tint for table bands, map land, background contours.",1.96,1.73,6.94,Forest Deep,
+charcoal,Charcoal,#1B201E,"27, 32, 30",70/55/60/75,neutral,recommended,"Darkest neutral (green-black). Cinematic backgrounds, long-form body text alternative.",16.51,14.54,1.21,White,
+stone,Stone,#5F6662,"95, 102, 98",55/40/48/30,neutral,recommended,"Captions, metadata, footnotes, secondary UI text (passes AA on white and ivory).",5.89,5.19,2.31,White,
+haze,Haze,#E7DFCF,"231, 223, 207",8/10/20/0,neutral,recommended,"Deeper ivory for cards, table headers and print panels.",1.32,1.17,10.27,Forest Deep,
+laterite,Laterite,#B4532A,"180, 83, 42",15/75/95/5,landscape,recommended,Red-earth accent drawn from Nigeria's laterite soils. Culture and heritage stories; sparingly.,4.99,4.39,2.73,White,
+savannah,Savannah,#D8C49B,"216, 196, 155",15/20/42/0,landscape,recommended,"Dry-season grass and sand. Illustration layers, photo-overlay warmth, map water-free land.",1.71,1.5,7.96,Forest Deep,
+confluence,Confluence Blue,#2E6E76,"46, 110, 118",82/35/45/15,landscape,recommended,"River and coastline tone (Niger–Benue). Maps, routes, information graphics, digital links on light.",5.82,5.12,2.34,White,
+golddeep,Harvest Gold,#9A6510,"154, 101, 16",25/55/100/15,secondary,recommended,Accessible gold for text and icons on light grounds (AA for large text and UI on ivory).,4.95,4.36,2.75,White,
