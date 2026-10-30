@@ -229,7 +229,7 @@ def report():
     toc(d, [(1, "Executive summary", 3), (1, "1  Context", 5), (2, "1.1  Background", 5), (2, "1.2  Scope and method", 5),
             (1, "2  Findings", 5), (2, "2.1  Key data", 5), (2, "2.2  Stakeholder perspectives", 6),
             (1, "3  Recommendations", 6), (1, "References", 6), (1, "Appendices", 7)])
-    P(d, "To refresh: right-click the table → Update Field → Update entire table.", style="Caption")
+    P(d, "To refresh it, right-click the table, choose Update Field, then Update entire table.", style="Caption")
     page_break(d)
     P(d, "Summary", style="Overline")
     P(d, "Executive summary", style="Title")

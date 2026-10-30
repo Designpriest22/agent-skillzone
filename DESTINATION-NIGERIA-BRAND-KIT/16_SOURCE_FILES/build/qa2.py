@@ -33,7 +33,6 @@ pdfs = (files("09_DOCUMENT_TEMPLATES/**/*.pdf") + files("10_PRESENTATION_TEMPLAT
 bad = {}
 for p in pdfs:
     f = {x for x in pdffonts(p) if not ALLOWED.match(x)}
-    f -= {"Inter-Regular"} if "DN_Report" in p.name or "Proposal" in p.name or "Memo" in p.name or "Minutes" in p.name else set()
     if f:
         bad[str(p.relative_to(KIT))] = sorted(f)
 check("Typography", f"Only Newsreader and Public Sans (plus symbol fallbacks) embedded in {len(pdfs)} PDFs", not bad, bad or "all clean")

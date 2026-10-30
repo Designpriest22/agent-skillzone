@@ -101,8 +101,9 @@ def main():
     LIB.mkdir(parents=True, exist_ok=True)
     rows = []
     for i, (slug, fn, subj, place, state, conf, tw, notes) in enumerate(ACCEPT, 1):
-        shutil.copy2(SRC / fn, SUP / fn)
-        im = Image.open(SRC / fn)
+        if SRC.resolve() != SUP.resolve():
+            shutil.copy2(SRC / fn, SUP / fn)
+        im = Image.open(SUP / fn)
         g = grade(im, **tw)
         out = LIB / f"DN_photo_{slug}.jpg"
         g.save(out, quality=93, subsampling=0, optimize=True)
@@ -118,7 +119,8 @@ def main():
                          ai_generated="No (visual inspection)", edits="Brand grade only: tone curve, saturation, split tone. Nothing added or removed.",
                          approved_by="", approved_date="", notes=notes))
     for fn, why in REJECT:
-        shutil.copy2(SRC / fn, SUP / "_rejected" / fn)
+        if (SRC / fn).exists() and SRC.resolve() != SUP.resolve():
+            shutil.copy2(SRC / fn, SUP / "_rejected" / fn)
         rows.append(dict(asset_id="REJECTED", supplied_file=fn, notes=why))
     keys = list(rows[0].keys())
     with open(P6 / "SOURCE_RECORDS" / "image-register.csv", "w", newline="", encoding="utf-8") as f:
