@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Capital Movement (TCM) | Abuja's Leading Creative &amp; Entertainment Platform</title>
+<meta name="description" content="The Capital Movement (TCM) is Abuja's leading creative and entertainment platform, connecting artists, DJs, creators, brands, nightlife, live events, talent development, fashion, and culture through world-class experiences and strategic partnerships." />
+<meta name="theme-color" content="#0A0A0A" />
+<link rel="canonical" href="https://thecapitalmovement.com/" />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content="The Capital Movement (TCM) | Abuja's Leading Creative & Entertainment Platform" />
+<meta property="og:description" content="Abuja's leading creative and entertainment platform — events, talent, production, PR & marketing, and community. We Move Culture." />
+<meta property="og:image" content="https://thecapitalmovement.com/assets/hero/hero-main.jpg" />
+<meta property="og:url" content="https://thecapitalmovement.com/" />
+<meta property="og:locale" content="en_NG" />
+<meta property="og:site_name" content="The Capital Movement (TCM)" />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="The Capital Movement (TCM)" />
+<meta name="twitter:description" content="Abuja's leading creative and entertainment platform. We Move Culture." />
+<meta name="twitter:image" content="https://thecapitalmovement.com/assets/hero/hero-main.jpg" />
+<meta name="twitter:site" content="@thecapitalmvmt" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "The Capital Movement (TCM)",
+  "alternateName": "TCM",
+  "url": "https://thecapitalmovement.com/",
+  "logo": "https://thecapitalmovement.com/assets/logos/tcm-logo.png",
+  "foundingDate": "2016",
+  "description": "Founded in 2016, The Capital Movement (TCM) is a dynamic creative powerhouse headquartered in Abuja, Nigeria, connecting artists, DJs, creators, brands, nightlife, live events, talent development, fashion, and culture through world-class experiences and strategic partnerships.",
+  "address": { "@type": "PostalAddress", "addressLocality": "Abuja", "addressRegion": "FCT", "addressCountry": "NG" },
+  "sameAs": [
+    "https://www.instagram.com/thecapitalmovement",
+    "https://x.com/thecapitalmvmt"
+  ],
+  "telephone": "+234 704 192 4247",
+  "email": "contact@thecapitalmovement.com"
+}
+</script>
+<style>
+  .hero {
+    position: relative; height: 100vh; min-height: 640px; display: flex; flex-direction: column;
+    justify-content: space-between; overflow: hidden; border-bottom: 1px solid rgba(200,204,209,0.12);
+    background-image: linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.4) 45%, rgba(10,10,10,0.96) 100%), url('assets/hero/hero-main.jpg');
+    background-size: cover; background-position: center 30%;
+  }
+  #hero-canvas { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0.85; }
+  .hero-fade { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(to bottom, rgba(10,10,10,0) 0%, rgba(10,10,10,0) 55%, rgba(10,10,10,1) 100%); }
+  .hero-curtain { position: absolute; inset: 0; z-index: 50; pointer-events: none; background: linear-gradient(100deg, #2a0606 0%, #6B0F0F 35%, #C81E1E 65%, #FF3B3B 100%); }
+  .hero-top { position: relative; z-index: 2; display: flex; justify-content: space-between; align-items: center; padding-top: 2rem; gap: 1.5rem; }
+  .hero-top .nav-links a { color: #fff; opacity: 0.85; }
+  .hero-top .nav-links a:hover { opacity: 1; }
+  .hero-social { display: flex; align-items: center; gap: 1.1rem; }
+  .hero-social a { color: #fff; opacity: 0.85; display: inline-flex; align-items: center; justify-content: center; transition: opacity 0.25s, transform 0.25s; }
+  .hero-social a svg { width: 19px; height: 19px; display: block; }
+  .hero-social a:hover { opacity: 1; transform: translateY(-2px); }
+  .hero-social a:hover svg { filter: drop-shadow(0 0 10px rgba(255,59,59,0.55)); }
+  .hero-logo { font-weight: 800; letter-spacing: 0.22em; font-size: clamp(1.4rem, 2.6vw, 2rem); line-height: 1; text-decoration: none; color: #fff; display: inline-flex; align-items: center; }
+  .hero-logo img { height: 32px; width: auto; display: block; }
+  .hero-headline { position: relative; z-index: 2; }
+  .hero-word { display: block; font-size: clamp(2.6rem, 10vw, 9.5rem); will-change: transform; word-break: break-word; }
+  .hero-word.gradient-red { background: linear-gradient(115deg, #FF3B3B 0%, #C81E1E 45%, #6B0F0F 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero-bottom { position: relative; z-index: 2; display: flex; flex-direction: column; gap: 2rem; padding-bottom: 3rem; }
+  @media (min-width: 768px) { .hero-bottom { flex-direction: row; align-items: flex-end; justify-content: space-between; } }
+  .hero-sub { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 500; letter-spacing: 0.04em; text-transform: uppercase; color: #C8CCD1; line-height: 1.6; }
+
+  .numbers { padding-top: 7rem; padding-bottom: 7rem; }
+  .movement { padding-top: 7rem; padding-bottom: 7rem; }
+  .movement-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 3.5rem; }
+  .events { padding-top: 7rem; padding-bottom: 7rem; }
+  .talent { padding-top: 7rem; padding-bottom: 7rem; }
+  .production { padding-top: 7rem; padding-bottom: 7rem; }
+  .feed { padding-top: 7rem; padding-bottom: 7rem; }
+  .partners { padding-top: 7rem; padding-bottom: 7rem; text-align: center; }
+  .game-section { padding-top: 7rem; padding-bottom: 7rem; }
+  .game-intro { max-width: 34rem; }
+  .game-copy { margin-top: 1rem; font-size: 1rem; font-weight: 500; color: rgba(220,222,225,0.9); line-height: 1.55; }
+  .game-controls-hint { margin-top: 0.85rem; font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: #6B7076; letter-spacing: 0.03em; text-transform: uppercase; }
+  .game-stage { position: relative; margin-top: 2.5rem; height: min(440px, 62vh); border: 1px solid rgba(200,204,209,0.2); border-radius: 4px; overflow: hidden; background: #0d0d0f; touch-action: none; cursor: pointer; user-select: none; }
+  .game-stage canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+  .game-hud { position: absolute; top: 0; left: 0; right: 0; z-index: 5; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: #C8CCD1; pointer-events: none; gap: 1rem; }
+  .game-hud .score-val { color: #E8C547; font-weight: 600; }
+  .game-hud .lives-val { color: #FF3B3B; font-weight: 600; letter-spacing: 0.2em; }
+  .game-overlay { position: absolute; inset: 0; z-index: 10; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; background: rgba(10,10,10,0.88); text-align: center; padding: 1.5rem; }
+  .game-overlay h4 { font-size: clamp(1.3rem, 4vw, 1.6rem); font-weight: 800; text-transform: uppercase; }
+  .game-overlay p { font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; color: #C8CCD1; max-width: 26rem; line-height: 1.5; }
+  .game-start-btn { border: none; background: linear-gradient(120deg, #FF3B3B, #C81E1E 55%, #6B0F0F); color: #fff; font-weight: 800; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.03em; padding: 0.9rem 2rem; border-radius: 999px; cursor: pointer; transition: box-shadow 0.2s, transform 0.2s; }
+  .game-start-btn:hover { box-shadow: 0 0 24px rgba(200,30,30,0.4); transform: translateY(-1px); }
+  .game-mobile-controls { position: absolute; bottom: 0.85rem; right: 0.85rem; z-index: 6; display: flex; flex-direction: column; gap: 0.5rem; }
+  .game-pad-btn { width: 3rem; height: 3rem; border-radius: 999px; background: rgba(255,255,255,0.08); border: 1px solid rgba(200,204,209,0.3); color: #fff; font-size: 1.1rem; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(3px); touch-action: none; }
+  @media (min-width: 768px) { .game-mobile-controls { display: none; } }
+  .testimonials { padding-top: 7rem; padding-bottom: 7rem; position: relative; background-image: linear-gradient(180deg, rgba(10,10,10,0.78) 0%, rgba(10,10,10,0.93) 60%, #0A0A0A 100%), url('assets/hero/hero-secondary.jpg'); background-size: cover; background-position: center 30%; }
+  .contact { padding-top: 9rem; padding-bottom: 0; }
+</style>
+<link rel="sitemap" type="application/xml" href="/sitemap.xml">
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<section class="hero" id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-fade"></div>
+  <div class="hero-curtain" id="hero-curtain" aria-hidden="true"></div>
+
+  <div class="hero-top px">
+    <a href="index.html" class="hero-logo"><img src="assets/logos/tcm-logo.png" alt="The Capital Movement (TCM)"></a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="talent.html">Talent</a>
+      <a href="events.html">Events</a>
+      <a href="partnerships.html">Partnerships</a>
+      <a href="community.html">Community</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <nav class="hero-social" aria-label="TCM on social media">
+      <a href="https://www.instagram.com/thecapitalmovement?igsh=MTdzcmJ0eXhnZHFlNA==" target="_blank" rel="noopener noreferrer" aria-label="TCM on Instagram (opens in a new tab)">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.3" stroke="currentColor" stroke-width="1.7"/><circle cx="17.4" cy="6.6" r="1.15" fill="currentColor"/></svg>
+      </a>
+      <a href="https://x.com/thecapitalmvmt?s=11" target="_blank" rel="noopener noreferrer" aria-label="TCM on X (opens in a new tab)">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 3.5h4.1l4.05 5.4 4.6-5.4h2.25l-5.9 6.9 6.4 8.6h-4.1l-4.35-5.8-4.9 5.8H3.4l6.25-7.3-5.65-8.2z" fill="currentColor"/></svg>
+      </a>
+    </nav>
+  </div>
+
+  <div class="hero-headline px">
+    <h1>
+      <span class="hero-word" data-word>BUILDING</span>
+      <span class="hero-word" data-word>ABUJA'S</span>
+      <span class="hero-word gradient-red" data-word>CREATIVE CULTURE.</span>
+    </h1>
+  </div>
+
+  <div class="hero-bottom px">
+    <p class="hero-sub">Connecting talent, brands, music,<br>nightlife, fashion, media, and<br>unforgettable live experiences.</p>
+    <a href="#movement" class="cta-btn" id="hero-cta">Explore The Movement <span aria-hidden="true">↓</span></a>
+  </div>
+</section>
+
+<section class="numbers px" aria-label="Things TCM has moved">
+  <p class="eyebrow" style="margin-bottom:2.5rem;">Things We've Moved</p>
+  <div class="numbers-grid">
+    <div class="stat"><div class="stat-value" data-target="100"><span data-num>0</span><span class="suffix">+</span></div><p class="stat-label eyebrow">Movements Created</p></div>
+    <div class="stat"><div class="stat-value" data-target="50000"><span data-num>0</span><span class="suffix">+</span></div><p class="stat-label eyebrow">People Moved</p></div>
+    <div class="stat"><div class="stat-value" data-target="20"><span data-num>0</span><span class="suffix">+</span></div><p class="stat-label eyebrow">Brands Moved</p></div>
+    <div class="stat"><div class="stat-value" data-target="10"><span data-num>0</span><span class="suffix">+</span></div><p class="stat-label eyebrow">Years Moving Culture</p></div>
+  </div>
+</section>
+
+<section class="movement px" id="movement">
+  <div class="movement-head">
+    <h2 class="section-title">The Movement</h2>
+    <a href="about.html" class="eyebrow" id="movement-tag" style="text-decoration:none;">Our Story →</a>
+  </div>
+
+  <div data-row class="movement-row fade-in">
+    <span class="movement-time">2016</span>
+    <h3 class="movement-title">TCM Festival launches — running ever since</h3>
+    <p class="movement-copy"><span class="partner-note">TCM owned.</span> TCM is founded in Abuja, and TCM Festival becomes the first project to carry the name — a TCM-owned property that's run every year since.</p>
+  </div>
+  <div data-row class="movement-row fade-in">
+    <span class="movement-time">2018</span>
+    <h3 class="movement-title">Capital Block Party, Festival of Lights</h3>
+    <p class="movement-copy"><span class="partner-note">Both partnerships.</span> Capital Block Party and Festival of Lights launch the same year, establishing TCM as a mover of crowds and a partner brands trust with their biggest nights.</p>
+  </div>
+  <div data-row class="movement-row fade-in">
+    <span class="movement-time">2020</span>
+    <h3 class="movement-title">Meat &amp; Greet launches</h3>
+    <p class="movement-copy"><span class="partner-note">TCM owned.</span> Meat &amp; Greet launches as a TCM-owned property — a free BBQ party that becomes a signature fixture on the calendar.</p>
+  </div>
+  <div data-row class="movement-row fade-in">
+    <span class="movement-time">2024</span>
+    <h3 class="movement-title">Brands start moving with TCM</h3>
+    <p class="movement-copy">Guinness, Heineken, Pepsi, Hennessy, and more move alongside TCM festivals as partners, embedding brands inside the culture itself.</p>
+  </div>
+  <div data-row class="movement-row fade-in">
+    <span class="movement-time">NOW</span>
+    <h3 class="movement-title">Capital Machine, Culture Fest</h3>
+    <p class="movement-copy">TCM moves owned festivals, partner productions, talent, and brand campaigns at full scale — Abuja's culture engine, fully online.</p>
+  </div>
+</section>
+
+<section class="events px" id="events" aria-label="Events TCM has moved">
+  <div class="section-head" style="margin-bottom:2.5rem;">
+    <h2 class="section-title">Events We've Moved</h2>
+    <a href="events.html" class="eyebrow" style="text-decoration:none;">All Events →</a>
+  </div>
+  <div class="events-scroll">
+    <a href="events.html#tcm-festival" class="event-card"><img src="assets/events/tcm-festival-2.jpg" alt="Crowd at TCM Festival, Abuja's flagship annual festival" loading="lazy"><span class="event-owned-tag">TCM Owned</span><span class="event-name">TCM Festival</span><span class="event-meta">Since 2016 · Flagship Festival</span></a>
+    <a href="events.html#meat-and-greet" class="event-card"><img src="assets/events/meat-and-greet-2.jpg" alt="Guests at Meat & Greet, TCM's signature free BBQ party" loading="lazy"><span class="event-owned-tag">TCM Owned</span><span class="event-name">Meat &amp; Greet</span><span class="event-meta">Since 2020 · Free BBQ Party</span></a>
+    <a href="events.html#capital-block-party" class="event-card"><img src="assets/events/capital-block-party-1.jpg" alt="Crowd at the Purple Capital Block Party with Omah Lay" loading="lazy"><span class="event-partner-tag">Partnership</span><span class="event-name">Purple Capital Block Party</span><span class="event-meta">Since 2018 · With Omah Lay</span></a>
+    <a href="events.html#guinness-bright-house" class="event-card"><img src="assets/events/guinness-bright-house-1.jpg" alt="Guests at the Guinness Bright House activation, part of Festival of Lights" loading="lazy"><span class="event-partner-tag">Partnership</span><span class="event-name">Guinness Bright House</span><span class="event-meta">Since 2018 · Festival of Lights</span></a>
+    <a href="events.html#odumodu-capital-block-party" class="event-card"><img src="assets/events/odumodu-capital-block-party-1.jpg" alt="Odumodu Blvck headlining the Capital Block Party" loading="lazy"><span class="event-partner-tag">Partnership</span><span class="event-name">Odumodu x Capital Block Party</span><span class="event-meta">Headline Takeover</span></a>
+    <a href="events.html#otb-by-tcm" class="event-card"><img src="assets/events/otb-by-tcm-1.jpg" alt="Guests at OTB by TCM, part of the TCM Hangout Series" loading="lazy"><span class="event-owned-tag">TCM Owned</span><span class="event-name">OTB by TCM</span><span class="event-meta">TCM Hangout Series</span></a>
+    <a href="events.html#romies-block" class="event-card"><img src="assets/events/romies-block-1.jpg" alt="DJ Romie performing at Romie's Block in Abuja" loading="lazy"><span class="event-partner-tag">Weekly</span><span class="event-name">Romie's Block</span><span class="event-meta">Abuja's Biggest Monday Night</span></a>
+  </div>
+</section>
+
+<section class="talent px" id="talent" aria-label="Talents we have moved for">
+  <div class="section-head" style="margin-bottom:0.5rem;">
+    <h2 class="section-title">Talents We've Moved For</h2>
+    <a href="talent.html" class="eyebrow" style="text-decoration:none;">Full Directory →</a>
+  </div>
+  <div class="talent-wall">
+    <a href="talent.html#davido" class="talent-tile"><img src="assets/talent/davido.jpg" alt="Davido" loading="lazy"><div><div class="talent-name">Davido</div><div class="talent-role">Headline Act</div></div></a>
+    <a href="talent.html#burna-boy" class="talent-tile"><img src="assets/talent/burna-boy.jpg" alt="Burna Boy" loading="lazy"><div><div class="talent-name">Burna Boy</div><div class="talent-role">Headline Act</div></div></a>
+    <a href="talent.html#wizkid" class="talent-tile"><img src="assets/talent/wizkid.jpg" alt="Wizkid" loading="lazy"><div><div class="talent-name">Wizkid</div><div class="talent-role">Headline Act</div></div></a>
+    <a href="talent.html#tems" class="talent-tile"><img src="assets/talent/tems.jpg" alt="Tems" loading="lazy"><div><div class="talent-name">Tems</div><div class="talent-role">Headline Act</div></div></a>
+    <a href="talent.html#rema" class="talent-tile"><img src="assets/talent/rema.jpg" alt="Rema" loading="lazy"><div><div class="talent-name">Rema</div><div class="talent-role">Headline Act</div></div></a>
+    <a href="talent.html#asake" class="talent-tile"><img src="assets/talent/asake.jpg" alt="Asake" loading="lazy"><div><div class="talent-name">Asake</div><div class="talent-role">Headline Act</div></div></a>
+    <a href="talent.html#odumodu-blvck" class="talent-tile"><img src="assets/talent/odumodu-blvck.jpg" alt="Odumodu Blvck" loading="lazy"><div><div class="talent-name">Odumodu Blvck</div><div class="talent-role">Headline Act</div></div></a>
+    <a href="talent.html#seyi-vibez" class="talent-tile"><img src="assets/talent/seyi-vibez.jpg" alt="Seyi Vibez" loading="lazy"><div><div class="talent-name">Seyi Vibez</div><div class="talent-role">Touring Artist</div></div></a>
+    <a href="talent.html#ruger" class="talent-tile"><img src="assets/talent/ruger.jpg" alt="Ruger" loading="lazy"><div><div class="talent-name">Ruger</div><div class="talent-role">Touring Artist</div></div></a>
+    <a href="talent.html#oxlade" class="talent-tile"><img src="assets/talent/oxlade.jpg" alt="Oxlade" loading="lazy"><div><div class="talent-name">Oxlade</div><div class="talent-role">Touring Artist</div></div></a>
+    <a href="talent.html#zlatan" class="talent-tile"><img src="assets/talent/zlatan.jpg" alt="Zlatan" loading="lazy"><div><div class="talent-name">Zlatan</div><div class="talent-role">Touring Artist</div></div></a>
+    <a href="talent.html#mayorkun" class="talent-tile"><img src="assets/talent/mayorkun.jpg" alt="Mayorkun" loading="lazy"><div><div class="talent-name">Mayorkun</div><div class="talent-role">Live in Abuja</div></div></a>
+    <a href="talent.html#omah-lay" class="talent-tile"><img src="assets/talent/omah-lay.jpg" alt="Omah Lay" loading="lazy"><div><div class="talent-name">Omah Lay</div><div class="talent-role">Live in Abuja</div></div></a>
+    <a href="talent.html#johnny-drille" class="talent-tile"><img src="assets/talent/johnny-drille.jpg" alt="Johnny Drille" loading="lazy"><div><div class="talent-name">Johnny Drille</div><div class="talent-role">Live in Abuja</div></div></a>
+    <a href="talent.html#skyla-tyler" class="talent-tile"><img src="assets/talent/skyla-tyler.jpg" alt="Skyla Tyler" loading="lazy"><div><div class="talent-name">Skyla Tyler</div><div class="talent-role">Festival Set</div></div></a>
+    <a href="talent.html#fola" class="talent-tile"><img src="assets/talent/fola.jpg" alt="Fola" loading="lazy"><div><div class="talent-name">Fola</div><div class="talent-role">Festival Set</div></div></a>
+    <a href="talent.html#sarz" class="talent-tile"><img src="assets/talent/sarz.jpg" alt="Sarz" loading="lazy"><div><div class="talent-name">Sarz</div><div class="talent-role">Producer</div></div></a>
+    <a href="talent.html#sssoundgawd" class="talent-tile"><img src="assets/talent/sssoundgawd.png" alt="Sssoundgawd" loading="lazy"><div><div class="talent-name">Sssoundgawd</div><div class="talent-role">Producer</div></div></a>
+    <a href="talent.html#dj-romie" class="talent-tile"><img src="assets/press/dj-romie-abuja-dj-portrait.jpg" alt="Abuja DJ and culture curator DJ Romie" loading="lazy"><div><div class="talent-name">DJ Romie</div><div class="talent-role">Resident DJ</div></div></a>
+    <a href="talent.html#dj-spinall" class="talent-tile"><img src="assets/talent/dj-spinall.jpg" alt="DJ Spinall" loading="lazy"><div><div class="talent-name">DJ Spinall</div><div class="talent-role">Resident DJ</div></div></a>
+    <a href="talent.html#dj-neptune" class="talent-tile"><img src="assets/talent/dj-neptune.jpg" alt="DJ Neptune" loading="lazy"><div><div class="talent-name">DJ Neptune</div><div class="talent-role">Resident DJ</div></div></a>
+    <a href="talent.html#dope-caesar" class="talent-tile"><img src="assets/talent/dope-caesar.jpg" alt="Dope Caesar" loading="lazy"><div><div class="talent-name">Dope Caesar</div><div class="talent-role">Resident DJ</div></div></a>
+    <a href="talent.html#sdc" class="talent-tile"><img src="assets/talent/sdc.jpg" alt="SDC" loading="lazy"><div><div class="talent-name">SDC</div><div class="talent-role">Creative Collective</div></div></a>
+  </div>
+</section>
+
+<section class="production px" aria-label="How TCM moves productions">
+  <h2 class="section-title">How We Move It</h2>
+  <div class="card-grid cols-3">
+    <div class="card-item"><span class="num">01</span><h3>Stage production</h3><p>Full-scale stage builds and technical direction for festivals of every size.</p></div>
+    <div class="card-item"><span class="num">02</span><h3>Lighting &amp; sound</h3><p>Concert-grade lighting design and P/A systems, indoors and outdoors.</p></div>
+    <div class="card-item"><span class="num">03</span><h3>Live streaming</h3><p>Multi-camera broadcast setups bringing the show beyond the venue.</p></div>
+    <div class="card-item"><span class="num">04</span><h3>Experiential installations</h3><p>Branded environments, entrances, and activations built for the moment.</p></div>
+    <div class="card-item"><span class="num">05</span><h3>Pyrotechnics &amp; effects</h3><p>Fireworks and pyrogenic shows for the productions that call for spectacle.</p></div>
+    <div class="card-item"><span class="num">06</span><h3>Technical direction</h3><p>End-to-end show-calling, from rehearsal to the final cue.</p></div>
+    <div class="card-item"><span class="num">07</span><h3>PR &amp; press</h3><p>Media relations, press days, and coverage that carries the moment past the venue walls.</p></div>
+    <div class="card-item"><span class="num">08</span><h3>Marketing &amp; campaigns</h3><p>Brand strategy, content, and rollout campaigns that move an event from announcement to sell-out.</p></div>
+    <div class="card-item"><span class="num">09</span><h3>Social &amp; content</h3><p>Recap edits, real-time coverage, and social rollouts that keep the moment moving after the lights go down.</p></div>
+  </div>
+</section>
+
+<section class="feed px" aria-label="Things we've moved this month">
+  <div class="section-head">
+    <h2 class="section-title">Things We Moved</h2>
+    <span class="eyebrow">This Month</span>
+  </div>
+  <div class="feed-grid">
+    <div class="feed-card"><img src="assets/feed/capital-machine-recap.jpg" alt="Recap shot from Capital Machine, December 18" loading="lazy"><span class="feed-tag">Recap</span><span class="feed-title">Capital Machine, Dec 18</span></div>
+    <div class="feed-card"><img src="assets/events/tcm-festival-3.jpg" alt="Crowd at TCM Festival as Culture Fest lineup drops" loading="lazy"><span class="feed-tag">Festival</span><span class="feed-title">Culture Fest lineup drop</span></div>
+    <div class="feed-card"><img src="assets/feed/mayorkun-bts.jpg" alt="Behind the scenes with Mayorkun, back in office" loading="lazy"><span class="feed-tag">Behind the Scenes</span><span class="feed-title">Mayorkun, back in office</span></div>
+    <div class="feed-card"><img src="assets/feed/crowd-lights-1.jpg" alt="Crowd celebrating TCM's new brand partnership with Heineken" loading="lazy"><span class="feed-tag">News</span><span class="feed-title">New brand moved with TCM: Heineken</span></div>
+  </div>
+</section>
+
+<section class="partners px" id="brands" aria-label="Brands TCM has moved with">
+  <span class="eyebrow">Brands We've Moved With</span>
+  <div class="partners-orbit">
+    <span class="partner-chip"><img src="assets/logos/guinness-white.png" alt="Guinness" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fallback',textContent:'Guinness'}))"></span>
+    <span class="partner-chip"><img src="assets/logos/heineken.png" alt="Heineken" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fallback',textContent:'Heineken'}))"></span>
+    <span class="partner-chip"><img src="assets/logos/pepsi.png" alt="Pepsi" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fallback',textContent:'Pepsi'}))"></span>
+    <span class="partner-chip"><img src="assets/logos/hennessy-white.png" alt="Hennessy" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fallback',textContent:'Hennessy'}))"></span>
+    <span class="partner-chip"><img src="assets/logos/johnnie-walker-white.png" alt="Johnnie Walker" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fallback',textContent:'Johnnie Walker'}))"></span>
+    <span class="partner-chip"><img src="assets/logos/chivas.png" alt="Chivas" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fallback',textContent:'Chivas'}))"></span>
+    <span class="partner-chip"><img src="assets/logos/glenfiddich-white.png" alt="Glenfiddich" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fallback',textContent:'Glenfiddich'}))"></span>
+    <span class="partner-chip"><img src="assets/logos/remy-martin-white.png" alt="Rémy Martin" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fallback',textContent:'Rémy Martin'}))"></span>
+    <span class="partner-chip"><img src="assets/logos/smirnoff.png" alt="Smirnoff" loading="lazy" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'logo-fallback',textContent:'Smirnoff'}))"></span>
+  </div>
+  <p style="margin-top:2rem;"><a href="partnerships.html" class="cta-btn">Become A Partner →</a></p>
+</section>
+
+<section class="game-section px" aria-label="Run The Capital — an interactive game">
+  <div class="game-intro">
+    <span class="eyebrow">Built To Move</span>
+    <h2 class="section-title" style="margin-top:0.75rem;">Run The Capital</h2>
+    <p class="game-copy">Culture doesn't wait, and neither does the city. Move through Abuja, dodge what's in the way, keep the streak alive.</p>
+    <p class="game-controls-hint">↑ / ↓ or W / S to move · Space to start · Touch &amp; drag on mobile</p>
+  </div>
+
+  <div class="game-stage" id="game-stage">
+    <canvas id="game-canvas" aria-hidden="true"></canvas>
+    <div class="game-hud">
+      <span>Moved: <span class="score-val" id="game-score">0</span>m</span>
+      <span class="lives-val" id="game-lives">●●●</span>
+    </div>
+    <div class="game-overlay" id="game-overlay">
+      <h4>Ready to move?</h4>
+      <p>Run through Abuja and dodge whatever's in your way. Three hits and it's a wrap — go again and beat your best.</p>
+      <button class="game-start-btn" id="game-start">Start Moving</button>
+    </div>
+    <div class="game-mobile-controls" id="game-mobile-controls" aria-hidden="true">
+      <button class="game-pad-btn" id="game-up" type="button" aria-label="Move up">▲</button>
+      <button class="game-pad-btn" id="game-down" type="button" aria-label="Move down">▼</button>
+    </div>
+  </div>
+</section>
+
+<section class="testimonials px" aria-label="Moved by TCM">
+  <h2 class="section-title">Moved By TCM</h2>
+  <div class="testi-grid">
+    <div class="testi-card"><p class="testi-quote">"TCM doesn't throw events. They move a city and make people feel it."</p><p class="testi-name">Partner Brand</p><p class="testi-role">Sponsorship Lead</p></div>
+    <div class="testi-card"><p class="testi-quote">"Performing for TCM is moving a whole city, not just a crowd."</p><p class="testi-name">Featured Artist</p><p class="testi-role">Headline Performer</p></div>
+    <div class="testi-card"><p class="testi-quote">"Every TCM moment moves something. The energy never sits still."</p><p class="testi-name">Event Attendee</p><p class="testi-role">Community Voice</p></div>
+  </div>
+</section>
+
+<section class="contact px" id="contact" aria-label="Contact">
+  <h2 class="section-title" style="font-weight:900;">Let's Move<br>This Together</h2>
+  <div class="contact-options">
+    <a href="contact.html?subject=event" class="contact-option"><h3>Move An Event</h3><span class="arrow">→</span></a>
+    <a href="contact.html?subject=talent" class="contact-option"><h3>Move Talent</h3><span class="arrow">→</span></a>
+    <a href="partnerships.html" class="contact-option"><h3>Move A Brand</h3><span class="arrow">→</span></a>
+    <a href="partnerships.html" class="contact-option"><h3>Move A Sponsorship</h3><span class="arrow">→</span></a>
+    <a href="contact.html?subject=campaign" class="contact-option"><h3>Move A Campaign</h3><span class="arrow">→</span></a>
+    <a href="contact.html?subject=press" class="contact-option"><h3>Move The Press</h3><span class="arrow">→</span></a>
+  </div>
+
+  <footer class="site-footer">
+    <span class="footer-logo"><img src="assets/logos/tcm-logo.png" alt="The Capital Movement (TCM)"></span>
+    <nav class="footer-social" aria-label="TCM on social media">
+      <a href="https://www.instagram.com/thecapitalmovement?igsh=MTdzcmJ0eXhnZHFlNA==" target="_blank" rel="noopener noreferrer" aria-label="TCM on Instagram (opens in a new tab)"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="4.3" stroke="currentColor" stroke-width="1.7"/><circle cx="17.4" cy="6.6" r="1.15" fill="currentColor"/></svg></a>
+      <a href="https://x.com/thecapitalmvmt?s=11" target="_blank" rel="noopener noreferrer" aria-label="TCM on X (opens in a new tab)"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 3.5h4.1l4.05 5.4 4.6-5.4h2.25l-5.9 6.9 6.4 8.6h-4.1l-4.35-5.8-4.9 5.8H3.4l6.25-7.3-5.65-8.2z" fill="currentColor"/></svg></a>
+    </nav>
+    <div class="footer-contact">
+      <a href="mailto:contact@thecapitalmovement.com">contact@thecapitalmovement.com</a>
+      <span>07041924247 · +234 903 185 7483</span>
+      <span>Abuja, FCT, Nigeria</span>
+    </div>
+    <nav class="footer-nav" aria-label="Footer navigation">
+      <a href="about.html">About</a>
+      <a href="talent.html">Talent</a>
+      <a href="events.html">Events</a>
+      <a href="partnerships.html">Partnerships</a>
+      <a href="community.html">Community</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+    <div class="footer-divider" aria-hidden="true"></div>
+    <p class="footer-meta">© 2026 The Capital Movement (TCM). All rights reserved.<br>Moved By TCM.</p>
+  </footer>
+</section>
+
+<script src="js/site.js"></script>
+<script>
+if (typeof window.gsap === 'undefined') {
+  window.gsap = {
+    set: function (targets, props) {
+      var els = (typeof targets === 'string') ? document.querySelectorAll(targets) : (targets.length ? targets : [targets]);
+      els.forEach && els.forEach(function (el) { applyProps(el, props); });
+      if (!els.forEach && els.style) applyProps(els, props);
+    },
+    to: function (targets, props) { window.gsap.set(targets, props); if (props && typeof props.onComplete === 'function') props.onComplete(); return {}; },
+    fromTo: function (targets, from, to) { window.gsap.set(targets, to); if (to && typeof to.onComplete === 'function') to.onComplete(); return {}; },
+    timeline: function () {
+      var tl = {
+        to: function (targets, props) { window.gsap.set(targets, props); if (props && typeof props.onComplete === 'function') props.onComplete(); return tl; },
+        fromTo: function (targets, from, to) { window.gsap.set(targets, to); if (to && typeof to.onComplete === 'function') to.onComplete(); return tl; }
+      };
+      return tl;
+    },
+    registerPlugin: function () {}
+  };
+  function applyProps(el, props) {
+    if (!el || !props) return;
+    if ('opacity' in props) el.style.opacity = props.opacity;
+    if (props.display) el.style.display = props.display;
+    if (props.transformOrigin) el.style.transformOrigin = props.transformOrigin;
+    var tx = ('x' in props) ? props.x : 0;
+    var ty = ('y' in props) ? props.y : 0;
+    var sx = ('scaleX' in props) ? props.scaleX : (('scale' in props) ? props.scale : 1);
+    var sy = ('scaleY' in props) ? props.scaleY : (('scale' in props) ? props.scale : 1);
+    var sk = ('skewY' in props) ? props.skewY : 0;
+    if ('x' in props || 'y' in props || 'scale' in props || 'scaleX' in props || 'scaleY' in props || 'skewY' in props) {
+      el.style.transform = 'translate(' + tx + 'px,' + ty + 'px) scale(' + sx + ',' + sy + ') skewY(' + sk + 'deg)';
+    }
+  }
+  window.ScrollTrigger = { create: function (opts) { if (opts && typeof opts.onEnter === 'function') opts.onEnter(); } };
+}
+</script>
+<script>
+(function () {
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  gsap.registerPlugin(ScrollTrigger);
+
+  var canvas = document.getElementById('hero-canvas');
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  var particles = [];
+  var pointerX = 0, pointerY = 0;
+
+  function resize() { canvas.width = canvas.offsetWidth * dpr; canvas.height = canvas.offsetHeight * dpr; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  var PCOUNT = 90;
+  for (var i = 0; i < PCOUNT; i++) {
+    particles.push({ x: Math.random(), y: Math.random(), r: Math.random() * 1.6 + 0.4, speed: Math.random() * 0.0003 + 0.0001, drift: Math.random() * Math.PI * 2 });
+  }
+
+  function draw() {
+    var w = canvas.width, h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+    var lightX = (0.5 + pointerX * 0.4) * w;
+    var lightY = (0.5 - pointerY * 0.4) * h;
+    var glow = ctx.createRadialGradient(lightX, lightY, 0, lightX, lightY, w * 0.35);
+    glow.addColorStop(0, 'rgba(220,30,30,0.20)');
+    glow.addColorStop(0.55, 'rgba(140,15,15,0.08)');
+    glow.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = glow;
+    ctx.fillRect(0, 0, w, h);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      p.drift += p.speed;
+      var px = (p.x + Math.sin(p.drift) * 0.01 + pointerX * 0.02) * w;
+      var py = (p.y + Math.cos(p.drift * 0.7) * 0.01 - pointerY * 0.01) * h;
+      ctx.beginPath();
+      ctx.arc(px, py, p.r * dpr, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(232,197,71,0.55)';
+      ctx.fill();
+    }
+    if (!reduced) requestAnimationFrame(draw);
+  }
+  draw();
+
+  window.addEventListener('pointermove', function (e) {
+    pointerX = (e.clientX / window.innerWidth) * 2 - 1;
+    pointerY = -((e.clientY / window.innerHeight) * 2 - 1);
+  });
+
+  var words = document.querySelectorAll('[data-word]');
+  var curtain = document.getElementById('hero-curtain');
+
+  if (!reduced) {
+    gsap.set(words, { opacity: 0, y: 70, skewY: 4 });
+    gsap.set('#hero-cta', { opacity: 0, y: 20 });
+    var introTl = gsap.timeline({ delay: 0.15 });
+    introTl.to(curtain, { scaleY: 0, opacity: 0, transformOrigin: 'top', duration: 0.9, ease: 'power4.inOut' });
+    introTl.to(words, { opacity: 1, y: 0, skewY: 0, duration: 1, ease: 'power4.out', stagger: 0.12 }, '-=0.35');
+    introTl.to('#hero-cta', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.3');
+    window.addEventListener('pointermove', function (e) {
+      var px = (e.clientX / window.innerWidth) * 2 - 1;
+      var py = -((e.clientY / window.innerHeight) * 2 - 1);
+      words.forEach(function (el, i) {
+        var depth = (i + 1) * 4;
+        gsap.to(el, { x: px * depth, y: -py * depth * 0.5, duration: 0.6, ease: 'power3.out' });
+      });
+    });
+  } else {
+    gsap.set(curtain, { display: 'none' });
+    gsap.set(words, { opacity: 1, y: 0 });
+    gsap.set('#hero-cta', { opacity: 1, y: 0 });
+  }
+
+  var cta = document.getElementById('hero-cta');
+  if (!reduced && cta) {
+    cta.addEventListener('pointermove', function (e) {
+      var rect = cta.getBoundingClientRect();
+      var relX = e.clientX - (rect.left + rect.width / 2);
+      var relY = e.clientY - (rect.top + rect.height / 2);
+      gsap.to(cta, { x: relX * 0.25, y: relY * 0.25, duration: 0.3, ease: 'power2.out' });
+    });
+    cta.addEventListener('pointerleave', function () {
+      gsap.to(cta, { x: 0, y: 0, duration: 0.4, ease: 'elastic.out(1, 0.4)' });
+    });
+  }
+
+  document.querySelectorAll('[data-row]').forEach(function (row) {
+    if (reduced) { row.classList.add('is-visible'); return; }
+    var sweep = document.createElement('div');
+    sweep.setAttribute('aria-hidden', 'true');
+    sweep.style.position = 'absolute';
+    sweep.style.inset = '0';
+    sweep.style.pointerEvents = 'none';
+    sweep.style.background = 'linear-gradient(100deg, transparent, rgba(200,30,30,0.16), transparent)';
+    sweep.style.transform = 'translateX(-110%)';
+    row.style.position = 'relative';
+    row.style.overflow = 'hidden';
+    row.appendChild(sweep);
+    ScrollTrigger.create({
+      trigger: row, start: 'top 85%',
+      onEnter: function () {
+        row.classList.add('is-visible');
+        gsap.fromTo(sweep, { x: '-110%' }, { x: '110%', duration: 0.9, ease: 'power2.inOut', delay: 0.1 });
+      }
+    });
+  });
+
+  (function setupGame() {
+    var stage = document.getElementById('game-stage');
+    var canvas = document.getElementById('game-canvas');
+    var overlay = document.getElementById('game-overlay');
+    var startBtn = document.getElementById('game-start');
+    var scoreEl = document.getElementById('game-score');
+    var livesEl = document.getElementById('game-lives');
+    var upBtn = document.getElementById('game-up');
+    var downBtn = document.getElementById('game-down');
+    if (!stage || !canvas || !startBtn) return;
+
+    var ctx = canvas.getContext('2d');
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var W = 0, H = 0;
+
+    function resizeCanvas() {
+      var rect = stage.getBoundingClientRect();
+      W = rect.width; H = rect.height;
+      canvas.width = Math.round(W * dpr);
+      canvas.height = Math.round(H * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    var running = false, rafId = null, lastTime = 0, distance = 0, lives = 3;
+    var speed = 220, maxSpeed = 620, spawnTimer = 0, spawnInterval = 1.35, invuln = 0, shake = 0, elapsed = 0;
+    var laneCount = 5;
+    var player = { laneIndex: 2, y: 0, targetY: 0, x: 0, bob: 0, vy: 0 };
+    var obstacles = [], bgFar = [], bgLights = [];
+    var OBSTACLE_TYPES = ['barricade', 'cone', 'drone', 'speaker', 'danfo'];
+
+    function laneY(index) {
+      var topPad = H * 0.18, botPad = H * 0.12, usable = H - topPad - botPad;
+      return topPad + (usable * (index / (laneCount - 1)));
+    }
+
+    function resetWorld() {
+      distance = 0; lives = 3; speed = 220; spawnTimer = 0; spawnInterval = 1.35; invuln = 0; shake = 0; elapsed = 0;
+      obstacles = [];
+      player.laneIndex = 2; player.y = laneY(2); player.targetY = player.y; player.x = Math.max(46, W * 0.14);
+      updateHud(); buildSkyline();
+    }
+
+    function buildSkyline() {
+      bgFar = [];
+      bgFar.push({ type: 'asorock', x: 0.18, w: 0.22, h: 0.5, speed: 0.18 });
+      bgFar.push({ type: 'zumarock', x: 0.62, w: 0.16, h: 0.62, speed: 0.18 });
+      bgFar.push({ type: 'mosque', x: 0.4, w: 0.18, h: 0.34, speed: 0.32 });
+      bgFar.push({ type: 'mosque', x: 0.85, w: 0.14, h: 0.28, speed: 0.32 });
+      for (var i = 0; i < 6; i++) bgFar.push({ type: 'block', x: Math.random(), w: 0.05 + Math.random() * 0.04, h: 0.16 + Math.random() * 0.22, speed: 0.45 });
+      bgLights = [];
+      for (var j = 0; j < 22; j++) bgLights.push({ x: Math.random(), y: 0.55 + Math.random() * 0.4, speed: 0.9 + Math.random() * 0.4, r: 1 + Math.random() * 1.4 });
+    }
+
+    function updateHud() {
+      scoreEl.textContent = Math.floor(distance);
+      var dots = '';
+      for (var i = 0; i < 3; i++) dots += (i < lives ? '●' : '○');
+      livesEl.textContent = dots;
+    }
+
+    function movePlayer(dir) {
+      if (!running) return;
+      player.laneIndex = Math.max(0, Math.min(laneCount - 1, player.laneIndex + dir));
+      player.targetY = laneY(player.laneIndex);
+    }
+
+    window.addEventListener('keydown', function (e) {
+      if (['ArrowUp', 'w', 'W'].indexOf(e.key) !== -1) { movePlayer(-1); e.preventDefault(); }
+      if (['ArrowDown', 's', 'S'].indexOf(e.key) !== -1) { movePlayer(1); e.preventDefault(); }
+      if (e.key === ' ' && !running) { e.preventDefault(); startGame(); }
+    });
+
+    stage.addEventListener('pointerdown', function (e) {
+      if (!running) return;
+      var rect = stage.getBoundingClientRect();
+      var localY = e.clientY - rect.top;
+      if (localY < rect.height / 2) movePlayer(-1); else movePlayer(1);
+    });
+
+    upBtn && upBtn.addEventListener('pointerdown', function (e) { e.preventDefault(); e.stopPropagation(); movePlayer(-1); });
+    downBtn && downBtn.addEventListener('pointerdown', function (e) { e.preventDefault(); e.stopPropagation(); movePlayer(1); });
+
+    function spawnObstacle() {
+      var type = OBSTACLE_TYPES[Math.floor(Math.random() * OBSTACLE_TYPES.length)];
+      var lane = Math.floor(Math.random() * laneCount);
+      var size = type === 'drone' ? 30 : type === 'danfo' ? 54 : type === 'speaker' ? 38 : 26;
+      obstacles.push({ type: type, lane: lane, x: W + size, y: laneY(lane), size: size, wobble: Math.random() * Math.PI * 2, passed: false });
+    }
+
+    function rectsOverlap(ax, ay, ar, bx, by, br) {
+      var dx = ax - bx, dy = ay - by, dist = Math.sqrt(dx * dx + dy * dy);
+      return dist < (ar + br) * 0.62;
+    }
+
+    function hitPlayer() {
+      if (invuln > 0) return;
+      lives -= 1; invuln = 1.1; shake = 0.35; updateHud();
+      if (lives <= 0) endGame();
+    }
+
+    function drawSkyline(dt) {
+      ctx.fillStyle = '#0d0d10'; ctx.fillRect(0, 0, W, H);
+      var grad = ctx.createLinearGradient(0, 0, 0, H);
+      grad.addColorStop(0, '#0a0a0c'); grad.addColorStop(0.55, '#150c0e'); grad.addColorStop(1, '#2a0f10');
+      ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H * 0.78);
+      var horizon = H * 0.78;
+      bgFar.forEach(function (b) {
+        b.x -= (b.speed * speed * dt) / W;
+        if (b.x < -b.w - 0.05) b.x = 1 + Math.random() * 0.3;
+        var bx = b.x * W, bw = b.w * W, bh = b.h * H, by = horizon - bh;
+        ctx.fillStyle = 'rgba(40,18,18,0.9)';
+        if (b.type === 'asorock') {
+          ctx.beginPath(); ctx.moveTo(bx, horizon);
+          ctx.quadraticCurveTo(bx + bw * 0.1, by, bx + bw * 0.5, by - bh * 0.15);
+          ctx.quadraticCurveTo(bx + bw * 0.9, by + bh * 0.1, bx + bw, horizon);
+          ctx.closePath(); ctx.fill();
+        } else if (b.type === 'zumarock') {
+          ctx.beginPath(); ctx.moveTo(bx, horizon);
+          ctx.quadraticCurveTo(bx + bw * 0.5, by - bh * 0.25, bx + bw, horizon);
+          ctx.closePath(); ctx.fill();
+          ctx.beginPath(); ctx.ellipse(bx + bw * 0.5, by + bh * 0.05, bw * 0.32, bh * 0.18, 0, 0, Math.PI * 2); ctx.fill();
+        } else if (b.type === 'mosque') {
+          ctx.fillRect(bx, by + bh * 0.35, bw, bh * 0.65);
+          ctx.beginPath(); ctx.arc(bx + bw * 0.5, by + bh * 0.35, bw * 0.5, Math.PI, 0); ctx.fill();
+          ctx.fillRect(bx - bw * 0.18, by + bh * 0.1, bw * 0.08, bh * 0.9);
+          ctx.fillRect(bx + bw * 1.1, by + bh * 0.1, bw * 0.08, bh * 0.9);
+        } else {
+          ctx.fillRect(bx, by, bw, bh);
+          ctx.fillStyle = 'rgba(232,197,71,0.18)';
+          for (var w = 0; w < 3; w++) for (var hh = 0; hh < 4; hh++) if (Math.random() > 0.6) ctx.fillRect(bx + 3 + w * (bw / 3.4), by + 4 + hh * (bh / 4.2), 2, 3);
+          ctx.fillStyle = 'rgba(40,18,18,0.9)';
+        }
+      });
+      ctx.fillStyle = '#0a0a0b'; ctx.fillRect(0, horizon, W, H - horizon);
+      ctx.strokeStyle = 'rgba(200,204,209,0.12)'; ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(0, horizon + 1); ctx.lineTo(W, horizon + 1); ctx.stroke();
+      bgLights.forEach(function (l) {
+        l.x -= (l.speed * speed * dt) / W;
+        if (l.x < -0.02) l.x = 1.02;
+        var lx = l.x * W, ly = horizon + (l.y - 0.55) / 0.45 * (H - horizon) * 0.9;
+        ctx.beginPath(); ctx.fillStyle = 'rgba(232,197,71,0.55)'; ctx.arc(lx, ly, l.r, 0, Math.PI * 2); ctx.fill();
+      });
+    }
+
+    function drawPlayer(t) {
+      var x = player.x, y = player.y;
+      var bob = Math.sin(t * 9) * 2.5; y += bob;
+      ctx.save();
+      if (invuln > 0 && Math.floor(invuln * 14) % 2 === 0) ctx.globalAlpha = 0.35;
+      ctx.beginPath(); ctx.ellipse(x, player.y + 26, 20, 6, 0, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(0,0,0,0.45)'; ctx.fill();
+      var stride = Math.sin(t * 11);
+      ctx.strokeStyle = '#1c1c1e'; ctx.lineWidth = 7; ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(x - 4, y + 6); ctx.lineTo(x - 4 + stride * 9, y + 24);
+      ctx.moveTo(x + 4, y + 6); ctx.lineTo(x + 4 - stride * 9, y + 24);
+      ctx.stroke();
+      ctx.fillStyle = '#101012';
+      ctx.beginPath();
+      ctx.moveTo(x - 13, y + 8);
+      ctx.quadraticCurveTo(x - 16, y - 12, x - 8, y - 18);
+      ctx.lineTo(x + 8, y - 18);
+      ctx.quadraticCurveTo(x + 16, y - 12, x + 13, y + 8);
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = 'rgba(232,197,71,0.5)'; ctx.lineWidth = 1.5; ctx.stroke();
+      ctx.strokeStyle = '#E8C547'; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(x - 7, y - 12); ctx.quadraticCurveTo(x, y - 2, x + 7, y - 12); ctx.stroke();
+      ctx.strokeStyle = '#101012'; ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.moveTo(x - 11, y - 10); ctx.lineTo(x - 11 - stride * 7, y + 6);
+      ctx.moveTo(x + 11, y - 10); ctx.lineTo(x + 11 + stride * 7, y + 6);
+      ctx.stroke();
+      ctx.fillStyle = '#3a2a22'; ctx.beginPath(); ctx.arc(x, y - 24, 9, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = '#C81E1E';
+      ctx.beginPath();
+      ctx.moveTo(x - 9, y - 27);
+      ctx.quadraticCurveTo(x, y - 38, x + 9, y - 27);
+      ctx.quadraticCurveTo(x + 7, y - 18, x, y - 17);
+      ctx.quadraticCurveTo(x - 7, y - 18, x - 9, y - 27);
+      ctx.closePath(); ctx.fill();
+      ctx.strokeStyle = '#C81E1E'; ctx.lineWidth = 4; ctx.lineCap = 'round';
+      ctx.beginPath();
+      ctx.moveTo(x - 8, y - 28);
+      ctx.quadraticCurveTo(x - 22, y - 30 + Math.sin(t * 10) * 3, x - 30, y - 22 + Math.sin(t * 10 + 1) * 4);
+      ctx.stroke();
+      ctx.fillStyle = '#0A0A0A';
+      ctx.fillRect(x - 7, y - 25, 6, 3.5);
+      ctx.fillRect(x + 1, y - 25, 6, 3.5);
+      ctx.restore();
+    }
+
+    function drawObstacle(o) {
+      ctx.save();
+      ctx.translate(o.x, o.y);
+      if (o.type === 'cone') {
+        ctx.fillStyle = '#E2342E';
+        ctx.beginPath();
+        ctx.moveTo(0, -o.size * 0.5);
+        ctx.lineTo(o.size * 0.4, o.size * 0.5);
+        ctx.lineTo(-o.size * 0.4, o.size * 0.5);
+        ctx.closePath(); ctx.fill();
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(-o.size * 0.28, 0, o.size * 0.56, o.size * 0.1);
+      } else if (o.type === 'barricade') {
+        ctx.fillStyle = '#C8CCD1';
+        ctx.fillRect(-o.size * 0.6, -o.size * 0.18, o.size * 1.2, o.size * 0.36);
+        ctx.fillStyle = '#E2342E';
+        for (var i = -2; i <= 2; i++) ctx.fillRect(i * (o.size * 0.4) - 4, -o.size * 0.18, 8, o.size * 0.36);
+      } else if (o.type === 'drone') {
+        var bob = Math.sin(o.wobble) * 4;
+        ctx.translate(0, bob);
+        ctx.fillStyle = '#222';
+        ctx.fillRect(-o.size * 0.3, -o.size * 0.12, o.size * 0.6, o.size * 0.24);
+        ctx.strokeStyle = '#E8C547'; ctx.lineWidth = 2;
+        [[-1,-1],[1,-1],[-1,1],[1,1]].forEach(function (s) {
+          ctx.beginPath();
+          ctx.moveTo(s[0]*o.size*0.3, s[1]*o.size*0.12);
+          ctx.lineTo(s[0]*o.size*0.55, s[1]*o.size*0.32);
+          ctx.stroke();
+          ctx.beginPath();
+          ctx.ellipse(s[0]*o.size*0.55, s[1]*o.size*0.32, o.size*0.16, o.size*0.05, 0, 0, Math.PI*2);
+          ctx.fillStyle = 'rgba(232,197,71,0.5)'; ctx.fill();
+        });
+        ctx.fillStyle = 'rgba(255,59,59,0.9)';
+        ctx.beginPath(); ctx.arc(0, 0, 2.5, 0, Math.PI * 2); ctx.fill();
+      } else if (o.type === 'speaker') {
+        ctx.fillStyle = '#16161a';
+        ctx.fillRect(-o.size * 0.32, -o.size * 0.55, o.size * 0.64, o.size * 1.1);
+        ctx.strokeStyle = '#6B7076'; ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(0, -o.size * 0.2, o.size * 0.2, 0, Math.PI * 2);
+        ctx.arc(0, o.size * 0.22, o.size * 0.14, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.fillStyle = '#E8C547';
+        ctx.beginPath(); ctx.arc(0, -o.size * 0.2, 2, 0, Math.PI * 2); ctx.fill();
+      } else if (o.type === 'danfo') {
+        ctx.fillStyle = '#E8C547';
+        ctx.fillRect(-o.size * 0.65, -o.size * 0.32, o.size * 1.3, o.size * 0.5);
+        ctx.fillStyle = '#101012';
+        ctx.fillRect(-o.size * 0.65, -o.size * 0.32, o.size * 1.3, o.size * 0.12);
+        ctx.fillStyle = 'rgba(150,190,220,0.8)';
+        for (var k = -1; k <= 1; k++) ctx.fillRect(k * o.size * 0.36 - 6, -o.size * 0.18, 12, o.size * 0.16);
+        ctx.fillStyle = '#1c1c1e';
+        ctx.beginPath();
+        ctx.arc(-o.size * 0.38, o.size * 0.2, o.size * 0.13, 0, Math.PI * 2);
+        ctx.arc(o.size * 0.38, o.size * 0.2, o.size * 0.13, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.restore();
+    }
+
+    function loop(now) {
+      if (!running) return;
+      var dt = Math.min(0.04, (now - lastTime) / 1000 || 0.016);
+      lastTime = now; elapsed += dt;
+      if (invuln > 0) invuln -= dt;
+      if (shake > 0) shake -= dt;
+      speed = Math.min(maxSpeed, 220 + elapsed * 11);
+      spawnInterval = Math.max(0.55, 1.35 - elapsed * 0.02);
+      distance += dt * (speed / 11);
+      player.y += (player.targetY - player.y) * Math.min(1, dt * 10);
+      spawnTimer += dt;
+      if (spawnTimer >= spawnInterval) { spawnTimer = 0; spawnObstacle(); }
+      obstacles.forEach(function (o) {
+        o.x -= speed * dt; o.wobble += dt * 4;
+        if (!o.passed && o.x < player.x) o.passed = true;
+        if (!o.hit && o.x > player.x - 26 && o.x < player.x + 26) {
+          if (rectsOverlap(o.x, o.y, o.size * 0.42, player.x, player.y, 16)) { o.hit = true; hitPlayer(); }
+        }
+      });
+      obstacles = obstacles.filter(function (o) { return o.x > -80; });
+      ctx.save();
+      if (shake > 0) ctx.translate((Math.random() - 0.5) * shake * 18, (Math.random() - 0.5) * shake * 18);
+      drawSkyline(dt);
+      obstacles.forEach(drawObstacle);
+      drawPlayer(elapsed);
+      ctx.restore();
+      updateHud();
+      rafId = requestAnimationFrame(loop);
+    }
+
+    function endGame() {
+      running = false;
+      if (rafId) cancelAnimationFrame(rafId);
+      var moved = Math.floor(distance);
+      overlay.innerHTML = '<h4>' + moved + 'm moved.</h4><p>That\'s how far you got through the capital before it caught you. Culture doesn\'t wait — go again?</p><button class="game-start-btn" id="game-start">Move Again</button>';
+      overlay.style.display = 'flex';
+      document.getElementById('game-start').addEventListener('click', startGame);
+    }
+
+    function startGame() {
+      resizeCanvas(); resetWorld();
+      overlay.style.display = 'none';
+      running = true; lastTime = performance.now();
+      rafId = requestAnimationFrame(loop);
+    }
+
+    resetWorld(); drawSkyline(0); drawPlayer(0);
+    startBtn.addEventListener('click', startGame);
+  })();
+})();
+</script>
+</body>
+</html>

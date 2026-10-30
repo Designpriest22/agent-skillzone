@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Over Sabi social template</title>
+<!--
+  Social template. Query params: ?format=square|story|og&phrase=…&meaning=…&lang=yo&kicker=…
+  Rendered to PNG by scripts/brand-export.ts. Fonts are loaded from node_modules (self-hosted, OFL).
+-->
+<style>
+  @font-face { font-family: "Bricolage"; src: url("../../node_modules/@fontsource-variable/bricolage-grotesque/files/bricolage-grotesque-latin-wght-normal.woff2") format("woff2"); font-weight: 200 800; }
+  @font-face { font-family: "Noto"; src: url("../../node_modules/@fontsource-variable/noto-sans/files/noto-sans-latin-wght-normal.woff2") format("woff2"); font-weight: 100 900; }
+  @font-face { font-family: "Noto"; src: url("../../node_modules/@fontsource-variable/noto-sans/files/noto-sans-latin-ext-wght-normal.woff2") format("woff2"); font-weight: 100 900; unicode-range: U+0100-02AF, U+0300-0301, U+0304, U+0308, U+0323, U+0329, U+1E00-1EFF; }
+  @font-face { font-family: "Noto"; src: url("../../node_modules/@fontsource-variable/noto-sans/files/noto-sans-vietnamese-wght-normal.woff2") format("woff2"); font-weight: 100 900; unicode-range: U+0300-0301, U+0303-0304, U+0308-0309, U+0323, U+0329, U+1EA0-1EF9; }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { background: #f4ede1; }
+  .card { position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 88px; background: #f4ede1; color: #16130f; font-family: "Noto", sans-serif; overflow: hidden; }
+  .square { width: 1080px; height: 1080px; }
+  .story { width: 1080px; height: 1920px; padding: 120px 96px; }
+  .og { width: 1200px; height: 630px; padding: 64px 72px; }
+  .kicker { font: 600 28px/1.2 "Noto", sans-serif; letter-spacing: .14em; text-transform: uppercase; color: #4a4238; }
+  .phrase { font: 800 150px/1 "Noto", sans-serif; letter-spacing: -.02em; margin-top: 24px; }
+  .og .phrase { font-size: 104px; }
+  .story .kicker { font-size: 36px; }
+  .story .phrase { font-size: 200px; margin-top: 420px; }
+  .story .meaning { font-size: 60px; }
+  .story .word { font-size: 60px; }
+  .meaning { font: 500 44px/1.3 "Noto", sans-serif; color: #4a4238; margin-top: 28px; }
+  .og .meaning { font-size: 34px; }
+  svg.tone { margin-top: 28px; overflow: visible; }
+  .foot { display: flex; align-items: center; gap: 20px; }
+  .word { font: 800 48px/1 "Bricolage", sans-serif; letter-spacing: -.02em; }
+  .word b { color: #0e4a37; font-weight: 800; }
+  .blob { position: absolute; right: -180px; bottom: -180px; width: 560px; height: 560px; border-radius: 50%; background: #0e4a37; }
+  .og .blob { width: 380px; height: 380px; right: -120px; bottom: -160px; }
+  .dot { position: absolute; right: 300px; bottom: 300px; width: 64px; height: 64px; border-radius: 50%; background: #e0552a; }
+  .og .dot { right: 200px; bottom: 150px; width: 44px; height: 44px; }
+</style>
+</head>
+<body>
+<div id="card" class="card square">
+  <div>
+    <p class="kicker" id="kicker">Today I learned</p>
+    <p class="phrase" id="phrase">Ẹ káàárọ̀</p>
+    <svg class="tone" id="tone" height="40"></svg>
+    <p class="meaning" id="meaning">Good morning — the respectful way, for elders.</p>
+  </div>
+  <div class="foot">
+    <svg width="72" height="72" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#0e4a37"/><path d="M43 19.5c-2.6-3.4-6.6-5.5-11-5.5-7.2 0-12.5 4.6-12.5 10.6 0 5.3 3.8 7.9 12.5 9.4 8.7 1.5 12.5 4.1 12.5 9.4 0 6-5.3 10.6-12.5 10.6-4.4 0-8.4-2.1-11-5.5" fill="none" stroke="#f4ede1" stroke-width="6.5" stroke-linecap="round"/><circle cx="47.5" cy="14.5" r="5" fill="#e0552a"/></svg>
+    <span class="word">over<b>sabi</b></span>
+  </div>
+  <div class="blob"></div><div class="dot"></div>
+</div>
+<script>
+  const q = new URLSearchParams(location.search);
+  const card = document.getElementById("card");
+  card.className = "card " + (q.get("format") || "square");
+  for (const k of ["kicker", "phrase", "meaning"]) if (q.get(k)) document.getElementById(k).textContent = q.get(k);
+  // Tone line from tone marks (acute = high, grave = low, none = mid); only for tone-marked text.
+  const text = document.getElementById("phrase").textContent.normalize("NFD").toLowerCase();
+  const tones = [];
+  if (/[̀́]/.test(text)) {
+    const chars = [...text];
+    for (let i = 0; i < chars.length; i++) {
+      if (!/[aeiouɛɔ]/.test(chars[i])) continue;
+      let j = i + 1, t = "M";
+      while (j < chars.length && /\p{M}/u.test(chars[j])) { if (chars[j] === "́") t = "H"; if (chars[j] === "̀") t = "L"; j++; }
+      tones.push(t); i = j - 1;
+    }
+  }
+  const svg = document.getElementById("tone");
+  if (tones.length) {
+    const Y = { H: 4, M: 20, L: 36 }, step = 44;
+    svg.setAttribute("width", String(step * (tones.length - 1) + 12));
+    const pts = tones.map((t, i) => `${6 + i * step},${Y[t]}`).join(" ");
+    svg.innerHTML = `<polyline points="${pts}" fill="none" stroke="#e0552a" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>` +
+      tones.map((t, i) => `<circle cx="${6 + i * step}" cy="${Y[t]}" r="7" fill="#e0552a"/>`).join("");
+  } else svg.remove();
+  document.fonts.ready.then(() => document.body.setAttribute("data-ready", "1"));
+</script>
+</body>
+</html>

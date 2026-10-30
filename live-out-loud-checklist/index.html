@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1080">
+<title>Dec 13 Checklist</title>
+<script src="config.js"></script>
+<style>
+@font-face { font-family: "Anton"; src: url(assets/fonts/anton-latin-400-normal.woff2) format("woff2"); }
+@font-face { font-family: "Montserrat"; src: url(assets/fonts/montserrat-latin-600-normal.woff2) format("woff2"); font-weight: 600; }
+@font-face { font-family: "Montserrat"; src: url(assets/fonts/montserrat-latin-700-normal.woff2) format("woff2"); font-weight: 700; }
+@font-face { font-family: "Montserrat"; src: url(assets/fonts/montserrat-latin-800-normal.woff2) format("woff2"); font-weight: 800; }
+@font-face { font-family: "Oswald"; src: url(assets/fonts/oswald-latin-600-normal.woff2) format("woff2"); font-weight: 600; }
+
+:root { --ink: #110C09; --cream: #F4ECE1; --paper: #F1E7D8; --orange: #E8561B; --tan: #C99E78; --gold: #EBC791; }
+html, body { margin: 0; background: #000; }
+#stage { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--ink); }
+.scene { position: absolute; inset: 0; display: none; }
+.line { position: absolute; left: 0; right: 0; text-align: center; font-family: Anton; line-height: 1; white-space: nowrap; }
+.clip { position: absolute; left: 0; right: 0; overflow: hidden; }
+
+/* hook */
+#hook { background: var(--ink); }
+#h1 { top: 810px; font-size: 300px; color: var(--cream); }
+#h2 { top: 880px; font-size: 210px; color: var(--cream); }
+#h3 { top: 1110px; font-size: 250px; color: var(--orange); }
+
+/* checklist */
+#list { background: var(--paper); }
+#listInner { position: absolute; inset: 0; }
+#listTitle { position: absolute; left: 0; right: 0; top: 380px; text-align: center; font: 800 46px/1 Montserrat; letter-spacing: 12px; color: var(--ink); }
+#listRule { position: absolute; left: 440px; width: 200px; top: 452px; height: 8px; border-radius: 4px; background: var(--orange); transform-origin: 50% 50%; }
+.item { position: absolute; left: 0; right: 0; height: 120px; }
+.box { position: absolute; left: 100px; top: 4px; width: 112px; height: 112px; box-sizing: border-box; border: 10px solid var(--ink); border-radius: 20px; }
+.box .fill { position: absolute; inset: -10px; border-radius: 20px; background: var(--orange); opacity: 0; }
+.box svg { position: absolute; left: -10px; top: -10px; width: 112px; height: 112px; overflow: visible; }
+.item .txt { position: absolute; left: 258px; top: 0; font: 400 124px/120px Anton; color: var(--ink); white-space: nowrap; transform-origin: 0 50%; }
+#pending { position: absolute; left: 258px; font: 700 40px/1 Montserrat; letter-spacing: 6px; color: var(--orange); }
+
+/* callouts */
+#girl { background: var(--ink); }
+#girlTxt { top: 760px; font-size: 400px; color: var(--cream); }
+#girlBar { position: absolute; left: 240px; width: 600px; top: 1190px; height: 18px; background: var(--orange); transform-origin: 0 50%; }
+#stack { background: var(--orange); }
+#stackInner { position: absolute; inset: 0; }
+#stack .clip { height: 228px; }
+#stack .line { font-size: 210px; top: 0; }
+
+/* drop + end share the flyer layer */
+#drop { background: url(assets/bg_blur.jpg) center/cover; }
+#drop .shade { position: absolute; inset: 0; background: radial-gradient(70% 50% at 50% 50%, rgba(232,86,27,.28), rgba(0,0,0,.72) 75%); }
+.band { height: 130px; }
+.band .line { font-size: 112px; letter-spacing: 6px; top: 6px; }
+#topBand { top: 248px; } #topBand .line { color: var(--cream); }
+#botBand { top: 1540px; } #botBand .line { color: var(--gold); }
+#flyer { position: absolute; display: none; border-radius: 26px; overflow: hidden; transform-origin: 50% 50%;
+  box-shadow: 0 40px 100px rgba(0,0,0,.7), 0 0 0 2px rgba(255,236,210,.16); }
+#flyer img { width: 100%; height: 100%; display: block; }
+#sheen { position: absolute; inset: 0; mix-blend-mode: screen; background-size: 300% 100%;
+  background-image: linear-gradient(115deg, rgba(255,255,255,0) 40%, rgba(255,240,220,.32) 50%, rgba(255,255,255,0) 60%); }
+
+#end { background: radial-gradient(80% 45% at 50% 42%, rgba(232,86,27,.22), rgba(0,0,0,0) 70%), var(--ink); }
+#eEyebrow { position: absolute; left: 0; right: 0; top: 240px; text-align: center; font: 700 32px/1 Montserrat; letter-spacing: 9px; color: var(--gold); }
+#eRow { position: absolute; top: 368px; height: 120px; }
+#eRow .box { left: 0; border-color: var(--cream); }
+#eRow .txt { position: absolute; left: 146px; top: 0; font: 400 118px/120px Anton; color: var(--cream); white-space: nowrap; }
+#eWhen { position: absolute; left: 0; right: 0; top: 1120px; text-align: center; font: 600 54px/1.25 Oswald; letter-spacing: 12px; color: var(--tan); }
+#eLabel { position: absolute; left: 0; right: 0; top: 1296px; text-align: center; font: 600 32px/1 Montserrat; letter-spacing: 10px; color: rgba(244,236,225,.88); }
+#eCta { position: absolute; left: 70px; width: 940px; top: 1350px; height: 140px; border-radius: 70px; overflow: hidden;
+  background: linear-gradient(100deg, #F58A2F, #E2531C 55%, #C9401A); display: flex; align-items: center; justify-content: center; }
+#eCta span { position: relative; z-index: 1; font: 800 70px/1 Montserrat; color: #FFF8EE; text-shadow: 0 2px 8px rgba(80,20,0,.35); }
+#eSweep { position: absolute; inset: 0; background-size: 300% 100%;
+  background-image: linear-gradient(110deg, rgba(255,255,255,0) 40%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 60%); }
+
+#flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+#grain { position: absolute; inset: -40px; background: url(assets/grain.png); background-size: 540px 960px; opacity: .085; mix-blend-mode: overlay; pointer-events: none; }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="scene" id="hook"><div class="line" id="h1"></div><div class="line" id="h2"></div><div class="line" id="h3"></div></div>
+
+  <div class="scene" id="list"><div id="listInner"><div id="listTitle"></div><div id="listRule"></div><div id="pending">STILL PENDING 👀</div></div></div>
+
+  <div class="scene" id="girl"><div class="line" id="girlTxt"></div><div id="girlBar"></div></div>
+  <div class="scene" id="stack"><div id="stackInner"></div></div>
+
+  <div class="scene" id="drop"><div class="shade"></div><div class="clip band" id="topBand"></div><div class="clip band" id="botBand"></div></div>
+
+  <div class="scene" id="end">
+    <div id="eEyebrow"></div>
+    <div id="eRow"></div>
+    <div id="eWhen"></div>
+    <div id="eLabel"></div>
+    <div id="eCta"><span id="eCtaTxt"></span><div id="eSweep"></div></div>
+  </div>
+
+  <div id="flyer"><img id="flyerImg"><div id="sheen"></div></div>
+  <div id="flash"></div>
+  <div id="grain"></div>
+</div>
+
+<script>
+(function () {
+const C = window.CONFIG;
+const SPB = 60 / C.bpm;                       // seconds per beat
+const $ = id => document.getElementById(id);
+const el = (tag, cls, html) => { const e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.textContent = html; return e; };
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, p) => a + (b - a) * p;
+const eOut = p => 1 - Math.pow(1 - p, 3);
+const eExpo = p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p);
+const eInOut = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const eBack = p => { const s = 1.4; return 1 + (s + 1) * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2); };
+// progress of an animation that starts at beat b and lasts d seconds
+const P = (t, b, d) => clamp((t - b * SPB) / d);
+const shake = (t, b, amp) => { const dt = t - b * SPB; if (dt < 0) return [0, 0]; const k = amp * Math.exp(-dt * 14); return [Math.sin(dt * 93) * k, Math.cos(dt * 71) * k]; };
+const show = (id, on) => { $(id).style.display = on ? 'block' : 'none'; };
+
+const TICK = `<svg viewBox="0 0 112 112"><path class="tk" d="M28 58 L48 78 L86 34" fill="none" stroke="#FFF8EE" stroke-width="15" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="90" stroke-dashoffset="90"/></svg>`;
+function makeBox() { const b = el('div', 'box'); b.appendChild(el('div', 'fill')); b.insertAdjacentHTML('beforeend', TICK); return b; }
+function setCheck(box, p, popP) {
+  box.querySelector('.fill').style.opacity = clamp(p * 3);
+  box.querySelector('.tk').setAttribute('stroke-dashoffset', String(90 * (1 - eOut(p))));
+  box.style.transform = `scale(${popP > 0 && popP < 1 ? 1 + 0.28 * Math.sin(popP * Math.PI) : 1})`;
+}
+
+// ---------- build ----------
+$('h1').textContent = C.hook.line1.text; $('h2').textContent = C.hook.line2.text; $('h3').textContent = C.hook.line3.text;
+
+$('listTitle').textContent = C.checklist.title;
+const items = C.checklist.items.map((it, i) => {
+  const row = el('div', 'item'); row.style.top = (560 + i * 172) + 'px';
+  const box = makeBox(); row.appendChild(box);
+  const txt = el('div', 'txt', it.text); row.appendChild(txt);
+  $('listInner').appendChild(row);
+  return { it, row, box, txt, y: 560 + i * 172 };
+});
+const last = items[items.length - 1];
+$('pending').style.top = (last.y + 150) + 'px';
+
+$('girlTxt').textContent = C.callout.girl.text;
+const stack = C.callout.stack.map((s, i) => {
+  const c = el('div', 'clip'); c.style.top = (700 + i * 232) + 'px';
+  const l = el('div', 'line', s.text); l.style.color = i === 1 ? 'var(--cream)' : 'var(--ink)';
+  c.appendChild(l); $('stackInner').appendChild(c);
+  return { s, l };
+});
+
+const bandItems = (id, list) => list.map(s => { const l = el('div', 'line', s.text); $(id).appendChild(l); return { s, l }; });
+const topB = bandItems('topBand', C.drop.top), botB = bandItems('botBand', C.drop.bottom);
+$('flyerImg').src = C.drop.flyer;
+
+const E = C.end;
+$('eEyebrow').textContent = E.eyebrow;
+const eBox = makeBox(); $('eRow').appendChild(eBox);
+$('eRow').appendChild(el('div', 'txt', E.item));
+$('eWhen').innerHTML = `${E.date}<br>${E.venue}`;
+$('eLabel').textContent = E.ctaLabel;
+$('eCtaTxt').textContent = E.cta;
+
+// ---------- render ----------
+const sceneAt = bt => bt < C.checklist.start ? 'hook' : bt < C.callout.girl.beat ? 'list' : bt < C.callout.stack[0].beat ? 'girl'
+  : bt < C.drop.beat ? 'stack' : bt < E.beat ? 'drop' : 'end';
+
+function bandRender(arr, t) {
+  arr.forEach((b, i) => {
+    const next = arr[i + 1];
+    const pin = eExpo(P(t, b.s.beat, 0.28));
+    const pout = next ? eExpo(P(t, next.s.beat, 0.28)) : 0;
+    b.l.style.transform = `translateY(${(1 - pin) * 110 - pout * 110}%)`;
+    b.l.style.opacity = pin > 0 ? 1 : 0;
+  });
+}
+
+function renderAt(t) {
+  const bt = t / SPB;
+  const sc = sceneAt(bt);
+  ['hook', 'list', 'girl', 'stack', 'drop', 'end'].forEach(s => show(s, s === sc));
+  const beatBump = Math.exp(-((bt % 1) * SPB) * 9);   // decays after every beat
+
+  if (sc === 'hook') {
+    const H = C.hook;
+    const p1 = eBack(P(t, H.line1.beat, 0.32)), up = eInOut(P(t, H.line2.beat - 0.15, 0.3));
+    const [sx, sy] = shake(t, H.line1.beat, 14);
+    $('h1').style.opacity = clamp(P(t, H.line1.beat, 0.06));
+    $('h1').style.transform = `translate(${sx}px, ${sy - 210 * up}px) scale(${lerp(1.55, 1, p1) * lerp(1, 0.72, up)})`;
+    const p2 = eBack(P(t, H.line2.beat, 0.28));
+    $('h2').style.opacity = bt >= H.line2.beat ? 1 : 0;
+    $('h2').style.transform = `translateY(${(1 - p2) * 60}px) scale(${lerp(1.3, 1, p2)})`;
+    const p3 = eBack(P(t, H.line3.beat, 0.28)); const [x3, y3] = shake(t, H.line3.beat, 12);
+    $('h3').style.opacity = bt >= H.line3.beat ? 1 : 0;
+    $('h3').style.transform = `translate(${x3}px, ${y3}px) scale(${lerp(1.5, 1, p3)})`;
+  }
+
+  if (sc === 'list') {
+    const L = C.checklist, [ta, tb] = L.tension;
+    const tp = eInOut(clamp((bt - ta) / (tb - ta)));
+    $('listTitle').style.opacity = clamp(P(t, L.start, 0.15));
+    $('listTitle').style.transform = `translateY(${(1 - eExpo(P(t, L.start, 0.3))) * -30}px)`;
+    $('listRule').style.transform = `scaleX(${eExpo(P(t, L.start + 0.25, 0.35))})`;
+    items.forEach(I => {
+      const pin = eExpo(P(t, I.it.in, 0.3));
+      I.row.style.opacity = bt >= I.it.in ? (I === last ? 1 : lerp(1, 0.16, tp)) : 0;
+      I.row.style.transform = `translateX(${(1 - pin) * 140}px)`;
+      const fit = Math.min(1, (1080 - 258 - 50) / I.txt.scrollWidth);
+      I.txt.style.transform = `scale(${fit})`;
+      if (I.it.check != null) {
+        const cp = P(t, I.it.check, 0.18);
+        setCheck(I.box, cp, P(t, I.it.check, 0.22));
+      } else {
+        setCheck(I.box, 0, 0);
+        // blink the empty box on every half beat during the tension
+        const blink = bt >= ta && Math.floor(bt * 2) % 2 === 0;
+        I.box.style.borderColor = blink ? 'var(--orange)' : 'var(--ink)';
+      }
+    });
+    // subtle beat pulse while the groove plays, then a slow push toward the empty box
+    const pulse = bt < ta ? 1 + 0.01 * beatBump : 1;
+    const zoom = lerp(1, 1.16, tp);
+    $('listInner').style.transformOrigin = `50% ${last.y + 60}px`;
+    $('listInner').style.transform = `scale(${pulse * zoom})`;
+    const pp = eOut(P(t, ta + 0.5, 0.3));
+    $('pending').style.opacity = pp; $('pending').style.transform = `translateY(${(1 - pp) * 20}px)`;
+  }
+
+  if (sc === 'girl') {
+    const b = C.callout.girl.beat, p = eBack(P(t, b, 0.26)); const [x, y] = shake(t, b, 22);
+    $('girlTxt').style.transform = `translate(${x}px, ${y}px) scale(${lerp(1.7, 1, p)})`;
+    $('girlBar').style.transform = `scaleX(${eExpo(P(t, b + 0.4, 0.3))})`;
+  }
+
+  if (sc === 'stack') {
+    stack.forEach(S => { S.l.style.transform = `translateY(${(1 - eExpo(P(t, S.s.beat, 0.3))) * 105}%)`; });
+    const ant = eInOut(clamp((bt - (C.drop.beat - 0.5)) / 0.5));         // anticipation before the drop
+    $('stackInner').style.transform = `scale(${(1 + 0.012 * beatBump) * lerp(1, 0.92, ant)})`;
+  }
+
+  // flyer layer: drop (big, centered) -> end (smaller, mid-card)
+  const fOn = bt >= C.drop.beat;
+  $('flyer').style.display = fOn ? 'block' : 'none';
+  if (fOn) {
+    const mv = eInOut(P(t, E.beat, 0.55));
+    const x = lerp(140, 330, mv), y = lerp(450, 562, mv), w = lerp(800, 420, mv), h = w * 1.25;
+    const slam = eOut(P(t, C.drop.beat, 0.35));
+    const pulse = bt < E.beat ? 1 + 0.022 * beatBump : 1;
+    const f = $('flyer');
+    f.style.left = x + 'px'; f.style.top = y + 'px'; f.style.width = w + 'px'; f.style.height = h + 'px';
+    f.style.transform = `scale(${lerp(1.22, 1, slam) * pulse})`;
+    $('sheen').style.backgroundPosition = `${lerp(130, -30, eInOut(P(t, C.drop.beat + 1, 0.7)))}% 0`;
+  }
+  if (sc === 'drop') {
+    bandRender(topB, t); bandRender(botB, t);
+    $('drop').style.transform = `scale(${1 + 0.012 * beatBump})`;
+  }
+
+  if (sc === 'end') {
+    const b = E.beat;
+    const pe = eOut(P(t, b + 0.25, 0.4));
+    $('eEyebrow').style.opacity = pe; $('eEyebrow').style.transform = `translateY(${(1 - pe) * 16}px)`;
+    const row = $('eRow'); const rw = 146 + row.querySelector('.txt').scrollWidth;
+    row.style.left = ((1080 - rw) / 2) + 'px';
+    const pr = eExpo(P(t, b, 0.35));
+    row.style.opacity = clamp(P(t, b, 0.12)); row.style.transform = `translateY(${(1 - pr) * -40}px)`;
+    setCheck(eBox, P(t, E.checkBeat, 0.18), P(t, E.checkBeat, 0.24));
+    eBox.style.borderColor = t >= E.checkBeat * SPB ? 'var(--orange)' : 'var(--cream)';
+    const pw = eOut(P(t, b + 1, 0.4));
+    $('eWhen').style.opacity = pw; $('eWhen').style.transform = `translateY(${(1 - pw) * 22}px)`;
+    const pl = eOut(P(t, b + 1.5, 0.4));
+    $('eLabel').style.opacity = pl; $('eLabel').style.transform = `translateY(${(1 - pl) * 16}px)`;
+    const pc = eBack(P(t, E.ctaBeat, 0.4));
+    const pulse = bt > E.ctaBeat + 1 ? 1 + 0.012 * beatBump : 1;
+    $('eCta').style.opacity = clamp(P(t, E.ctaBeat, 0.15));
+    $('eCta').style.transform = `scale(${lerp(0.85, 1, pc) * pulse})`;
+    $('eCta').style.boxShadow = `0 18px ${50 + 40 * (pulse - 1) / 0.012}px rgba(226,83,28,${0.45 + 0.2 * (pulse - 1) / 0.012})`;
+    $('eSweep').style.backgroundPosition = `${lerp(110, -10, eInOut(P(t, E.ctaBeat + 1.2, 0.7)))}% 0`;
+  }
+
+  // white flash on the drop, orange-tinted pop on the final tick
+  const fl = Math.max(1 - P(t, C.drop.beat, 0.22), 0) * (bt >= C.drop.beat ? 1 : 0);
+  const fl2 = bt >= E.checkBeat ? 0.25 * (1 - P(t, E.checkBeat, 0.2)) : 0;
+  $('flash').style.opacity = Math.max(fl, fl2);
+
+  // living film grain (deterministic per frame)
+  const fr = Math.round(t * C.fps);
+  $('grain').style.backgroundPosition = `${(fr * 137) % 540}px ${(fr * 251) % 960}px`;
+}
+window.renderAt = renderAt;
+
+window.ready = (async () => {
+  await Promise.all([document.fonts.load('100px Anton'), document.fonts.load('800 40px Montserrat'), document.fonts.load('700 40px Montserrat'),
+    document.fonts.load('600 40px Montserrat'), document.fonts.load('600 40px Oswald'), document.fonts.load('40px "Noto Color Emoji"', '👀')]);
+  await document.fonts.ready;
+  const img = $('flyerImg'); if (!img.complete) await new Promise(r => { img.onload = r; img.onerror = r; });
+  renderAt(0);
+  return true;
+})();
+
+if (!/render/.test(location.search)) {
+  window.ready.then(() => { const t0 = performance.now(); const loop = () => { renderAt(((performance.now() - t0) / 1000) % C.duration); requestAnimationFrame(loop); }; loop(); });
+}
+})();
+</script>
+</body>
+</html>
