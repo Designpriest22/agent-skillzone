@@ -1,3 +1,5 @@
-# 15 Mockups
-There are 12 presentation scenes (2400 × 1500 JPG): stationery, business cards, reports and proposals, presentation screens, website and devices, the social system, event stage, exhibition stand, staff ID, directional signage, presentation folder, and brochure and tourism information.
-The scenes are HTML/CSS compositions (`_scenes/`) that place the kit’s **real exported artwork**, lit from a single top-left light source. They are for visualisation only; production files live in folders 02–13.
+# 15 Presentation boards
+
+Six flat boards show the real v2 deliverables side by side: documents and stationery, presentation, social, website, events and signage, and plates and photography. Each board is labelled as a flat artwork presentation.
+
+The v1 'device' mockups (CSS laptops, phones, lanyards and stages) are retired: they imitated photographs and did not convince. For photographic mockups, place the PDFs in licensed mockup scenes (Smart Objects) and record the scene licence.

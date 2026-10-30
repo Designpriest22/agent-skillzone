@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1000 1000" width="1000" height="1000" role="img" aria-labelledby="title desc">
-<title id="title">Photo mask — sun-window_1x1</title>
-<desc id="desc">Black shape = visible image area. Use as clipping mask (Illustrator/Figma) or CSS clip-path / mask-image.</desc>
-<clipPath id="dn-mask-sun-window_1x1"><path d="M500,0 A500,500 0 1 1 499.9,0 Z"/></clipPath><path d="M500,0 A500,500 0 1 1 499.9,0 Z" fill="#000"/>
-</svg>

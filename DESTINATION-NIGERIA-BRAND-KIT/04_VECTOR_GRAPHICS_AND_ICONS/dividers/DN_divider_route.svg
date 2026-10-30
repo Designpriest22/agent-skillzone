@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1200 60" width="1200" height="60" role="img" aria-labelledby="title desc">
-<title id="title">Divider — route</title>
-<desc id="desc"></desc>
-<path d="M14,30 C300,0 500,60 800,26 S1100,20 1186,30" fill="none" stroke="#2E6E76" stroke-width="2" stroke-dasharray="2 9" stroke-linecap="round"/><circle cx="14" cy="30" r="6" fill="#103428"/><circle cx="1186" cy="30" r="9" fill="#E8A432"/>
-</svg>

@@ -23,6 +23,8 @@ PLATES = [
      (1235, 215, 62)),
     ("zuma-rock-quiet", "zuma-rock.jpg", "Zuma Rock, Niger State (quiet sky, for tone-on-tone use)", 1600, 1000, (0.02, 0.08, 0.98, 0.80),
      dict(clarity=1.4, lo=0.18, hi=1.0, smooth=7, passes=2), dict(fade=dict(bottom=0.3, noise=0.05), sky=0.0), None),
+    ("zuma-rock-vignette", "zuma-rock.jpg", "Zuma Rock, Niger State (vignette: no sky, faded edges)", 1600, 1000, (0.02, 0.08, 0.98, 0.80),
+     dict(clarity=1.4, lo=0.18, hi=1.0, smooth=7, passes=2), dict(fade=dict(bottom=0.32, left=0.14, right=0.14, noise=0.06), sky=0.0), None),
     ("agbokim-waterfalls", "Agbokim-Waterfalls.webp", "Agbokim Waterfalls, Cross River State", 1200, 1500, (0.0, 0.0, 0.79, 1.0),
      dict(clarity=1.5, lo=0.18, hi=0.92, smooth=6, passes=2, gamma=0.95),
      dict(field=dict(sigma_grad=2.5, sigma_tensor=16, base_weight=0.3, base_angle=90),

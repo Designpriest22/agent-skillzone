@@ -1,13 +1,17 @@
-# 04 Vector graphics and icons
-All SVG with valid viewBoxes, titles and descriptions. `_previews/` holds PNG renders for quick browsing; they are not sources.
+# 04 Vector graphics and icons (v2)
 
-- `icons/`: 32 icons: the 14 brief categories plus 18 brand and interface extras. `line/` and `solid/` use Forest Deep. `web-currentColor/` takes its colour from CSS. `DN_icons_sprite.svg` is an `<svg><use>` sprite. Built on a 24-unit grid with a 1.5 stroke and round joins.
-- `patterns/`: seamless 480 px tiles (contour, horizon-lines, sun-grid, confluence) on ivory, on forest, and transparent.
-- `horizon-shapes/`: horizon ribbons (forest, ivory, gold), layered landscape bands, and a contour strip.
-- `geometric-elements/`: sun disc, rising sun, sun rings, inselberg dome, arch frame, quarter horizon.
-- `photo-masks/`: clipping shapes (horizon arch, inselberg window, horizon base, sun window, rounded card).
-- `dividers/`, `section-markers/` (01–12 sun markers and Playfair chapter numerals).
-- `maps/`: Nigeria route maps (light and dark, live-text labels), silhouette, contour outline, route kit. Boundaries are Natural Earth (public domain).
-- `campaign-lockups/`: EXPERIENCE. INVEST. EXPLORE. (outlined type), plus approved stacked and horizontal lockups with the logo.
-- `badges/`: campaign seal (not an official seal), partner badge (for contracted partners only), editable event badge.
-- `social-avatars/`, `watermarks/` (white 35%, roundel, proof overlay).
+| Folder | Contents | Use |
+|---|---|---|
+| `ENGRAVED_PLATES/` | Line engravings traced from client-supplied photographs of real places: Zuma Rock (with sun, quiet sky and vignette versions) and Agbokim Waterfalls. Each comes in Forest ink and Paper ink, with or without ground, as SVG, PDF and PNG. | Covers, certificates, roll-ups, stage screens, tone-on-tone backgrounds. Always caption them: *Pl. 01 Zuma Rock, Niger State*. |
+| `campaign-lockups/` | The proposition *Experience. Invest. Explore.* as outlined vector, in one line, stacked, and locked up beneath the logo. | Campaign sign-offs, roll-ups, end frames. |
+| `icons/` | A 32-icon utility set (line and solid). | Interface and wayfinding only. These icons are not brand language. |
+| `maps/` | Nigeria silhouette and route maps (light and dark) built from Natural Earth data. | Information graphics. Show routes only where they are real and confirmed. |
+| `social-avatars/` | The horizon roundel. | Profile images only. |
+
+**Plate rules:**
+- Recolour plates only to Forest, Paper or Ridge (for tone-on-tone on Forest).
+- Never stretch, rotate or crop a plate in a way that removes the subject.
+- Never add colour to a plate other than the existing Sun Gold disc.
+- Never use a plate to depict a place other than the one it was traced from.
+
+**Retired in v2:** horizon ribbons and swooshes, contour, wave and dot patterns, geometric elements, circular-text badges, decorative dividers, section markers, photo masks, watermarks, and the tracked-capital campaign line with gold full stops. They remain in the git history (v1.1).

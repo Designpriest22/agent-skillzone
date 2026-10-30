@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 800 1000" width="800" height="1000" role="img" aria-labelledby="title desc">
-<title id="title">Photo mask — inselberg-window_4x5</title>
-<desc id="desc">Black shape = visible image area. Use as clipping mask (Illustrator/Figma) or CSS clip-path / mask-image.</desc>
-<clipPath id="dn-mask-inselberg-window_4x5"><path d="M0,1000 V420 C120,400 180,140 330,110 C430,90 520,120 580,260 C640,400 700,430 800,430 V1000 Z"/></clipPath><path d="M0,1000 V420 C120,400 180,140 330,110 C430,90 520,120 580,260 C640,400 700,430 800,430 V1000 Z" fill="#000"/>
-</svg>

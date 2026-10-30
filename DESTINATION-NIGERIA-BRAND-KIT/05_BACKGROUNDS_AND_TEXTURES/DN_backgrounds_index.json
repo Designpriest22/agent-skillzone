@@ -1,58 +1,34 @@
 [
- {
-  "key": "01_ivory-corporate",
-  "title": "Clean ivory corporate"
- },
- {
-  "key": "02_forest-institutional",
-  "title": "Deep forest institutional"
- },
- {
-  "key": "03_white-minimal",
-  "title": "White minimalist"
- },
- {
-  "key": "04_green-ivory-editorial-gradient",
-  "title": "Green-to-ivory editorial gradient"
- },
- {
-  "key": "05_golden-horizon",
-  "title": "Golden horizon"
- },
- {
-  "key": "06_abstract-mountain-landscape",
-  "title": "Abstract mountain landscape"
- },
- {
-  "key": "07_topographic-contour",
-  "title": "Topographic contour"
- },
- {
-  "key": "08_subtle-geometric",
-  "title": "Subtle geometric pattern"
- },
- {
-  "key": "09_dark-cinematic",
-  "title": "Dark cinematic campaign"
- },
- {
-  "key": "10_investment-premium",
-  "title": "Premium investment presentation"
- },
- {
-  "key": "11_tourism-photo-overlay",
-  "title": "Tourism photography overlay (with placeholder image)"
- },
- {
-  "key": "12_event-stage",
-  "title": "Event and stage-screen"
- },
- {
-  "key": "13_confluence-campaign",
-  "title": "Confluence lines \u2014 social campaign"
- },
- {
-  "key": "14_savannah-editorial",
-  "title": "Savannah warm editorial"
- }
+  {
+    "id": "01_paper-horizon",
+    "use": "Minimal corporate, light. Paper with a hairline horizon: documents, slides, web sections."
+  },
+  {
+    "id": "02_forest-horizon",
+    "use": "Minimal corporate, dark. Forest with a Ridge horizon: section openers, screens, closing slides."
+  },
+  {
+    "id": "03_horizon-and-sun",
+    "use": "Campaign. The horizon and the sun, the logo's own grammar: posters, social, campaign slides."
+  },
+  {
+    "id": "04_plate-paper",
+    "use": "Editorial and premium print. Zuma Rock engraved plate on Paper: covers, certificates, invitations."
+  },
+  {
+    "id": "05_plate-forest",
+    "use": "Premium presentation, dark. Zuma Rock engraved tone-on-tone: openers, stage screens, cards."
+  },
+  {
+    "id": "06_plate-night",
+    "use": "Events. Agbokim Waterfalls plate in Paper ink on Forest: stage and holding screens."
+  },
+  {
+    "id": "07_photo-horizon",
+    "use": "Photo-led. The horizon composition with Zuma Rock: campaign, web hero, report covers."
+  },
+  {
+    "id": "08_report-band",
+    "use": "Investment and reports. A narrow photograph band above a large Paper field."
+  }
 ]

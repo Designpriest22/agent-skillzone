@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 1920 1080" width="1920" height="1080" role="img" aria-labelledby="title desc">
-<title id="title">Photo mask — horizon-base_16x9</title>
-<desc id="desc">Black shape = visible image area. Use as clipping mask (Illustrator/Figma) or CSS clip-path / mask-image.</desc>
-<clipPath id="dn-mask-horizon-base_16x9"><path d="M0,0 H1920 V880 C1500,1000 1180,1010 960,980 C640,940 300,980 0,1060 Z"/></clipPath><path d="M0,0 H1920 V880 C1500,1000 1180,1010 960,980 C640,940 300,980 0,1060 Z" fill="#000"/>
-</svg>

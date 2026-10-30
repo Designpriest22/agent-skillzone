@@ -1,10 +1,18 @@
-# 05 Backgrounds and textures
-There are 14 art-directed backgrounds (`DN_backgrounds_index.json`). Each folder contains:
-- `SVG/`: the vector source for every format
-- `*_16x9_1920x1080.jpg`, `*_4x5_1080x1350.jpg` and `*_9x16_1080x1920.jpg`
-- `*_A4-portrait.pdf` / `*_A4-landscape.pdf` (vector, print) plus `*_150dpi.jpg` for Office backgrounds
-- `*_16x9_1920x1080.pdf` (vector, scalable to any 16:9 size)
-- `*_3840x2160.jpg` for the high-resolution set (05, 09, 10, 12)
+# 05 Backgrounds
 
-`11_tourism-photo-overlay/` also contains transparent **forest-gradient overlay PNGs** to place over photography. `textures/` holds a transparent paper-grain tile.
-For large-format print, export from the SVG at the final size. Vector shapes stay sharp at any scale.
+Eight grounds, each with a job, made only from the system's own materials: Paper, Forest, the horizon line, the sun, the engraved plates and the photo library. There are no gradients, glows, grain, patterns or invented landscapes.
+
+| Ground | Use |
+|---|---|
+| `01_paper-horizon` | Minimal corporate, light. Paper with a hairline horizon: documents, slides, web sections. |
+| `02_forest-horizon` | Minimal corporate, dark. Forest with a Ridge horizon: section openers, screens, closing slides. |
+| `03_horizon-and-sun` | Campaign. The horizon and the sun, the logo's own grammar: posters, social, campaign slides. |
+| `04_plate-paper` | Editorial and premium print. Zuma Rock engraved plate on Paper: covers, certificates, invitations. |
+| `05_plate-forest` | Premium presentation, dark. Zuma Rock engraved tone-on-tone: openers, stage screens, cards. |
+| `06_plate-night` | Events. Agbokim Waterfalls plate in Paper ink on Forest: stage and holding screens. |
+| `07_photo-horizon` | Photo-led. The horizon composition with Zuma Rock: campaign, web hero, report covers. |
+| `08_report-band` | Investment and reports. A narrow photograph band above a large Paper field. |
+
+Each folder holds 16:9 (1920 × 1080 JPG, a vector PDF and a 3840 × 2160 JPG), 4:5 and 9:16 JPGs, and A4 portrait and landscape (vector PDF plus a 150 dpi JPG for Office backgrounds). The HTML sources are in `source/`. Plates stay vector in the PDFs.
+
+Photo-led grounds use client-supplied images. Confirm each image's licence before publication (see `06/SOURCE_RECORDS/image-register.csv`).

@@ -50,7 +50,12 @@ def landscape(cw):
     return x1 - x0, y1 - y0, body
 
 
+RETIRED = ("_stacked_", "_horizontal_", "symbol_landscape", "roundel_gold")   # v2: variants with no job the primary does not do better
+
+
 def emit(rel, w, h, body, title, desc, png_widths=(1000, 2000), bg_preview="#ffffff"):
+    if any(r in rel for r in RETIRED):
+        return
     px = (round(w * 4), round(h * 4))
     write(rel, svg_doc(w, h, body, title, desc, px=px))
     stem = rel.rsplit("/", 1)[1][:-4]

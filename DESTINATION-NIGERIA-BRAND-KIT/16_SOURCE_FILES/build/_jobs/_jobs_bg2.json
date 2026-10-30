@@ -1,0 +1,682 @@
+[
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/source/DN_bg_01_paper-horizon_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/DN_bg_01_paper-horizon_16x9_1920x1080.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/source/DN_bg_01_paper-horizon_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/DN_bg_01_paper-horizon_16x9_1920x1080.pdf",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/source/DN_bg_01_paper-horizon_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/DN_bg_01_paper-horizon_3840x2160.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 2,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/source/DN_bg_01_paper-horizon_4x5_1080x1350.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/DN_bg_01_paper-horizon_4x5_1080x1350.jpg",
+  "w": 1080,
+  "h": 1350,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/source/DN_bg_01_paper-horizon_9x16_1080x1920.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/DN_bg_01_paper-horizon_9x16_1080x1920.jpg",
+  "w": 1080,
+  "h": 1920,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/source/DN_bg_01_paper-horizon_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/DN_bg_01_paper-horizon_A4-portrait.pdf",
+  "w": 794,
+  "h": 1123,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "210mm",
+  "pdfH": "297mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/source/DN_bg_01_paper-horizon_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/DN_bg_01_paper-horizon_A4-portrait_150dpi.jpg",
+  "w": 794,
+  "h": 1123,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/source/DN_bg_01_paper-horizon_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/DN_bg_01_paper-horizon_A4-landscape.pdf",
+  "w": 1123,
+  "h": 794,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "297mm",
+  "pdfH": "210mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/source/DN_bg_01_paper-horizon_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/01_paper-horizon/DN_bg_01_paper-horizon_A4-landscape_150dpi.jpg",
+  "w": 1123,
+  "h": 794,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/source/DN_bg_02_forest-horizon_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/DN_bg_02_forest-horizon_16x9_1920x1080.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/source/DN_bg_02_forest-horizon_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/DN_bg_02_forest-horizon_16x9_1920x1080.pdf",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/source/DN_bg_02_forest-horizon_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/DN_bg_02_forest-horizon_3840x2160.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 2,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/source/DN_bg_02_forest-horizon_4x5_1080x1350.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/DN_bg_02_forest-horizon_4x5_1080x1350.jpg",
+  "w": 1080,
+  "h": 1350,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/source/DN_bg_02_forest-horizon_9x16_1080x1920.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/DN_bg_02_forest-horizon_9x16_1080x1920.jpg",
+  "w": 1080,
+  "h": 1920,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/source/DN_bg_02_forest-horizon_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/DN_bg_02_forest-horizon_A4-portrait.pdf",
+  "w": 794,
+  "h": 1123,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "210mm",
+  "pdfH": "297mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/source/DN_bg_02_forest-horizon_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/DN_bg_02_forest-horizon_A4-portrait_150dpi.jpg",
+  "w": 794,
+  "h": 1123,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/source/DN_bg_02_forest-horizon_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/DN_bg_02_forest-horizon_A4-landscape.pdf",
+  "w": 1123,
+  "h": 794,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "297mm",
+  "pdfH": "210mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/source/DN_bg_02_forest-horizon_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/02_forest-horizon/DN_bg_02_forest-horizon_A4-landscape_150dpi.jpg",
+  "w": 1123,
+  "h": 794,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/source/DN_bg_03_horizon-and-sun_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/DN_bg_03_horizon-and-sun_16x9_1920x1080.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/source/DN_bg_03_horizon-and-sun_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/DN_bg_03_horizon-and-sun_16x9_1920x1080.pdf",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/source/DN_bg_03_horizon-and-sun_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/DN_bg_03_horizon-and-sun_3840x2160.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 2,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/source/DN_bg_03_horizon-and-sun_4x5_1080x1350.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/DN_bg_03_horizon-and-sun_4x5_1080x1350.jpg",
+  "w": 1080,
+  "h": 1350,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/source/DN_bg_03_horizon-and-sun_9x16_1080x1920.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/DN_bg_03_horizon-and-sun_9x16_1080x1920.jpg",
+  "w": 1080,
+  "h": 1920,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/source/DN_bg_03_horizon-and-sun_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/DN_bg_03_horizon-and-sun_A4-portrait.pdf",
+  "w": 794,
+  "h": 1123,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "210mm",
+  "pdfH": "297mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/source/DN_bg_03_horizon-and-sun_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/DN_bg_03_horizon-and-sun_A4-portrait_150dpi.jpg",
+  "w": 794,
+  "h": 1123,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/source/DN_bg_03_horizon-and-sun_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/DN_bg_03_horizon-and-sun_A4-landscape.pdf",
+  "w": 1123,
+  "h": 794,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "297mm",
+  "pdfH": "210mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/source/DN_bg_03_horizon-and-sun_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/03_horizon-and-sun/DN_bg_03_horizon-and-sun_A4-landscape_150dpi.jpg",
+  "w": 1123,
+  "h": 794,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/source/DN_bg_04_plate-paper_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/DN_bg_04_plate-paper_16x9_1920x1080.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/source/DN_bg_04_plate-paper_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/DN_bg_04_plate-paper_16x9_1920x1080.pdf",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/source/DN_bg_04_plate-paper_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/DN_bg_04_plate-paper_3840x2160.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 2,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/source/DN_bg_04_plate-paper_4x5_1080x1350.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/DN_bg_04_plate-paper_4x5_1080x1350.jpg",
+  "w": 1080,
+  "h": 1350,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/source/DN_bg_04_plate-paper_9x16_1080x1920.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/DN_bg_04_plate-paper_9x16_1080x1920.jpg",
+  "w": 1080,
+  "h": 1920,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/source/DN_bg_04_plate-paper_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/DN_bg_04_plate-paper_A4-portrait.pdf",
+  "w": 794,
+  "h": 1123,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "210mm",
+  "pdfH": "297mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/source/DN_bg_04_plate-paper_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/DN_bg_04_plate-paper_A4-portrait_150dpi.jpg",
+  "w": 794,
+  "h": 1123,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/source/DN_bg_04_plate-paper_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/DN_bg_04_plate-paper_A4-landscape.pdf",
+  "w": 1123,
+  "h": 794,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "297mm",
+  "pdfH": "210mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/source/DN_bg_04_plate-paper_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/04_plate-paper/DN_bg_04_plate-paper_A4-landscape_150dpi.jpg",
+  "w": 1123,
+  "h": 794,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/source/DN_bg_05_plate-forest_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/DN_bg_05_plate-forest_16x9_1920x1080.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/source/DN_bg_05_plate-forest_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/DN_bg_05_plate-forest_16x9_1920x1080.pdf",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/source/DN_bg_05_plate-forest_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/DN_bg_05_plate-forest_3840x2160.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 2,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/source/DN_bg_05_plate-forest_4x5_1080x1350.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/DN_bg_05_plate-forest_4x5_1080x1350.jpg",
+  "w": 1080,
+  "h": 1350,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/source/DN_bg_05_plate-forest_9x16_1080x1920.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/DN_bg_05_plate-forest_9x16_1080x1920.jpg",
+  "w": 1080,
+  "h": 1920,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/source/DN_bg_05_plate-forest_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/DN_bg_05_plate-forest_A4-portrait.pdf",
+  "w": 794,
+  "h": 1123,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "210mm",
+  "pdfH": "297mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/source/DN_bg_05_plate-forest_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/DN_bg_05_plate-forest_A4-portrait_150dpi.jpg",
+  "w": 794,
+  "h": 1123,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/source/DN_bg_05_plate-forest_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/DN_bg_05_plate-forest_A4-landscape.pdf",
+  "w": 1123,
+  "h": 794,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "297mm",
+  "pdfH": "210mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/source/DN_bg_05_plate-forest_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/05_plate-forest/DN_bg_05_plate-forest_A4-landscape_150dpi.jpg",
+  "w": 1123,
+  "h": 794,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/source/DN_bg_06_plate-night_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/DN_bg_06_plate-night_16x9_1920x1080.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/source/DN_bg_06_plate-night_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/DN_bg_06_plate-night_16x9_1920x1080.pdf",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/source/DN_bg_06_plate-night_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/DN_bg_06_plate-night_3840x2160.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 2,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/source/DN_bg_06_plate-night_4x5_1080x1350.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/DN_bg_06_plate-night_4x5_1080x1350.jpg",
+  "w": 1080,
+  "h": 1350,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/source/DN_bg_06_plate-night_9x16_1080x1920.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/DN_bg_06_plate-night_9x16_1080x1920.jpg",
+  "w": 1080,
+  "h": 1920,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/source/DN_bg_06_plate-night_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/DN_bg_06_plate-night_A4-portrait.pdf",
+  "w": 794,
+  "h": 1123,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "210mm",
+  "pdfH": "297mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/source/DN_bg_06_plate-night_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/DN_bg_06_plate-night_A4-portrait_150dpi.jpg",
+  "w": 794,
+  "h": 1123,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/source/DN_bg_06_plate-night_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/DN_bg_06_plate-night_A4-landscape.pdf",
+  "w": 1123,
+  "h": 794,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "297mm",
+  "pdfH": "210mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/source/DN_bg_06_plate-night_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/06_plate-night/DN_bg_06_plate-night_A4-landscape_150dpi.jpg",
+  "w": 1123,
+  "h": 794,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/source/DN_bg_07_photo-horizon_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/DN_bg_07_photo-horizon_16x9_1920x1080.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/source/DN_bg_07_photo-horizon_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/DN_bg_07_photo-horizon_16x9_1920x1080.pdf",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/source/DN_bg_07_photo-horizon_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/DN_bg_07_photo-horizon_3840x2160.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 2,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/source/DN_bg_07_photo-horizon_4x5_1080x1350.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/DN_bg_07_photo-horizon_4x5_1080x1350.jpg",
+  "w": 1080,
+  "h": 1350,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/source/DN_bg_07_photo-horizon_9x16_1080x1920.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/DN_bg_07_photo-horizon_9x16_1080x1920.jpg",
+  "w": 1080,
+  "h": 1920,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/source/DN_bg_07_photo-horizon_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/DN_bg_07_photo-horizon_A4-portrait.pdf",
+  "w": 794,
+  "h": 1123,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "210mm",
+  "pdfH": "297mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/source/DN_bg_07_photo-horizon_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/DN_bg_07_photo-horizon_A4-portrait_150dpi.jpg",
+  "w": 794,
+  "h": 1123,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/source/DN_bg_07_photo-horizon_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/DN_bg_07_photo-horizon_A4-landscape.pdf",
+  "w": 1123,
+  "h": 794,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "297mm",
+  "pdfH": "210mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/source/DN_bg_07_photo-horizon_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/07_photo-horizon/DN_bg_07_photo-horizon_A4-landscape_150dpi.jpg",
+  "w": 1123,
+  "h": 794,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/source/DN_bg_08_report-band_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/DN_bg_08_report-band_16x9_1920x1080.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/source/DN_bg_08_report-band_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/DN_bg_08_report-band_16x9_1920x1080.pdf",
+  "w": 1920,
+  "h": 1080,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/source/DN_bg_08_report-band_16x9_1920x1080.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/DN_bg_08_report-band_3840x2160.jpg",
+  "w": 1920,
+  "h": 1080,
+  "scale": 2,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/source/DN_bg_08_report-band_4x5_1080x1350.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/DN_bg_08_report-band_4x5_1080x1350.jpg",
+  "w": 1080,
+  "h": 1350,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/source/DN_bg_08_report-band_9x16_1080x1920.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/DN_bg_08_report-band_9x16_1080x1920.jpg",
+  "w": 1080,
+  "h": 1920,
+  "scale": 1,
+  "wait": 150,
+  "quality": 92
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/source/DN_bg_08_report-band_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/DN_bg_08_report-band_A4-portrait.pdf",
+  "w": 794,
+  "h": 1123,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "210mm",
+  "pdfH": "297mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/source/DN_bg_08_report-band_A4-portrait.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/DN_bg_08_report-band_A4-portrait_150dpi.jpg",
+  "w": 794,
+  "h": 1123,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/source/DN_bg_08_report-band_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/DN_bg_08_report-band_A4-landscape.pdf",
+  "w": 1123,
+  "h": 794,
+  "scale": 1,
+  "wait": 150,
+  "format": "pdf",
+  "pdfW": "297mm",
+  "pdfH": "210mm"
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/source/DN_bg_08_report-band_A4-landscape.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/05_BACKGROUNDS_AND_TEXTURES/08_report-band/DN_bg_08_report-band_A4-landscape_150dpi.jpg",
+  "w": 1123,
+  "h": 794,
+  "scale": 1.5625,
+  "wait": 150,
+  "quality": 90
+ }
+]
