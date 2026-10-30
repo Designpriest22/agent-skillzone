@@ -8,13 +8,16 @@ from fontTools.pens.svgPathPen import SVGPathPen
 from fontTools.pens.transformPen import TransformPen
 from brand import KIT
 
-FONT_DIR = KIT / "03_COLOR_AND_TYPOGRAPHY" / "fonts"
+FONT_DIR = KIT / "03_COLOR_AND_TYPOGRAPHY" / "fonts_v2" / "static"
+FONT_DIR_V1 = KIT / "03_COLOR_AND_TYPOGRAPHY" / "fonts"
 _fonts = {}
 
 
 def _font(name):
     if name not in _fonts:
         path = FONT_DIR / f"{name}.ttf"
+        if not path.exists():
+            path = FONT_DIR_V1 / f"{name}.ttf"
         blob = hb.Blob.from_file_path(str(path))
         face = hb.Face(blob)
         f = hb.Font(face)
@@ -23,7 +26,7 @@ def _font(name):
     return _fonts[name]
 
 
-def text_path(text, font="Inter-SemiBold", size=10.0, tracking=0.0, x=0.0, y=0.0, anchor="start"):
+def text_path(text, font="PublicSans-SemiBold", size=10.0, tracking=0.0, x=0.0, y=0.0, anchor="start"):
     """Shape text with HarfBuzz and return (svg path d, advance width). y is the baseline."""
     f, tt, gs, upm, order = _font(font)
     buf = hb.Buffer()

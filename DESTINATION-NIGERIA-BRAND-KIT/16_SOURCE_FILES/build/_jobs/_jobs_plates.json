@@ -1,0 +1,30 @@
+[
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/ENGRAVED_PLATES/SVG/DN_plate_zuma-rock_forest.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/ENGRAVED_PLATES/PNG/DN_plate_zuma-rock_forest.png",
+  "w": 1600,
+  "h": 1000,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/ENGRAVED_PLATES/SVG/DN_plate_zuma-rock_ivory.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/ENGRAVED_PLATES/PNG/DN_plate_zuma-rock_ivory.png",
+  "w": 1600,
+  "h": 1000,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/ENGRAVED_PLATES/SVG/DN_plate_agbokim-waterfalls_forest.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/ENGRAVED_PLATES/PNG/DN_plate_agbokim-waterfalls_forest.png",
+  "w": 1200,
+  "h": 1500,
+  "scale": 1
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/ENGRAVED_PLATES/SVG/DN_plate_agbokim-waterfalls_ivory.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/04_VECTOR_GRAPHICS_AND_ICONS/ENGRAVED_PLATES/PNG/DN_plate_agbokim-waterfalls_ivory.png",
+  "w": 1200,
+  "h": 1500,
+  "scale": 1
+ }
+]
