@@ -1,1 +1,0 @@
-Event holding slide: use layout **20 Event holding slide** in `10_PRESENTATION_TEMPLATES/DN_Presentation-Template_16x9.pptx`. Background art: `05_BACKGROUNDS_AND_TEXTURES/12_event-stage/`. Looping version: `07_MOTION_IDENTITY/LOOPS/`.

@@ -3,93 +3,68 @@
     "forest": {
       "$type": "color",
       "$value": "#103428",
-      "$description": "Forest Deep \u2014 Primary brand colour. Wordmark, headlines, institutional backgrounds, body text on light grounds."
+      "$description": "Forest \u2014 The brand's voice. Wordmark, headlines, text on paper, the dark ground of covers and screens."
     },
     "ridge": {
       "$type": "color",
       "$value": "#2C5040",
-      "$description": "Ridge Green \u2014 Mountain tone in the logo. Secondary backgrounds, panels, charts, hover states."
+      "$description": "Ridge \u2014 The mountain tone in the logo. Second surface on Forest, chart series, rules on dark grounds."
     },
     "gold": {
       "$type": "color",
       "$value": "#E8A432",
-      "$description": "Sun Gold \u2014 The sun. Single focal accent: sun disc, key numbers, buttons on dark. Never for small text on light."
+      "$description": "Sun Gold \u2014 The sun, and only the sun: the disc, one key figure, one call to action. Never text on paper. Under 3 % of any layout."
     },
     "ivory": {
       "$type": "color",
       "$value": "#F5F0E6",
-      "$description": "Harmattan Ivory \u2014 Default light ground for documents, presentations and web. Warmer than white."
+      "$description": "Paper \u2014 The default ground for print, slides and web. A warm, uncoated-paper white."
     },
     "white": {
       "$type": "color",
       "$value": "#FFFFFF",
-      "$description": "White \u2014 Reversed logo, paper white, UI surfaces."
-    },
-    "mist": {
-      "$type": "color",
-      "$value": "#EAEAEA",
-      "$description": "Mist \u2014 Horizon line tone in the supplied reversed logo. Hairlines and dividers on dark grounds."
-    },
-    "canopy": {
-      "$type": "color",
-      "$value": "#4E7A62",
-      "$description": "Canopy Green \u2014 Supporting green for charts, icons and illustration layers."
-    },
-    "sage": {
-      "$type": "color",
-      "$value": "#A9BFA9",
-      "$description": "Sage \u2014 Light green tint for table bands, map land, background contours."
+      "$description": "White \u2014 Reversed logo, UI surfaces, photography mounts."
     },
     "charcoal": {
       "$type": "color",
       "$value": "#1B201E",
-      "$description": "Charcoal \u2014 Darkest neutral (green-black). Cinematic backgrounds, long-form body text alternative."
+      "$description": "Ink \u2014 Body text in long documents, the darkest ground behind photography and film."
     },
     "stone": {
       "$type": "color",
       "$value": "#5F6662",
-      "$description": "Stone \u2014 Captions, metadata, footnotes, secondary UI text (passes AA on white and ivory)."
+      "$description": "Stone \u2014 Captions, metadata, footnotes, secondary text. Passes AA on Paper and White."
     },
     "haze": {
       "$type": "color",
       "$value": "#E7DFCF",
-      "$description": "Haze \u2014 Deeper ivory for cards, table headers and print panels."
+      "$description": "Haze \u2014 Hairlines on Paper, table bands, the second paper tone."
     },
-    "laterite": {
+    "sage": {
       "$type": "color",
-      "$value": "#B4532A",
-      "$description": "Laterite \u2014 Red-earth accent drawn from Nigeria's laterite soils. Culture and heritage stories; sparingly."
-    },
-    "savannah": {
-      "$type": "color",
-      "$value": "#D8C49B",
-      "$description": "Savannah \u2014 Dry-season grass and sand. Illustration layers, photo-overlay warmth, map water-free land."
-    },
-    "confluence": {
-      "$type": "color",
-      "$value": "#2E6E76",
-      "$description": "Confluence Blue \u2014 River and coastline tone (Niger\u2013Benue). Maps, routes, information graphics, digital links on light."
+      "$value": "#A9BFA9",
+      "$description": "Sage \u2014 Data only: the second chart series and map land. Not a background colour."
     },
     "golddeep": {
       "$type": "color",
-      "$value": "#9A6510",
-      "$description": "Harvest Gold \u2014 Accessible gold for text and icons on light grounds (AA for large text and UI on ivory)."
+      "$value": "#8A5A0C",
+      "$description": "Gold Text \u2014 Accessible gold for figures and links on Paper (AA for text). Used where Sun Gold would fail contrast."
     }
   },
   "font": {
     "display": {
       "$type": "fontFamily",
       "$value": [
-        "Playfair Display",
+        "Newsreader Display",
         "Georgia",
         "Times New Roman",
         "serif"
       ]
     },
-    "editorial": {
+    "text": {
       "$type": "fontFamily",
       "$value": [
-        "Source Serif 4",
+        "Newsreader Text",
         "Georgia",
         "Cambria",
         "serif"
@@ -98,45 +73,44 @@
     "sans": {
       "$type": "fontFamily",
       "$value": [
-        "Inter",
-        "Segoe UI",
-        "Calibri",
+        "Public Sans",
         "Arial",
+        "Helvetica Neue",
         "sans-serif"
       ]
     }
   },
   "type": {
-    "hero": {
+    "display": {
       "$type": "typography",
       "$value": {
         "fontFamily": "{font.display}",
-        "fontWeight": 500,
-        "fontSize": "4.5rem",
-        "lineHeight": 1.04,
-        "letterSpacing": "-0.01em"
+        "fontWeight": 400,
+        "fontSize": "6rem",
+        "lineHeight": 0.98,
+        "letterSpacing": "-0.02em"
       },
-      "$description": "Hero headlines, campaign posters, cover titles"
+      "$description": "One line per layout at most: covers, campaign posters, the opening slide"
     },
     "h1": {
       "$type": "typography",
       "$value": {
         "fontFamily": "{font.display}",
-        "fontWeight": 500,
-        "fontSize": "3rem",
-        "lineHeight": 1.1,
-        "letterSpacing": "-0.005em"
+        "fontWeight": 400,
+        "fontSize": "3.5rem",
+        "lineHeight": 1.04,
+        "letterSpacing": "-0.015em"
       },
-      "$description": "Section headings, slide titles, document titles"
+      "$description": "Titles: document titles, section openers, slide titles"
     },
     "h2": {
       "$type": "typography",
       "$value": {
         "fontFamily": "{font.display}",
         "fontWeight": 500,
-        "fontSize": "2.125rem",
-        "lineHeight": 1.15,
-        "letterSpacing": "0em"
+        "fontSize": "2.25rem",
+        "lineHeight": 1.12,
+        "letterSpacing": "-0.01em"
       },
       "$description": "Sub-section headings"
     },
@@ -145,33 +119,33 @@
       "$value": {
         "fontFamily": "{font.sans}",
         "fontWeight": 600,
-        "fontSize": "1.375rem",
+        "fontSize": "1.25rem",
         "lineHeight": 1.3,
         "letterSpacing": "0em"
       },
-      "$description": "Subheadings, card titles"
+      "$description": "Headings inside text, card and table titles"
     },
-    "overline": {
+    "label": {
       "$type": "typography",
       "$value": {
         "fontFamily": "{font.sans}",
         "fontWeight": 600,
-        "fontSize": "0.8125rem",
-        "lineHeight": 1.4,
-        "letterSpacing": "0.22em"
+        "fontSize": "0.75rem",
+        "lineHeight": 1.3,
+        "letterSpacing": "0.08em"
       },
-      "$description": "Eyebrows / kickers in caps, echoing NIGERIA in the logo"
+      "$description": "Labels and section markers. Uppercase, used once per block, never as decoration"
     },
     "lead": {
       "$type": "typography",
       "$value": {
-        "fontFamily": "{font.editorial}",
+        "fontFamily": "{font.text}",
         "fontWeight": 400,
-        "fontSize": "1.3125rem",
-        "lineHeight": 1.5,
+        "fontSize": "1.375rem",
+        "lineHeight": 1.42,
         "letterSpacing": "0em"
       },
-      "$description": "Standfirst, introductions, executive summary lead"
+      "$description": "Standfirst and executive-summary lead"
     },
     "body": {
       "$type": "typography",
@@ -182,15 +156,15 @@
         "lineHeight": 1.6,
         "letterSpacing": "0em"
       },
-      "$description": "Body text (digital); 10.5 pt in documents"
+      "$description": "Body text in digital and UI; 10 pt in documents"
     },
-    "body-editorial": {
+    "body-long": {
       "$type": "typography",
       "$value": {
-        "fontFamily": "{font.editorial}",
+        "fontFamily": "{font.text}",
         "fontWeight": 400,
         "fontSize": "1.0625rem",
-        "lineHeight": 1.6,
+        "lineHeight": 1.55,
         "letterSpacing": "0em"
       },
       "$description": "Long-form print reading; 10.5 pt in reports"
@@ -200,22 +174,22 @@
       "$value": {
         "fontFamily": "{font.sans}",
         "fontWeight": 400,
-        "fontSize": "0.8125rem",
+        "fontSize": "0.75rem",
         "lineHeight": 1.45,
-        "letterSpacing": "0.01em"
+        "letterSpacing": "0em"
       },
-      "$description": "Captions, image credits, metadata"
+      "$description": "Place captions (Place, State), credits, metadata"
     },
     "footnote": {
       "$type": "typography",
       "$value": {
         "fontFamily": "{font.sans}",
         "fontWeight": 400,
-        "fontSize": "0.6875rem",
+        "fontSize": "0.625rem",
         "lineHeight": 1.4,
-        "letterSpacing": "0.01em"
+        "letterSpacing": "0em"
       },
-      "$description": "Footnotes, legal lines, sources"
+      "$description": "Sources, notes, legal lines"
     },
     "table": {
       "$type": "typography",
@@ -226,18 +200,18 @@
         "lineHeight": 1.35,
         "letterSpacing": "0em"
       },
-      "$description": "Tables, with tabular figures (font-feature-settings: 'tnum')"
+      "$description": "Tables, tabular lining figures (tnum, lnum)"
     },
-    "data": {
+    "figure": {
       "$type": "typography",
       "$value": {
-        "fontFamily": "{font.sans}",
-        "fontWeight": 300,
-        "fontSize": "4rem",
+        "fontFamily": "{font.display}",
+        "fontWeight": 400,
+        "fontSize": "4.5rem",
         "lineHeight": 1.0,
         "letterSpacing": "-0.02em"
       },
-      "$description": "Key statistics / KPIs (Inter Light, tabular)"
+      "$description": "A single key figure, with its unit and source in caption size"
     },
     "button": {
       "$type": "typography",
@@ -246,9 +220,9 @@
         "fontWeight": 600,
         "fontSize": "0.9375rem",
         "lineHeight": 1.0,
-        "letterSpacing": "0.04em"
+        "letterSpacing": "0.01em"
       },
-      "$description": "Buttons and labels"
+      "$description": "Buttons and links in UI"
     }
   },
   "space": {
@@ -294,21 +268,17 @@
     }
   },
   "radius": {
+    "none": {
+      "$type": "dimension",
+      "$value": "0px"
+    },
     "sm": {
       "$type": "dimension",
-      "$value": "4px"
+      "$value": "2px"
     },
     "md": {
       "$type": "dimension",
-      "$value": "8px"
-    },
-    "lg": {
-      "$type": "dimension",
-      "$value": "16px"
-    },
-    "pill": {
-      "$type": "dimension",
-      "$value": "999px"
+      "$value": "4px"
     }
   },
   "state": {

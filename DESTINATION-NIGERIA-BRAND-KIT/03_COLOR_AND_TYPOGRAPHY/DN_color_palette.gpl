@@ -2,18 +2,13 @@ GIMP Palette
 Name: Destination Nigeria
 Columns: 5
 #
- 16  52  40	Forest Deep
- 44  80  64	Ridge Green
+ 16  52  40	Forest
+ 44  80  64	Ridge
 232 164  50	Sun Gold
-245 240 230	Harmattan Ivory
+245 240 230	Paper
 255 255 255	White
-234 234 234	Mist
- 78 122  98	Canopy Green
-169 191 169	Sage
- 27  32  30	Charcoal
+ 27  32  30	Ink
  95 102  98	Stone
 231 223 207	Haze
-180  83  42	Laterite
-216 196 155	Savannah
- 46 110 118	Confluence Blue
-154 101  16	Harvest Gold
+169 191 169	Sage
+138  90  12	Gold Text
