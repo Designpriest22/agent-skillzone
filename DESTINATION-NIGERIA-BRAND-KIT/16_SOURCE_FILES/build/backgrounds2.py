@@ -42,7 +42,7 @@ def g04(w, h, od):   # editorial / premium print: Zuma Rock plate on Paper, low
     x, y = ((w - pw) / 2, h - pw * 0.6) if h >= w else (w - pw * 0.97, h - pw * 0.6)
     r = pw * 0.035
     return (f'<div style="position:absolute;inset:0;background:var(--ivory)"></div>' + plate_box("zuma-rock-vignette", "forest", x, y, pw)
-            + f'<div style="position:absolute;left:{x + pw * 0.78 - r:.1f}px;top:{y + pw * 0.08:.1f}px;width:{2 * r:.1f}px;height:{2 * r:.1f}px;border-radius:50%;background:var(--gold)"></div>')
+            + f'<div style="position:absolute;left:{x + pw * 0.76 - r:.1f}px;top:{y + pw * 0.16:.1f}px;width:{2 * r:.1f}px;height:{2 * r:.1f}px;border-radius:50%;background:var(--gold)"></div>')
 
 
 def g05(w, h, od):   # premium presentation, dark: Zuma Rock tone-on-tone

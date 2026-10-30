@@ -16,27 +16,24 @@ const SON = path.join(KIT, '08_SONIC_IDENTITY');
 const TMP = path.join(process.env.TMPDIR || '/tmp', 'dn-frames');
 
 const JOBS = [
-  // name, composition, query, w, h, outputs, audio
-  { name: 'A_cinematic-reveal_dark_1920x1080', comp: 'A_cinematic-logo-reveal.html', q: 'theme=dark', w: 1920, h: 1080, dir: 'LOGO_INTROS', out: ['mp4', 'webm', 'gif', 'png'], audio: 'DN_sonic-logo_primary_6-5s.wav' },
-  { name: 'A_cinematic-reveal_light_1920x1080', comp: 'A_cinematic-logo-reveal.html', q: 'theme=light', w: 1920, h: 1080, dir: 'LOGO_INTROS', out: ['mp4', 'webm', 'gif', 'png'], audio: 'DN_sonic-logo_primary_6-5s.wav' },
-  { name: 'A_cinematic-reveal_reversed_ALPHA_1920x1080', comp: 'A_cinematic-logo-reveal.html', q: 'theme=dark&transparent=1', w: 1920, h: 1080, dir: 'LOGO_INTROS', out: ['mov', 'webm-alpha', 'png'], alpha: true },
-  { name: 'A_cinematic-reveal_fullcolour_ALPHA_1920x1080', comp: 'A_cinematic-logo-reveal.html', q: 'theme=light&transparent=1', w: 1920, h: 1080, dir: 'LOGO_INTROS', out: ['mov', 'webm-alpha'], alpha: true },
-  { name: 'B_minimal-reveal_light_1920x1080', comp: 'B_minimal-digital-reveal.html', q: 'theme=light', w: 1920, h: 1080, dir: 'LOGO_INTROS', out: ['mp4', 'webm', 'gif', 'png'], audio: 'DN_sonic-sting_2-5s.wav' },
-  { name: 'B_minimal-reveal_dark_1920x1080', comp: 'B_minimal-digital-reveal.html', q: 'theme=dark', w: 1920, h: 1080, dir: 'LOGO_INTROS', out: ['mp4', 'webm', 'gif'], audio: 'DN_sonic-sting_2-5s.wav' },
-  { name: 'B_minimal-reveal_light_1080x1080', comp: 'B_minimal-digital-reveal.html', q: 'theme=light&w=1080&h=1080', w: 1080, h: 1080, dir: 'LOGO_INTROS', out: ['mp4', 'gif'], audio: 'DN_sonic-sting_2-5s.wav' },
-  { name: 'B_minimal-reveal_dark_1080x1920', comp: 'B_minimal-digital-reveal.html', q: 'theme=dark&w=1080&h=1920', w: 1080, h: 1920, dir: 'LOGO_INTROS', out: ['mp4'], audio: 'DN_sonic-sting_2-5s.wav' },
-  { name: 'B_minimal-reveal_fullcolour_ALPHA_1920x1080', comp: 'B_minimal-digital-reveal.html', q: 'theme=light&transparent=1', w: 1920, h: 1080, dir: 'LOGO_INTROS', out: ['mov', 'webm-alpha'], alpha: true },
-  { name: 'C_presentation-opener_1920x1080', comp: 'C_presentation-opener.html', q: '', w: 1920, h: 1080, dir: 'LOGO_INTROS', out: ['mp4', 'webm', 'gif', 'png'], audio: 'C' },
-  { name: 'D_brand-loop_1920x1080', comp: 'D_seamless-brand-loop.html', q: 'logo=0', w: 1920, h: 1080, dir: 'LOOPS', out: ['mp4', 'webm', 'png', 'gif-short'] },
-  { name: 'D_brand-loop_with-logo_1920x1080', comp: 'D_seamless-brand-loop.html', q: 'logo=1', w: 1920, h: 1080, dir: 'LOOPS', out: ['mp4'] },
-  { name: 'D_brand-loop_1080x1920', comp: 'D_seamless-brand-loop.html', q: 'logo=0&w=1080&h=1920', w: 1080, h: 1920, dir: 'LOOPS', out: ['mp4'] },
-  { name: 'E_symbol_on-ivory_1080x1080', comp: 'E_symbol-animation.html', q: 'theme=light', w: 1080, h: 1080, dir: 'LOGO_INTROS', out: ['mp4', 'gif', 'png'] },
-  { name: 'E_symbol_on-forest_1080x1080', comp: 'E_symbol-animation.html', q: 'theme=dark', w: 1080, h: 1080, dir: 'LOGO_INTROS', out: ['mp4', 'webm', 'gif'], audio: 'DN_sonic-sting_2-5s.wav' },
-  { name: 'F_brand-intro-25s_16x9_1920x1080', comp: 'F_brand-intro-25s.html', q: 'w=1920&h=1080', w: 1920, h: 1080, dir: 'BRAND_INTRO_25s', out: ['mp4', 'webm', 'png'], audio: 'DN_sonic-brand-intro_25s.wav' },
-  { name: 'F_brand-intro-25s_1x1_1080x1080', comp: 'F_brand-intro-25s.html', q: 'w=1080&h=1080', w: 1080, h: 1080, dir: 'BRAND_INTRO_25s', out: ['mp4', 'png'], audio: 'DN_sonic-brand-intro_25s.wav' },
-  { name: 'F_brand-intro-25s_4x5_1080x1350', comp: 'F_brand-intro-25s.html', q: 'w=1080&h=1350', w: 1080, h: 1350, dir: 'BRAND_INTRO_25s', out: ['mp4', 'png'], audio: 'DN_sonic-brand-intro_25s.wav' },
-  { name: 'F_brand-intro-25s_9x16_1080x1920', comp: 'F_brand-intro-25s.html', q: 'w=1080&h=1920', w: 1080, h: 1920, dir: 'BRAND_INTRO_25s', out: ['mp4', 'png'], audio: 'DN_sonic-brand-intro_25s.wav' },
-  { name: 'E_symbol_ALPHA_1080x1080', comp: 'E_symbol-animation.html', q: 'transparent=1', w: 1080, h: 1080, dir: 'LOGO_INTROS', out: ['mov', 'webm-alpha', 'png'], alpha: true },
+  // name, composition, query, w, h, output dir, formats, audio. v2 set (A–F v1 compositions are archived in ARCHIVE_v1/).
+  { name: 'H_logo-reveal_light_1920x1080', comp: 'H_logo-reveal.html', q: 'theme=light', w: 1920, h: 1080, dir: 'LOGO_ANIMATIONS', out: ['mp4', 'webm', 'gif', 'png'], audio: 'DN_sonic-logo_primary_6-5s.wav' },
+  { name: 'H_logo-reveal_dark_1920x1080', comp: 'H_logo-reveal.html', q: 'theme=dark', w: 1920, h: 1080, dir: 'LOGO_ANIMATIONS', out: ['mp4', 'webm', 'png'], audio: 'DN_sonic-logo_primary_6-5s.wav' },
+  { name: 'H_logo-reveal_light_1080x1080', comp: 'H_logo-reveal.html', q: 'theme=light&w=1080&h=1080', w: 1080, h: 1080, dir: 'LOGO_ANIMATIONS', out: ['mp4'], audio: 'DN_sonic-logo_primary_6-5s.wav' },
+  { name: 'H_logo-reveal_light_1080x1920', comp: 'H_logo-reveal.html', q: 'theme=light&w=1080&h=1920', w: 1080, h: 1920, dir: 'LOGO_ANIMATIONS', out: ['mp4'], audio: 'DN_sonic-logo_primary_6-5s.wav' },
+  { name: 'H_logo-reveal_fullcolour_ALPHA_1920x1080', comp: 'H_logo-reveal.html', q: 'theme=light&transparent=1', w: 1920, h: 1080, dir: 'LOGO_ANIMATIONS', out: ['mov', 'webm-alpha'], alpha: true },
+  { name: 'H_logo-reveal_reversed_ALPHA_1920x1080', comp: 'H_logo-reveal.html', q: 'theme=dark&transparent=1', w: 1920, h: 1080, dir: 'LOGO_ANIMATIONS', out: ['mov', 'webm-alpha'], alpha: true },
+  { name: 'I_logo-sting_light_1920x1080', comp: 'I_logo-sting.html', q: 'theme=light', w: 1920, h: 1080, dir: 'LOGO_ANIMATIONS', out: ['mp4', 'gif'], audio: 'DN_sonic-sting_2-5s.wav' },
+  { name: 'I_logo-sting_dark_1920x1080', comp: 'I_logo-sting.html', q: 'theme=dark', w: 1920, h: 1080, dir: 'LOGO_ANIMATIONS', out: ['mp4'], audio: 'DN_sonic-sting_2-5s.wav' },
+  { name: 'I_logo-sting_light_1080x1920', comp: 'I_logo-sting.html', q: 'theme=light&w=1080&h=1920', w: 1080, h: 1920, dir: 'LOGO_ANIMATIONS', out: ['mp4'], audio: 'DN_sonic-sting_2-5s.wav' },
+  { name: 'I_logo-sting_reversed_ALPHA_1920x1080', comp: 'I_logo-sting.html', q: 'theme=dark&transparent=1', w: 1920, h: 1080, dir: 'LOGO_ANIMATIONS', out: ['mov', 'webm-alpha'], alpha: true },
+  { name: 'J_plate-loop_1920x1080', comp: 'J_plate-loop.html', q: '', w: 1920, h: 1080, dir: 'LOOPS', out: ['mp4', 'webm', 'png'] },
+  { name: 'J_plate-loop_with-logo_1920x1080', comp: 'J_plate-loop.html', q: 'logo=1', w: 1920, h: 1080, dir: 'LOOPS', out: ['mp4'] },
+  { name: 'J_plate-loop_1080x1920', comp: 'J_plate-loop.html', q: 'w=1080&h=1920', w: 1080, h: 1920, dir: 'LOOPS', out: ['mp4'] },
+  { name: 'G_brand-film-25s_16x9_1920x1080', comp: 'G_brand-film-25s.html', q: 'w=1920&h=1080', w: 1920, h: 1080, dir: 'BRAND_FILM_25s', out: ['mp4', 'webm', 'png'], audio: 'DN_sonic-brand-film_25s.wav' },
+  { name: 'G_brand-film-25s_1x1_1080x1080', comp: 'G_brand-film-25s.html', q: 'w=1080&h=1080', w: 1080, h: 1080, dir: 'BRAND_FILM_25s', out: ['mp4', 'png'], audio: 'DN_sonic-brand-film_25s.wav' },
+  { name: 'G_brand-film-25s_4x5_1080x1350', comp: 'G_brand-film-25s.html', q: 'w=1080&h=1350', w: 1080, h: 1350, dir: 'BRAND_FILM_25s', out: ['mp4', 'png'], audio: 'DN_sonic-brand-film_25s.wav' },
+  { name: 'G_brand-film-25s_9x16_1080x1920', comp: 'G_brand-film-25s.html', q: 'w=1080&h=1920', w: 1080, h: 1920, dir: 'BRAND_FILM_25s', out: ['mp4', 'png'], audio: 'DN_sonic-brand-film_25s.wav' },
 ];
 
 function ff(args) {

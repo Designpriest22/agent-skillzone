@@ -1,4 +1,4 @@
-"""Lottie (Bodymovin JSON) exports of the simple vector animations: B (minimal reveal) and E (symbol).
+"""Lottie (Bodymovin JSON) export of the v2 logo sting (I).
 
 Logo paths are converted segment-by-segment from the supplied SVG geometry (arcs → cubic béziers).
 Output: 07_MOTION_IDENTITY/LOTTIE/*.json — play with lottie-web, lottie-ios/android, Webflow, etc.
@@ -153,34 +153,34 @@ def symbol(scheme="forest"):
 
 
 # ------------------------------------------------------------------ B: minimal reveal
-def minimal(cwname="fullcolour", w=1920, h=1080):
+def sting(cwname="fullcolour", w=1920, h=1080):
+    """v2 logo sting (matches I_logo-sting.html and the 2.5 s sonic sting): the landscape is revealed left to
+    right, the name settles, the sun lands on the bell at 0.85 s. No overshoot, no bounce."""
     op = 75
     cw = COLOURWAYS[cwname]
-    LW = min(w * .52, h * 1.1)
+    LW = min(w * .32, h * .9) if w / h > 1.3 else w * .66
     S = LW / LOGO_W * 100
     x0, y0 = (w - LW) / 2, (h - LOGO_H * LW / LOGO_W) / 2
     root = null(1, "logo", tr(p=(x0, y0), s=(S, S)), op)
-    sun = layer(2, "sun", [group("sun", [PATH["sun"]], cw["sun"], {"a": static([104.07, 6.62]), "p": static([104.07, 6.62]),
-                                                                   "s": anim([(0, [0, 0]), (12, [112, 112]), (16, [100, 100])], "out")})], op, parent=1)
+    sun = layer(2, "sun", [group("sun", [PATH["sun"]], cw["sun"], {"a": static([104.07, 6.62]), "p": anim([(25, [104.07, 11.62]), (43, [104.07, 6.62])], "out"),
+                                                                   "s": anim([(25, [55, 55]), (43, [100, 100])], "out")})], op,
+                ks=tr(o=anim([(25, 0), (43, 100)])), parent=1)
+    wipe = {"inv": False, "mode": "a", "nm": "reveal", "o": static(100), "x": static(0),
+            "pt": anim([(0, rect_shape(25, -5, 25.5, 27)), (17, rect_shape(25, -5, 130, 27))], "inout")}
     land = layer(3, "landscape", [group("horizon", [PATH["horizon"]], cw["hz"]), group("horizon small", [PATH["horizon_small"]], cw["hzs"]),
-                                  group("mountains", [PATH["monolith"], PATH["ridge"]], cw["mt"])], op,
-                 ks=tr(o=anim([(7, 0), (28, 100)]), p=anim([(7, [0, 3, 0]), (28, [0, 0, 0])])), parent=1)
-    wipe = {"inv": False, "mode": "a", "nm": "wipe", "o": static(100), "x": static(0),
-            "pt": anim([(16, rect_shape(-2, 15, -1, 62)), (44, rect_shape(-2, 15, 153, 62))], "inout")}
-    word = layer(4, "Destination", [group("wordmark", [PATH[n] for n in WORD_DESTINATION], cw["word"])], op,
-                 ks=tr(o=anim([(16, 0), (34, 100)])), parent=1, masks=[wipe])
-    nig = layer(5, "NIGERIA", [group("NIGERIA", [PATH[n] for n in WORD_NIGERIA], cw["word"])], op,
-                ks=tr(o=anim([(33, 0), (51, 100)]), p=anim([(33, [0, 2, 0]), (51, [0, 0, 0])])), parent=1)
-    return doc(f"DN minimal logo reveal ({cwname})", w, h, op, [nig, word, land, sun, root])
+                                  group("mountains", [PATH["monolith"], PATH["ridge"]], cw["mt"])], op, parent=1, masks=[wipe])
+    word = layer(4, "wordmark", [group("Destination", [PATH[n] for n in WORD_DESTINATION], cw["word"]),
+                                 group("NIGERIA", [PATH[n] for n in WORD_NIGERIA], cw["word"])], op,
+                 ks=tr(o=anim([(6, 0), (21, 100)]), p=anim([(6, [0, 3, 0]), (21, [0, 0, 0])])), parent=1)
+    return doc(f"DN logo sting ({cwname})", w, h, op, [word, land, sun, root])
 
 
 if __name__ == "__main__":
     files = {
-        "DN_lottie_E_symbol_forest_1080.json": symbol("forest"),
-        "DN_lottie_E_symbol_ivory_1080.json": symbol("ivory"),
-        "DN_lottie_B_minimal-reveal_fullcolour_1920x1080.json": minimal("fullcolour"),
-        "DN_lottie_B_minimal-reveal_reversed_1920x1080.json": minimal("reversed"),
-        "DN_lottie_B_minimal-reveal_fullcolour_800x400.json": minimal("fullcolour", 800, 400),
+        "DN_lottie_I_logo-sting_fullcolour_1920x1080.json": sting("fullcolour"),
+        "DN_lottie_I_logo-sting_reversed_1920x1080.json": sting("reversed"),
+        "DN_lottie_I_logo-sting_fullcolour_800x400.json": sting("fullcolour", 800, 400),
+        "DN_lottie_I_logo-sting_fullcolour_1080x1920.json": sting("fullcolour", 1080, 1920),
     }
     for n, d in files.items():
         (OUT / n).write_text(json.dumps(d, separators=(",", ":")))

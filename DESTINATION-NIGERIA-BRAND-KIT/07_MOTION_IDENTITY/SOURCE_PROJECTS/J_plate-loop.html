@@ -1,0 +1,17 @@
+<!doctype html><html><head><meta charset="utf-8"><title>J — Plate loop (20 s, seamless)</title></head><body>
+<script src="dn-logo-data.js"></script><script src="dn-film-data.js"></script><script src="dn-v2.js"></script>
+<script>
+// J — a seamless 20 s background loop for screens: Zuma Rock is engraved, holds, and is lifted stroke by stroke in
+// reverse, so the first and last frames are identical. Tone-on-tone (Ridge on Forest) so type can sit above it.
+// ?logo=1 adds the reversed logo. ?w=&h= sets the format.
+const { el, seg, E, C, stage, Plate, Logo } = DN2;
+const S = stage(); const { svg, defs, W, H, u, Q } = S;
+window.DURATION = 20; window.FPS = 30;
+el('rect', { width: W, height: H, fill: C.forest }, svg);
+const Z = DNF.plates.zumaVignette, land = W / H > 1.3;
+const pw = land ? W * 1.0 : W * 1.5, ph = pw * Z.h / Z.w;
+const P = Plate(svg, Z, { x: (W - pw) / 2, y: H - ph * .92, w: pw, h: ph }, C.ridge);
+if (Q.get('logo') === '1') { const lw = land ? W * .22 : W * .5; Logo(svg, defs, (W - lw) / 2, H * (land ? .2 : .22), lw, true).land(1); }
+window.renderAt = t => { if (t < 10) P.engrave(t, .2, 7.5, 1.2); else P.engrave(t, 12.5, 19.8, 1.2, true); };
+document.fonts.ready.then(() => { renderAt(+(Q.get('t') || 9)); window.ready = true; });
+</script></body></html>

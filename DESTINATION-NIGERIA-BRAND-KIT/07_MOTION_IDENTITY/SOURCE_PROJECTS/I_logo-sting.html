@@ -1,0 +1,12 @@
+<!doctype html><html><head><meta charset="utf-8"><title>I — Logo sting (2.5 s)</title></head><body>
+<script src="dn-logo-data.js"></script><script src="dn-v2.js"></script>
+<script>
+// I — a 2.5 s sign-off for the ends of videos and stories. The sun lands on the sting's bell (0.85 s).
+const { seg, E, stage, Logo } = DN2;
+const S = stage(); const { svg, defs, W, H, dark, Q } = S;
+window.DURATION = 2.5; window.FPS = 30;
+const lw = W / H > 1.3 ? W * .32 : W * .66, lh = 59.06 * lw / 150.25;
+const L = Logo(svg, defs, (W - lw) / 2, H / 2 - lh / 2, lw, dark);
+window.renderAt = t => { L.land(seg(t, 0, .55, E.inOut)); L.word(seg(t, .2, .7, E.out)); L.sun(seg(t, .85, 1.45, E.out)); };
+document.fonts.ready.then(() => { renderAt(+(Q.get('t') || 2.4)); window.ready = true; });
+</script></body></html>

@@ -48,7 +48,7 @@ def ph(kind, idx, x, y, w, h, prompt, font="mn", size=16, color=C["charcoal"], b
     """Layout placeholder. kind: title | body | pic | chart | tbl | sldNum."""
     t = {"title": 'type="title"', "body": f'type="body" idx="{idx}"', "pic": f'type="pic" idx="{idx}"', "chart": f'type="chart" idx="{idx}"',
          "tbl": f'type="tbl" idx="{idx}"', "sldNum": f'type="sldNum" sz="quarter" idx="{idx}"', "obj": f'idx="{idx}"'}[kind]
-    bu = (f'<a:buClr><a:srgbClr val="{BULLET}"/></a:buClr><a:buFont typeface="Arial"/><a:buChar char="•"/>' if bullet else "<a:buNone/>")
+    bu = (f'<a:buClr><a:srgbClr val="{BULLET}"/></a:buClr><a:buFont typeface="Public Sans"/><a:buChar char="•"/>' if bullet else "<a:buNone/>")
     mar = ' marL="228600" indent="-228600"' if bullet else ' marL="0" indent="0"'
     rpr = (f'<a:defRPr sz="{int(size * 100)}" b="{1 if bold else 0}" i="{1 if italic else 0}"{" cap=\"all\"" if caps else ""} spc="{spc}">'
            f'<a:solidFill><a:srgbClr val="{H(color)}"/></a:solidFill><a:latin typeface="+{font}-lt"/></a:defRPr>')

@@ -1,692 +1,188 @@
-{
- "checks": [
-  {
-   "area": "Vector",
-   "check": "373 SVG files parse as valid XML",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Vector",
-   "check": "Every SVG (except the sprite) has a viewBox",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Vector",
-   "check": "Logo SVGs contain no embedded raster images",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Logo",
-   "check": "Primary master reuses all 24 supplied paths verbatim",
-   "ok": true,
-   "detail": "24 supplied paths"
-  },
-  {
-   "area": "Logo",
-   "check": "Logo family files present",
-   "ok": true,
-   "detail": "26 SVG masters"
-  },
-  {
-   "area": "Logo",
-   "check": "63 logo PNGs have transparent backgrounds",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Backgrounds",
-   "check": "Raster backgrounds match their declared dimensions",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Backgrounds",
-   "check": "At least 12 distinct backgrounds",
-   "ok": true,
-   "detail": "14 backgrounds"
-  },
-  {
-   "area": "Backgrounds",
-   "check": "Every background exported as 16x9_1920x1080.jpg",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Backgrounds",
-   "check": "Every background exported as 4x5_1080x1350.jpg",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Backgrounds",
-   "check": "Every background exported as 9x16_1080x1920.jpg",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Backgrounds",
-   "check": "Every background exported as A4-portrait.pdf",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Backgrounds",
-   "check": "Every background exported as A4-landscape.pdf",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "PDF",
-   "check": "116 PDFs open",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Documents",
-   "check": "22 template PDFs are A4",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Guidelines",
-   "check": "Guidelines PDF is A4 landscape with at least 30 pages",
-   "ok": true,
-   "detail": "36 pages"
-  },
-  {
-   "area": "Guidelines",
-   "check": "All fonts embedded in the guidelines PDF",
-   "ok": true,
-   "detail": "12 fonts; 0 not embedded"
-  },
-  {
-   "area": "Guidelines",
-   "check": "Guidelines use only the brand typefaces (+ Arial in the misuse example)",
-   "ok": true,
-   "detail": "DejaVuSans, DejaVuSansMono, Inter, LiberationSans, PlayfairDisplay, SourceSerif4"
-  },
-  {
-   "area": "Documents",
-   "check": "22 DOCX templates open in python-docx",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Documents",
-   "check": "Templates use Word content controls for placeholders",
-   "ok": true,
-   "detail": "524 content controls"
-  },
-  {
-   "area": "Documents",
-   "check": "Every DOCX has a PDF export",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Documents",
-   "check": "No invented phone numbers, bank details or lorem ipsum",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Presentation",
-   "check": "PPTX master has ≥ 19 named layouts",
-   "ok": true,
-   "detail": "21 layouts, 21 sample slides"
-  },
-  {
-   "area": "Presentation",
-   "check": "Sample deck contains native editable chart and table",
-   "ok": true,
-   "detail": "1 chart(s), 1 table(s)"
-  },
-  {
-   "area": "Documents",
-   "check": "Invoice XLSX calculates (formulas present)",
-   "ok": true,
-   "detail": "13 formulas"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_F_brand-intro-25s_16x9_1920x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_F_brand-intro-25s_1x1_1080x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_F_brand-intro-25s_4x5_1080x1350.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_F_brand-intro-25s_9x16_1080x1920.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_A_cinematic-reveal_dark_1920x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_A_cinematic-reveal_fullcolour_ALPHA_1920x1080.webm carries an alpha channel",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_A_cinematic-reveal_fullcolour_ALPHA_1920x1080_alpha-PNG.mov carries an alpha channel",
-   "ok": true,
-   "detail": "rgba"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_A_cinematic-reveal_light_1920x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_A_cinematic-reveal_reversed_ALPHA_1920x1080.webm carries an alpha channel",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_A_cinematic-reveal_reversed_ALPHA_1920x1080_alpha-PNG.mov carries an alpha channel",
-   "ok": true,
-   "detail": "rgba"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_B_minimal-reveal_dark_1080x1920.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_B_minimal-reveal_dark_1920x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_B_minimal-reveal_fullcolour_ALPHA_1920x1080.webm carries an alpha channel",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_B_minimal-reveal_fullcolour_ALPHA_1920x1080_alpha-PNG.mov carries an alpha channel",
-   "ok": true,
-   "detail": "rgba"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_B_minimal-reveal_light_1080x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_B_minimal-reveal_light_1920x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_C_presentation-opener_1920x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_E_symbol_ALPHA_1080x1080.webm carries an alpha channel",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_E_symbol_ALPHA_1080x1080_alpha-PNG.mov carries an alpha channel",
-   "ok": true,
-   "detail": "rgba"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_E_symbol_on-forest_1080x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_E_symbol_on-ivory_1080x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_D_brand-loop_1080x1920.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_D_brand-loop_1920x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "DN_motion_D_brand-loop_with-logo_1920x1080.mp4 is H.264 yuv420p",
-   "ok": true,
-   "detail": "yuv420p"
-  },
-  {
-   "area": "Motion",
-   "check": "All five animations (A–E) rendered",
-   "ok": true,
-   "detail": "A, B, C, D, E, F"
-  },
-  {
-   "area": "Motion",
-   "check": "Loop D is seamless (seam ≤ 2× typical frame step)",
-   "ok": true,
-   "detail": "seam 0.363 vs step 0.281"
-  },
-  {
-   "area": "Motion",
-   "check": "5 Lottie files are valid Bodymovin JSON (rendered in lottie-web 5.12.2)",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Sonic",
-   "check": "DN_sonic-brand-intro_25s.wav: 48 kHz 24-bit stereo",
-   "ok": true,
-   "detail": "48000 pcm_s24le 2ch 25.00s"
-  },
-  {
-   "area": "Sonic",
-   "check": "DN_sonic-brand-intro_25s.wav: loudness -15.8 LUFS, true peak -1.0 dBFS ≤ −1",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Sonic",
-   "check": "DN_sonic-intro-bed_30s_seamless-loop.wav: 48 kHz 24-bit stereo",
-   "ok": true,
-   "detail": "48000 pcm_s24le 2ch 30.00s"
-  },
-  {
-   "area": "Sonic",
-   "check": "DN_sonic-intro-bed_30s_seamless-loop.wav: loudness -18.0 LUFS, true peak -5.3 dBFS ≤ −1",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Sonic",
-   "check": "Intro bed loop seam is continuous",
-   "ok": true,
-   "detail": "seam 0.00009, mean step 0.00597"
-  },
-  {
-   "area": "Sonic",
-   "check": "DN_sonic-logo_primary_6-5s.wav: 48 kHz 24-bit stereo",
-   "ok": true,
-   "detail": "48000 pcm_s24le 2ch 6.50s"
-  },
-  {
-   "area": "Sonic",
-   "check": "DN_sonic-logo_primary_6-5s.wav: loudness -15.6 LUFS, true peak -2.6 dBFS ≤ −1",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Sonic",
-   "check": "DN_sonic-sting_2-5s.wav: 48 kHz 24-bit stereo",
-   "ok": true,
-   "detail": "48000 pcm_s24le 2ch 2.50s"
-  },
-  {
-   "area": "Sonic",
-   "check": "DN_sonic-sting_2-5s.wav: loudness -16.0 LUFS, true peak -5.3 dBFS ≤ −1",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Sonic",
-   "check": "MP3 versions exist for every WAV",
-   "ok": true,
-   "detail": "4 MP3"
-  },
-  {
-   "area": "Social",
-   "check": "At least 8 template families with PNG examples",
-   "ok": true,
-   "detail": "8 families, 40 PNGs"
-  },
-  {
-   "area": "Organisation",
-   "check": "No spaces in file names",
-   "ok": true,
-   "detail": ""
-  },
-  {
-   "area": "Organisation",
-   "check": "Deliverables follow the DN_ naming convention",
-   "ok": true,
-   "detail": ""
-  }
- ],
- "issues": [],
- "video_table": [
-  [
-   "DN_motion_F_brand-intro-25s_16x9_1920x1080.mp4",
-   "h264",
-   "1920x1080",
-   "25.00s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_F_brand-intro-25s_16x9_1920x1080.webm",
-   "vp9",
-   "1920x1080",
-   "25.01s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_F_brand-intro-25s_1x1_1080x1080.mp4",
-   "h264",
-   "1080x1080",
-   "25.00s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_F_brand-intro-25s_4x5_1080x1350.mp4",
-   "h264",
-   "1080x1350",
-   "25.00s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_F_brand-intro-25s_9x16_1080x1920.mp4",
-   "h264",
-   "1080x1920",
-   "25.00s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_A_cinematic-reveal_dark_1920x1080.mp4",
-   "h264",
-   "1920x1080",
-   "7.00s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_A_cinematic-reveal_dark_1920x1080.webm",
-   "vp9",
-   "1920x1080",
-   "7.01s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_A_cinematic-reveal_fullcolour_ALPHA_1920x1080.webm",
-   "vp9",
-   "1920x1080",
-   "7.00s",
-   "yuv420p",
-   "no"
-  ],
-  [
-   "DN_motion_A_cinematic-reveal_fullcolour_ALPHA_1920x1080_alpha-PNG.mov",
-   "png",
-   "1920x1080",
-   "7.00s",
-   "rgba",
-   "no"
-  ],
-  [
-   "DN_motion_A_cinematic-reveal_light_1920x1080.mp4",
-   "h264",
-   "1920x1080",
-   "7.00s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_A_cinematic-reveal_light_1920x1080.webm",
-   "vp9",
-   "1920x1080",
-   "7.01s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_A_cinematic-reveal_reversed_ALPHA_1920x1080.webm",
-   "vp9",
-   "1920x1080",
-   "7.00s",
-   "yuv420p",
-   "no"
-  ],
-  [
-   "DN_motion_A_cinematic-reveal_reversed_ALPHA_1920x1080_alpha-PNG.mov",
-   "png",
-   "1920x1080",
-   "7.00s",
-   "rgba",
-   "no"
-  ],
-  [
-   "DN_motion_B_minimal-reveal_dark_1080x1920.mp4",
-   "h264",
-   "1080x1920",
-   "2.50s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_B_minimal-reveal_dark_1920x1080.mp4",
-   "h264",
-   "1920x1080",
-   "2.50s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_B_minimal-reveal_dark_1920x1080.webm",
-   "vp9",
-   "1920x1080",
-   "2.51s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_B_minimal-reveal_fullcolour_ALPHA_1920x1080.webm",
-   "vp9",
-   "1920x1080",
-   "2.50s",
-   "yuv420p",
-   "no"
-  ],
-  [
-   "DN_motion_B_minimal-reveal_fullcolour_ALPHA_1920x1080_alpha-PNG.mov",
-   "png",
-   "1920x1080",
-   "2.50s",
-   "rgba",
-   "no"
-  ],
-  [
-   "DN_motion_B_minimal-reveal_light_1080x1080.mp4",
-   "h264",
-   "1080x1080",
-   "2.50s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_B_minimal-reveal_light_1920x1080.mp4",
-   "h264",
-   "1920x1080",
-   "2.50s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_B_minimal-reveal_light_1920x1080.webm",
-   "vp9",
-   "1920x1080",
-   "2.51s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_C_presentation-opener_1920x1080.mp4",
-   "h264",
-   "1920x1080",
-   "8.00s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_C_presentation-opener_1920x1080.webm",
-   "vp9",
-   "1920x1080",
-   "8.01s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_E_symbol_ALPHA_1080x1080.webm",
-   "vp9",
-   "1080x1080",
-   "3.00s",
-   "yuv420p",
-   "no"
-  ],
-  [
-   "DN_motion_E_symbol_ALPHA_1080x1080_alpha-PNG.mov",
-   "png",
-   "1080x1080",
-   "3.00s",
-   "rgba",
-   "no"
-  ],
-  [
-   "DN_motion_E_symbol_on-forest_1080x1080.mp4",
-   "h264",
-   "1080x1080",
-   "3.00s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_E_symbol_on-forest_1080x1080.webm",
-   "vp9",
-   "1080x1080",
-   "3.01s",
-   "yuv420p",
-   "yes"
-  ],
-  [
-   "DN_motion_E_symbol_on-ivory_1080x1080.mp4",
-   "h264",
-   "1080x1080",
-   "3.00s",
-   "yuv420p",
-   "no"
-  ],
-  [
-   "DN_motion_D_brand-loop_1080x1920.mp4",
-   "h264",
-   "1080x1920",
-   "20.00s",
-   "yuv420p",
-   "no"
-  ],
-  [
-   "DN_motion_D_brand-loop_1920x1080.mp4",
-   "h264",
-   "1920x1080",
-   "20.00s",
-   "yuv420p",
-   "no"
-  ],
-  [
-   "DN_motion_D_brand-loop_1920x1080.webm",
-   "vp9",
-   "1920x1080",
-   "20.00s",
-   "yuv420p",
-   "no"
-  ],
-  [
-   "DN_motion_D_brand-loop_with-logo_1920x1080.mp4",
-   "h264",
-   "1920x1080",
-   "20.00s",
-   "yuv420p",
-   "no"
-  ]
- ],
- "summary": {
-  "files": 1128,
-  "deliverables": 1041,
-  "by_type": {
-   ".svg": 366,
-   ".png": 239,
-   ".pdf": 116,
-   ".jpg": 110,
-   ".md": 26,
-   ".eps": 26,
-   ".docx": 22,
-   ".ttf": 18,
-   ".mp4": 16,
-   ".webp": 14,
-   ".json": 13,
-   ".html": 13,
-   ".webm": 12,
-   ".gif": 9,
-   ".dotx": 5,
-   ".mp3": 4,
-   ".wav": 4,
-   ".mov": 4,
-   ".js": 4,
-   ".xlsx": 3,
-   ".txt": 3,
-   ".ase": 2,
-   ".csv": 2,
-   ".css": 2,
-   "": 1,
-   ".potx": 1,
-   ".pptx": 1,
-   ".gpl": 1,
-   ".mjs": 1,
-   ".srt": 1,
-   ".ico": 1,
-   ".webmanifest": 1
-  },
-  "size_mb": 278.9
+[
+ {
+  "area": "Typography",
+  "check": "Only Newsreader and Public Sans (plus symbol fallbacks) embedded in 40 PDFs",
+  "pass": true,
+  "detail": "all clean"
+ },
+ {
+  "area": "Typography",
+  "check": "Static font files supplied (22) with OFL licences",
+  "pass": true,
+  "detail": "22"
+ },
+ {
+  "area": "Colour",
+  "check": "No retired v1 accent colours used in 91 v2 sources (token declarations excepted)",
+  "pass": true,
+  "detail": "clean"
+ },
+ {
+  "area": "Colour",
+  "check": "Text colour pairs used in the system pass WCAG AA (4.5:1)",
+  "pass": true,
+  "detail": "{'forest/ivory': 11.98, 'forest/white': 13.6, 'charcoal/ivory': 14.54, 'stone/ivory': 5.19, 'stone/white': 5.89, 'golddeep/ivory': 5.21, 'ivory/forest': 11.98, 'sage/forest': 6.94, 'gold/forest': 6.34}"
+ },
+ {
+  "area": "Contacts",
+  "check": "Letterhead carries the supplied telephone, email and web address",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "area": "Contacts",
+  "check": "Business cards carry all supplied emails and the telephone number",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "area": "Contacts",
+  "check": "Email signatures exist for general, Eddie Madaki and Lulu, with correct addresses",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "area": "Contacts",
+  "check": "Homepage footer carries every supplied contact",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "area": "Contacts",
+  "check": "Presentation closing layout carries every supplied contact",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "area": "Contacts",
+  "check": "No contact placeholders remain where real details were supplied (22 Word templates)",
+  "pass": true,
+  "detail": "clean"
+ },
+ {
+  "area": "Photography",
+  "check": "Every library photograph has a register row (9) and every rejection a reason (4)",
+  "pass": true,
+  "detail": "9 accepted, 4 rejected"
+ },
+ {
+  "area": "Photography",
+  "check": "Licence status is recorded honestly as 'to be confirmed by client' (no invented licences)",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "area": "Photography",
+  "check": "Rejected images (Indonesia, Mauritius, composite) are used nowhere (the guidelines show them only as greyed, labelled examples of what not to publish)",
+  "pass": true,
+  "detail": "none"
+ },
+ {
+  "area": "Photography",
+  "check": "Supplied originals kept untouched alongside graded masters",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "area": "Photography",
+  "check": "No illustrated placeholders presented as photography remain",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "area": "Plates",
+  "check": "Engraved plates keep the true proportions of the place (no stretch)",
+  "pass": true,
+  "detail": "all within 0.5 %"
+ },
+ {
+  "area": "Plates",
+  "check": "Plates are pure vector (no embedded raster) in SVG and PDF",
+  "pass": true,
+  "detail": "16 SVG"
+ },
+ {
+  "area": "Logo",
+  "check": "Logo masters contain no raster images",
+  "pass": true,
+  "detail": "12 SVG"
+ },
+ {
+  "area": "Logo",
+  "check": "Retired variants (stacked, horizontal, landscape symbol, gold roundel) removed",
+  "pass": true,
+  "detail": "removed"
+ },
+ {
+  "area": "Logo",
+  "check": "Primary master reuses every supplied path verbatim (24/24)",
+  "pass": true,
+  "detail": "24/24"
+ },
+ {
+  "area": "Editability",
+  "check": "All Word templates open (python-docx)",
+  "pass": true,
+  "detail": "22/22"
+ },
+ {
+  "area": "Editability",
+  "check": "PowerPoint has a real master with 19 layouts and theme fonts Newsreader Display / Public Sans",
+  "pass": true,
+  "detail": "19 layouts, 16 sample slides"
+ },
+ {
+  "area": "Editability",
+  "check": "POTX declares the template content type",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "area": "Editability",
+  "check": "Social templates are data-driven (content.json) with live HTML sources",
+  "pass": true,
+  "detail": ""
+ },
+ {
+  "area": "Editability",
+  "check": "Lottie files are valid Bodymovin JSON and render in lottie-web (frames in lottie_test/)",
+  "pass": true,
+  "detail": "4"
+ },
+ {
+  "area": "Rendering",
+  "check": "28 social PNGs at exact platform sizes",
+  "pass": true,
+  "detail": "ok"
+ },
+ {
+  "area": "Rendering",
+  "check": "Event print PDFs are at true physical size",
+  "pass": true,
+  "detail": "{'DN_name-badge_A6_print.pdf': '105×148 mm', 'DN_roll-up_850x2000mm_print.pdf': '850×2100 mm', 'DN_media-wall_3000x2400mm_print.pdf': '3000×2400 mm', 'DN_wayfinding_A2_print.pdf': '420×594 mm', 'DN_invitation_5x7in_print.pdf': '133×184 mm', 'DN_event-programme_A5_running-order_print.pdf': '154×216 mm', 'DN_event-programme_A5_cover_print.pdf': '154×216 mm'}"
+ },
+ {
+  "area": "Motion",
+  "check": "Brand film in 4 formats, 25.0 s, 30 fps, with soundtrack",
+  "pass": true,
+  "detail": "{'DN_motion_G_brand-film-25s_16x9_1920x1080.mp4': (1920, 1080, '30/1', 25.0, True), 'DN_motion_G_brand-film-25s_9x16_1080x1920.mp4': (1080, 1920, '30/1', 25.0, True), 'DN_motion_G_brand-film-25s_4x5_1080x1350.mp4': (1080, 1350, '30/1', 25.0, True), 'DN_motion_G_brand-film-25s_1x1_1080x1080.mp4': (1080, 1080, '30/1', 25.0, True)}"
+ },
+ {
+  "area": "Motion",
+  "check": "Plate loop is seamless (first and last frames match)",
+  "pass": true,
+  "detail": "mean abs diff 0.000"
+ },
+ {
+  "area": "Sound",
+  "check": "Film score normalised to −16 LUFS (±1)",
+  "pass": true,
+  "detail": "-15.0 LUFS"
+ },
+ {
+  "area": "Motion",
+  "check": "Retired v1 motion (A–E, D loops) removed from the deliverable folders",
+  "pass": true,
+  "detail": "removed"
  }
-}
+]

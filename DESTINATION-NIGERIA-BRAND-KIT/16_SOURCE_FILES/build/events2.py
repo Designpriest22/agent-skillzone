@@ -116,7 +116,8 @@ def signage():
     """A2 wayfinding sign (420 × 594 mm)."""
     W, H = 420, 594
     body = f'<div style="position:absolute;inset:0;background:var(--forest)"></div>'
-    body += f'<div class="sans" style="{box(30, 20, 360)}font-size:640pt;line-height:1;color:var(--ivory);font-weight:300">→</div>'
+    body += (f'<svg style="{box(34, 40, 250, 150)}" viewBox="0 0 250 150"><path d="M0 75 H214 M164 19 L222 75 L164 131" fill="none" stroke-linejoin="miter" '
+             f'stroke="{C["ivory"]}" stroke-width="16" stroke-linecap="butt"/></svg>')
     body += t("disp", 34, 250, W - 68, 120, "[Main hall]", C["ivory"], "line-height:1")
     body += t("sans", 36, 345, W - 72, 34, "[Registration · Exhibition]", C["sage"], "line-height:1.3")
     body += plate_at("zuma-rock-quiet", -20, H - 250, W + 40, keep_sun=False, recolor=C["ridge"])

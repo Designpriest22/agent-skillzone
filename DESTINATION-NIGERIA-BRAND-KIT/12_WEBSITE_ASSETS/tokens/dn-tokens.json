@@ -288,7 +288,7 @@
     },
     "warning": {
       "$type": "color",
-      "$value": "#9A6510"
+      "$value": "#8A5A0C"
     },
     "error": {
       "$type": "color",
@@ -296,7 +296,7 @@
     },
     "info": {
       "$type": "color",
-      "$value": "#2E6E76"
+      "$value": "#2C5040"
     },
     "focus": {
       "$type": "color",

@@ -58,13 +58,39 @@ def kuwahara(L, r):
     return np.take_along_axis(ms, i[None], 0)[0]
 
 
+def fit_crop(W, H, crop, size):
+    """Adjust a normalised crop box about its centre so it has the plate's aspect ratio.
+    Plates must never stretch the place they depict."""
+    x0, y0, x1, y1 = crop
+    cw, ch = (x1 - x0) * W, (y1 - y0) * H
+    r = size[0] / size[1]
+    if cw / ch > r:      # too wide: narrow it
+        ncw = ch * r
+        cx = (x0 + x1) / 2 * W
+        x0, x1 = (cx - ncw / 2) / W, (cx + ncw / 2) / W
+    else:                # too tall: shorten it (or widen if it fits)
+        nch = cw / r
+        if nch <= H:
+            cy = (y0 + y1) / 2 * H
+            y0, y1 = (cy - nch / 2) / H, (cy + nch / 2) / H
+    if y0 < 0:
+        y1, y0 = y1 - y0, 0.0
+    if y1 > 1:
+        y0, y1 = y0 - (y1 - 1), 1.0
+    if x0 < 0:
+        x1, x0 = x1 - x0, 0.0
+    if x1 > 1:
+        x0, x1 = x0 - (x1 - 1), 1.0
+    return max(x0, 0.0), max(y0, 0.0), min(x1, 1.0), min(y1, 1.0)
+
+
 def load_tone(path, crop=(0, 0, 1, 1), size=(1600, 1000), clarity=1.2, lo=0.08, hi=0.92, gamma=1.0,
               sky_lift=0.0, mask=None, smooth=0, passes=2):
     """Return darkness field D in [0,1] at `size` (w,h) for the crop box (normalised x0,y0,x1,y1)."""
     im = Image.open(path).convert("RGB")
     W, H = im.size
-    x0, y0, x1, y1 = crop
-    im = im.crop((int(x0 * W), int(y0 * H), int(x1 * W), int(y1 * H))).resize(size, Image.LANCZOS)
+    x0, y0, x1, y1 = fit_crop(W, H, crop, size)
+    im = im.crop((int(round(x0 * W)), int(round(y0 * H)), int(round(x1 * W)), int(round(y1 * H)))).resize(size, Image.LANCZOS)
     a = np.asarray(im).astype(np.float32) / 255
     L = 0.2126 * a[..., 0] + 0.7152 * a[..., 1] + 0.0722 * a[..., 2]
     for _ in range(passes if smooth else 0):

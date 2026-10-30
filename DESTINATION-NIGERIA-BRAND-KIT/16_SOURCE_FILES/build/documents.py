@@ -408,7 +408,7 @@ def invoice(kind="Invoice"):
     borders(t, "#FFFFFF", 0, outer=False)
     a, b = t.rows[0].cells
     for cell, title, fields in [(a, "From", ["Destination Nigeria", "[Registered business name and address — verified]", f'{_CONTACT["email"]} · {_CONTACT["phone"]}', "[Tax ID (TIN) — if applicable]"]),
-                                (b, "Bill to (client)" if kind == "Invoice" else "Prepared for", ["[Client name]", "[Organisation]", "[Address]", "[Email]"])]:
+                                (b, "Bill to (client)" if kind == "Invoice" else "Prepared for", ["[Client name]", "[Organisation]", "[Address]", "[Client email]"])]:
         p = cell.paragraphs[0]
         p.style = d.styles["Overline"]
         run(p, title)

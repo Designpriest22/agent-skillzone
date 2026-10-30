@@ -42,7 +42,7 @@ LEGACY = {"mist": "#EAEAEA", "canopy": "#4E7A62", "laterite": "#B4532A", "savann
 C = {k: h for k, _, h, *_ in COLORS}
 C.update(LEGACY)
 
-UI_STATES = {"success": "#2E7D4F", "warning": "#9A6510", "error": "#B3261E", "info": "#2E6E76",
+UI_STATES = {"success": "#2E7D4F", "warning": "#8A5A0C", "error": "#B3261E", "info": "#2C5040",
              "focus": "#E8A432"}
 
 

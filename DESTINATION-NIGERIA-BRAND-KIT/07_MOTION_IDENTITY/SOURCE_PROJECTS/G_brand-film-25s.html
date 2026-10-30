@@ -1,0 +1,217 @@
+<!doctype html><html><head><meta charset="utf-8"><title>G — Brand film (25 s)</title>
+<style>html,body{margin:0;background:#F5F0E6;overflow:hidden}svg{display:block}</style></head><body>
+<script src="dn-logo-data.js"></script><script src="dn-film-data.js"></script>
+<script>
+// G — the v2 brand film. ?w=&h= sets the format (1920x1080, 1080x1080, 1080x1350, 1080x1920). ?t=seconds shows one frame.
+// Built only from the system's materials: Paper, the horizon line, the engraved plates, the photographs they were
+// traced from, the logo's own drawing and the sun. No blooms, rings, wipes, particles or glows. Hard cuts on the
+// downbeat; every move lands on a cue shared with the soundtrack (16_SOURCE_FILES/build/film.py).
+const Q = new URLSearchParams(location.search);
+const W = +(Q.get('w') || 1920), H = +(Q.get('h') || 1080);
+const T = DNF.T, C = DNF.C;
+window.DURATION = T.dur; window.FPS = 30;
+const land = W / H > 1.3, tall = H / W > 1.5, sq = !land && !tall && H / W < 1.1;
+const u = Math.min(W, H) / 1080;
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs = {}, parent) => { const n = document.createElementNS(NS, tag); for (const k in attrs) n.setAttribute(k, attrs[k]); if (parent) parent.appendChild(n); return n; };
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b, e = x => x) => e(clamp((t - a) / (b - a)));
+const lerp = (a, b, k) => a + (b - a) * k;
+const E = { out: x => 1 - Math.pow(1 - x, 3), inOut: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2, outQuint: x => 1 - Math.pow(1 - x, 5) };
+const show = (n, on) => n.setAttribute('display', on ? 'inline' : 'none');
+
+document.body.style.width = W + 'px'; document.body.style.height = H + 'px';
+const svg = el('svg', { width: W, height: H, viewBox: `0 0 ${W} ${H}` }, document.body);
+const defs = el('defs', {}, svg);
+el('rect', { width: W, height: H, fill: C.ivory }, svg);
+const DISP = "'Newsreader Display', Georgia, serif", SANS = "'Public Sans', Arial, sans-serif";
+
+function text(parent, str, x, y, size, fill, family = DISP, anchor = 'start', extra = {}) {
+  const n = el('text', Object.assign({ x, y, 'font-family': family, 'font-size': size, fill, 'text-anchor': anchor, 'font-weight': 400 }, extra), parent);
+  n.textContent = str; return n;
+}
+
+// ------------------------------------------------------------------------------------------- engraved plate
+function Plate(parent, data, rect) {
+  const g = el('g', { transform: `translate(${rect.x},${rect.y}) scale(${rect.w / data.w})` }, parent);
+  const N = data.polys.length;
+  const strokes = data.polys.map(d => el('path', { d, fill: C.forest, 'fill-opacity': 0, stroke: C.forest, 'stroke-width': 1.3, pathLength: 1, 'stroke-dasharray': '0 1', 'stroke-linejoin': 'round' }, g));
+  let sun = null;
+  if (data.sun) sun = el('circle', { cx: data.sun[0], cy: data.sun[1], r: data.sun[2], fill: C.gold, opacity: 0 }, g);
+  return {
+    g, sun,
+    engrave(t, a, b, each) {
+      const span = (b - a) - each;
+      for (let i = 0; i < N; i++) {
+        const s = a + span * (i / N);
+        const p = seg(t, s, s + each, E.out);
+        const n = strokes[i];
+        if (p <= 0) { n.setAttribute('stroke-dasharray', '0 1'); n.setAttribute('fill-opacity', 0); n.setAttribute('stroke-opacity', 0); continue; }
+        n.setAttribute('stroke-opacity', 1);
+        if (p >= 1) { n.setAttribute('stroke-dasharray', 'none'); n.setAttribute('fill-opacity', 1); continue; }
+        const h = p / 2;  // both edges of the cut grow from the stroke's start: the line is engraved, not faded in
+        n.setAttribute('stroke-dasharray', `${h} ${1 - 2 * h} ${h} 0`);
+        n.setAttribute('fill-opacity', p * p * p);
+      }
+    },
+  };
+}
+
+// photograph registered to a plate, able to grow into a frame
+function Photo(parent, data, startRect, endRect, focus) {
+  const cid = 'c' + Math.random().toString(36).slice(2, 8);
+  const cp = el('clipPath', { id: cid }, defs);
+  const cr = el('rect', {}, cp);
+  const g = el('g', { 'clip-path': `url(#${cid})` }, parent);
+  const im = el('image', { href: data.photo, preserveAspectRatio: 'none' }, g);
+  const [x0, y0, x1, y1] = data.crop;
+  const iw0 = startRect.w / (x1 - x0), ih0 = startRect.h / (y1 - y0);
+  const s0 = { x: startRect.x - x0 * iw0, y: startRect.y - y0 * ih0, w: iw0, h: ih0 };
+  const sc = Math.max(endRect.w / data.photoW, endRect.h / data.photoH);
+  const iw1 = data.photoW * sc, ih1 = data.photoH * sc;
+  const s1 = { x: endRect.x + (endRect.w - iw1) * focus[0], y: endRect.y + (endRect.h - ih1) * focus[1], w: iw1, h: ih1 };
+  return {
+    g, set(k, push = 0, op = 1) {
+      const R = { x: lerp(startRect.x, endRect.x, k), y: lerp(startRect.y, endRect.y, k), w: lerp(startRect.w, endRect.w, k), h: lerp(startRect.h, endRect.h, k) };
+      cr.setAttribute('x', R.x); cr.setAttribute('y', R.y); cr.setAttribute('width', R.w); cr.setAttribute('height', R.h);
+      let S = { x: lerp(s0.x, s1.x, k), y: lerp(s0.y, s1.y, k), w: lerp(s0.w, s1.w, k), h: lerp(s0.h, s1.h, k) };
+      if (push) { const f = 1 + push, cx = R.x + R.w / 2, cy = R.y + R.h / 2; S = { x: cx + (S.x - cx) * f, y: cy + (S.y - cy) * f, w: S.w * f, h: S.h * f }; }
+      im.setAttribute('x', S.x); im.setAttribute('y', S.y); im.setAttribute('width', S.w); im.setAttribute('height', S.h);
+      g.setAttribute('opacity', op);
+    },
+  };
+}
+
+function Word(parent, str, x, y, size, color, anchor = 'start') {
+  const n = text(parent, str, x, y, size, color, DISP, anchor, { 'letter-spacing': `${-0.02 * size}` });
+  return { n, at(t, t0) { const k = seg(t, t0, t0 + .9, E.out); n.setAttribute('opacity', k); n.setAttribute('transform', `translate(0,${(1 - k) * size * .22})`); } };
+}
+const cap = (parent, str, x, y, anchor = 'start', color = C.stone) => text(parent, str, x, y, 17 * u * (land ? 1.05 : 1.15), color, SANS, anchor);
+
+// ===================================================================================== 1–2 Zuma Rock
+const Z = DNF.plates.zuma;
+const s1 = el('g', {}, svg);
+const hz1Y = land ? H * .64 : H * (tall ? .54 : .6);
+const pw1 = land ? W * .54 : W * .86, ph1 = pw1 * Z.h / Z.w;
+const pr1 = { x: (W - pw1) / 2, y: hz1Y - ph1 * .6, w: pw1, h: ph1 };
+const band1 = land ? H * .7 : H * (tall ? .62 : sq ? .62 : .64);
+const photo1 = Photo(s1, Z, pr1, { x: 0, y: 0, w: W, h: band1 }, [.5, .42]);
+const hzLine1 = el('line', { x1: W / 2, x2: W / 2, y1: hz1Y, y2: hz1Y, stroke: C.forest, 'stroke-width': Math.max(1.5, 2 * u) }, s1);
+const plate1 = Plate(s1, Z, pr1);
+const cap1 = cap(s1, 'Pl. 01  Zuma Rock, Niger State', pr1.x, pr1.y + ph1 + 34 * u);
+const m = land ? W * .06 : W * .07;
+const wsize = land ? H * .15 : W * (tall ? .17 : .15);
+const wordY = band => band + (H - band) * (land ? .66 : tall ? .5 : .62);
+const word1 = Word(s1, 'Experience.', m - wsize * .03, wordY(band1), wsize, C.forest);
+const cap1b = cap(s1, 'Zuma Rock, Niger State', W - m, H - 44 * u, 'end');
+
+// ===================================================================================== 3 Agbokim Waterfalls
+const A = DNF.plates.agbokim;
+const s3 = el('g', {}, svg);
+let pr3, end3, band3;
+if (land) { const ph = H * .82, pw = ph * A.w / A.h; pr3 = { x: W * .73 - pw / 2, y: (H - ph) / 2, w: pw, h: ph }; end3 = { x: W * .46, y: 0, w: W * .54, h: H }; }
+else { const pw = W * (tall ? .66 : sq ? .44 : .56), ph = pw * A.h / A.w; pr3 = { x: (W - pw) / 2, y: H * .06, w: pw, h: ph }; band3 = H * (tall ? .62 : sq ? .62 : .64); end3 = { x: 0, y: 0, w: W, h: band3 }; }
+const photo3 = Photo(s3, A, pr3, end3, [.45, .45]);
+const plate3 = Plate(s3, A, pr3);
+const word3 = land ? Word(s3, 'Invest.', m - wsize * .03, H * .6, wsize, C.forest) : Word(s3, 'Invest.', m - wsize * .03, wordY(band3), wsize, C.forest);
+const cap3 = land ? cap(s3, 'Agbokim Waterfalls, Cross River State', m, H - 44 * u) : cap(s3, 'Agbokim Waterfalls, Cross River State', W - m, H - 44 * u, 'end');
+
+// ===================================================================================== 4 four places
+const s4 = el('g', {}, svg);
+const tiles = [];
+{
+  const g = 18 * u;
+  const cols = land ? 4 : 2, rows = land ? 1 : 2;
+  const tw = (W - 2 * m - g * (cols - 1)) / cols;
+  const th = land ? tw * 1.22 : tw * (tall ? 1.15 : sq ? .62 : .82);
+  const top = land ? H * .1 : H * (tall ? .08 : .06);
+  const capH = 40 * u;
+  DNF.tiles.forEach((d, i) => {
+    const r = Math.floor(i / cols), c = i % cols;
+    const x = m + c * (tw + g), y = top + r * (th + capH + g);
+    const cid = 'tc' + i; const cp = el('clipPath', { id: cid }, defs); const cr = el('rect', { x, width: tw }, cp);
+    const gg = el('g', { 'clip-path': `url(#${cid})` }, s4);
+    const im = el('image', { href: d.photo, x, y, width: tw, height: th, preserveAspectRatio: `xMidYMid slice` }, gg);
+    const cn = cap(s4, d.caption, x, y + th + 26 * u);
+    tiles.push({ cr, im, cn, x, y, tw, th });
+  });
+}
+const word4 = Word(s4, 'Explore.', m - wsize * .03, land ? H * .9 : H - 70 * u, wsize * (land ? .9 : 1), C.forest);
+
+// ===================================================================================== 5 the logo
+const s5 = el('g', {}, svg);
+const cw = DN.colourways.fullcolour;
+const tone = n => n === 'sun' ? cw.sun : n === 'horizon' ? cw.hz : n === 'horizon_small' ? cw.hzs : (n === 'monolith' || n === 'ridge') ? cw.mt : cw.word;
+const lw = land ? W * .34 : W * (tall ? .74 : .64), ls = lw / 150.25;
+const lx = (W - lw) / 2, ly = H * (land ? .42 : .43) - 59.06 * ls / 2;
+const hz5 = el('line', { x1: W / 2, x2: W / 2, y1: ly + 21.4 * ls, y2: ly + 21.4 * ls, stroke: C.forest, 'stroke-width': Math.max(1.5, 2 * u) }, s5);
+const logoG = el('g', { transform: `translate(${lx},${ly}) scale(${ls})` }, s5);
+const landClip = el('clipPath', { id: 'landclip' }, defs); const landR = el('rect', { x: 0, y: -5, height: 32, width: 0 }, landClip);
+const landG = el('g', { 'clip-path': 'url(#landclip)' }, logoG);
+['horizon', 'horizon_small', 'ridge', 'monolith'].forEach(n => el('path', { d: DN.paths[n], fill: tone(n) }, landG));
+const sunG = el('g', {}, logoG); el('path', { d: DN.paths.sun, fill: cw.sun }, sunG);
+const wordG = el('g', {}, logoG);
+['D', 'e', 's', 'ti', 'idot1', 'n1', 'a', 't', 'i', 'idot2', 'o', 'n2', 'N', 'I', 'G', 'E', 'R', 'I2', 'A'].forEach(n => el('path', { d: DN.paths[n], fill: tone(n) }, wordG));
+const pSize = lw * (land ? .085 : .088);
+const line5 = text(s5, 'Experience. Invest. Explore.', W / 2, ly + 59.06 * ls + pSize * 2.1, pSize, C.forest, DISP, 'middle', { 'letter-spacing': `${-0.01 * pSize}` });
+const web5 = cap(s5, 'destinationnigeria.org', W / 2, H - 56 * u, 'middle');
+
+// ===================================================================================== timeline
+window.renderAt = t => {
+  const A1 = t < T.cut2, A3 = t >= T.cut2 && t < T.cut3, A4 = t >= T.cut3 && t < T.cut4, A5 = t >= T.cut4;
+  show(s1, A1); show(s3, A3); show(s4, A4); show(s5, A5);
+  if (A1) {
+    const h = seg(t, T.horizon[0], T.horizon[1], E.inOut) * (W * .44);
+    const fadeHz = 1 - seg(t, 5.1, 5.7);
+    hzLine1.setAttribute('x1', W / 2 - h); hzLine1.setAttribute('x2', W / 2 + h); hzLine1.setAttribute('opacity', fadeHz);
+    plate1.engrave(t, T.engrave1[0], T.engrave1[1], .55);
+    const sk = seg(t, T.sun1, T.sun1 + .9, E.out);
+    plate1.sun.setAttribute('opacity', sk);
+    plate1.sun.setAttribute('transform', `translate(0,${(1 - sk) * 40})`);
+    plate1.g.setAttribute('opacity', 1 - seg(t, 5.35, 6.2, E.inOut));
+    cap1.setAttribute('opacity', seg(t, T.cap1[0], T.cap1[1]) * fadeHz);
+    const dev = seg(t, T.develop1[0], T.develop1[1], E.inOut);
+    const ex = seg(t, T.expand1[0], T.expand1[1], E.inOut);
+    photo1.set(ex, .035 * seg(t, T.expand1[1], T.cut2), dev);
+    word1.at(t, T.word1); cap1b.setAttribute('opacity', seg(t, T.word1 + .3, T.word1 + 1));
+  }
+  if (A3) {
+    plate3.engrave(t, T.engrave2[0], T.engrave2[1], .35);
+    plate3.g.setAttribute('opacity', 1 - seg(t, T.develop2[0] + .25, T.develop2[1] + .15, E.inOut));
+    const dev = seg(t, T.develop2[0], T.develop2[1], E.inOut), ex = seg(t, T.expand2[0], T.expand2[1], E.inOut);
+    photo3.set(ex, .03 * seg(t, T.expand2[1], T.cut3), dev);
+    word3.at(t, T.word2); cap3.setAttribute('opacity', seg(t, T.word2 + .3, T.word2 + 1));
+  }
+  if (A4) {
+    tiles.forEach((d, i) => {
+      const k = seg(t, T.tiles[i], T.tiles[i] + .55, E.outQuint);
+      const hh = d.th * k;   // each place rises from its own horizon
+      d.cr.setAttribute('y', d.y + d.th - hh); d.cr.setAttribute('height', hh);
+      const z = 1 + .06 * (1 - k) + .02 * seg(t, T.tiles[i], T.cut4);
+      d.im.setAttribute('transform', `translate(${d.x + d.tw / 2},${d.y + d.th}) scale(${z}) translate(${-(d.x + d.tw / 2)},${-(d.y + d.th)})`);
+      d.cn.setAttribute('opacity', seg(t, T.tiles[i] + .3, T.tiles[i] + .8));
+    });
+    word4.at(t, T.word3);
+  }
+  if (A5) {
+    const h = seg(t, T.horizon4[0], T.horizon4[1], E.inOut) * W * .5;
+    hz5.setAttribute('x1', W / 2 - h); hz5.setAttribute('x2', W / 2 + h);
+    hz5.setAttribute('opacity', 1 - seg(t, T.land4[1] - .5, T.land4[1] + .3));
+    landR.setAttribute('x', 25); landR.setAttribute('width', seg(t, T.land4[0], T.land4[1], E.inOut) * 105);
+    const sk = seg(t, T.sun4, T.sun4 + .8, E.out);
+    sunG.setAttribute('opacity', sk);
+    sunG.setAttribute('transform', `translate(104.07,${6.62 + (1 - sk) * 5}) scale(${lerp(.55, 1, sk)}) translate(-104.07,-6.62)`);
+    const wk = seg(t, T.word4[0], T.word4[1], E.out);
+    wordG.setAttribute('opacity', wk); wordG.setAttribute('transform', `translate(0,${(1 - wk) * 3})`);
+    const lk = seg(t, T.line4[0], T.line4[1], E.out);
+    line5.setAttribute('opacity', lk); line5.setAttribute('transform', `translate(0,${(1 - lk) * pSize * .3})`);
+    web5.setAttribute('opacity', seg(t, T.line4[0] + .4, T.line4[1] + .4));
+  }
+};
+
+const imgs = [Z.photo, A.photo, ...DNF.tiles.map(d => d.photo)].map(src => new Promise(r => { const i = new Image(); i.onload = i.onerror = r; i.src = src; }));
+Promise.all([document.fonts.ready, ...imgs]).then(() => {
+  renderAt(+(Q.get('t') || 0)); window.ready = true;
+  if (Q.has('play')) { const t0 = performance.now(); const loop = () => { renderAt(((performance.now() - t0) / 1000) % T.dur); requestAnimationFrame(loop); }; loop(); }
+});
+</script></body></html>

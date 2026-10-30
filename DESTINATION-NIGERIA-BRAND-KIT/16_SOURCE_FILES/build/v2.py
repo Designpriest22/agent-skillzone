@@ -33,7 +33,8 @@ def font_css(out_dir):
 
 
 def base_css(out_dir):
-    v = ";".join(f"--{k}:{h}" for k, h in C.items())
+    from brand import LEGACY
+    v = ";".join(f"--{k}:{h}" for k, h in C.items() if k not in LEGACY)
     return font_css(out_dir) + f"""
 :root{{{v}}}
 *{{box-sizing:border-box;margin:0;padding:0}}

@@ -5,24 +5,27 @@ import sys
 import markdown
 from brand import *
 
-DOCS = [("01_BRAND_STRATEGY/DN_Brand_Strategy_v1.0.md", "Brand foundation"),
-        ("03_COLOR_AND_TYPOGRAPHY/DN_Color_Specification_v1.0.md", "Colour specification"),
-        ("03_COLOR_AND_TYPOGRAPHY/DN_Typography_Specification_v1.0.md", "Typography specification"),
+DOCS = [("01_BRAND_STRATEGY/DN_Brand_Strategy_v2.0.md", "Brand foundation"),
+        ("03_COLOR_AND_TYPOGRAPHY/DN_Color_Specification_v2.0.md", "Colour specification"),
+        ("03_COLOR_AND_TYPOGRAPHY/DN_Typography_Specification_v2.0.md", "Typography specification"),
         ("18_QA_AND_HANDOVER/DN_Handover-Report.md", "Handover report"),
-        ("18_QA_AND_HANDOVER/DN_QA-Report.md", "Quality assurance report")]
+        ("18_QA_AND_HANDOVER/DN_QA-Report.md", "Quality assurance report"),
+        ("18_QA_AND_HANDOVER/creative-audit/DN_Creative-Audit_v1.md", "Creative audit"),
+        ("18_QA_AND_HANDOVER/creative-audit/DN_Creative-Direction_v2.md", "Creative direction"),
+        ("18_QA_AND_HANDOVER/DN_Change-Report_v2.md", "Change report")]
 CSS = f"""@page {{ size: A4; margin: 22mm 20mm 20mm; }}
-body {{ font: 10pt/1.55 Inter, Arial, sans-serif; color: {C['charcoal']}; -webkit-print-color-adjust: exact; }}
-h1 {{ font: 500 26pt/1.1 'Playfair Display', Georgia, serif; color: {C['forest']}; margin: 0 0 6mm; }}
-h2 {{ font: 500 16pt/1.2 'Playfair Display', Georgia, serif; color: {C['forest']}; margin: 9mm 0 3mm; border-top: .3mm solid {C['sage']}; padding-top: 4mm; }}
-h3 {{ font: 600 11pt Inter; color: {C['forest']}; margin: 6mm 0 2mm; }}
-blockquote {{ margin: 0 0 5mm; padding: 3mm 5mm; background: {C['ivory']}; border-left: 1.2mm solid {C['gold']}; }}
+body {{ font: 10pt/1.55 'Public Sans', Arial, sans-serif; color: {C['charcoal']}; -webkit-print-color-adjust: exact; }}
+h1 {{ font: 400 26pt/1.06 'Newsreader Display', Georgia, serif; color: {C['forest']}; margin: 0 0 6mm; }}
+h2 {{ font: 400 16pt/1.2 'Newsreader Display', Georgia, serif; color: {C['forest']}; margin: 9mm 0 3mm; border-top: .3mm solid {C['forest']}; padding-top: 4mm; }}
+h3 {{ font: 600 10.5pt 'Public Sans'; color: {C['forest']}; margin: 6mm 0 2mm; }}
+blockquote {{ margin: 0 0 5mm; padding: 3mm 0; border-top: .3mm solid {C['haze']}; border-bottom: .3mm solid {C['haze']}; font-family: 'Newsreader Text', Georgia, serif; }}
 table {{ border-collapse: collapse; width: 100%; font-size: 8pt; margin: 3mm 0 5mm; page-break-inside: auto; }}
-th {{ text-align: left; background: {C['haze']}; color: {C['forest']}; padding: 1.6mm 2mm; font-weight: 600; }}
-td {{ padding: 1.4mm 2mm; border-bottom: .25mm solid #D6D9D2; vertical-align: top; }}
+th {{ text-align: left; border-bottom: .45mm solid {C['forest']}; color: {C['forest']}; padding: 1.6mm 2mm 1.6mm 0; font-weight: 600; }}
+td {{ padding: 1.4mm 2mm 1.4mm 0; border-bottom: .25mm solid {C['haze']}; vertical-align: top; }}
 tr {{ page-break-inside: avoid; }}
 code {{ font: 8.5pt 'JetBrains Mono', monospace; background: {C['ivory']}; padding: 0 1mm; }}
 .top {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 10mm; }}
-.top span {{ font: 600 7pt Inter; letter-spacing: .22em; text-transform: uppercase; color: {C['golddeep']}; }}
+.top span {{ font: 600 7pt 'Public Sans'; letter-spacing: .08em; text-transform: uppercase; color: {C['golddeep']}; }}
 """
 
 

@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><title>H — Logo reveal (6.5 s)</title></head><body>
+<script src="dn-logo-data.js"></script><script src="dn-v2.js"></script>
+<script>
+// H — the logo resolves on its own horizon, and its sun lands on the bell of the sonic logo (3.3 s).
+// ?theme=light|dark  ?transparent  ?w=&h=  ?line=0 hides the proposition. Cues match DN_sonic-logo_primary_6-5s.
+const { el, seg, E, C, stage, Logo } = DN2;
+const S = stage(); const { svg, defs, W, H, dark, u, Q } = S;
+window.DURATION = 6.5; window.FPS = 30;
+const land = W / H > 1.3;
+const lw = land ? W * .36 : W * .72, lh = 59.06 * lw / 150.25;
+const showLine = Q.get('line') !== '0';
+const L = Logo(svg, defs, (W - lw) / 2, H / 2 - lh / 2 - (showLine ? lw * .06 : 0), lw, dark);
+const ink = dark ? C.ivory : C.forest;
+const hz = el('line', { y1: L.horizonY, y2: L.horizonY, stroke: ink, 'stroke-width': Math.max(1.5, 2 * u) }, svg);
+const pSize = lw * .085;
+const line = el('text', { x: W / 2, y: L.bottom + pSize * 2.1, 'text-anchor': 'middle', 'font-family': "'Newsreader Display', Georgia, serif", 'font-size': pSize, fill: ink, 'letter-spacing': -0.01 * pSize }, svg);
+line.textContent = 'Experience. Invest. Explore.';
+window.renderAt = t => {
+  const h = seg(t, .25, 1.35, E.inOut) * W * .5;
+  hz.setAttribute('x1', W / 2 - h); hz.setAttribute('x2', W / 2 + h); hz.setAttribute('opacity', 1 - seg(t, 1.7, 2.3));
+  L.land(seg(t, .9, 1.95, E.inOut));
+  L.word(seg(t, 2.1, 2.95, E.out));
+  L.sun(seg(t, 3.3, 4.0, E.out));
+  const k = seg(t, 3.95, 4.7, E.out);
+  line.setAttribute('opacity', showLine ? k : 0); line.setAttribute('transform', `translate(0,${(1 - k) * pSize * .3})`);
+};
+document.fonts.ready.then(() => { renderAt(+(Q.get('t') || 6.4)); window.ready = true; });
+</script></body></html>
