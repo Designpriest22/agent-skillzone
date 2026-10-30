@@ -1,7 +1,7 @@
 [
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/_sheets/DN_business-card_standard_front_print.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_standard_front_print-crop-marks.pdf",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/_sheets/DN_business-card_front_print.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_front_print-crop-marks.pdf",
   "w": 404.40944881889766,
   "h": 291.0236220472441,
   "format": "pdf",
@@ -9,8 +9,8 @@
   "pdfH": "77mm"
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_standard_front.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_standard_front_bleed.pdf",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_front.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_front_bleed.pdf",
   "w": 343.93700787401576,
   "h": 230.55118110236222,
   "format": "pdf",
@@ -18,15 +18,15 @@
   "pdfH": "61mm"
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_standard_front.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PNG_300dpi/DN_business-card_standard_front_300dpi.png",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_front.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PNG_300dpi/DN_business-card_front_300dpi.png",
   "w": 537.4015748031496,
   "h": 360.23622047244095,
   "scale": 2
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/_sheets/DN_business-card_standard_back_print.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_standard_back_print-crop-marks.pdf",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/_sheets/DN_business-card_back_general_print.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_back_general_print-crop-marks.pdf",
   "w": 404.40944881889766,
   "h": 291.0236220472441,
   "format": "pdf",
@@ -34,8 +34,8 @@
   "pdfH": "77mm"
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_standard_back.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_standard_back_bleed.pdf",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_back_general.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_back_general_bleed.pdf",
   "w": 343.93700787401576,
   "h": 230.55118110236222,
   "format": "pdf",
@@ -43,15 +43,15 @@
   "pdfH": "61mm"
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_standard_back.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PNG_300dpi/DN_business-card_standard_back_300dpi.png",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_back_general.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PNG_300dpi/DN_business-card_back_general_300dpi.png",
   "w": 537.4015748031496,
   "h": 360.23622047244095,
   "scale": 2
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/_sheets/DN_business-card_premium_front_print.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_premium_front_print-crop-marks.pdf",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/_sheets/DN_business-card_back_eddie-madaki_print.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_back_eddie-madaki_print-crop-marks.pdf",
   "w": 404.40944881889766,
   "h": 291.0236220472441,
   "format": "pdf",
@@ -59,8 +59,8 @@
   "pdfH": "77mm"
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_premium_front.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_premium_front_bleed.pdf",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_back_eddie-madaki.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_back_eddie-madaki_bleed.pdf",
   "w": 343.93700787401576,
   "h": 230.55118110236222,
   "format": "pdf",
@@ -68,15 +68,15 @@
   "pdfH": "61mm"
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_premium_front.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PNG_300dpi/DN_business-card_premium_front_300dpi.png",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_back_eddie-madaki.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PNG_300dpi/DN_business-card_back_eddie-madaki_300dpi.png",
   "w": 537.4015748031496,
   "h": 360.23622047244095,
   "scale": 2
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/_sheets/DN_business-card_premium_back_print.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_premium_back_print-crop-marks.pdf",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/_sheets/DN_business-card_back_lulu_print.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_back_lulu_print-crop-marks.pdf",
   "w": 404.40944881889766,
   "h": 291.0236220472441,
   "format": "pdf",
@@ -84,8 +84,8 @@
   "pdfH": "77mm"
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_premium_back.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_premium_back_bleed.pdf",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_back_lulu.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PRINT_PDF/DN_business-card_back_lulu_bleed.pdf",
   "w": 343.93700787401576,
   "h": 230.55118110236222,
   "format": "pdf",
@@ -93,17 +93,31 @@
   "pdfH": "61mm"
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_premium_back.svg",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PNG_300dpi/DN_business-card_premium_back_300dpi.png",
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/SOURCE_SVG/DN_business-card_back_lulu.svg",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/BUSINESS_CARDS/PNG_300dpi/DN_business-card_back_lulu_300dpi.png",
   "w": 537.4015748031496,
   "h": 360.23622047244095,
   "scale": 2
  },
  {
-  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/EMAIL_SIGNATURE/DN_email-signature_preview.html",
-  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/EMAIL_SIGNATURE/DN_email-signature_preview.png",
-  "w": 620,
-  "h": 210,
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/EMAIL_SIGNATURE/DN_email-signature_general_preview.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/EMAIL_SIGNATURE/DN_email-signature_general_preview.png",
+  "w": 520,
+  "h": 200,
+  "scale": 2
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/EMAIL_SIGNATURE/DN_email-signature_eddie_preview.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/EMAIL_SIGNATURE/DN_email-signature_eddie_preview.png",
+  "w": 520,
+  "h": 200,
+  "scale": 2
+ },
+ {
+  "src": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/EMAIL_SIGNATURE/DN_email-signature_lulu_preview.html",
+  "out": "/home/user/agent-skillzone/DESTINATION-NIGERIA-BRAND-KIT/09_DOCUMENT_TEMPLATES/EMAIL_SIGNATURE/DN_email-signature_lulu_preview.png",
+  "w": 520,
+  "h": 200,
   "scale": 2
  }
 ]

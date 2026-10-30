@@ -28,6 +28,7 @@ LOGO = KIT / "02_LOGO_MASTER_FILES/PNG/DN_logo_primary_fullcolour_1000px.png"
 LOGO_R = KIT / "02_LOGO_MASTER_FILES/PNG/DN_logo_primary_reversed_1000px.png"
 NSP = 'xmlns:p="http://schemas.openxmlformats.org/presentationml/2006/main" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"'
 E = 914400
+BULLET = "E8A432"
 SW, SH = 13.333, 7.5
 H = lambda c: c.lstrip("#").upper()
 _id = [10]
@@ -47,7 +48,7 @@ def ph(kind, idx, x, y, w, h, prompt, font="mn", size=16, color=C["charcoal"], b
     """Layout placeholder. kind: title | body | pic | chart | tbl | sldNum."""
     t = {"title": 'type="title"', "body": f'type="body" idx="{idx}"', "pic": f'type="pic" idx="{idx}"', "chart": f'type="chart" idx="{idx}"',
          "tbl": f'type="tbl" idx="{idx}"', "sldNum": f'type="sldNum" sz="quarter" idx="{idx}"', "obj": f'idx="{idx}"'}[kind]
-    bu = ('<a:buClr><a:srgbClr val="E8A432"/></a:buClr><a:buFont typeface="Arial"/><a:buChar char="•"/>' if bullet else "<a:buNone/>")
+    bu = (f'<a:buClr><a:srgbClr val="{BULLET}"/></a:buClr><a:buFont typeface="Arial"/><a:buChar char="•"/>' if bullet else "<a:buNone/>")
     mar = ' marL="228600" indent="-228600"' if bullet else ' marL="0" indent="0"'
     rpr = (f'<a:defRPr sz="{int(size * 100)}" b="{1 if bold else 0}" i="{1 if italic else 0}"{" cap=\"all\"" if caps else ""} spc="{spc}">'
            f'<a:solidFill><a:srgbClr val="{H(color)}"/></a:solidFill><a:latin typeface="+{font}-lt"/></a:defRPr>')

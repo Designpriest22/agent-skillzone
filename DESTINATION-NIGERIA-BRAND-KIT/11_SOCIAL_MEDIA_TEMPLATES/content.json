@@ -1,58 +1,46 @@
 {
-  "discover-destination": {
-    "overline": "DISCOVER · [STATE]",
-    "title": "[Destination name]",
-    "body": "[One line on why it is worth the journey]",
-    "cta": "Plan your visit",
-    "image": "dawn"
+  "place": {
+    "verb": "Explore",
+    "title": "Zuma Rock",
+    "where": "Niger State",
+    "photo": "zuma-rock",
+    "line": "A granite dome on the road from Abuja to Kaduna."
   },
-  "experience-culture": {
-    "overline": "EXPERIENCE · [CITY]",
-    "title": "[Festival or cultural experience]",
-    "body": "[Dates — confirmed only] · [Venue]",
-    "cta": "Learn more",
-    "image": "dusk"
+  "plate": {
+    "plate": "agbokim-waterfalls",
+    "no": "Pl. 02",
+    "caption": "Agbokim Waterfalls, Cross River State",
+    "title": "Experience Nigeria, one place at a time."
   },
-  "explore-business": {
-    "overline": "EXPLORE · TOURISM BUSINESS",
-    "title": "[Business name]",
-    "body": "[Category] · [Location]",
-    "cta": "[website or handle]",
-    "image": "day"
+  "statement": {
+    "title": "Thirty-six states and the Federal Capital Territory. One destination.",
+    "label": "Destination Nigeria"
   },
-  "meet-partner": {
-    "overline": "MEET THE PARTNER",
-    "title": "[Partner name]",
-    "body": "“[Short approved quote]”",
-    "cta": "[Role, organisation]",
-    "image": "day"
+  "invest": {
+    "verb": "Invest",
+    "title": "Invest in the places people travel for.",
+    "photo": "idanre-hills",
+    "body": "Destination Nigeria brings investors, operators and communities together around tourism development across the country.",
+    "cta": "info@destinationnigeria.org"
   },
-  "investment-opportunity": {
-    "overline": "INVEST · OPPORTUNITY",
-    "title": "[Project title]",
-    "facts": [
-      "Location: [State]",
-      "Category: [Type]",
-      "Stage: [Stage]"
-    ],
-    "cta": "Request the profile"
+  "figure": {
+    "figure": "774",
+    "unit": "local government areas",
+    "line": "Every one of them has a place worth the journey.",
+    "source": "Source: Constitution of the Federal Republic of Nigeria, 1999, First Schedule."
   },
-  "national-tourism-week": {
-    "overline": "ANNOUNCEMENT",
-    "title": "National Tourism Week",
-    "body": "[Year] · [Dates — publish only once officially confirmed]",
-    "cta": "[Venue / city]"
+  "explore-grid": {
+    "verb": "Explore",
+    "title": "Four corners, one country.",
+    "photos": [
+      "lekki-ikoyi-bridge",
+      "bowers-tower",
+      "obudu-road",
+      "idanre-hills"
+    ]
   },
-  "industry-insight": {
-    "overline": "INDUSTRY INSIGHT",
-    "figure": "[00%]",
-    "body": "[What the figure measures, in one sentence]",
-    "source": "Source: [verified source, year]"
-  },
-  "official-news": {
-    "overline": "OFFICIAL",
-    "title": "[Headline of the announcement]",
-    "body": "[One or two sentences of verified detail.]",
-    "date": "[DD Month YYYY]"
+  "contact": {
+    "title": "Talk to us.",
+    "body": "Partnerships, investment enquiries, media and visits."
   }
 }

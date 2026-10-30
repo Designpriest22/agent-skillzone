@@ -13,13 +13,13 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_BREAK
 from docx.oxml import OxmlElement
 from docx.oxml.ns import qn
 from docx.shared import Pt, Mm, RGBColor, Emu
-from brand import C, KIT
+from brand import C, KIT, CONTACT
 
 LOGO = KIT / "02_LOGO_MASTER_FILES/PNG/DN_logo_primary_fullcolour_2000px.png"
 LOGO_REV = KIT / "02_LOGO_MASTER_FILES/PNG/DN_logo_primary_reversed_2000px.png"
 ROUNDEL = KIT / "02_LOGO_MASTER_FILES/PNG/DN_symbol_roundel_forest_512px.png"
 BG = KIT / "05_BACKGROUNDS_AND_TEXTURES"
-DISPLAY, SANS, EDIT = "Playfair Display", "Inter", "Source Serif 4"
+DISPLAY, SANS, EDIT = "Newsreader Display", "Public Sans", "Newsreader Text"
 _ids = itertools.count(5000)
 
 
@@ -35,6 +35,9 @@ def _fonts(rpr_owner, name):
         rpr.insert(0, rf)
     for a in ("w:ascii", "w:hAnsi", "w:cs", "w:eastAsia"):
         rf.set(qn(a), name)
+    for a in ("w:asciiTheme", "w:hAnsiTheme", "w:eastAsiaTheme", "w:cstheme"):   # theme fonts would override the brand font
+        if rf.get(qn(a)) is not None:
+            del rf.attrib[qn(a)]
 
 
 def style_font(st, name, size, color=None, bold=False, italic=False, spacing=None):
@@ -67,20 +70,20 @@ def setup(doc, landscape=False, margins=(30, 22, 24, 22)):
     st = doc.styles
     style_font(st["Normal"], SANS, 10, C["charcoal"])
     para_fmt(st["Normal"], 0, 6, 1.32)
-    style_font(st["Title"], DISPLAY, 30, C["forest"])
-    para_fmt(st["Title"], 0, 8, 1.05)
+    style_font(st["Title"], DISPLAY, 32, C["forest"])
+    para_fmt(st["Title"], 0, 10, 1.02)
     st["Title"].element.get_or_add_pPr()
     for el in st["Title"].element.pPr.findall(qn("w:pBdr")):
         st["Title"].element.pPr.remove(el)
-    style_font(st["Subtitle"], EDIT, 14, C["ridge"], italic=False)
+    style_font(st["Subtitle"], EDIT, 13, C["stone"], italic=False)
     para_fmt(st["Subtitle"], 0, 12, 1.3)
-    style_font(st["Heading 1"], DISPLAY, 20, C["forest"])
-    para_fmt(st["Heading 1"], 18, 6, 1.1, keep=True)
-    style_font(st["Heading 2"], SANS, 12.5, C["forest"], bold=True)
+    style_font(st["Heading 1"], DISPLAY, 22, C["forest"])
+    para_fmt(st["Heading 1"], 22, 8, 1.08, keep=True)
+    style_font(st["Heading 2"], DISPLAY, 14, C["forest"], bold=False)
     para_fmt(st["Heading 2"], 14, 4, 1.2, keep=True)
-    style_font(st["Heading 3"], SANS, 10, C["ridge"], bold=True)
+    style_font(st["Heading 3"], SANS, 9.5, C["forest"], bold=True)
     para_fmt(st["Heading 3"], 10, 3, 1.2, keep=True)
-    style_font(st["Quote"], EDIT, 14, C["forest"], italic=True)
+    style_font(st["Quote"], DISPLAY, 16, C["forest"], italic=True)
     para_fmt(st["Quote"], 12, 12, 1.35)
     style_font(st["Caption"], SANS, 8, C["stone"])
     para_fmt(st["Caption"], 3, 10, 1.25)
@@ -89,13 +92,13 @@ def setup(doc, landscape=False, margins=(30, 22, 24, 22)):
         para_fmt(st[n], 0, 3, 1.3)
     o = st.add_style("Overline", WD_STYLE_TYPE.PARAGRAPH)
     o.base_style = st["Normal"]
-    style_font(o, SANS, 8, C["golddeep"], bold=True, spacing=1.6)
+    style_font(o, SANS, 7.5, C["golddeep"], bold=True, spacing=0.6)
     o.font.all_caps = True
     para_fmt(o, 0, 4, 1.2, keep=True)
     lead = st.add_style("Lead", WD_STYLE_TYPE.PARAGRAPH)
     lead.base_style = st["Normal"]
-    style_font(lead, EDIT, 12.5, C["forest"])
-    para_fmt(lead, 0, 10, 1.4)
+    style_font(lead, EDIT, 13, C["forest"])
+    para_fmt(lead, 0, 12, 1.38)
     sm = st.add_style("Small", WD_STYLE_TYPE.PARAGRAPH)
     sm.base_style = st["Normal"]
     style_font(sm, SANS, 8, C["stone"])
@@ -106,11 +109,21 @@ def setup(doc, landscape=False, margins=(30, 22, 24, 22)):
     para_fmt(tb, 1, 1, 1.15)
     th = st.add_style("Table Head", WD_STYLE_TYPE.PARAGRAPH)
     th.base_style = st["Normal"]
-    style_font(th, SANS, 8, C["forest"], bold=True, spacing=.6)
+    style_font(th, SANS, 7.5, C["forest"], bold=True, spacing=.5)
     th.font.all_caps = True
     para_fmt(th, 2, 2, 1.1)
     # document language + theme-ish defaults
     rpr = st.element.find(qn("w:docDefaults")).find(qn("w:rPrDefault")).find(qn("w:rPr"))
+    _fonts(rpr, SANS)
+    for el in st.element.iter(qn("w:rFonts")):      # any remaining style still pointing at theme fonts
+        if el.get(qn("w:asciiTheme")) is not None:
+            fam = DISPLAY if "major" in el.get(qn("w:asciiTheme")) else SANS
+            for a in ("w:asciiTheme", "w:hAnsiTheme", "w:eastAsiaTheme", "w:cstheme"):
+                if el.get(qn(a)) is not None:
+                    del el.attrib[qn(a)]
+            for a in ("w:ascii", "w:hAnsi", "w:cs"):
+                if el.get(qn(a)) is None:
+                    el.set(qn(a), fam)
     lang = OxmlElement("w:lang")
     lang.set(qn("w:val"), "en-GB")
     rpr.append(lang)
@@ -121,7 +134,7 @@ def new(landscape=False, margins=(30, 22, 24, 22), title="", subject=""):
     d = setup(Document(), landscape, margins)
     cp = d.core_properties
     cp.author, cp.title, cp.subject, cp.keywords = "Destination Nigeria", title, subject, "Destination Nigeria; template"
-    cp.comments = "Destination Nigeria brand kit v1.0 template. Replace bracketed placeholders with verified information only."
+    cp.comments = "Destination Nigeria brand kit v2.0 template. Replace bracketed placeholders with verified information only."
     return d
 
 
@@ -307,17 +320,32 @@ def widths(table, mm):
             c.width = Mm(w)
 
 
-def data_table(doc, headers, rows, col_mm, head_fill=C["haze"], zebra=None, align_right=(), total_row=False):
+def rule_cell(cell, side="bottom", color=C["forest"], sz=8):
+    tcpr = cell._tc.get_or_add_tcPr()
+    tb = tcpr.find(qn("w:tcBorders"))
+    if tb is None:
+        tb = OxmlElement("w:tcBorders")
+        tcpr.append(tb)
+    e = OxmlElement(f"w:{side}")
+    for k, v in (("w:val", "single"), ("w:sz", str(sz)), ("w:color", color.lstrip("#"))):
+        e.set(qn(k), v)
+    tb.append(e)
+
+
+def data_table(doc, headers, rows, col_mm, head_fill=None, zebra=None, align_right=(), total_row=False):
+    """Editorial table: a Forest rule under the header, Haze hairlines between rows, no fills."""
     t = doc.add_table(rows=1, cols=len(headers))
     t.alignment = WD_TABLE_ALIGNMENT.LEFT
-    borders(t)
+    borders(t, C["haze"], 4)
     cell_margins(t)
-    for c, h in zip(t.rows[0].cells, headers):
+    for j, (c, h) in enumerate(zip(t.rows[0].cells, headers)):
         c.text = ""
         p = c.paragraphs[0]
         p.style = doc.styles["Table Head"]
         run(p, h)
-        cell_shade(c, head_fill)
+        rule_cell(c, "bottom", C["forest"], 8)
+        if j in align_right:
+            p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
     for i, r in enumerate(rows):
         cells = t.add_row().cells
         for j, (c, v) in enumerate(zip(cells, r)):
@@ -329,10 +357,8 @@ def data_table(doc, headers, rows, col_mm, head_fill=C["haze"], zebra=None, alig
                 run(p, str(v), bold=total_row and i == len(rows) - 1)
             if j in align_right:
                 p.alignment = WD_ALIGN_PARAGRAPH.RIGHT
-            if zebra and i % 2 == 1:
-                cell_shade(c, zebra)
             if total_row and i == len(rows) - 1:
-                cell_shade(c, C["ivory"])
+                rule_cell(c, "top", C["forest"], 8)
     widths(t, col_mm)
     # repeat header row on each page
     trpr = t.rows[0]._tr.get_or_add_trPr()
@@ -345,8 +371,8 @@ def data_table(doc, headers, rows, col_mm, head_fill=C["haze"], zebra=None, alig
 def field_table(doc, pairs, label_mm=38, value_mm=128, fill=None):
     """Two-column form: bold label + content-control value."""
     t = doc.add_table(rows=0, cols=2)
-    borders(t, C["sage"], 4)
-    cell_margins(t, 70, 70, 100, 100)
+    borders(t, C["haze"], 4)
+    cell_margins(t, 70, 70, 0, 100)
     for label, ph in pairs:
         a, b = t.add_row().cells
         pa = a.paragraphs[0]
@@ -362,19 +388,12 @@ def field_table(doc, pairs, label_mm=38, value_mm=128, fill=None):
     return t
 
 
-def callout(doc, title, body, fill=C["ivory"], rule=C["gold"]):
+def callout(doc, title, body, fill=None, rule=None):
+    """A note set off by rules above and below: no tint, no box, no coloured bar."""
     t = doc.add_table(rows=1, cols=1)
-    borders(t, fill, 2, outer=False)
-    cell_margins(t, 160, 160, 220, 220)
+    borders(t, C["forest"], 6, outer=True)
+    cell_margins(t, 120, 140, 0, 0)
     c = t.rows[0].cells[0]
-    cell_shade(c, fill)
-    tcpr = c._tc.get_or_add_tcPr()
-    tb = OxmlElement("w:tcBorders")
-    l = OxmlElement("w:left")
-    for k, v in (("w:val", "single"), ("w:sz", "24"), ("w:color", rule.lstrip("#"))):
-        l.set(qn(k), v)
-    tb.append(l)
-    tcpr.append(tb)
     p = c.paragraphs[0]
     p.style = doc.styles["Overline"]
     run(p, title)
@@ -465,20 +484,18 @@ def contact_footer(section, running=None, page_numbers=True, dark=False):
     ppr = p._p.get_or_add_pPr()
     bdr = OxmlElement("w:pBdr")
     tp = OxmlElement("w:top")
-    for k, v in (("w:val", "single"), ("w:sz", "4"), ("w:space", "6"), ("w:color", C["sage"].lstrip("#"))):
+    for k, v in (("w:val", "single"), ("w:sz", "4"), ("w:space", "6"), ("w:color", C["haze"].lstrip("#"))):
         tp.set(qn(k), v)
     bdr.append(tp)
     ppr.append(bdr)
     width = section.page_width - section.left_margin - section.right_margin
     p.paragraph_format.tab_stops.add_tab_stop(width, alignment=2)
     run(p, "Destination Nigeria", bold=True, color=C["forest"], size=7.5)
-    run(p, "  ·  ", color=C["stone"], size=7.5)
+    run(p, "   ", color=C["stone"], size=7.5)
     if running:
         run(p, running, color=C["stone"], size=7.5)
     else:
-        field(p, "[website]", "website", size=7.5)
-        run(p, "  ·  ", color=C["stone"], size=7.5)
-        field(p, "[email]", "email", size=7.5)
+        run(p, f'{CONTACT["web"]}   {CONTACT["email"]}   {CONTACT["phone"]}', color=C["stone"], size=7.5)
     if page_numbers:
         run(p, "\t", size=7.5)
         r = run(p, "", color=C["forest"], size=7.5)
@@ -514,5 +531,5 @@ def small_header(section, text):
     width = section.page_width - section.left_margin - section.right_margin
     p.paragraph_format.tab_stops.add_tab_stop(width, alignment=2)
     p.add_run().add_picture(str(LOGO), width=Mm(30))
-    run(p, "\t" + text, size=7.5, color=C["stone"], caps=True, spacing=1.2)
+    run(p, "\t" + text, size=7.5, color=C["stone"], caps=True, spacing=0.5)
     return h

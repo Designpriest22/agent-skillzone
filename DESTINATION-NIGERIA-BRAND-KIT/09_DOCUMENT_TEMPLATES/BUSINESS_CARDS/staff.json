@@ -1,9 +1,23 @@
 [
   {
-    "name": "[Full Name]",
-    "role": "[Role / Title]",
-    "phone": "[+234 000 000 0000]",
-    "email": "[name@domain]",
-    "web": "[website]"
+    "name": "Destination Nigeria",
+    "role": "",
+    "phone": "+234 909 884 3308",
+    "email": "info@destinationnigeria.org",
+    "web": "destinationnigeria.org"
+  },
+  {
+    "name": "Eddie Madaki",
+    "role": "",
+    "phone": "+234 909 884 3308",
+    "email": "eddiemadaki@destinationnigeria.org",
+    "web": "destinationnigeria.org"
+  },
+  {
+    "name": "Lulu",
+    "role": "",
+    "phone": "+234 909 884 3308",
+    "email": "lulu@destinationnigeria.org",
+    "web": "destinationnigeria.org"
   }
 ]
