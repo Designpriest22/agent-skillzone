@@ -2,8 +2,8 @@
  {
   "area": "Typography",
   "check": "Only Newsreader and Public Sans (plus symbol fallbacks) embedded in 43 PDFs",
-  "pass": false,
-  "detail": "{'03_COLOR_AND_TYPOGRAPHY/DN_Typography_Specification_v2.0.pdf': ['JetBrainsMono-Regular', 'LiberationSans-Italic'], '03_COLOR_AND_TYPOGRAPHY/DN_Color_Specification_v2.0.pdf': ['JetBrainsMono-Regular']}"
+  "pass": true,
+  "detail": "all clean"
  },
  {
   "area": "Typography",

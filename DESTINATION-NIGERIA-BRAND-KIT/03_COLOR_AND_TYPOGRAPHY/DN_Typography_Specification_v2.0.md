@@ -41,6 +41,6 @@ The variable masters (`Newsreader[opsz,wght]`, `PublicSans[wght]`) are also supp
 
 ## Installing the fonts
 - **Desktop:** install everything in `fonts_v2/static/`.
-- **Microsoft Office:** the templates name Newsreader Display, Newsreader Text and Public Sans. On machines without them, Office substitutes Georgia and Arial. Install the fonts, or embed them (*File → Options → Save → Embed fonts*) before sharing.
-- **Google Docs and Slides:** *Font → More fonts*, then add Newsreader and Public Sans.
+- **Microsoft Office:** the templates name Newsreader Display, Newsreader Text and Public Sans. On machines without them, Office substitutes Georgia and Arial. Install the fonts, or embed them (File > Options > Save > Embed fonts) before sharing.
+- **Google Docs and Slides:** Font > More fonts, then add Newsreader and Public Sans.
 - **Web:** self-host the variable fonts, or load them from Google Fonts.

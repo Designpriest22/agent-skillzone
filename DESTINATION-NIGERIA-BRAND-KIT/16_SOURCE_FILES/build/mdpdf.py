@@ -23,7 +23,8 @@ table {{ border-collapse: collapse; width: 100%; font-size: 8pt; margin: 3mm 0 5
 th {{ text-align: left; border-bottom: .45mm solid {C['forest']}; color: {C['forest']}; padding: 1.6mm 2mm 1.6mm 0; font-weight: 600; }}
 td {{ padding: 1.4mm 2mm 1.4mm 0; border-bottom: .25mm solid {C['haze']}; vertical-align: top; }}
 tr {{ page-break-inside: avoid; }}
-code {{ font: 8.5pt 'JetBrains Mono', monospace; background: {C['ivory']}; padding: 0 1mm; }}
+code {{ font: 600 8.5pt 'Public Sans'; color: {C['forest']}; }}
+em {{ font-family: 'Newsreader Text', Georgia, serif; font-style: italic; }}
 .top {{ display: flex; justify-content: space-between; align-items: center; margin-bottom: 10mm; }}
 .top span {{ font: 600 7pt 'Public Sans'; letter-spacing: .08em; text-transform: uppercase; color: {C['golddeep']}; }}
 """
@@ -35,7 +36,8 @@ def render(rel, label):
         return None
     body = markdown.markdown(src.read_text(), extensions=["tables", "sane_lists"])
     logo = svg_doc(LOGO_W, LOGO_H, logo_inline("fullcolour", 0, 0, LOGO_W), "Destination Nigeria").replace("<svg ", '<svg style="width:46mm" ', 1)
-    html = (f"<!doctype html><html lang='en-GB'><head><meta charset='utf-8'><title>{label}</title><style>{CSS}</style></head><body>"
+    from v2 import font_css
+    html = (f"<!doctype html><html lang='en-GB'><head><meta charset='utf-8'><title>{label}</title><style>{font_css(KIT / '16_SOURCE_FILES/build/_jobs')}{CSS}</style></head><body>"
             f"<div class='top'>{logo}<span>{label}</span></div>{body}</body></html>")
     out = src.with_suffix(".html")
     tmp = KIT / "16_SOURCE_FILES/build/_jobs" / (src.stem + ".html")
