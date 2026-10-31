@@ -50,6 +50,13 @@ async function run(j) {
     if (f % 125 === 0) console.log(`[${j.id}] ${f}/${n} ${((Date.now() - t0) / 1000).toFixed(0)}s`);
   }
   ff.stdin.end(); await new Promise((res, rej) => ff.on('close', c => c === 0 ? res() : rej(new Error('ffmpeg ' + c))));
+  // AAC can overshoot the PCM limiter on hard transients: measure the encoded true peak, trim the gain if it is above -1 dBTP
+  const tp = Number((execFileSync('sh', ['-c', `ffmpeg -hide_banner -i '${out}' -af ebur128=peak=true -f null - 2>&1 | grep -A20 Summary | grep 'Peak:' | tail -1`], { encoding: 'utf8' }).match(/-?[\d.]+/) || [0])[0]);
+  if (tp > -1.0) {
+    const tmp = out.replace('.mp4', '.trim.mp4'); const g = (-1.3 - tp).toFixed(2);
+    execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', out, '-map', '0:v', '-map', '0:a', '-c:v', 'copy', '-af', `volume=${g}dB`, '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', tmp]);
+    fs.renameSync(tmp, out); console.log(`[${j.id}] true peak ${tp} dBTP -> trimmed ${g} dB`);
+  }
   await page.close(); console.log(`[${j.id}] done ${W}x${H} in ${((Date.now() - t0) / 1000).toFixed(0)}s -> ${j.file}`);
 }
 const CONC = Number(process.env.CONC || 3); const queue = [...todo];

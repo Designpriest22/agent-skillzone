@@ -62,10 +62,10 @@ const S1 = {
     const cx = L.cx, cy = L.cy;
     // A: LIVE stretches open over an orange rule, ABUJA lands beneath it (flyer type, flyer colours)
     if (t < 1.75) {
-      const ln = E.outCubic(prog(t, 0, .35));
+      const ln = E.outCubic(prog(t, 0, .2));
       ctx.fillStyle = BRAND.orange; ctx.fillRect(cx - L.sw * .4 * ln, cy - U(10), L.sw * .8 * ln, U(4));
       const s = fitSize(ctx, 'LIVE', L.sw * .82, { fam: 'Oswald', w: 200, track: .08 });
-      text(ctx, 'LIVE', cx, cy - U(40), { fam: 'Oswald', w: 200, size: s, track: .08, chars: i => { const p = E.outExpo(prog(t, .3 + i * .06, .75 + i * .06)); return { a: p > 0 ? 1 : 0, s: 1, sx: 1, ...{ s: p, sx: 1 } }; } });
+      text(ctx, 'LIVE', cx, cy - U(40), { fam: 'Oswald', w: 200, size: s, track: .08, chars: i => { const p = E.outExpo(prog(t, .04 + i * .05, .45 + i * .05)); return { a: p > 0 ? 1 : 0, s: 1, sx: 1, ...{ s: p, sx: 1 } }; } });
       const p2 = prog(t, .95, 1.15);
       if (p2 > 0) text(ctx, 'ABUJA', cx, cy + U(250), { fam: 'Bebas', size: U(300) * mix(1.8, 1, E.outCubic(p2)), color: BRAND.orange, alpha: E.outQuad(p2), track: .04 });
     }
@@ -283,9 +283,9 @@ const S5 = {
     // festival logo: chevrons travel in from the frame edges, the wordmark rises between them
     const mv = E.inOutCubic(prog(t, 2.3, 2.95));
     const lw = mix(L.sw * .86, L.sw * .36, mv), ly = mix(cy - U(40), L.y0 + U(885), mv);
-    const ci = E.outQuart(prog(t, .1, 1.1));
-    lolLogo(ctx, cx, ly, lw, { chevL: { a: ci, dx: -(1 - ci) * .55 }, chevR: { a: ci, dx: (1 - ci) * .55 },
-      word: { a: 1, reveal: E.outQuart(prog(t, .7, 1.5)) }, mf: { a: E.outCubic(prog(t, 1.4, 1.8)) }, zig: { a: 1, reveal: E.outCubic(prog(t, 1.5, 2.0)) } });
+    const ci = E.outQuart(prog(t, 0, .9));
+    lolLogo(ctx, cx, ly, lw, { chevL: { a: clamp(ci * 3), dx: -(1 - ci) * .55 }, chevR: { a: clamp(ci * 3), dx: (1 - ci) * .55 },
+      word: { a: 1, reveal: E.outQuart(prog(t, .35, 1.2)) }, mf: { a: E.outCubic(prog(t, 1.1, 1.5)) }, zig: { a: 1, reveal: E.outCubic(prog(t, 1.5, 2.0)) } });
     sweepImg(ctx, IMG.lolWord, cx, ly, lw, prog(t, 1.6, 2.5), 'rgba(255,214,150,.9)');
     if (t > 6.2) sweepImg(ctx, IMG.lolWord, cx, ly, lw, prog(t, 6.3, 7.3));
     flash(ctx, L, t > 2.6 ? (1 - prog(t, 2.6, 2.95)) * .75 : 0, '#fff0dc');

@@ -1,0 +1,49 @@
+# Technical QC
+
+| dir | file | res | fps | dur | frames | LUFS | dBTP | size | QC |
+|---|---|---|---|---|---|---|---|---|---|
+| 01 | `LOLFEST_WIZKID_C1-The-Superstar-Experience_20s_1920x1080_16x9_Landscape.mp4` | 1920x1080 | 25 | 20.00s | 500 | -14.0 | -1.1 | 12.5 MB | PASS |
+| 01 | `LOLFEST_WIZKID_C2-The-Festival-Is-Calling_20s_1920x1080_16x9_Landscape.mp4` | 1920x1080 | 25 | 20.00s | 500 | -13.9 | -2.0 | 14.8 MB | PASS |
+| 01 | `LOLFEST_WIZKID_C3-The-Big-Wiz-Moment_20s_1920x1080_16x9_Landscape.mp4` | 1920x1080 | 25 | 20.00s | 500 | -14.8 | -2.0 | 14.5 MB | PASS |
+| 02 | `LOLFEST_WIZKID_S1-Typographic-Explosion_15s_1080x1920_9x16_Story-Reels-TikTok.mp4` | 1080x1920 | 30 | 15.00s | 450 | -13.8 | -2.1 | 5.2 MB | PASS |
+| 02 | `LOLFEST_WIZKID_S2-Festival-Countdown_15s_1080x1920_9x16_Story-Reels-TikTok.mp4` | 1080x1920 | 30 | 15.00s | 450 | -14.0 | -1.8 | 4.3 MB | PASS |
+| 02 | `LOLFEST_WIZKID_S3-Visual-Experience_15s_1080x1920_9x16_Story-Reels-TikTok.mp4` | 1080x1920 | 30 | 15.00s | 450 | -13.9 | -1.4 | 6.7 MB | PASS |
+| 02 | `LOLFEST_WIZKID_S4-Wizkid-Takeover_10s_1080x1920_9x16_Story-Reels-TikTok.mp4` | 1080x1920 | 30 | 10.00s | 300 | -13.7 | -2.2 | 3.5 MB | PASS |
+| 02 | `LOLFEST_WIZKID_S5-Ultimate-Festival-Announcement_15s_1080x1920_9x16_Story-Reels-TikTok.mp4` | 1080x1920 | 30 | 15.00s | 450 | -14.1 | -1.8 | 3.9 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C1-The-Superstar-Experience_20s_1080x1080_1x1_Square-Social.mp4` | 1080x1080 | 25 | 20.00s | 500 | -14.0 | -1.1 | 11.9 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C1-The-Superstar-Experience_20s_1080x1350_4x5_IG-FB-Feed.mp4` | 1080x1350 | 25 | 20.00s | 500 | -14.0 | -1.1 | 14.2 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C1-The-Superstar-Experience_20s_1080x1920_9x16_IG-FB-Stories.mp4` | 1080x1920 | 25 | 20.00s | 500 | -14.0 | -1.1 | 18.3 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C1-The-Superstar-Experience_20s_1080x1920_9x16_IG-Reels.mp4` | 1080x1920 | 25 | 20.00s | 500 | -14.0 | -1.1 | 18.2 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C2-The-Festival-Is-Calling_20s_1080x1080_1x1_Square-Social.mp4` | 1080x1080 | 25 | 20.00s | 500 | -13.9 | -2.0 | 14.2 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C2-The-Festival-Is-Calling_20s_1080x1350_4x5_IG-FB-Feed.mp4` | 1080x1350 | 25 | 20.00s | 500 | -13.9 | -2.0 | 16.6 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C2-The-Festival-Is-Calling_20s_1080x1920_9x16_IG-FB-Stories.mp4` | 1080x1920 | 25 | 20.00s | 500 | -13.9 | -2.0 | 21.1 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C2-The-Festival-Is-Calling_20s_1080x1920_9x16_IG-Reels.mp4` | 1080x1920 | 25 | 20.00s | 500 | -13.9 | -2.0 | 20.8 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C3-The-Big-Wiz-Moment_20s_1080x1080_1x1_Square-Social.mp4` | 1080x1080 | 25 | 20.00s | 500 | -14.8 | -2.0 | 13.3 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C3-The-Big-Wiz-Moment_20s_1080x1350_4x5_IG-FB-Feed.mp4` | 1080x1350 | 25 | 20.00s | 500 | -14.8 | -2.0 | 15.9 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C3-The-Big-Wiz-Moment_20s_1080x1920_9x16_IG-FB-Stories.mp4` | 1080x1920 | 25 | 20.00s | 500 | -14.8 | -2.0 | 21.8 MB | PASS |
+| 03 | `LOLFEST_WIZKID_C3-The-Big-Wiz-Moment_20s_1080x1920_9x16_IG-Reels.mp4` | 1080x1920 | 25 | 20.00s | 500 | -14.8 | -2.0 | 21.5 MB | PASS |
+| 04 | `LOLFEST_WIZKID_C1-The-Superstar-Experience_20s_1080x1920_9x16_TikTok.mp4` | 1080x1920 | 25 | 20.00s | 500 | -14.0 | -1.1 | 18.2 MB | PASS |
+| 04 | `LOLFEST_WIZKID_C2-The-Festival-Is-Calling_20s_1080x1920_9x16_TikTok.mp4` | 1080x1920 | 25 | 20.00s | 500 | -13.9 | -2.0 | 20.8 MB | PASS |
+| 04 | `LOLFEST_WIZKID_C3-The-Big-Wiz-Moment_20s_1080x1920_9x16_TikTok.mp4` | 1080x1920 | 25 | 20.00s | 500 | -14.8 | -2.0 | 21.5 MB | PASS |
+| 04 | `LOLFEST_WIZKID_S1-Typographic-Explosion_15s_1080x1920_9x16_TikTok.mp4` | 1080x1920 | 30 | 15.00s | 450 | -13.8 | -2.1 | 5.2 MB | PASS |
+| 04 | `LOLFEST_WIZKID_S2-Festival-Countdown_15s_1080x1920_9x16_TikTok.mp4` | 1080x1920 | 30 | 15.00s | 450 | -14.0 | -1.8 | 4.3 MB | PASS |
+| 04 | `LOLFEST_WIZKID_S3-Visual-Experience_15s_1080x1920_9x16_TikTok.mp4` | 1080x1920 | 30 | 15.00s | 450 | -13.9 | -1.4 | 6.7 MB | PASS |
+| 04 | `LOLFEST_WIZKID_S4-Wizkid-Takeover_10s_1080x1920_9x16_TikTok.mp4` | 1080x1920 | 30 | 10.00s | 300 | -13.7 | -2.2 | 3.5 MB | PASS |
+| 04 | `LOLFEST_WIZKID_S5-Ultimate-Festival-Announcement_15s_1080x1920_9x16_TikTok.mp4` | 1080x1920 | 30 | 15.00s | 450 | -14.1 | -1.8 | 3.9 MB | PASS |
+| 05 | `LOLFEST_WIZKID_C1-The-Superstar-Experience_20s_1080x1920_9x16_Billboard-Portrait.mp4` | 1080x1920 | 25 | 20.00s | 500 | -14.0 | -1.1 | 18.8 MB | PASS |
+| 05 | `LOLFEST_WIZKID_C1-The-Superstar-Experience_20s_1920x1080_16x9_Billboard-Landscape.mp4` | 1920x1080 | 25 | 20.00s | 500 | -14.0 | -1.1 | 15.2 MB | PASS |
+| 05 | `LOLFEST_WIZKID_C1-The-Superstar-Experience_20s_3840x2160_16x9_Billboard-Landscape-4K.mp4` | 3840x2160 | 25 | 20.00s | 500 | -14.0 | -1.1 | 67.7 MB | PASS |
+| 05 | `LOLFEST_WIZKID_C2-The-Festival-Is-Calling_20s_1080x1920_9x16_Billboard-Portrait.mp4` | 1080x1920 | 25 | 20.00s | 500 | -13.9 | -2.0 | 21.8 MB | PASS |
+| 05 | `LOLFEST_WIZKID_C2-The-Festival-Is-Calling_20s_1920x1080_16x9_Billboard-Landscape.mp4` | 1920x1080 | 25 | 20.00s | 500 | -13.9 | -2.0 | 17.6 MB | PASS |
+| 05 | `LOLFEST_WIZKID_C2-The-Festival-Is-Calling_20s_3840x2160_16x9_Billboard-Landscape-4K.mp4` | 3840x2160 | 25 | 20.00s | 500 | -13.9 | -2.0 | 76.0 MB | PASS |
+| 05 | `LOLFEST_WIZKID_C3-The-Big-Wiz-Moment_20s_1080x1920_9x16_Billboard-Portrait.mp4` | 1080x1920 | 25 | 20.00s | 500 | -14.8 | -2.0 | 22.4 MB | PASS |
+| 05 | `LOLFEST_WIZKID_C3-The-Big-Wiz-Moment_20s_1920x1080_16x9_Billboard-Landscape.mp4` | 1920x1080 | 25 | 20.00s | 500 | -14.8 | -2.0 | 17.7 MB | PASS |
+| 05 | `LOLFEST_WIZKID_C3-The-Big-Wiz-Moment_20s_3840x2160_16x9_Billboard-Landscape-4K.mp4` | 3840x2160 | 25 | 20.00s | 500 | -14.8 | -2.0 | 81.5 MB | PASS |
+| 06 | `LOLFEST_WIZKID_C1-The-Superstar-Experience_20s_3840x2160_16x9_MASTER.mp4` | 3840x2160 | 25 | 20.00s | 500 | -14.0 | -1.1 | 66.2 MB | PASS |
+| 06 | `LOLFEST_WIZKID_C2-The-Festival-Is-Calling_20s_3840x2160_16x9_MASTER.mp4` | 3840x2160 | 25 | 20.00s | 500 | -13.9 | -2.0 | 74.7 MB | PASS |
+| 06 | `LOLFEST_WIZKID_C3-The-Big-Wiz-Moment_20s_3840x2160_16x9_MASTER.mp4` | 3840x2160 | 25 | 20.00s | 500 | -14.8 | -2.0 | 80.9 MB | PASS |
+| 06 | `LOLFEST_WIZKID_S1-Typographic-Explosion_15s_1080x1920_9x16_Story-Reels-TikTok_MASTER.mp4` | 1080x1920 | 30 | 15.00s | 450 | -13.8 | -2.1 | 10.5 MB | PASS |
+| 06 | `LOLFEST_WIZKID_S2-Festival-Countdown_15s_1080x1920_9x16_Story-Reels-TikTok_MASTER.mp4` | 1080x1920 | 30 | 15.00s | 450 | -14.0 | -1.8 | 11.3 MB | PASS |
+| 06 | `LOLFEST_WIZKID_S3-Visual-Experience_15s_1080x1920_9x16_Story-Reels-TikTok_MASTER.mp4` | 1080x1920 | 30 | 15.00s | 450 | -13.9 | -1.4 | 16.0 MB | PASS |
+| 06 | `LOLFEST_WIZKID_S4-Wizkid-Takeover_10s_1080x1920_9x16_Story-Reels-TikTok_MASTER.mp4` | 1080x1920 | 30 | 10.00s | 300 | -13.7 | -2.2 | 8.5 MB | PASS |
+| 06 | `LOLFEST_WIZKID_S5-Ultimate-Festival-Announcement_15s_1080x1920_9x16_Story-Reels-TikTok_MASTER.mp4` | 1080x1920 | 30 | 15.00s | 450 | -14.1 | -1.8 | 9.1 MB | PASS |
