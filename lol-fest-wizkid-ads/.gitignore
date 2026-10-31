@@ -1,0 +1,12 @@
+node_modules/
+# footage-derived material stays out of this public repository (identifiable artist footage)
+footage/
+out/01-CINEMATIC-VIDEO-ADS/
+out/03-INSTAGRAM-FACEBOOK/
+out/04-TIKTOK/
+out/05-BILLBOARD-ADVERTISEMENTS/
+out/06-MASTER-EXPORTS/
+out/_work/
+*.wav
+out/07-PROJECT-FILES-ASSETS/
+out/render.log
