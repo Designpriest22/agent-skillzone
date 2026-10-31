@@ -1,0 +1,534 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>LOL FEST x sponsor co-branded ads</title>
+<style>html,body{margin:0;background:#000}canvas{display:block;max-width:100vw;max-height:100vh;margin:auto}#ui{position:fixed;left:8px;top:8px;color:#fff;font:12px monospace}</style>
+</head><body><canvas id="c"></canvas><div id="ui"></div>
+<script src="lib.js"></script>
+<script>
+'use strict';
+// Individual 15 s co-branded spots, one creative concept per sponsor.   ?s=<sponsor id>&f=reels|feed|square
+//  00:00-00:04 sponsor introduction · 00:04-00:10 LOL FEST experience (Wizkid footage + event information) · 00:10-00:15 co-branded lock-up
+// Only this sponsor's logo appears; on-screen words are limited to lib.js APPROVED.
+const Q = new URLSearchParams(location.search);
+const L = layout(Q.get('f') || 'reels');
+const FPS = 25, DUR = 15, T1 = 4, T2 = 10;
+const cv = document.getElementById('c'); cv.width = L.W * L.dpr; cv.height = L.H * L.dpr; cv.style.aspectRatio = `${L.W}/${L.H}`;
+const ctx = cv.getContext('2d');
+const U = n => n * L.u, W = L.W, H = L.H;
+const pick = (o) => (o && typeof o === 'object' && !Array.isArray(o) && ('v' in o || 'w' in o || 's' in o || 'd' in o)) ? (L.vert ? o.v ?? o.d : L.sq ? o.s ?? o.d : o.d) : o;
+const val = (v, u) => { v = pick(v); return typeof v === 'function' ? v(u) : Array.isArray(v) ? mix(v[0], v[1], E.inOutQuad(u)) : v; };
+const OFF = [];
+function off(i) { if (!OFF[i]) { const c = document.createElement('canvas'); c.width = cv.width; c.height = cv.height; OFF[i] = c; } const x = OFF[i].getContext('2d'); x.setTransform(1, 0, 0, 1, 0, 0); x.clearRect(0, 0, cv.width, cv.height); x.setTransform(L.dpr, 0, 0, L.dpr, 0, 0); x.globalCompositeOperation = 'source-over'; x.globalAlpha = 1; x.filter = 'none'; return [OFF[i], x]; }
+function blit(c, a = 1, op = 'source-over') { ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.globalAlpha = a; ctx.globalCompositeOperation = op; ctx.drawImage(c, 0, 0); ctx.restore(); }
+// ---- footage clip engine (time remap, reframing, sponsor grade, masks) ----
+function srcAt(c, t) { const k = c.keys; if (t <= k[0][0]) return k[0][1]; for (let i = 1; i < k.length; i++) if (t <= k[i][0]) return mix(k[i - 1][1], k[i][1], (k[i][2] || E.lin)(prog(t, k[i - 1][0], k[i][0]))); return k[k.length - 1][1]; }
+function gradeL(g, list, k = 1) { if (!list) return; g.save(); for (const [op, col] of list) { g.globalCompositeOperation = op; g.globalAlpha = k; g.fillStyle = col; g.fillRect(0, 0, W, H); } g.restore(); }
+async function drawClip(c, t, g = ctx, rect) {
+  const u = prog(t, c.a, c.b); const s = c.freeze ?? srcAt(c, t);
+  const sp = c.freeze !== undefined ? 0 : (srcAt(c, t + .02) - srcAt(c, t - .02)) / .04;
+  const img = await srcFrame(s, c.freeze !== undefined || sp < .93);
+  g.save(); if (c.mask) { g.beginPath(); c.mask(g, t); g.clip(); }
+  const r0 = rect || c.rect?.(t) || [0, 0, W, H];
+  if (rect || c.rect) { g.beginPath(); g.rect(...r0); g.clip(); }
+  const f = val(c.filter ?? SP.filter, u); if (f) g.filter = f;
+  const r = drawCover(g, img, r0[0], r0[1], r0[2], r0[3], val(c.fx ?? .5, u), val(c.fy ?? .5, u), val(c.z ?? 1, u));
+  g.filter = 'none'; gradeL(g, c.grade ?? SP.grade, c.gradeK ?? 1);
+  g.restore(); c._r = r; c._s = s; return r;
+}
+function trackAt(name, s) { const tr = FOOT.track[name]; const f = s * 25; let best = tr[0]; for (const p of tr) if (Math.abs(p[0] - f) < Math.abs(best[0] - f)) best = p; return [best[1], best[2]]; }
+// shot shorthands (source seconds)
+const SH = { stage: [0, 2.4], aerial: [2.48, 4.24], arrival: [4.3, 5.7], walk: [5.76, 7.9], profile: [7.94, 9.6], shadow: [9.72, 10.8], smoke: [10.86, 12.18] };
+const clip = (a, b, shot, o = {}) => { const [s0, s1] = SH[shot]; const from = o.from ?? s0, to = o.to ?? Math.min(s1, from + (b - a) * (o.speed ?? 1)); return { a, b, keys: o.keys || [[a, from], [b, to]], fx: o.fx ?? .5, fy: o.fy ?? .48, z: o.z ?? [1.08, 1], ...o }; };
+const FX = { stage: { v: .5, d: .5 }, aerial: .52, arrival: { v: [.3, .55], d: .45 }, walk: { v: .47, d: .5 }, profile: { v: .38, d: .44 }, smoke: { v: [.56, .66], d: .55 } };
+
+// ---- type + logo helpers ----
+const SL = (cx, cy, w, o = {}) => drawImg(ctx, IMG.sponsor, cx, cy, w, o);                       // this sponsor's logo
+const slH = w => w * IMG.sponsor.height / IMG.sponsor.width;
+const slW = (maxW, maxH) => Math.min(maxW, maxH * IMG.sponsor.width / IMG.sponsor.height);      // fit logo in a box
+const wzH = w => w * IMG.wizkid.height / IMG.wizkid.width, lolH = w => w * IMG.lol.height / IMG.lol.width;
+const fitW = (str, frac, o, cap) => Math.min(fitSize(ctx, str, L.sw * frac, o), cap);
+function maskUp(x, y, w, h, p, fn) { if (p <= 0) return; ctx.save(); ctx.beginPath(); ctx.rect(x, y, w, h); ctx.clip(); ctx.translate(0, (1 - E.outQuart(p)) * h); fn(); ctx.restore(); }
+// event-information beats over the footage (style per sponsor): k = 'lol' | 'wizkid' | 'date' | 'venue'
+function beat(t, b) {
+  const p = prog(t, b.a, b.a + (b.d || .5)), out = 1 - prog(t, b.b - .25, b.b);
+  if (p <= 0 || out <= 0) return;
+  const S = SP.type; const st = b.style || S.reveal;
+  const x = b.x ?? L.cx, y = typeof b.y === 'function' ? b.y() : (b.y ?? L.cy);
+  ctx.save(); ctx.globalAlpha *= out;
+  const ep = st === 'pop' ? clamp(E.outBack(p, 1.8), 0, 1.15) : E.outCubic(p);
+  const draw = (dy = 0, sc = 1) => {
+    ctx.save(); ctx.translate(x, y + dy); ctx.scale(sc, sc);
+    if (b.k === 'lol') lolLogo(ctx, 0, 0, b.w || L.sw * (L.vert ? .62 : .42));
+    if (b.k === 'wizkid') drawImg(ctx, IMG.wizkid, 0, 0, b.w || L.sw * (L.vert ? .9 : .66));
+    if (b.k === 'date') text(ctx, BRAND.event.dateLong, 0, 0, { fam: 'Anton', size: b.size || fitW(BRAND.event.dateLong, L.vert ? .86 : .62, { fam: 'Anton' }, U(140)), track: .02, color: b.color || S.date, shadow: ['rgba(0,0,0,.45)', U(24)] });
+    if (b.k === 'venue') text(ctx, BRAND.event.venue, 0, 0, { fam: 'Oswald', w: 700, size: b.size || fitW(BRAND.event.venue, L.vert ? .86 : .6, { fam: 'Oswald', w: 700, track: .24 }, U(64)), track: .24, color: b.color || S.venue, shadow: ['rgba(0,0,0,.5)', U(20)] });
+    ctx.restore();
+  };
+  if (st === 'mask') { const hh = b.k === 'lol' ? U(500) : b.k === 'wizkid' ? U(260) : U(170); maskUp(-W, y - hh * .62, W * 3, hh, p, () => draw()); }
+  else if (st === 'pop') { ctx.globalAlpha *= clamp(p * 3); draw(0, ep); }
+  else if (st === 'slide') { ctx.globalAlpha *= ep; ctx.translate((1 - ep) * U(b.dir ?? 120), 0); draw(); }
+  else if (st === 'track') { ctx.globalAlpha *= ep; ctx.filter = `blur(${(1 - ep) * U(10)}px)`; draw(0, mix(1.08, 1, ep)); }
+  else { ctx.globalAlpha *= ep; draw((1 - ep) * U(28)); }
+  ctx.restore();
+}
+// sponsor logo bug held through the festival section
+function bug(t) {
+  const p = E.outCubic(prog(t, T1 + .2, T1 + .7)) * (1 - E.inCubic(prog(t, T2 - .3, T2)));
+  if (p <= 0 || SP.noBug) return;
+  const w = slW(U(L.vert ? 250 : 210), U(L.vert ? 110 : 90)); const h = slH(w);
+  ctx.save(); ctx.globalAlpha = p * .95; ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = U(18);
+  SL(L.x0 + w / 2, L.y0 + h / 2, w); ctx.restore();
+}
+
+// ---- co-branded lock-up (00:10-00:15) ----
+// sponsor logo leads; divider; festival logo; WIZKID; DECEMBER 13, 2026; EAGLE SQUARE, ABUJA
+let LKS;
+function lockLayout() {
+  const pair = L.sq || SP.lock.pair;   // square: sponsor + festival logo side by side
+  let k = 1;
+  for (let it = 0; it < 8; it++) {
+    const wideLogo = IMG.sponsor.width / IMG.sponsor.height > 4.5;
+    const sW = slW(L.sw * (pair ? (wideLogo ? .56 : .46) : L.vert ? (wideLogo ? .86 : .7) : (wideLogo ? .7 : .52)) * k, U(pair ? 280 : L.vert ? 290 : 220) * k * (SP.lock.logoK || 1)), sH = slH(sW);
+    const lW = (pair ? L.sw * .27 : L.vert ? L.sw * .5 : L.sw * .34) * k, lH = lolH(lW);
+    const wW = L.sw * (L.vert ? .8 : pair ? .5 : .58) * k, wH = wzH(wW);
+    const ds = U(L.vert ? 96 : 76) * k, vs = U(L.vert ? 40 : 34) * k, gap = U(L.vert ? 48 : 30) * k;
+    const blocks = pair ? [Math.max(sH, lH), wH, ds * .9 + vs * 1.7] : [sH, U(10), lH, wH, ds * .9 + vs * 1.7];
+    const total = blocks.reduce((a, b) => a + b, 0) + gap * (blocks.length - 1);
+    if (total <= L.sh * .95 || it === 7) { let y = L.y0 + (L.sh - total) / 2; const ys = blocks.map(h => { const c = y; y += h + gap; return c; }); return LKS = { pair, sW, sH, lW, lH, wW, wH, ds, vs, gap, ys, rowH: blocks[0] }; }
+    k *= L.sh * .95 / total;
+  }
+}
+function lockup(lt) {
+  const c = LKS, st = SP.lock, ty = { ...SP.type, ...(SP.lock.colors || {}) };
+  const ap = (i, d = .55) => (st.ease || E.outCubic)(prog(lt, (st.t0 ?? .1) + i * (st.step ?? .13), (st.t0 ?? .1) + i * (st.step ?? .13) + d));
+  const rise = p => (1 - p) * U(st.rise ?? 26);
+  const reveal = (i, cy, h, fn) => { const p = ap(i); if (p <= 0) return; if (st.reveal === 'mask') maskUp(-W, cy - h / 2 - U(6), W * 3, h + U(12), clamp(p), fn); else { ctx.save(); ctx.globalAlpha *= clamp(p); ctx.translate(0, rise(p)); fn(); ctx.restore(); } };
+  if (c.pair) {
+    const [y0, y1, y2] = c.ys; const rc = y0 + c.rowH / 2;
+    const gx = U(st.pairGap ?? 46); const totalW = c.sW + gx * 2 + c.lW; const x0 = L.cx - totalW / 2;
+    reveal(0, rc, c.rowH, () => SL(x0 + c.sW / 2, rc, c.sW));
+    const dp = ap(1); if (st.divider !== 'none' && dp > 0) { ctx.save(); ctx.globalAlpha = dp; ctx.fillStyle = st.divColor || ty.venue; const dh = c.rowH * .8 * dp; ctx.fillRect(x0 + c.sW + gx - U(1), rc - dh / 2, U(2), dh); ctx.restore(); }
+    reveal(1, rc, c.rowH, () => lolLogo(ctx, x0 + c.sW + gx * 2 + c.lW / 2, rc, c.lW));
+    reveal(2, y1 + c.wH / 2, c.wH, () => drawImg(ctx, IMG.wizkid, L.cx, y1 + c.wH / 2, c.wW));
+    if (st.sweep) sweepImg(ctx, IMG.wizkid, L.cx, y1 + c.wH / 2, c.wW, prog(lt, st.sweep, st.sweep + 1.1), st.sweepCol);
+    reveal(3, y2 + c.ds * .45, c.ds, () => text(ctx, BRAND.event.dateLong, L.cx, y2 + c.ds * .86, { fam: 'Anton', size: c.ds, track: .02, color: ty.date }));
+    reveal(4, y2 + c.ds + c.vs, c.vs * 1.4, () => text(ctx, BRAND.event.venue, L.cx, y2 + c.ds * .86 + c.vs * 1.55, { fam: 'Oswald', w: 700, size: c.vs, track: .3, color: ty.venue }));
+  } else {
+    const [y0, yd, y1, y2, y3] = c.ys;
+    reveal(0, y0 + c.sH / 2, c.sH, () => SL(L.cx, y0 + c.sH / 2, c.sW));
+    const dp = ap(1); if (st.divider !== 'none' && dp > 0) { ctx.save(); ctx.globalAlpha = dp; ctx.fillStyle = st.divColor || ty.venue; const dw = L.sw * .34 * dp; ctx.fillRect(L.cx - dw / 2, yd + U(4), dw, U(2)); ctx.restore(); }
+    reveal(2, y1 + c.lH / 2, c.lH, () => lolLogo(ctx, L.cx, y1 + c.lH / 2, c.lW));
+    reveal(3, y2 + c.wH / 2, c.wH, () => drawImg(ctx, IMG.wizkid, L.cx, y2 + c.wH / 2, c.wW));
+    if (st.sweep) sweepImg(ctx, IMG.wizkid, L.cx, y2 + c.wH / 2, c.wW, prog(lt, st.sweep, st.sweep + 1.1), st.sweepCol);
+    reveal(4, y3 + c.ds * .45, c.ds, () => text(ctx, BRAND.event.dateLong, L.cx, y3 + c.ds * .86, { fam: 'Anton', size: c.ds, track: .02, color: ty.date }));
+    reveal(5, y3 + c.ds + c.vs, c.vs * 1.4, () => text(ctx, BRAND.event.venue, L.cx, y3 + c.ds * .86 + c.vs * 1.55, { fam: 'Oswald', w: 700, size: c.vs, track: .3, color: ty.venue }));
+  }
+}
+const radial = (c0, c1, cx = W / 2, cy = H * .45) => { const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, Math.hypot(W, H) * .62); g.addColorStop(0, c0); g.addColorStop(1, c1); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); };
+const lin = (stops, x0 = 0, y0 = 0, x1 = 0, y1 = H) => { const g = ctx.createLinearGradient(x0, y0, x1, y1); stops.forEach(([o, c]) => g.addColorStop(o, c)); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); };
+// star polygon path (generic geometric star motif)
+function starPath(g, cx, cy, r, n = 5, inner = .42, rot = -Math.PI / 2) { g.moveTo(cx + Math.cos(rot) * r, cy + Math.sin(rot) * r); for (let i = 1; i < n * 2; i++) { const rr = i % 2 ? r * inner : r; const a = rot + i * Math.PI / n; g.lineTo(cx + Math.cos(a) * rr, cy + Math.sin(a) * rr); } g.closePath(); }
+const plusPath = (g, cx, cy, r, th, rot = 0) => { const c = Math.cos(rot), s = Math.sin(rot); const pts = [[-th, -r], [th, -r], [th, -th], [r, -th], [r, th], [th, th], [th, r], [-th, r], [-th, th], [-r, th], [-r, -th], [-th, -th]]; pts.forEach(([x, y], i) => { const X = cx + x * c - y * s, Y = cy + x * s + y * c; i ? g.lineTo(X, Y) : g.moveTo(X, Y); }); g.closePath(); };
+
+// =====================================================================================================
+// THE 13 SPONSOR CONCEPTS
+// each: logo, pal, grade, filter, type{date,venue,reveal}, intro(t), clips[], beats[], fx(t) (transitions/overlays in 4-10),
+//       lock{...}, lockBg(lt), bpm, music, cues
+// =====================================================================================================
+const SPONSORS_CFG = {
+  // 1 ── HENNESSY · Amber Pour ─────────────────────────────────────────────────────────────────────
+  hennessy: { logo: '01-hennessy', name: 'Hennessy', bpm: 90, music: 'sp-lux',
+    grade: [['soft-light', 'rgba(255,160,60,.38)'], ['multiply', 'rgba(30,18,8,.22)']], filter: 'contrast(1.08) saturate(1.05)',
+    type: { date: '#F4E3C3', venue: '#D9A55B', reveal: 'track' },
+    intro(t) {
+      ctx.fillStyle = '#050403'; ctx.fillRect(0, 0, W, H);
+      // a thin amber stream pours from the top of frame to the wordmark, then blooms into a warm pool of light
+      const pour = E.inOutCubic(prog(t, .1, 1.0)), bloom = E.outCubic(prog(t, .85, 2.0)), thin = 1 - E.inCubic(prog(t, 1.1, 1.8));
+      if (thin > 0) { const sg = ctx.createLinearGradient(0, 0, 0, L.cy); sg.addColorStop(0, 'rgba(255,190,90,0)'); sg.addColorStop(1, 'rgba(255,170,70,.95)');
+        ctx.save(); ctx.globalAlpha = thin; ctx.fillStyle = sg; const sw = U(5) + Math.sin(t * 30) * U(.8); ctx.fillRect(L.cx - sw / 2, 0, sw, L.cy * pour); ctx.restore(); }
+      if (bloom > 0) { ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.translate(L.cx, L.cy); ctx.scale(1, .22);
+        const g = ctx.createRadialGradient(0, 0, 0, 0, 0, L.sw * .9 * bloom); g.addColorStop(0, `rgba(255,180,80,${.7 * (1 - .5 * prog(t, 2, 3.4))})`); g.addColorStop(.5, 'rgba(200,110,30,.25)'); g.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = g; ctx.fillRect(-W, -H * 5, W * 2, H * 10); ctx.restore(); }
+      const w = slW(L.sw * (L.vert ? .8 : .6), U(240)); const p = E.inOutCubic(prog(t, 1.1, 2.3));
+      ctx.save(); ctx.beginPath(); ctx.rect(L.cx - w / 2 * p - U(4), 0, w * p + U(8), H); ctx.clip(); SL(L.cx, L.cy, w); ctx.restore();
+      sweepImg(ctx, IMG.sponsor, L.cx, L.cy, w, prog(t, 2.2, 3.3), 'rgba(255,214,150,.95)');
+      if (t > 3.4) flash(ctx, L, Math.sin(prog(t, 3.4, 4.0) * Math.PI) * .38, '#ffb860');
+    },
+    clips: [() => clip(4, 6.6, 'profile', { from: 7.94, to: 9.2, fx: FX.profile, fy: .42, z: [1.12, 1.02] }),
+            () => clip(6.6, 10, 'stage', { keys: [[6.6, .2], [7.6, 1.05], [10, 2.2, E.outQuad]], fx: .5, fy: { d: .44, v: .46 }, z: [1.0, 1.1] })],
+    beats: [{ k: 'lol', a: 4.3, b: 6.5, y: () => L.y0 + L.sh * (L.vert ? .66 : .68) },
+            { k: 'wizkid', a: 6.8, b: 8.4, y: () => L.y0 + L.sh * .2 },
+            { k: 'date', a: 8.4, b: 10, y: () => L.y0 + L.sh * .2 }, { k: 'venue', a: 8.7, b: 10, y: () => L.y0 + L.sh * .2 + U(100) }],
+    fx(t) { letterbox(ctx, L, L.vert ? .07 : .06); if (t > 6.45 && t < 6.85) flash(ctx, L, Math.sin(prog(t, 6.45, 6.85) * Math.PI) * .55, '#ffb860'); },
+    lock: { divider: 'line', divColor: '#C9974F', reveal: 'fade', ease: E.outCubic, step: .16, sweep: 1.0, sweepCol: 'rgba(255,214,150,.9)', logoK: 1.1 },
+    lockBg(lt) { ctx.fillStyle = '#060504'; ctx.fillRect(0, 0, W, H); radial('rgba(150,84,26,.32)', 'rgba(0,0,0,0)', W / 2, H * .35); ctx.save(); ctx.fillStyle = '#C9974F'; ctx.globalAlpha = .5 * E.outCubic(prog(lt, .2, 1)); ctx.fillRect(L.x0, L.y0 - U(20), L.sw, U(1.5)); ctx.fillRect(L.x0, L.y1 + U(20), L.sw, U(1.5)); ctx.restore(); },
+    cues: [{ t: 0, k: 'swell', d: 1.5 }, { t: 1.2, k: 'chime' }, { t: 2.2, k: 'shimmer', g: .6 }, { t: 3.7, k: 'whoosh', g: .6 }, { t: 4, k: 'hit', g: .6 }, { t: 6.6, k: 'impact', g: .7 }, { t: 8.4, k: 'shimmer', g: .5 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'boom' }, { t: 11, k: 'shimmer', g: .5 }] },
+
+  // 2 ── HEINEKEN · Green Star ─────────────────────────────────────────────────────────────────────
+  heineken: { logo: '02-heineken', name: 'Heineken', bpm: 118, music: 'sp-groove',
+    grade: [['soft-light', 'rgba(0,140,70,.30)'], ['multiply', 'rgba(5,40,22,.18)']], filter: 'contrast(1.1) saturate(1.08) brightness(1.15)',
+    type: { date: '#FFFFFF', venue: '#8FE0A8', reveal: 'pop' },
+    intro(t) {
+      radial('#0f7a42', '#03200f', W / 2, H * .45);
+      // light rays turning slowly behind the mark
+      ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.translate(L.cx, L.cy); ctx.rotate(t * .25);
+      for (let i = 0; i < 10; i++) { ctx.rotate(Math.PI / 5); ctx.fillStyle = `rgba(160,255,190,${.05 * E.outCubic(prog(t, .3, 1.2))})`; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-U(70), -H); ctx.lineTo(U(70), -H); ctx.fill(); }
+      ctx.restore();
+      // star outline draws, then becomes the iris the logo appears in
+      const p = E.inOutCubic(prog(t, .1, .9)); const R = U(L.vert ? 330 : 260) * mix(.4, 1, E.outBack(prog(t, .1, 1.1), 1.2));
+      ctx.save(); ctx.strokeStyle = 'rgba(255,255,255,.9)'; ctx.lineWidth = U(5); ctx.setLineDash([R * 7.2 * p, R * 8]); ctx.beginPath(); starPath(ctx, L.cx, L.cy, R); ctx.globalAlpha = 1 - prog(t, 1.3, 1.8); ctx.stroke(); ctx.restore();
+      const w = slW(L.sw * (L.vert ? .74 : .56), U(320)); const lp = E.outBack(prog(t, .9, 1.5), 1.6);
+      SL(L.cx, L.cy, w, { alpha: clamp(lp), s: mix(.7, 1, clamp(lp)) });
+      sweepImg(ctx, IMG.sponsor, L.cx, L.cy, w, prog(t, 1.8, 2.8));
+    },
+    clips: [() => clip(4, 6.1, 'stage', { from: .3, to: 1.6, fx: .5, fy: .44, z: [1.15, 1.0], mask: (g, t) => starPath(g, L.cx, L.cy, Math.max(W, H) * 1.6 * E.inQuart(prog(t, 3.55, 4.25)) + 1, 5, .42, -Math.PI / 2 + t * .5), a: 3.55 }),
+            () => clip(6.1, 8.2, 'aerial', { from: 2.6, to: 4.1, fx: .52, z: [1.1, 1.0], mask: (g, t) => starPath(g, L.cx, L.cy, Math.max(W, H) * 1.6 * E.inQuart(prog(t, 6.1, 6.55)) + 1, 5, .42) }),
+            () => clip(8.2, 10, 'walk', { from: 6.0, to: 7.6, fx: FX.walk, z: [1.1, 1.0], mask: (g, t) => starPath(g, L.cx, L.cy, Math.max(W, H) * 1.6 * E.inQuart(prog(t, 8.2, 8.65)) + 1, 5, .42) })],
+    beats: [{ k: 'lol', a: 4.4, b: 6.1, y: () => L.cy }, { k: 'wizkid', a: 6.4, b: 8.2, y: () => L.y0 + L.sh * .18 },
+            { k: 'date', a: 8.5, b: 10, y: () => L.y0 + L.sh * .82 }, { k: 'venue', a: 8.75, b: 10, y: () => L.y0 + L.sh * .82 + U(100) }],
+    fx(t) { for (const t0 of [6.1, 8.2]) if (t > t0 && t < t0 + .5) { const r = Math.max(W, H) * 1.6 * E.inQuart(prog(t, t0, t0 + .45)); ctx.save(); ctx.strokeStyle = '#ffffff'; ctx.lineWidth = U(6); ctx.beginPath(); starPath(ctx, L.cx, L.cy, r); ctx.stroke(); ctx.restore(); } },
+    lock: { divider: 'line', divColor: 'rgba(255,255,255,.6)', reveal: 'fade', ease: (p) => clamp(E.outBack(p, 1.5), 0, 1.1), step: .1, sweep: 1.2, logoK: 1.15 },
+    lockBg(lt) { radial('#0d6a39', '#021a0c', W / 2, H * .4); ctx.save(); ctx.globalAlpha = .08; ctx.strokeStyle = '#fff'; ctx.lineWidth = U(2); ctx.beginPath(); starPath(ctx, L.cx, L.cy, Math.max(W, H) * .6, 5, .42, -Math.PI / 2 + lt * .05); ctx.stroke(); ctx.restore(); },
+    cues: [{ t: .1, k: 'riser', d: .8 }, { t: .95, k: 'hit' }, { t: 1.8, k: 'shimmer', g: .5 }, { t: 3.55, k: 'whoosh' }, { t: 4.1, k: 'impact', g: .7 }, { t: 6.1, k: 'whoosh', g: .7 }, { t: 6.3, k: 'hit', g: .7 }, { t: 8.2, k: 'whoosh', g: .7 }, { t: 8.4, k: 'hit', g: .7 }, { t: 9.75, k: 'reverse', d: .25 }, { t: 10, k: 'impact', g: .8 }] },
+
+  // 3 ── COCA-COLA · Red Wave ──────────────────────────────────────────────────────────────────────
+  'coca-cola': { logo: '03-coca-cola', name: 'Coca-Cola', bpm: 112, music: 'sp-bright',
+    grade: [['soft-light', 'rgba(244,0,9,.22)'], ['screen', 'rgba(255,80,60,.05)']], filter: 'contrast(1.12) saturate(1.3) brightness(1.2)',
+    type: { date: '#FFFFFF', venue: '#FFFFFF', reveal: 'slide' },
+    intro(t) {
+      ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, W, H);
+      const w = slW(L.sw * (L.vert ? .84 : .66), U(320)); const lh = slH(w);
+      const p = E.inOutCubic(prog(t, .15, 1.4));   // the script writes on left to right
+      ctx.save(); ctx.beginPath(); ctx.rect(L.cx - w / 2 - U(10), 0, (w + U(20)) * p, H); ctx.clip(); SL(L.cx, L.cy - U(20), w); ctx.restore();
+      // the red wave rises from the bottom, bubbles inside, and keeps rising into the footage
+      waveRed(t, 2.4, 4.1);
+    },
+    clips: [() => clip(3.55, 6.2, 'stage', { from: .0, to: 1.5, fx: .5, fy: .45, z: [1.1, 1.0], mask: (g, t) => waveMask(g, t, 3.55, 4.15) }),
+            () => clip(6.2, 8.2, 'walk', { from: 5.9, to: 7.6, fx: FX.walk, z: [1.1, 1.0], mask: (g, t) => waveMask(g, t, 6.2, 6.7) }),
+            () => clip(8.2, 10, 'aerial', { from: 2.6, to: 4.1, fx: .52, z: [1.1, 1.0], mask: (g, t) => waveMask(g, t, 8.2, 8.7) })],
+    beats: [{ k: 'lol', a: 4.3, b: 6.2, y: () => L.y0 + L.sh * .28, style: 'pop' }, { k: 'wizkid', a: 6.6, b: 8.2, y: () => L.y0 + L.sh * .78, dir: -140 },
+            { k: 'date', a: 8.6, b: 10, y: () => L.y0 + L.sh * .3, dir: 140 }, { k: 'venue', a: 8.85, b: 10, y: () => L.y0 + L.sh * .3 + U(100), dir: -140 }],
+    fx(t) { for (const t0 of [6.2, 8.2]) waveRed(t, t0 - .45, t0 + .02, true); },
+    lock: { divider: 'none', reveal: 'fade', ease: E.outCubic, step: .1, rise: 34, pair: true, pairGap: 40, sweep: 1.3 },
+    lockBg(lt) {
+      ctx.fillStyle = '#E41E2B'; ctx.fillRect(0, 0, W, H);
+      // white panel behind the red script: the logo stays in its own colours
+      const c = LKS; const top = c.ys[0] - U(36), ph = c.rowH + U(72);
+      const p = E.inOutCubic(prog(lt, 0, .45));
+      ctx.save(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(0, top); ctx.lineTo(W * p, top);
+      for (let x = W * p; x >= 0; x -= U(20)) ctx.lineTo(x, top + ph + Math.sin(x / U(120) + lt * 2) * U(16)); ctx.closePath(); ctx.fill(); ctx.restore();
+    },
+    cues: [{ t: .15, k: 'whoosh', g: .5 }, { t: 1.3, k: 'chime' }, { t: 2.4, k: 'riser', d: 1.6 }, { t: 4, k: 'impact', g: .8 }, { t: 5.8, k: 'whoosh' }, { t: 6.2, k: 'hit', g: .7 }, { t: 7.8, k: 'whoosh' }, { t: 8.2, k: 'hit', g: .7 }, { t: 9.7, k: 'whoosh', g: .6 }, { t: 10, k: 'impact', g: .8 }, { t: 10.6, k: 'shimmer', g: .5 }] },
+
+  // 4 ── DESPERADOS · Party Poster ─────────────────────────────────────────────────────────────────
+  desperados: { logo: '04-desperados', name: 'Desperados', bpm: 128, music: 'sp-party',
+    grade: [['soft-light', 'rgba(230,20,20,.38)'], ['multiply', 'rgba(40,0,0,.12)']], filter: 'contrast(1.3) saturate(1.25) brightness(1.2)',
+    type: { date: '#FFFFFF', venue: '#FF3B30', reveal: 'pop' },
+    intro(t) {
+      const b = 60 / 128; const beatN = Math.floor(t / (b / 2));
+      ctx.fillStyle = t < 1.0 && beatN % 2 ? '#D7191C' : '#0A0A0A'; ctx.fillRect(0, 0, W, H);
+      // diagonal red slashes tearing across
+      for (let i = 0; i < 3; i++) { const p = E.inOutCubic(prog(t, .9 + i * .18, 1.5 + i * .18)); if (p <= 0) continue;
+        ctx.save(); ctx.translate(L.cx, L.cy); ctx.rotate(-.42); ctx.fillStyle = i === 1 ? '#fff' : '#D7191C'; const bw = U(i === 1 ? 30 : 140); ctx.fillRect(mix(-W * 1.5, W * 1.5, p) - bw / 2 + (i - 1) * U(220), -H, bw, H * 2); ctx.restore(); }
+      const w = slW(L.sw * (L.vert ? .8 : .6), U(L.vert ? 560 : 420)); const p = prog(t, .45, .62);
+      const shake = (1 - prog(t, .62, 1.0)) * (t > .62 ? 1 : 0);
+      if (p > 0) SL(L.cx + Math.sin(t * 90) * U(14) * shake, L.cy + Math.cos(t * 77) * U(14) * shake, w, { s: mix(1.8, 1, E.outCubic(p)), alpha: clamp(p * 2) });
+      if (t > 3.5) { ctx.save(); ctx.translate(L.cx, L.cy); ctx.rotate(-.42); ctx.fillStyle = '#D7191C'; const p2 = E.inOutCubic(prog(t, 3.5, 4.0)); ctx.fillRect(-W * 1.5, -H, W * 3 * p2, H * 2); ctx.restore(); }
+    },
+    clips: (() => { const shots = [['stage', .2], ['arrival', 4.4], ['walk', 6.1], ['smoke', 11.3], ['stage', 1.2], ['aerial', 2.9], ['profile', 8.2], ['walk', 7.0], ['stage', 1.7], ['smoke', 11.8], ['arrival', 5.1], ['stage', 2.0]];
+      const b = 60 / 128 * 1.0; return shots.map(([s, f], i) => () => clip(4 + i * .5, 4 + (i + 1) * .5 + (i === 11 ? .1 : 0), s, { from: f, to: f + .5, fx: FX[s] ?? .5, z: [1.25, 1.12], mask: i % 3 === 1 ? (g, t) => { const a0 = 4 + i * .5; const p = E.outQuart(prog(t, a0, a0 + .18)); g.moveTo(-W, H * 2); g.lineTo(-W + (W * 3) * p, -H); g.lineTo(W * 2, -H); g.lineTo(W * 2, H * 2); } : null })); })(),
+    beats: [{ k: 'lol', a: 4.05, b: 5.5, y: () => L.cy }, { k: 'wizkid', a: 5.55, b: 7.5, y: () => L.y0 + L.sh * .22 },
+            { k: 'date', a: 7.55, b: 10, y: () => L.y0 + L.sh * .74 }, { k: 'venue', a: 8.05, b: 10, y: () => L.y0 + L.sh * .74 + U(100) }],
+    fx(t) { const k = (t - 4) / .5; const ph = k - Math.floor(k); if (t < 10) flash(ctx, L, (1 - clamp(ph / .25)) * .35, '#ff2a1f');
+      // poster split: a red diagonal band slides across on every third cut
+      ctx.save(); ctx.translate(L.cx, L.cy); ctx.rotate(-.42); ctx.globalAlpha = .9; ctx.fillStyle = '#D7191C'; const bp = (t * 1.6) % 1; ctx.fillRect(mix(-W, W, bp) - U(20), -H, U(40), H * 2); ctx.restore(); },
+    lock: { divider: 'none', reveal: 'fade', ease: (p) => clamp(E.outBack(p, 2.2), 0, 1.2), step: .08, rise: 50, logoK: 1.3 },
+    lockBg(lt) { ctx.fillStyle = '#0A0A0A'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.translate(L.cx, LKS.ys[0] + LKS.sH / 2); ctx.rotate(-.18); const p = E.outQuart(prog(lt, 0, .3)); ctx.fillStyle = '#D7191C'; ctx.fillRect(-W * p, -LKS.sH * .75, W * 2 * p, LKS.sH * 1.5); ctx.restore(); },
+    cues: [{ t: 0, k: 'tick' }, { t: .23, k: 'tick' }, { t: .47, k: 'impact', g: .9 }, { t: .9, k: 'whoosh', g: .6 }, { t: 3.5, k: 'whoosh' }, { t: 4, k: 'impact', g: .8 }, ...Array.from({ length: 11 }, (_, i) => ({ t: 4.5 + i * .5, k: 'hit', g: .6 })), { t: 10, k: 'impact', g: .9 }] },
+
+  // 5 ── BEST · The Crest ──────────────────────────────────────────────────────────────────────────
+  best: { logo: '05-best', name: 'BEST', bpm: 96, music: 'sp-lux2',
+    grade: [['soft-light', 'rgba(240,200,140,.26)'], ['multiply', 'rgba(20,16,10,.15)']], filter: 'contrast(1.08) brightness(1.3)',
+    type: { date: '#FFFFFF', venue: '#E6C88F', reveal: 'fade' },
+    intro(t) {
+      radial('#1b1712', '#050404', W / 2, H * .45);
+      const R = U(L.vert ? 360 : 290); const p = E.inOutCubic(prog(t, .1, 1.3));
+      ctx.save(); ctx.strokeStyle = '#E6C88F'; ctx.lineWidth = U(3); ctx.beginPath(); ctx.arc(L.cx, L.cy, R, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * p); ctx.stroke();
+      ctx.globalAlpha = .4; ctx.beginPath(); ctx.arc(L.cx, L.cy, R + U(14), Math.PI / 2, Math.PI / 2 + Math.PI * 2 * p); ctx.stroke(); ctx.restore();
+      const w = slW(R * 1.62, R * .9); const lp = E.outCubic(prog(t, 1.0, 1.8));
+      SL(L.cx, L.cy, w, { alpha: lp, s: mix(.92, 1, lp) });
+      sweepImg(ctx, IMG.sponsor, L.cx, L.cy, w, prog(t, 2.0, 3.0), 'rgba(255,230,180,.95)');
+    },
+    clips: [() => clip(3.45, 5.6, 'arrival', { from: 4.3, to: 5.6, fx: FX.arrival, fy: .56, z: [1.08, 1.14], mask: (g, t) => g.arc(L.cx, L.cy, Math.max(W, H) * E.inQuart(prog(t, 3.45, 4.1)) + 1, 0, 7) }),
+            () => clip(5.6, 8.2, 'walk', { from: 5.76, to: 7.86, fx: FX.walk, z: [1.08, 1.0] }),
+            () => clip(8.2, 10, 'stage', { keys: [[8.2, .9], [10, 2.1, E.outQuad]], fx: .5, fy: .44, z: [1.0, 1.08] })],
+    beats: [{ k: 'lol', a: 4.2, b: 5.6, y: () => L.y0 + L.sh * .3 }, { k: 'wizkid', a: 6.4, b: 8.2, y: () => L.y0 + L.sh * .16 },
+            { k: 'date', a: 8.5, b: 10, y: () => L.y0 + L.sh * .2 }, { k: 'venue', a: 8.8, b: 10, y: () => L.y0 + L.sh * .2 + U(100) }],
+    fx(t) { // the crest ring tracks him through the walk-out (motion tracking)
+      if (t > 5.6 && t < 8.2) { const c = SP._clips[1]; const [nx, ny] = trackAt('walk', c._s ?? 6); const [px, py] = c._r.map(nx, ny - .1); const p = E.outCubic(prog(t, 5.7, 6.2)) * (1 - prog(t, 7.9, 8.2));
+        ctx.save(); ctx.globalAlpha = p; ctx.strokeStyle = '#E6C88F'; ctx.lineWidth = U(3); ctx.beginPath(); ctx.arc(px, py, U(L.vert ? 230 : 190), 0, 7); ctx.stroke(); ctx.globalAlpha = p * .45; ctx.beginPath(); ctx.arc(px, py, U(L.vert ? 246 : 204), 0, 7); ctx.stroke(); ctx.restore(); } },
+    lock: { divider: 'line', divColor: '#E6C88F', reveal: 'fade', ease: E.outQuart, step: .15, sweep: 1.0, sweepCol: 'rgba(255,230,180,.9)', logoK: 1.1 },
+    lockBg(lt) { radial('#1d1912', '#050404', W / 2, LKS.ys[0] + LKS.sH / 2); ctx.save(); ctx.strokeStyle = '#E6C88F'; ctx.globalAlpha = .18; ctx.lineWidth = U(2); ctx.beginPath(); ctx.arc(L.cx, LKS.ys[0] + LKS.sH / 2, LKS.sW * .62 * E.outCubic(prog(lt, 0, .8)), 0, 7); ctx.stroke(); ctx.restore(); },
+    cues: [{ t: 0, k: 'swell', d: 1.2 }, { t: 1.0, k: 'chime' }, { t: 2.0, k: 'shimmer', g: .6 }, { t: 3.45, k: 'whoosh', g: .6 }, { t: 4, k: 'hit', g: .7 }, { t: 5.6, k: 'thump' }, { t: 8.2, k: 'impact', g: .7 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'boom' }, { t: 11, k: 'shimmer', g: .5 }] },
+
+  // 6 ── AXE · Hard Lines ──────────────────────────────────────────────────────────────────────────
+  axe: { logo: '06-axe', name: 'AXE', bpm: 124, music: 'sp-dark',
+    grade: [['saturation', 'rgb(128,128,128)'], ['soft-light', 'rgba(255,255,255,.08)']], filter: 'grayscale(1) contrast(1.45) brightness(1.15)',
+    type: { date: '#FFFFFF', venue: '#FFFFFF', reveal: 'slide' },
+    intro(t) {
+      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+      const w = slW(L.sw * (L.vert ? .82 : .62), U(300)); const h = slH(w);
+      // three angular bars cut across; each leaves part of the logo revealed behind it
+      for (let i = 0; i < 3; i++) {
+        const p = E.inOutQuart(prog(t, .1 + i * .22, .7 + i * .22));
+        ctx.save(); ctx.beginPath(); ctx.rect(L.cx - w / 2 + w * i / 3 - U(2), L.cy - h, w / 3 + U(4), h * 2); ctx.clip();
+        if (p > .5) SL(L.cx, L.cy, w); ctx.restore();
+        if (p > 0 && p < 1) { ctx.save(); ctx.translate(L.cx - w / 2 + w * (i + .5) / 3, L.cy); ctx.rotate(.35); ctx.fillStyle = '#fff'; ctx.fillRect(-U(60), mix(-H, H, p) - U(400), U(120), U(800)); ctx.restore(); }
+      }
+      if (t > 1.6) SL(L.cx, L.cy, w, { s: 1 + (t - 1.6) * .015 });
+      if (t > 3.4) for (let i = 0; i < 4; i++) { const p = E.inOutQuart(prog(t, 3.4 + i * .08, 4.0 + i * .02)); ctx.save(); ctx.translate(-W * .2 + i * W * .4, H / 2); ctx.rotate(.35); ctx.fillStyle = '#fff'; ctx.fillRect(-U(120) * p * 2.5, -H, U(240) * p * 2.5, H * 2); ctx.restore(); }
+    },
+    clips: [() => clip(4, 6.8, 'smoke', { from: 10.9, to: 12.15, fx: FX.smoke, z: [1.15, 1.0] }),
+            () => clip(6.8, 8.4, 'walk', { from: 6.0, to: 7.6, fx: FX.walk, z: [1.12, 1.0], mask: (g, t) => { const p = E.inOutQuart(prog(t, 6.8, 7.1)); g.moveTo(0, H); g.lineTo(W * 2 * p, H); g.lineTo(W * 2 * p - H * .36, 0); g.lineTo(0, 0); } }),
+            () => clip(8.4, 10, 'stage', { from: 1.0, to: 2.2, fx: .5, fy: .44, z: [1.12, 1.0], mask: (g, t) => { const p = E.inOutQuart(prog(t, 8.4, 8.7)); g.moveTo(W, 0); g.lineTo(W - W * 2 * p, 0); g.lineTo(W - W * 2 * p + H * .36, H); g.lineTo(W, H); } })],
+    beats: [{ k: 'lol', a: 4.3, b: 6.8, y: () => L.y0 + L.sh * .3 }, { k: 'wizkid', a: 7.0, b: 8.4, y: () => L.y0 + L.sh * .82, dir: -160 },
+            { k: 'date', a: 8.65, b: 10, y: () => L.y0 + L.sh * .74, dir: 160 }, { k: 'venue', a: 8.85, b: 10, y: () => L.y0 + L.sh * .74 + U(100), dir: -160 }],
+    fx(t) { for (const [t0, d] of [[6.8, 1], [8.4, -1]]) { const p = E.inOutQuart(prog(t, t0, t0 + .3)); if (p > 0 && p < 1) { ctx.save(); ctx.fillStyle = '#fff'; const x = d > 0 ? W * 2 * p : W - W * 2 * p; ctx.beginPath(); ctx.moveTo(x - U(30) * d, d > 0 ? H : 0); ctx.lineTo(x - (d > 0 ? H * .36 : -H * .36) - U(30) * d, d > 0 ? 0 : H); ctx.lineTo(x - (d > 0 ? H * .36 : -H * .36) + U(30) * d, d > 0 ? 0 : H); ctx.lineTo(x + U(30) * d, d > 0 ? H : 0); ctx.fill(); ctx.restore(); } } },
+    lock: { divider: 'line', divColor: '#FFFFFF', reveal: 'mask', ease: E.outQuart, step: .1, logoK: 1.2 },
+    lockBg(lt) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.globalAlpha = .07; ctx.translate(L.cx, L.cy); ctx.rotate(.35); ctx.fillStyle = '#fff'; for (let i = -3; i <= 3; i++) ctx.fillRect(i * U(260) - U(30) + lt * U(10), -H, U(60), H * 2); ctx.restore(); },
+    cues: [{ t: .1, k: 'whoosh', g: .7 }, { t: .32, k: 'whoosh', g: .7 }, { t: .54, k: 'whoosh', g: .7 }, { t: .9, k: 'impact', g: .8 }, { t: 3.4, k: 'riser', d: .6 }, { t: 4, k: 'boom' }, { t: 6.8, k: 'whoosh' }, { t: 6.9, k: 'hit', g: .7 }, { t: 8.4, k: 'whoosh' }, { t: 8.5, k: 'hit', g: .7 }, { t: 10, k: 'impact', g: .9 }] },
+
+  // 7 ── LORD'S LONDON DRY GIN · Heritage Label ────────────────────────────────────────────────────
+  'lords-gin': { logo: '07-lords-gin', name: "Lord's London Dry Gin", bpm: 104, music: 'sp-heritage',
+    grade: [['soft-light', 'rgba(200,40,40,.22)'], ['soft-light', 'rgba(255,235,205,.12)']], filter: 'contrast(1.1) brightness(1.2) saturate(1.05)',
+    type: { date: '#F3E6D0', venue: '#E0453C', reveal: 'mask' },
+    intro(t) {
+      radial('#3a0d10', '#120304', W / 2, H * .45);
+      const fr = frameRect(); const p = E.inOutCubic(prog(t, .1, 1.2));
+      labelFrame(fr, p, 1);
+      const w = slW(fr[2] * .62, fr[3] * .62); const lp = E.outCubic(prog(t, 1.0, 1.9));
+      maskUp(L.cx - w, L.cy - slH(w) / 2 - U(10), w * 2, slH(w) + U(20), lp, () => SL(L.cx, L.cy, w));
+      sweepImg(ctx, IMG.sponsor, L.cx, L.cy, w, prog(t, 2.1, 3.1), 'rgba(255,240,215,.85)');
+      if (t > 3.3) { const q = E.inOutCubic(prog(t, 3.3, 4.0)); ctx.save(); ctx.fillStyle = '#120304'; ctx.globalAlpha = q; ctx.fillRect(0, 0, W, H); ctx.restore(); labelFrame(fr, 1, 1); }
+    },
+    clips: [() => clip(4, 6.5, 'stage', { from: .1, to: 1.7, fx: .5, fy: .45, z: [1.1, 1.0], rect: (t) => { const fr = frameRect(); const e = E.inOutCubic(prog(t, 5.6, 6.5)); return [mix(fr[0], 0, e), mix(fr[1], 0, e), mix(fr[2], W, e), mix(fr[3], H, e)]; } }),
+            () => clip(6.5, 8.3, 'profile', { from: 7.96, to: 9.1, fx: FX.profile, fy: .42, z: [1.12, 1.02] }),
+            () => clip(8.3, 10, 'aerial', { from: 2.5, to: 3.9, fx: .52, z: [1.1, 1.0] })],
+    beats: [{ k: 'lol', a: 4.4, b: 6.4, y: () => L.y1 - lolH(L.sw * .42) * .45 - U(40), w: L.sw * .42 }, { k: 'wizkid', a: 6.7, b: 8.3, y: () => L.y0 + L.sh * .78 },
+            { k: 'date', a: 8.5, b: 10, y: () => L.y0 + L.sh * .3 }, { k: 'venue', a: 8.75, b: 10, y: () => L.y0 + L.sh * .3 + U(100) }],
+    fx(t) { if (t < 6.5) { const fr = frameRect(); const e = E.inOutCubic(prog(t, 5.6, 6.5)); labelFrame([mix(fr[0], -U(40), e), mix(fr[1], -U(40), e), mix(fr[2], W + U(80), e), mix(fr[3], H + U(80), e)], 1, 1 - e); }
+      if (t > 6.5) { ctx.save(); ctx.strokeStyle = '#F3E6D0'; ctx.globalAlpha = .55; ctx.lineWidth = U(2); ctx.strokeRect(U(26), U(26), W - U(52), H - U(52)); ctx.restore(); } },
+    lock: { divider: 'line', divColor: '#F3E6D0', reveal: 'mask', ease: E.outQuart, step: .13, logoK: 1.25 },
+    lockBg(lt) { radial('#3a0d10', '#100203', W / 2, H * .4); labelFrame([L.x0 - U(20), L.y0 - U(30), L.sw + U(40), L.sh + U(60)], E.inOutCubic(prog(lt, 0, .8)), 1); },
+    cues: [{ t: .1, k: 'swell', d: 1.1 }, { t: 1.0, k: 'chime' }, { t: 2.1, k: 'shimmer', g: .5 }, { t: 3.3, k: 'reverse', d: .7 }, { t: 4, k: 'hit', g: .8 }, { t: 5.6, k: 'whoosh', g: .6 }, { t: 6.5, k: 'hit', g: .6 }, { t: 8.3, k: 'hit', g: .7 }, { t: 9.7, k: 'whoosh', g: .6 }, { t: 10, k: 'impact', g: .8 }] },
+
+  // 8 ── TRANSCORP HOTELS · The Welcome ────────────────────────────────────────────────────────────
+  'transcorp-hotels': { logo: '08-transcorp-hotels', name: 'Transcorp Hotels', bpm: 92, music: 'sp-lux',
+    grade: [['soft-light', 'rgba(40,70,140,.30)'], ['screen', 'rgba(255,200,120,.05)']], filter: 'contrast(1.08) brightness(1.3)',
+    type: { date: '#FFFFFF', venue: '#D8B878', reveal: 'fade' },
+    intro(t) {
+      // light seam -> doors open onto warm light and the logo
+      const open = E.inOutCubic(prog(t, .7, 1.8));
+      radial('#3a2a14', '#0b0a08', W / 2, H * .45);
+      const w = slW(L.sw * (L.vert ? .84 : .64), U(150)); SL(L.cx, L.cy, w, { alpha: E.outCubic(prog(t, 1.2, 2.0)) });
+      sweepImg(ctx, IMG.sponsor, L.cx, L.cy, w, prog(t, 2.0, 3.0), 'rgba(255,225,170,.9)');
+      doors(open, t < .7 ? E.outCubic(prog(t, .1, .6)) : 1);
+      if (t > 3.4) doors(1 - E.inOutCubic(prog(t, 3.4, 3.8)), 1);
+    },
+    clips: [() => clip(3.8, 6.0, 'arrival', { from: 4.3, to: 5.7, fx: FX.arrival, fy: .56, z: [1.06, 1.12] }),
+            () => clip(6.0, 8.2, 'walk', { from: 5.8, to: 7.7, fx: FX.walk, z: [1.1, 1.0] }),
+            () => clip(8.2, 10, 'aerial', { from: 2.5, to: 4.0, fx: .52, z: [1.12, 1.0] })],
+    beats: [{ k: 'lol', a: 4.5, b: 6.0, y: () => L.y0 + L.sh * .26 }, { k: 'wizkid', a: 6.4, b: 8.2, y: () => L.y0 + L.sh * .18 },
+            { k: 'venue', a: 8.4, b: 10, y: () => L.cy - U(30), size: undefined }, { k: 'date', a: 8.7, b: 10, y: () => L.cy + U(90) }],
+    fx(t) { if (t < 4.35) doors(E.inOutCubic(prog(t, 3.8, 4.35)), 1); for (const t0 of [6.0, 8.2]) if (t > t0 - .3 && t < t0 + .35) doors(t < t0 ? 1 - E.inCubic(prog(t, t0 - .3, t0)) : E.outCubic(prog(t, t0, t0 + .35)), 1); },
+    lock: { divider: 'line', divColor: '#D8B878', reveal: 'fade', ease: E.outCubic, step: .15, sweep: 1.0, sweepCol: 'rgba(255,225,170,.85)', logoK: .8 },
+    lockBg(lt) { lin([[0, '#0d1a33'], [1, '#050a14']]); radial('rgba(216,184,120,.16)', 'rgba(0,0,0,0)', W / 2, LKS.ys[0]); },
+    cues: [{ t: .1, k: 'swell', d: 1.4 }, { t: .8, k: 'whoosh', g: .5 }, { t: 1.3, k: 'chime' }, { t: 2.0, k: 'shimmer', g: .5 }, { t: 3.5, k: 'whoosh', g: .5 }, { t: 4, k: 'hit', g: .6 }, { t: 6.0, k: 'thump' }, { t: 8.2, k: 'hit', g: .6 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'boom' }, { t: 11, k: 'shimmer', g: .4 }] },
+
+  // 9 ── VODI GROUP · Woven ────────────────────────────────────────────────────────────────────────
+  'vodi-group': { logo: '09-vodi-group', name: 'Vodi Group', bpm: 108, music: 'sp-groove',
+    grade: [['soft-light', 'rgba(60,180,84,.24)'], ['soft-light', 'rgba(180,204,84,.10)']], filter: 'contrast(1.1) brightness(1.3) saturate(1.1)',
+    type: { date: '#FFFFFF', venue: '#B4CC54', reveal: 'fade' },
+    intro(t) {
+      radial('#0f2a16', '#040b06', W / 2, H * .45);
+      weave(t, 0, 1 - prog(t, 1.6, 2.4));
+      const r = Math.max(W, H) * .7 * E.inOutCubic(prog(t, 1.1, 1.9));
+      ctx.save(); ctx.beginPath(); ctx.arc(L.cx, L.cy, r, 0, 7); ctx.clip(); radial('#123a1e', '#06120a', L.cx, L.cy);
+      const w = slW(L.sw * (L.vert ? .56 : .42), U(L.vert ? 420 : 330)); SL(L.cx, L.cy, w, { s: mix(.9, 1, E.outCubic(prog(t, 1.2, 2.2))) }); ctx.restore();
+      if (t > 3.3) stripes(E.inOutCubic(prog(t, 3.3, 4.0)), false);
+    },
+    clips: [() => clip(3.65, 6.6, 'walk', { from: 5.8, to: 7.9, fx: FX.walk, z: [1.12, 1.0], mask: (g, t) => stripesMask(g, E.inOutCubic(prog(t, 3.65, 4.1))) }),
+            () => clip(6.6, 8.4, 'profile', { from: 7.96, to: 9.0, fx: FX.profile, fy: .42, z: [1.1, 1.0], mask: (g, t) => stripesMask(g, E.inOutCubic(prog(t, 6.6, 7.0))) }),
+            () => clip(8.4, 10, 'stage', { from: 1.0, to: 2.2, fx: .5, fy: .44, z: [1.1, 1.0], mask: (g, t) => stripesMask(g, E.inOutCubic(prog(t, 8.4, 8.8))) })],
+    beats: [{ k: 'lol', a: 4.4, b: 6.5, y: () => L.y0 + L.sh * .74 }, { k: 'wizkid', a: 6.9, b: 8.4, y: () => L.y0 + L.sh * .78 },
+            { k: 'date', a: 8.7, b: 10, y: () => L.y0 + L.sh * .22 }, { k: 'venue', a: 8.95, b: 10, y: () => L.y0 + L.sh * .22 + U(100) }],
+    fx(t) { weave(t, .1, .14); },
+    lock: { divider: 'line', divColor: '#B4CC54', reveal: 'fade', ease: E.outCubic, step: .13, logoK: 1.2 },
+    lockBg(lt) { radial('#123a1e', '#040b06', W / 2, H * .4); weave(lt + 10, 0, .22); },
+    cues: [{ t: .1, k: 'whoosh', g: .4 }, { t: .5, k: 'tick' }, { t: .8, k: 'tick' }, { t: 1.1, k: 'riser', d: .8 }, { t: 1.9, k: 'hit', g: .7 }, { t: 3.3, k: 'whoosh', g: .6 }, { t: 4, k: 'impact', g: .7 }, { t: 6.6, k: 'hit', g: .6 }, { t: 8.4, k: 'hit', g: .7 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'impact', g: .8 }] },
+
+  // 10 ── UNITED NIGERIA AIRLINES · Take-off ───────────────────────────────────────────────────────
+  'united-nigeria': { logo: '10-united-nigeria', name: 'United Nigeria Airlines', bpm: 100, music: 'sp-bright',
+    grade: [['soft-light', 'rgba(12,108,180,.26)'], ['screen', 'rgba(170,210,255,.05)']], filter: 'contrast(1.08) brightness(1.3)',
+    type: { date: '#FFFFFF', venue: '#9FD3FF', reveal: 'slide' },
+    intro(t) {
+      lin([[0, '#9ccdf0'], [.55, '#e8f4fc'], [1, '#ffffff']]);
+      // flight path: dashed arc drawn across the sky, the wing mark glides along it
+      const p = E.inOutCubic(prog(t, .1, 2.2));
+      const A = [L.x0 - U(60), L.cy + U(260)], B = [L.cx, L.cy - U(L.vert ? 260 : 160)], C = [L.x1 + U(60), L.cy + U(120)];
+      const qp = (u) => [(1 - u) ** 2 * A[0] + 2 * (1 - u) * u * B[0] + u * u * C[0], (1 - u) ** 2 * A[1] + 2 * (1 - u) * u * B[1] + u * u * C[1]];
+      ctx.save(); ctx.strokeStyle = 'rgba(12,108,180,.55)'; ctx.lineWidth = U(4); ctx.setLineDash([U(18), U(14)]); ctx.beginPath();
+      for (let u = 0; u <= p; u += .01) { const [x, y] = qp(u); u ? ctx.lineTo(x, y) : ctx.moveTo(x, y); } ctx.stroke(); ctx.restore();
+      const u = .5 * E.outCubic(prog(t, .3, 2.0)); const [lx, ly] = qp(u); const [nx, ny] = qp(Math.min(1, u + .01));
+      const w = slW(L.sw * (L.vert ? .72 : .54), U(L.vert ? 330 : 260));
+      const settle = E.inOutCubic(prog(t, 1.8, 2.6));
+      SL(mix(lx, L.cx, settle), mix(ly, L.cy, settle), w, { alpha: E.outCubic(prog(t, .3, .8)), rot: mix(Math.atan2(ny - ly, nx - lx), 0, settle), s: mix(.5, 1, E.outCubic(prog(t, .3, 2.2))) });
+      if (t > 3.3) { const q = E.inOutCubic(prog(t, 3.3, 4.0)); ctx.save(); ctx.globalAlpha = q; ctx.fillStyle = '#0c6cb4'; ctx.fillRect(0, 0, W * q, H); ctx.restore(); }
+    },
+    clips: [() => clip(3.75, 6.5, 'aerial', { from: 2.48, to: 4.2, fx: .52, z: [1.25, 1.0], mask: (g, t) => g.rect(0, 0, W * E.inOutCubic(prog(t, 3.75, 4.25)), H) }),
+            () => clip(6.5, 8.5, 'stage', { from: .3, to: 1.7, fx: .5, fy: .45, z: [1.1, 1.0], mask: (g, t) => g.rect(0, 0, W * E.inOutCubic(prog(t, 6.5, 6.9)), H) }),
+            () => clip(8.5, 10, 'smoke', { from: 11.0, to: 12.1, fx: FX.smoke, z: [1.1, 1.0], mask: (g, t) => g.rect(0, 0, W * E.inOutCubic(prog(t, 8.5, 8.9)), H) })],
+    beats: [{ k: 'lol', a: 4.4, b: 6.5, y: () => L.y0 + L.sh * .3 }, { k: 'wizkid', a: 6.8, b: 8.5, y: () => L.y0 + L.sh * .18, dir: -160 },
+            { k: 'venue', a: 8.7, b: 10, y: () => L.y0 + L.sh * .28, dir: 160 }, { k: 'date', a: 8.95, b: 10, y: () => L.y0 + L.sh * .28 + U(100), dir: -160 }],
+    fx(t) { for (const t0 of [3.75, 6.5, 8.5]) { const p = E.inOutCubic(prog(t, t0, t0 + (t0 === 3.75 ? .5 : .4))); if (p > 0 && p < 1) { const x = W * p; const g = ctx.createLinearGradient(x - U(160), 0, x, 0); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(1, 'rgba(255,255,255,.9)'); ctx.fillStyle = g; ctx.fillRect(x - U(160), 0, U(160), H); ctx.fillStyle = '#E40C0C'; ctx.fillRect(x - U(3), 0, U(6), H); } } },
+    lock: { divider: 'line', divColor: '#0c6cb4', reveal: 'fade', ease: E.outCubic, step: .12, logoK: 1.15, light: true, colors: { date: '#FFFFFF', venue: '#9FD3FF' } },
+    lockBg(lt) { lin([[0, '#bfe0f6'], [.5, '#f2f8fd'], [1, '#ffffff']]); { const c = LKS; const sy = c.pair ? c.ys[1] - c.gap / 2 : c.ys[3] - c.gap / 2; const p = E.inOutCubic(prog(lt, .05, .5)); lin([[0, '#0c4f88'], [1, '#062a4a']], 0, sy, 0, H); ctx.save(); ctx.globalCompositeOperation = 'destination-over'; ctx.restore(); ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, sy + (H - sy) * (1 - p)); ctx.clip(); lin([[0, '#bfe0f6'], [.6, '#f2f8fd'], [1, '#ffffff']]); ctx.restore(); } ctx.save(); ctx.strokeStyle = 'rgba(12,108,180,.35)'; ctx.lineWidth = U(3); ctx.setLineDash([U(16), U(12)]); ctx.beginPath(); const p = E.inOutCubic(prog(lt, 0, 1.4)); ctx.moveTo(L.x0 - U(40), L.y1 + U(10)); ctx.quadraticCurveTo(L.cx, L.y0 - U(80), L.x0 - U(40) + (L.sw + U(80)) * p, mix(L.y1 + U(10), L.y1 - U(80), p)); ctx.stroke(); ctx.restore(); },
+    cues: [{ t: .1, k: 'swell', d: 2 }, { t: .5, k: 'whoosh', g: .5 }, { t: 2.0, k: 'chime' }, { t: 3.3, k: 'whoosh' }, { t: 4, k: 'impact', g: .7 }, { t: 6.5, k: 'whoosh', g: .6 }, { t: 6.6, k: 'hit', g: .6 }, { t: 8.5, k: 'whoosh', g: .6 }, { t: 8.6, k: 'hit', g: .6 }, { t: 9.75, k: 'reverse', d: .25 }, { t: 10, k: 'impact', g: .7 }] },
+
+  // 11 ── TRACE+ · Channels ────────────────────────────────────────────────────────────────────────
+  trace: { logo: '11-trace', name: 'TRACE+', bpm: 120, music: 'sp-party',
+    grade: [['soft-light', 'rgba(255,255,255,.06)']], filter: 'contrast(1.25) saturate(1.15) brightness(1.2)',
+    type: { date: '#FFFFFF', venue: '#FFFFFF', reveal: 'pop' },
+    intro(t) {
+      ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+      const grow = E.inOutCubic(prog(t, .1, .9)), turn = E.inOutCubic(prog(t, .7, 1.2)), split = E.inOutCubic(prog(t, 1.1, 1.7));
+      const r = mix(U(40), Math.max(W, H) * .8, grow), th = mix(U(14), U(150), grow);
+      ctx.save(); ctx.fillStyle = '#fff';
+      if (split <= 0) { ctx.beginPath(); plusPath(ctx, L.cx, L.cy, r, th, turn * Math.PI / 2); ctx.fill(); }
+      else for (const [sx, sy] of [[-1, -1], [1, -1], [1, 1], [-1, 1]]) { ctx.beginPath(); ctx.rect(L.cx + sx * (th + split * W * .6) - (sx < 0 ? W : 0), L.cy + sy * (th + split * H * .6) - (sy < 0 ? H : 0), W, H); ctx.save(); ctx.clip(); ctx.beginPath(); plusPath(ctx, L.cx, L.cy, r, th, Math.PI / 2); ctx.fill(); ctx.restore(); }
+      ctx.restore();
+      if (split > 0) { const w = slW(L.sw * (L.vert ? .82 : .62), U(220)); SL(L.cx, L.cy, w, { alpha: E.outCubic(prog(t, 1.3, 1.8)), s: mix(1.15, 1, E.outCubic(prog(t, 1.3, 2.0))) }); }
+    },
+    clips: [() => clip(3.5, 6.0, 'stage', { from: .2, to: 1.6, fx: .5, fy: .45, z: [1.1, 1.0], mask: (g, t) => plusPath(g, L.cx, L.cy, Math.max(W, H) * 1.5 * E.inQuart(prog(t, 3.5, 4.1)) + 1, Math.max(W, H) * .45 * E.inQuart(prog(t, 3.5, 4.1)) + 1) }),
+            // four channels at once
+            ...[['walk', 6.0, 0, 0], ['profile', 8.0, 1, 0], ['aerial', 2.6, 0, 1], ['arrival', 4.4, 1, 1]].map(([s, f, cx, cy], i) => () => clip(6.0, 8.2, s, { from: f, to: f + 1.6, fx: FX[s] ?? .5, z: [1.1, 1.0], rect: (t) => { const p = E.outCubic(prog(t, 6.0 + i * .08, 6.4 + i * .08)); const g = U(8); const w2 = (W - g) / 2, h2 = (H - g) / 2; return [cx * (w2 + g) + (1 - p) * (cx ? W : -W) * .5, cy * (h2 + g), w2, h2]; } })),
+            () => clip(8.2, 10, 'stage', { from: 1.1, to: 2.3, fx: .5, fy: .44, z: [1.12, 1.0], mask: (g, t) => plusPath(g, L.cx, L.cy, Math.max(W, H) * 1.5 * E.inQuart(prog(t, 8.2, 8.6)) + 1, Math.max(W, H) * .45 * E.inQuart(prog(t, 8.2, 8.6)) + 1) })],
+    beats: [{ k: 'lol', a: 4.3, b: 6.0, y: () => L.cy }, { k: 'wizkid', a: 6.5, b: 8.2, y: () => L.cy },
+            { k: 'date', a: 8.45, b: 10, y: () => L.y0 + L.sh * .8 }, { k: 'venue', a: 8.7, b: 10, y: () => L.y0 + L.sh * .8 + U(100) }],
+    fx(t) { if (t > 6 && t < 8.2) { ctx.fillStyle = '#000'; ctx.fillRect(W / 2 - U(4), 0, U(8), H); ctx.fillRect(0, H / 2 - U(4), W, U(8)); } },
+    lock: { divider: 'line', divColor: '#FFFFFF', reveal: 'fade', ease: (p) => clamp(E.outBack(p, 1.6), 0, 1.1), step: .09, rise: 40, logoK: 1.1 },
+    lockBg(lt) { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.globalAlpha = .06; ctx.fillStyle = '#fff'; ctx.beginPath(); plusPath(ctx, L.cx, L.cy, Math.max(W, H) * .5, U(110), lt * .04); ctx.fill(); ctx.restore(); },
+    cues: [{ t: .1, k: 'riser', d: .8 }, { t: .9, k: 'hit', g: .7 }, { t: 1.2, k: 'whoosh', g: .7 }, { t: 1.4, k: 'impact', g: .8 }, { t: 3.5, k: 'whoosh' }, { t: 4.05, k: 'impact', g: .7 }, { t: 6.0, k: 'hit' }, { t: 6.1, k: 'tick' }, { t: 6.2, k: 'tick' }, { t: 6.3, k: 'tick' }, { t: 8.2, k: 'whoosh', g: .7 }, { t: 8.5, k: 'impact', g: .7 }, { t: 10, k: 'impact', g: .9 }] },
+
+  // 12 ── SQUARE METER SPACES · Measured ───────────────────────────────────────────────────────────
+  'square-meter': { logo: '12-square-meter', name: 'Square Meter Spaces Limited', bpm: 100, music: 'sp-minimal',
+    grade: [['soft-light', 'rgba(120,140,160,.20)'], ['saturation', 'rgba(110,110,110,.25)']], filter: 'contrast(1.12) brightness(1.25) saturate(.8)',
+    type: { date: '#FFFFFF', venue: '#C9D2DC', reveal: 'mask' },
+    intro(t) {
+      ctx.fillStyle = '#16181b'; ctx.fillRect(0, 0, W, H);
+      blueprint(E.inOutCubic(prog(t, 0, 1.2)), .5);
+      const S = U(L.vert ? 620 : 500) * E.outCubic(prog(t, .6, 1.5));
+      ctx.save(); ctx.strokeStyle = '#E8EDF2'; ctx.lineWidth = U(3); ctx.strokeRect(L.cx - S / 2, L.cy - S / 2, S, S); ctx.restore();
+      const w = slW(U(L.vert ? 520 : 420), U(200)); SL(L.cx, L.cy, w, { alpha: E.outCubic(prog(t, 1.2, 1.9)) });
+      if (t > 3.3) tiles(E.inOutCubic(prog(t, 3.3, 4.0)), '#16181b', true);
+    },
+    clips: [() => clip(3.3, 6.4, 'aerial', { from: 2.48, to: 4.2, fx: .52, z: [1.1, 1.0], mask: (g, t) => tilesMask(g, E.inOutCubic(prog(t, 3.3, 4.0))) }),
+            ...[0, 1, 2].map(i => () => clip(6.4, 8.2, 'walk', { from: 5.9 + i * .05, to: 7.6, fx: FX.walk, z: [1.1, 1.0], rect: () => panelRect(i, prog(_t, 6.4, 6.9)) })),
+            () => clip(8.2, 10, 'stage', { from: 1.0, to: 2.2, fx: .5, fy: .44, z: [1.1, 1.0], mask: (g, t) => tilesMask(g, E.inOutCubic(prog(t, 8.2, 8.7))) })],
+    beats: [{ k: 'lol', a: 4.3, b: 6.4, y: () => L.y0 + L.sh * .74 }, { k: 'wizkid', a: 6.8, b: 8.2, y: () => L.y0 + L.sh * .12 },
+            { k: 'date', a: 8.6, b: 10, y: () => L.y0 + L.sh * .78 }, { k: 'venue', a: 8.85, b: 10, y: () => L.y0 + L.sh * .78 + U(100) }],
+    fx(t) { blueprint(1, .12); if (t > 6.4 && t < 8.2) { ctx.save(); ctx.strokeStyle = '#E8EDF2'; ctx.lineWidth = U(2); for (let i = 0; i < 3; i++) ctx.strokeRect(...panelRect(i, prog(t, 6.4, 6.9))); ctx.restore(); } },
+    lock: { divider: 'line', divColor: '#C9D2DC', reveal: 'mask', ease: E.outQuart, step: .12, logoK: .95 },
+    lockBg(lt) { ctx.fillStyle = '#16181b'; ctx.fillRect(0, 0, W, H); blueprint(E.inOutCubic(prog(lt, 0, 1)), .22); },
+    cues: [{ t: 0, k: 'tick' }, { t: .3, k: 'tick' }, { t: .6, k: 'tick' }, { t: .9, k: 'hit', g: .6 }, { t: 1.3, k: 'chime' }, { t: 3.3, k: 'whoosh', g: .6 }, { t: 4, k: 'hit', g: .7 }, { t: 6.4, k: 'thump' }, { t: 6.5, k: 'thump' }, { t: 6.6, k: 'thump' }, { t: 8.2, k: 'whoosh', g: .6 }, { t: 8.7, k: 'hit', g: .6 }, { t: 10, k: 'impact', g: .7 }] },
+
+  // 13 ── NOVA FLAIR · Starburst ───────────────────────────────────────────────────────────────────
+  'nova-flair': { logo: '13-nova-flair', name: 'Nova Flair Media and Entertainment', bpm: 116, music: 'sp-bright',
+    grade: [['soft-light', 'rgba(252,84,60,.26)'], ['soft-light', 'rgba(204,60,108,.18)'], ['screen', 'rgba(252,180,36,.05)']], filter: 'contrast(1.14) saturate(1.3) brightness(1.2)',
+    type: { date: '#FFFFFF', venue: '#FCB424', reveal: 'track' },
+    intro(t) {
+      radial('#2a0c2a', '#0b030b', W / 2, H * .45);
+      burst(L.cx, L.cy, Math.max(W, H) * .75 * E.outCubic(prog(t, .05, .9)) * (1 - .55 * E.inOutCubic(prog(t, 1.0, 1.6))), t * .3, 1 - prog(t, 1.6, 2.2) * .6);
+      ctx.save(); ctx.strokeStyle = '#FCB424'; ctx.lineWidth = U(8); ctx.lineCap = 'round'; ctx.beginPath(); const p = E.inOutCubic(prog(t, .5, 1.4));
+      for (let x = 0; x <= L.sw * p; x += U(8)) { const X = L.x0 + x, Y = L.cy + U(L.vert ? 330 : 250) + Math.sin(x / U(70)) * U(22); x ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); } ctx.globalAlpha = 1 - prog(t, 2.2, 2.8); ctx.stroke(); ctx.restore();
+      const w = slW(L.sw * (L.vert ? .9 : .7), U(L.vert ? 360 : 290)); SL(L.cx, L.cy, w, { alpha: E.outCubic(prog(t, 1.2, 1.9)), s: mix(.9, 1, E.outBack(prog(t, 1.2, 2.0), 1.4)) });
+      if (t > 3.3) burst(L.cx, L.cy, Math.max(W, H) * 1.6 * E.inQuart(prog(t, 3.3, 4.0)), t * .3, 1);
+    },
+    clips: [() => clip(3.9, 6.0, 'stage', { from: .1, to: 1.5, fx: .5, fy: .45, z: [1.12, 1.0] }),
+            () => clip(6.0, 8.0, 'profile', { from: 7.96, to: 9.2, fx: FX.profile, fy: .42, z: [1.1, 1.0] }),
+            () => clip(8.0, 10, 'smoke', { from: 10.9, to: 12.15, fx: FX.smoke, z: [1.12, 1.0] })],
+    beats: [{ k: 'lol', a: 4.3, b: 6.0, y: () => L.y0 + L.sh * .74 }, { k: 'wizkid', a: 6.4, b: 8.0, y: () => L.y0 + L.sh * .8 },
+            { k: 'date', a: 8.4, b: 10, y: () => L.y0 + L.sh * .22 }, { k: 'venue', a: 8.65, b: 10, y: () => L.y0 + L.sh * .22 + U(100) }],
+    fx(t) { for (const t0 of [6.0, 8.0]) if (t > t0 - .3 && t < t0 + .3) burst(L.cx, L.cy, Math.max(W, H) * 1.4 * Math.sin(prog(t, t0 - .3, t0 + .3) * Math.PI), t, .9); },
+    lock: { divider: 'line', divColor: '#FC543C', reveal: 'fade', ease: (p) => clamp(E.outBack(p, 1.5), 0, 1.1), step: .11, logoK: 1.1 },
+    lockBg(lt) { radial('#3a1236', '#0b030b', W / 2, H * .38); ctx.save(); ctx.globalAlpha = .14; burst(L.cx, LKS.ys[0] + LKS.sH / 2, Math.max(W, H) * .7, lt * .1, 1); ctx.restore(); },
+    cues: [{ t: .05, k: 'impact', g: .6 }, { t: .5, k: 'whoosh', g: .5 }, { t: 1.2, k: 'chime' }, { t: 1.9, k: 'shimmer', g: .6 }, { t: 3.3, k: 'riser', d: .7 }, { t: 4, k: 'impact', g: .8 }, { t: 5.75, k: 'whoosh', g: .6 }, { t: 6.0, k: 'hit', g: .7 }, { t: 7.75, k: 'whoosh', g: .6 }, { t: 8.0, k: 'hit', g: .7 }, { t: 10, k: 'impact', g: .8 }] },
+};
+
+// ---- sponsor-specific devices ----
+function waveMask(g, t, t0, t1) { const p = E.inOutCubic(prog(t, t0, t1)); const y = mix(H + U(120), -U(140), p); g.moveTo(0, H + 10); g.lineTo(0, y); for (let x = 0; x <= W; x += U(20)) g.lineTo(x, y + Math.sin(x / U(140) + t * 4) * U(40)); g.lineTo(W, H + 10); g.closePath(); }
+function waveRed(t, t0, t1, thin) {
+  const p = E.inOutCubic(prog(t, t0, t1)); if (p <= 0 || p >= 1) return;
+  const y = mix(H + U(120), -U(140), p);
+  ctx.save(); ctx.fillStyle = '#E41E2B'; ctx.beginPath(); ctx.moveTo(0, H + 10); ctx.lineTo(0, y); for (let x = 0; x <= W; x += U(20)) ctx.lineTo(x, y + Math.sin(x / U(140) + t * 4) * U(40)); ctx.lineTo(W, H + 10); ctx.closePath();
+  if (!thin) { ctx.fill(); ctx.save(); ctx.clip(); for (let i = 0; i < 26; i++) { const bx = hash(i) * W, by = H - ((t - t0) * U(500) * (.6 + hash(i + 5)) + hash(i + 9) * H) % (H + U(100)); ctx.strokeStyle = 'rgba(255,255,255,.55)'; ctx.lineWidth = U(2); ctx.beginPath(); ctx.arc(bx, by, U(4 + hash(i + 3) * 10), 0, 7); ctx.stroke(); } ctx.restore(); }
+  else { ctx.translate(0, U(30)); ctx.fill(); }
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = U(thin ? 10 : 14); ctx.beginPath(); for (let x = 0; x <= W; x += U(20)) { const yy = y + Math.sin(x / U(140) + t * 4) * U(40) + (thin ? 0 : U(22)); x ? ctx.lineTo(x, yy) : ctx.moveTo(x, yy); } ctx.stroke();
+  ctx.restore();
+}
+function frameRect() { const m = U(L.vert ? 90 : 70); return L.vert ? [m, H * .2, W - 2 * m, H * .56] : [L.x0 + U(20), L.y0 + U(10), L.sw - U(40), L.sh - U(20)]; }
+function labelFrame([x, y, w, h], p, a) {
+  if (p <= 0 || a <= 0) return; ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = '#F3E6D0'; const per = 2 * (w + h);
+  ctx.lineWidth = U(4); ctx.setLineDash([per * p, per]); ctx.strokeRect(x, y, w, h);
+  ctx.lineWidth = U(1.5); ctx.setLineDash([per * p, per]); ctx.strokeRect(x + U(14), y + U(14), w - U(28), h - U(28));
+  ctx.setLineDash([]); ctx.fillStyle = '#E0453C'; const s = U(12) * p; for (const [cx, cy] of [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]) { ctx.save(); ctx.translate(cx, cy); ctx.rotate(Math.PI / 4); ctx.fillRect(-s / 2, -s / 2, s, s); ctx.restore(); }
+  ctx.restore();
+}
+function doors(open, a) { // two panels with a warm seam; open 0 = closed
+  if (open >= 1 || a <= 0) return; const half = W / 2 * (1 - open);
+  ctx.save(); ctx.globalAlpha = a; const g = ctx.createLinearGradient(0, 0, W, 0); g.addColorStop(0, '#0b1730'); g.addColorStop(.5, '#13244a'); g.addColorStop(1, '#0b1730');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, half, H); ctx.fillRect(W - half, 0, half, H);
+  ctx.fillStyle = 'rgba(216,184,120,.9)'; ctx.fillRect(half - U(2), 0, U(3), H); ctx.fillRect(W - half - U(1), 0, U(3), H);
+  ctx.globalCompositeOperation = 'screen'; const lg = ctx.createLinearGradient(half - U(120), 0, W - half + U(120), 0); lg.addColorStop(0, 'rgba(255,210,140,0)'); lg.addColorStop(.5, `rgba(255,210,140,${.35 * (1 - open)})`); lg.addColorStop(1, 'rgba(255,210,140,0)'); ctx.fillStyle = lg; ctx.fillRect(half - U(120), 0, W - 2 * half + U(240), H);
+  ctx.restore();
+}
+function weave(t, t0, a) { if (a <= 0) return; ctx.save(); ctx.globalAlpha = a; const n = 14, gap = W / n; for (let i = 0; i < n * 2; i++) { const p = E.inOutCubic(prog(t, t0 + i * .03, t0 + .8 + i * .03)); const vert = i % 2; ctx.fillStyle = i % 4 < 2 ? 'rgba(60,180,84,.55)' : 'rgba(180,204,84,.45)'; const k = Math.floor(i / 2); if (vert) ctx.fillRect(k * gap + gap * .3, 0, U(3), H * p); else ctx.fillRect(0, (k / n) * H + H / n * .3, W * p, U(3)); } ctx.restore(); }
+function stripesMask(g, p) { const n = 9, sw = W / n; for (let i = 0; i < n; i++) { const q = clamp(p * 1.6 - i * .07); const h = H * E.inOutCubic(q); if (i % 2) g.rect(i * sw, 0, sw + 1, h); else g.rect(i * sw, H - h, sw + 1, h); } }
+function stripes(p, _) { ctx.save(); ctx.fillStyle = '#123a1e'; ctx.beginPath(); stripesMask(ctx, p); ctx.fill(); ctx.restore(); }
+function blueprint(p, a) { ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = '#8FA3B8'; ctx.lineWidth = U(1); const s = U(90); for (let x = (L.cx % s); x < W; x += s) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H * p); ctx.stroke(); } for (let y = (L.cy % s); y < H; y += s) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W * p, y); ctx.stroke(); } ctx.restore(); }
+function tilesMask(g, p) { const s = U(180); const nx = Math.ceil(W / s), ny = Math.ceil(H / s); for (let i = 0; i < nx; i++) for (let j = 0; j < ny; j++) { const q = clamp(p * 2 - ((i + j) % 2) * .35 - (i + j) / (nx + ny) * .6); if (q <= 0) continue; const k = s * E.outCubic(q); g.rect(i * s + (s - k) / 2, j * s + (s - k) / 2, k + 1, k + 1); } }
+function tiles(p, col) { ctx.save(); ctx.fillStyle = col; ctx.beginPath(); tilesMask(ctx, p); ctx.fill(); ctx.restore(); }
+let _t = 0;
+function panelRect(i, p) { const e = E.outCubic(p); const g = U(18); if (L.vert) { const h = (L.sh - 2 * g) / 3; return [L.x0 + (1 - e) * (i % 2 ? W : -W) * .3, L.y0 + i * (h + g), L.sw, h]; } const w = (L.sw - 2 * g) / 3; return [L.x0 + i * (w + g), L.y0 + (1 - e) * (i % 2 ? H : -H) * .3, w, L.sh]; }
+function burst(cx, cy, r, rot, a) { if (r <= 0) return; const cols = ['#FCB424', '#FC543C', '#CC3C6C', '#FCD27A']; ctx.save(); ctx.globalAlpha *= a; ctx.translate(cx, cy); ctx.rotate(rot); for (let i = 0; i < 8; i++) { ctx.rotate(Math.PI / 4); ctx.fillStyle = cols[i % 4]; ctx.beginPath(); ctx.moveTo(-r * .06, 0); ctx.lineTo(0, -r); ctx.lineTo(r * .06, 0); ctx.closePath(); ctx.fill(); } ctx.fillStyle = '#CC3C6C'; ctx.beginPath(); ctx.arc(0, 0, r * .06, 0, 7); ctx.fill(); ctx.restore(); }
+
+const SID = Q.get('s') || 'hennessy';
+const SP = SPONSORS_CFG[SID];
+SP._clips = SP.clips.map(f => f());
+
+async function renderAt(frame) {
+  const t = frame / FPS; _t = t;
+  window.__log = { texts: [], imgs: [] };
+  ctx.setTransform(L.dpr, 0, 0, L.dpr, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
+  ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+  if (t < T2) {
+    // footage clips may begin under the intro's own transition (their masks open them)
+    let introDone = t >= T1;
+    if (!introDone) SP.intro(t);
+    for (const c of SP._clips) { const a0 = c.a; if (t >= a0 && t < c.b) await drawClip(c, t); }
+    if (t >= T1) { SP.fx?.(t); for (const b of SP.beats) beat(t, b); bug(t); vignette(ctx, L, .38); }
+    else if (SP._clips.some(c => t >= c.a)) { SP.fx?.(t); }
+  } else {
+    SP.lockBg(t - T2); vignette(ctx, L, .35);
+    lockup(t - T2);
+    flash(ctx, L, (1 - prog(t, T2, T2 + .22)) * .6, SP.lock.light ? '#ffffff' : '#000');
+    flash(ctx, L, E.inQuad(prog(t, 14.8, 15)) * .3, '#000');
+  }
+  grain(ctx, L, frame, .045);
+}
+window.cues = () => ({ bpm: SP.bpm, dur: DUR, cues: SP.cues, name: SP.music, sponsor: SID });
+window.grab = async (frame) => { await renderAt(frame); return cv.toDataURL('image/jpeg', .93).slice(23); };
+window.audit = async (frame) => { await renderAt(frame); return window.__log; };
+window.meta = { FPS, DUR, END: DUR, W: L.W * L.dpr, H: L.H * L.dpr, sponsorLogo: SP.logo + '.png' };
+window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), loadFootageMeta()]); IMG.sponsor = IMG[SP.logo]; makeGrain(); lockLayout(); })();
+if (!Q.has('render')) window.ready.then(() => { const ui = document.getElementById('ui'); let f = Number(Q.get('t') || 0) * FPS; const loop = async () => { await renderAt(Math.floor(f)); ui.textContent = SID + ' ' + (f / FPS).toFixed(2) + 's'; f = (f + 1) % (DUR * FPS); requestAnimationFrame(loop); }; loop(); });
+</script></body></html>

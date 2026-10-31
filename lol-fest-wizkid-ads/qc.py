@@ -4,7 +4,7 @@ import json, subprocess, re, sys
 from pathlib import Path
 rows = []; bad = 0
 EXPECT = {'1920x1080', '3840x2160', '1080x1920', '1080x1350', '1080x1080'}
-for f in sorted(Path('out').glob('0[1-6]*/*.mp4')):
+for f in sorted(list(Path('out').glob('0[1-6]*/*.mp4')) + list(Path('out').glob('08*/*/*.mp4'))):
     pr = json.loads(subprocess.run(['ffprobe', '-v', 'error', '-show_streams', '-show_format', '-of', 'json', str(f)], capture_output=True, text=True).stdout)
     v = next(s for s in pr['streams'] if s['codec_type'] == 'video'); a = next((s for s in pr['streams'] if s['codec_type'] == 'audio'), None)
     res = f"{v['width']}x{v['height']}"; fps = eval(v['r_frame_rate']); dur = float(pr['format']['duration']); nf = int(v.get('nb_frames', 0))

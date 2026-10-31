@@ -12,7 +12,7 @@ const E = {
   inOutQuad: p => p < .5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2,
   inCubic: p => p * p * p, outCubic: p => 1 - Math.pow(1 - p, 3),
   inOutCubic: p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2,
-  outQuart: p => 1 - Math.pow(1 - p, 4), inQuart: p => p ** 4,
+  outQuart: p => 1 - Math.pow(1 - p, 4), inQuart: p => p ** 4, inOutQuart: p => p < .5 ? 8 * p ** 4 : 1 - Math.pow(-2 * p + 2, 4) / 2,
   outQuint: p => 1 - Math.pow(1 - p, 5),
   inOutQuint: p => p < .5 ? 16 * p ** 5 : 1 - Math.pow(-2 * p + 2, 5) / 2,
   outExpo: p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p),

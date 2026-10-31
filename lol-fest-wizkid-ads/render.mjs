@@ -17,6 +17,12 @@ for (const [c, name] of Object.entries(CON)) for (const f of ['story', 'reels', 
   jobs.push({ id: `${c}-${f}`, page: 'ads.html', q: `c=${c}&f=${f}`, file: `${P}_${name}_20s_${FMT[f]}.mp4`, crf: f === 'master' || f === 'bb4k' ? 16 : 17, cue: c });
 for (const [s, [name, d]] of Object.entries(STO))
   jobs.push({ id: `${s}-story`, page: 'stories.html', q: `s=${s}`, file: `${P}_${name}_${d}s_1080x1920_9x16_Story-Reels-TikTok_MASTER.mp4`, crf: 14, cue: s });
+// co-branded sponsor spots: 13 sponsors x 3 formats
+const SPN = { hennessy: '01-Hennessy', heineken: '02-Heineken', 'coca-cola': '03-Coca-Cola', desperados: '04-Desperados', best: '05-BEST', axe: '06-AXE', 'lords-gin': '07-Lords-London-Dry-Gin',
+  'transcorp-hotels': '08-Transcorp-Hotels', 'vodi-group': '09-Vodi-Group', 'united-nigeria': '10-United-Nigeria-Airlines', trace: '11-TRACE-Plus', 'square-meter': '12-Square-Meter-Spaces', 'nova-flair': '13-Nova-Flair' };
+const SPF = { reels: '1080x1920_9x16_Stories-Reels-TikTok', feed: '1080x1350_4x5_Feed', square: '1080x1080_1x1_Square' };
+for (const [s, n] of Object.entries(SPN)) for (const [f, tag] of Object.entries(SPF))
+  jobs.push({ id: `sp-${s}-${f}`, page: 'sponsors.html', q: `s=${s}&f=${f}`, file: `sponsors/${n}/${P}_x_${n.slice(3)}_15s_${tag}.mp4`, crf: 17, cue: `sp-${s}` });
 const filter = process.argv[2];
 const todo = jobs.filter(j => !filter || j.id.includes(filter));
 
@@ -38,7 +44,7 @@ async function run(j) {
     execFileSync('ffmpeg', ['-y', '-v', 'error', '-i', raw, '-af', `loudnorm=I=-14:TP=-1.0:LRA=11:measured_I=${js.input_i}:measured_TP=${js.input_tp}:measured_LRA=${js.input_lra}:measured_thresh=${js.input_thresh}:offset=${js.target_offset}:linear=true,aresample=48000,alimiter=limit=0.8:attack=2:release=60:level=false`, '-c:a', 'pcm_s16le', wav]);
   })());
   await audioDone.get(j.cue);
-  const out = path.join(WORK, j.file);
+  const out = path.join(WORK, j.file); fs.mkdirSync(path.dirname(out), { recursive: true });
   const ff = spawn('ffmpeg', ['-y', '-hide_banner', '-loglevel', 'error', '-f', 'image2pipe', '-framerate', String(FPS), '-c:v', 'mjpeg', '-i', '-', '-i', wav,
     '-map', '0:v', '-map', '1:a', '-c:v', 'libx264', '-preset', 'medium', '-crf', String(j.crf), '-profile:v', 'high', '-level', W > 1920 ? '5.1' : '4.2',
     '-pix_fmt', 'yuv420p', '-r', String(FPS), '-g', String(FPS * 2), '-colorspace', 'bt709', '-color_primaries', 'bt709', '-color_trc', 'bt709', '-color_range', 'tv',
