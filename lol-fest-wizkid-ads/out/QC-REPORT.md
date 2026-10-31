@@ -47,3 +47,42 @@
 | 06 | `LOLFEST_WIZKID_S3-Visual-Experience_15s_1080x1920_9x16_Story-Reels-TikTok_MASTER.mp4` | 1080x1920 | 30 | 15.00s | 450 | -13.9 | -1.4 | 16.0 MB | PASS |
 | 06 | `LOLFEST_WIZKID_S4-Wizkid-Takeover_10s_1080x1920_9x16_Story-Reels-TikTok_MASTER.mp4` | 1080x1920 | 30 | 10.00s | 300 | -13.7 | -2.2 | 8.5 MB | PASS |
 | 06 | `LOLFEST_WIZKID_S5-Ultimate-Festival-Announcement_15s_1080x1920_9x16_Story-Reels-TikTok_MASTER.mp4` | 1080x1920 | 30 | 15.00s | 450 | -14.1 | -1.8 | 9.1 MB | PASS |
+| 01 | `LOLFEST_WIZKID_x_Hennessy_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.02s | 375 | -16.0 | -1.7 | 5.9 MB | CHECK: loudness -16.0; black 0-1 |
+| 01 | `LOLFEST_WIZKID_x_Hennessy_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.02s | 375 | -16.0 | -1.7 | 6.6 MB | CHECK: loudness -16.0; black 0-1 |
+| 01 | `LOLFEST_WIZKID_x_Hennessy_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.02s | 375 | -16.0 | -1.7 | 8.7 MB | CHECK: loudness -16.0; black 0-1.08 |
+| 02 | `LOLFEST_WIZKID_x_Heineken_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.02s | 375 | -14.3 | -1.4 | 7.9 MB | PASS |
+| 02 | `LOLFEST_WIZKID_x_Heineken_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.02s | 375 | -14.3 | -1.4 | 9.4 MB | PASS |
+| 02 | `LOLFEST_WIZKID_x_Heineken_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.02s | 375 | -14.3 | -1.4 | 12.7 MB | PASS |
+| 03 | `LOLFEST_WIZKID_x_Coca-Cola_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.00s | 375 | -13.7 | -2.0 | 6.0 MB | PASS |
+| 03 | `LOLFEST_WIZKID_x_Coca-Cola_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.00s | 375 | -13.7 | -2.0 | 7.0 MB | PASS |
+| 03 | `LOLFEST_WIZKID_x_Coca-Cola_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.00s | 375 | -13.7 | -2.0 | 9.2 MB | PASS |
+| 04 | `LOLFEST_WIZKID_x_Desperados_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.00s | 375 | -13.7 | -2.5 | 6.5 MB | PASS |
+| 04 | `LOLFEST_WIZKID_x_Desperados_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.00s | 375 | -13.7 | -2.5 | 7.1 MB | PASS |
+| 04 | `LOLFEST_WIZKID_x_Desperados_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.00s | 375 | -13.7 | -2.5 | 9.5 MB | PASS |
+| 05 | `LOLFEST_WIZKID_x_BEST_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.02s | 375 | -14.5 | -1.7 | 5.0 MB | PASS |
+| 05 | `LOLFEST_WIZKID_x_BEST_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.02s | 375 | -14.5 | -1.7 | 5.6 MB | PASS |
+| 05 | `LOLFEST_WIZKID_x_BEST_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.02s | 375 | -14.5 | -1.7 | 7.5 MB | PASS |
+| 06 | `LOLFEST_WIZKID_x_AXE_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.00s | 375 | -14.2 | -1.7 | 3.5 MB | PASS |
+| 06 | `LOLFEST_WIZKID_x_AXE_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.00s | 375 | -14.2 | -1.7 | 4.0 MB | PASS |
+| 06 | `LOLFEST_WIZKID_x_AXE_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.00s | 375 | -14.2 | -1.7 | 5.4 MB | PASS |
+| 07 | `LOLFEST_WIZKID_x_Lords-London-Dry-Gin_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.00s | 375 | -14.1 | -1.0 | 6.6 MB | PASS |
+| 07 | `LOLFEST_WIZKID_x_Lords-London-Dry-Gin_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.00s | 375 | -14.1 | -1.0 | 7.4 MB | PASS |
+| 07 | `LOLFEST_WIZKID_x_Lords-London-Dry-Gin_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.00s | 375 | -14.1 | -1.0 | 9.1 MB | PASS |
+| 08 | `LOLFEST_WIZKID_x_Transcorp-Hotels_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.00s | 375 | -14.1 | -1.4 | 6.3 MB | PASS |
+| 08 | `LOLFEST_WIZKID_x_Transcorp-Hotels_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.00s | 375 | -14.1 | -1.4 | 7.4 MB | PASS |
+| 08 | `LOLFEST_WIZKID_x_Transcorp-Hotels_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.00s | 375 | -14.1 | -1.4 | 9.8 MB | PASS |
+| 09 | `LOLFEST_WIZKID_x_Vodi-Group_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.02s | 375 | -14.5 | -1.8 | 7.0 MB | PASS |
+| 09 | `LOLFEST_WIZKID_x_Vodi-Group_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.02s | 375 | -14.5 | -1.8 | 7.9 MB | PASS |
+| 09 | `LOLFEST_WIZKID_x_Vodi-Group_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.02s | 375 | -14.5 | -1.8 | 10.7 MB | PASS |
+| 10 | `LOLFEST_WIZKID_x_United-Nigeria-Airlines_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.00s | 375 | -13.7 | -2.3 | 7.9 MB | PASS |
+| 10 | `LOLFEST_WIZKID_x_United-Nigeria-Airlines_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.00s | 375 | -13.7 | -2.3 | 9.6 MB | PASS |
+| 10 | `LOLFEST_WIZKID_x_United-Nigeria-Airlines_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.00s | 375 | -13.7 | -2.3 | 13.3 MB | PASS |
+| 11 | `LOLFEST_WIZKID_x_TRACE-Plus_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.00s | 375 | -13.8 | -2.3 | 5.4 MB | PASS |
+| 11 | `LOLFEST_WIZKID_x_TRACE-Plus_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.00s | 375 | -13.8 | -2.3 | 5.7 MB | PASS |
+| 11 | `LOLFEST_WIZKID_x_TRACE-Plus_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.00s | 375 | -13.8 | -2.3 | 7.1 MB | PASS |
+| 12 | `LOLFEST_WIZKID_x_Square-Meter-Spaces_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.00s | 375 | -14.1 | -1.6 | 4.8 MB | PASS |
+| 12 | `LOLFEST_WIZKID_x_Square-Meter-Spaces_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.00s | 375 | -14.1 | -1.6 | 5.4 MB | PASS |
+| 12 | `LOLFEST_WIZKID_x_Square-Meter-Spaces_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.00s | 375 | -14.1 | -1.6 | 6.3 MB | PASS |
+| 13 | `LOLFEST_WIZKID_x_Nova-Flair_15s_1080x1080_1x1_Square.mp4` | 1080x1080 | 25 | 15.00s | 375 | -14.1 | -1.8 | 8.3 MB | PASS |
+| 13 | `LOLFEST_WIZKID_x_Nova-Flair_15s_1080x1350_4x5_Feed.mp4` | 1080x1350 | 25 | 15.00s | 375 | -14.1 | -1.8 | 9.7 MB | PASS |
+| 13 | `LOLFEST_WIZKID_x_Nova-Flair_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4` | 1080x1920 | 25 | 15.00s | 375 | -14.1 | -1.8 | 12.9 MB | PASS |

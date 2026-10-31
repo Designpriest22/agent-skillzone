@@ -140,11 +140,11 @@ const SPONSORS_CFG = {
     grade: [['soft-light', 'rgba(255,160,60,.38)'], ['multiply', 'rgba(30,18,8,.22)']], filter: 'contrast(1.08) saturate(1.05)',
     type: { date: '#F4E3C3', venue: '#D9A55B', reveal: 'track' },
     intro(t) {
-      ctx.fillStyle = '#050403'; ctx.fillRect(0, 0, W, H);
+      radial('#24160a', '#050403', W / 2, H * .5);
       // a thin amber stream pours from the top of frame to the wordmark, then blooms into a warm pool of light
-      const pour = E.inOutCubic(prog(t, .1, 1.0)), bloom = E.outCubic(prog(t, .85, 2.0)), thin = 1 - E.inCubic(prog(t, 1.1, 1.8));
+      const pour = E.outCubic(prog(t, 0, .8)), bloom = .25 + .75 * E.outCubic(prog(t, .6, 1.8)), thin = 1 - E.inCubic(prog(t, 1.1, 1.8));
       if (thin > 0) { const sg = ctx.createLinearGradient(0, 0, 0, L.cy); sg.addColorStop(0, 'rgba(255,190,90,0)'); sg.addColorStop(1, 'rgba(255,170,70,.95)');
-        ctx.save(); ctx.globalAlpha = thin; ctx.fillStyle = sg; const sw = U(5) + Math.sin(t * 30) * U(.8); ctx.fillRect(L.cx - sw / 2, 0, sw, L.cy * pour); ctx.restore(); }
+        ctx.save(); ctx.globalAlpha = thin; ctx.fillStyle = sg; const sw = U(7) + Math.sin(t * 30) * U(.8); ctx.fillRect(L.cx - sw / 2, 0, sw, L.cy * Math.max(.18, pour)); ctx.restore(); }
       if (bloom > 0) { ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.translate(L.cx, L.cy); ctx.scale(1, .22);
         const g = ctx.createRadialGradient(0, 0, 0, 0, 0, L.sw * .9 * bloom); g.addColorStop(0, `rgba(255,180,80,${.7 * (1 - .5 * prog(t, 2, 3.4))})`); g.addColorStop(.5, 'rgba(200,110,30,.25)'); g.addColorStop(1, 'rgba(0,0,0,0)');
         ctx.fillStyle = g; ctx.fillRect(-W, -H * 5, W * 2, H * 10); ctx.restore(); }
@@ -161,7 +161,7 @@ const SPONSORS_CFG = {
     fx(t) { letterbox(ctx, L, L.vert ? .07 : .06); if (t > 6.45 && t < 6.85) flash(ctx, L, Math.sin(prog(t, 6.45, 6.85) * Math.PI) * .55, '#ffb860'); },
     lock: { divider: 'line', divColor: '#C9974F', reveal: 'fade', ease: E.outCubic, step: .16, sweep: 1.0, sweepCol: 'rgba(255,214,150,.9)', logoK: 1.1 },
     lockBg(lt) { ctx.fillStyle = '#060504'; ctx.fillRect(0, 0, W, H); radial('rgba(150,84,26,.32)', 'rgba(0,0,0,0)', W / 2, H * .35); ctx.save(); ctx.fillStyle = '#C9974F'; ctx.globalAlpha = .5 * E.outCubic(prog(lt, .2, 1)); ctx.fillRect(L.x0, L.y0 - U(20), L.sw, U(1.5)); ctx.fillRect(L.x0, L.y1 + U(20), L.sw, U(1.5)); ctx.restore(); },
-    cues: [{ t: 0, k: 'swell', d: 1.5 }, { t: 1.2, k: 'chime' }, { t: 2.2, k: 'shimmer', g: .6 }, { t: 3.7, k: 'whoosh', g: .6 }, { t: 4, k: 'hit', g: .6 }, { t: 6.6, k: 'impact', g: .7 }, { t: 8.4, k: 'shimmer', g: .5 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'boom' }, { t: 11, k: 'shimmer', g: .5 }] },
+    cues: [{ t: 0, k: 'swell', d: 1.5 }, { t: 1.2, k: 'chime', g: .35 }, { t: 2.2, k: 'shimmer', g: .3 }, { t: 3.7, k: 'whoosh', g: .6 }, { t: 4, k: 'hit', g: .6 }, { t: 6.6, k: 'boom', g: .6 }, { t: 8.4, k: 'shimmer', g: .28 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'boom' }, { t: 11, k: 'shimmer', g: .28 }] },
 
   // 2 ── HEINEKEN · Green Star ─────────────────────────────────────────────────────────────────────
   heineken: { logo: '02-heineken', name: 'Heineken', bpm: 118, music: 'sp-groove',
