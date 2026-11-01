@@ -9,15 +9,16 @@ import { schedules } from "@/db/schema";
 import { enqueue, type JobType } from "./queue";
 
 export const DEFAULT_SCHEDULES: { slug: string; name: string; cron: string; jobType: JobType; payload?: Record<string, unknown> }[] = [
-  { slug: "morning-intelligence", name: "Morning business intelligence (MD → Research, Sales)", cron: "0 7 * * 1-6", jobType: "cycle.morning" },
-  { slug: "midday-execution", name: "Midday execution cycle (Operations Manager)", cron: "0 12 * * 1-6", jobType: "cycle.midday" },
-  { slug: "evening-review", name: "Evening review + daily executive briefing", cron: "0 18 * * *", jobType: "cycle.evening" },
+  { slug: "morning-intelligence", name: "07:00 Daily intelligence (MD → Research)", cron: "0 7 * * 1-6", jobType: "cycle.morning" },
+  { slug: "agent-assignments", name: "08:00 Agent assignments (MD → Sales, Content, Finance, Social)", cron: "0 8 * * 1-6", jobType: "cycle.assignments" },
+  { slug: "midday-execution", name: "12:00 Progress monitoring (Operations Manager)", cron: "0 12 * * 1-6", jobType: "cycle.midday" },
+  { slug: "evening-review", name: "17:00 Daily business report (sent to WhatsApp, email, Telegram)", cron: "0 17 * * *", jobType: "cycle.evening" },
   { slug: "daily-finance", name: "Daily financial report", cron: "30 19 * * *", jobType: "report.generate", payload: { kind: "daily_finance" } },
   { slug: "follow-up-reminders", name: "Overdue follow-up reminders", cron: "15 * * * *", jobType: "followups.check" },
   { slug: "invoice-check", name: "Overdue invoice check", cron: "0 9 * * *", jobType: "invoices.check" },
   { slug: "publish-scheduled", name: "Publish approved scheduled content", cron: "*/5 * * * *", jobType: "content.publish_due" },
-  { slug: "weekly-reports", name: "Weekly business & social reports", cron: "0 8 * * 1", jobType: "report.generate", payload: { kind: "weekly" } },
-  { slug: "monthly-reports", name: "Monthly financial & social reports", cron: "0 8 1 * *", jobType: "report.generate", payload: { kind: "monthly" } },
+  { slug: "weekly-reports", name: "Weekly business & social reports", cron: "30 8 * * 1", jobType: "report.generate", payload: { kind: "weekly" } },
+  { slug: "monthly-reports", name: "Monthly financial & social reports", cron: "45 8 1 * *", jobType: "report.generate", payload: { kind: "monthly" } },
 ];
 
 export function nextRun(cron: string, tz: string, from = new Date()): Date | null {

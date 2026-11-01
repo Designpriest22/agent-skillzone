@@ -10,8 +10,9 @@ import { db } from "@/db/client";
 import {
   agents, leads, interactions, clients, followUps, projects, deliverables, transactions, invoices, revenueTargets, knowledgeDocs,
   integrationConfigs, schedules, users, services, socialAccounts, contentItems, intelItems, notifications, portfolioItems,
-  testimonials, approvals, LEAD_STAGES, type LeadStage,
+  testimonials, approvals, authorizedSenders, apiTokens, LEAD_STAGES, type LeadStage,
 } from "@/db/schema";
+import { createApiToken, revokeApiToken } from "@/lib/api-tokens";
 import { requireUser, type SessionUser } from "@/lib/auth";
 import { logActivity } from "@/lib/audit";
 import { submitCommand } from "@/orchestrator/commands";
@@ -373,6 +374,7 @@ export async function saveSettingsAction(f: FormData) {
       prospectSegments: s(f, "prospectSegments").split("\n").map((x) => x.trim()).filter(Boolean),
       autonomousCycles: f.get("autonomousCycles") === "on",
       reportEmail: opt(f, "reportEmail"),
+      reportWhatsApp: f.get("reportWhatsApp") === "on",
     });
     await logActivity({ type: "user", id: u.id }, "settings.updated", null);
   });
@@ -521,10 +523,58 @@ export async function markNotificationsReadAction() {
 export async function runCycleNowAction(f: FormData) {
   await guarded(f, "/os", "owner", async (u) => {
     const type = s(f, "type") as JobType;
-    if (!["cycle.morning", "cycle.midday", "cycle.evening"].includes(type)) throw new Error("Unknown cycle");
+    if (!["cycle.morning", "cycle.assignments", "cycle.midday", "cycle.evening"].includes(type)) throw new Error("Unknown cycle");
     await enqueue(type, {}, { priority: 2 });
     await logActivity({ type: "user", id: u.id }, "cycle.triggered", null, { type });
   });
   bounce(back(f, "/os"), "Cycle queued — the worker will start it within seconds.", "ok");
 }
 
+
+/* ── Command channels: WhatsApp numbers & Claude connector tokens ─────────── */
+
+export async function addSenderAction(f: FormData) {
+  await guarded(f, "/os/settings?tab=channels", "owner", async (u) => {
+    const address = s(f, "address").replace(/[^\d]/g, "");
+    if (address.length < 8 || address.length > 15) throw new Error("Enter the full international number, e.g. 2348012345678");
+    const userId = s(f, "userId");
+    const [target] = await db.select({ id: users.id }).from(users).where(eq(users.id, userId));
+    if (!target) throw new Error("Choose a user");
+    await db.insert(authorizedSenders).values({ channel: "whatsapp", address, userId, label: opt(f, "label") })
+      .onConflictDoUpdate({ target: [authorizedSenders.channel, authorizedSenders.address], set: { userId, label: opt(f, "label"), active: true } });
+    await logActivity({ type: "user", id: u.id }, "channel.sender_added", null, { address: `…${address.slice(-4)}`, userId });
+  });
+  revalidatePath("/os/settings");
+  bounce("/os/settings?tab=channels", "Number authorised", "ok");
+}
+
+export async function toggleSenderAction(f: FormData) {
+  await guarded(f, "/os/settings?tab=channels", "owner", async (u) => {
+    const [row] = await db.select().from(authorizedSenders).where(eq(authorizedSenders.id, s(f, "id")));
+    if (!row) throw new Error("Not found");
+    await db.update(authorizedSenders).set({ active: !row.active }).where(eq(authorizedSenders.id, row.id));
+    await logActivity({ type: "user", id: u.id }, row.active ? "channel.sender_disabled" : "channel.sender_enabled", null, { address: `…${row.address.slice(-4)}` });
+  });
+  revalidatePath("/os/settings");
+  redirect("/os/settings?tab=channels");
+}
+
+export async function createApiTokenAction(_prev: unknown, f: FormData): Promise<{ token?: string; error?: string }> {
+  const user = await requireUser("viewer");
+  if (user.role === "viewer") return { error: "Viewers cannot create connector tokens." };
+  const active = await db.select({ id: apiTokens.id }).from(apiTokens).where(eq(apiTokens.userId, user.id));
+  if (active.length >= 20) return { error: "Too many tokens — revoke unused ones first." };
+  const { token } = await createApiToken(user.id, s(f, "name"));
+  await logActivity({ type: "user", id: user.id }, "api_token.created", null, { name: s(f, "name") });
+  revalidatePath("/os/settings");
+  return { token };
+}
+
+export async function revokeApiTokenAction(f: FormData) {
+  await guarded(f, "/os/settings?tab=channels", "viewer", async (u) => {
+    await revokeApiToken(s(f, "id"), u.id);
+    await logActivity({ type: "user", id: u.id }, "api_token.revoked", { type: "api_token", id: s(f, "id") });
+  });
+  revalidatePath("/os/settings");
+  redirect("/os/settings?tab=channels");
+}

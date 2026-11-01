@@ -12,9 +12,11 @@
 
 **Decision:** a thin, explicit orchestrator over the Claude Messages API with tool use. Coordination happens through **durable tasks in PostgreSQL** (not chat between agents), which makes every step inspectable, resumable and auditable.
 
-### Model choice
-- Default: **Claude Opus 5.5** (`claude-opus-5-5`) for all agents, with per-agent `effort` (MD `high`, others `medium`). Opus 5.5 is priced at $4/$20 per MTok, and lower effort keeps routine agents cheap without switching model families (one cache namespace).
-- Owner-configurable per agent in the dashboard: Sonnet 5.5 (~50% cheaper), Haiku 5.5 (high volume, lowest cost), Fable 5.1 (most capable, premium).
+### Model choice (cost routing)
+- **Opus 5.5** (`claude-opus-5-5`, $4/$20 per MTok) where judgement and quality control matter most: the **Managing Director** (planning, review, consolidation) and **Copywriting**.
+- **Sonnet 5.5** (~50% cheaper) for the specialist departments: research, sales & marketing, client management, content, design, video, social, web development, operations.
+- **Haiku 5.5** (lowest cost) for **finance** narration — the numbers are computed by code; the model only explains them.
+- Per-agent `effort` (MD `high`, others `medium`). Everything is owner-configurable per agent in the dashboard (including Fable 5.1 for premium work). `DEFAULT_AGENT_MODEL_FORCE=true` puts every agent on one model at seed time.
 - **Server tools:** Anthropic-hosted `web_search_20260209` / `web_fetch_20260209` (Lagos user location) give research agents real web access with no scraping infrastructure.
 - **Refusal fallbacks:** requests use `fallbacks: "default"` (beta `server-side-fallback-2026-07-01`) where supported; a final `refusal` stop reason fails the task with a clear message.
 - **Prompt caching:** top-level `cache_control` caches tools + a stable system prompt (shared charter → job description → pinned knowledge). Volatile content (time, inbox, memories) goes in the user turn.
@@ -99,3 +101,50 @@ See [SECURITY.md](SECURITY.md): scrypt password hashing, DB-backed httpOnly sess
 
 ## 8. Frontend
 Next.js 16 App Router, React 19 server components + server actions, Tailwind CSS v4 design tokens (light/dark), shadcn-style local primitives (`src/components/ui.tsx`), hand-rolled SVG charts that only render recorded data. Live views auto-refresh while agents work.
+
+## 9. Command channels (v1.1)
+
+```
+ WhatsApp (owner's phone) ──▶ Meta Cloud API ──▶ POST /api/webhooks/meta ──▶ job: whatsapp.inbound
+                                                                   │  authorised number? ── no ──▶ CRM enquiry → Client Manager
+                                                                   └─ yes ─▶ quick command (approve/status/tasks…) or submitCommand(channel=whatsapp)
+ Claude (claude.ai / Desktop / Code) ──▶ POST /api/mcp (Bearer phk_…) ──▶ MCP tools ──▶ submitCommand(channel=claude), reads, approvals
+                                                                   │
+                         task lifecycle events (assigned / finished / command done) ──▶ job: channel.notify ──▶ WhatsApp progress + final verified report
+                         requestApproval() ──▶ job: channel.approval ──▶ WhatsApp Approve / Reject / Request-changes buttons
+```
+
+- **One orchestrator, many channels.** Commands record their `channel`, `reply_to` and `attachments`; the MD gets a channel note (e.g. keep WhatsApp reports phone-sized). Read models in `src/orchestrator/command-status.ts` are shared by WhatsApp, MCP and the dashboard, so all three report the same completed / pending / failed / awaiting-approval state — computed from the database, never from model text.
+- **Identity.** WhatsApp numbers are bound to users in `authorized_senders` (role-based); MCP tokens in `api_tokens` (hashed). Level-3 approvals are refused on both channels by design.
+- **Reliability.** Inbound WhatsApp is queued and de-duplicated by message id (the key survives job completion); outbound progress is queued with retries so a slow messaging API never blocks agents. Closed 24-hour windows fall back to an approved template.
+- **Why MCP for the Claude interface.** It's the native way for Claude (claude.ai, Desktop and Code) to call an external system; the server is stateless, so it runs unchanged on serverless or long-running hosts.
+
+## 10. Built-in video renderer
+
+`render_video` (Video agent) → `src/video/render.ts`: storyboard (zod-validated scenes: hook, statement, list, stat, cta, logo) → self-contained HTML per format (`src/video/template.ts`, OFL fonts embedded, deterministic `renderAt(t)`) → headless Chromium screenshots → ffmpeg H.264/AAC MP4 with `+faststart` → ffprobe. Motion follows the hyperframes-animation skill's rules: one seekable timeline, no clocks or randomness, layout measured once, transform/opacity only. QC on the deliverable is computed from the file (resolution, duration, codec, size vs WhatsApp's 16 MB limit, words per second, CTA, palette). Files live in the `files` table (bytea) so the worker and web app share them on any host; for very large media, move `saveFile/readFile` to object storage (S3/R2/Supabase Storage) behind the same interface.
+
+## 11. Skills, MCP integrations and tools inventory (Phase 1 research, v1.1)
+
+| Source | Finding | Used how |
+|---|---|---|
+| `find-skills` (skills.sh CLI) | Registry unreachable from the build environment (proxy 403) | Fell back to LLM SkillHub + locally installed skills |
+| LLM SkillHub | Remotion/HyperFrames video skills, `build-mcp-server`, WhatsApp marketing skills (third-party tools, low adoption) | Patterns only; no low-adoption third-party code installed |
+| Installed skills | `hyperframes-animation`, `motion-designer`, `anthropic-skills:mcp-builder`, `claude-api` | Motion rules for the renderer; MCP server design; model routing |
+| Official SDKs | `@modelcontextprotocol/sdk` (Streamable HTTP, web-standard transport), `playwright-core` | Claude connector; video capture |
+| Session MCP connectors (Canva, Adobe, Figma, Higgsfield, Magnific, Google Drive…) | Available to a person using Claude, not to a hosted server | Usable from Claude alongside the Prohub connector (e.g. design in Canva, then hand files to Prohub); server-side integrations go through official APIs in `src/integrations/` |
+| WhatsApp | Official Cloud API (Graph v21) | Only official API; no unofficial automation |
+
+## 12. Running cost estimate (default settings)
+
+Assumptions: Opus 5.5 at $4/$20 per MTok with ~70% of input served from the prompt cache; Sonnet ~50% of that; web search $10 per 1,000 searches. Verify current prices before budgeting.
+
+| Item | Estimate |
+|---|---|
+| One agent run (≈30k input, 3k output) | ≈ $0.10 on Opus, ≈ $0.05 on Sonnet |
+| Daily cycles (07:00, 08:00, 12:00, 17:00 ≈ 15–25 runs + 20–40 searches) | ≈ $1–3 per day → **$30–90 / month** |
+| Ad-hoc instruction (MD + 2–5 agents) | ≈ $0.25–1.00 each |
+| Video render | No API cost (CPU on the worker, ~25 s per format) |
+| Hosting | Web + worker containers ≈ $15–40 / month (Render/Railway/Fly or one VPS); Supabase Postgres free → $25 / month |
+| WhatsApp | Replies inside the 24-hour window are free under Meta's current pricing; templates (owner updates outside the window, outbound marketing) are charged per message by category and country — see Meta's rate card |
+
+Hard limits that cap spend: per-agent daily budgets (sum ≈ $59/day maximum at defaults, normally far below), turn limits, delegation depth and tasks-per-instruction caps. Actual spend per run and per agent is recorded in `agent_runs` and shown on each agent's page and in the daily report.

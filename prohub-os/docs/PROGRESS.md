@@ -27,8 +27,8 @@ Status as of this delivery. "Tested" means covered by the automated suite (`npm 
 **Needs credentials:** Meta (Page/IG), LinkedIn, OpenAI Images, video provider, WhatsApp Cloud API, SMTP.
 
 ## Phase 6 — Automation ✅
-**Built:** schedules for morning intelligence, midday execution, evening review + 10-section executive briefing, daily finance report, hourly follow-up reminders, daily overdue-invoice check, 5-minute scheduled publishing, weekly business/social and monthly finance/social reports; notifications (in-app, Telegram, Slack) and report delivery (email PDF, Telegram digest).
-**Tested:** briefing contains all 10 sections; weekly/monthly/social/daily-finance builders; PDF/XLSX/CSV rendering and authenticated downloads; follow-up reminders create tasks exactly once; schedules computed in Africa/Lagos.
+**Built:** schedules for morning intelligence, midday execution, evening review + daily briefing (12 sections since v1.1), daily finance report, hourly follow-up reminders, daily overdue-invoice check, 5-minute scheduled publishing, weekly business/social and monthly finance/social reports; notifications (in-app, Telegram, Slack) and report delivery (email PDF, Telegram digest).
+**Tested:** briefing contains all required sections; weekly/monthly/social/daily-finance builders; PDF/XLSX/CSV rendering and authenticated downloads; follow-up reminders create tasks exactly once; schedules computed in Africa/Lagos.
 
 ## Phase 7 — Testing ✅ (MVP scope)
 26 automated tests across orchestration, delegation, verification, permissions, approvals, finance calculations, queue, scheduler, reports, enquiries, security primitives and timezone handling. Production build passes. Every dashboard and public route rendered without errors in Chromium.
@@ -51,6 +51,24 @@ Status as of this delivery. "Tested" means covered by the automated suite (`npm 
 | Image / video generation | OpenAI API key; video provider endpoint + key |
 | Push notifications | Telegram bot token + chat ID and/or Slack webhook |
 | Client-site deploys | GitHub token + repo; Vercel deploy hook |
+
+## Phase 9 (v1.1) — Command channels, video production, daily rhythm ✅
+Built against the PROHUB INTELLIGENCE master brief, on top of the MVP above.
+
+**Built**
+- **WhatsApp command centre** (official Cloud API): authorised numbers bound to users and roles; natural-language instructions to the MD; quick commands (`help`, `approvals`, `approve/reject/change <ref>`, `status`, `tasks`, `cancel`); progress messages (received → agent assigned → department finished → verified final report with records, links, pending approvals, video files and report PDFs); Approve / Reject / Request-changes buttons on every approval; images and PDFs passed to the MD as real image/document input; voice-note transcription (OpenAI) with graceful fallback; 24-hour-window template fallback; inbound de-duplication; non-authorised senders remain CRM enquiries.
+- **Claude command centre**: remote MCP server (`/api/mcp`, stateless Streamable HTTP) with 18 tools — instructions, status, task board, business snapshot, pipeline, approvals (L3 refused), reports, agents, deliverables, payments, knowledge. Personal access tokens (hashed) managed in Settings.
+- **Built-in video production**: `render_video` renders MP4s (9:16, 1:1, 4:5, 16:9) from a storyboard in the client's palette via Chromium + ffmpeg; ffprobe-measured QC; files stored and linked to the client deliverable; video playback on the deliverable page.
+- **Daily rhythm** 07:00 intelligence · 08:00 assignments (new cycle) · 12:00 progress · 17:00 report; the daily report now has the brief's 12 sections and is delivered to WhatsApp (summary + PDF).
+- **Research reports** now require topic, findings, sources, opportunity, cost/revenue economics, recommended action and priority.
+- **Pipeline stages** aligned to the brief: New lead → Contacted → Responded → Qualified → (Meeting) → Proposal sent → Negotiation → Won/Lost (data migration included).
+- **Revenue intelligence snapshot**: actual revenue, expenses, net, target, outstanding/overdue, pipeline estimates, leads, outreach, responses, win rate, new/active/repeat clients, marketing spend, cost per lead, CAC.
+- **Cost routing**: Opus for MD and copy, Sonnet for specialists, Haiku for finance narration.
+- **Deployment**: Docker image with Chromium + ffmpeg; Compose profile for web + worker + migrations.
+
+**Tested** — 34 automated tests pass, including the six acceptance scenarios from the brief end to end (see [TESTING.md](TESTING.md)): WhatsApp webhook → queue → MD → agents → CRM/approvals → WhatsApp replies; MCP instruction and status; real 15-second MP4 renders in three formats. Production build passes.
+
+**Not verified here (needs your credentials)** — live Claude reasoning quality (`npm run agent:smoke`), delivery through a real Meta WhatsApp number, voice-note transcription (OpenAI key), and Claude connecting to a deployed URL. The automated suite intercepts Meta's API and scripts the model's tool choices; it proves the workflow, not the model's judgement.
 
 ## Next phase
 See [ROADMAP.md](ROADMAP.md).

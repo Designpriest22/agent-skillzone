@@ -12,6 +12,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 const tsvector = customType<{ data: string }>({ dataType: () => "tsvector" });
+const bytea = customType<{ data: Buffer; driverData: Buffer }>({ dataType: () => "bytea" });
 
 const id = () => uuid("id").primaryKey().defaultRandom();
 const createdAt = () => timestamp("created_at", { withTimezone: true }).notNull().defaultNow();
@@ -114,6 +115,11 @@ export const commands = pgTable("commands", {
   status: text("status", { enum: ["received", "planning", "executing", "completed", "failed", "cancelled"] }).notNull().default("received"),
   rootTaskId: uuid("root_task_id"),
   response: text("response"),
+  /** Where the instruction came from and where progress/results are sent back. */
+  channel: text("channel", { enum: ["dashboard", "whatsapp", "claude", "api"] }).notNull().default("dashboard"),
+  replyTo: text("reply_to"),
+  /** Files sent with the instruction (ids in `files`), shown to the Managing Director as images/documents. */
+  attachments: jsonb("attachments").$type<string[]>().notNull().default([]),
   createdAt: createdAt(),
   completedAt: timestamp("completed_at", { withTimezone: true }),
 });
@@ -229,7 +235,7 @@ export const agentMemories = pgTable("agent_memories", {
 /* ───────────────────────────── CRM ───────────────────────────── */
 
 export const LEAD_STAGES = [
-  "new_lead", "contacted", "interested", "meeting_scheduled", "proposal_sent", "negotiation", "won", "lost", "follow_up_required",
+  "new_lead", "contacted", "responded", "qualified", "meeting_scheduled", "proposal_sent", "negotiation", "won", "lost", "follow_up_required",
 ] as const;
 export type LeadStage = (typeof LEAD_STAGES)[number];
 
@@ -375,6 +381,8 @@ export const deliverables = pgTable("deliverables", {
   format: text("format", { enum: ["markdown", "json", "svg", "html", "url"] }).notNull().default("markdown"),
   content: text("content").notNull(),
   fileUrl: text("file_url"),
+  /** Rendered/uploaded files belonging to this deliverable (ids in `files`). */
+  fileIds: jsonb("file_ids").$type<string[]>().notNull().default([]),
   platform: text("platform"),
   status: text("status", { enum: ["draft", "in_review", "approved", "changes_requested", "rejected", "published"] }).notNull().default("draft"),
   qc: jsonb("qc").$type<{ item: string; pass: boolean; note?: string }[]>().notNull().default([]),
@@ -520,6 +528,9 @@ export const intelItems = pgTable("intel_items", {
   title: text("title").notNull(),
   summary: text("summary").notNull(),
   recommendation: text("recommendation"),
+  /** The commercial opportunity for Prohub that follows from the findings. */
+  opportunity: text("opportunity"),
+  priority: text("priority", { enum: ["high", "medium", "low"] }).notNull().default("medium"),
   sourceUrls: jsonb("source_urls").$type<string[]>().notNull().default([]),
   confidence: text("confidence", { enum: ["verified", "likely", "assumption"] }).notNull(),
   /** For revenue opportunities: estimated cost / revenue / requirements / risks. */
@@ -679,3 +690,50 @@ export const reports = pgTable("reports", {
   generatedBy: text("generated_by").notNull(),
   createdAt: createdAt(),
 }, (t) => [index("reports_kind_idx").on(t.kind, t.createdAt)]);
+
+/* ───────────────────────────── Files, channels & API access ───────────────────────────── */
+
+/**
+ * Binary storage for rendered videos, report PDFs and media received over WhatsApp.
+ * Stored in Postgres so the web app and the worker share it on any host; see docs/ARCHITECTURE.md
+ * for moving large media to object storage.
+ */
+export const files = pgTable("files", {
+  id: id(),
+  name: text("name").notNull(),
+  mimeType: text("mime_type").notNull(),
+  sizeBytes: integer("size_bytes").notNull(),
+  data: bytea("data").notNull(),
+  sha256: text("sha256").notNull(),
+  /** Unguessable token for links sent outside the dashboard (e.g. WhatsApp media fetch). */
+  publicToken: text("public_token").notNull(),
+  source: text("source").notNull(), // "render", "whatsapp", "report", "upload"
+  meta: jsonb("meta").$type<Record<string, unknown>>().notNull().default({}),
+  createdBy: text("created_by").notNull(),
+  createdAt: createdAt(),
+}, (t) => [uniqueIndex("files_public_token_uq").on(t.publicToken)]);
+
+/** Phone numbers allowed to command the system over WhatsApp, each bound to a user (and so a role). */
+export const authorizedSenders = pgTable("authorized_senders", {
+  id: id(),
+  channel: text("channel", { enum: ["whatsapp"] }).notNull().default("whatsapp"),
+  /** E.164 digits only, e.g. 2348012345678 */
+  address: text("address").notNull(),
+  userId: uuid("user_id").notNull().references(() => users.id),
+  label: text("label"),
+  active: boolean("active").notNull().default(true),
+  lastSeenAt: timestamp("last_seen_at", { withTimezone: true }),
+  createdAt: createdAt(),
+}, (t) => [uniqueIndex("authorized_senders_uq").on(t.channel, t.address)]);
+
+/** Personal access tokens for the Claude connector (MCP) and the HTTP API. Only a hash is stored. */
+export const apiTokens = pgTable("api_tokens", {
+  id: id(),
+  userId: uuid("user_id").notNull().references(() => users.id),
+  name: text("name").notNull(),
+  tokenHash: text("token_hash").notNull(),
+  prefix: text("prefix").notNull(),
+  lastUsedAt: timestamp("last_used_at", { withTimezone: true }),
+  revokedAt: timestamp("revoked_at", { withTimezone: true }),
+  createdAt: createdAt(),
+}, (t) => [uniqueIndex("api_tokens_hash_uq").on(t.tokenHash)]);

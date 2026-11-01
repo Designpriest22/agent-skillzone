@@ -66,6 +66,7 @@ export async function createTask(t: NewTask) {
     clientId: t.clientId ?? null, dependsOn: t.dependsOn ?? [], dueAt: t.dueAt ?? null, depth,
   }).returning();
   await logActivity(actorOf(t.createdBy), "task.created", { type: "task", id: row.id }, { agent: t.agentSlug, status: row.status, title: row.title });
+  if (row.commandId && row.depth === 1) await commandEvent(row.commandId, "assigned", row.id);
   if (row.status === "approved") await queueIfReady(row.id);
   return row;
 }
@@ -145,13 +146,25 @@ export async function onTaskFinished(taskId: string) {
     .where(and(eq(tasks.status, "approved"), sql`${tasks.dependsOn} @> ${JSON.stringify([taskId])}::jsonb`));
   for (const d of dependents) await queueIfReady(d.id);
 
+  if (t.commandId && t.depth === 1 && TERMINAL.includes(t.status) && t.status !== "cancelled") await commandEvent(t.commandId, "finished", t.id);
   if (t.parentTaskId) await maybeResumeParent(t.parentTaskId);
 
   // Close the owner's command when its root task finishes.
   if (t.commandId && !t.parentTaskId && TERMINAL.includes(t.status)) {
     const status = t.status === "completed" ? "completed" : t.status === "cancelled" ? "cancelled" : "failed";
     await db.update(commands).set({ status, response: t.resultSummary ?? t.error, completedAt: new Date() }).where(eq(commands.id, t.commandId));
+    await commandEvent(t.commandId, "command_done", t.id);
   }
+}
+
+/**
+ * Progress events for commands issued from a push-capable channel (WhatsApp). Sent through the job
+ * queue so a slow or failing messaging API never blocks orchestration, and retried with backoff.
+ */
+async function commandEvent(commandId: string, event: "assigned" | "finished" | "command_done", taskId: string) {
+  const [cmd] = await db.select({ channel: commands.channel, replyTo: commands.replyTo }).from(commands).where(eq(commands.id, commandId));
+  if (cmd?.channel !== "whatsapp" || !cmd.replyTo) return;
+  await enqueue("channel.notify", { commandId, event, taskId }, { priority: 2, dedupeKey: `cmd-event:${commandId}:${event}:${taskId}` });
 }
 
 /** Wakes a manager waiting on subtasks once every child is terminal. Safe to call repeatedly. */

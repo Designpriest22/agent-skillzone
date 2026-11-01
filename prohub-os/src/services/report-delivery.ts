@@ -9,7 +9,7 @@ import { reportToPdf } from "./report-render";
 import { env } from "@/lib/env";
 import type { ReportData } from "./reports";
 
-/** Internal delivery of reports to the owner (email with PDF, Telegram digest). Owner-bound, so Level 1. */
+/** Internal delivery of reports to the owner (email with PDF, Telegram digest, WhatsApp digest + PDF). Owner-bound, so Level 1. */
 export async function deliverReport(reportId: string) {
   const [r] = await db.select().from(reports).where(eq(reports.id, reportId));
   if (!r) return { delivered: [] as string[] };
@@ -30,6 +30,18 @@ export async function deliverReport(reportId: string) {
       return `${sec.title}\n${lines.map((l) => `  ${l}`).join("\n")}`;
     }).join("\n\n");
     if (await sendTelegram(`${r.title}\n\n${digest}\n\n${link}`)) delivered.push("telegram");
-  } catch (e) { console.error("[reports] telegram delivery failed", e); }
+    if (s.reportWhatsApp && (await isConfigured("whatsapp"))) {
+      const { ownerRecipients, sendText, sendReportPdf } = await import("@/channels/whatsapp");
+      let n = 0;
+      for (const to of await ownerRecipients("manager")) {
+        try {
+          await sendText(to, `📊 *${r.title}*\n\n${digest.slice(0, 2800)}${r.narrative ? `\n\n${r.narrative.slice(0, 900)}` : ""}\n\n${link}`);
+          await sendReportPdf(to, r.id);
+          n++;
+        } catch (e) { console.error("[reports] whatsapp delivery failed", e instanceof Error ? e.message : e); }
+      }
+      if (n) delivered.push("whatsapp");
+    }
+  } catch (e) { console.error("[reports] push delivery failed", e); }
   return { delivered };
 }

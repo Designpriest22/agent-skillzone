@@ -1,6 +1,8 @@
 # Deployment
 
-Prohub OS has three runtime pieces: the **web app** (Next.js), the **worker** (job queue, scheduler and agent execution), and **PostgreSQL**. Pick the option below that fits how you want to host it.
+Prohub OS has three runtime pieces: the **web app** (Next.js — dashboard, website, WhatsApp webhook, Claude connector), the **worker** (job queue, scheduler, agent execution, video rendering), and **PostgreSQL**. Everything keeps running when no one has Claude Code or the dashboard open. Pick the option below that fits how you want to host it.
+
+**Video rendering** needs Chromium and ffmpeg wherever the worker runs. The Docker image includes both. On Render/Railway/Fly, deploy the worker from the Dockerfile (or install `chromium ffmpeg` in the build) and set `CHROMIUM_PATH`. Serverless functions (Vercel) cannot render video — run a worker container for that, or the Video agent falls back to scripts and storyboards.
 
 ## Option A — Recommended: Render / Railway / Fly.io + Supabase
 
@@ -21,6 +23,12 @@ If your host only allows a single service, set `WORKER_MODE=embedded` and the wo
 
 ## Option C — Docker (any VM)
 
+The quickest path is Compose, which runs the database, migrations, web app and worker:
+```bash
+cp .env.example .env   # fill in ENCRYPTION_KEY, OWNER_*, ANTHROPIC_API_KEY, WhatsApp, APP_URL …
+docker compose --profile app up -d --build
+```
+Or run the image directly:
 ```bash
 docker build -t prohub-os .
 docker run --env-file .env prohub-os npm run setup            # once
@@ -53,3 +61,6 @@ Put a TLS-terminating reverse proxy (Caddy or Nginx) in front of port 3000.
 3. Run `npm run agent:smoke` against production, or issue *"Which agent has the most outstanding tasks?"* from the Command centre.
 4. Check **Activity & jobs → Background jobs**. Jobs should move from queued to succeeded within seconds. If they stay queued, the worker is not running.
 5. Submit the public contact form. A lead and a Client Management triage task should appear.
+6. **WhatsApp:** from an authorised number send *help* — you should get the command menu within a few seconds. Send *tasks* to see the workforce board. From any other number, a message should create a CRM lead.
+7. **Claude connector:** create a token (Settings → Command channels), connect Claude, and ask it to call `business_snapshot`.
+8. **Video:** on the worker host run `npm run video:sample` — it writes three MP4s to `out-sample/` and prints the measured QC.

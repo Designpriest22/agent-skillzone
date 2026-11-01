@@ -12,12 +12,32 @@ Create a key at platform.claude.com, then set `ANTHROPIC_API_KEY`. Agents use Cl
 - For bulk outreach, use a transactional provider such as Amazon SES, Postmark or Zoho ZeptoMail, with SPF, DKIM and DMARC set on your domain.
 - **Used for:** approved outreach emails, proposals, invoices, and report delivery (Settings → Operations → Report email).
 
-## WhatsApp Business Cloud API
-1. In Meta for Developers, create an app and add **WhatsApp**. Add your business phone number.
-2. Create a permanent System User token with `whatsapp_business_messaging`. Set `WHATSAPP_ACCESS_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID`.
-3. Webhook: callback URL `https://<APP_URL>/api/webhooks/meta`, verify token `WHATSAPP_VERIFY_TOKEN`, subscribe to `messages`. Set `META_APP_SECRET` so that signatures are verified.
-4. `WHATSAPP_PUBLIC_NUMBER` turns on click-to-chat on the website.
-- **Policy:** messages to a contact outside the 24-hour customer-service window need a **Meta-approved template**. Agents propose template sends, and you approve them.
+## WhatsApp Business Cloud API — command centre + customer channel
+This uses the official Cloud API only (no unofficial automation that risks a ban). One business number does two jobs:
+**authorised numbers** (you, your managers) command the system, and **everyone else** is treated as a customer whose messages become CRM enquiries.
+
+1. In Meta for Developers, create an app (type *Business*) and add **WhatsApp**. Add and verify your business phone number.
+2. Create a permanent **System User** token with `whatsapp_business_messaging` and `whatsapp_business_management`. Set `WHATSAPP_ACCESS_TOKEN` and `WHATSAPP_PHONE_NUMBER_ID` (or enter them under **Integrations**).
+3. **Webhook:** callback URL `https://<APP_URL>/api/webhooks/meta`, verify token = `WHATSAPP_VERIFY_TOKEN`, subscribe to the **messages** field. Set `META_APP_SECRET` — in production, unsigned webhook calls are rejected.
+4. **Authorise your phone:** Settings → **Command channels** → add your number in international format (`2348012345678`) and pick the user it acts as. Or set `WHATSAPP_OWNER_NUMBERS=2348012345678` before `npm run setup` to bind it to the owner account. Each number acts with that user's role (viewer = read-only, manager = instructions + Level-2 approvals, owner = everything except Level-3, which always needs the dashboard).
+5. **Out-of-window updates (recommended):** WhatsApp only allows free-form messages within 24 hours of your last message to the number. For the 17:00 report and alerts on quiet days, create a **utility template** in WhatsApp Manager with one body variable — e.g. name `prohub_update`, body `Prohub AI update: {{1}}` — and set `WHATSAPP_OWNER_TEMPLATE=prohub_update` (and `WHATSAPP_TEMPLATE_LANGUAGE`, default `en`). The system falls back to it automatically when Meta reports the window is closed.
+6. **Voice notes (optional):** voice notes are transcribed with OpenAI's speech-to-text when `OPENAI_API_KEY` is set (`OPENAI_TRANSCRIBE_MODEL`, default `gpt-4o-mini-transcribe`). Claude does not accept audio input directly. Without a key, the system asks for typed instructions.
+7. `WHATSAPP_PUBLIC_NUMBER` turns on click-to-chat on the website.
+
+What the channel supports: text, images and PDFs (shown to the Managing Director as real images/documents), video (stored and linked), voice notes (transcribed), interactive **Approve / Reject / Request changes** buttons, PDF reports, rendered video previews (≤16 MB, larger files are sent as links), and task notifications. Inbound messages are processed on the job queue and de-duplicated by message ID, because Meta re-delivers webhooks.
+
+- **Policy:** messages to a customer outside the 24-hour customer-service window need a **Meta-approved template**. Agents propose template sends; nothing goes to a customer without your approval.
+
+## Claude connector (MCP) — the Claude command centre
+Prohub OS exposes a remote **MCP server** at `https://<APP_URL>/api/mcp` (Streamable HTTP, stateless). Claude can then give instructions to the Managing Director, follow progress, read the business, and decide Level-2 approvals — acting as you.
+
+1. In Prohub OS: Settings → **Command channels** → *Claude command centre* → **Create token**. Copy it (it is shown once; only a hash is stored). Revoke tokens there at any time.
+2. Connect Claude:
+   - **Claude Code:** `claude mcp add --transport http prohub https://<APP_URL>/api/mcp --header "Authorization: Bearer phk_…"`
+   - **claude.ai / Claude Desktop** (Settings → Connectors → *Add custom connector*): use the URL form with the token in the path, `https://<APP_URL>/api/mcp/phk_…`. Treat that URL as a password.
+3. Ask Claude things like *"Ask Prohub to find 20 potential clients for our branding services"*, *"What's waiting for my approval?"*, *"Give me today's business snapshot"*.
+
+Tools: `send_instruction`, `get_instruction_status`, `list_instructions`, `task_board`, `business_snapshot`, `pipeline`, `get_lead`, `list_approvals`, `decide_approval`, `list_reports`, `get_report`, `generate_report`, `list_agents`, `set_agent_status`, `list_deliverables`, `get_deliverable`, `outstanding_payments`, `search_knowledge`. See [API.md](API.md).
 
 ## Meta — Facebook Page & Instagram
 1. Use the same or another Meta app. Get a long-lived **Page access token** with `pages_manage_posts`, `pages_read_engagement`, `instagram_basic` and `instagram_content_publish`.
@@ -40,8 +60,10 @@ Status: *planned*. Direct posting needs app review or OAuth consent. Until then,
 ## Image generation — OpenAI
 Set `OPENAI_API_KEY` (optionally `OPENAI_IMAGE_MODEL`, default `gpt-image-1`). The Graphic Design and Social Media agents will then generate art-directed images. Without it, they produce SVG layouts and design briefs.
 
-## Video generation
-`generateVideo()` in `src/integrations/creative.ts` is a generic HTTP adapter: it POSTs `{prompt, aspect_ratio, duration_seconds, image_url}` to `VIDEO_API_URL` with `Authorization: Bearer VIDEO_API_KEY`, and expects `{id}` or `{url}` back. Provider APIs differ, so either put a small gateway in front of your provider (Runway, Luma, Kling or Higgsfield) or edit `generateVideo()` to match its API. Without a provider, the Video agent delivers scripts, storyboards and animation briefs.
+## Video production
+**Built in, no API needed:** the Video Production agent's `render_video` tool renders finished motion-graphics MP4s (H.264, 9:16 / 1:1 / 4:5 / 16:9) from a storyboard, in the client's brand palette, using headless Chromium and ffmpeg in the worker. Both are included in the Docker image; on other hosts install `chromium` and `ffmpeg` and set `CHROMIUM_PATH` if Chromium is not on the default path. Check a host with `npm run video:sample`. Each render's QC checklist (resolution, duration, codec, file size, text density, CTA, palette) is measured from the actual file with ffprobe.
+
+**AI-generated footage (optional):** `generateVideo()` in `src/integrations/creative.ts` is a generic HTTP adapter: it POSTs `{prompt, aspect_ratio, duration_seconds, image_url}` to `VIDEO_API_URL` with `Authorization: Bearer VIDEO_API_KEY` and expects `{id}` or `{url}`. Provider APIs differ, so put a small gateway in front of your provider (Runway, Luma, Kling, Higgsfield) or edit `generateVideo()`. Generated clips and photos can be stored and used as scene backgrounds in renders.
 
 ## Telegram (owner notifications)
 Create a bot with @BotFather and set `TELEGRAM_BOT_TOKEN`. Send the bot a message, then read your chat ID from `https://api.telegram.org/bot<token>/getUpdates` and set `TELEGRAM_CHAT_ID`. You will receive approvals, alerts and daily briefing digests.

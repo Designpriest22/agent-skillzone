@@ -13,6 +13,8 @@ export type BusinessSettings = {
   reportEmail: string | null;
   /** Prohub's own social cadence: posts per week per platform. */
   socialCadence: Record<string, number>;
+  /** Send scheduled reports (digest + PDF) to authorised WhatsApp numbers. */
+  reportWhatsApp: boolean;
 };
 
 export const DEFAULT_SETTINGS: BusinessSettings = {
@@ -21,6 +23,7 @@ export const DEFAULT_SETTINGS: BusinessSettings = {
   autonomousCycles: true,
   reportEmail: null,
   socialCadence: { instagram: 4, linkedin: 3, facebook: 3, tiktok: 3 },
+  reportWhatsApp: true,
 };
 
 export async function getBusiness() {

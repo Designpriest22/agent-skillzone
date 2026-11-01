@@ -191,12 +191,12 @@ describe("queue, scheduler and automation", () => {
 });
 
 describe("reports", () => {
-  it("generates the 10-section daily briefing from data and renders PDF/XLSX/CSV", async () => {
+  it("generates the 12-section daily business report from data and renders PDF/XLSX/CSV", async () => {
     const r = await generateReport("daily_briefing");
     const sections = (r.data as { sections: { title: string }[] }).sections;
-    for (let i = 1; i <= 10; i++) expect(sections.some((s) => s.title.startsWith(`${i}.`))).toBe(true);
+    for (let i = 1; i <= 12; i++) expect(sections.some((s) => s.title.startsWith(`${i}.`))).toBe(true);
     const [row] = await db.select().from(reports).where(eq(reports.id, r.id));
-    expect(reportToCsv(row)).toContain("Daily Executive Briefing");
+    expect(reportToCsv(row)).toContain("Daily Business Report");
     expect((await reportToPdf(row)).subarray(0, 4).toString()).toBe("%PDF");
     expect((await reportToXlsx(row)).length).toBeGreaterThan(1000);
   });

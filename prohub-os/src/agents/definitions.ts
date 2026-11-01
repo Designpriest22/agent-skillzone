@@ -7,6 +7,7 @@ import * as core from "./tools/core";
 import * as mgmt from "./tools/management";
 import * as crm from "./tools/crm";
 import * as mkt from "./tools/marketing";
+import { renderVideoTool } from "./tools/video";
 import type { AgentTool } from "./tools/types";
 
 export type KpiKey =
@@ -29,6 +30,11 @@ export type AgentDefinition = {
   /** Anthropic server tools: web search & fetch run on Anthropic's infrastructure. */
   web: { search: number; fetch: number } | null;
   defaultEffort: "low" | "medium" | "high" | "xhigh";
+  /**
+   * Cost routing: the strongest model where judgement and quality control matter (Managing Director, copy),
+   * Sonnet for most specialist work, Haiku for routine number-narration. Editable per agent in the dashboard.
+   */
+  defaultModel: "claude-opus-5-5" | "claude-sonnet-5-5" | "claude-haiku-5-5";
   maxTurns: number;
   dailyBudgetUsd: number;
 };
@@ -60,7 +66,7 @@ export const AGENTS: AgentDefinition[] = [
     kpis: [{ key: "commands_completed_30d", label: "Owner commands completed (30d)" }, { key: "revenue_vs_target", label: "Revenue vs monthly target" }, { key: "task_success_rate", label: "Task success rate" }],
     qualityBar: ["Delegated instructions are self-contained (objective, quantity, constraints, expected records).", "Reports separate actual results from plans, estimates and pending approvals.", "Never presents leads, proposals or pipeline as revenue."],
     tools: [...BASE, ...MANAGER, crm.searchLeads, crm.getLeadHistory, crm.listProjects, core.recordIntel, mkt.listSitePages, mkt.contentCalendar, mkt.listInvoices, mkt.requestOwnerAuthorisation],
-    web: { search: 5, fetch: 5 }, defaultEffort: "high", maxTurns: 24, dailyBudgetUsd: 8,
+    web: { search: 5, fetch: 5 }, defaultModel: "claude-opus-5-5", defaultEffort: "high", maxTurns: 24, dailyBudgetUsd: 8,
   },
   {
     slug: "operations-manager", name: "Tunde", department: "Operations", title: "AI Operations Manager",
@@ -75,7 +81,7 @@ export const AGENTS: AgentDefinition[] = [
     kpis: [{ key: "proposed_tasks_pending", label: "Proposed tasks awaiting review" }, { key: "overdue_followups", label: "Overdue follow-ups" }, { key: "task_success_rate", label: "Task success rate" }],
     qualityBar: ["Every approval/rejection has a reason tied to an objective.", "Re-delegated work fixes the cause of the original failure."],
     tools: [...BASE, ...MANAGER, crm.listProjects, crm.updateProject, crm.searchLeads],
-    web: null, defaultEffort: "medium", maxTurns: 18, dailyBudgetUsd: 4,
+    web: null, defaultModel: "claude-sonnet-5-5", defaultEffort: "medium", maxTurns: 18, dailyBudgetUsd: 4,
   },
   {
     slug: "research", name: "Kemi", department: "Business Intelligence", title: "AI Research Analyst",
@@ -90,7 +96,7 @@ export const AGENTS: AgentDefinition[] = [
     kpis: [{ key: "intel_items_30d", label: "Intel items published (30d)" }, { key: "verified_intel_ratio", label: "Share of intel with sources" }, { key: "task_success_rate", label: "Task success rate" }],
     qualityBar: ["Every claim traceable to a URL you fetched or marked as assumption.", "Findings end with a so-what for Prohub (who to pitch, what to offer).", "No padding — fewer, stronger items."],
     tools: [...BASE, ...COLLAB, core.recordIntel, crm.searchLeads, crm.getLeadHistory, crm.updateLead],
-    web: { search: 12, fetch: 12 }, defaultEffort: "medium", maxTurns: 20, dailyBudgetUsd: 5,
+    web: { search: 12, fetch: 12 }, defaultModel: "claude-sonnet-5-5", defaultEffort: "medium", maxTurns: 20, dailyBudgetUsd: 5,
   },
   {
     slug: "sales-marketing", name: "Chidi", department: "Sales & Marketing", title: "AI Sales & Marketing Lead",
@@ -110,7 +116,7 @@ export const AGENTS: AgentDefinition[] = [
       "Pitches reference the prospect's specific situation, not generic agency claims.",
     ],
     tools: [...BASE, ...COLLAB, crm.createLead, crm.updateLead, crm.searchLeads, crm.getLeadHistory, crm.scheduleFollowUp, core.recordIntel, mkt.createCampaign, mkt.requestCampaignLaunch, mgmt.salesMetrics, mkt.requestOwnerAuthorisation],
-    web: { search: 15, fetch: 15 }, defaultEffort: "medium", maxTurns: 28, dailyBudgetUsd: 8,
+    web: { search: 15, fetch: 15 }, defaultModel: "claude-sonnet-5-5", defaultEffort: "medium", maxTurns: 28, dailyBudgetUsd: 8,
   },
   {
     slug: "client-management", name: "Ngozi", department: "Client Services", title: "AI Client Manager",
@@ -125,7 +131,7 @@ export const AGENTS: AgentDefinition[] = [
     kpis: [{ key: "overdue_followups", label: "Overdue follow-ups" }, { key: "proposals_sent_30d", label: "Proposals sent (30d)" }, { key: "leads_won_30d", label: "Leads won (30d)" }],
     qualityBar: ["Messages are personal, specific and short; one clear next step.", "Stage changes are backed by an interaction.", "Quoted prices come from the service catalogue or are clearly marked indicative."],
     tools: [...BASE, ...COLLAB, crm.createLead, crm.updateLead, crm.searchLeads, crm.getLeadHistory, crm.logInteraction, crm.scheduleFollowUp, crm.completeFollowUp, crm.convertToClient, crm.createProposal, crm.requestSendProposal, crm.requestSendEmail, crm.requestBulkEmail, crm.requestSendWhatsApp, crm.createProject, crm.updateProject, crm.listProjects, mkt.draftInvoice, mkt.requestSendInvoice, mkt.listInvoices],
-    web: { search: 3, fetch: 5 }, defaultEffort: "medium", maxTurns: 22, dailyBudgetUsd: 5,
+    web: { search: 3, fetch: 5 }, defaultModel: "claude-sonnet-5-5", defaultEffort: "medium", maxTurns: 22, dailyBudgetUsd: 5,
   },
   {
     slug: "content", name: "Bisi", department: "Content", title: "AI Content Strategist",
@@ -139,7 +145,7 @@ export const AGENTS: AgentDefinition[] = [
     kpis: [{ key: "deliverables_30d", label: "Deliverables (30d)" }, { key: "deliverable_approval_rate", label: "Approval rate" }, { key: "content_items_30d", label: "Calendar items planned (30d)" }],
     qualityBar: ["Each piece states objective, audience, platform format and CTA.", "Ideas are specific to Nigerian audiences and the client's category — no generic listicles.", "Repurposing plans name the source asset."],
     tools: [...BASE, ...COLLAB, mkt.createContentItem, mkt.contentCalendar, mkt.brandAssetsTool, core.recordIntel],
-    web: { search: 6, fetch: 6 }, defaultEffort: "medium", maxTurns: 18, dailyBudgetUsd: 4,
+    web: { search: 6, fetch: 6 }, defaultModel: "claude-sonnet-5-5", defaultEffort: "medium", maxTurns: 18, dailyBudgetUsd: 4,
   },
   {
     slug: "copywriting", name: "Femi", department: "Copywriting", title: "AI Copywriter",
@@ -156,7 +162,7 @@ export const AGENTS: AgentDefinition[] = [
       "Match the channel: WhatsApp is short and conversational; LinkedIn is credible; ads lead with the hook.",
     ],
     tools: [...BASE, ...COLLAB, mkt.brandAssetsTool, crm.getLeadHistory],
-    web: { search: 3, fetch: 5 }, defaultEffort: "medium", maxTurns: 14, dailyBudgetUsd: 3,
+    web: { search: 3, fetch: 5 }, defaultModel: "claude-opus-5-5", defaultEffort: "medium", maxTurns: 14, dailyBudgetUsd: 3,
   },
   {
     slug: "graphic-design", name: "Ife", department: "Design", title: "AI Graphic Designer",
@@ -175,21 +181,23 @@ export const AGENTS: AgentDefinition[] = [
       "Uses the client's brand assets; avoids generic AI aesthetics (purple gradients, glossy blobs, fake 3D).",
     ],
     tools: [...BASE, ...COLLAB, mkt.generateImageTool, mkt.brandAssetsTool],
-    web: { search: 3, fetch: 4 }, defaultEffort: "medium", maxTurns: 16, dailyBudgetUsd: 5,
+    web: { search: 3, fetch: 4 }, defaultModel: "claude-sonnet-5-5", defaultEffort: "medium", maxTurns: 16, dailyBudgetUsd: 5,
   },
   {
     slug: "video-production", name: "Segun", department: "Video & Animation", title: "AI Video Producer",
     mission: "Concept, script and produce video that performs on each platform — promos, ads, animated brand content, event teasers and campaign variations.",
     responsibilities: [
       "Track video trends; develop concepts, scripts, storyboards and animation briefs.",
-      "Produce videos through the connected video generation service; create platform variants (Reels/TikTok/Shorts 9:16, Feed 4:5, YouTube/Web 16:9, LinkedIn).",
-      "Run a QC pass on every deliverable before submitting.",
+      "Work a brief end to end: understand it, research the brand (brand_assets, the client's site), set the creative direction, write the script and storyboard, then produce the video.",
+      "Render finished motion-graphics videos with render_video in every placement needed (Reels/TikTok/Shorts 9:16, feed 1:1 and 4:5, YouTube/web 16:9) — linked to the client/project so files land in the right client folder.",
+      "Use the connected AI video generation service (generate_video) for live-action or generative footage when it is configured; stored clips and images can be layered into renders.",
+      "Review every render's measured QC; fix and re-render failures before submitting. Never report a video as done when only a script or storyboard exists.",
     ],
     objectives: ["Scroll-stopping first 2 seconds", "Every video built for a specific placement and goal"],
     kpis: [{ key: "deliverables_30d", label: "Deliverables (30d)" }, { key: "deliverable_approval_rate", label: "Approval rate" }, { key: "task_success_rate", label: "Task success rate" }],
     qualityBar: ["Hook within 2s; on-screen text readable without sound; CTA in final 3s.", "Scripts timed per scene; storyboards specify shot, motion, VO/text, duration.", "Aspect ratio and safe zones match placement."],
-    tools: [...BASE, ...COLLAB, mkt.generateVideoTool, mkt.brandAssetsTool],
-    web: { search: 4, fetch: 4 }, defaultEffort: "medium", maxTurns: 16, dailyBudgetUsd: 5,
+    tools: [...BASE, ...COLLAB, renderVideoTool, mkt.generateVideoTool, mkt.brandAssetsTool],
+    web: { search: 4, fetch: 4 }, defaultModel: "claude-sonnet-5-5", defaultEffort: "medium", maxTurns: 20, dailyBudgetUsd: 5,
   },
   {
     slug: "social-media", name: "Amaka", department: "Social Media", title: "AI Social Media Manager",
@@ -204,7 +212,7 @@ export const AGENTS: AgentDefinition[] = [
     kpis: [{ key: "content_items_30d", label: "Calendar items (30d)" }, { key: "posts_published_30d", label: "Posts published (30d)" }, { key: "task_success_rate", label: "Task success rate" }],
     qualityBar: ["Every post has an objective and CTA.", "Performance claims come only from platform data in the system — if none is connected, say so.", "Captions are native to each platform."],
     tools: [...BASE, ...COLLAB, mkt.createContentItem, mkt.requestPublishContent, mkt.contentCalendar, mkt.generateImageTool, crm.createLead, crm.searchLeads, crm.logInteraction],
-    web: { search: 5, fetch: 5 }, defaultEffort: "medium", maxTurns: 18, dailyBudgetUsd: 4,
+    web: { search: 5, fetch: 5 }, defaultModel: "claude-sonnet-5-5", defaultEffort: "medium", maxTurns: 18, dailyBudgetUsd: 4,
   },
   {
     slug: "web-development", name: "Dayo", department: "Web Development", title: "AI Web Developer",
@@ -218,7 +226,7 @@ export const AGENTS: AgentDefinition[] = [
     kpis: [{ key: "site_pages_published", label: "Pages published" }, { key: "deliverables_30d", label: "Deliverables (30d)" }, { key: "task_success_rate", label: "Task success rate" }],
     qualityBar: ["One primary CTA per page; lead form above the fold on campaign pages.", "Semantic, accessible HTML; mobile-first; no external trackers without owner approval.", "SEO description 120–160 chars, specific to the page."],
     tools: [...BASE, ...COLLAB, mkt.saveSitePage, mkt.requestPagePublish, mkt.listSitePages, mkt.requestRepoCommit],
-    web: { search: 4, fetch: 8 }, defaultEffort: "medium", maxTurns: 18, dailyBudgetUsd: 5,
+    web: { search: 4, fetch: 8 }, defaultModel: "claude-sonnet-5-5", defaultEffort: "medium", maxTurns: 18, dailyBudgetUsd: 5,
   },
   {
     slug: "finance", name: "Ibrahim", department: "Finance", title: "AI Finance & Business Manager",
@@ -233,7 +241,7 @@ export const AGENTS: AgentDefinition[] = [
     kpis: [{ key: "receivables_overdue", label: "Overdue receivables" }, { key: "revenue_vs_target", label: "Revenue vs target" }, { key: "task_success_rate", label: "Task success rate" }],
     qualityBar: ["Never fabricate or estimate a transaction; if data is missing, say so.", "Distinguish recorded revenue, invoiced-but-unpaid, and pipeline estimates.", "Recommendations quantify impact in Naira."],
     tools: [...BASE, ...COLLAB, mgmt.financeReport, mgmt.salesMetrics, mgmt.revenueTargetStatus, mgmt.writeReportNarrative, mgmt.readReport, mkt.listInvoices, mkt.draftInvoice, mkt.requestSendInvoice, mkt.requestOwnerAuthorisation],
-    web: null, defaultEffort: "medium", maxTurns: 14, dailyBudgetUsd: 3,
+    web: null, defaultModel: "claude-haiku-5-5", defaultEffort: "medium", maxTurns: 14, dailyBudgetUsd: 3,
   },
 ];
 

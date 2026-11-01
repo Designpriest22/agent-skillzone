@@ -9,7 +9,7 @@ const TABLES = [
   "activity_log", "agent_messages", "agent_runs", "approvals", "brand_assets", "campaigns", "clients", "commands", "content_items",
   "deliverables", "follow_ups", "intel_items", "interactions", "invoices", "jobs", "leads", "notifications", "portfolio_items",
   "projects", "proposals", "reports", "revenue_targets", "site_pages", "social_accounts", "tasks", "testimonials", "transactions",
-  "agent_memories", "sessions",
+  "agent_memories", "sessions", "files", "authorized_senders", "api_tokens",
 ];
 
 export async function resetDb() {

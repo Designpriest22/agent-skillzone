@@ -1,7 +1,7 @@
 import type Anthropic from "@anthropic-ai/sdk";
 import { and, eq, inArray, isNull } from "drizzle-orm";
 import { db } from "@/db/client";
-import { agentMessages, tasks, agents } from "@/db/schema";
+import { agentMessages, tasks, agents, commands } from "@/db/schema";
 import { AGENTS, type AgentDefinition } from "./definitions";
 import { pinnedKnowledge, relevantMemories } from "./memory";
 import { childResults } from "@/orchestrator/tasks";
@@ -119,4 +119,31 @@ export async function buildTaskMessage(taskId: string, opts: { resume?: boolean 
 export async function agentRow(slug: string) {
   const [row] = await db.select().from(agents).where(eq(agents.slug, slug));
   return row;
+}
+
+/**
+ * Files the owner attached to a command (WhatsApp image/PDF, etc.) are given to the root task's agent as
+ * native image / document blocks so it can actually read them. Other file types are described, not inlined.
+ */
+export async function attachmentBlocks(task: { commandId: string | null; depth: number }): Promise<Anthropic.Beta.BetaContentBlockParam[]> {
+  if (!task.commandId || task.depth !== 0) return [];
+  const [cmd] = await db.select({ attachments: commands.attachments }).from(commands).where(eq(commands.id, task.commandId));
+  if (!cmd?.attachments.length) return [];
+  const { readFile } = await import("@/services/files");
+  const blocks: Anthropic.Beta.BetaContentBlockParam[] = [];
+  for (const id of cmd.attachments.slice(0, 5)) {
+    const f = await readFile(id);
+    if (!f) continue;
+    const mime = f.mimeType.split(";")[0];
+    if (["image/jpeg", "image/png", "image/gif", "image/webp"].includes(mime) && f.data.length <= 5 * 1048576) {
+      blocks.push({ type: "image", source: { type: "base64", media_type: mime as "image/jpeg", data: f.data.toString("base64") } });
+    } else if (mime === "application/pdf" && f.data.length <= 30 * 1048576) {
+      blocks.push({ type: "document", source: { type: "base64", media_type: "application/pdf", data: f.data.toString("base64") }, title: f.name });
+    } else if (mime.startsWith("text/") && f.data.length <= 200_000) {
+      blocks.push({ type: "document", source: { type: "text", media_type: "text/plain", data: f.data.toString("utf8") }, title: f.name });
+    } else {
+      blocks.push({ type: "text", text: `[Attached file ${f.name} (${mime}, ${(f.data.length / 1024).toFixed(0)} KB, file_id ${f.id}) — this type cannot be shown to you directly.]` });
+    }
+  }
+  return blocks;
 }

@@ -56,7 +56,7 @@ export const STATUS_TONE: Record<string, keyof typeof TONES> = {
   draft: "neutral", in_review: "info", changes_requested: "warn", published: "ok", scheduled: "info", manual_publish: "warn",
   sent: "info", partially_paid: "warn", paid: "ok", void: "neutral", accepted: "ok",
   hot: "bad", warm: "warn", cold: "neutral", verified: "ok", likely: "info", assumption: "neutral",
-  won: "ok", lost: "neutral", new_lead: "info", contacted: "info", interested: "violet", meeting_scheduled: "violet", proposal_sent: "accent", negotiation: "accent", follow_up_required: "warn",
+  won: "ok", lost: "neutral", new_lead: "info", contacted: "info", responded: "violet", qualified: "violet", meeting_scheduled: "violet", proposal_sent: "accent", negotiation: "accent", follow_up_required: "warn",
   planning: "neutral", on_hold: "warn", new: "info", actioned: "ok", dismissed: "neutral", open: "warn", done: "ok", implemented: "ok", planned: "neutral",
 };
 

@@ -4,7 +4,7 @@
  */
 import { and, desc, eq, gte, inArray, lt, sql } from "drizzle-orm";
 import { db } from "@/db/client";
-import { tasks, leads, intelItems, transactions, approvals, followUps, jobs, reports, invoices, contentItems, agentRuns, clients } from "@/db/schema";
+import { tasks, leads, intelItems, transactions, approvals, followUps, jobs, reports, invoices, contentItems, agentRuns, clients, projects, campaigns, interactions } from "@/db/schema";
 import { financeSummary, receivables, pipelineSummary, conversionStats, targetStatus, campaignRoi, topClientsByLtv } from "./finance";
 import { dayPeriod, weekPeriod, monthPeriod, type Period } from "@/lib/time";
 import { formatMoney, pct } from "@/lib/money";
@@ -46,65 +46,78 @@ async function operationalProblems(since: Date) {
   return items;
 }
 
+/**
+ * The 17:00 daily business report — the twelve sections the owner specified. Every figure is a database
+ * query; the Managing Director only adds the narrative. Estimates are labelled as estimates.
+ */
 export async function buildDailyBriefing(now = new Date()): Promise<{ data: ReportData; period: Period }> {
-  const today = dayPeriod(now), yesterday = dayPeriod(now, -1);
+  const today = dayPeriod(now);
   const last24 = new Date(now.getTime() - 24 * 3600_000);
-  const [doneYesterday, doneToday, opps, newLeads, finYesterday, finToday, recv, problems, target, wonToday, invoicedToday, pendingApprovals, spend] = await Promise.all([
-    tasksCompletedIn(yesterday),
-    tasksCompletedIn(today),
-    db.select({ title: intelItems.title, category: intelItems.category, confidence: intelItems.confidence, rec: intelItems.recommendation }).from(intelItems)
-      .where(and(gte(intelItems.createdAt, last24), inArray(intelItems.category, ["business_opportunity", "revenue_opportunity", "potential_client", "marketing_recommendation"]))).limit(20),
-    db.select({ company: leads.companyName, industry: leads.industry, score: leads.score, priority: leads.priority, source: leads.source, value: leads.estimatedValueMinor }).from(leads).where(gte(leads.createdAt, last24)).orderBy(desc(leads.score)).limit(40),
-    financeSummary(yesterday),
+  const QUALIFIED = ["qualified", "meeting_scheduled", "proposal_sent", "negotiation"] as const;
+  const [newLeads, qualified, enquiries, won, finToday, recv, target, projectsDone, projectsActive, published, scheduledPosts, activeCampaigns, outreach, opps, problems, pendingApprovals, doneToday, spend] = await Promise.all([
+    db.select({ company: leads.companyName, industry: leads.industry, score: leads.score, priority: leads.priority, source: leads.source, value: leads.estimatedValueMinor, location: leads.location }).from(leads).where(gte(leads.createdAt, last24)).orderBy(desc(leads.score)).limit(40),
+    db.select({ company: leads.companyName, stage: leads.stage, value: leads.estimatedValueMinor }).from(leads).where(and(inArray(leads.stage, [...QUALIFIED]), gte(leads.stageChangedAt, last24))).limit(40),
+    db.select({ company: leads.companyName, source: leads.source, problem: leads.problemIdentified }).from(leads).where(and(gte(leads.createdAt, last24), inArray(leads.source, ["website_form", "whatsapp", "social", "referral"]))).limit(30),
+    db.select({ company: leads.companyName, value: leads.estimatedValueMinor }).from(leads).where(and(eq(leads.stage, "won"), gte(leads.stageChangedAt, last24))),
     financeSummary(today),
     receivables(now),
-    operationalProblems(last24),
     targetStatus("month", now),
-    db.select({ company: leads.companyName, value: leads.estimatedValueMinor }).from(leads).where(and(eq(leads.stage, "won"), gte(leads.stageChangedAt, last24))),
-    db.select({ number: invoices.number, total: invoices.totalMinor }).from(invoices).where(and(inArray(invoices.status, ["sent", "partially_paid", "paid"]), gte(invoices.issueDate, today.start.toISOString().slice(0, 10)))),
+    db.select({ name: projects.name }).from(projects).where(and(eq(projects.status, "completed"), gte(projects.updatedAt, last24))),
+    db.select({ name: projects.name, status: projects.status }).from(projects).where(inArray(projects.status, ["planning", "active", "in_review"])).limit(30),
+    db.select({ title: contentItems.title, platform: contentItems.platform, metrics: contentItems.metrics, metricsSource: contentItems.metricsSource }).from(contentItems).where(and(eq(contentItems.status, "published"), gte(contentItems.publishedAt, last24))),
+    db.select({ n: sql<number>`count(*)::int` }).from(contentItems).where(inArray(contentItems.status, ["scheduled", "approved", "awaiting_approval"])),
+    db.select({ name: campaigns.name, status: campaigns.status }).from(campaigns).where(inArray(campaigns.status, ["active", "awaiting_approval"])),
+    db.select({ n: sql<number>`count(*)::int` }).from(interactions).where(and(eq(interactions.direction, "outbound"), gte(interactions.occurredAt, last24))),
+    db.select({ title: intelItems.title, category: intelItems.category, confidence: intelItems.confidence, rec: intelItems.recommendation, priority: intelItems.priority }).from(intelItems)
+      .where(and(gte(intelItems.createdAt, last24), inArray(intelItems.category, ["business_opportunity", "revenue_opportunity", "potential_client", "marketing_recommendation"]))).limit(20),
+    operationalProblems(last24),
     db.select({ n: sql<number>`count(*)::int` }).from(approvals).where(eq(approvals.status, "pending")),
+    tasksCompletedIn(today),
     db.select({ s: sql<number>`coalesce(sum(${agentRuns.costUsd}),0)::float` }).from(agentRuns).where(gte(agentRuns.startedAt, last24)),
   ]);
 
-  const recommended: string[] = [];
-  const priorities: string[] = [];
-  if (target.configured && !target.onTrack) recommended.push(`Revenue is behind pace: ${pct(target.pctAchieved)} of target with ${pct(target.period.elapsedPct, 0)} of the month elapsed. ${target.dealsRequired !== null ? `About ${target.dealsRequired} more deal(s) at the average deal value are needed.` : ""}`);
-  if (!target.configured) recommended.push("Set this month's revenue target in Settings so progress can be tracked.");
-  if (recv.overdueCount) recommended.push(`Chase ${recv.overdueCount} overdue invoice(s) totalling ${m(recv.overdueMinor)}.`);
-  if (pendingApprovals[0].n) priorities.push(`Review ${pendingApprovals[0].n} pending approval(s) — outreach and publishing are blocked until then.`);
+  const tomorrow: string[] = [];
+  if (pendingApprovals[0].n) tomorrow.push(`Review ${pendingApprovals[0].n} pending approval(s) — outreach and publishing wait on them.`);
   const hot = newLeads.filter((l) => l.priority === "hot");
-  if (hot.length) priorities.push(`Prioritise outreach to ${hot.length} hot lead(s): ${hot.slice(0, 5).map((l) => l.company).join(", ")}.`);
-  if (problems.length) priorities.push(`Resolve ${problems.length} operational issue(s) listed above.`);
-  if (!newLeads.length) recommended.push("No new leads in the last 24h — check that the morning prospecting cycle ran and the Sales agent has budget.");
+  if (hot.length) tomorrow.push(`Contact ${hot.length} hot lead(s) first: ${hot.slice(0, 5).map((l) => l.company).join(", ")}.`);
+  if (target.configured && !target.onTrack) tomorrow.push(`Revenue is behind pace (${pct(target.pctAchieved)} of target, ${pct(target.period.elapsedPct, 0)} of the month gone)${target.dealsRequired !== null ? ` — about ${target.dealsRequired} more deal(s) needed at the average deal size` : ""}.`);
+  if (!target.configured) tomorrow.push("Set this month's revenue target in Settings so progress can be tracked.");
+  if (recv.overdueCount) tomorrow.push(`Chase ${recv.overdueCount} overdue invoice(s) totalling ${m(recv.overdueMinor)}.`);
+  if (!newLeads.length) tomorrow.push("No new leads in 24h — check the 08:00 prospecting assignment ran and the Sales agent has budget.");
+  for (const o of opps.filter((o) => o.priority === "high").slice(0, 3)) tomorrow.push(`Act on opportunity: ${o.title}${o.rec ? ` — ${o.rec}` : ""}`);
 
   const sections: Section[] = [
-    { kind: "list", title: "1. What happened yesterday", items: [
-      `${doneYesterday.length} task(s) completed`,
-      `Income recorded: ${m(finYesterday.incomeMinor)} · Expenses: ${m(finYesterday.expenseMinor)}`,
-      ...doneYesterday.slice(0, 12).map((t) => `[${t.agent}] ${t.title}`),
-    ] },
-    { kind: "list", title: "2. Completed today", items: doneToday.map((t) => `[${t.agent}] ${t.title}`), empty: "No tasks completed yet today." },
-    { kind: "list", title: "3. New business opportunities", items: opps.map((o) => `${o.title} (${o.category.replace(/_/g, " ")}, ${o.confidence})${o.rec ? ` — ${o.rec}` : ""}`), empty: "No new opportunities recorded in the last 24h." },
-    { kind: "table", title: "4. New client leads", columns: ["Company", "Industry", "Score", "Priority", "Source", "Est. value"], rows: newLeads.map((l) => [l.company, l.industry ?? "—", l.score, l.priority, l.source, l.value ? m(l.value) : "—"]), empty: "No new leads in the last 24h." },
-    { kind: "kv", title: "5. Sales generated", rows: [
-      { label: "Deals won (24h)", value: `${wonToday.length}${wonToday.length ? ` — ${wonToday.map((w) => w.company).join(", ")}` : ""}` },
-      { label: "Invoiced today", value: `${invoicedToday.length} invoice(s), ${m(invoicedToday.reduce((a, i) => a + i.total, 0))}` },
-    ] },
-    { kind: "kv", title: "6. Revenue received", rows: [
-      { label: "Today", value: m(finToday.incomeMinor) },
+    { kind: "table", title: "1. New leads generated", columns: ["Company", "Industry", "Location", "Score", "Priority", "Source", "Est. value (estimate)"], rows: newLeads.map((l) => [l.company, l.industry ?? "—", l.location ?? "—", l.score, l.priority, l.source, l.value ? m(l.value) : "—"]), empty: "No new leads in the last 24h." },
+    { kind: "list", title: "2. Qualified leads", items: qualified.map((q) => `${q.company} — ${STAGE_LABEL[q.stage] ?? q.stage}${q.value ? ` (est. ${m(q.value)})` : ""}`), empty: "No leads moved into a qualified stage in the last 24h." },
+    { kind: "list", title: "3. New client enquiries", items: enquiries.map((e) => `${e.company} via ${e.source.replace("_", " ")}${e.problem ? ` — ${e.problem.slice(0, 120)}` : ""}`), empty: "No inbound enquiries in the last 24h." },
+    { kind: "kv", title: "4. Sales closed", rows: [{ label: "Deals won (24h)", value: `${won.length}${won.length ? ` — ${won.map((w) => w.company).join(", ")}` : ""}` }] },
+    { kind: "kv", title: "5. Revenue generated (recorded payments only)", rows: [
+      { label: "Received today", value: m(finToday.incomeMinor) },
       { label: "Month to date", value: m(target.achievedMinor) },
       ...(target.configured ? [{ label: "Monthly target", value: `${m(target.target.revenueTargetMinor)} (${pct(target.pctAchieved)} achieved)` }] : []),
+      { label: "Expenses today", value: m(finToday.expenseMinor) },
     ] },
-    { kind: "kv", title: "7. Pending payments", rows: [
-      { label: "Outstanding receivables", value: `${m(recv.totalOutstandingMinor)} across ${recv.count} invoice(s)` },
+    { kind: "kv", title: "6. Outstanding payments", rows: [
+      { label: "Outstanding invoices", value: `${m(recv.totalOutstandingMinor)} across ${recv.count} invoice(s)` },
       { label: "Overdue", value: `${m(recv.overdueMinor)} across ${recv.overdueCount} invoice(s)` },
     ] },
-    { kind: "list", title: "8. Operational problems", items: problems, empty: "No operational problems detected." },
-    { kind: "list", title: "9. Recommended actions", items: recommended, empty: "No system-generated recommendations." },
-    { kind: "list", title: "10. Priorities for the next 24 hours", items: priorities, empty: "No urgent priorities flagged by the system." },
+    { kind: "list", title: "7. Projects completed", items: projectsDone.map((p) => p.name), empty: "No projects completed in the last 24h." },
+    { kind: "list", title: "8. Projects in progress", items: projectsActive.map((p) => `${p.name} (${p.status.replace("_", " ")})`), empty: "No active projects." },
+    { kind: "list", title: "9. Social media performance", items: [
+      `${published.length} post(s) published in 24h · ${scheduledPosts[0].n} queued or awaiting approval`,
+      ...published.map((p) => `${p.platform}: ${p.title}${p.metricsSource && Object.keys(p.metrics).length ? ` — ${Object.entries(p.metrics).map(([k, v]) => `${k} ${v}`).join(", ")} (source: ${p.metricsSource})` : " — no platform metrics connected"}`),
+    ] },
+    { kind: "list", title: "10. Marketing activities", items: [
+      `${outreach[0].n} outbound message(s) recorded in 24h`,
+      ...activeCampaigns.map((c) => `Campaign: ${c.name} (${c.status.replace("_", " ")})`),
+      ...opps.map((o) => `Opportunity: ${o.title} (${o.priority} priority, ${o.confidence})`),
+      `${doneToday.length} agent task(s) completed today`,
+    ] },
+    { kind: "list", title: "11. Operational challenges", items: problems, empty: "No operational problems detected." },
+    { kind: "list", title: "12. Recommendations for tomorrow", items: tomorrow, empty: "No urgent items flagged by the system." },
     { kind: "kv", title: "AI workforce cost (24h)", rows: [{ label: "Estimated model + search spend", value: `$${spend[0].s.toFixed(2)}` }] },
   ];
-  return { data: { sections, generatedAt: now.toISOString() }, period: { start: yesterday.start, end: today.end, label: today.label } };
+  return { data: { sections, generatedAt: now.toISOString() }, period: { start: today.start, end: today.end, label: today.label } };
 }
 
 export async function buildDailyFinance(now = new Date()) {
@@ -198,7 +211,7 @@ export async function buildSocialReport(now = new Date(), kind: "social_weekly" 
 }
 
 const TITLES: Record<string, string> = {
-  daily_briefing: "Daily Executive Briefing", daily_finance: "Daily Financial Report", weekly_business: "Weekly Business Performance",
+  daily_briefing: "Daily Business Report", daily_finance: "Daily Financial Report", weekly_business: "Weekly Business Performance",
   monthly_finance: "Monthly Financial Report", social_weekly: "Weekly Social Media Report", social_monthly: "Monthly Social Media Report",
 };
 

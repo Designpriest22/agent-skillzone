@@ -22,10 +22,11 @@ export default async function Intelligence({ searchParams }: { searchParams: Pro
       <div className="mb-3 flex gap-3 text-[12.5px]">{(["new", "actioned", "dismissed"] as const).map((s) => <a key={s} href={`/os/intelligence?status=${s}${cat ? `&cat=${cat}` : ""}`} className={s === status ? "font-semibold text-fg" : "text-fg-3 hover:text-fg"}>{s}</a>)}</div>
       <div className="grid gap-3 md:grid-cols-2">
         {rows.map((i) => (
-          <Panel key={i.id} title={<span className="flex items-center gap-2 normal-case tracking-normal"><Badge>{LABEL[i.category]}</Badge><StatusBadge status={i.confidence} /></span>} actions={<span className="text-[12px] text-fg-3">{i.agentSlug} · {timeAgo(i.createdAt)}</span>}>
+          <Panel key={i.id} title={<span className="flex items-center gap-2 normal-case tracking-normal"><Badge>{LABEL[i.category]}</Badge><StatusBadge status={i.confidence} /><Badge tone={i.priority === "high" ? "warn" : i.priority === "low" ? "neutral" : "info"}>{i.priority} priority</Badge></span>} actions={<span className="text-[12px] text-fg-3">{i.agentSlug} · {timeAgo(i.createdAt)}</span>}>
             <h3 className="font-semibold">{i.title}</h3>
             <p className="mt-1 text-fg-2">{i.summary}</p>
-            {i.recommendation && <p className="mt-2"><span className="font-medium">Recommendation: </span>{i.recommendation}</p>}
+            {i.opportunity && <p className="mt-2"><span className="font-medium">Opportunity: </span>{i.opportunity}</p>}
+            {i.recommendation && <p className="mt-2"><span className="font-medium">Recommended action: </span>{i.recommendation}</p>}
             {i.economics && <div className="mt-2 grid grid-cols-2 gap-2 rounded-md bg-panel-2 p-2 text-[12.5px]">
               <div><span className="text-fg-3">Est. cost </span><span className="num">{formatMoney(i.economics.estCostMinor ?? null)}</span></div><div><span className="text-fg-3">Est. revenue </span><span className="num">{formatMoney(i.economics.estRevenueMinor ?? null)}</span></div>
               {i.economics.requirements && <div className="col-span-2"><span className="text-fg-3">Requires: </span>{i.economics.requirements}</div>}{i.economics.risks && <div className="col-span-2"><span className="text-fg-3">Risks: </span>{i.economics.risks}</div>}</div>}

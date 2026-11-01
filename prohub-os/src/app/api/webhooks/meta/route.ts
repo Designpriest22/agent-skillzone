@@ -1,8 +1,12 @@
 /**
  * Meta webhooks: WhatsApp Business messages, Facebook Page / Instagram messages and comments.
- * Inbound messages become CRM enquiries; comments are routed to the Social Media agent.
+ *
+ * WhatsApp messages are queued (deduplicated by message id, because Meta retries deliveries) and processed
+ * by the worker: authorised numbers become owner commands, everyone else becomes a CRM enquiry.
+ * Answering 200 quickly matters — Meta disables webhooks that are slow or failing.
  */
 import { verifyMetaSignature } from "@/integrations/whatsapp";
+import { enqueue } from "@/orchestrator/queue";
 import { getCredentials } from "@/integrations/registry";
 import { intakeEnquiry } from "@/services/enquiries";
 import { createTask } from "@/orchestrator/tasks";
@@ -32,11 +36,12 @@ export async function POST(req: Request) {
     for (const ch of entry.changes ?? []) {
       const v = ch.value ?? {};
       // WhatsApp Business inbound messages
-      const messages = (v.messages as { from: string; id: string; text?: { body: string }; type: string }[] | undefined) ?? [];
+      const messages = (v.messages as { from: string; id: string; type: string }[] | undefined) ?? [];
       const contacts = (v.contacts as { profile?: { name?: string }; wa_id: string }[] | undefined) ?? [];
       for (const m of messages) {
-        const name = contacts.find((c) => c.wa_id === m.from)?.profile?.name ?? `+${m.from}`;
-        await intakeEnquiry({ name, phone: `+${m.from}`, message: m.text?.body ?? `[${m.type} message]`, channel: "whatsapp", source: "whatsapp", externalId: m.id });
+        if (!m?.from || !m?.id) continue;
+        const contactName = contacts.find((c) => c.wa_id === m.from)?.profile?.name ?? null;
+        await enqueue("whatsapp.inbound", { message: m, contactName }, { priority: 1, maxAttempts: 4, dedupeKey: `wa-in:${m.id}` });
         handled++;
       }
       // Facebook/Instagram comments on Prohub's posts

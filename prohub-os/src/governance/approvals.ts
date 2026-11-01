@@ -16,6 +16,7 @@ export async function requestApproval(opts: {
     title: opts.title, summary: opts.summary, payload: opts.payload,
   }).returning();
   await logActivity({ type: opts.agentSlug ? "agent" : "system", id: opts.agentSlug ?? "system" }, "approval.requested", { type: "approval", id: row.id }, { actionType: opts.actionType, level: policy.level });
+  await enqueue("channel.approval", { approvalId: row.id }, { priority: 2, dedupeKey: `approval-push:${row.id}` });
   await notifyOwner({
     kind: "approval",
     title: `${policy.level === 3 ? "Owner authorisation" : "Approval"} needed: ${opts.title}`,
@@ -52,4 +53,27 @@ export async function decideApproval(opts: { approvalId: string; userId: string;
 async function onRejected(a: typeof approvals.$inferSelect) {
   const { rejectGovernedRecord } = await import("./actions");
   await rejectGovernedRecord(a);
+}
+
+/**
+ * "Request changes": rejects the pending action with the owner's notes and hands the work back to the
+ * agent that produced it as a new instruction, so the revision comes back through approval again.
+ */
+export async function requestChanges(opts: { approvalId: string; userId: string; role: string; notes: string; channel?: { kind: "whatsapp" | "claude" | "dashboard"; replyTo?: string | null } }) {
+  const [a] = await db.select().from(approvals).where(eq(approvals.id, opts.approvalId));
+  if (!a) throw new Error("Approval not found");
+  await decideApproval({ approvalId: a.id, userId: opts.userId, role: opts.role, decision: "reject", note: `Changes requested: ${opts.notes}` });
+  const agentSlug = a.agentSlug ?? "managing-director";
+  const { submitCommand } = await import("@/orchestrator/commands");
+  const text = `Revise "${a.title}" — the owner requested changes before approving.
+
+Owner's notes: """${opts.notes.slice(0, 2000)}"""
+
+What was submitted (approval ${a.id}, action ${a.actionType}): ${a.summary.slice(0, 1500)}
+Payload: ${JSON.stringify(a.payload).slice(0, 2500)}
+
+Read the underlying record(s), make the requested changes (revise the draft/deliverable — do not start over unless the notes ask for it), then file a new approval request for the revised version with the same tool you used originally. Complete the task with the revised record IDs.`;
+  const res = await submitCommand(text, opts.userId, { agentSlug, channel: opts.channel?.kind ?? "dashboard", replyTo: opts.channel?.replyTo ?? null });
+  await logActivity({ type: "user", id: opts.userId }, "approval.changes_requested", { type: "approval", id: a.id }, { notes: opts.notes.slice(0, 500), revisionCommand: res.commandId });
+  return { agentSlug, commandId: res.commandId, taskId: res.taskId };
 }

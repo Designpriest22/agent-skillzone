@@ -40,7 +40,7 @@ describe("multi-agent orchestration", () => {
       },
       Kemi: ({ turn, lastResults }) => {
         if (turn === 0) return [
-          { tool: "record_intel", input: { category: "potential_client", title: "Two Lagos hotels with dormant Instagram", summary: "Hotel A and Hotel B have not posted in 4+ months and their sites lack booking.", source_urls: ["https://example.com/hotel-a", "https://example.com/hotel-b"], confidence: "verified", recommendation: "Pitch social media management retainers." } },
+          { tool: "record_intel", input: { category: "potential_client", title: "Two Lagos hotels with dormant Instagram", summary: "Hotel A and Hotel B have not posted in 4+ months and their sites lack booking.", source_urls: ["https://example.com/hotel-a", "https://example.com/hotel-b"], confidence: "verified", recommendation: "Pitch social media management retainers.", opportunity: "Social media management retainers for two dormant hotel accounts.", priority: "high" } },
           { tool: "save_deliverable", input: { kind: "research_report", title: "Lagos hospitality audit", content: "## Findings\n- Hotel A: last post 5 months ago\n- Hotel B: no mobile site", submit_for_review: true } },
         ];
         const intel = parse<{ intel_id: string }>(lastResults[0].content).intel_id;

@@ -2,9 +2,9 @@
  * Idempotent bootstrap: business, AI workforce, service catalogue, schedules, starter knowledge and the owner account.
  * Seeds NO operational data (leads, clients, transactions, metrics) — those come only from real activity.
  */
-import { sql } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { getDb, closeDb } from "./client";
-import { businesses, agents, services, schedules, knowledgeDocs, users, integrationConfigs } from "./schema";
+import { businesses, agents, services, schedules, knowledgeDocs, users, integrationConfigs, authorizedSenders } from "./schema";
 import { AGENTS } from "@/agents/definitions";
 import { DEFAULT_SCHEDULES, nextRun } from "@/orchestrator/scheduler";
 import { DEFAULT_SETTINGS } from "@/services/settings";
@@ -59,7 +59,7 @@ export async function seed(opts: { quiet?: boolean } = {}) {
 
   for (const a of AGENTS) {
     await db.insert(agents).values({
-      slug: a.slug, name: a.name, department: a.department, title: a.title, model: env.defaultModel,
+      slug: a.slug, name: a.name, department: a.department, title: a.title, model: process.env.DEFAULT_AGENT_MODEL_FORCE === "true" ? env.defaultModel : a.defaultModel,
       effort: a.defaultEffort, maxTurns: a.maxTurns, dailyBudgetUsd: a.dailyBudgetUsd,
     }).onConflictDoUpdate({ target: agents.slug, set: { name: a.name, department: a.department, title: a.title, updatedAt: new Date() } });
   }
@@ -97,6 +97,18 @@ export async function seed(opts: { quiet?: boolean } = {}) {
     await db.insert(users).values({ email, name: process.env.OWNER_NAME ?? "Owner", passwordHash: await hashPassword(password), role: "owner" });
     log(`✓ owner account created: ${email}`);
     if (generated) log(`  generated password (shown once — change it after login): ${password}`);
+  }
+
+  // WhatsApp command centre: bind the numbers in WHATSAPP_OWNER_NUMBERS to the first owner account.
+  const ownerNumbers = (process.env.WHATSAPP_OWNER_NUMBERS ?? "").split(",").map((n) => n.replace(/[^\d]/g, "")).filter((n) => n.length >= 8);
+  if (ownerNumbers.length) {
+    const [owner] = await db.select({ id: users.id }).from(users).where(eq(users.role, "owner")).orderBy(users.createdAt).limit(1);
+    if (owner) {
+      for (const address of ownerNumbers) {
+        await db.insert(authorizedSenders).values({ channel: "whatsapp", address, userId: owner.id, label: "Owner (from WHATSAPP_OWNER_NUMBERS)" }).onConflictDoNothing();
+      }
+      log(`✓ ${ownerNumbers.length} authorised WhatsApp number(s) bound to the owner`);
+    }
   }
 
   log(`✓ seed complete: ${AGENTS.length} agents, ${SERVICE_CATALOGUE.length} services, ${DEFAULT_SCHEDULES.length} schedules`);

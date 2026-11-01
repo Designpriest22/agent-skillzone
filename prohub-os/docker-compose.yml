@@ -1,4 +1,6 @@
-# Local development stack: PostgreSQL 16 (Supabase-compatible).
+# Full stack: PostgreSQL 16 (Supabase-compatible), the web app, and the background worker.
+#   docker compose up -d db            # database only (local development with npm run dev / worker)
+#   docker compose --profile app up -d # everything, from the Dockerfile
 services:
   db:
     image: postgres:16
@@ -9,5 +11,29 @@ services:
       POSTGRES_DB: prohub
     ports: ["5432:5432"]
     volumes: ["pgdata:/var/lib/postgresql/data"]
+  migrate:
+    profiles: ["app"]
+    build: .
+    command: ["npm", "run", "setup"]
+    env_file: .env
+    environment: { DATABASE_URL: "postgres://prohub:prohub@db:5432/prohub" }
+    depends_on: [db]
+  web:
+    profiles: ["app"]
+    build: .
+    command: ["npm", "start"]
+    env_file: .env
+    environment: { DATABASE_URL: "postgres://prohub:prohub@db:5432/prohub", WORKER_MODE: "standalone" }
+    ports: ["3000:3000"]
+    depends_on: [migrate]
+    restart: unless-stopped
+  worker:
+    profiles: ["app"]
+    build: .
+    command: ["npm", "run", "worker"]
+    env_file: .env
+    environment: { DATABASE_URL: "postgres://prohub:prohub@db:5432/prohub" }
+    depends_on: [migrate]
+    restart: unless-stopped
 volumes:
   pgdata:

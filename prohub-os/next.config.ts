@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   // Server-only packages that must not be bundled into the edge/client graph.
-  serverExternalPackages: ["pdfkit", "exceljs", "nodemailer", "postgres"],
+  serverExternalPackages: ["pdfkit", "exceljs", "nodemailer", "postgres", "playwright-core", "@modelcontextprotocol/sdk"],
   async headers() {
     return [
       {

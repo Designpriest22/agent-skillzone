@@ -83,7 +83,7 @@ export async function pipelineSummary() {
     .select({ stage: leads.stage, n: sql<number>`count(*)::int`, value: sql<string>`coalesce(sum(${leads.estimatedValueMinor}),0)` })
     .from(leads).groupBy(leads.stage);
   const open = rows.filter((r) => r.stage !== "won" && r.stage !== "lost");
-  const qualifiedStages = ["interested", "meeting_scheduled", "proposal_sent", "negotiation"];
+  const qualifiedStages = ["qualified", "meeting_scheduled", "proposal_sent", "negotiation"];
   return {
     byStage: rows.map((r) => ({ stage: r.stage, count: r.n, valueMinor: Number(r.value) })),
     openCount: open.reduce((a, r) => a + r.n, 0),

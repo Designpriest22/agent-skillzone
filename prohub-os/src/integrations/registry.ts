@@ -70,6 +70,8 @@ export const INTEGRATIONS: IntegrationDef[] = [
       { key: "verifyToken", label: "Webhook verify token", envVar: "WHATSAPP_VERIFY_TOKEN", secret: true },
       { key: "appSecret", label: "App secret (webhook signature)", envVar: "META_APP_SECRET", secret: true },
       { key: "publicNumber", label: "Public WhatsApp number (for click-to-chat)", envVar: "WHATSAPP_PUBLIC_NUMBER" },
+      { key: "ownerTemplate", label: "Owner update template (approved, one body variable)", envVar: "WHATSAPP_OWNER_TEMPLATE", help: "Used for reports/alerts when the owner hasn't messaged in 24h, e.g. prohub_update" },
+      { key: "templateLanguage", label: "Template language code", envVar: "WHATSAPP_TEMPLATE_LANGUAGE", help: "Default en" },
     ],
   },
   {

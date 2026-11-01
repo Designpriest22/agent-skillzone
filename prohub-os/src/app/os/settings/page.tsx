@@ -1,10 +1,14 @@
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { db } from "@/db/client";
-import { revenueTargets, schedules, users, services } from "@/db/schema";
+import { revenueTargets, schedules, users, services, authorizedSenders, apiTokens } from "@/db/schema";
+import { getUser } from "@/lib/auth";
+import { isConfigured } from "@/integrations/registry";
+import { env } from "@/lib/env";
+import { TokenCreator } from "./token-creator";
 import { getSettings } from "@/services/settings";
 import { PageHeader, Panel, Tabs, Field, inputClass, textareaClass, Table, Th, Td, Badge, ErrorNote, InfoNote } from "@/components/ui";
 import { SubmitButton } from "@/components/client";
-import { setTargetAction, saveSettingsAction, scheduleAction, createUserAction, setUserActiveAction, updateServiceAction, changePasswordAction } from "../actions";
+import { setTargetAction, saveSettingsAction, scheduleAction, createUserAction, setUserActiveAction, updateServiceAction, changePasswordAction, addSenderAction, toggleSenderAction, revokeApiTokenAction } from "../actions";
 import { formatMoney } from "@/lib/money";
 import { formatDate } from "@/lib/utils";
 import { monthPeriod } from "@/lib/time";
@@ -14,7 +18,7 @@ export const metadata = { title: "Settings" };
 export default async function Settings({ searchParams }: { searchParams: Promise<{ tab?: string; ok?: string; error?: string }> }) {
   const sp = await searchParams;
   const tab = sp.tab ?? "targets";
-  const labels: Record<string, string> = { targets: "Revenue targets", operations: "Operations", schedules: "Schedules", services: "Services & pricing", users: "Users" };
+  const labels: Record<string, string> = { targets: "Revenue targets", operations: "Operations", schedules: "Schedules", services: "Services & pricing", channels: "Command channels", users: "Users" };
   return (
     <>
       <PageHeader title="Settings" />
@@ -25,6 +29,7 @@ export default async function Settings({ searchParams }: { searchParams: Promise
       {tab === "operations" && <Operations />}
       {tab === "schedules" && <Schedules />}
       {tab === "services" && <Services />}
+      {tab === "channels" && <Channels />}
       {tab === "users" && <Users />}
     </>
   );
@@ -63,10 +68,11 @@ async function Operations() {
   return (
     <Panel title="Autonomous operations" className="max-w-2xl">
       <form action={saveSettingsAction} className="space-y-3">
-        <label className="flex items-center gap-2"><input type="checkbox" name="autonomousCycles" defaultChecked={s.autonomousCycles} /> Run morning, midday and evening agent cycles automatically</label>
+        <label className="flex items-center gap-2"><input type="checkbox" name="autonomousCycles" defaultChecked={s.autonomousCycles} /> Run the daily cycles automatically (07:00 intelligence, 08:00 assignments, 12:00 progress, 17:00 report — times editable under Schedules)</label>
         <Field label="Daily prospect quota" hint="Real prospects the Sales agent tries to find each morning. Higher = more model and search cost."><input name="dailyProspectQuota" type="number" min={0} max={50} defaultValue={s.dailyProspectQuota} className={inputClass + " w-32"} /></Field>
         <Field label="Prospecting segments (one per line, rotated daily)"><textarea name="prospectSegments" rows={8} defaultValue={s.prospectSegments.join("\n")} className={textareaClass} /></Field>
         <Field label="Report email" hint="Receives scheduled reports as PDF (requires the Email integration)."><input name="reportEmail" type="email" defaultValue={s.reportEmail ?? ""} className={inputClass} /></Field>
+        <label className="flex items-center gap-2"><input type="checkbox" name="reportWhatsApp" defaultChecked={s.reportWhatsApp} /> Send scheduled reports (summary + PDF) to authorised WhatsApp numbers</label>
         <SubmitButton>Save</SubmitButton>
       </form>
     </Panel>
@@ -120,6 +126,46 @@ async function Users() {
           <SubmitButton>Create user</SubmitButton></form></Panel>
         <Panel title="Change my password"><form action={changePasswordAction} className="space-y-2"><input name="password" type="password" minLength={10} required className={inputClass} /><SubmitButton variant="secondary">Change password</SubmitButton></form></Panel>
       </div>
+    </div>
+  );
+}
+
+async function Channels() {
+  const me = await getUser();
+  const [senders, people, tokens, waReady] = await Promise.all([
+    db.select({ id: authorizedSenders.id, address: authorizedSenders.address, label: authorizedSenders.label, active: authorizedSenders.active, lastSeenAt: authorizedSenders.lastSeenAt, user: users.name, role: users.role })
+      .from(authorizedSenders).innerJoin(users, eq(users.id, authorizedSenders.userId)).orderBy(authorizedSenders.createdAt),
+    db.select({ id: users.id, name: users.name, role: users.role }).from(users).where(eq(users.active, true)),
+    me ? db.select().from(apiTokens).where(eq(apiTokens.userId, me.id)).orderBy(desc(apiTokens.createdAt)) : Promise.resolve([]),
+    isConfigured("whatsapp"),
+  ]);
+  const mcpUrl = `${env.appUrl}/api/mcp`;
+  return (
+    <div className="grid gap-4 xl:grid-cols-2">
+      <Panel title="WhatsApp command centre">
+        {!waReady && <div className="mb-3"><ErrorNote>The WhatsApp Business Cloud API isn&apos;t configured yet — add it under Integrations, then point the Meta webhook at {env.appUrl}/api/webhooks/meta.</ErrorNote></div>}
+        <p className="mb-3 text-[12.5px] text-fg-2">Only these numbers can issue instructions and approvals. Messages from any other number are treated as customer enquiries and go to the CRM. Each number acts with its user&apos;s role; Level-3 (owner-only) actions always require the dashboard.</p>
+        <Table><thead><tr><Th>Number</Th><Th>User</Th><Th>Status</Th><Th>Last message</Th><Th /></tr></thead><tbody>
+          {senders.map((r) => <tr key={r.id}><Td className="font-mono">+{r.address}<div className="font-sans text-[11.5px] text-fg-3">{r.label}</div></Td><Td>{r.user} <Badge>{r.role}</Badge></Td><Td>{r.active ? <Badge tone="ok">active</Badge> : <Badge>disabled</Badge>}</Td><Td className="text-fg-3">{formatDate(r.lastSeenAt, true)}</Td>
+            <Td><form action={toggleSenderAction}><input type="hidden" name="id" value={r.id} /><SubmitButton size="sm" variant="ghost">{r.active ? "Disable" : "Enable"}</SubmitButton></form></Td></tr>)}
+          {!senders.length && <tr><Td colSpan={5} className="text-fg-3">No numbers authorised yet.</Td></tr>}
+        </tbody></Table>
+        <form action={addSenderAction} className="mt-3 grid gap-2 sm:grid-cols-[1fr_1fr_1fr_auto] sm:items-end">
+          <Field label="Number (international)"><input name="address" required placeholder="2348012345678" className={inputClass} /></Field>
+          <Field label="Acts as user"><select name="userId" className={inputClass}>{people.map((p) => <option key={p.id} value={p.id}>{p.name} ({p.role})</option>)}</select></Field>
+          <Field label="Label"><input name="label" placeholder="Owner's phone" className={inputClass} /></Field>
+          <SubmitButton>Authorise</SubmitButton>
+        </form>
+      </Panel>
+      <Panel title="Claude command centre (connector)">
+        <p className="mb-3 text-[12.5px] text-fg-2">Connect Claude (claude.ai, Claude Desktop or Claude Code) to Prohub AI. Claude can then send instructions to the Managing Director, follow progress, read reports and the pipeline, and approve Level-2 actions — acting as you, with your role. Endpoint: <code className="font-mono">{mcpUrl}</code></p>
+        <TokenCreator mcpUrl={mcpUrl} />
+        <Table><thead><tr><Th>Token</Th><Th>Created</Th><Th>Last used</Th><Th /></tr></thead><tbody>
+          {tokens.map((t) => <tr key={t.id}><Td>{t.name}<div className="font-mono text-[11.5px] text-fg-3">{t.prefix}…</div></Td><Td className="text-fg-3">{formatDate(t.createdAt, true)}</Td><Td className="text-fg-3">{formatDate(t.lastUsedAt, true)}</Td>
+            <Td>{t.revokedAt ? <Badge>revoked</Badge> : <form action={revokeApiTokenAction}><input type="hidden" name="id" value={t.id} /><SubmitButton size="sm" variant="ghost" confirm="Revoke this token? Connected Claude clients will stop working.">Revoke</SubmitButton></form>}</Td></tr>)}
+          {!tokens.length && <tr><Td colSpan={4} className="text-fg-3">No tokens yet.</Td></tr>}
+        </tbody></Table>
+      </Panel>
     </div>
   );
 }

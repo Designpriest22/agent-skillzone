@@ -1,7 +1,7 @@
 # Roadmap
 
 ## Now (first two weeks after go-live)
-1. **Turn it on:** add the Anthropic key, SMTP and Telegram; fill in the Company profile and Brand guidelines in the Knowledge base; set this month's revenue target and service prices.
+1. **Turn it on:** add the Anthropic key, WhatsApp Cloud API (and authorise your number), SMTP; create a Claude connector token; fill in the Company profile and Brand guidelines in the Knowledge base (incl. brand colours for video); set this month's revenue target and service prices. Run the six acceptance scenarios from your phone.
 2. **Calibrate:** run `npm run agent:smoke`, then 3–5 real commands. Review transcripts and costs on each agent page; adjust effort, budgets and standing instructions.
 3. **Build an eval set** from the first 20 real tasks (good vs bad outcomes) so prompt and model changes can be measured, not guessed.
 
@@ -13,7 +13,9 @@
 - Public procurement portal monitors (scheduled fetch + diffing) feeding the Intelligence Centre.
 
 ## v1.2 — Creative production
-- Asset storage (Supabase Storage / S3) for uploaded brand files and generated media; public URLs for Instagram publishing.
+- Object storage (Supabase Storage / S3 / R2) behind `src/services/files.ts` for large media; public URLs for Instagram publishing.
+- Video renderer: voice-over (TTS) and licensed music library, more scene layouts, AI-footage scenes from the video provider.
+- OAuth for the Claude connector (instead of token-in-URL for claude.ai custom connectors).
 - Rendering SVG → PNG for social posts; multi-size export per platform.
 - Provider-specific video adapters (Runway, Luma, Higgsfield) with job polling.
 - Client review portal: share deliverables with clients for approval without dashboard access.

@@ -222,25 +222,29 @@ export const requestCollaboration = defineTool({
 export const recordIntel = defineTool({
   name: "record_intel",
   description:
-    "Publish a finding to the Intelligence Centre (trend, competitor move, opportunity, recommendation). " +
+    "Publish a research finding to the Intelligence Centre. Every finding is a mini research report with: topic (title), findings (summary), " +
+    "supporting sources (source_urls), the business opportunity for Prohub, estimated implementation cost and potential revenue (economics), " +
+    "the recommended action and a priority. No generic or motivational advice — if there is no concrete opportunity or action, don't record it. " +
     "confidence: 'verified' only with source URLs you actually read this session; 'likely' for well-supported inference; 'assumption' otherwise. " +
-    "Revenue opportunities must include economics (estimated cost, potential revenue, requirements, risks).",
+    "Business and revenue opportunities must include economics (estimated cost, potential revenue, requirements, risks).",
   governance: "autonomous",
   schema: z.object({
     category: z.enum(INTEL_CATEGORIES),
-    title: z.string().min(5),
-    summary: z.string().min(20),
-    recommendation: z.string().optional(),
+    title: z.string().min(5).describe("Research topic"),
+    summary: z.string().min(20).describe("Findings — specific facts, figures and what changed"),
+    opportunity: z.string().min(15).describe("The concrete business opportunity this creates for Prohub (who to sell what to, or what to change)"),
+    recommendation: z.string().min(10).describe("Recommended action — a specific next step with an owner"),
+    priority: z.enum(["high", "medium", "low"]),
     source_urls: z.array(z.string().url()).default([]),
     confidence: z.enum(["verified", "likely", "assumption"]),
     economics: z.object({ est_cost_ngn: z.number().optional(), est_revenue_ngn: z.number().optional(), requirements: z.string().optional(), risks: z.string().optional() }).optional(),
   }),
   async run(input, ctx) {
     if (input.confidence === "verified" && !input.source_urls.length) throw new ToolError("'verified' findings need at least one source URL.");
-    if (input.category === "revenue_opportunity" && !input.economics) throw new ToolError("Revenue opportunities must include economics: estimated cost, revenue, requirements and risks.");
+    if ((input.category === "revenue_opportunity" || input.category === "business_opportunity") && !input.economics) throw new ToolError("Business and revenue opportunities must include economics: estimated implementation cost, potential revenue, requirements and risks.");
     const e = input.economics;
     const [row] = await db.insert(intelItems).values({
-      category: input.category, title: input.title, summary: input.summary, recommendation: input.recommendation ?? null,
+      category: input.category, title: input.title, summary: input.summary, recommendation: input.recommendation, opportunity: input.opportunity, priority: input.priority,
       sourceUrls: input.source_urls, confidence: input.confidence, agentSlug: ctx.agentSlug, taskId: ctx.taskId,
       economics: e ? { estCostMinor: e.est_cost_ngn !== undefined ? Math.round(e.est_cost_ngn * 100) : undefined, estRevenueMinor: e.est_revenue_ngn !== undefined ? Math.round(e.est_revenue_ngn * 100) : undefined, requirements: e.requirements, risks: e.risks } : null,
     }).returning({ id: intelItems.id });

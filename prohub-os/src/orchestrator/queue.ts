@@ -18,7 +18,11 @@ export type JobType =
   | "invoices.check"
   | "content.publish_due"
   | "report.generate"
-  | "notify";
+  | "notify"
+  | "cycle.assignments"
+  | "whatsapp.inbound"
+  | "channel.notify"
+  | "channel.approval";
 
 export type Job = typeof jobs.$inferSelect;
 
@@ -59,8 +63,14 @@ export async function claimJob(workerId: string): Promise<Job | null> {
   return job ?? null;
 }
 
+/** Dedupe keys that must outlive the job (e.g. inbound WhatsApp message ids, which Meta may redeliver hours later). */
+const PERMANENT_DEDUPE_PREFIXES = ["wa-in:"];
+
 export async function completeJob(id: string) {
-  await db.update(jobs).set({ status: "succeeded", finishedAt: new Date(), lockedAt: null, dedupeKey: null }).where(eq(jobs.id, id));
+  await db.update(jobs).set({
+    status: "succeeded", finishedAt: new Date(), lockedAt: null,
+    dedupeKey: sql`CASE WHEN ${jobs.dedupeKey} LIKE ANY (${`{${PERMANENT_DEDUPE_PREFIXES.map((p) => `${p}%`).join(",")}}`}::text[]) THEN ${jobs.dedupeKey} ELSE NULL END`,
+  }).where(eq(jobs.id, id));
 }
 
 /** Exponential backoff: 30s, 2m, 8m … ; moves to `dead` after maxAttempts. */

@@ -27,7 +27,7 @@ export async function intakeEnquiry(e: Enquiry) {
       verifiedFacts: [`Contacted Prohub via ${e.channel}${e.pageSlug ? ` (page /p/${e.pageSlug})` : ""}`], createdBy: `webhook:${e.channel}`,
     }).returning();
   } else if (lead.stage === "lost" || lead.stage === "follow_up_required") {
-    await db.update(leads).set({ stage: "interested", stageChangedAt: new Date(), updatedAt: new Date() }).where(eq(leads.id, lead.id));
+    await db.update(leads).set({ stage: "responded", stageChangedAt: new Date(), updatedAt: new Date() }).where(eq(leads.id, lead.id));
   }
   await db.insert(interactions).values({ leadId: lead.id, channel: e.channel === "website" ? "website" : e.channel === "whatsapp" ? "whatsapp" : "social", direction: "inbound", summary: `Enquiry from ${e.name}${e.serviceSlug ? ` about ${e.serviceSlug}` : ""}`, content: e.message.slice(0, 5000), externalId: e.externalId ?? null, actor: `webhook:${e.channel}` });
   await createTask({
@@ -35,7 +35,7 @@ export async function intakeEnquiry(e: Enquiry) {
     title: `New ${e.channel} enquiry: ${companyName}`,
     instructions: `A ${isNew ? "new" : "returning"} enquiry arrived via ${e.channel}.\nFrom: ${e.name}${e.company ? ` (${e.company})` : ""}${e.email ? `, ${e.email}` : ""}${e.phone ? `, ${e.phone}` : ""}\nService interest: ${e.serviceSlug ?? "not specified"}\nMessage: """${e.message.slice(0, 2000)}"""\n\nQualify it (update_lead with industry, signals and estimated value if you can infer them; research the company website if given), draft a fast, personal reply and request approval to send it on the same channel, and schedule a follow-up. If this is spam, mark the lead lost with the reason.`,
   });
-  await notifyOwner({ kind: "info", title: `New enquiry: ${companyName}`, body: `${e.channel} · ${e.message.slice(0, 300)}`, href: `/os/crm/leads/${lead.id}` });
+  await notifyOwner({ kind: "info", title: `New enquiry: ${companyName}`, body: `${e.channel} · ${e.message.slice(0, 300)}`, href: `/os/crm/leads/${lead.id}`, whatsapp: true });
   await logActivity({ type: "webhook", id: e.channel }, "enquiry.received", { type: "lead", id: lead.id }, { isNew });
   return { leadId: lead.id, isNew };
 }

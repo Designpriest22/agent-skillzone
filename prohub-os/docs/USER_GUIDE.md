@@ -1,4 +1,49 @@
-# User guide
+# User guide (operating manual)
+
+You run Prohub AI from three places, and they all drive the same Managing Director, tasks, approvals and data:
+
+| Where | Best for |
+|---|---|
+| **WhatsApp** (your authorised number) | Instructions on the move, approvals with one tap, the 17:00 report as a PDF |
+| **Claude** (the Prohub connector) | Longer briefs, follow-up questions, reading reports and pipeline in conversation |
+| **Dashboard** (`/os`) | Reviewing work, the CRM, finance entries, settings, Level-3 authorisations |
+
+## The daily rhythm (automatic)
+
+| Time (Lagos) | What happens |
+|---|---|
+| 07:00 | **Daily intelligence** — the Research agent scans industry news, competitors, platform changes and new revenue openings; the MD reviews yesterday's numbers and outstanding work and writes a brief. |
+| 08:00 | **Agent assignments** — the MD hands out the day's work: Sales finds new qualified prospects in the day's segment and three acquisition improvements; Content proposes today's posts; Finance reviews invoices and deadlines; Social reviews accounts and the calendar. |
+| 12:00 | **Progress check** — the Operations Manager checks what's done and outstanding, chases stuck work, triages new leads and enquiries, and fills calendar gaps (drafts go to approval). |
+| 17:00 | **Daily business report** — 12 sections (new leads, qualified leads, enquiries, sales closed, revenue, outstanding payments, projects completed and in progress, social performance, marketing activity, operational challenges, recommendations for tomorrow), with the MD's narrative. Sent to WhatsApp (summary + PDF), email and Telegram. |
+
+Times and on/off are in Settings → Schedules / Operations. Weekly and monthly reports run on Monday and the 1st.
+
+## WhatsApp commands
+
+Just write naturally — *"Good morning. Find 20 potential clients for our branding services."* You'll get:
+1. ✅ *Instruction received (ref 3F9A2C)* — straight away.
+2. 📋 *Sales & Marketing (Chidi) has been assigned: …* — as the MD delegates.
+3. ✔️ *Sales & Marketing (Chidi) finished: …* — as each department completes.
+4. ✅ *Done — 3F9A2C* — the MD's verified report, the records produced (with links), anything awaiting your approval, and any rendered videos or report PDFs.
+
+Quick commands:
+
+| Send | Result |
+|---|---|
+| `help` | The menu |
+| `approvals` | Everything waiting for you, with references |
+| `approve 3F9A2C` · `reject 3F9A2C reason` | Decide an approval (or tap the buttons on the approval message) |
+| `change 3F9A2C make the CTA mention WhatsApp` | Send it back to the agent with your notes; the revision returns for approval |
+| `status` · `status 3F9A2C` | Your recent instructions · one instruction in detail |
+| `tasks` | Completed, pending, failed and awaiting-approval work in the last 24 h |
+| `cancel 3F9A2C` | Stop an instruction and its open tasks |
+
+Send a **photo or PDF** with a caption (e.g. a client's brief or a competitor's flyer) and the MD reads it. **Voice notes** work when transcription is connected. Level-3 actions (payments, contracts, refunds, ledger changes, access, deleting data) can never be authorised from chat — you get a dashboard link instead.
+
+## Using Claude
+
+After connecting the Prohub connector (Settings → Command channels), talk to Claude normally: *"Ask Prohub to prepare five social posts for this week"*, *"Check our sales pipeline"*, *"Which clients have outstanding payments?"*, *"Give me a report of everything completed today"*, *"Approve the Instagram post about the brand audit"*. Claude sends work to the MD and checks back on it; quick questions are answered instantly from live data.
 
 ## Giving instructions
 Open the **Command centre** and type what you want, the way you would brief a senior manager. Include the quantity, the audience, the deadline and the result you want.

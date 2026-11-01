@@ -41,6 +41,19 @@ export async function handleJob(job: Job): Promise<unknown> {
     }
     case "approval.execute": return executeApproval(String(p.approvalId));
     case "cycle.morning": return cycles.morningCycle();
+    case "cycle.assignments": return cycles.assignmentsCycle();
+    case "whatsapp.inbound": {
+      const { handleInbound } = await import("@/channels/whatsapp");
+      return handleInbound(p as unknown as Parameters<typeof handleInbound>[0]);
+    }
+    case "channel.notify": {
+      const { sendCommandEvent } = await import("@/channels/whatsapp");
+      return sendCommandEvent(p as unknown as Parameters<typeof sendCommandEvent>[0]);
+    }
+    case "channel.approval": {
+      const { pushApproval } = await import("@/channels/whatsapp");
+      return { sent: await pushApproval(String(p.approvalId)) };
+    }
     case "cycle.midday": return cycles.middayCycle();
     case "cycle.evening": return cycles.eveningCycle();
     case "followups.check": return cycles.checkFollowUps();

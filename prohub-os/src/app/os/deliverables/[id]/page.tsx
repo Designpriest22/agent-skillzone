@@ -9,6 +9,7 @@ import { PageHeader, Panel, StatusBadge, KV, Badge, textareaClass, ErrorNote } f
 import { SubmitButton } from "@/components/client";
 import { reviewDeliverableAction } from "../../actions";
 import { formatDate } from "@/lib/utils";
+import { listFileMeta } from "@/services/files";
 
 function Content({ d }: { d: typeof deliverables.$inferSelect }) {
   if (d.format === "svg") return <img alt={d.title} className="mx-auto max-h-[720px] max-w-full rounded border border-line bg-white" src={`data:image/svg+xml;base64,${Buffer.from(d.content).toString("base64")}`} />;
@@ -34,7 +35,10 @@ export default async function DeliverablePage({ params, searchParams }: { params
       <PageHeader title={d.title} subtitle={<>{d.kind.replace(/_/g, " ")} by <Link className="text-accent" href={`/os/workforce/${d.agentSlug}`}>{d.agentSlug}</Link> · v{d.version} · {formatDate(d.createdAt, true)}</>} actions={<StatusBadge status={d.status} />} />
       {sp.error && <div className="mb-3"><ErrorNote>{sp.error}</ErrorNote></div>}
       <div className="grid gap-4 lg:grid-cols-[1fr_340px]">
-        <Panel><Content d={d} /></Panel>
+        <div className="space-y-4">
+          {d.fileIds.length > 0 && <Files ids={d.fileIds} />}
+          <Panel><Content d={d} /></Panel>
+        </div>
         <div className="space-y-4">
           <Panel title="Review">
             <form action={reviewDeliverableAction} className="space-y-2">
@@ -61,5 +65,22 @@ export default async function DeliverablePage({ params, searchParams }: { params
         </div>
       </div>
     </>
+  );
+}
+
+async function Files({ ids }: { ids: string[] }) {
+  const files = await listFileMeta(ids);
+  const videos = files.filter((f) => f.mimeType.startsWith("video/"));
+  const posterFor = (id: string) => files.find((f) => f.meta?.posterFor === id);
+  const others = files.filter((f) => !f.mimeType.startsWith("video/") && !f.meta?.posterFor);
+  return (
+    <Panel title={`Files (${files.length})`}>
+      {videos.length > 0 && <div className="flex flex-wrap items-end gap-4">{videos.map((v) => (
+        <figure key={v.id} className="space-y-1">
+          <video src={`/api/files/${v.id}`} poster={posterFor(v.id) ? `/api/files/${posterFor(v.id)!.id}` : undefined} controls preload="metadata" className="max-h-[420px] max-w-full rounded border border-line bg-black" style={{ width: Number(v.meta?.width) > Number(v.meta?.height) ? 420 : 236 }} />
+          <figcaption className="text-[12px] text-fg-2">{String(v.meta?.format ?? "")} · {String(v.meta?.placement ?? "")} · {(v.sizeBytes / 1048576).toFixed(1)} MB · <a className="text-accent" href={`/api/files/${v.id}?download`}>download</a></figcaption>
+        </figure>))}</div>}
+      {others.length > 0 && <ul className="mt-3 space-y-1 text-[12.5px]">{others.map((f) => <li key={f.id}><a className="text-accent" href={`/api/files/${f.id}`}>{f.name}</a> <span className="text-fg-3">{f.mimeType} · {(f.sizeBytes / 1024).toFixed(0)} KB</span></li>)}</ul>}
+    </Panel>
   );
 }
