@@ -64,7 +64,7 @@ export function buildCinematicHtml(sb: Storyboard, format: VideoFormat, images: 
           <div class="hudbox"><div>NODES</div><div class="o" data-r="nodes">0001</div><div class="g">GROWTH // LIVE</div></div>`;
         break;
       case "rings":
-        h = `<canvas class="cv" data-r="cv"></canvas><div class="ringword" data-r="word">${[...s.headline.toUpperCase()].map((c) => (/[O0]/.test(c) ? `<span class="ro">${c}</span>` : `<span>${esc(c)}</span>`)).join("")}</div>
+        h = `<canvas class="cv" data-r="cv"></canvas><div class="ringword" data-r="word">${[...s.headline.toUpperCase()].map((c) => (/[O0]/.test(c) ? `<span class="ro">${c}</span>` : c === " " ? `<span>&nbsp;</span>` : `<span>${esc(c)}</span>`)).join("")}</div>
           ${s.subline ? `<div class="ring-sub" data-r="sub">${esc(s.subline)}</div>` : ""}`;
         break;
       case "corridor":
@@ -245,7 +245,7 @@ var R={
 };
 
 function measure(){roots.forEach(function(r,i){var s=D.scenes[i];var m={};r.style.visibility='visible';
- if(s.layout==='rings'){var rw=q(r,'[data-r=word]');var g2=0;while(g2++<50&&rw.scrollWidth>D.W*0.86){rw.style.fontSize=(parseFloat(getComputedStyle(rw).fontSize)*0.95)+'px'}}
+ if(s.layout==='rings'){var rw=q(r,'[data-r=word]');var sp=rw.children;var cw=function(){return sp[sp.length-1].getBoundingClientRect().right-sp[0].getBoundingClientRect().left};var g2=0;while(g2++<50&&cw()>D.W*0.86){rw.style.fontSize=(parseFloat(getComputedStyle(rw).fontSize)*0.95)+'px'}}
  if(s.layout==='slam'){qa(r,'.slam').forEach(function(w){w.style.visibility='visible';var main=q(w,'.main');var maxW=D.W*0.9,maxH=D.H*(D.portrait?0.36:0.64);var g=0;
    while(g++<60&&(main.getBoundingClientRect().width>maxW||main.getBoundingClientRect().height>maxH)){var fs=parseFloat(getComputedStyle(main).fontSize)*0.95;main.style.fontSize=fs+'px';qa(w,'.echo').forEach(function(e){e.style.fontSize=fs+'px'})}w.style.visibility='hidden'})}
  if(s.layout==='network'){var fx=D.W*0.62,fy=D.H*(D.portrait?0.58:0.56);var segs=[];var id=0;
@@ -273,7 +273,7 @@ window.renderAt=function(t){var fl=0,inv=false,chroma=0,cur=0;
  var cs=Math.round(chroma*D.unit*0.006);stage.style.filter=(inv?'invert(1) ':'')+(cs>0?'drop-shadow('+cs+'px 0 0 rgba(255,0,60,.55)) drop-shadow(-'+cs+'px 0 0 rgba(0,190,255,.45))':'');
  if(!stage.style.filter.trim())stage.style.filter='none';flash.style.opacity=String(fl);
  q(hud,'[data-r=tc]').textContent=tc(t);q(hud,'[data-r=sidx]').textContent=String(cur+1).padStart(2,'0')+'/'+String(D.scenes.length).padStart(2,'0');
- qa(hud,'.idx span').forEach(function(sp,k){sp.className=k===cur?'on':''});
+ var win=D.portrait||D.W===D.H?1:2;qa(hud,'.idx span').forEach(function(sp,k){sp.className=k===cur?'on':'';sp.style.display=Math.abs(k-cur)<=win?'inline':'none'});
  if(gx)gx.putImageData(tiles[Math.floor(t*D.fps)%tiles.length],0,0)};
 </script></body></html>`;
 }
