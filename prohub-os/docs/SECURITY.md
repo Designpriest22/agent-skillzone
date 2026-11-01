@@ -1,0 +1,12 @@
+# Security
+
+- **Authentication:** email + password with scrypt hashing (Node `crypto`, timing-safe compare). Sessions are random 256-bit tokens stored as SHA-256 hashes, in httpOnly, SameSite=Lax cookies (Secure in production), with a 14-day expiry. Logout revokes the server-side session.
+- **Authorisation:** roles are owner, manager and viewer. Every server action checks the role. Level-3 approvals, ledger writes, credentials, users, schedules and pricing are owner-only. The `/os` area is gated at the proxy layer and validated again server-side.
+- **Rate limiting:** login (8 attempts per 15 minutes per IP) and the public enquiry form (5 per 10 minutes per IP, plus a honeypot field). The limiter is in-memory, so for multi-instance deployments also add limits at the CDN or gateway.
+- **Secrets:** nothing is hard-coded. Integration credentials are AES-256-GCM encrypted at rest using `ENCRYPTION_KEY`. Secret fields are never echoed back to the browser.
+- **Webhooks:** Paystack payloads are checked with HMAC-SHA512 and re-verified through Paystack's API before anything is recorded (idempotent on the reference). Meta and WhatsApp payloads are checked with HMAC-SHA256 against the app secret (required in production), and verify-token checks protect subscription.
+- **Agent safety:** agents act only through typed tools whose inputs are validated with zod. External effects require human approval. Agents cannot write to the finance ledger. Pricing knowledge is owner-only. Delegation depth and per-command task counts are capped, and each agent has a daily budget.
+- **Untrusted content:** web pages that agents read and inbound messages are treated as data inside tool results, never as instructions. Agent-produced HTML is rendered only in a sandboxed iframe with no scripts. SVG is checked for scripts and handlers and rendered as an `<img>`. Public landing pages are structured sections rendered by trusted components (no raw HTML). Markdown is rendered without raw HTML.
+- **Audit:** an append-only `activity_log` records logins, commands, every agent tool call, approvals and decisions, executions, ledger entries, configuration changes and webhooks.
+- **Headers:** `X-Content-Type-Options`, `Referrer-Policy`, `X-Frame-Options: SAMEORIGIN`, `Permissions-Policy`. The `x-powered-by` header is disabled.
+- **Recommended for production:** HTTPS only, managed Postgres with backups and network restrictions, rotating the owner password after seeding, and enabling 2FA on every connected third-party account.

@@ -22,13 +22,18 @@ export function localParts(at = new Date(), tz = env.timezone) {
   return { year: shifted.getUTCFullYear(), month: shifted.getUTCMonth(), day: shifted.getUTCDate(), weekday: shifted.getUTCDay() };
 }
 
+/** YYYY-MM-DD of a local calendar date (handles day/month overflow). */
+function localLabel(year: number, month: number, day: number) {
+  return new Date(Date.UTC(year, month, day)).toISOString().slice(0, 10);
+}
+
 export type Period = { start: Date; end: Date; label: string };
 
 export function dayPeriod(at = new Date(), offsetDays = 0): Period {
   const p = localParts(at);
   const start = zonedMidnight(p.year, p.month, p.day + offsetDays);
   const end = zonedMidnight(p.year, p.month, p.day + offsetDays + 1);
-  return { start, end, label: start.toISOString().slice(0, 10) };
+  return { start, end, label: localLabel(p.year, p.month, p.day + offsetDays) };
 }
 
 export function weekPeriod(at = new Date(), offsetWeeks = 0): Period {
@@ -36,7 +41,7 @@ export function weekPeriod(at = new Date(), offsetWeeks = 0): Period {
   const mondayOffset = (p.weekday + 6) % 7;
   const start = zonedMidnight(p.year, p.month, p.day - mondayOffset + offsetWeeks * 7);
   const end = zonedMidnight(p.year, p.month, p.day - mondayOffset + offsetWeeks * 7 + 7);
-  return { start, end, label: `Week of ${start.toISOString().slice(0, 10)}` };
+  return { start, end, label: `Week of ${localLabel(p.year, p.month, p.day - mondayOffset + offsetWeeks * 7)}` };
 }
 
 export function monthPeriod(at = new Date(), offsetMonths = 0): Period {

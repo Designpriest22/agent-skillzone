@@ -42,7 +42,7 @@ export const INTEGRATIONS: IntegrationDef[] = [
     slug: "video_provider", name: "Video generation provider", category: "creative", maturity: "implemented",
     description: "Generic HTTP adapter for an AI video API (Runway, Luma, Higgsfield, Kling via gateway). Sends prompt + spec, stores the returned job/URL.",
     usedBy: ["video-production"], docsUrl: "docs/INTEGRATIONS.md#video-generation",
-    notes: "Provider APIs differ; the adapter POSTs {prompt, aspect_ratio, duration_seconds} JSON and expects {id|url}. Map your provider in src/integrations/video.ts.",
+    notes: "Provider APIs differ; the adapter POSTs {prompt, aspect_ratio, duration_seconds} JSON and expects {id|url}. Map your provider in generateVideo() (src/integrations/creative.ts).",
     fields: [
       { key: "endpoint", label: "Generation endpoint URL", envVar: "VIDEO_API_URL", required: true },
       { key: "apiKey", label: "API key (Bearer)", envVar: "VIDEO_API_KEY", secret: true, required: true },

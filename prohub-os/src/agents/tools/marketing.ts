@@ -101,7 +101,7 @@ export const contentCalendar = defineTool({
     const from = new Date(Date.now() + input.from_days * 86400_000), to = new Date(Date.now() + input.to_days * 86400_000);
     const [items, accounts] = await Promise.all([
       db.select({ id: contentItems.id, platform: contentItems.platform, format: contentItems.format, title: contentItems.title, status: contentItems.status, scheduledAt: contentItems.scheduledAt, objective: contentItems.objective, metrics: contentItems.metrics, metricsSource: contentItems.metricsSource })
-        .from(contentItems).where(sql`coalesce(${contentItems.scheduledAt}, ${contentItems.createdAt}) between ${from} and ${to}`).orderBy(contentItems.scheduledAt).limit(100),
+        .from(contentItems).where(sql`coalesce(${contentItems.scheduledAt}, ${contentItems.createdAt}) between ${from.toISOString()} and ${to.toISOString()}`).orderBy(contentItems.scheduledAt).limit(100),
       db.select().from(socialAccounts),
     ]);
     return { items, social_accounts: accounts, note: "Metrics appear only when sourced from a connected platform API or manual entry; never estimate engagement." };

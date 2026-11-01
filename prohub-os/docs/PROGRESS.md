@@ -1,0 +1,56 @@
+# Progress reports
+
+Status as of this delivery. "Tested" means covered by the automated suite (`npm test`, 26 tests against a real PostgreSQL) or verified in a real browser against the running app. Agent reasoning against the live Claude API was **not** exercised in the build environment (no API key available there); the orchestration it drives was tested end to end with a scripted model client, and `npm run agent:smoke` performs the live check once a key is configured.
+
+---
+
+## Phase 1 — Research & architecture ✅
+**Built:** framework comparison and decision (own loop on Claude Messages API + Postgres-backed task orchestration), model and cost strategy, data model (40+ tables), integration plan. See [ARCHITECTURE.md](ARCHITECTURE.md).
+**Remaining:** none for MVP.
+
+## Phase 2 — Core system ✅
+**Built:** authentication (scrypt, DB sessions, roles owner/manager/viewer, login rate limit), dashboard shell, command centre, agent registry, task management, migrations and seed, job queue, scheduler, worker (standalone / embedded / cron modes).
+**Tested:** password hashing, credential encryption, queue claim/dedupe/backoff/dead-letter, scheduler single-fire per slot; login → dashboard in browser; anonymous access to dashboard and report downloads blocked.
+
+## Phase 3 — Agent development ✅
+**Built:** 12 agents with job descriptions, objectives, KPIs, quality bars and tool belts (≈50 tools); runtime loop with completion verification, nudge-once, turn limit, error circuit breaker, budgets, pause/disable, refusal handling, pause_turn handling, transcripts and cost accounting; delegation with dependencies and automatic manager resume; proposed-task review by the Operations Manager; inter-agent inbox; per-agent memory.
+**Tested:** MD → Research → Sales (dependency) → MD resume and consolidation with verified outputs; fabricated output IDs rejected; agent that stops without completing is failed; invalid tool input returned as error; lead evidence and dedupe rules; paused/disabled agents; missing API key handled; proposal → Ops review → rejection.
+**Needs credentials:** `ANTHROPIC_API_KEY` for live execution.
+
+## Phase 4 — Business operations ✅
+**Built:** CRM (kanban, table, clients, follow-ups, proposals, contact history, lead detail with verified facts vs assumptions and score breakdown), prospecting pipeline (segments, evidence-backed leads, transparent scoring, pitch workflow), projects with deliverables, client approvals and revisions, finance centre (ledger, invoices, profitability, receivables), revenue-target engine.
+**Tested:** finance summary, ₦15m target maths (achieved, remaining, deals required, weighted pipeline — pipeline never counted as revenue), receivables/overdue, pipeline weighting, lead scoring, enquiry intake and dedupe; owner sets a target and records a payment in the browser and the overview updates.
+
+## Phase 5 — Marketing & creative production ✅ (integration-dependent pieces need credentials)
+**Built:** content calendar, approval-gated publishing (Facebook, Instagram, LinkedIn APIs; manual-publish queue for TikTok/YouTube/X/Pinterest), manual metrics entry with provenance, campaigns with ROI from recorded spend and attributed revenue, agent-built landing pages (structured sections, draft preview, publish approval), public agency website with lead capture and WhatsApp, creative deliverables with QC checklists, SVG design output, image/video generation adapters.
+**Tested:** website, service pages, contact form → lead + interaction + triage task (browser + HTTP); WhatsApp webhook → enquiry; webhook signature/verify-token rejection.
+**Needs credentials:** Meta (Page/IG), LinkedIn, OpenAI Images, video provider, WhatsApp Cloud API, SMTP.
+
+## Phase 6 — Automation ✅
+**Built:** schedules for morning intelligence, midday execution, evening review + 10-section executive briefing, daily finance report, hourly follow-up reminders, daily overdue-invoice check, 5-minute scheduled publishing, weekly business/social and monthly finance/social reports; notifications (in-app, Telegram, Slack) and report delivery (email PDF, Telegram digest).
+**Tested:** briefing contains all 10 sections; weekly/monthly/social/daily-finance builders; PDF/XLSX/CSV rendering and authenticated downloads; follow-up reminders create tasks exactly once; schedules computed in Africa/Lagos.
+
+## Phase 7 — Testing ✅ (MVP scope)
+26 automated tests across orchestration, delegation, verification, permissions, approvals, finance calculations, queue, scheduler, reports, enquiries, security primitives and timezone handling. Production build passes. Every dashboard and public route rendered without errors in Chromium.
+**Not yet covered:** live-API agent quality evaluation (needs key + an eval set), third-party API calls (need sandbox credentials), load testing.
+
+## Phase 8 — Deployment readiness ✅
+`.env.example`, migrations, Dockerfile (web + worker from one image), `vercel.json` cron, deployment guide (Render/Railway/Fly + Supabase, Vercel serverless, Docker), backup script and procedure, admin/user guides, integrations setup, troubleshooting, security notes.
+
+---
+
+## Integrations requiring credentials
+| Needed for | Credentials |
+|---|---|
+| All agents | Anthropic API key |
+| Outreach, proposals, report emails | SMTP (Gmail app password works) |
+| WhatsApp outreach + inbound | WhatsApp Cloud API token, phone number ID, verify token, Meta app secret |
+| Facebook/Instagram publishing + DMs/comments | Meta Page token, Page ID, IG user ID, verify token |
+| LinkedIn publishing | LinkedIn org token (Community Management API approval) |
+| Payment links + automatic income recording | Paystack secret key + webhook URL |
+| Image / video generation | OpenAI API key; video provider endpoint + key |
+| Push notifications | Telegram bot token + chat ID and/or Slack webhook |
+| Client-site deploys | GitHub token + repo; Vercel deploy hook |
+
+## Next phase
+See [ROADMAP.md](ROADMAP.md).

@@ -129,7 +129,7 @@ export async function buildWeeklyBusiness(now = new Date(), weekOffset = -1) {
   const [fin, conv, pipe, productivity, newClients] = await Promise.all([
     financeSummary(p), conversionStats(p), pipelineSummary(),
     db.execute(sql`SELECT agent_slug, count(*) FILTER (WHERE status='completed')::int AS completed, count(*) FILTER (WHERE status='failed')::int AS failed
-      FROM tasks WHERE updated_at >= ${p.start} AND updated_at < ${p.end} GROUP BY agent_slug ORDER BY completed DESC`),
+      FROM tasks WHERE updated_at >= ${p.start.toISOString()} AND updated_at < ${p.end.toISOString()} GROUP BY agent_slug ORDER BY completed DESC`),
     db.select({ name: clients.name }).from(clients).where(and(gte(clients.createdAt, p.start), lt(clients.createdAt, p.end))),
   ]);
   const prod = productivity as unknown as { agent_slug: string; completed: number; failed: number }[];
