@@ -14,6 +14,7 @@ import { FORMATS, totalDuration, type Storyboard, type VideoFormat } from "./sto
 import { buildHtml } from "./template";
 import { buildStudioHtml } from "./studio";
 import { buildCinematicHtml } from "./cinematic";
+import { mixSoundtrack, measureLoudness, type Cue } from "./sound";
 import { readFile } from "@/services/files";
 
 export class VideoRenderUnavailable extends Error {}
@@ -66,6 +67,8 @@ export type RenderedVideo = {
   format: VideoFormat; width: number; height: number; fps: number;
   mp4: Buffer; poster: Buffer;
   probe: { codec: string; width: number; height: number; pixFmt: string; durationS: number; sizeBytes: number };
+  /** Sound design: cues spotted to the picture and the measured loudness of the final mix. */
+  sound: { cues: Cue[]; lufs: number | null; truePeak: number | null; music: boolean };
   renderMs: number;
 };
 
@@ -104,6 +107,15 @@ export async function renderStoryboard(sb: Storyboard, opts: { onProgress?: (msg
     const a = await readFile(sb.audio_file_id);
     if (a && (a.mimeType.startsWith("audio/") || a.mimeType.startsWith("video/"))) { audioPath = path.join(/*turbopackIgnore: true*/ dir, "audio.bin"); await writeFile(/*turbopackIgnore: true*/ audioPath, a.data); }
   }
+  const hasMusic = Boolean(audioPath);
+  let cues: Cue[] = [];
+  let premixed = false;
+  if (sb.sound_design !== "off") {
+    const mixPath = path.join(/*turbopackIgnore: true*/ dir, "mix.wav");
+    cues = (await mixSoundtrack(sb, audioPath, mixPath, duration)).cues;
+    audioPath = mixPath;
+    premixed = true;
+  }
   const browser = await chromium.launch({
     headless: true,
     ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}),
@@ -124,7 +136,8 @@ export async function renderStoryboard(sb: Storyboard, opts: { onProgress?: (msg
       const args = ["-y", "-hide_banner", "-loglevel", "error", "-f", "image2pipe", "-c:v", "mjpeg", "-framerate", String(fps), "-i", "-"];
       if (audioPath) args.push("-i", audioPath);
       args.push("-map", "0:v");
-      if (audioPath) args.push("-map", "1:a:0", "-af", `afade=t=in:d=0.3,afade=t=out:st=${Math.max(0, duration - 0.8)}:d=0.8,loudnorm=I=-14:TP=-1.0:LRA=11`, "-c:a", "aac", "-b:a", "160k");
+      if (audioPath && premixed) args.push("-map", "1:a:0", "-c:a", "aac", "-b:a", "192k");
+      else if (audioPath) args.push("-map", "1:a:0", "-af", `afade=t=in:d=0.3,afade=t=out:st=${Math.max(0, duration - 0.8)}:d=0.8,loudnorm=I=-14:TP=-1.0:LRA=11`, "-c:a", "aac", "-b:a", "160k");
       args.push("-c:v", "libx264", "-preset", "medium", "-crf", "19", "-maxrate", `${Math.round((width * height) / (1080 * 1920) * 6000)}k`, "-bufsize", `${Math.round((width * height) / (1080 * 1920) * 12000)}k`, "-profile:v", "high", "-pix_fmt", "yuv420p", "-r", String(fps), "-g", String(fps * 2),
         "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-t", String(duration), "-movflags", "+faststart", out);
       const ff = spawn(/*turbopackIgnore: true*/ FFMPEG(), args, { stdio: ["pipe", "ignore", "pipe"] });
@@ -146,7 +159,8 @@ export async function renderStoryboard(sb: Storyboard, opts: { onProgress?: (msg
       await done;
       await page.close();
       const p = await probe(out);
-      results.push({ format, width, height, fps, mp4: await readFs(/*turbopackIgnore: true*/ out), poster: poster ?? Buffer.alloc(0), probe: p, renderMs: Date.now() - t0 });
+      const loud = audioPath ? await measureLoudness(out) : null;
+      results.push({ format, width, height, fps, mp4: await readFs(/*turbopackIgnore: true*/ out), poster: poster ?? Buffer.alloc(0), probe: p, renderMs: Date.now() - t0, sound: { cues, lufs: loud?.lufs ?? null, truePeak: loud?.truePeak ?? null, music: hasMusic } });
     }
   } finally {
     await browser.close().catch(() => undefined);
@@ -168,6 +182,8 @@ export function qcFor(sb: Storyboard, v: RenderedVideo) {
     { item: "Hook lands within 2s (first scene animates in immediately)", pass: sb.scenes[0].duration <= 4 || ["hook", "type_line", "slam"].includes(sb.scenes[0].layout) },
     { item: `On-screen text readable without sound (≤ ${longest.toFixed(1)} words/s on the busiest scene)`, pass: longest <= 3.5 },
     { item: "Ends on a call to action or brand sting", pass: ["cta", "logo", "cta_pill", "logo_end", "logo_reveal"].includes(sb.scenes[sb.scenes.length - 1].layout) },
+    { item: v.sound.cues.length ? `Sound design: ${v.sound.cues.length} SFX cues spotted to the picture${v.sound.music ? ", mixed under the music with ducking" : " (no music track supplied)"}` : "No sound design (sound_design: off)", pass: v.sound.cues.length >= sb.scenes.length },
+    { item: v.sound.lufs === null ? "No audio track" : `Mix loudness ${v.sound.lufs.toFixed(1)} LUFS (target -14 ±1.5), true peak ${Number.isFinite(v.sound.truePeak) ? v.sound.truePeak!.toFixed(1) : "?"} dBFS`, pass: v.sound.lufs !== null && Math.abs(v.sound.lufs + 14) <= 1.5 && !(Number(v.sound.truePeak) > -0.5) },
     { item: brandSet ? "Brand palette applied" : "Brand palette not on file — neutral palette used; confirm colours before publishing", pass: brandSet },
   ];
 }

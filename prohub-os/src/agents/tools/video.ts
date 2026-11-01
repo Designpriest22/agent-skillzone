@@ -53,6 +53,10 @@ export const renderVideoTool = defineTool({
       `# ${sb.title}`, "", `**Objective:** ${sb.objective}`, `**Duration:** ${duration}s · **Formats:** ${sb.formats.join(", ")} · ${sb.fps} fps${sb.audio_file_id ? " · with soundtrack" : " · silent (designed for sound-off viewing)"}`, "",
       "## Scenes", ...sb.scenes.map((s, i) => `${i + 1}. **${s.layout}** (${s.duration}s) — ${s.eyebrow ? `_${s.eyebrow}_ · ` : ""}${s.headline}${s.subline ? ` — ${s.subline}` : ""}${s.items?.length ? ` — ${s.items.join(" / ")}` : ""}${s.button ? ` — [${s.button}]` : ""}${s.contact ? ` — ${s.contact}` : ""}`),
       "", "## Files", ...outputs.map((o) => `- ${o.format} (${FORMATS[o.format as keyof typeof FORMATS].label}): ${o.url} — ${o.duration_s.toFixed(2)}s, ${o.size_mb} MB`),
+      "", "## Sound design", videos[0]?.sound.cues.length
+        ? `${videos[0].sound.cues.length} cues · ${videos[0].sound.music ? "music ducked under SFX" : "no music track"} · mix ${videos[0].sound.lufs?.toFixed(1) ?? "?"} LUFS`
+        : "Off",
+      ...(videos[0]?.sound.cues.length ? ["", "| Time | Sound | Gain | Purpose |", "|---|---|---|---|", ...videos[0].sound.cues.map((c) => `| ${c.t.toFixed(2)}s | ${c.sfx} | ${c.gain} | ${c.why} |`)] : []),
       "", "<details><summary>Storyboard JSON</summary>", "", "```json", JSON.stringify(sb, null, 2), "```", "</details>",
     ].join("\n");
     const [row] = await db.insert(deliverables).values({

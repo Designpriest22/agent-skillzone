@@ -26,6 +26,15 @@ The COO role is split in two so that money questions are always answered by an a
 recorded figures, while operations work (triage, unblocking, deadlines) runs on its own budget. Both report to
 the Managing Director.
 
+## Creative productions are team work
+
+Every ad or video runs through the creative team, coordinated by the Managing Director:
+**brief → Copywriting** (lines and script) **→ Graphic Design** (art direction and brand check — logo, palette, type)
+**→ Video Production** (motion in the house style + sound design, measured QC) **→ Managing Director review**
+against the brief before anything is reported as done. Sound design is on by default for every render: SFX are
+spotted to cuts, word slams, counters, callouts and logo reveals and mixed under the music to -14 LUFS; the cue
+sheet and measured loudness appear on the deliverable for review.
+
 ## Rules every agent works under (enforced in code, not just prompts)
 
 - **Verified completion.** A task finishes only via `complete_task` listing the IDs of records it produced; the

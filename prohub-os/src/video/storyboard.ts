@@ -75,6 +75,7 @@ export const storyboardBase = z.object({
   audio_file_id: z.string().uuid().optional().describe("Music or voice-over (stored file); trimmed and faded to length"),
   beat_seconds: z.number().min(0.25).max(2).optional().describe("Music beat length (e.g. 0.6 for 100 BPM). Studio animations and hits lock to it"),
   beat_offset: z.number().min(0).max(2).default(0).describe("Time of the first downbeat in the soundtrack"),
+  sound_design: z.enum(["auto", "off"]).default("auto").describe("auto: SFX spotted to every cut, word, counter, callout and logo reveal, mixed under the music (default — every video gets sound design) · off: music only"),
 });
 
 /** Cross-field rules (layouts must belong to the chosen style; layout-specific content present). */
