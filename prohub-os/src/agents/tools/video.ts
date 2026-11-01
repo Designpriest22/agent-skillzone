@@ -7,7 +7,7 @@ import { z } from "zod";
 import { db } from "@/db/client";
 import { deliverables } from "@/db/schema";
 import { defineTool, ToolError } from "./types";
-import { storyboardSchema, FORMATS, totalDuration } from "@/video/storyboard";
+import { storyboardBase, refineStoryboard, FORMATS, totalDuration } from "@/video/storyboard";
 import { renderStoryboard, qcFor, VideoRenderUnavailable } from "@/video/render";
 import { saveFile } from "@/services/files";
 import { env } from "@/lib/env";
@@ -20,12 +20,12 @@ export const renderVideoTool = defineTool({
     "Load brand_assets first and pass the real palette — do not invent brand colours. Keep on-screen copy to ≤3 words per second. Takes ~25s per format. " +
     "Creates a 'video' deliverable (in review if every measured QC check passes, otherwise draft) and returns its ID and file links.",
   governance: "autonomous",
-  schema: storyboardSchema.extend({
+  schema: storyboardBase.extend({
     project_id: z.string().uuid().optional(),
     client_id: z.string().uuid().optional(),
     lead_id: z.string().uuid().optional(),
     storyboard_deliverable_id: z.string().uuid().optional().describe("The storyboard deliverable this render implements"),
-  }),
+  }).superRefine(refineStoryboard),
   async run(input, ctx) {
     const { project_id, client_id, lead_id, storyboard_deliverable_id, ...sb } = input;
     const duration = totalDuration(sb);

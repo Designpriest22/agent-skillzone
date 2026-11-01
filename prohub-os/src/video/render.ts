@@ -12,6 +12,8 @@ import { tmpdir } from "node:os";
 import path from "node:path";
 import { FORMATS, totalDuration, type Storyboard, type VideoFormat } from "./storyboard";
 import { buildHtml } from "./template";
+import { buildStudioHtml } from "./studio";
+import { buildCinematicHtml } from "./cinematic";
 import { readFile } from "@/services/files";
 
 export class VideoRenderUnavailable extends Error {}
@@ -78,12 +80,15 @@ async function probe(file: string) {
 /** Resolves stored background images into data URIs so the page never touches the network. */
 async function loadImages(sb: Storyboard) {
   const out: Record<string, string> = {};
-  for (const id of new Set(sb.scenes.map((s) => s.image_file_id).filter(Boolean) as string[])) {
+  for (const id of new Set(sb.scenes.flatMap((s) => [s.image_file_id, ...(s.image_file_ids ?? [])]).filter(Boolean) as string[])) {
     const f = await readFile(id);
     if (f && f.mimeType.startsWith("image/")) out[id] = `data:${f.mimeType};base64,${f.data.toString("base64")}`;
   }
   return out;
 }
+
+export const pageHtml = (sb: Storyboard, format: VideoFormat, images: Record<string, string>) =>
+  sb.style === "studio" ? buildStudioHtml(sb, format, images) : sb.style === "cinematic" ? buildCinematicHtml(sb, format, images) : buildHtml(sb, format, images);
 
 export async function renderStoryboard(sb: Storyboard, opts: { onProgress?: (msg: string) => void } = {}): Promise<RenderedVideo[]> {
   const avail = await renderAvailable();
@@ -112,7 +117,7 @@ export async function renderStoryboard(sb: Storyboard, opts: { onProgress?: (msg
       const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: 1 });
       const pageErrors: string[] = [];
       page.on("pageerror", (e) => pageErrors.push(e.message));
-      await page.setContent(buildHtml(sb, format, images), { waitUntil: "load", timeout: 30_000 });
+      await page.setContent(pageHtml(sb, format, images), { waitUntil: "load", timeout: 60_000 });
       await page.evaluate("window.ready");
       if (pageErrors.length) throw new Error(`Template error: ${pageErrors[0]}`);
       const out = path.join(/*turbopackIgnore: true*/ dir, `${format.replace(":", "x")}.mp4`);
@@ -120,7 +125,7 @@ export async function renderStoryboard(sb: Storyboard, opts: { onProgress?: (msg
       if (audioPath) args.push("-i", audioPath);
       args.push("-map", "0:v");
       if (audioPath) args.push("-map", "1:a:0", "-af", `afade=t=in:d=0.3,afade=t=out:st=${Math.max(0, duration - 0.8)}:d=0.8,loudnorm=I=-14:TP=-1.0:LRA=11`, "-c:a", "aac", "-b:a", "160k");
-      args.push("-c:v", "libx264", "-preset", "medium", "-crf", "19", "-profile:v", "high", "-pix_fmt", "yuv420p", "-r", String(fps), "-g", String(fps * 2),
+      args.push("-c:v", "libx264", "-preset", "medium", "-crf", "19", "-maxrate", `${Math.round((width * height) / (1080 * 1920) * 6000)}k`, "-bufsize", `${Math.round((width * height) / (1080 * 1920) * 12000)}k`, "-profile:v", "high", "-pix_fmt", "yuv420p", "-r", String(fps), "-g", String(fps * 2),
         "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709", "-t", String(duration), "-movflags", "+faststart", out);
       const ff = spawn(/*turbopackIgnore: true*/ FFMPEG(), args, { stdio: ["pipe", "ignore", "pipe"] });
       let ffErr = "";
@@ -153,16 +158,16 @@ export async function renderStoryboard(sb: Storyboard, opts: { onProgress?: (msg
 /** Objective QC computed from the rendered file — what the deliverable's checklist records. */
 export function qcFor(sb: Storyboard, v: RenderedVideo) {
   const target = totalDuration(sb);
-  const brandSet = Boolean(sb.brand.primary && sb.brand.accent);
+  const brandSet = sb.style !== "classic" ? Boolean(sb.brand.accent) : Boolean(sb.brand.primary && sb.brand.accent);
   const longest = Math.max(...sb.scenes.map((s) => s.headline.split(/\s+/).length / s.duration));
   return [
     { item: `Resolution ${v.probe.width}×${v.probe.height} matches ${v.format}`, pass: v.probe.width === v.width && v.probe.height === v.height },
     { item: `Duration ${v.probe.durationS.toFixed(2)}s vs storyboard ${target}s`, pass: Math.abs(v.probe.durationS - target) <= 0.25 },
     { item: `H.264 / yuv420p (plays on Instagram, TikTok, WhatsApp, YouTube)`, pass: v.probe.codec === "h264" && v.probe.pixFmt === "yuv420p" },
     { item: `File size ${(v.probe.sizeBytes / 1048576).toFixed(1)} MB${v.probe.sizeBytes > 16 * 1048576 ? " — over WhatsApp's 16 MB limit" : ""}`, pass: v.probe.sizeBytes > 50_000 },
-    { item: "Hook lands within 2s (first scene animates in immediately)", pass: sb.scenes[0].duration <= 4 || sb.scenes[0].layout === "hook" },
+    { item: "Hook lands within 2s (first scene animates in immediately)", pass: sb.scenes[0].duration <= 4 || ["hook", "type_line", "slam"].includes(sb.scenes[0].layout) },
     { item: `On-screen text readable without sound (≤ ${longest.toFixed(1)} words/s on the busiest scene)`, pass: longest <= 3.5 },
-    { item: "Ends on a call to action or brand sting", pass: ["cta", "logo"].includes(sb.scenes[sb.scenes.length - 1].layout) },
+    { item: "Ends on a call to action or brand sting", pass: ["cta", "logo", "cta_pill", "logo_end", "logo_reveal"].includes(sb.scenes[sb.scenes.length - 1].layout) },
     { item: brandSet ? "Brand palette applied" : "Brand palette not on file — neutral palette used; confirm colours before publishing", pass: brandSet },
   ];
 }

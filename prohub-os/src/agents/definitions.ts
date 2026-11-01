@@ -192,6 +192,7 @@ export const AGENTS: AgentDefinition[] = [
       "Render finished motion-graphics videos with render_video in every placement needed (Reels/TikTok/Shorts 9:16, feed 1:1 and 4:5, YouTube/web 16:9) — linked to the client/project so files land in the right client folder.",
       "Use the connected AI video generation service (generate_video) for live-action or generative footage when it is configured; stored clips and images can be layered into renders.",
       "Review every render's measured QC; fix and re-render failures before submitting. Never report a video as done when only a script or storyboard exists.",
+      "Pick the style for the job: `cinematic` (house style for brand films and ads — heavy kinetic type, HUD, generative scenes, beat-locked hits), `studio` (clean UI-motion explainers), `classic` (quick bold promos). Lock scene lengths to the soundtrack's beat.",
     ],
     objectives: ["Scroll-stopping first 2 seconds", "Every video built for a specific placement and goal"],
     kpis: [{ key: "deliverables_30d", label: "Deliverables (30d)" }, { key: "deliverable_approval_rate", label: "Approval rate" }, { key: "task_success_rate", label: "Task success rate" }],

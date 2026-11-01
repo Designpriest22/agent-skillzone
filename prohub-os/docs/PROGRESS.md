@@ -70,5 +70,11 @@ Built against the PROHUB INTELLIGENCE master brief, on top of the MVP above.
 
 **Not verified here (needs your credentials)** — live Claude reasoning quality (`npm run agent:smoke`), delivery through a real Meta WhatsApp number, voice-note transcription (OpenAI key), and Claude connecting to a deployed URL. The automated suite intercepts Meta's API and scripts the model's tool choices; it proves the workflow, not the model's judgement.
 
+## Phase 10 — Brand assets and the cinematic ad style ✅
+- **Prohub logo** vectorised from the end frame of Prohub's own promo reel (`assets/brand/prohub/`): monogram, orange swoosh `#FD8D18` and wordmark as separate paths for staged reveals.
+- **Two new motion styles** for the Video agent: `studio` (learned from Prohub's reel) and `cinematic` (learned from the supplied code-rendered lyric-video reference, edited with Katana's motion-design rules). `cinematic` is the house style for brand ads.
+- **Launch ad** `content/ads/prohub-launch/spec.json` (30 s, beat-locked to the reel's soundtrack, 9:16 / 1:1 / 16:9) produced end to end through `render_video` with measured QC; the studio cut is kept as `spec-studio.json`.
+- **Needs your confirmation before publishing:** rights to the soundtrack (taken from your reel) and to the event photography (repo `assets/`, TCM events) shown as Prohub work; real contact handle/number for the end card if you want one.
+
 ## Next phase
 See [ROADMAP.md](ROADMAP.md).

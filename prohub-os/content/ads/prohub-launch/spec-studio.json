@@ -1,0 +1,29 @@
+{
+  "title": "Prohub — Brand launch (30s)",
+  "objective": "Introduce Prohub Creative Solutions to Nigerian business owners and marketing leads as the one creative partner for branding, video, web and digital marketing, and drive them to start a project.",
+  "style": "studio",
+  "brand": {
+    "name": "Prohub",
+    "accent": "#FD8D18",
+    "shape": "#6457F9",
+    "stroke": "#FD8D18",
+    "logo_svg_path": "../../../assets/brand/prohub/prohub-logo.svg"
+  },
+  "beat_seconds": 0.6,
+  "beat_offset": 0.04,
+  "fps": 30,
+  "formats": ["9:16", "1:1", "16:9"],
+  "audio_path": "media/soundtrack.m4a",
+  "scenes": [
+    { "layout": "type_line", "duration": 2.44, "background": "paper", "headline": "Average gets scrolled past." },
+    { "layout": "ui_select", "duration": 2.4, "background": "white", "headline": "Make your brand", "button": "unforgettable" },
+    { "layout": "type_line", "duration": 2.4, "background": "white", "headline": "Ideas that turn heads.", "prop": "eyes" },
+    { "layout": "pill_cycle", "duration": 3.6, "background": "ink", "transition": "wipe", "headline": "From bold identities to scroll-stopping", "words": ["brands", "videos", "websites", "campaigns"] },
+    { "layout": "word_wheel", "duration": 3.6, "background": "ink", "headline": "Everything your brand needs, under one roof", "items": ["Branding", "Graphic design", "Video production", "Motion graphics", "Social media", "Websites", "Digital marketing", "Creative strategy"] },
+    { "layout": "pill_stack", "duration": 2.4, "background": "ink", "transition": "punch", "headline": "How we work", "items": ["Strategy", "Design", "Motion", "Growth"] },
+    { "layout": "bento", "duration": 3.6, "background": "white", "transition": "punch", "headline": "Work that moves crowds.", "image_paths": ["media/crowd-confetti.jpg", "media/festival-of-lights-1.jpg", "media/tcm-festival-5.jpg", "media/crowd-lights-2.jpg", "media/otb-by-tcm-1.jpg", "media/capital-block-party-2.jpg"] },
+    { "layout": "stroke_reveal", "duration": 3.6, "background": "paper", "headline": "We don't just design.", "subline": "We move business." },
+    { "layout": "cta_pill", "duration": 2.4, "background": "ink", "transition": "punch", "headline": "Your next project starts here.", "button": "Let's get to work" },
+    { "layout": "logo_end", "duration": 3.96, "background": "ink", "headline": "Creative & Digital Solutions" }
+  ]
+}

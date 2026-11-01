@@ -11,7 +11,7 @@ turn limit, daily budget and status.
 | Brief | Agent (slug) | Default model | Key tools |
 |---|---|---|---|
 | **PROHUB AI — the Managing Director** | Adaeze (`managing-director`) | Opus | delegate_task (+ depends_on), await_subtasks, review_deliverable, finance/sales/target/ops analytics, report narrative, web search |
-| 1. Video Production & Animation Director | Segun (`video-production`) | Sonnet | **render_video** (MP4s in 9:16, 1:1, 4:5, 16:9), generate_video (AI footage provider), brand_assets |
+| 1. Video Production & Animation Director | Segun (`video-production`) | Sonnet | **render_video** (MP4s in 9:16, 1:1, 4:5, 16:9; styles `cinematic` / `studio` / `classic`), generate_video (AI footage provider), brand_assets |
 | 2. Content Creation Director | Bisi (`content`) | Sonnet | content calendar, deliverables, brand assets, record_intel |
 | 3. Copywriting Specialist | Femi (`copywriting`) | Opus | deliverables with QC (no stock AI phrasing), brand assets, lead history |
 | 4. Sales & Marketing Director | Chidi (`sales-marketing`) | Sonnet | web research, create/update leads (evidence required), follow-ups, campaigns, campaign launch requests, sales metrics |

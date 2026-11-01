@@ -19,7 +19,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "agent:smoke": "tsx --env-file-if-exists=.env scripts/agent-smoke.ts",
-    "video:sample": "tsx --env-file-if-exists=.env scripts/render-sample.ts"
+    "video:sample": "tsx --env-file-if-exists=.env scripts/render-sample.ts",
+    "ad:produce": "tsx --env-file-if-exists=.env scripts/produce-ad.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^1.3.0",

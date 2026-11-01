@@ -121,6 +121,16 @@ Next.js 16 App Router, React 19 server components + server actions, Tailwind CSS
 
 ## 10. Built-in video renderer
 
+Three art-directed styles share one page contract (`pageHtml` in `src/video/render.ts`):
+
+| Style | File | Language |
+|---|---|---|
+| `cinematic` (house style for ads) | `src/video/cinematic.ts` | Dark code-rendered lyric-video look: heavy type slamming in per beat with echo trails, glowing counter, node network, pulse rings, 3D wireframe corridor, HUD callouts over photos, oscilloscope wave, logo reveal; persistent HUD, grain, vignette, bloom, punch-ins, flash / invert / chromatic hits |
+| `studio` | `src/video/studio.ts` | Clean agency UI-motion: sentence-case type, capsules, selection-box UI, shape grid with photos, brush stroke |
+| `classic` | `src/video/template.ts` | Bold kinetic type on brand colour fields |
+
+Editing follows Higgsfield Katana's motion-design rules for code-driven graphics: one page drawn from `t`, a camera wrapper per scene, text and vectors in code, energy (cuts, hits, flashes, shake) placed on the soundtrack's beat grid, finishing passes last. Campaign specs live in `content/ads/<campaign>/spec.json` and are produced with `npm run ad:produce -- <spec> [--stills t1,t2]`.
+
 `render_video` (Video agent) → `src/video/render.ts`: storyboard (zod-validated scenes: hook, statement, list, stat, cta, logo) → self-contained HTML per format (`src/video/template.ts`, OFL fonts embedded, deterministic `renderAt(t)`) → headless Chromium screenshots → ffmpeg H.264/AAC MP4 with `+faststart` → ffprobe. Motion follows the hyperframes-animation skill's rules: one seekable timeline, no clocks or randomness, layout measured once, transform/opacity only. QC on the deliverable is computed from the file (resolution, duration, codec, size vs WhatsApp's 16 MB limit, words per second, CTA, palette). Files live in the `files` table (bytea) so the worker and web app share them on any host; for very large media, move `saveFile/readFile` to object storage (S3/R2/Supabase Storage) behind the same interface.
 
 ## 11. Skills, MCP integrations and tools inventory (Phase 1 research, v1.1)
