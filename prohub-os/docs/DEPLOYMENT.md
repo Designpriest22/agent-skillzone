@@ -1,5 +1,7 @@
 # Deployment
 
+> New to this? Follow the step-by-step **[Go-live guide](GO_LIVE.md)** (Supabase + Render, from zero to a live domain).
+
 Prohub OS has three runtime pieces: the **web app** (Next.js — dashboard, website, WhatsApp webhook, Claude connector), the **worker** (job queue, scheduler, agent execution, video rendering), and **PostgreSQL**. Everything keeps running when no one has Claude Code or the dashboard open. Pick the option below that fits how you want to host it.
 
 **Video rendering** needs Chromium and ffmpeg wherever the worker runs. The Docker image includes both. On Render/Railway/Fly, deploy the worker from the Dockerfile (or install `chromium ffmpeg` in the build) and set `CHROMIUM_PATH`. Serverless functions (Vercel) cannot render video — run a worker container for that, or the Video agent falls back to scripts and storyboards.

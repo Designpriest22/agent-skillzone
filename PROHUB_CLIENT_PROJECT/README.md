@@ -8,6 +8,7 @@ Client pitch for **Cibus Musica | Abuja — Better Days** (Sat 05 December 2026)
 |---|---|
 | `01_PROJECT_ANALYSIS/Project_Strategy_Report.pdf` | Audit of supplied materials, information gaps, benchmark, diagnosis, positioning, creative direction, marketing strategy, website recommendation, internal review log, MD final review, risks (15 pp, A4) |
 | `02_PITCH_PRESENTATION/Prohub_Client_Pitch.pdf` | **The client-facing pitch deck** — 24 slides, 16:9 |
+| `02_PITCH_PRESENTATION/Prohub_Client_Pitch.pptx` | Same deck as PowerPoint — full-slide images (pixel-identical, no font installs needed) with a talk track in the speaker notes, in 7 sections |
 | `03_CREATIVE_DESIGNS/Main_Event_Flyer/` | Main key visual, 1080×1350 |
 | `03_CREATIVE_DESIGNS/Alternative_Flyers/` | Alt A “Order Docket”, Alt B “2026 Owes You One” |
 | `03_CREATIVE_DESIGNS/Social_Media_Posts/` | Artist (Now Serving), Experience (On the Menu), Engagement (Pick Your Plate), Proof (Ikom Got Served reel cover), Tickets (Place Your Order), Squad (Tag Your Table) — 4:5 and 1:1 |
@@ -48,3 +49,14 @@ Used only facts visible in the supplied materials: SoundBoi BME as headliner, 5 
 ## Imagery note
 
 The artist portrait is cut from the client’s own SoundBoi BME flyer and treated as a halftone duotone (the source is low-resolution — request a hi-res press photo for production). The Cibus Musica and Believers logos are cut from the supplied flyers; replace with vector masters when available. Concept photography (food, crowd, stage) was generated in the Higgsfield account during preparation but could not be downloaded into this workspace (the image CDN is blocked by the environment’s network policy); the designs are therefore type- and illustration-led, and the photography direction is specified in the report for production.
+
+## Rebuilding the PowerPoint
+
+From `_source/` (needs `pptxgenjs`: `npm install pptxgenjs`):
+
+```bash
+mkdir -p pptx/slides && node pptx/snaphi.js deck/pitch.html pptx/slides
+node pptx/build_pptx.js ../02_PITCH_PRESENTATION/Prohub_Client_Pitch.pptx pptx/slides
+```
+
+Speaker notes live in `pptx/build_pptx.js`.
