@@ -1,0 +1,4 @@
+node_modules/
+.venv/
+out/*
+!out/fizz-draft-silent.mp4
