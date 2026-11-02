@@ -64,10 +64,10 @@ is at 0.50 s: put that on the frame the logo lands.
 - **Afrobeats half:** afro kick pattern, snare + clap, rims, shaker, conga slaps, syncopated sub, **sampled nylon-guitar
   highlife figure** over Dm7 – Bb∆7 – Gm7 – A7, brass stabs, a festival crowd wash, firework bursts (kit + designed
   boom-and-crackle), latch clicks on each flip-clock change, tone steps on the offer checklist, brass sonic logo.
-- **Measured:** −14.0 LUFS, LRA 6.3 LU. The trace shows a −20 dB trailer half lifting to about −13 on the drop.
+- **Measured:** −14.0 LUFS, LRA 5.8 LU. The trace shows a −20 dB trailer half lifting to about −13 on the drop.
 
 ## Mix & master chain (all films)
 `drums | bass | music | sfx | amb | logo buses` → bus HPF + compression → kick sidechain pump (genre) → SFX
 envelope ducks the music bed (up to 4–5 dB) → reverb sends (music, SFX, logo) → master glue (−16 dB, 2:1) →
 17.5 kHz low-pass → loudness to **−14 LUFS** → 4× oversampled look-ahead brick-wall at **−2.6 dBFS** → AAC 256k
-(fast coder). Final true peak measured on the delivered MP4: **−2.2 to −2.4 dBTP**.
+(fast coder). Final true peak measured on the delivered MP4: **−2.2 to −2.5 dBTP**.
