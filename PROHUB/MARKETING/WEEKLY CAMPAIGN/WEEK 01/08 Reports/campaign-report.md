@@ -24,17 +24,32 @@ Full summary with sources: `01 Research/research-summary.md`
 
 | Day | Post | Ready assets |
 |---|---|---|
-| **1 · Mon** | *Cover your logo.* | Reel (9:16 + 4:5, 16.8 s), feed 4:5, square 1:1, 3 Stories |
+| **1 · Mon** | *Cover your logo.* | Reel (9:16 + 4:5, 19.0 s, Round 2), feed 4:5, square 1:1, 3 Stories |
 | **2 · Tue** | *7 places your brand is quietly losing customers* | 9-slide carousel, LinkedIn PDF, 3 Stories |
-| **3 · Wed** | *We rebranded a suya spot that doesn't exist.* | 7-slide case study, Reel (9:16 + 4:5, 19.2 s), 2 Stories, **complete fictional identity system "Ember & Yaji"** (7 boards: logo, palette/type, packaging, menu, signage, social, before) |
+| **3 · Wed** | *We rebranded a suya spot that doesn't exist.* | 7-slide case study, Reel (9:16 + 4:5, 20.8 s, Round 2), 2 Stories, **complete fictional identity system "Ember & Yaji"** (7 boards: logo, palette/type, packaging, menu, signage, social, before) |
 | **4 · Thu** | *You might not have a marketing problem.* | 6-slide carousel, LinkedIn PDF, LinkedIn square, 2 Stories |
-| **5 · Fri** | *Tell us the problem. We'll tell you the fix.* | 8-slide carousel, LinkedIn PDF, menu square, Reel (9:16 + 4:5, 19.2 s), 2 Stories |
+| **5 · Fri** | *Tell us the problem. We'll tell you the fix.* | 8-slide carousel, LinkedIn PDF, menu square, Reel (9:16 + 4:5, 22.9 s, Round 2), 2 Stories |
 | **6 · Sat** | *Free Brand Read: drop your handle* | Feed 4:5, square, 3 Stories + reusable Brand Read Story template |
-| **7 · Sun** | *December is booked in November.* | Feed pair (stat + offer), LinkedIn square, Reel (9:16 + 4:5, 16.8 s), 3 Stories |
+| **7 · Sun** | *December is booked in November.* | Feed pair (stat + offer), LinkedIn square, Reel (9:16 + 4:5, 18.6 s, Round 2), 3 Stories |
 
 **Totals:** 58 platform-ready graphics (PNG at 1080×1350, 1080×1080 and 1080×1920), **8 videos** (4 Reels × 2 formats, H.264, every one passing 10/10 measured QC: resolution, duration, codec, loudness about −14 LUFS, sound design spotted to the cuts, ends on a CTA), 3 LinkedIn document PDFs, 7 brand boards.
 
 Supporting documents: content strategy, copy deck (captions for Instagram, Facebook, LinkedIn and TikTok, Story copy, alt text, hashtags), publishing calendar (35 scheduled placements, CSV + XLSX), lead-generation strategy with DM scripts and a qualification rubric, measurement framework, lead tracker, performance log, MD QC log.
+
+## 3b. Round 2: the Reels, rebuilt (owner feedback, 2 Nov)
+The owner rejected the first Reels because they repeated an earlier edit style and shared one background track. Round 2:
+- **Four distinct edit styles:** *Cut & Tape* (D1), *Ember* (D3), *Inbox* (D5), *Festival Trailer* (D7). Each was built on
+  a new Prohub Reel Engine with real 3× sub-frame motion blur, camera shake, flash frames, chromatic aberration, glitch,
+  particles and grain.
+- **Four original scores:** afro-house (A minor), amapiano with log drums (F minor), UK garage 2-step (G minor), and
+  trailer into afrobeats with highlife nylon guitar (D minor). Real sampled grand piano and guitar come from Meta's CC0
+  instrument library.
+- **Designed sound for every action:** 157 picture-spotted sounds across the four films, placed by their sync points,
+  plus sounds designed for each film (grill sizzle, neon ignition, match strike, braam, fireworks, notification pings
+  tuned to the key).
+- **One shared sonic logo**, re-orchestrated per film (marimba, log drum, piano, brass), with stems for future videos.
+- **Measured:** every Reel is −14.0 LUFS with true peak ≤ −2.2 dBTP after encoding. Process, sound notes and licences
+  are in `05 Videos/`.
 
 ## 4. Which agents participated
 These are the Prohub OS roles defined in `prohub-os/src/agents/definitions.ts`. **Transparency note:** the Prohub OS runtime (database + Anthropic API key) isn't running in this environment, so the agents didn't execute as separate background workers. Claude carried out each role directly against its job description, and the work was coordinated and reviewed end to end by the MD. Nothing was recorded in the live CRM.
@@ -56,7 +71,7 @@ Everything in `06 Final Exports/`, organised by day, plus copy in `03 Copywritin
 ## 6. ⛔ What requires your approval
 1. **Go / no-go** on the campaign and the 9–15 Nov dates.
 2. **Contact details:** Prohub's WhatsApp business number (for the `[WhatsApp link]`), Instagram handle and LinkedIn page. *We don't invent contact details.* CTAs on the artwork use DM keywords, so no artwork changes are needed.
-3. **Music rights:** the Reels use the soundtrack from Prohub's own promo reel. Please confirm Prohub can use it on Instagram, Facebook, TikTok and LinkedIn. If not, we'll swap in licensed or in-app audio.
+3. **Music: resolved in Round 2.** The Reels no longer use the promo-reel soundtrack. Each film now has its own original score and sound design, built from Prohub-owned synthesis and CC0 libraries only (see `05 Videos/SOUND-LICENCES.md`).
 4. **Brand assets:** the logo files are traced from the promo reel, not the designer's master files. Please send the masters plus any official brand guidelines and fonts. We also used a **dark-ink logo variant** on cream and orange backgrounds; please confirm it's acceptable.
 5. **Free Brand Read (Day 6):** commits the team to 5 public reads, posted by **Tue 17 Nov**, and replies to every commenter.
 6. **Brand Direction Call offer (Day 7):** a free 20-minute call. Please confirm who takes the calls and how many slots per week. Artwork says "This week only" (D7-02); keep or remove.

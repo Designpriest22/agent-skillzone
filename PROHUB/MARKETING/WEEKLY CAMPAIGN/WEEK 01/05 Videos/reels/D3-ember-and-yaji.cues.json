@@ -1,0 +1,204 @@
+{
+ "name": "D3-ember-and-yaji",
+ "duration": 20.8,
+ "fps": 30,
+ "bpm": 112.5,
+ "offset": 0,
+ "cues": {
+  "hook": 0.25,
+  "doesnt_exist": 1.6,
+  "shred": 4.5333,
+  "insight": 5.3333,
+  "glow": 6.9333,
+  "ignite": 8.5333,
+  "montage": 10.1333,
+  "split": 14.4,
+  "cta": 16,
+  "logo_end": 18.4
+ },
+ "spots": [
+  {
+   "t": 0.2,
+   "id": "syn:match-strike",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 0.25,
+   "id": "syn:fire-whoosh",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 1.6,
+   "id": "kit:boom-hit-soft",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 3.2,
+   "id": "syn:fluoro-buzz",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 3.2,
+   "id": "kit:digital-glitch-clear",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 4.5333,
+   "id": "meta:PAPRRip_PaperTear_OS_01",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 4.5867,
+   "id": "syn:fire-whoosh",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 5.3333,
+   "id": "syn:sizzle",
+   "gain": -7,
+   "rate": 1,
+   "pan": 0,
+   "len": 3.2
+  },
+  {
+   "t": 6.9333,
+   "id": "kit:shimmer-medium-bright",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 6.9333,
+   "id": "kit:boom-hit-medium",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 8.5333,
+   "id": "syn:neon-buzz",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 10.1333,
+   "id": "kit:move-zoom-out",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 10.9867,
+   "id": "kit:appear-flip-quick",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 11.84,
+   "id": "kit:whoosh-fast-hard",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 12.6933,
+   "id": "kit:swish-hard",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 13.5467,
+   "id": "kit:move-spin",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 14.4,
+   "id": "kit:reverse-whoosh-short-strong",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 14.4267,
+   "id": "kit:impact-medium-soft",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 15.9,
+   "id": "kit:transform-grow",
+   "gain": -5,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 18.4,
+   "id": "syn:sonic-logo",
+   "gain": 0,
+   "rate": 1,
+   "pan": 0
+  }
+ ],
+ "music": {
+  "bpm": 112.5,
+  "key": "F minor",
+  "style": "amapiano",
+  "sections": [
+   {
+    "name": "night",
+    "from": 0,
+    "to": 6
+   },
+   {
+    "name": "before",
+    "from": 6,
+    "to": 10
+   },
+   {
+    "name": "insight",
+    "from": 10,
+    "to": 16
+   },
+   {
+    "name": "ignite",
+    "from": 16,
+    "to": 19
+   },
+   {
+    "name": "montage",
+    "from": 19,
+    "to": 30
+   },
+   {
+    "name": "cta",
+    "from": 30,
+    "to": 34
+   },
+   {
+    "name": "logo",
+    "from": 34,
+    "to": 39
+   }
+  ]
+ }
+}

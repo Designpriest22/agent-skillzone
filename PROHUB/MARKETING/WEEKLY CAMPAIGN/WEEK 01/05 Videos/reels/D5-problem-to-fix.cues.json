@@ -1,0 +1,494 @@
+{
+ "name": "D5-problem-to-fix",
+ "duration": 22.866666666666664,
+ "fps": 30,
+ "bpm": 128.57142857142858,
+ "offset": 0,
+ "cues": {
+  "flood": 0,
+  "familiar": 1.8667,
+  "fix1": 3.7333,
+  "fix2": 6.0667,
+  "fix3": 8.4,
+  "fix4": 10.7333,
+  "fix5": 13.0667,
+  "fix6": 15.4,
+  "grid": 16.8,
+  "type": 18.8533,
+  "send": 19.7867,
+  "logo_end": 20.7667
+ },
+ "spots": [
+  {
+   "t": 0,
+   "id": "syn:ping",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0,
+   "note": "G5"
+  },
+  {
+   "t": 0,
+   "id": "kit:notification-message-in-soft",
+   "gain": -12,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 0.2333,
+   "id": "syn:ping",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0,
+   "note": "Bb5"
+  },
+  {
+   "t": 0.2333,
+   "id": "kit:notification-message-in-soft",
+   "gain": -12,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 0.4667,
+   "id": "syn:ping",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0,
+   "note": "C6"
+  },
+  {
+   "t": 0.4667,
+   "id": "kit:notification-message-in-soft",
+   "gain": -12,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 0.7,
+   "id": "syn:ping",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0,
+   "note": "D6"
+  },
+  {
+   "t": 0.7,
+   "id": "kit:notification-message-in-soft",
+   "gain": -12,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 0.9333,
+   "id": "syn:ping",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0,
+   "note": "F6"
+  },
+  {
+   "t": 0.9333,
+   "id": "kit:notification-message-in-soft",
+   "gain": -12,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 1.1667,
+   "id": "syn:ping",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0,
+   "note": "G6"
+  },
+  {
+   "t": 1.1667,
+   "id": "kit:notification-message-in-soft",
+   "gain": -12,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 0.4667,
+   "id": "kit:phone-vibrate-table",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 1.8667,
+   "id": "kit:cinematic-slam-big",
+   "gain": -5,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 2.8,
+   "id": "syn:ping",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0,
+   "note": "G5"
+  },
+  {
+   "t": 3.6833,
+   "id": "kit:swipe-medium-firm",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 3.8533,
+   "id": "kit:impact-light-firm",
+   "gain": -7,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 4.0133,
+   "id": "kit:tone-step-1",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 4.2467,
+   "id": "kit:tone-step-2",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 4.48,
+   "id": "kit:tone-step-3",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 5.1333,
+   "id": "syn:ping",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0,
+   "note": "Bb5"
+  },
+  {
+   "t": 6.0167,
+   "id": "kit:appear-flip-quick",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 6.1867,
+   "id": "kit:impact-light-firm",
+   "gain": -7,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 6.3467,
+   "id": "kit:tone-step-1",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 6.58,
+   "id": "kit:tone-step-2",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 6.8133,
+   "id": "kit:tone-step-3",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 7.4667,
+   "id": "syn:ping",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0,
+   "note": "C6"
+  },
+  {
+   "t": 8.35,
+   "id": "kit:digital-glitch-clear",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 8.52,
+   "id": "kit:impact-light-firm",
+   "gain": -7,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 8.68,
+   "id": "kit:tone-step-1",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 8.9133,
+   "id": "kit:tone-step-2",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 9.1467,
+   "id": "kit:tone-step-3",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 9.8,
+   "id": "syn:ping",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0,
+   "note": "D6"
+  },
+  {
+   "t": 10.6833,
+   "id": "kit:whoosh-medium-hard",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 10.8533,
+   "id": "kit:impact-light-firm",
+   "gain": -7,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 11.0133,
+   "id": "kit:tone-step-1",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 11.2467,
+   "id": "kit:tone-step-2",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 11.48,
+   "id": "kit:tone-step-3",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 12.1333,
+   "id": "syn:ping",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0,
+   "note": "F6"
+  },
+  {
+   "t": 13.0167,
+   "id": "kit:move-zoom-in",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 13.1867,
+   "id": "kit:impact-light-firm",
+   "gain": -7,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 13.3467,
+   "id": "kit:tone-step-1",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 13.58,
+   "id": "kit:tone-step-2",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 13.8133,
+   "id": "kit:tone-step-3",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 14.4667,
+   "id": "syn:ping",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0,
+   "note": "G6"
+  },
+  {
+   "t": 15.35,
+   "id": "kit:zip-out-hard",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 15.52,
+   "id": "kit:impact-light-firm",
+   "gain": -7,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 15.68,
+   "id": "kit:tone-step-1",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 15.9133,
+   "id": "kit:tone-step-2",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 16.1467,
+   "id": "kit:tone-step-3",
+   "gain": -10,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 17.2833,
+   "id": "kit:pop-medium-in",
+   "gain": -8,
+   "rate": 0.9,
+   "pan": 0
+  },
+  {
+   "t": 17.4,
+   "id": "kit:pop-medium-in",
+   "gain": -8,
+   "rate": 0.9500000000000001,
+   "pan": 0
+  },
+  {
+   "t": 17.5167,
+   "id": "kit:pop-medium-in",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 17.6333,
+   "id": "kit:pop-medium-in",
+   "gain": -8,
+   "rate": 1.05,
+   "pan": 0
+  },
+  {
+   "t": 17.75,
+   "id": "kit:pop-medium-in",
+   "gain": -8,
+   "rate": 1.1,
+   "pan": 0
+  },
+  {
+   "t": 17.8667,
+   "id": "kit:pop-medium-in",
+   "gain": -8,
+   "rate": 1.15,
+   "pan": 0
+  },
+  {
+   "t": 18.8533,
+   "id": "kit:keyboard-typing-steady-medium",
+   "gain": -1,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 19.7367,
+   "id": "kit:keyboard-return-firm",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 19.7867,
+   "id": "kit:notification-message-out-soft",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 19.7867,
+   "id": "kit:whoosh-fast-medium",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 20.7667,
+   "id": "syn:sonic-logo",
+   "gain": 0,
+   "rate": 1,
+   "pan": 0
+  }
+ ],
+ "music": {
+  "bpm": 128.57142857142858,
+  "key": "G minor",
+  "style": "uk-garage-2step",
+  "sections": [
+   {
+    "name": "flood",
+    "from": 0,
+    "to": 6
+   },
+   {
+    "name": "fixes",
+    "from": 6,
+    "to": 36
+   },
+   {
+    "name": "grid",
+    "from": 36,
+    "to": 40
+   },
+   {
+    "name": "type",
+    "from": 40,
+    "to": 44
+   },
+   {
+    "name": "logo",
+    "from": 44,
+    "to": 49
+   }
+  ]
+ }
+}

@@ -1,0 +1,368 @@
+{
+ "name": "D1-cover-your-logo",
+ "duration": 19,
+ "fps": 30,
+ "bpm": 120,
+ "offset": 0,
+ "cues": {
+  "cover": 1,
+  "logo": 2,
+  "tape": 2.5,
+  "question": 4.5,
+  "triptych": 8,
+  "zero": 12.5,
+  "slam": 14.5,
+  "logo_end": 16.25,
+  "sticker": 17.25
+ },
+ "spots": [
+  {
+   "t": 0,
+   "id": "kit:click-mouse-medium",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 0.25,
+   "id": "kit:click-mouse-medium",
+   "gain": -2,
+   "rate": 1.06,
+   "pan": 0
+  },
+  {
+   "t": 0.5,
+   "id": "kit:click-mouse-medium",
+   "gain": -2,
+   "rate": 1.12,
+   "pan": 0
+  },
+  {
+   "t": 0.75,
+   "id": "kit:click-mouse-medium",
+   "gain": -2,
+   "rate": 1.18,
+   "pan": 0
+  },
+  {
+   "t": 1,
+   "id": "kit:impact-deep-hard",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 1.5,
+   "id": "kit:impact-deep-hard",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 2,
+   "id": "kit:cinematic-slam-big",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 2.5,
+   "id": "kit:props-tape",
+   "gain": 0,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 2.52,
+   "id": "kit:impact-light-firm",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 3,
+   "id": "kit:writing-marker-write",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 3.5,
+   "id": "kit:writing-marker-draw",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 4.5,
+   "id": "kit:pop-small-in",
+   "gain": -6,
+   "rate": 0.9,
+   "pan": 0
+  },
+  {
+   "t": 4.75,
+   "id": "kit:pop-small-in",
+   "gain": -6,
+   "rate": 0.9400000000000001,
+   "pan": 0
+  },
+  {
+   "t": 5,
+   "id": "kit:pop-small-in",
+   "gain": -6,
+   "rate": 0.98,
+   "pan": 0
+  },
+  {
+   "t": 5.25,
+   "id": "kit:pop-small-in",
+   "gain": -6,
+   "rate": 1.02,
+   "pan": 0
+  },
+  {
+   "t": 5.5,
+   "id": "kit:pop-small-in",
+   "gain": -6,
+   "rate": 1.06,
+   "pan": 0
+  },
+  {
+   "t": 5.75,
+   "id": "kit:pop-small-in",
+   "gain": -6,
+   "rate": 1.1,
+   "pan": 0
+  },
+  {
+   "t": 6,
+   "id": "kit:shimmer-short-soft",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 6.25,
+   "id": "kit:writing-highlighter",
+   "gain": -5,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 7.5,
+   "id": "kit:reverse-whoosh-short-strong",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 8.62,
+   "id": "kit:foley-card-touch",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 8,
+   "id": "kit:swish-hard",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 8,
+   "id": "kit:impact-medium-soft",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 9.5,
+   "id": "kit:transform-morph",
+   "gain": -5,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 9,
+   "id": "kit:move-zoom-in",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 9,
+   "id": "kit:impact-medium-soft",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 10,
+   "id": "kit:whoosh-fast-hard",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 10,
+   "id": "kit:impact-medium-soft",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 11.2,
+   "id": "kit:foley-card-touch",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 11.29,
+   "id": "kit:foley-card-touch",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 11.38,
+   "id": "kit:foley-card-touch",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 11.5,
+   "id": "kit:writing-marker-write",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 12.75,
+   "id": "kit:data-decrease-medium",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 13.95,
+   "id": "kit:data-number-land",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 14.5,
+   "id": "kit:props-tape",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 14.625,
+   "id": "kit:props-tape",
+   "gain": -4,
+   "rate": 1.05,
+   "pan": 0
+  },
+  {
+   "t": 14.75,
+   "id": "kit:props-tape",
+   "gain": -4,
+   "rate": 1.1,
+   "pan": 0
+  },
+  {
+   "t": 14.875,
+   "id": "kit:props-tape",
+   "gain": -4,
+   "rate": 1.15,
+   "pan": 0
+  },
+  {
+   "t": 15,
+   "id": "kit:impact-deep-hard",
+   "gain": -5,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 15.25,
+   "id": "kit:impact-deep-hard",
+   "gain": -5,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 15.5,
+   "id": "kit:impact-deep-hard",
+   "gain": -5,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 17.25,
+   "id": "kit:props-tape",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 16.25,
+   "id": "syn:sonic-logo",
+   "gain": 0,
+   "rate": 1,
+   "pan": 0
+  }
+ ],
+ "music": {
+  "bpm": 120,
+  "key": "A minor",
+  "style": "afro-house",
+  "sections": [
+   {
+    "name": "intro-stutter",
+    "from": 0,
+    "to": 2
+   },
+   {
+    "name": "drop",
+    "from": 2,
+    "to": 9
+   },
+   {
+    "name": "filtered-question",
+    "from": 9,
+    "to": 15
+   },
+   {
+    "name": "build",
+    "from": 15,
+    "to": 16
+   },
+   {
+    "name": "groove",
+    "from": 16,
+    "to": 25
+   },
+   {
+    "name": "stop-zero",
+    "from": 25,
+    "to": 29
+   },
+   {
+    "name": "slam",
+    "from": 29,
+    "to": 32
+   },
+   {
+    "name": "logo",
+    "from": 32,
+    "to": 38
+   }
+  ]
+ }
+}

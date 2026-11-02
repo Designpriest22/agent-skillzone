@@ -1,0 +1,277 @@
+{
+ "name": "D7-december-is-booked",
+ "duration": 18.6,
+ "fps": 30,
+ "bpm": 100,
+ "offset": 0,
+ "cues": {
+  "figure": 1.8,
+  "fast": 6.24,
+  "rip": 8.76,
+  "drop": 9.6,
+  "countdown": 10.2,
+  "ready": 12,
+  "offer": 14.1,
+  "logo_end": 16.75
+ },
+ "spots": [
+  {
+   "t": 9.6,
+   "id": "kit:celebration-fireworks",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 9.9,
+   "id": "syn:firework",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 10.2,
+   "id": "kit:celebration-fireworks",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 12,
+   "id": "syn:firework",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 12.3,
+   "id": "kit:celebration-fireworks",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 13.8,
+   "id": "syn:firework",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 16.5,
+   "id": "kit:celebration-fireworks",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 0,
+   "id": "syn:tick",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 0.6,
+   "id": "syn:tick",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 1.2,
+   "id": "syn:tick",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 0.72,
+   "id": "kit:data-countup-medium",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 1.8,
+   "id": "syn:braam",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 1.8,
+   "id": "kit:data-number-land",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 4.8,
+   "id": "kit:mechanical-shutter-light",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 5.52,
+   "id": "kit:mechanical-shutter-light",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 6.24,
+   "id": "kit:mechanical-shutter-light",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 7.5,
+   "id": "kit:writing-scribble",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 8.2,
+   "id": "kit:writing-marker-tick",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 8.76,
+   "id": "meta:PAPRRip_PaperTear_OS_01",
+   "gain": 0,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 8.82,
+   "id": "kit:props-page-turn",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 9.06,
+   "id": "kit:writing-marker-draw",
+   "gain": -3,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 9.6,
+   "id": "kit:reverse-whoosh-long-strong",
+   "gain": -2,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 10.2,
+   "id": "kit:mechanical-latch-light",
+   "gain": -5,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 10.8,
+   "id": "kit:mechanical-latch-light",
+   "gain": -5,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 11.4,
+   "id": "kit:mechanical-latch-light",
+   "gain": -5,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 12,
+   "id": "kit:whoosh-medium-hard",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 14.1,
+   "id": "kit:swish-hard",
+   "gain": -4,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 14.4,
+   "id": "kit:impact-medium-soft",
+   "gain": -6,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 14.76,
+   "id": "kit:tone-step-2",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 15.18,
+   "id": "kit:tone-step-3",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 15.6,
+   "id": "kit:tone-step-4",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 16.75,
+   "id": "syn:sonic-logo",
+   "gain": 0,
+   "rate": 1,
+   "pan": 0
+  },
+  {
+   "t": 17.16,
+   "id": "kit:pop-large-in",
+   "gain": -8,
+   "rate": 1,
+   "pan": 0
+  }
+ ],
+ "music": {
+  "bpm": 100,
+  "key": "D minor",
+  "style": "trailer-to-afrobeats",
+  "sections": [
+   {
+    "name": "trailer",
+    "from": 0,
+    "to": 8
+   },
+   {
+    "name": "rise",
+    "from": 8,
+    "to": 16
+   },
+   {
+    "name": "drop",
+    "from": 16,
+    "to": 27
+   },
+   {
+    "name": "logo",
+    "from": 27,
+    "to": 31
+   }
+  ]
+ }
+}

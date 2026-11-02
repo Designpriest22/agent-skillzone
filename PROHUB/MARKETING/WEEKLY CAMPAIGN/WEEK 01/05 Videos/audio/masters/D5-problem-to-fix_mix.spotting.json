@@ -1,0 +1,397 @@
+{
+ "spots": [
+  {
+   "t": 0,
+   "id": "syn:ping",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 0,
+   "id": "kit:notification-message-in-soft",
+   "gain_db": -15.0,
+   "rate": 1
+  },
+  {
+   "t": 0.2333,
+   "id": "syn:ping",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 0.2333,
+   "id": "kit:notification-message-in-soft",
+   "gain_db": -15.0,
+   "rate": 1
+  },
+  {
+   "t": 0.4667,
+   "id": "syn:ping",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 0.4667,
+   "id": "kit:notification-message-in-soft",
+   "gain_db": -15.0,
+   "rate": 1
+  },
+  {
+   "t": 0.7,
+   "id": "syn:ping",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 0.7,
+   "id": "kit:notification-message-in-soft",
+   "gain_db": -15.0,
+   "rate": 1
+  },
+  {
+   "t": 0.9333,
+   "id": "syn:ping",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 0.9333,
+   "id": "kit:notification-message-in-soft",
+   "gain_db": -15.0,
+   "rate": 1
+  },
+  {
+   "t": 1.1667,
+   "id": "syn:ping",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 1.1667,
+   "id": "kit:notification-message-in-soft",
+   "gain_db": -15.0,
+   "rate": 1
+  },
+  {
+   "t": 0.4667,
+   "id": "kit:phone-vibrate-table",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 1.8667,
+   "id": "kit:cinematic-slam-big",
+   "gain_db": -8.0,
+   "rate": 1
+  },
+  {
+   "t": 2.8,
+   "id": "syn:ping",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 3.6833,
+   "id": "kit:swipe-medium-firm",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 3.8533,
+   "id": "kit:impact-light-firm",
+   "gain_db": -10.0,
+   "rate": 1
+  },
+  {
+   "t": 4.0133,
+   "id": "kit:tone-step-1",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 4.2467,
+   "id": "kit:tone-step-2",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 4.48,
+   "id": "kit:tone-step-3",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 5.1333,
+   "id": "syn:ping",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 6.0167,
+   "id": "kit:appear-flip-quick",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 6.1867,
+   "id": "kit:impact-light-firm",
+   "gain_db": -10.0,
+   "rate": 1
+  },
+  {
+   "t": 6.3467,
+   "id": "kit:tone-step-1",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 6.58,
+   "id": "kit:tone-step-2",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 6.8133,
+   "id": "kit:tone-step-3",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 7.4667,
+   "id": "syn:ping",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 8.35,
+   "id": "kit:digital-glitch-clear",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 8.52,
+   "id": "kit:impact-light-firm",
+   "gain_db": -10.0,
+   "rate": 1
+  },
+  {
+   "t": 8.68,
+   "id": "kit:tone-step-1",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 8.9133,
+   "id": "kit:tone-step-2",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 9.1467,
+   "id": "kit:tone-step-3",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 9.8,
+   "id": "syn:ping",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 10.6833,
+   "id": "kit:whoosh-medium-hard",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 10.8533,
+   "id": "kit:impact-light-firm",
+   "gain_db": -10.0,
+   "rate": 1
+  },
+  {
+   "t": 11.0133,
+   "id": "kit:tone-step-1",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 11.2467,
+   "id": "kit:tone-step-2",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 11.48,
+   "id": "kit:tone-step-3",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 12.1333,
+   "id": "syn:ping",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 13.0167,
+   "id": "kit:move-zoom-in",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 13.1867,
+   "id": "kit:impact-light-firm",
+   "gain_db": -10.0,
+   "rate": 1
+  },
+  {
+   "t": 13.3467,
+   "id": "kit:tone-step-1",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 13.58,
+   "id": "kit:tone-step-2",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 13.8133,
+   "id": "kit:tone-step-3",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 14.4667,
+   "id": "syn:ping",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 15.35,
+   "id": "kit:zip-out-hard",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 15.52,
+   "id": "kit:impact-light-firm",
+   "gain_db": -10.0,
+   "rate": 1
+  },
+  {
+   "t": 15.68,
+   "id": "kit:tone-step-1",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 15.9133,
+   "id": "kit:tone-step-2",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 16.1467,
+   "id": "kit:tone-step-3",
+   "gain_db": -13.0,
+   "rate": 1
+  },
+  {
+   "t": 17.2833,
+   "id": "kit:pop-medium-in",
+   "gain_db": -11.0,
+   "rate": 0.9
+  },
+  {
+   "t": 17.4,
+   "id": "kit:pop-medium-in",
+   "gain_db": -11.0,
+   "rate": 0.9500000000000001
+  },
+  {
+   "t": 17.5167,
+   "id": "kit:pop-medium-in",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 17.6333,
+   "id": "kit:pop-medium-in",
+   "gain_db": -11.0,
+   "rate": 1.05
+  },
+  {
+   "t": 17.75,
+   "id": "kit:pop-medium-in",
+   "gain_db": -11.0,
+   "rate": 1.1
+  },
+  {
+   "t": 17.8667,
+   "id": "kit:pop-medium-in",
+   "gain_db": -11.0,
+   "rate": 1.15
+  },
+  {
+   "t": 18.8533,
+   "id": "kit:keyboard-typing-steady-medium",
+   "gain_db": -4.0,
+   "rate": 1
+  },
+  {
+   "t": 19.7367,
+   "id": "kit:keyboard-return-firm",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 19.7867,
+   "id": "kit:notification-message-out-soft",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 19.7867,
+   "id": "kit:whoosh-fast-medium",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 20.7667,
+   "id": "syn:sonic-logo",
+   "gain_db": -3.0,
+   "rate": 1
+  }
+ ],
+ "sections": [
+  {
+   "name": "flood",
+   "from": 0,
+   "to": 6
+  },
+  {
+   "name": "fixes",
+   "from": 6,
+   "to": 36
+  },
+  {
+   "name": "grid",
+   "from": 36,
+   "to": 40
+  },
+  {
+   "name": "type",
+   "from": 40,
+   "to": 44
+  },
+  {
+   "name": "logo",
+   "from": 44,
+   "to": 49
+  }
+ ]
+}

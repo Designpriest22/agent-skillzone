@@ -1,0 +1,304 @@
+{
+ "spots": [
+  {
+   "t": 0,
+   "id": "kit:click-mouse-medium",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 0.25,
+   "id": "kit:click-mouse-medium",
+   "gain_db": -5.0,
+   "rate": 1.06
+  },
+  {
+   "t": 0.5,
+   "id": "kit:click-mouse-medium",
+   "gain_db": -5.0,
+   "rate": 1.12
+  },
+  {
+   "t": 0.75,
+   "id": "kit:click-mouse-medium",
+   "gain_db": -5.0,
+   "rate": 1.18
+  },
+  {
+   "t": 1,
+   "id": "kit:impact-deep-hard",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 1.5,
+   "id": "kit:impact-deep-hard",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 2,
+   "id": "kit:cinematic-slam-big",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 2.5,
+   "id": "kit:props-tape",
+   "gain_db": -3.0,
+   "rate": 1
+  },
+  {
+   "t": 2.52,
+   "id": "kit:impact-light-firm",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 3,
+   "id": "kit:writing-marker-write",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 3.5,
+   "id": "kit:writing-marker-draw",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 4.5,
+   "id": "kit:pop-small-in",
+   "gain_db": -9.0,
+   "rate": 0.9
+  },
+  {
+   "t": 4.75,
+   "id": "kit:pop-small-in",
+   "gain_db": -9.0,
+   "rate": 0.9400000000000001
+  },
+  {
+   "t": 5,
+   "id": "kit:pop-small-in",
+   "gain_db": -9.0,
+   "rate": 0.98
+  },
+  {
+   "t": 5.25,
+   "id": "kit:pop-small-in",
+   "gain_db": -9.0,
+   "rate": 1.02
+  },
+  {
+   "t": 5.5,
+   "id": "kit:pop-small-in",
+   "gain_db": -9.0,
+   "rate": 1.06
+  },
+  {
+   "t": 5.75,
+   "id": "kit:pop-small-in",
+   "gain_db": -9.0,
+   "rate": 1.1
+  },
+  {
+   "t": 6,
+   "id": "kit:shimmer-short-soft",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 6.25,
+   "id": "kit:writing-highlighter",
+   "gain_db": -8.0,
+   "rate": 1
+  },
+  {
+   "t": 7.5,
+   "id": "kit:reverse-whoosh-short-strong",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 8.62,
+   "id": "kit:foley-card-touch",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 8,
+   "id": "kit:swish-hard",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 8,
+   "id": "kit:impact-medium-soft",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 9.5,
+   "id": "kit:transform-morph",
+   "gain_db": -8.0,
+   "rate": 1
+  },
+  {
+   "t": 9,
+   "id": "kit:move-zoom-in",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 9,
+   "id": "kit:impact-medium-soft",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 10,
+   "id": "kit:whoosh-fast-hard",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 10,
+   "id": "kit:impact-medium-soft",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 11.2,
+   "id": "kit:foley-card-touch",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 11.29,
+   "id": "kit:foley-card-touch",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 11.38,
+   "id": "kit:foley-card-touch",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 11.5,
+   "id": "kit:writing-marker-write",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 12.75,
+   "id": "kit:data-decrease-medium",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 13.95,
+   "id": "kit:data-number-land",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 14.5,
+   "id": "kit:props-tape",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 14.625,
+   "id": "kit:props-tape",
+   "gain_db": -7.0,
+   "rate": 1.05
+  },
+  {
+   "t": 14.75,
+   "id": "kit:props-tape",
+   "gain_db": -7.0,
+   "rate": 1.1
+  },
+  {
+   "t": 14.875,
+   "id": "kit:props-tape",
+   "gain_db": -7.0,
+   "rate": 1.15
+  },
+  {
+   "t": 15,
+   "id": "kit:impact-deep-hard",
+   "gain_db": -8.0,
+   "rate": 1
+  },
+  {
+   "t": 15.25,
+   "id": "kit:impact-deep-hard",
+   "gain_db": -8.0,
+   "rate": 1
+  },
+  {
+   "t": 15.5,
+   "id": "kit:impact-deep-hard",
+   "gain_db": -8.0,
+   "rate": 1
+  },
+  {
+   "t": 17.25,
+   "id": "kit:props-tape",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 16.25,
+   "id": "syn:sonic-logo",
+   "gain_db": -3.0,
+   "rate": 1
+  }
+ ],
+ "sections": [
+  {
+   "name": "intro-stutter",
+   "from": 0,
+   "to": 2
+  },
+  {
+   "name": "drop",
+   "from": 2,
+   "to": 9
+  },
+  {
+   "name": "filtered-question",
+   "from": 9,
+   "to": 15
+  },
+  {
+   "name": "build",
+   "from": 15,
+   "to": 16
+  },
+  {
+   "name": "groove",
+   "from": 16,
+   "to": 25
+  },
+  {
+   "name": "stop-zero",
+   "from": 25,
+   "to": 29
+  },
+  {
+   "name": "slam",
+   "from": 29,
+   "to": 32
+  },
+  {
+   "name": "logo",
+   "from": 32,
+   "to": 38
+  }
+ ]
+}

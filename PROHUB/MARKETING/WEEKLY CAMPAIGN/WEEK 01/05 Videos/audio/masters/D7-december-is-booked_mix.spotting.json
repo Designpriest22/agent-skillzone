@@ -1,0 +1,224 @@
+{
+ "spots": [
+  {
+   "t": 9.6,
+   "id": "kit:celebration-fireworks",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 9.9,
+   "id": "syn:firework",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 10.2,
+   "id": "kit:celebration-fireworks",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 12,
+   "id": "syn:firework",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 12.3,
+   "id": "kit:celebration-fireworks",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 13.8,
+   "id": "syn:firework",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 16.5,
+   "id": "kit:celebration-fireworks",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 0,
+   "id": "syn:tick",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 0.6,
+   "id": "syn:tick",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 1.2,
+   "id": "syn:tick",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 0.72,
+   "id": "kit:data-countup-medium",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 1.8,
+   "id": "syn:braam",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 1.8,
+   "id": "kit:data-number-land",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 4.8,
+   "id": "kit:mechanical-shutter-light",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 5.52,
+   "id": "kit:mechanical-shutter-light",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 6.24,
+   "id": "kit:mechanical-shutter-light",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 7.5,
+   "id": "kit:writing-scribble",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 8.2,
+   "id": "kit:writing-marker-tick",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 8.76,
+   "id": "meta:PAPRRip_PaperTear_OS_01",
+   "gain_db": -3.0,
+   "rate": 1
+  },
+  {
+   "t": 8.82,
+   "id": "kit:props-page-turn",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 9.06,
+   "id": "kit:writing-marker-draw",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 9.6,
+   "id": "kit:reverse-whoosh-long-strong",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 10.2,
+   "id": "kit:mechanical-latch-light",
+   "gain_db": -8.0,
+   "rate": 1
+  },
+  {
+   "t": 10.8,
+   "id": "kit:mechanical-latch-light",
+   "gain_db": -8.0,
+   "rate": 1
+  },
+  {
+   "t": 11.4,
+   "id": "kit:mechanical-latch-light",
+   "gain_db": -8.0,
+   "rate": 1
+  },
+  {
+   "t": 12,
+   "id": "kit:whoosh-medium-hard",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 14.1,
+   "id": "kit:swish-hard",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 14.4,
+   "id": "kit:impact-medium-soft",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 14.76,
+   "id": "kit:tone-step-2",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 15.18,
+   "id": "kit:tone-step-3",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 15.6,
+   "id": "kit:tone-step-4",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 16.75,
+   "id": "syn:sonic-logo",
+   "gain_db": -3.0,
+   "rate": 1
+  },
+  {
+   "t": 17.16,
+   "id": "kit:pop-large-in",
+   "gain_db": -11.0,
+   "rate": 1
+  }
+ ],
+ "sections": [
+  {
+   "name": "trailer",
+   "from": 0,
+   "to": 8
+  },
+  {
+   "name": "rise",
+   "from": 8,
+   "to": 16
+  },
+  {
+   "name": "drop",
+   "from": 16,
+   "to": 27
+  },
+  {
+   "name": "logo",
+   "from": 27,
+   "to": 31
+  }
+ ]
+}

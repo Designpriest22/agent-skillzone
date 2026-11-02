@@ -43,3 +43,25 @@ Every asset was rendered, inspected at full size, and judged against the brief's
 
 ## 3. Conditions on approval (owner decisions)
 See `campaign-report.md` → "What requires your approval". The campaign is **creatively approved by the MD** but **not cleared to publish** until the owner signs off on those items.
+
+## 4. Round 2 — Reels rebuilt after owner feedback
+
+**Owner's verdict on Round 1:** the edit style was repetitive (it looked like earlier Prohub videos), and the same
+background track ran under every reel. **Accepted in full.** The MD's fix was process, not polish: a professional
+pipeline (see `05 Videos/PRODUCTION-PROCESS.md`), a new edit engine, four style bibles, four original scores and
+a designed sound world per film.
+
+| # | Asset | What failed (look-dev / QA) | Fix |
+|---|---|---|---|
+| 16 | All reels | Layers inside scenes collapsed to the top-left (not absolutely positioned) | Engine CSS: every scene child absolute |
+| 17 | D1 | COVER / YOUR / LOGO overflowed the frame; "MAKE IT OBVIOUS" lost its line breaks; voice tile invisible on paper; colour/shape cards top-heavy | Re-set type; three explicit lines; white tile + ink border; swatch card and centred morphing shape |
+| 18 | Master bus | Pedalboard limiter added hidden make-up gain, giving −9 LUFS and +4.8 dBTP | Replaced with our own 4× oversampled look-ahead brick-wall and a gain-matching loop |
+| 19 | D3 | Night intro 18 dB under the drop (lost on phones); logo too hot | Lifted pads, piano, sizzle; ember-crackle bed; logo −3 dB → intro now 6–8 dB under |
+| 20 | D3 / D5 | Swing maths put odd 16ths almost on the next 8th | Corrected swing formula; re-scored |
+| 21 | D3 | Split screen cropped the neon sign's name | Both boards shown whole, labelled Before / After |
+| 22 | D7 | Headline hidden under the letterbox; "chosen?" lost its orange when split into words; calendar grid missed 30 Nov | Calendar scaled into the band; colour reapplied per word; 6-row grid with weekday header (verified: 1 Nov 2026 is a Sunday, 18 Dec is a Friday) |
+| 23 | D3 / D5 delivery | Files too heavy (24 MB); AAC encoding pushed true peak to −0.2 dBTP | Bitrate caps; master ceiling −2.6 dBFS + 17.5 kHz low-pass; AAC `fast` coder (default coder overshot by 2.4 dB) |
+| 24 | All reels | Motion-blur fold looked backwards, so the first frame after a hard cut blended in the previous shot | Forward shutter (each output frame averages its own sub-frames); all four re-rendered |
+
+**Round 2 sign-off:** all four Reels pass the eight-question bar, and meet −14.0 LUFS and true peak ≤ −2.2 dBTP on the
+delivered files.

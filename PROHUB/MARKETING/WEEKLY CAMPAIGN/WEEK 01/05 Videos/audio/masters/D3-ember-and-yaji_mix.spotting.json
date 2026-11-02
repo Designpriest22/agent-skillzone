@@ -1,0 +1,161 @@
+{
+ "spots": [
+  {
+   "t": 0.2,
+   "id": "syn:match-strike",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 0.25,
+   "id": "syn:fire-whoosh",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 1.6,
+   "id": "kit:boom-hit-soft",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 3.2,
+   "id": "syn:fluoro-buzz",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 3.2,
+   "id": "kit:digital-glitch-clear",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 4.5333,
+   "id": "meta:PAPRRip_PaperTear_OS_01",
+   "gain_db": -5.0,
+   "rate": 1
+  },
+  {
+   "t": 4.5867,
+   "id": "syn:fire-whoosh",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 5.3333,
+   "id": "syn:sizzle",
+   "gain_db": -10.0,
+   "rate": 1
+  },
+  {
+   "t": 6.9333,
+   "id": "kit:shimmer-medium-bright",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 6.9333,
+   "id": "kit:boom-hit-medium",
+   "gain_db": -11.0,
+   "rate": 1
+  },
+  {
+   "t": 8.5333,
+   "id": "syn:neon-buzz",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 10.1333,
+   "id": "kit:move-zoom-out",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 10.9867,
+   "id": "kit:appear-flip-quick",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 11.84,
+   "id": "kit:whoosh-fast-hard",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 12.6933,
+   "id": "kit:swish-hard",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 13.5467,
+   "id": "kit:move-spin",
+   "gain_db": -6.0,
+   "rate": 1
+  },
+  {
+   "t": 14.4,
+   "id": "kit:reverse-whoosh-short-strong",
+   "gain_db": -7.0,
+   "rate": 1
+  },
+  {
+   "t": 14.4267,
+   "id": "kit:impact-medium-soft",
+   "gain_db": -9.0,
+   "rate": 1
+  },
+  {
+   "t": 15.9,
+   "id": "kit:transform-grow",
+   "gain_db": -8.0,
+   "rate": 1
+  },
+  {
+   "t": 18.4,
+   "id": "syn:sonic-logo",
+   "gain_db": -3.0,
+   "rate": 1
+  }
+ ],
+ "sections": [
+  {
+   "name": "night",
+   "from": 0,
+   "to": 6
+  },
+  {
+   "name": "before",
+   "from": 6,
+   "to": 10
+  },
+  {
+   "name": "insight",
+   "from": 10,
+   "to": 16
+  },
+  {
+   "name": "ignite",
+   "from": 16,
+   "to": 19
+  },
+  {
+   "name": "montage",
+   "from": 19,
+   "to": 30
+  },
+  {
+   "name": "cta",
+   "from": 30,
+   "to": 34
+  },
+  {
+   "name": "logo",
+   "from": 34,
+   "to": 39
+  }
+ ]
+}
