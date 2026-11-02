@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../css/campaign.css">
+<style>
+.top{position:absolute;left:64px;right:64px;top:52px;display:flex;align-items:center;justify-content:space-between}
+.lock{display:flex;align-items:center;gap:22px}.lock img.c{height:96px}.lock img.b{height:64px}.lock span{font-family:var(--mono);font-size:26px;color:var(--pepper)}
+.menuno{text-align:right;font-size:20px;line-height:1.5;color:var(--paper);opacity:.85}
+.h1{position:absolute;left:58px;top:196px;font-size:262px;color:var(--paper)}
+.served{position:absolute;right:70px;top:568px;font-size:128px;color:var(--pepper);z-index:5;line-height:1}
+.plate{position:absolute;left:270px;top:665px;width:540px;height:540px}
+.fork{position:absolute;left:120px;top:705px;width:74px;height:470px}
+.knife{position:absolute;right:120px;top:705px;width:74px;height:470px}
+.st1{position:absolute;right:215px;top:1075px;color:var(--chilli);font-size:22px;transform:rotate(-8deg);z-index:6;background:var(--paper)}
+.info{position:absolute;left:64px;right:64px;top:1222px;display:grid;grid-template-columns:1fr 1.25fr 1.2fr;border-top:2px solid rgba(244,236,219,.35)}
+.info div{padding:20px 0 0;font-size:19px;line-height:1.45}
+.info b{display:block;font-family:var(--display);font-variation-settings:"wdth" 75;font-weight:800;font-size:38px;letter-spacing:0;color:var(--paper);text-transform:uppercase}
+.info div+div{padding-left:26px;border-left:2px solid rgba(244,236,219,.2)}
+.tm{position:absolute;left:530px;right:70px;top:398px;font-size:21px;line-height:1.6}.tm .lbl{font-size:16px;margin-bottom:4px}.tm .dots{border-bottom-width:2px;transform:translateY(-6px)}
+.pw{position:absolute;bottom:20px;left:0;right:0;text-align:center;font-size:13px;opacity:.6}
+</style></head><body>
+<div class="canvas pt cloth grain">
+  <div class="top"><div class="lock"><img class="c" src="../img/cibus_logo_sticker.png"><span>×</span><img class="b" src="../img/believers_logo_cream.png"></div>
+  <div class="menuno mono">Menu Nº 05.12<br><span style="font-size:15px;opacity:.75">Powered by Patach Konglomerates</span></div></div>
+  <div class="h1 disp">Better<br>Days</div>
+  <div class="served serif it">are served.</div>
+  <div class="fork" data-fork></div><div class="knife" data-knife></div>
+  <div class="plate" data-plate='{"label":"05.12"}'></div>
+  <div class="st1 stamp">Headliner · SoundBoi BME</div>
+  <div class="info mono">
+    <div><span class="c-pepper">Saturday</span><b>05.12.2026</b></div>
+    <div><span class="c-pepper">Abuja</span><b>Venue reveal soon</b></div>
+    <div><span class="c-pepper">Order tickets</span><b>cibusmusica.com</b></div>
+  </div>
+  <div class="tm mono"><div class="lbl c-pepper">Tonight’s menu</div>
+  <div class="leader"><span>Live music</span><span class="dots"></span><span>01</span></div>
+  <div class="leader"><span>Real food</span><span class="dots"></span><span>02</span></div>
+  <div class="leader"><span>Games</span><span class="dots"></span><span>03</span></div>
+  <div class="leader"><span>Good vibes</span><span class="dots"></span><span>04</span></div></div>
+</div>
+<script src="../js/components.js"></script></body></html>

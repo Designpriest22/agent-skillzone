@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../css/campaign.css"><style>
+.bg{background:var(--pepper)}
+.t{position:absolute;left:0;right:0;top:70px;text-align:center;font-size:160px;color:var(--night)}
+.s{position:absolute;left:0;right:0;top:250px;text-align:center;font-size:52px;color:var(--night)}
+.p{position:absolute;top:380px;width:420px;height:420px}
+.vs{position:absolute;left:0;right:0;top:545px;text-align:center;font-size:70px;color:var(--paper);font-style:italic}
+.lb{position:absolute;top:830px;width:420px;text-align:center}
+.lb b{display:block;font-family:var(--display);font-variation-settings:"wdth" 75;font-weight:800;font-size:64px;color:var(--night);text-transform:uppercase}
+.lb span{font-size:18px;color:var(--night)}
+.f{position:absolute;left:0;right:0;bottom:46px;text-align:center;font-size:19px;color:var(--night)}
+</style></head><body>
+<div class="canvas sq bg grain">
+ <div class="t disp">Pick your plate</div>
+ <div class="s serif it">Abuja, settle this before 05.12.</div>
+ <div class="p" style="left:90px" data-plate='{"label":"A","sub":"COMMENT A","ring":"JOLLOF · PARTY STYLE · SMOKY BOTTOM · "}'></div>
+ <div class="vs serif">vs</div>
+ <div class="p" style="right:90px" data-plate='{"label":"B","sub":"COMMENT B","labelColor":"#FFB21E","ring":"FRIED RICE · LIVER · GREEN PEAS · "}'></div>
+ <div class="lb" style="left:90px"><b>Jollof</b><span class="mono">Comment A</span></div>
+ <div class="lb" style="right:90px"><b>Fried rice</b><span class="mono">Comment B</span></div>
+ <div class="f mono">Better Days · Cibus Musica | Abuja · Live music, real food</div>
+</div><script src="../js/components.js"></script><script>document.querySelectorAll(".barcode").forEach(b=>{let s="";let x=0;let seed=7;while(x<100){seed=(seed*9301+49297)%233280;const w=1+seed%4;s+=`<i style="left:${x}%;width:${w*0.45}%"></i>`;x+=w*0.45+0.6+(seed%3)*0.4;}b.innerHTML=s;});</script></body></html>

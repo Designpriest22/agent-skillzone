@@ -1,0 +1,21 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../css/campaign.css">
+<style>
+.bg{background:var(--pepper)}
+.t{position:absolute;left:70px;top:250px;font-size:250px;color:var(--night)}
+.s{position:absolute;left:76px;top:900px;font-size:62px;color:var(--night)}
+.p1{position:absolute;left:-140px;top:1010px;width:640px;height:640px}
+.p2{position:absolute;right:-140px;top:1180px;width:640px;height:640px}
+.poll{position:absolute;left:190px;top:1430px;width:700px;padding:30px;transform:rotate(-2deg);z-index:9}
+.poll .q{font-size:36px;font-weight:800;text-align:center;margin-bottom:22px;color:#111}
+.poll .o{display:grid;grid-template-columns:1fr 1fr;border-radius:16px;overflow:hidden;border:2px solid #e6e6e6}
+.poll .o div{padding:26px 10px;text-align:center;font-size:38px;font-weight:800}
+.poll .o div:first-child{color:#FF5A1F;border-right:2px solid #e6e6e6}.poll .o div:last-child{color:#6B40E3}
+</style></head><body>
+<div class="canvas st bg grain">
+ <div class="t disp">Pick<br>your<br>plate</div>
+ <div class="s serif it">Abuja, settle this.</div>
+ <div class="p1" data-plate='{"label":"A","sub":"JOLLOF","ring":"JOLLOF · PARTY STYLE · SMOKY BOTTOM · "}'></div>
+ <div class="p2" data-plate='{"label":"B","sub":"FRIED RICE","labelColor":"#FFB21E","ring":"FRIED RICE · LIVER · GREEN PEAS · "}'></div>
+ <div class="poll sticker"><div class="q">What’s on your Better Days plate?</div><div class="o"><div>JOLLOF</div><div>FRIED RICE</div></div></div>
+</div>
+</div><script src="../js/components.js"></script><script>document.querySelectorAll(".barcode").forEach(b=>{let s="";let x=0;let seed=7;while(x<100){seed=(seed*9301+49297)%233280;const w=1+seed%4;s+=`<i style="left:${x}%;width:${w*0.45}%"></i>`;x+=w*0.45+0.6+(seed%3)*0.4;}b.innerHTML=s;});</script></body></html>

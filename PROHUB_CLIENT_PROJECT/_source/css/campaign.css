@@ -1,0 +1,70 @@
+/* ==========================================================
+   BETTER DAYS ARE SERVED — campaign design system
+   Cibus Musica | Abuja · proposed by Prohub Creative Solutions
+   ========================================================== */
+@import url("../fonts/fonts.css");
+:root{
+  --night:#150A2E;      /* Abuja night — base field            */
+  --violet:#4A21A6;     /* Better Days violet (heritage purple)  */
+  --violet-2:#6B40E3;   /* highlight violet                      */
+  --pepper:#FF5A1F;     /* pepper orange — heat, appetite, CTA   */
+  --amber:#FFB21E;      /* suya amber — secondary accent         */
+  --paper:#F4ECDB;      /* menu paper                            */
+  --paper-2:#E9DDC4;
+  --chilli:#E3262F;     /* logo red — stamps only                */
+  --leaf:#1F7A4A;       /* logo green — micro accents only       */
+  --ink:#140A26;
+  --display:"Bricolage Grotesque",sans-serif;
+  --serif:"Instrument Serif",serif;
+  --mono:"DM Mono",monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#111}
+body{-webkit-font-smoothing:antialiased;text-rendering:geometricPrecision}
+.canvas{position:relative;overflow:hidden;background:var(--night);color:var(--paper);font-family:var(--display)}
+.sq{width:1080px;height:1080px}.pt{width:1080px;height:1350px}.st{width:1080px;height:1920px}
+
+/* type */
+.disp{font-family:var(--display);font-weight:800;font-variation-settings:"wdth" 75,"opsz" 96;letter-spacing:-.02em;line-height:.82;text-transform:uppercase}
+.serif{font-family:var(--serif);font-weight:400;letter-spacing:-.01em}
+.it{font-style:italic}
+.mono{font-family:var(--mono);font-weight:500;text-transform:uppercase;letter-spacing:.14em}
+.c-pepper{color:var(--pepper)}.c-paper{color:var(--paper)}.c-amber{color:var(--amber)}.c-night{color:var(--night)}.c-violet{color:var(--violet)}
+
+/* film grain over everything */
+.grain::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:50;opacity:.22;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 1.4 -.2'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>")}
+.grain.soft::after{opacity:.14}
+
+/* tablecloth: subtle woven violet field */
+.cloth{background:
+   radial-gradient(120% 80% at 50% 30%, rgba(107,64,227,.55), transparent 60%),
+   repeating-linear-gradient(0deg, rgba(255,255,255,.025) 0 2px, transparent 2px 22px),
+   repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0 2px, transparent 2px 22px),
+   var(--night)}
+.paperbg{background:var(--paper);color:var(--night)}
+.paperbg.grain::after{mix-blend-mode:multiply;opacity:.18}
+
+/* menu leaders */
+.leader{display:flex;align-items:baseline;gap:14px}
+.leader .dots{flex:1;border-bottom:3px dotted currentColor;opacity:.45;transform:translateY(-8px)}
+.rule{height:3px;background:currentColor}
+.rule.thin{height:1.5px}
+
+/* stamp */
+.stamp{display:inline-block;font-family:var(--mono);font-weight:500;text-transform:uppercase;letter-spacing:.16em;
+  border:5px solid currentColor;padding:12px 22px 10px;border-radius:6px;filter:url(#rough);
+  -webkit-mask-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.55' numOctaves='2'/><feColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -1.6 2.4'/></filter><rect width='220' height='220' filter='url(%23n)'/></svg>");}
+.stamp.round{border-radius:50%;display:grid;place-items:center;text-align:center;padding:0}
+
+/* receipt */
+.receipt{background:var(--paper);color:var(--night);position:relative;
+  --t:16px;
+  -webkit-mask:radial-gradient(circle at 50% 100%,transparent 9px,#000 9.5px) bottom/var(--t) 10px repeat-x,
+               radial-gradient(circle at 50% 0,transparent 9px,#000 9.5px) top/var(--t) 10px repeat-x,
+               linear-gradient(#000 0 0) center/100% calc(100% - 20px) no-repeat;}
+.perf{border-top:3px dashed rgba(21,10,46,.35)}
+
+/* ui chips for story mockups */
+.sticker{background:#fff;color:#111;border-radius:22px;font-family:-apple-system,"Inter Tight",sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.25)}
+.concept-tag{position:absolute;z-index:60;font-family:var(--mono);font-size:15px;letter-spacing:.12em;text-transform:uppercase;padding:8px 12px;background:rgba(0,0,0,.55);color:#fff;border-radius:4px}

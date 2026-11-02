@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../css/campaign.css"><style>
+.t{position:absolute;left:58px;top:120px;font-size:230px;color:var(--paper)}
+.t span{color:var(--pepper)}
+.s{position:absolute;left:66px;top:720px;font-size:84px;color:var(--amber);line-height:1}
+.fr{position:absolute;left:66px;right:66px;top:860px;height:330px;border:3px solid rgba(244,236,219,.5);display:grid;place-items:center;background:repeating-linear-gradient(135deg,rgba(244,236,219,.05) 0 14px,transparent 14px 28px)}
+.play{width:120px;height:120px;border-radius:50%;background:var(--pepper);display:grid;place-items:center}
+.play:after{content:"";border-left:38px solid var(--night);border-top:24px solid transparent;border-bottom:24px solid transparent;margin-left:10px}
+.cap{position:absolute;left:84px;top:880px;font-size:17px;color:var(--paper);opacity:.8}
+.cap2{position:absolute;right:84px;top:1150px;font-size:17px;color:var(--paper);opacity:.8}
+.row{position:absolute;left:66px;right:66px;bottom:52px;display:flex;justify-content:space-between;font-size:19px}
+.lg{position:absolute;right:64px;top:56px;height:90px}
+.k{position:absolute;left:66px;top:62px;font-size:19px;color:var(--pepper)}
+</style></head><body>
+<div class="canvas pt cloth grain">
+ <div class="k mono">Recap · Chop Life Edition · Ikom · 25.10.26</div>
+ <img class="lg" src="../img/cibus_logo_sticker.png">
+ <div class="t disp">Ikom<br>got<br><span>served.</span></div>
+ <div class="s serif it">Abuja, you’re next.</div>
+ <div class="fr"><div class="play"></div></div>
+ <div class="cap mono">▶ 30s recap · footage from client archive</div>
+ <div class="cap2 mono">Better Days · 05.12.26</div>
+ <div class="row mono"><span class="c-paper">Sat 05.12.26 · Abuja</span><span class="c-amber">cibusmusica.com</span></div>
+</div><script src="../js/components.js"></script><script>document.querySelectorAll(".barcode").forEach(b=>{let s="";let x=0;let seed=7;while(x<100){seed=(seed*9301+49297)%233280;const w=1+seed%4;s+=`<i style="left:${x}%;width:${w*0.45}%"></i>`;x+=w*0.45+0.6+(seed%3)*0.4;}b.innerHTML=s;});</script></body></html>

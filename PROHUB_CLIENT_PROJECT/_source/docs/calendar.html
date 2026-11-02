@@ -1,0 +1,28 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Seven-Day Content Calendar — Better Days</title><link rel="stylesheet" href="../css/doc.css">
+<style>
+@page{size:A4 landscape;margin:12mm 14mm 14mm}
+@page :first{margin:12mm 14mm 14mm}
+.pg{height:178mm;page-break-after:always;position:relative}
+.pg:last-child{page-break-after:auto}
+.day{display:grid;grid-template-columns:78mm 1fr 1fr;gap:8mm;height:100%}
+.day img{width:100%;border-radius:2mm;box-shadow:0 2mm 6mm rgba(0,0,0,.15)}
+.f{margin-bottom:2.6mm}.f .lab{margin-bottom:.6mm;font-size:6.5pt}.f p{margin:0;font-size:9pt;line-height:1.42}
+.cap{background:#F6F4EF;border-radius:2mm;padding:4mm 5mm;font-size:9pt;line-height:1.45;white-space:pre-line}
+.hd{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1.5px solid #18181B;padding-bottom:3mm;margin-bottom:5mm}
+.hd h1{font-size:26pt;letter-spacing:-.03em;font-weight:600;line-height:1}
+.hd .ser{font-family:"Instrument Serif";font-style:italic;font-weight:400;color:#E07A0C}
+.ov td{font-size:8.5pt}
+</style></head><body>
+<div class="pg"><div class="hd"><div><div class="lab">04 · Social media strategy · Launch week 09–15 November 2026</div><h1>Seven days, <span class="ser">one conversion arc.</span></h1></div><img src="../img/prohub-logo-dark.svg" style="height:9mm"></div>
+<p style="max-width:230mm">Each post sets up the next: <b>awareness</b> (the reset) → <b>interest</b> (the headliner) → <b>consideration</b> (the menu) → <b>engagement</b> (the debate) → <b>proof</b> (the recap) → <b>conversion</b> (the order) → <b>advocacy</b> (the table). Platforms: Instagram and Facebook (Meta Business Suite cross-post), TikTok and WhatsApp. Supporting stories run 3–5 times daily. Prices, venue and price-step dates are client-to-confirm fields.</p>
+<table class="ov"><tr><th>Day</th><th>Post</th><th>Stage</th><th>Hook</th><th>Format</th><th>CTA</th><th>Audience</th></tr><tbody id="ov"></tbody></table></div>
+<div id="days"></div>
+<script src="../js/calendar.js"></script>
+<script>
+document.getElementById('ov').innerHTML=CAL.map(d=>`<tr><td><b>${d.day}</b><br>${d.date}</td><td><b>${d.name}</b></td><td>${d.stage}</td><td><i>“${d.hook}”</i></td><td>${d.format}</td><td>${d.cta}</td><td>${d.audience}</td></tr>`).join('');
+const F=(l,v)=>`<div class="f"><div class="lab">${l}</div><p>${v}</p></div>`;
+document.getElementById('days').innerHTML=CAL.map(d=>`<div class="pg"><div class="hd"><div><div class="lab">${d.day} · ${d.date} · ${d.stage}</div><h1>${d.name}</h1></div><span class="mono muted">Better Days · 05.12.26</span></div>
+<div class="day" style="height:150mm"><div><img src="../../03_CREATIVE_DESIGNS/${d.img}"><p class="mono muted" style="font-size:6.5pt;margin-top:2mm">Proposed visual direction</p></div>
+<div>${F('1 · Posting day',d.date+' — recommended slot 18:00–20:00 WAT')}${F('2 · Campaign objective',d.objective)}${F('3 · Content concept',d.concept)}${F('4 · Creative direction',d.direction)}${F('5 · Recommended format',d.format)}${F('6 · Visual execution',d.visual)}</div>
+<div>${F('7 · Headline / opening hook','<b style="font-size:13pt;font-family:Instrument Serif;font-style:italic;font-weight:400;color:#E07A0C">“'+d.hook+'”</b>')}<div class="f"><div class="lab">8 · Caption</div><div class="cap">${d.caption}</div></div>${F('9 · Call to action',d.cta)}${F('10 · Target audience',d.audience)}${F('11 · Marketing purpose',d.purpose)}</div></div></div>`).join('');
+</script></body></html>

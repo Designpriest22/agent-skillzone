@@ -1,0 +1,40 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../css/campaign.css"><style>
+.bg{background:var(--pepper)}
+.huge{position:absolute;left:-30px;top:-40px;font-size:560px;line-height:.8;color:rgba(21,10,46,.09)}
+.r{position:absolute;left:190px;top:92px;width:700px;height:1170px;transform:rotate(-2.5deg);box-shadow:0 30px 60px rgba(80,20,0,.35);padding:58px 56px}
+.r .hd{display:flex;justify-content:space-between;font-size:17px}
+.r .t{font-size:150px;margin-top:22px;color:var(--night)}
+.r .s{font-size:70px;color:var(--pepper);margin:6px 0 20px;line-height:1}
+.r .rows{font-size:20px;line-height:2.05;margin-top:14px}
+.r .leader .dots{border-bottom-width:2px;transform:translateY(-6px)}
+.r .tot{font-size:22px;line-height:2;margin-top:6px}
+.r .tot b{font-weight:500;color:var(--pepper)}
+.barcode{position:relative;height:84px;margin-top:22px}.barcode i{position:absolute;top:0;bottom:0;background:var(--night)}
+.foot{display:flex;justify-content:space-between;font-size:16px;margin-top:12px}
+.stmp{position:absolute;right:120px;bottom:120px;color:var(--chilli);transform:rotate(-14deg);width:230px;height:230px;font-size:20px;line-height:1.35;z-index:9;border-width:6px}
+.logos{position:absolute;left:56px;bottom:54px;display:flex;gap:16px;align-items:center}
+</style></head><body>
+<div class="canvas pt bg grain">
+ <div class="huge disp">Order<br>up</div>
+ <div class="r receipt">
+  <div class="hd mono"><span>Cibus Musica · Abuja</span><span>Order Nº 0512</span></div>
+  <div class="hd mono" style="opacity:.6;margin-top:6px"><span>× The Believers Music Concert</span><span>Table: Abuja</span></div>
+  <div class="t disp">Better<br>Days</div>
+  <div class="s serif it">are served.</div>
+  <div class="perf"></div>
+  <div class="rows mono">
+   <div class="leader"><span>1 × Better Day</span><span class="dots"></span><span>Sat 05.12.26</span></div>
+   <div class="leader"><span>1 × SoundBoi BME</span><span class="dots"></span><span>Live</span></div>
+   <div class="leader"><span>1 × Real food</span><span class="dots"></span><span>On the menu</span></div>
+   <div class="leader"><span>1 × Games + good vibes</span><span class="dots"></span><span>Included</span></div>
+  </div>
+  <div class="perf" style="margin-top:14px"></div>
+  <div class="tot mono">
+   <div class="leader"><span>Subtotal</span><span class="dots"></span><span>One good night</span></div>
+   <div class="leader"><b>Refund</b><span class="dots"></span><b>All of 2026’s bad days</b></div>
+  </div>
+  <div class="barcode"></div>
+  <div class="foot mono"><span>Order at cibusmusica.com</span><span>Venue reveal soon</span></div>
+ </div>
+ <div class="stmp stamp round">Abuja<br>05·12·26<br>Kitchen<br>open</div>
+</div><script src="../js/components.js"></script><script>document.querySelectorAll(".barcode").forEach(b=>{let s="";let x=0;let seed=7;while(x<100){seed=(seed*9301+49297)%233280;const w=1+seed%4;s+=`<i style="left:${x}%;width:${w*0.45}%"></i>`;x+=w*0.45+0.6+(seed%3)*0.4;}b.innerHTML=s;});</script></body></html>

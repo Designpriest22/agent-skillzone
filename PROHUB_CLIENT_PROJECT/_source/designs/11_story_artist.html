@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../css/campaign.css">
+<style>
+.lcd{position:absolute;left:80px;top:240px;background:#0B0616;border:2px solid rgba(255,90,31,.5);border-radius:12px;padding:16px 26px;display:flex;gap:28px;align-items:center}
+.lcd .k{font-size:19px;color:var(--amber)}.lcd .v{font-family:var(--mono);font-size:54px;color:var(--pepper);letter-spacing:.1em;text-shadow:0 0 16px rgba(255,90,31,.8)}
+.por{position:absolute;left:90px;top:350px;width:900px}
+.por img{position:absolute;left:0;top:0;width:900px}.por img.h{mix-blend-mode:multiply;opacity:.5}
+.fade{position:absolute;left:0;right:0;top:1100px;height:300px;background:linear-gradient(transparent,var(--night))}
+.name{position:absolute;left:66px;top:1090px;font-size:232px;color:var(--paper);line-height:.8}
+.name span{color:var(--pepper)}
+.s{position:absolute;left:76px;top:1495px;font-size:56px;color:var(--paper)}
+.s em{color:var(--amber)}
+.link{position:absolute;left:76px;top:1590px;padding:18px 30px;font-size:32px;font-weight:700;display:flex;gap:12px;align-items:center;color:#3b5bdb}
+.lg{position:absolute;right:70px;top:230px;height:100px}
+</style></head><body>
+<div class="canvas st cloth grain">
+ <div class="lcd"><span class="k mono">Now<br>serving</span><span class="v">Nº 01</span></div>
+ <img class="lg" src="../img/cibus_logo_sticker.png">
+ <div class="por"><img src="../img/artist_duotone.png"><img class="h" src="../img/artist_halftone.png"></div>
+ <div class="fade"></div>
+ <div class="name disp">SoundBoi<br><span>BME</span></div>
+ <div class="s serif">Live at <em>Better Days</em> · Sat 05.12 · Abuja</div>
+ <div class="link sticker">🔗 CIBUSMUSICA.COM</div>
+</div>
+</div><script src="../js/components.js"></script><script>document.querySelectorAll(".barcode").forEach(b=>{let s="";let x=0;let seed=7;while(x<100){seed=(seed*9301+49297)%233280;const w=1+seed%4;s+=`<i style="left:${x}%;width:${w*0.45}%"></i>`;x+=w*0.45+0.6+(seed%3)*0.4;}b.innerHTML=s;});</script></body></html>

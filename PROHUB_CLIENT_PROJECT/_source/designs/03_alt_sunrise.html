@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../css/campaign.css">
+<style>
+.l1{position:absolute;left:64px;top:150px;font-size:118px;color:var(--violet);line-height:.95}
+.l2{position:absolute;left:58px;top:390px;font-size:250px;color:var(--night)}
+.sub{position:absolute;left:66px;top:880px;width:520px;font-family:var(--serif);font-size:44px;line-height:1.08;color:var(--night)}
+.sub em{color:var(--pepper)}
+.pl{position:absolute;left:470px;top:820px;width:900px;height:900px}
+.rays{position:absolute;left:920px;top:1270px;width:1px;height:1px}
+.rays i{position:absolute;left:0;bottom:0;width:4px;height:1500px;background:linear-gradient(var(--pepper),transparent 60%);transform-origin:bottom center;opacity:.22}
+.topbar{position:absolute;left:64px;right:64px;top:54px;display:flex;justify-content:space-between;font-size:18px;color:var(--night)}
+.lg{position:absolute;left:64px;bottom:56px;display:flex;gap:18px;align-items:center}
+.lg img.c{height:82px}.lg img.b{height:58px}
+.meta{position:absolute;left:64px;bottom:170px;font-size:19px;line-height:1.6;color:var(--night)}
+.meta b{font-family:var(--display);font-variation-settings:"wdth" 75;font-weight:800;font-size:44px;letter-spacing:0;display:block;color:var(--pepper)}
+</style></head><body>
+<div class="canvas pt paperbg grain">
+ <div class="rays"></div>
+ <div class="topbar mono"><span>Cibus Musica | Abuja</span><span>Better Days</span></div>
+ <div class="l1 serif it">2026 owes<br>you one</div>
+ <div class="l2 disp">Better<br>Day.</div>
+ <div class="sub">We’re serving it on <em>Saturday, 5&nbsp;December</em> — live music, real food, your whole table.</div>
+ <div class="pl" data-plate='{"label":"05.12","noShadow":true}'></div>
+ <div class="meta mono"><b>Live: SoundBoi BME</b>Abuja · venue reveal soon<br>Tickets · cibusmusica.com</div>
+ <div class="lg"><img class="c" src="../img/cibus_logo_sticker.png"><span class="mono" style="color:var(--pepper)">×</span><img class="b" src="../img/believers_logo_ink.png"></div>
+</div>
+<script>const r=document.querySelector('.rays');for(let a=-80;a<=-5;a+=7.5){const i=document.createElement('i');i.style.transform='rotate('+a+'deg)';r.appendChild(i)}</script>
+</div><script src="../js/components.js"></script><script>document.querySelectorAll(".barcode").forEach(b=>{let s="";let x=0;let seed=7;while(x<100){seed=(seed*9301+49297)%233280;const w=1+seed%4;s+=`<i style="left:${x}%;width:${w*0.45}%"></i>`;x+=w*0.45+0.6+(seed%3)*0.4;}b.innerHTML=s;});</script></body></html>

@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../css/campaign.css">
+<style>
+.k{position:absolute;left:80px;top:250px;font-size:30px;color:var(--pepper)}
+.n{position:absolute;left:50px;top:300px;font-size:820px;color:var(--pepper);line-height:.8}
+.d{position:absolute;left:80px;top:960px;font-size:230px;color:var(--paper)}
+.s{position:absolute;left:84px;top:1170px;font-size:60px;color:var(--paper);line-height:1.05;width:800px}
+.s em{color:var(--amber)}
+.pl{position:absolute;left:330px;top:1440px;width:900px;height:900px}
+.cd{position:absolute;left:84px;top:1380px;width:520px;padding:28px 30px;transform:rotate(-3deg)}
+.cd .a{font-size:20px;letter-spacing:.06em;color:#777;text-transform:uppercase;font-weight:600}
+.cd .b{font-size:46px;font-weight:800;margin:6px 0 14px}
+.cd .c{display:flex;gap:10px}.cd .c div{background:#f1f1f1;border-radius:10px;padding:10px 14px;font-size:40px;font-weight:800;text-align:center;flex:1}
+.cd .c small{display:block;font-size:14px;font-weight:600;color:#888}
+.cd .r{margin-top:14px;background:linear-gradient(90deg,#FF5A1F,#6B40E3);color:#fff;border-radius:12px;text-align:center;padding:12px;font-weight:700;font-size:24px}
+.lg{position:absolute;right:70px;top:230px;height:100px}
+</style></head><body>
+<div class="canvas st cloth grain">
+ <img class="lg" src="../img/cibus_logo_sticker.png">
+ <div class="k mono">Kitchen opens in</div>
+ <div class="n disp">26</div>
+ <div class="d disp">Days</div>
+ <div class="s serif">Better Days <em>are served</em> — Saturday 05.12, Abuja.</div>
+ <div class="pl" data-plate='{"label":"05.12"}'></div>
+ <div class="cd sticker"><div class="a">Countdown</div><div class="b">Better Days · Abuja</div><div class="c"><div>26<small>DAYS</small></div><div>04<small>HRS</small></div><div>12<small>MINS</small></div></div><div class="r">🔔 Remind me</div></div>
+ <div class="concept-tag" style="left:80px;top:150px">Story template · number updates daily</div>
+</div>
+</div><script src="../js/components.js"></script><script>document.querySelectorAll(".barcode").forEach(b=>{let s="";let x=0;let seed=7;while(x<100){seed=(seed*9301+49297)%233280;const w=1+seed%4;s+=`<i style="left:${x}%;width:${w*0.45}%"></i>`;x+=w*0.45+0.6+(seed%3)*0.4;}b.innerHTML=s;});</script></body></html>

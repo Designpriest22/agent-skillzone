@@ -1,0 +1,29 @@
+[
+{
+"src": "docs/strategy_report.html",
+"out": "../01_PROJECT_ANALYSIS/Project_Strategy_Report.pdf",
+"w": 794,
+"h": 1123,
+"kind": "pdf",
+"css": true,
+"footer": "Prohub Creative Solutions \u00b7 Better Days \u00b7 Strategy report"
+},
+{
+"src": "docs/calendar.html",
+"out": "../04_SOCIAL_MEDIA_STRATEGY/Seven_Day_Content_Calendar.pdf",
+"w": 1123,
+"h": 794,
+"kind": "pdf",
+"css": true,
+"footer": "Prohub Creative Solutions \u00b7 Better Days \u00b7 Seven-day content calendar"
+},
+{
+"src": "docs/scope.html",
+"out": "../06_PROJECT_DOCUMENTATION/Scope_and_Execution_Plan.pdf",
+"w": 794,
+"h": 1123,
+"kind": "pdf",
+"css": true,
+"footer": "Prohub Creative Solutions \u00b7 Better Days \u00b7 Scope & execution plan"
+}
+]

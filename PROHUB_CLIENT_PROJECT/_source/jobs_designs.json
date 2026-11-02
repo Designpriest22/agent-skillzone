@@ -1,0 +1,80 @@
+[
+{
+"src": "designs/01_main_flyer.html",
+"out": "../03_CREATIVE_DESIGNS/Main_Event_Flyer/BetterDays_Main_Flyer_1080x1350.png",
+"w": 1080,
+"h": 1350
+},
+{
+"src": "designs/02_alt_docket.html",
+"out": "../03_CREATIVE_DESIGNS/Alternative_Flyers/BetterDays_Alt_A_Order_Docket_1080x1350.png",
+"w": 1080,
+"h": 1350
+},
+{
+"src": "designs/03_alt_sunrise.html",
+"out": "../03_CREATIVE_DESIGNS/Alternative_Flyers/BetterDays_Alt_B_2026_Owes_You_1080x1350.png",
+"w": 1080,
+"h": 1350
+},
+{
+"src": "designs/04_artist_now_serving.html",
+"out": "../03_CREATIVE_DESIGNS/Social_Media_Posts/02_Artist_Now_Serving_SoundBoi_1080x1350.png",
+"w": 1080,
+"h": 1350
+},
+{
+"src": "designs/05_experience_menu.html",
+"out": "../03_CREATIVE_DESIGNS/Social_Media_Posts/03_Experience_On_The_Menu_1080x1080.png",
+"w": 1080,
+"h": 1080
+},
+{
+"src": "designs/06_ticket_order.html",
+"out": "../03_CREATIVE_DESIGNS/Social_Media_Posts/06_Tickets_Place_Your_Order_1080x1350.png",
+"w": 1080,
+"h": 1350
+},
+{
+"src": "designs/07_pick_your_plate.html",
+"out": "../03_CREATIVE_DESIGNS/Social_Media_Posts/04_Engagement_Pick_Your_Plate_1080x1080.png",
+"w": 1080,
+"h": 1080
+},
+{
+"src": "designs/08_proof_recap_cover.html",
+"out": "../03_CREATIVE_DESIGNS/Social_Media_Posts/05_Proof_Ikom_Got_Served_ReelCover_1080x1350.png",
+"w": 1080,
+"h": 1350
+},
+{
+"src": "designs/09_tag_your_table.html",
+"out": "../03_CREATIVE_DESIGNS/Social_Media_Posts/07_Squad_Tag_Your_Table_1080x1080.png",
+"w": 1080,
+"h": 1080
+},
+{
+"src": "designs/10_story_countdown.html",
+"out": "../03_CREATIVE_DESIGNS/Story_Designs/01_Story_Countdown_1080x1920.png",
+"w": 1080,
+"h": 1920
+},
+{
+"src": "designs/11_story_artist.html",
+"out": "../03_CREATIVE_DESIGNS/Story_Designs/02_Story_Artist_Now_Serving_1080x1920.png",
+"w": 1080,
+"h": 1920
+},
+{
+"src": "designs/12_story_poll.html",
+"out": "../03_CREATIVE_DESIGNS/Story_Designs/03_Story_Poll_Pick_Your_Plate_1080x1920.png",
+"w": 1080,
+"h": 1920
+},
+{
+"src": "designs/13_story_tickets.html",
+"out": "../03_CREATIVE_DESIGNS/Story_Designs/04_Story_Tickets_Link_1080x1920.png",
+"w": 1080,
+"h": 1920
+}
+]

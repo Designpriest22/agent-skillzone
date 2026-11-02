@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../css/campaign.css"><style>
+.t1{position:absolute;left:64px;top:70px;font-size:200px;color:var(--paper)}
+.t1 span{color:var(--pepper)}
+.sb{position:absolute;left:68px;top:420px;font-size:46px;color:var(--paper);line-height:1.05;width:760px}
+.sb em{color:var(--amber)}
+.tk{position:absolute;left:64px;right:64px;top:560px;height:470px;display:grid;grid-template-columns:1fr 250px}
+.tk .main{padding:40px 46px;border-radius:18px 0 0 18px}
+.tk .stub{background:var(--pepper);color:var(--night);border-radius:0 18px 18px 0;padding:40px 30px;display:flex;flex-direction:column;justify-content:space-between;border-left:4px dashed var(--night)}
+.tk .main{background:var(--paper);color:var(--night)}
+.tier{font-size:24px;line-height:1;padding:22px 0;border-bottom:2px solid rgba(21,10,46,.15)}
+.tier .nm{font-family:var(--display);font-variation-settings:"wdth" 75;font-weight:800;font-size:58px;letter-spacing:0;text-transform:uppercase}
+.tier .pr{font-family:var(--mono);font-size:36px;color:var(--pepper)}
+.tier .leader .dots{border-bottom-width:3px;transform:translateY(-10px)}
+.tier small{display:block;font-family:var(--serif);font-size:27px;margin-top:6px;opacity:.8;font-style:italic}
+.stub .big{font-size:120px;line-height:.8}
+.steps{position:absolute;left:64px;right:64px;top:1080px;display:grid;grid-template-columns:repeat(3,1fr);gap:28px;color:var(--paper)}
+.steps div{border-top:3px solid var(--pepper);padding-top:16px;font-size:30px;font-family:var(--serif);line-height:1.1}
+.steps b{display:block;font-family:var(--mono);font-weight:500;font-size:17px;letter-spacing:.14em;color:var(--pepper);margin-bottom:8px}
+.url{position:absolute;left:64px;right:64px;bottom:52px;display:flex;justify-content:space-between;align-items:center;font-size:19px}
+.url b{font-family:var(--display);font-variation-settings:"wdth" 75;font-weight:800;font-size:46px;letter-spacing:0;color:var(--paper)}
+.st3{position:absolute;right:80px;top:300px;color:var(--chilli);background:var(--paper);transform:rotate(-7deg);font-size:20px;z-index:5}
+</style></head><body>
+<div class="canvas pt cloth grain">
+ <div class="t1 disp">Place your<br><span>order.</span></div>
+ <div class="sb serif">Better Days is ready when you are. <em>Choose your table.</em></div>
+ <div class="st3 stamp">Order early</div>
+ <div class="tk">
+  <div class="main">
+   <div class="tier"><div class="leader"><span class="nm">Regular</span><span class="dots"></span><span class="pr">₦ —</span></div><small>Music, food stalls, games — the full menu.</small></div>
+   <div class="tier"><div class="leader"><span class="nm">VIP</span><span class="dots"></span><span class="pr">₦ —</span></div><small>Closer to the stage, faster to the plate.</small></div>
+   <div class="tier" style="border:0"><div class="leader"><span class="nm">Tables</span><span class="dots"></span><span class="pr">₦ —</span></div><small>For the friends who move as one.</small></div>
+  </div>
+  <div class="stub"><div class="mono" style="font-size:16px">Admit<br>Better Days</div><div class="big disp">05<br>12</div><div class="mono" style="font-size:16px">Abuja<br>Sat · 2026</div></div>
+ </div>
+ <div class="steps"><div><b>01</b>Visit cibusmusica.com</div><div><b>02</b>Choose your order</div><div><b>03</b>Pay by card or bank transfer</div></div>
+ <div class="url mono"><b>cibusmusica.com</b><span style="color:var(--amber)">Link in bio</span></div>
+ <div class="concept-tag" style="left:64px;top:1036px;background:var(--pepper);color:var(--night)">Prices · client to confirm</div>
+</div><script src="../js/components.js"></script><script>document.querySelectorAll(".barcode").forEach(b=>{let s="";let x=0;let seed=7;while(x<100){seed=(seed*9301+49297)%233280;const w=1+seed%4;s+=`<i style="left:${x}%;width:${w*0.45}%"></i>`;x+=w*0.45+0.6+(seed%3)*0.4;}b.innerHTML=s;});</script></body></html>

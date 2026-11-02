@@ -1,0 +1,30 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../css/campaign.css">
+<style>
+.t{position:absolute;left:70px;top:240px;font-size:220px;color:var(--paper)}.t span{color:var(--pepper)}
+.tk{position:absolute;left:80px;right:80px;top:740px;height:880px;border-radius:24px;overflow:hidden;display:grid;grid-template-rows:1fr 230px}
+.tk .m{background:var(--paper);color:var(--night);padding:44px 50px}
+.tk .b{background:var(--pepper);color:var(--night);border-top:5px dashed var(--night);display:flex;align-items:center;justify-content:space-between;padding:0 50px}
+.tier{padding:22px 0;border-bottom:2px solid rgba(21,10,46,.15)}
+.tier .nm{font-family:var(--display);font-variation-settings:"wdth" 75;font-weight:800;font-size:76px;text-transform:uppercase}
+.tier .pr{font-family:var(--mono);font-size:42px;color:var(--pepper)}
+.tier .leader .dots{border-bottom-width:3px;transform:translateY(-12px)}
+.tier small{display:block;font-family:var(--serif);font-style:italic;font-size:34px;margin-top:4px;opacity:.8}
+.hd{display:flex;justify-content:space-between;font-size:20px;margin-bottom:8px}
+.b .big{font-size:150px;line-height:.8}
+.link{position:absolute;left:50%;transform:translateX(-50%) rotate(-2deg);top:1650px;padding:20px 34px;font-size:34px;font-weight:700;color:#3b5bdb;white-space:nowrap}
+</style></head><body>
+<div class="canvas st cloth grain">
+ <div class="t disp">Place<br>your <span>order.</span></div>
+ <div class="tk">
+  <div class="m">
+   <div class="hd mono"><span>Better Days · Abuja</span><span>Order Nº 0512</span></div>
+   <div class="tier"><div class="leader"><span class="nm">Regular</span><span class="dots"></span><span class="pr">₦ —</span></div><small>The full menu.</small></div>
+   <div class="tier"><div class="leader"><span class="nm">VIP</span><span class="dots"></span><span class="pr">₦ —</span></div><small>Closer to the stage.</small></div>
+   <div class="tier" style="border:0"><div class="leader"><span class="nm">Tables</span><span class="dots"></span><span class="pr">₦ —</span></div><small>The whole squad, one order.</small></div>
+  </div>
+  <div class="b"><div class="mono" style="font-size:22px;line-height:1.5">Admit<br>Better Days<br>Sat · Abuja</div><div class="big disp">05.12</div></div>
+ </div>
+ <div class="link sticker">🔗 ORDER AT CIBUSMUSICA.COM</div>
+ <div class="concept-tag" style="left:80px;top:150px">Prices · client to confirm</div>
+</div>
+</div><script src="../js/components.js"></script><script>document.querySelectorAll(".barcode").forEach(b=>{let s="";let x=0;let seed=7;while(x<100){seed=(seed*9301+49297)%233280;const w=1+seed%4;s+=`<i style="left:${x}%;width:${w*0.45}%"></i>`;x+=w*0.45+0.6+(seed%3)*0.4;}b.innerHTML=s;});</script></body></html>
