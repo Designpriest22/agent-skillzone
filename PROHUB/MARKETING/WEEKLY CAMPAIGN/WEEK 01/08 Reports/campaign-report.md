@@ -3,6 +3,7 @@
 **To:** Owner, Prohub Creative Solutions · **From:** Managing Director · **Date:** Mon 2 Nov 2026
 **Status:** ✅ Produced and MD-approved · ⛔ **Not published.** Waiting on your approval (section 6).
 **Proposed live dates:** Mon 9 – Sun 15 Nov 2026 · Approval needed by **Fri 6 Nov** to schedule.
+**Visual approval board (Claude, private):** https://claude.ai/artifact/W24yHmo84hhX6FVrmfSVJt
 
 ---
 
