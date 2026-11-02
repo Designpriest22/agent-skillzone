@@ -1,0 +1,17 @@
+{
+  "out_name": "D1-R1_reel_cover-your-logo",
+  "title": "Day 1 — Cover your logo (cinematic, 16.8s)",
+  "objective": "Make Abuja and Lagos business owners question whether their brand is recognisable without its logo, and position Prohub as the team that builds distinctive brand systems. CTA: DM 'OBVIOUS'.",
+  "style": "cinematic",
+  "brand": { "name": "Prohub", "accent": "#FD8D18", "logo_svg_path": "../../../../../../prohub-os/assets/brand/prohub/prohub-logo.svg" },
+  "beat_seconds": 0.6, "beat_offset": 0.04, "fps": 30, "formats": ["9:16", "4:5"],
+  "audio_path": "../../../../../../prohub-os/content/ads/prohub-launch/media/soundtrack.m4a",
+  "scenes": [
+    { "layout": "slam", "duration": 2.44, "transition": "cut", "headline": "Cover your logo.", "items": ["COVER", "YOUR", "LOGO."] },
+    { "layout": "slam", "duration": 2.4, "eyebrow": "THE TEST", "headline": "Would they still know it's you?", "items": ["STILL", "KNOW", "IT'S", "YOU?"] },
+    { "layout": "network", "duration": 3.0, "eyebrow": "MEMORY", "headline": "Own a colour, a shape, a voice.", "items": ["A COLOUR", "A SHAPE", "A VOICE"] },
+    { "layout": "wave", "duration": 3.0, "eyebrow": "SIGNAL", "headline": "your logo can't do it alone" },
+    { "layout": "rings", "duration": 2.4, "eyebrow": "MAKE IT", "headline": "OBVIOUS" },
+    { "layout": "logo_reveal", "duration": 3.56, "eyebrow": "PROHUB", "transition": "cut", "headline": "Creative & Digital Solutions", "button": "DM 'OBVIOUS'" }
+  ]
+}

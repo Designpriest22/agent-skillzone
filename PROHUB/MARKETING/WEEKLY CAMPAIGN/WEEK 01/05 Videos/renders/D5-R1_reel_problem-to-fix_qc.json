@@ -1,0 +1,362 @@
+{
+  "title": "Day 5 — Tell us the problem, we'll tell you the fix (studio, 19.2s)",
+  "duration": 19.2,
+  "cue_sheet": [
+    {
+      "t": 0.08,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 0.305,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 0.53,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 0.755,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 0.98,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 1.205,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 1.49,
+      "sfx": "whoosh_in",
+      "gain": 0.5,
+      "why": "into scene 2"
+    },
+    {
+      "t": 2.44,
+      "sfx": "hit",
+      "gain": 0.55,
+      "why": "cut to scene 2 (word_wheel)"
+    },
+    {
+      "t": 3.08,
+      "sfx": "tick",
+      "gain": 0.4,
+      "why": "wheel tick"
+    },
+    {
+      "t": 3.72,
+      "sfx": "tick",
+      "gain": 0.4,
+      "why": "wheel tick"
+    },
+    {
+      "t": 4.36,
+      "sfx": "tick",
+      "gain": 0.4,
+      "why": "wheel tick"
+    },
+    {
+      "t": 5,
+      "sfx": "tick",
+      "gain": 0.4,
+      "why": "wheel tick"
+    },
+    {
+      "t": 5.09,
+      "sfx": "whoosh_in",
+      "gain": 0.5,
+      "why": "into scene 3"
+    },
+    {
+      "t": 5.64,
+      "sfx": "tick",
+      "gain": 0.4,
+      "why": "wheel tick"
+    },
+    {
+      "t": 6.04,
+      "sfx": "hit",
+      "gain": 0.55,
+      "why": "cut to scene 3 (pill_cycle)"
+    },
+    {
+      "t": 6.94,
+      "sfx": "blip",
+      "gain": 0.5,
+      "why": "capsule word change"
+    },
+    {
+      "t": 7.357,
+      "sfx": "blip",
+      "gain": 0.5,
+      "why": "capsule word change"
+    },
+    {
+      "t": 7.773,
+      "sfx": "blip",
+      "gain": 0.5,
+      "why": "capsule word change"
+    },
+    {
+      "t": 8.19,
+      "sfx": "blip",
+      "gain": 0.5,
+      "why": "capsule word change"
+    },
+    {
+      "t": 8.607,
+      "sfx": "blip",
+      "gain": 0.5,
+      "why": "capsule word change"
+    },
+    {
+      "t": 8.69,
+      "sfx": "whoosh_in",
+      "gain": 0.75,
+      "why": "into scene 4"
+    },
+    {
+      "t": 9.023,
+      "sfx": "blip",
+      "gain": 0.5,
+      "why": "capsule word change"
+    },
+    {
+      "t": 9.64,
+      "sfx": "impact",
+      "gain": 0.95,
+      "why": "cut to scene 4 (bento)"
+    },
+    {
+      "t": 9.64,
+      "sfx": "hit",
+      "gain": 0.25,
+      "why": "shape lands"
+    },
+    {
+      "t": 9.71,
+      "sfx": "hit",
+      "gain": 0.25,
+      "why": "shape lands"
+    },
+    {
+      "t": 9.78,
+      "sfx": "hit",
+      "gain": 0.25,
+      "why": "shape lands"
+    },
+    {
+      "t": 9.85,
+      "sfx": "hit",
+      "gain": 0.25,
+      "why": "shape lands"
+    },
+    {
+      "t": 9.92,
+      "sfx": "hit",
+      "gain": 0.25,
+      "why": "shape lands"
+    },
+    {
+      "t": 10.39,
+      "sfx": "blip",
+      "gain": 0.4,
+      "why": "photo reveals"
+    },
+    {
+      "t": 10.63,
+      "sfx": "blip",
+      "gain": 0.4,
+      "why": "photo reveals"
+    },
+    {
+      "t": 10.87,
+      "sfx": "blip",
+      "gain": 0.4,
+      "why": "photo reveals"
+    },
+    {
+      "t": 11.11,
+      "sfx": "blip",
+      "gain": 0.4,
+      "why": "photo reveals"
+    },
+    {
+      "t": 11.35,
+      "sfx": "blip",
+      "gain": 0.4,
+      "why": "photo reveals"
+    },
+    {
+      "t": 12.29,
+      "sfx": "whoosh_in",
+      "gain": 0.75,
+      "why": "into scene 5"
+    },
+    {
+      "t": 13.24,
+      "sfx": "impact",
+      "gain": 0.95,
+      "why": "cut to scene 5 (cta_pill)"
+    },
+    {
+      "t": 13.49,
+      "sfx": "riser",
+      "gain": 0.6,
+      "why": "build into the logo"
+    },
+    {
+      "t": 13.69,
+      "sfx": "sparkle",
+      "gain": 0.55,
+      "why": "CTA fills"
+    },
+    {
+      "t": 15.64,
+      "sfx": "boom",
+      "gain": 0.9,
+      "why": "logo reveal"
+    },
+    {
+      "t": 16.04,
+      "sfx": "sparkle",
+      "gain": 0.5,
+      "why": "logo sparkle"
+    }
+  ],
+  "renders": [
+    {
+      "format": "9:16",
+      "file": "D5-R1_reel_problem-to-fix_9x16.mp4",
+      "probe": {
+        "codec": "h264",
+        "width": 1080,
+        "height": 1920,
+        "pixFmt": "yuv420p",
+        "durationS": 19.2,
+        "sizeBytes": 2615136
+      },
+      "loudness": {
+        "lufs": -13.2,
+        "truePeak": -1.2
+      },
+      "sfx_cues": 39,
+      "qc": [
+        {
+          "item": "Resolution 1080×1920 matches 9:16",
+          "pass": true
+        },
+        {
+          "item": "Duration 19.20s vs storyboard 19.2s",
+          "pass": true
+        },
+        {
+          "item": "H.264 / yuv420p (plays on Instagram, TikTok, WhatsApp, YouTube)",
+          "pass": true
+        },
+        {
+          "item": "File size 2.5 MB",
+          "pass": true
+        },
+        {
+          "item": "Hook lands within 2s (first scene animates in immediately)",
+          "pass": true
+        },
+        {
+          "item": "On-screen text readable without sound (≤ 2.5 words/s on the busiest scene)",
+          "pass": true
+        },
+        {
+          "item": "Ends on a call to action or brand sting",
+          "pass": true
+        },
+        {
+          "item": "Sound design: 39 SFX cues spotted to the picture, mixed under the music with ducking",
+          "pass": true
+        },
+        {
+          "item": "Mix loudness -13.2 LUFS (target -14 ±1.5), true peak -1.2 dBFS",
+          "pass": true
+        },
+        {
+          "item": "Brand palette applied",
+          "pass": true
+        }
+      ],
+      "render_seconds": 42
+    },
+    {
+      "format": "4:5",
+      "file": "D5-R1_reel_problem-to-fix_4x5.mp4",
+      "probe": {
+        "codec": "h264",
+        "width": 1080,
+        "height": 1350,
+        "pixFmt": "yuv420p",
+        "durationS": 19.2,
+        "sizeBytes": 2315912
+      },
+      "loudness": {
+        "lufs": -13.2,
+        "truePeak": -1.2
+      },
+      "sfx_cues": 39,
+      "qc": [
+        {
+          "item": "Resolution 1080×1350 matches 4:5",
+          "pass": true
+        },
+        {
+          "item": "Duration 19.20s vs storyboard 19.2s",
+          "pass": true
+        },
+        {
+          "item": "H.264 / yuv420p (plays on Instagram, TikTok, WhatsApp, YouTube)",
+          "pass": true
+        },
+        {
+          "item": "File size 2.2 MB",
+          "pass": true
+        },
+        {
+          "item": "Hook lands within 2s (first scene animates in immediately)",
+          "pass": true
+        },
+        {
+          "item": "On-screen text readable without sound (≤ 2.5 words/s on the busiest scene)",
+          "pass": true
+        },
+        {
+          "item": "Ends on a call to action or brand sting",
+          "pass": true
+        },
+        {
+          "item": "Sound design: 39 SFX cues spotted to the picture, mixed under the music with ducking",
+          "pass": true
+        },
+        {
+          "item": "Mix loudness -13.2 LUFS (target -14 ±1.5), true peak -1.2 dBFS",
+          "pass": true
+        },
+        {
+          "item": "Brand palette applied",
+          "pass": true
+        }
+      ],
+      "render_seconds": 33
+    }
+  ]
+}

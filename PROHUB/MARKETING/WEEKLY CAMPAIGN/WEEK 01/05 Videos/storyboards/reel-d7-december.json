@@ -1,0 +1,17 @@
+{
+  "out_name": "D7-R1_reel_december-is-booked",
+  "title": "Day 7 — December is booked in November (cinematic, 16.8s)",
+  "objective": "Create urgency for hospitality, event, entertainment and retail brands ahead of the festive season and convert attention into Brand Direction Call bookings. CTA: DM 'DECEMBER'.",
+  "style": "cinematic",
+  "brand": { "name": "Prohub", "accent": "#FD8D18", "logo_svg_path": "../../../../../../prohub-os/assets/brand/prohub/prohub-logo.svg" },
+  "beat_seconds": 0.6, "beat_offset": 0.04, "fps": 30, "formats": ["9:16", "4:5"],
+  "audio_path": "../../../../../../prohub-os/content/ads/prohub-launch/media/soundtrack.m4a",
+  "scenes": [
+    { "layout": "counter", "duration": 2.44, "eyebrow": "LAGOS · DEC 2025", "headline": "NAIRA SPENT IN ONE LAGOS DECEMBER", "stat": { "value": 396, "suffix": "BN" } },
+    { "layout": "slam", "duration": 2.4, "eyebrow": "QUESTION", "headline": "Who got chosen?", "items": ["WHO", "GOT", "CHOSEN?"] },
+    { "layout": "corridor", "duration": 3.0, "eyebrow": "TIMING", "headline": "December is booked", "subline": "in November." },
+    { "layout": "network", "duration": 3.0, "eyebrow": "READY", "headline": "The ready brand gets chosen.", "items": ["THE", "READY", "BRAND", "GETS CHOSEN"] },
+    { "layout": "slam", "duration": 2.4, "eyebrow": "NOW", "headline": "Make it obvious.", "items": ["MAKE", "IT", "OBVIOUS."] },
+    { "layout": "logo_reveal", "duration": 3.56, "eyebrow": "PROHUB", "transition": "cut", "headline": "Book a Brand Direction Call", "button": "DM 'DECEMBER'" }
+  ]
+}

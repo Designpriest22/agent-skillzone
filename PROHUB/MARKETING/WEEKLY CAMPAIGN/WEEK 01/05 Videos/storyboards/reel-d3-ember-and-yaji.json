@@ -1,0 +1,18 @@
+{
+  "out_name": "D3-R1_reel_ember-and-yaji",
+  "title": "Day 3 — We rebranded a suya spot that doesn't exist (studio, 19.2s)",
+  "objective": "Demonstrate Prohub's end-to-end creative capability (strategy, identity, packaging, menu, signage, social) through a clearly fictional rebrand, and drive enquiries. CTA: DM 'SHOWCASE'.",
+  "style": "studio",
+  "brand": { "name": "Prohub", "accent": "#FD8D18", "shape": "#FD8D18", "stroke": "#FD8D18", "logo_svg_path": "../../../../../../prohub-os/assets/brand/prohub/prohub-logo.svg" },
+  "beat_seconds": 0.6, "beat_offset": 0.04, "fps": 30, "formats": ["9:16", "4:5"],
+  "audio_path": "../../../../../../prohub-os/content/ads/prohub-launch/media/soundtrack.m4a",
+  "scenes": [
+    { "layout": "type_line", "duration": 2.44, "background": "paper", "headline": "We rebranded a suya spot that doesn't exist." },
+    { "layout": "ui_select", "duration": 2.4, "background": "white", "headline": "Before: great suya,", "button": "forgettable brand" },
+    { "layout": "bento", "duration": 3.6, "background": "white", "transition": "punch", "headline": "After: Ember & Yaji.", "image_paths": ["../media/EY-board_sign.jpg", "../media/EY-board_logo.jpg", "../media/EY-board_packaging.jpg", "../media/EY-board_menu.jpg", "../media/EY-board_social.jpg", "../media/EY-board_palette.jpg"] },
+    { "layout": "pill_stack", "duration": 2.4, "background": "ink", "transition": "punch", "headline": "One direction, every touchpoint", "items": ["Strategy", "Identity", "Packaging", "Social"] },
+    { "layout": "stroke_reveal", "duration": 2.4, "background": "paper", "headline": "Same suya.", "subline": "Different story." },
+    { "layout": "cta_pill", "duration": 2.4, "background": "ink", "transition": "punch", "headline": "Imagine what we'd do with a real one.", "button": "DM SHOWCASE" },
+    { "layout": "logo_end", "duration": 3.56, "background": "ink", "headline": "Creative & Digital Solutions" }
+  ]
+}

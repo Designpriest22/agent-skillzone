@@ -1,0 +1,386 @@
+{
+  "title": "Day 7 — December is booked in November (cinematic, 16.8s)",
+  "duration": 16.8,
+  "cue_sheet": [
+    {
+      "t": 0.15,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 0.25,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 0.35,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 0.45,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 0.55,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 0.65,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 0.75,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 0.85,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 0.95,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 1.05,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 1.15,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 1.25,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 1.35,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 1.45,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 1.49,
+      "sfx": "whoosh_in",
+      "gain": 0.75,
+      "why": "into scene 2"
+    },
+    {
+      "t": 1.55,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 1.65,
+      "sfx": "tick",
+      "gain": 0.45,
+      "why": "counter tick"
+    },
+    {
+      "t": 1.663,
+      "sfx": "glitch",
+      "gain": 0.8,
+      "why": "counter hits 100 / invert flash"
+    },
+    {
+      "t": 2.44,
+      "sfx": "impact",
+      "gain": 0.95,
+      "why": "cut to scene 2 (slam)"
+    },
+    {
+      "t": 3.04,
+      "sfx": "hit",
+      "gain": 0.75,
+      "why": "slam \"GOT\""
+    },
+    {
+      "t": 3.64,
+      "sfx": "impact",
+      "gain": 0.9,
+      "why": "slam \"CHOSEN?\""
+    },
+    {
+      "t": 3.89,
+      "sfx": "whoosh_in",
+      "gain": 0.75,
+      "why": "into scene 3"
+    },
+    {
+      "t": 4.84,
+      "sfx": "impact",
+      "gain": 0.95,
+      "why": "cut to scene 3 (corridor)"
+    },
+    {
+      "t": 4.84,
+      "sfx": "drone",
+      "gain": 0.7,
+      "why": "3D corridor room tone"
+    },
+    {
+      "t": 5.14,
+      "sfx": "whoosh",
+      "gain": 0.6,
+      "why": "sign flies in"
+    },
+    {
+      "t": 6.34,
+      "sfx": "node",
+      "gain": 0.6,
+      "why": "second line lights"
+    },
+    {
+      "t": 6.89,
+      "sfx": "whoosh_in",
+      "gain": 0.75,
+      "why": "into scene 4"
+    },
+    {
+      "t": 7.84,
+      "sfx": "impact",
+      "gain": 0.95,
+      "why": "cut to scene 4 (network)"
+    },
+    {
+      "t": 7.84,
+      "sfx": "scan",
+      "gain": 0.55,
+      "why": "particles converge"
+    },
+    {
+      "t": 8.04,
+      "sfx": "node",
+      "gain": 0.7,
+      "why": "lyric line lights up"
+    },
+    {
+      "t": 8.52,
+      "sfx": "node",
+      "gain": 0.7,
+      "why": "lyric line lights up"
+    },
+    {
+      "t": 8.64,
+      "sfx": "blip",
+      "gain": 0.45,
+      "why": "network starts growing"
+    },
+    {
+      "t": 9,
+      "sfx": "node",
+      "gain": 0.7,
+      "why": "lyric line lights up"
+    },
+    {
+      "t": 9.48,
+      "sfx": "node",
+      "gain": 0.7,
+      "why": "lyric line lights up"
+    },
+    {
+      "t": 9.89,
+      "sfx": "whoosh_in",
+      "gain": 0.75,
+      "why": "into scene 5"
+    },
+    {
+      "t": 10.84,
+      "sfx": "impact",
+      "gain": 0.95,
+      "why": "cut to scene 5 (slam)"
+    },
+    {
+      "t": 11.39,
+      "sfx": "riser",
+      "gain": 0.8,
+      "why": "build into the logo"
+    },
+    {
+      "t": 11.44,
+      "sfx": "hit",
+      "gain": 0.75,
+      "why": "slam \"IT\""
+    },
+    {
+      "t": 12.04,
+      "sfx": "impact",
+      "gain": 0.9,
+      "why": "slam \"OBVIOUS.\""
+    },
+    {
+      "t": 13.24,
+      "sfx": "streak",
+      "gain": 0.6,
+      "why": "light streak across"
+    },
+    {
+      "t": 13.54,
+      "sfx": "boom",
+      "gain": 1,
+      "why": "logo reveal sub drop"
+    },
+    {
+      "t": 13.86,
+      "sfx": "glitch",
+      "gain": 0.3,
+      "why": "wordmark glitch-in"
+    },
+    {
+      "t": 14.74,
+      "sfx": "sparkle",
+      "gain": 0.6,
+      "why": "CTA appears"
+    }
+  ],
+  "renders": [
+    {
+      "format": "9:16",
+      "file": "D7-R1_reel_december-is-booked_9x16.mp4",
+      "probe": {
+        "codec": "h264",
+        "width": 1080,
+        "height": 1920,
+        "pixFmt": "yuv420p",
+        "durationS": 16.8,
+        "sizeBytes": 13588306
+      },
+      "loudness": {
+        "lufs": -14.2,
+        "truePeak": -1.5
+      },
+      "sfx_cues": 43,
+      "qc": [
+        {
+          "item": "Resolution 1080×1920 matches 9:16",
+          "pass": true
+        },
+        {
+          "item": "Duration 16.80s vs storyboard 16.8s",
+          "pass": true
+        },
+        {
+          "item": "H.264 / yuv420p (plays on Instagram, TikTok, WhatsApp, YouTube)",
+          "pass": true
+        },
+        {
+          "item": "File size 13.0 MB",
+          "pass": true
+        },
+        {
+          "item": "Hook lands within 2s (first scene animates in immediately)",
+          "pass": true
+        },
+        {
+          "item": "On-screen text readable without sound (≤ 2.5 words/s on the busiest scene)",
+          "pass": true
+        },
+        {
+          "item": "Ends on a call to action or brand sting",
+          "pass": true
+        },
+        {
+          "item": "Sound design: 43 SFX cues spotted to the picture, mixed under the music with ducking",
+          "pass": true
+        },
+        {
+          "item": "Mix loudness -14.2 LUFS (target -14 ±1.5), true peak -1.5 dBFS",
+          "pass": true
+        },
+        {
+          "item": "Brand palette applied",
+          "pass": true
+        }
+      ],
+      "render_seconds": 83
+    },
+    {
+      "format": "4:5",
+      "file": "D7-R1_reel_december-is-booked_4x5.mp4",
+      "probe": {
+        "codec": "h264",
+        "width": 1080,
+        "height": 1350,
+        "pixFmt": "yuv420p",
+        "durationS": 16.8,
+        "sizeBytes": 9601529
+      },
+      "loudness": {
+        "lufs": -14.2,
+        "truePeak": -1.5
+      },
+      "sfx_cues": 43,
+      "qc": [
+        {
+          "item": "Resolution 1080×1350 matches 4:5",
+          "pass": true
+        },
+        {
+          "item": "Duration 16.80s vs storyboard 16.8s",
+          "pass": true
+        },
+        {
+          "item": "H.264 / yuv420p (plays on Instagram, TikTok, WhatsApp, YouTube)",
+          "pass": true
+        },
+        {
+          "item": "File size 9.2 MB",
+          "pass": true
+        },
+        {
+          "item": "Hook lands within 2s (first scene animates in immediately)",
+          "pass": true
+        },
+        {
+          "item": "On-screen text readable without sound (≤ 2.5 words/s on the busiest scene)",
+          "pass": true
+        },
+        {
+          "item": "Ends on a call to action or brand sting",
+          "pass": true
+        },
+        {
+          "item": "Sound design: 43 SFX cues spotted to the picture, mixed under the music with ducking",
+          "pass": true
+        },
+        {
+          "item": "Mix loudness -14.2 LUFS (target -14 ±1.5), true peak -1.5 dBFS",
+          "pass": true
+        },
+        {
+          "item": "Brand palette applied",
+          "pass": true
+        }
+      ],
+      "render_seconds": 59
+    }
+  ]
+}

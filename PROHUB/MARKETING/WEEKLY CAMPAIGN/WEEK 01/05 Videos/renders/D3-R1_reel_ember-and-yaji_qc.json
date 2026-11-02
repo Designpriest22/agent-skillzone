@@ -1,0 +1,458 @@
+{
+  "title": "Day 3 — We rebranded a suya spot that doesn't exist (studio, 19.2s)",
+  "duration": 19.2,
+  "cue_sheet": [
+    {
+      "t": 0.08,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 0.305,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 0.53,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 0.755,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 0.98,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 1.205,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 1.43,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 1.49,
+      "sfx": "whoosh_in",
+      "gain": 0.5,
+      "why": "into scene 2"
+    },
+    {
+      "t": 1.655,
+      "sfx": "tick",
+      "gain": 0.35,
+      "why": "word inks in"
+    },
+    {
+      "t": 2.44,
+      "sfx": "hit",
+      "gain": 0.55,
+      "why": "cut to scene 2 (ui_select)"
+    },
+    {
+      "t": 2.54,
+      "sfx": "blip",
+      "gain": 0.5,
+      "why": "selection box"
+    },
+    {
+      "t": 3.59,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 3.653,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 3.715,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 3.778,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 3.84,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 3.89,
+      "sfx": "whoosh_in",
+      "gain": 0.75,
+      "why": "into scene 3"
+    },
+    {
+      "t": 3.903,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 3.965,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.028,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.09,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.153,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.215,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.278,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.34,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.403,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.465,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.528,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.59,
+      "sfx": "tick",
+      "gain": 0.3,
+      "why": "typing"
+    },
+    {
+      "t": 4.84,
+      "sfx": "impact",
+      "gain": 0.95,
+      "why": "cut to scene 3 (bento)"
+    },
+    {
+      "t": 4.84,
+      "sfx": "hit",
+      "gain": 0.25,
+      "why": "shape lands"
+    },
+    {
+      "t": 4.91,
+      "sfx": "hit",
+      "gain": 0.25,
+      "why": "shape lands"
+    },
+    {
+      "t": 4.98,
+      "sfx": "hit",
+      "gain": 0.25,
+      "why": "shape lands"
+    },
+    {
+      "t": 5.05,
+      "sfx": "hit",
+      "gain": 0.25,
+      "why": "shape lands"
+    },
+    {
+      "t": 5.12,
+      "sfx": "hit",
+      "gain": 0.25,
+      "why": "shape lands"
+    },
+    {
+      "t": 5.59,
+      "sfx": "blip",
+      "gain": 0.4,
+      "why": "photo reveals"
+    },
+    {
+      "t": 5.83,
+      "sfx": "blip",
+      "gain": 0.4,
+      "why": "photo reveals"
+    },
+    {
+      "t": 6.07,
+      "sfx": "blip",
+      "gain": 0.4,
+      "why": "photo reveals"
+    },
+    {
+      "t": 6.31,
+      "sfx": "blip",
+      "gain": 0.4,
+      "why": "photo reveals"
+    },
+    {
+      "t": 6.55,
+      "sfx": "blip",
+      "gain": 0.4,
+      "why": "photo reveals"
+    },
+    {
+      "t": 7.49,
+      "sfx": "whoosh_in",
+      "gain": 0.75,
+      "why": "into scene 4"
+    },
+    {
+      "t": 8.44,
+      "sfx": "impact",
+      "gain": 0.95,
+      "why": "cut to scene 4 (pill_stack)"
+    },
+    {
+      "t": 9.19,
+      "sfx": "node",
+      "gain": 0.45,
+      "why": "capsule opens"
+    },
+    {
+      "t": 9.27,
+      "sfx": "node",
+      "gain": 0.45,
+      "why": "capsule opens"
+    },
+    {
+      "t": 9.35,
+      "sfx": "node",
+      "gain": 0.45,
+      "why": "capsule opens"
+    },
+    {
+      "t": 9.43,
+      "sfx": "node",
+      "gain": 0.45,
+      "why": "capsule opens"
+    },
+    {
+      "t": 9.89,
+      "sfx": "whoosh_in",
+      "gain": 0.5,
+      "why": "into scene 5"
+    },
+    {
+      "t": 10.84,
+      "sfx": "hit",
+      "gain": 0.55,
+      "why": "cut to scene 5 (stroke_reveal)"
+    },
+    {
+      "t": 11.39,
+      "sfx": "whoosh",
+      "gain": 0.7,
+      "why": "brush stroke"
+    },
+    {
+      "t": 12.29,
+      "sfx": "whoosh_in",
+      "gain": 0.75,
+      "why": "into scene 6"
+    },
+    {
+      "t": 13.24,
+      "sfx": "impact",
+      "gain": 0.95,
+      "why": "cut to scene 6 (cta_pill)"
+    },
+    {
+      "t": 13.49,
+      "sfx": "riser",
+      "gain": 0.6,
+      "why": "build into the logo"
+    },
+    {
+      "t": 13.69,
+      "sfx": "sparkle",
+      "gain": 0.55,
+      "why": "CTA fills"
+    },
+    {
+      "t": 15.64,
+      "sfx": "boom",
+      "gain": 0.9,
+      "why": "logo reveal"
+    },
+    {
+      "t": 16.04,
+      "sfx": "sparkle",
+      "gain": 0.5,
+      "why": "logo sparkle"
+    }
+  ],
+  "renders": [
+    {
+      "format": "9:16",
+      "file": "D3-R1_reel_ember-and-yaji_9x16.mp4",
+      "probe": {
+        "codec": "h264",
+        "width": 1080,
+        "height": 1920,
+        "pixFmt": "yuv420p",
+        "durationS": 19.2,
+        "sizeBytes": 2391490
+      },
+      "loudness": {
+        "lufs": -13.4,
+        "truePeak": -1.2
+      },
+      "sfx_cues": 55,
+      "qc": [
+        {
+          "item": "Resolution 1080×1920 matches 9:16",
+          "pass": true
+        },
+        {
+          "item": "Duration 19.20s vs storyboard 19.2s",
+          "pass": true
+        },
+        {
+          "item": "H.264 / yuv420p (plays on Instagram, TikTok, WhatsApp, YouTube)",
+          "pass": true
+        },
+        {
+          "item": "File size 2.3 MB",
+          "pass": true
+        },
+        {
+          "item": "Hook lands within 2s (first scene animates in immediately)",
+          "pass": true
+        },
+        {
+          "item": "On-screen text readable without sound (≤ 3.3 words/s on the busiest scene)",
+          "pass": true
+        },
+        {
+          "item": "Ends on a call to action or brand sting",
+          "pass": true
+        },
+        {
+          "item": "Sound design: 55 SFX cues spotted to the picture, mixed under the music with ducking",
+          "pass": true
+        },
+        {
+          "item": "Mix loudness -13.4 LUFS (target -14 ±1.5), true peak -1.2 dBFS",
+          "pass": true
+        },
+        {
+          "item": "Brand palette applied",
+          "pass": true
+        }
+      ],
+      "render_seconds": 42
+    },
+    {
+      "format": "4:5",
+      "file": "D3-R1_reel_ember-and-yaji_4x5.mp4",
+      "probe": {
+        "codec": "h264",
+        "width": 1080,
+        "height": 1350,
+        "pixFmt": "yuv420p",
+        "durationS": 19.2,
+        "sizeBytes": 2102479
+      },
+      "loudness": {
+        "lufs": -13.4,
+        "truePeak": -1.2
+      },
+      "sfx_cues": 55,
+      "qc": [
+        {
+          "item": "Resolution 1080×1350 matches 4:5",
+          "pass": true
+        },
+        {
+          "item": "Duration 19.20s vs storyboard 19.2s",
+          "pass": true
+        },
+        {
+          "item": "H.264 / yuv420p (plays on Instagram, TikTok, WhatsApp, YouTube)",
+          "pass": true
+        },
+        {
+          "item": "File size 2.0 MB",
+          "pass": true
+        },
+        {
+          "item": "Hook lands within 2s (first scene animates in immediately)",
+          "pass": true
+        },
+        {
+          "item": "On-screen text readable without sound (≤ 3.3 words/s on the busiest scene)",
+          "pass": true
+        },
+        {
+          "item": "Ends on a call to action or brand sting",
+          "pass": true
+        },
+        {
+          "item": "Sound design: 55 SFX cues spotted to the picture, mixed under the music with ducking",
+          "pass": true
+        },
+        {
+          "item": "Mix loudness -13.4 LUFS (target -14 ±1.5), true peak -1.2 dBFS",
+          "pass": true
+        },
+        {
+          "item": "Brand palette applied",
+          "pass": true
+        }
+      ],
+      "render_seconds": 33
+    }
+  ]
+}

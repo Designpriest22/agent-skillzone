@@ -1,0 +1,17 @@
+{
+  "out_name": "D5-R1_reel_problem-to-fix",
+  "title": "Day 5 — Tell us the problem, we'll tell you the fix (studio, 19.2s)",
+  "objective": "Translate Prohub's services into the problems business owners actually describe, and generate qualified service enquiries. CTA: DM 'BUILD'.",
+  "style": "studio",
+  "brand": { "name": "Prohub", "accent": "#FD8D18", "shape": "#FD8D18", "stroke": "#FD8D18", "logo_svg_path": "../../../../../../prohub-os/assets/brand/prohub/prohub-logo.svg" },
+  "beat_seconds": 0.6, "beat_offset": 0.04, "fps": 30, "formats": ["9:16", "4:5"],
+  "audio_path": "../../../../../../prohub-os/content/ads/prohub-launch/media/soundtrack.m4a",
+  "scenes": [
+    { "layout": "type_line", "duration": 2.44, "background": "paper", "headline": "What's really holding your business back?" },
+    { "layout": "word_wheel", "duration": 3.6, "background": "ink", "headline": "Sound familiar?", "items": ["Nobody remembers us", "Our flyers look cheap", "Our page looks dead", "People scroll past", "No real website", "Busy, not growing"] },
+    { "layout": "pill_cycle", "duration": 3.6, "background": "ink", "transition": "wipe", "headline": "We fix it with", "words": ["brand identity", "design", "social media", "video", "websites", "strategy"] },
+    { "layout": "bento", "duration": 3.6, "background": "white", "transition": "punch", "headline": "One team. Every touchpoint.", "image_paths": ["../media/work_D1-01_feed_4x5_cover-your-logo.jpg", "../media/EY-board_sign.jpg", "../media/work_D4-05_carousel_4x5_trust.jpg", "../media/work_D2-05_carousel_4x5_leak-4.jpg", "../media/EY-board_packaging.jpg", "../media/work_D7-01_feed_4x5_december.jpg"] },
+    { "layout": "cta_pill", "duration": 2.4, "background": "ink", "transition": "punch", "headline": "Tell us what you're building.", "button": "DM BUILD" },
+    { "layout": "logo_end", "duration": 3.56, "background": "ink", "headline": "Creative & Digital Solutions" }
+  ]
+}
