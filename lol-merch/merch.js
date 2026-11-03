@@ -29,7 +29,7 @@ const G = {
     folds: [['d', 'M770,470 C700,540 640,600 590,640', 22], ['d', 'M230,470 C300,540 360,600 410,640', 22], ['d', 'M330,720 C320,850 300,980 296,1110', 30],
             ['d', 'M680,760 C690,880 702,990 712,1110', 30], ['l', 'M430,290 C420,520 410,800 404,1080', 40], ['l', 'M880,300 L930,440', 18], ['l', 'M150,300 L100,430', 14],
             ['d', 'M240,1060 C380,1040 620,1040 760,1060', 16]],
-    crestFront: { cx: 500, top: 250, w: 206 }, numBack: { cx: 500, top: 380, h: 330 }, nape: 212, dec: 352, jock: { x: 252, y: 1010 },
+    crestFront: { cx: 500, top: 250, w: 206 }, numBack: { cx: 500, top: 440, h: 330 }, nape: 212, dec: 412, jock: { x: 252, y: 1010 },
   },
   jersey: {
     label: 'Sleeveless Jersey',
@@ -41,7 +41,7 @@ const G = {
     seams: ['M216,1088 C360,1100 640,1100 784,1088'],
     folds: [['d', 'M330,520 C320,700 300,900 292,1100', 30], ['d', 'M672,520 C690,720 704,900 712,1100', 30], ['l', 'M440,330 C430,560 420,820 414,1080', 40],
             ['d', 'M236,1066 C380,1046 620,1046 764,1066', 16], ['d', 'M700,200 C705,300 720,380 760,430', 14]],
-    crestFront: { cx: 500, top: 330, w: 150 }, numBack: { cx: 500, top: 372, h: 340 }, nape: 210, dec: 344, jock: { x: 248, y: 1006 },
+    crestFront: { cx: 500, top: 330, w: 150 }, numBack: { cx: 500, top: 432, h: 340 }, nape: 210, dec: 404, jock: { x: 248, y: 1006 },
   },
   polo: {
     label: 'Collared Polo Jersey',
@@ -51,7 +51,19 @@ const G = {
     folds: [['d', 'M760,470 C700,540 650,590 610,620', 20], ['d', 'M240,470 C300,540 350,590 390,620', 20], ['d', 'M340,700 C330,850 316,980 312,1100', 28],
             ['d', 'M664,740 C672,860 684,990 690,1100', 28], ['l', 'M436,420 C428,620 420,860 416,1080', 38], ['l', 'M870,300 L910,420', 14],
             ['d', 'M256,1064 C390,1046 610,1046 744,1064', 14]],
-    crestFront: { cx: 640, top: 300, w: 104 }, numBack: { cx: 500, top: 370, h: 300 }, nape: 214, dec: 344, jock: { x: 268, y: 1004 },
+    crestFront: { cx: 640, top: 300, w: 104 }, numBack: null, nape: 214, dec: null, jock: { x: 268, y: 1004 },
+  },
+  tank: {
+    label: 'Boxy Sleeveless Tee',
+    body: 'M392,148 C440,160 560,160 608,148 L770,178 C782,180 788,190 788,202 C786,330 772,470 770,560 C772,580 790,594 812,598 L818,1078 C818,1088 812,1094 802,1095 C660,1104 340,1104 198,1095 C188,1094 182,1088 182,1078 L188,598 C210,594 228,580 230,560 C228,470 214,330 212,202 C212,190 218,180 230,178 Z',
+    arm: ['M788,202 C786,330 772,470 770,560 C772,580 790,594 812,598', 'M212,202 C214,330 228,470 230,560 C228,580 210,594 188,598'],
+    neckFront: 'M392,148 C420,236 580,236 608,148', neckBack: 'M392,148 C440,172 560,172 608,148',
+    neckHole: 'M392,148 C440,160 560,160 608,148 C580,236 420,236 392,148 Z',
+    seams: ['M192,1066 C340,1076 660,1076 808,1066'],
+    folds: [['d', 'M790,610 C720,660 670,700 620,730', 20], ['d', 'M210,610 C280,660 330,700 380,730', 20], ['d', 'M320,760 C312,880 300,980 296,1080', 30],
+            ['d', 'M690,780 C696,880 704,980 710,1080', 30], ['l', 'M430,290 C420,520 410,800 404,1060', 40], ['l', 'M760,240 L752,520', 12], ['l', 'M240,240 L248,520', 10],
+            ['d', 'M206,1040 C380,1022 620,1022 794,1040', 16]],
+    crestFront: { cx: 500, top: 250, w: 206 }, numBack: { cx: 500, top: 440, h: 330 }, nape: 212, dec: 412, jock: { x: 226, y: 986 },
   },
 };
 
@@ -116,17 +128,20 @@ function garmentSVG({ g, c, v, zoom = null, studio = true, id = 'a' }) {
       <text x="46" y="46" text-anchor="middle" font-family="BSD" font-weight="600" font-size="7.5" letter-spacing="1.2" fill="#BDB6AA">LOL FEST · ABUJA</text></g>`;
   } else {
     prints += `<text x="500" y="${S.nape}" text-anchor="middle" font-family="BSD" font-weight="800" font-size="22" letter-spacing="7" fill="${cw.text}" opacity=".92">LOL FEST 2026</text>`;
-    prints += layered('DEC', 500, S.dec, 78, cw, 22);
-    const nb = S.numBack;
-    prints += number13(nb.cx, nb.top, nb.h, cw, id);
-    prints += `<text x="500" y="${nb.top + nb.h + 58}" text-anchor="middle" font-family="BSD" font-weight="800" font-size="30" letter-spacing="12" fill="${cw.text}">ABUJA · NIGERIA</text>`;
+    if (S.numBack) {
+      prints += layered('DEC', 500, S.dec, 78, cw, 22);
+      prints += number13(S.numBack.cx, S.numBack.top, S.numBack.h, cw, id);
+    }
   }
   // ----- trims -----
   let trims = '';
   const neck = v === 'front' ? S.neckFront : S.neckBack;
-  if (g === 'tee') {
+  if (g === 'tee' || g === 'tank') {
     if (v === 'front') trims += `<path d="${S.neckHole}" fill="${cw.inner}"/><path d="M392,148 C440,160 560,160 608,148" stroke="${cw.inner}" stroke-width="10" fill="none" opacity=".6"/>`;
     trims += `<path d="${neck}" stroke="${shade(cw.body, dark ? 1.25 : 0.93)}" stroke-width="22" fill="none"/><path d="${neck}" stroke="${dark ? 'rgba(255,255,255,.18)' : 'rgba(0,0,0,.25)'}" stroke-width="1.6" stroke-dasharray="5 4" fill="none" transform="translate(0 13)"/>`;
+  }
+  if (g === 'tank') {
+    S.arm.forEach(a => { trims += `<path d="${a}" stroke="${shade(cw.body, dark ? 1.18 : 0.94)}" stroke-width="26" fill="none"/><path d="${a}" stroke="${dark ? 'rgba(255,255,255,.2)' : 'rgba(0,0,0,.26)'}" stroke-width="1.6" stroke-dasharray="5 4" fill="none" transform="translate(${a.startsWith('M788') ? -11 : 11} 0)"/>`; });
   }
   if (g === 'jersey') {
     if (v === 'front') trims += `<path d="${S.neckHole}" fill="${cw.inner}"/>`;
@@ -204,6 +219,7 @@ function garmentSVG({ g, c, v, zoom = null, studio = true, id = 'a' }) {
 }
 
 function zoomBox(S, v, zoom) {
+  if (zoom === 'nape') return '290 70 420 420';
   if (zoom === 'logo') { const c = S.crestFront, h = c.w * 1.18, m = c.w * 0.32; const s = Math.max(c.w, h) + m * 2; return `${c.cx - s / 2} ${c.top + h / 2 - s / 2} ${s} ${s}`; }
   const n = S.numBack, w = (NUM_W * n.h) / NUM_H, s = w * 1.22;
   return `${n.cx - s / 2} ${n.top + n.h * 0.3} ${s} ${s}`;

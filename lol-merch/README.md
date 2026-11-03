@@ -6,9 +6,9 @@ A concept board and studio mockups for Live Out Loud Music Festival merchandise.
 
 ## Outputs (`out/`)
 - `LOL-FEST-2026-merch-board.png` / `.pdf`: the full concept board (2400 px wide)
-- `mockups/`: 18 garment views plus 6 close-ups
-  - Views are named `<tee|jersey|polo>-<onyx|chalk|ember>-<front|back>.png`
-  - Close-ups are named `…-front-logo.png` and `…-back-number.png`
+- `mockups/`: 24 garment views (4 garments × 3 colourways × front/back) plus close-ups
+  - Views are named `<tee|tank|jersey|polo>-<onyx|chalk|ember>-<front|back>.png`
+  - Close-ups are named `…-front-logo.png`, `…-back-number.png` and, for the clean-back polo, `…-back-nape.png`
 
 ## How it's built
 - `tools/cut_logo.py` cuts the logo from the official flyer. The original pixels are kept and only the background is removed. For production, use the festival's master logo file.

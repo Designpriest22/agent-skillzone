@@ -52,7 +52,7 @@ figcaption { font: 800 19px/1 BSD; letter-spacing: 4px; color: var(--muted); pad
 .spec b { font: 800 19px/1.3 BSD; letter-spacing: 2.5px; text-transform: uppercase; }
 .tag { display: inline-block; background: var(--ink); color: var(--paper); font: 800 20px/1 BSD; letter-spacing: 4px; padding: 10px 14px 9px; margin-bottom: 18px; }
 /* colourways */
-.matrix { display: grid; grid-template-columns: 200px repeat(3, 1fr); gap: 18px; margin-top: 40px; align-items: center; }
+.matrix { display: grid; grid-template-columns: 200px repeat(4, 1fr); gap: 18px; margin-top: 40px; align-items: center; }
 .matrix .h { font: 800 26px/1 BSD; letter-spacing: 4px; text-align: center; text-transform: uppercase; }
 .matrix .rl b { display: block; font: 900 40px/1 BSD; letter-spacing: 3px; }
 .matrix .rl span { font-size: 18px; color: var(--muted); }
@@ -98,7 +98,7 @@ td:first-child { font: 800 21px/1.25 BSD; letter-spacing: 2px; text-transform: u
       <div class="pillars">
         <div><b>Crest on the chest</b><span>The original logo, never redrawn, set on a black crest badge with a gold rule. One treatment on every garment and every colour.</span></div>
         <div><b>13 on the back</b><span>Custom chamfered numerals built like tackle twill: fill, gap, outline and an inner stitch line. DEC sits above in the same layers.</span></div>
-        <div><b>Matchday details</b><span>"LOL FEST 2026" nape print, "ABUJA · NIGERIA" under the number, and an "Official Merchandise" jock tag at the hem.</span></div>
+        <div><b>Matchday details</b><span>A "LOL FEST 2026" nape print and an "Official Merchandise" jock tag at the hem. The collared polo keeps a clean back.</span></div>
       </div>
       <div class="ident" style="grid-template-columns: 1fr 1fr; margin-top: 30px">
         <div class="card"><h3>The palette, from the logo</h3>
@@ -114,7 +114,7 @@ td:first-child { font: 800 21px/1.25 BSD; letter-spacing: 2px; text-transform: u
         </div>
         <div class="card"><h3>Type</h3>
           <div style="font:900 120px/0.9 BSD;letter-spacing:4px">DEC 13</div>
-          <div style="font:800 34px/1.2 BSD;letter-spacing:10px;margin-top:10px">ABUJA · NIGERIA</div>
+          <div style="font:800 34px/1.2 BSD;letter-spacing:10px;margin-top:10px">LOL FEST 2026</div>
           <p class="muted" style="font-size:20px;margin-top:16px">Supporting type is Big Shoulders Display (open source, OFL): condensed, sporty, made for nameplates. The numerals 1 and 3 are custom-drawn, not a font, so the 13 is unique to LOL FEST.</p>
         </div>
       </div>
@@ -130,6 +130,7 @@ td:first-child { font: 800 21px/1.25 BSD; letter-spacing: 2px; text-transform: u
 <section class="sec" id="dA"></section>
 <section class="sec" id="dB"></section>
 <section class="sec" id="dC"></section>
+<section class="sec" id="dD"></section>
 
 <section class="sec">
   <div class="eyebrow">Colourways</div>
@@ -144,14 +145,13 @@ td:first-child { font: 800 21px/1.25 BSD; letter-spacing: 2px; text-transform: u
     <div>
       <h3 style="margin-bottom:16px">Placement guide (size L)</h3>
       <table>
-        <tr><th>Element</th><th>Tee</th><th>Jersey</th><th>Polo</th></tr>
-        <tr><td>Front crest</td><td>Centre chest, 22 cm wide, top 10 cm below HPS</td><td>Centre chest, 16 cm wide, 3 cm below neck binding</td><td>Left chest (wearer's), 9.5 cm wide, top 16 cm below HPS</td></tr>
-        <tr><td>Nape print</td><td colspan="3">"LOL FEST 2026", 2.5 cm cap height, centred 6 cm below back neck seam</td></tr>
-        <tr><td>DEC</td><td colspan="3">6 cm cap height, centred, 2 cm above the number</td></tr>
-        <tr><td>13</td><td>35 cm high, top 24 cm below back neck</td><td>36 cm high</td><td>32 cm high</td></tr>
-        <tr><td>Under number</td><td colspan="3">"ABUJA · NIGERIA", 3 cm cap height, 3 cm below the number</td></tr>
-        <tr><td>Jock tag</td><td colspan="3">Wearer's right front, 6 cm above hem, 9 × 5.5 cm woven label</td></tr>
-        <tr><td>Polo only</td><td colspan="3">"LOL FEST / ABUJA · 2026" tonal embroidery, wearer's right chest, opposite the crest</td></tr>
+        <tr><th>Element</th><th>Tee</th><th>Sleeveless</th><th>Jersey</th><th>Polo</th></tr>
+        <tr><td>Front crest</td><td>Centre chest, 22 cm wide, top 10 cm below HPS</td><td>Centre chest, 22 cm wide, top 10 cm below HPS</td><td>Centre chest, 16 cm wide, 3 cm below neck binding</td><td>Left chest (wearer's), 9.5 cm wide, top 16 cm below HPS</td></tr>
+        <tr><td>Nape print</td><td colspan="4">"LOL FEST 2026", 2.5 cm cap height, centred 6 cm below back neck seam</td></tr>
+        <tr><td>DEC</td><td colspan="3">6 cm cap height, centred, top 22 cm below back neck, 2 cm above the number</td><td>None</td></tr>
+        <tr><td>13</td><td>35 cm high, top 31 cm below back neck</td><td>35 cm high, top 31 cm below back neck</td><td>36 cm high</td><td>None: clean back</td></tr>
+        <tr><td>Jock tag</td><td colspan="4">Wearer's right front, 6 cm above hem, 9 × 5.5 cm woven label</td></tr>
+        <tr><td>Polo only</td><td colspan="4">"LOL FEST / ABUJA · 2026" tonal embroidery, wearer's right chest, opposite the crest</td></tr>
       </table>
     </div>
     <div>
@@ -160,7 +160,8 @@ td:first-child { font: 800 21px/1.25 BSD; letter-spacing: 2px; text-transform: u
         <tr><th>Item</th><th>Recommendation</th></tr>
         <tr><td>Tee</td><td>260–280 gsm combed ring-spun cotton jersey, boxy drop shoulder, 2.5 cm rib neck, garment-dyed for Onyx and Ember. Crest: digital (DTF) print with a high-density clear top-coat. Number: layered tackle-twill appliqué with zig-zag stitch (premium) or layered HD plastisol print (volume).</td></tr>
         <tr><td>Jersey</td><td>160–180 gsm recycled-polyester micro-mesh, moisture-wicking. 2.5 cm contrast rib binding with a knitted accent stripe. Side stripes knitted in. Number: cut heat-transfer TPU in 3 layers. Chalk body can be fully sublimated.</td></tr>
-        <tr><td>Polo</td><td>220 gsm cotton-poly piqué, flat-knit collar and cuffs with tipping, 2-button placket with branded buttons. Number: tackle twill on Onyx and Ember, heat-transfer on Chalk.</td></tr>
+        <tr><td>Polo</td><td>220 gsm cotton-poly piqué, flat-knit collar and cuffs with tipping, 2-button placket with branded buttons. Back: clean, nape print only.</td></tr>
+        <tr><td>Sleeveless</td><td>240–260 gsm combed cotton jersey, boxy cropped fit. Square cut-away armholes finished with a turned, twin-needle-stitched band, and a 2.5 cm rib crew neck. Crest: DTF + HD top-coat. Number: tackle twill or layered HD print.</td></tr>
         <tr><td>Crest</td><td>Dye-sublimated woven badge with a merrowed gold border, heat-sealed then edge-stitched. This keeps the logo's 3D gradients exactly as supplied; thread embroidery cannot reproduce them.</td></tr>
         <tr><td>Finishing</td><td>Tagless printed neck label (size + "Official Merchandise"), woven jock tag, wash-tested for shrinkage and number lift (ISO 6330), size run XS–3XL.</td></tr>
       </table>
@@ -172,11 +173,11 @@ td:first-child { font: 800 21px/1.25 BSD; letter-spacing: 2px; text-transform: u
 <section class="sec hero">
   <div>
     <div class="eyebrow" style="color:var(--gold)">Recommended hero</div>
-    <h2 style="margin-top:16px">The Matchday<br>Polo · <span>Onyx</span></h2>
+    <h2 style="margin-top:16px">The Crowd<br>Tee · <span>Onyx</span></h2>
     <ul>
-      <li><b>Most "official".</b> The collar, placket and left-chest crest give it the credibility of a real club kit, which a tee can't.</li>
+      <li><b>It carries the whole idea.</b> Crest on the chest, DEC 13 on the back: the matchday concept in its simplest, most wearable form.</li>
       <li><b>Onyx sells to everyone.</b> Black is the night-show staple, it photographs well under stage light, and the white 13 reads from the back of the crowd.</li>
-      <li><b>A pyramid to launch with.</b> Lead with the polo as the premium hero. The Onyx tee is the volume driver, and the jersey and Ember drop add hype.</li>
+      <li><b>A launch line-up.</b> The tee is the volume hero. The boxy sleeveless is the trend piece, the jersey is the hype drop, and the clean-back polo is the premium, understated option.</li>
     </ul>
   </div>
   <div class="pair" id="hero"></div>
@@ -193,9 +194,12 @@ const D = {
   dB: { g: 'jersey', c: 'chalk', tag: 'Design B', name: 'The Courtside Jersey', line: 'Sleeveless jersey',
         desc: 'An athletic sleeveless cut from basketball and football training jerseys, with a deep scoop neck and wide armholes. The rib binding carries a knitted accent stripe, and twin stripes run down each side seam. Mesh body, built for a hot crowd.',
         spec: [['Fit', 'Athletic straight cut, deep armholes'], ['Fabric', '160–180 gsm recycled poly micro-mesh'], ['Trims', '2.5 cm contrast rib binding with accent stripe; knitted side stripes'], ['Crest', 'Sublimated woven badge, 16 cm, heat-sealed'], ['Number', 'Heat-transfer TPU, 3 cut layers, gloss fill']] },
+  dD: { g: 'tank', c: 'onyx', tag: 'Design D', name: 'The Boxy Sleeveless', line: 'Boxy sleeveless tee',
+        desc: 'A heavyweight cotton muscle tee with square shoulders, deep cut-away armholes finished with a stitched band, and a boxy, slightly cropped body. It shares the tee\'s centre-chest crest and the full DEC 13 back: the trend piece of the drop.',
+        spec: [['Fit', 'Boxy, slightly cropped, square cut-away armholes'], ['Fabric', '240–260 gsm combed cotton jersey'], ['Trims', '2.5 cm rib crew neck; turned and twin-needle-stitched armhole band'], ['Crest', 'DTF print with HD top-coat, 22 cm'], ['Number', 'Tackle twill, 3 layers + zig-zag stitch']] },
   dC: { g: 'polo', c: 'ember', tag: 'Design C', name: 'The Matchday Polo', line: 'Collared polo jersey',
-        desc: 'A structured collared jersey with a flat-knit tipped collar and cuffs, a two-button placket, and the crest at left chest where a club badge sits. The Ember colourway adds gold-pinstriped twill numerals for an exclusive, collectible finish.',
-        spec: [['Fit', 'Regular, set-in sleeve, rib cuffs'], ['Fabric', '220 gsm cotton-poly piqué'], ['Collar', 'Flat-knit with contrast tipping, branded buttons'], ['Crest', 'Sublimated woven badge, 9.5 cm, edge-stitched'], ['Number', 'Pinstriped tackle twill with gold outline (Ember)']] },
+        desc: 'A structured collared jersey with a flat-knit tipped collar and cuffs, a two-button placket, and the crest at left chest where a club badge sits. The back stays clean apart from the nape print, which makes it the most understated piece in the drop.',
+        spec: [['Fit', 'Regular, set-in sleeve, rib cuffs'], ['Fabric', '220 gsm cotton-poly piqué'], ['Collar', 'Flat-knit with contrast tipping, branded buttons'], ['Crest', 'Sublimated woven badge, 9.5 cm, edge-stitched'], ['Back', 'Clean: "LOL FEST 2026" nape print only']] },
 };
 for (const [id, d] of Object.entries(D)) {
   const n = `${d.g}-${d.c}`;
@@ -204,13 +208,13 @@ for (const [id, d] of Object.entries(D)) {
     <div><span class="tag">${d.tag}</span><h2>${d.name}</h2><div style="font:800 28px/1.2 BSD;letter-spacing:4px;color:var(--muted);margin:12px 0 22px;text-transform:uppercase">${d.line}</div>
       <p>${d.desc}</p>
       <div class="spec">${d.spec.map(([k, v]) => `<div><b>${k}</b><span>${v}</span></div>`).join('')}</div>
-      <div class="closeups">${img(n + '-front-logo', 'Crest close-up')}${img(n + '-back-number', 'Number close-up')}</div></div></div>`;
+      <div class="closeups">${img(n + '-front-logo', 'Crest close-up')}${d.g === 'polo' ? img(n + '-back-nape', 'Back collar & nape') : img(n + '-back-number', 'Number close-up')}</div></div></div>`;
 }
-const Cs = ['onyx', 'chalk', 'ember'], Gs = ['tee', 'jersey', 'polo'];
+const Cs = ['onyx', 'chalk', 'ember'], Gs = ['tee', 'tank', 'jersey', 'polo'];
 document.getElementById('matrix').innerHTML = `<div></div>${Gs.map(g => `<div class="h">${M.G[g].label}</div>`).join('')}` +
   Cs.map(c => { const cw = M.CW[c]; return `<div class="rl"><b>${cw.name}</b><span>${cw.note}</span><div class="chips">${[cw.body, cw.num.fill, cw.num.line, cw.trim].map(x => `<i style="background:${x}"></i>`).join('')}</div></div>` +
     Gs.map(g => `<div class="cell"><img class="r" src="out/mockups/${g}-${c}-front.png"><img class="r" src="out/mockups/${g}-${c}-back.png"></div>`).join(''); }).join('');
-document.getElementById('hero').innerHTML = img('polo-onyx-front', 'Front') + img('polo-onyx-back', 'Back');
+document.getElementById('hero').innerHTML = img('tee-onyx-front', 'Front') + img('tee-onyx-back', 'Back');
 // numbering anatomy: the three treatments drawn live from the same system
 document.getElementById('anat').innerHTML = Cs.map((c, i) => { const cw = M.CW[c];
   return `<div style="background:${cw.body};padding:26px 0 10px"><svg viewBox="0 0 600 520" width="100%"><defs>
