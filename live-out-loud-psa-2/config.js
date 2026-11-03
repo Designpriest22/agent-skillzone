@@ -9,7 +9,7 @@ window.CONFIG = {
     "line1": "PUBLIC SERVICE",
     "line2": "ANNOUNCEMENT",
     "stamp": "(PSA)",
-    "sub1": "YOUR GUIDE ON HOW TO PULL UP TO",
+    "sub1": "HOW TO PULL UP TO",
     "sub2": "LIVE OUT LOUD",
     "sub3": "ON DEC 13TH"
   },

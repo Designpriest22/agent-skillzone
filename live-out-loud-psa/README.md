@@ -4,7 +4,7 @@ A 32-second, 1080×1920, 30 fps ad built on a supplied clip (`assets/source.mov`
 
 | Time | What's on screen |
 |---|---|
-| 0–3.6 s | Title card over the dimmed, blurred clip: **PUBLIC SERVICE ANNOUNCEMENT (PSA)**, *Your guide on how to pull up to* **LIVE OUT LOUD** *on Dec 13th*, framed by hazard stripes |
+| 0–3.6 s | Title card over the dimmed, blurred clip: **PUBLIC SERVICE ANNOUNCEMENT (PSA)**, *How to pull up to* **LIVE OUT LOUD** *on Dec 13th*, framed by hazard stripes |
 | 4–18.4 s | The clip plays clean, with a small "⚠ PSA · HOW TO PULL UP · DEC 13TH" tag under the burned-in lyrics |
 | 19 s → end | Event artwork: the original flyer over the blurred skyline footage, with "13 DEC 2026 · EAGLE SQUARE, ABUJA" and the **WIZKID.TIX.AFRICA** button |
 
