@@ -112,6 +112,68 @@ p { margin: 0 0 12px; }
 .partners .s { font: italic 400 16px/1 OldStd; color: #BFB5A6; }
 .partners img { display: block; width: 100%; margin-top: 8px; }
 
+
+/* ---------- shared defs for vector art ---------- */
+.page svg { overflow: visible; }
+.expect svg, .pack svg { fill: none; stroke: #1A1613; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+
+/* ---------- page 2 v2 ---------- */
+.p2head { position: relative; }
+.p2head h1 { position: relative; z-index: 1; }
+.beams { position: absolute; right: -54px; top: 0; width: 640px; height: 100%; pointer-events: none; }
+.burst { position: relative; width: 210px; height: 210px; margin: -26px 6px -20px 0; transform: rotate(-8deg); flex: none; z-index: 2; }
+.burst svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+.burst .bt { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #FFF7EC; }
+.burst .bt span { font: 900 78px/0.9 Playfair; }
+.burst .bt small { font: 700 15px/1 OldStd; letter-spacing: 3px; margin-top: 4px; }
+.deck2 { font: italic 400 23px/1.3 Playfair; padding: 14px 0 10px; }
+.expect .row { display: grid; grid-template-columns: repeat(6, 1fr); border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); margin-top: 10px; }
+.expect .row > div { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px 10px; font: 700 14px/1.15 OldStd; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; border-left: 1.5px solid var(--ink); }
+.expect .row > div:first-child { border-left: 0; }
+.expect svg { width: 74px; height: 74px; }
+.p2cols { display: grid; grid-template-columns: 1fr 350px; gap: 26px; margin-top: 18px; }
+.feedhead { display: flex; justify-content: space-between; align-items: center; background: var(--ink); color: var(--paper); padding: 9px 14px 8px; }
+.feedhead .t { font: 900 24px/1 Playfair; letter-spacing: 1px; }
+.feedhead .u { font: 700 13px/1 OldStd; letter-spacing: 2.5px; display: flex; align-items: center; gap: 8px; }
+.feedhead .u i { width: 10px; height: 10px; border-radius: 50%; background: #FF5A24; box-shadow: 0 0 0 3px rgba(255,90,36,.3); }
+.feed ol { list-style: none; margin: 0; padding: 4px 0 0 26px; position: relative; }
+.feed ol::before { content: ""; position: absolute; left: 7px; top: 14px; bottom: 26px; border-left: 2px solid var(--ink); }
+.feed li { position: relative; padding: 9px 0 9px; border-bottom: 1px dotted rgba(26,22,19,.45); }
+.feed li::before { content: ""; position: absolute; left: -25px; top: 14px; width: 12px; height: 12px; border-radius: 50%; background: var(--paper); border: 2.5px solid var(--ink); }
+.feed li.hot::before { background: var(--spot); border-color: var(--spot); }
+.feed .d { font: 700 12.5px/1 OldStd; letter-spacing: 2.5px; color: var(--spot); }
+.feed .h { font: 700 21px/1.2 Playfair; margin-top: 4px; }
+.feed .x { font: 400 15.5px/1.3 OldStd; color: var(--muted); margin-top: 2px; }
+.feed .x.u { font: 900 22px/1.2 Playfair; color: var(--spot); }
+.playlist em { font: 700 11px/1 OldStd; font-style: normal; letter-spacing: 2px; background: var(--spot); color: #FFF7EC; padding: 3px 5px 2px; margin-left: 8px; transform: translateY(-3px); }
+.p2bottom { position: absolute; left: 54px; right: 54px; bottom: 50px; display: grid; grid-template-columns: 1fr 350px; gap: 26px; }
+.p2bottom .ads { display: flex; flex-direction: column; gap: 8px; }
+.p2bottom .ad { font-size: 14.5px; padding: 8px 11px; }
+.p2bottom .ad b { font-size: 18px; margin-bottom: 3px; }
+
+/* ---------- page 3 v2 ---------- */
+.pack { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1.5px solid var(--ink); }
+.pack .it { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 14px 12px 12px; border-bottom: 1.5px solid var(--ink); border-left: 1.5px solid var(--ink); }
+.pack .it:nth-child(4n+1) { border-left: 0; }
+.pack .badge { width: 132px; height: 132px; border-radius: 50%; display: flex; align-items: center; justify-content: center; position: relative;
+  background: radial-gradient(circle, rgba(217,72,26,.20) 1.1px, rgba(0,0,0,0) 1.7px) 0 0/6px 6px; border: 2px solid var(--ink); }
+.pack .badge::after { content: ""; position: absolute; inset: 6px; border-radius: 50%; border: 1px dashed rgba(26,22,19,.5); }
+.pack svg { width: 104px; height: 104px; position: relative; z-index: 1; }
+.pack b { font: 900 22px/1.1 Playfair; margin-top: 10px; }
+.pack span { font: 400 15px/1.3 OldStd; color: var(--muted); margin-top: 4px; }
+.packnote { font: italic 400 15px/1.3 OldStd; color: var(--muted); padding: 8px 0 0; text-align: center; }
+.partners2 { position: absolute; left: 54px; right: 54px; bottom: 50px; background: #141110; color: var(--paper); padding: 16px 18px 18px; }
+.partners2 .phead { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1.5px solid rgba(239,232,217,.35); padding: 0 4px 12px; }
+.partners2 .t { font: 900 34px/1 Playfair; letter-spacing: 1px; }
+.partners2 .s { font: italic 400 16px/1 OldStd; color: #BFB5A6; }
+.tiles { display: grid; grid-template-columns: repeat(7, 1fr); }
+.tiles > div { height: 104px; display: flex; align-items: center; justify-content: center; padding: 10px; border-right: 1px solid rgba(239,232,217,.22); border-bottom: 1px solid rgba(239,232,217,.22); box-sizing: border-box; }
+.tiles > div:nth-child(7n) { border-right: 0; }
+.tiles > div:nth-child(n+8) { border-bottom: 0; }
+.tiles img { max-width: 100%; max-height: 72px; object-fit: contain; }
+.tiles .you { background: var(--spot); flex-direction: column; text-align: center; font: 700 12px/1.25 OldStd; letter-spacing: 1.5px; color: #FFF7EC; }
+.tiles .you strong { font: 900 22px/1 Playfair; letter-spacing: 0; display: block; margin-bottom: 4px; }
+
 /* ---------- page 4 ---------- */
 .p4 .sechead h1 { font-size: 84px; }
 .intro { font: italic 400 21px/1.38 Playfair; padding: 14px 0 12px; }
@@ -141,6 +203,10 @@ p { margin: 0 0 12px; }
 </style>
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute"><defs>
+  <pattern id="hatch" patternUnits="userSpaceOnUse" width="6" height="6" patternTransform="rotate(45)"><line x1="0" y1="0" x2="0" y2="6" stroke="#1A1613" stroke-width="1.5"/></pattern>
+  <pattern id="hatchSpot" patternUnits="userSpaceOnUse" width="7" height="7" patternTransform="rotate(35)"><line x1="0" y1="0" x2="0" y2="7" stroke="#D9481A" stroke-width="2"/></pattern>
+</defs></svg>
 
 <!-- ======================= PAGE 1 · COVER ======================= -->
 <section class="page" id="p1">
@@ -165,8 +231,8 @@ p { margin: 0 0 12px; }
       <div class="ticketoffice"><div class="t">THE TICKET OFFICE IS OPEN</div><div class="u">WIZKID.TIX.AFRICA</div></div>
       <div class="index">
         <div class="t">IN THIS ISSUE</div>
-        <div><b>2</b> Live Experience · The Rehearsal Playlist · The Classifieds</div>
-        <div><b>3</b> How to Pull Up · Our Partners</div>
+        <div><b>2</b> Live Experience · The Live Feed · Rehearsal Playlist</div>
+        <div><b>3</b> The Packing List · Our Partners</div>
         <div><b>4</b> The Big Wiz Word Hunt, with a secret message</div>
       </div>
     </div>
@@ -186,42 +252,55 @@ p { margin: 0 0 12px; }
 <section class="page" id="p2">
   <div class="ticker">LIVE OUT LOUD MUSIC FESTIVAL<b>★</b>13.12.2026<b>★</b>EAGLE SQUARE, ABUJA<b>★</b>WIZKID.TIX.AFRICA</div>
   <div class="dbl"></div>
-  <div class="sechead"><h1>LIVE<br>EXPERIENCE</h1><div class="pg">PAGE 2<br>THE LIVE OUT LOUD TIMES</div></div>
+  <div class="sechead p2head">
+    <svg class="beams" viewBox="0 0 600 300" preserveAspectRatio="none"><path d="M600 0 L330 300 L430 300 Z M600 0 L470 300 L560 300 Z M600 0 L190 300 L280 300 Z" fill="url(#hatchSpot)" opacity=".55"/></svg>
+    <h1>LIVE<br>EXPERIENCE</h1>
+    <div class="burst" id="burst"><svg viewBox="0 0 200 200"><polygon id="burstPoly" fill="#D9481A" stroke="#1A1613" stroke-width="3"/></svg>
+      <div class="bt"><span id="daysLeft">40</span><small>DAYS TO GO</small></div></div>
+  </div>
   <div class="dbl inv"></div>
-  <div class="p2grid">
-    <div>
-      <h3>What fans can expect</h3>
-      <div class="body">
-        <p>Expect a premium concert experience with large-scale LED visuals, immersive lighting, concert-grade sound and staging, curated festival installations, lifestyle activations and premium hospitality zones, plus food vendors and merchandise. Every part of the night has been planned, from the moment you arrive to the final encore.</p>
-      </div>
-      <div class="hair" style="margin:16px 0 14px"></div>
-      <h2>CULTURE</h2>
-      <h3>More than music</h3>
-      <div class="body nodrop">
-        <p>Festivals are no longer only about the music. They are where fashion, photography, art, food and youth culture meet. Live Out Loud is built for exactly that: a night to dress up, show up and be part of the story, in the heart of the capital.</p>
-      </div>
+  <div class="deck2">Fashion, photography, art, food and Afrobeats: one night in the heart of the capital.</div>
+  <div class="expect">
+    <span class="label">What fans can expect</span>
+    <div class="row">
+      <div><svg viewBox="0 0 120 120"><rect x="14" y="22" width="92" height="60" rx="5" fill="#F4E9DA"/><g fill="#1A1613" stroke="none" id="ledDots"></g><path d="M50 82 l-6 18 M70 82 l6 18 M36 100 h48"/></svg>LED screens</div>
+      <div><svg viewBox="0 0 120 120"><path d="M44 18 L14 104 L64 104 Z" fill="url(#hatchSpot)" stroke="none"/><path d="M44 18 L14 104 M44 18 L64 104" stroke-dasharray="3 6"/><rect x="34" y="8" width="40" height="22" rx="6" transform="rotate(20 54 19)" fill="#1A1613"/><path d="M86 22 l8 -8 M92 34 h12 M86 46 l8 8" /><circle cx="78" cy="34" r="6" fill="#D9481A"/></svg>Immersive lighting</div>
+      <div><svg viewBox="0 0 120 120"><rect x="26" y="14" width="46" height="92" rx="5" fill="#F4E9DA"/><circle cx="49" cy="40" r="11" fill="url(#hatch)"/><circle cx="49" cy="78" r="17" fill="#D9481A"/><circle cx="49" cy="78" r="6" fill="#1A1613"/><path d="M82 46 q10 14 0 28 M92 38 q16 22 0 44 M102 30 q22 30 0 60"/></svg>Concert sound</div>
+      <div><svg viewBox="0 0 120 120"><path d="M20 104 L60 22 L100 104 Z" fill="#F4E9DA"/><path d="M40 104 L60 62 L80 104" fill="url(#hatch)"/><circle cx="86" cy="34" r="14" fill="#D9481A"/><path d="M12 104 h96"/></svg>Art installations</div>
+      <div><svg viewBox="0 0 120 120"><path d="M26 24 h50 l-25 34 z" fill="#F4E9DA"/><path d="M33 33 h36 l-18 24 z" fill="#D9481A" stroke="none"/><path d="M51 58 v34 M36 96 h30"/><circle cx="78" cy="26" r="9" fill="#F4E9DA"/><path d="M78 17 v18 M69 26 h18"/><path d="M90 50 q8 6 0 14 q-8 6 0 14" /></svg>Hospitality zones</div>
+      <div><svg viewBox="0 0 120 120"><path d="M38 22 l-24 14 l10 20 l10 -5 v50 h52 v-50 l10 5 l10 -20 l-24 -14 q-12 12 -22 0 z" fill="#F4E9DA"/><path d="M60 50 l5 11 l12 1 l-9 8 l3 12 l-11 -7 l-11 7 l3 -12 l-9 -8 l12 -1 z" fill="#D9481A"/></svg>Food &amp; merch</div>
+    </div>
+  </div>
+  <div class="p2cols">
+    <div class="feed">
+      <div class="feedhead"><span class="t">THE LIVE FEED</span><span class="u"><i></i>UPDATED <span id="issueDate">3 NOV 2026</span></span></div>
+      <ol>
+        <li><div class="d">TODAY · COUNTDOWN</div><div class="h"><span id="daysLeft2">40</span> days to Eagle Square.</div><div class="x">Sunday 13 December 2026. Set the reminder now.</div></li>
+        <li><div class="d">OCT 2026 · CONFIRMED</div><div class="h">Wizkid headlines Live Out Loud in Abuja.</div><div class="x">Eagle Square, Sunday 13 December. Announced in mid-October.</div></li>
+        <li><div class="d">OCT 2026 · ABUJA FIRST</div><div class="h">The capital gets Big Wiz before Lagos.</div><div class="x">His December run opens in Abuja, five days before his Lagos show on 18 December.</div></li>
+        <li><div class="d">JAN 2026 · ON REPEAT</div><div class="h">“Jogodo” with Asake.</div><div class="x">Lead single from their joint EP <i>Real, Vol. 1</i>. Now on the rehearsal playlist.</div></li>
+        <li class="hot"><div class="d">NOW · TICKETS</div><div class="h">Tickets are live on Tix Africa.</div><div class="x u">wizkid.tix.africa</div></li>
+      </ol>
     </div>
     <div class="boxed playlist">
       <span class="label spotbg">The rehearsal playlist</span>
       <ol>
-        <li>Ojuelegba<span></span></li><li>Essence<span></span></li><li>Joro<span></span></li><li>Soco<span></span></li><li>Fever<span></span></li>
-        <li>Come Closer<span></span></li><li>Ginger<span></span></li><li>Pakurumo<span></span></li><li>Holla at Your Boy<span></span></li><li>Kese (Dance)<span></span></li>
+        <li>Jogodo <em>NEW</em><span></span></li><li>Ojuelegba<span></span></li><li>Essence<span></span></li><li>Joro<span></span></li><li>Soco<span></span></li>
+        <li>Fever<span></span></li><li>Come Closer<span></span></li><li>Ginger<span></span></li><li>Pakurumo<span></span></li><li>Kese (Dance)<span></span></li>
       </ol>
-      <div class="note">Homework, not the official setlist. Learn the words before 13 December.</div>
+      <div class="note">Homework, not the official setlist.</div>
     </div>
   </div>
-  <div class="classifieds">
-    <span class="label">The classifieds</span>
-    <div class="grid">
-      <div class="ad"><b>WANTED</b>Five friends who know every word of <i>Ojuelegba</i>. Report to Eagle Square, 13 December. Apply: <span class="u">wizkid.tix.africa</span></div>
+  <div class="p2bottom">
+    <div>
+      <div class="photo" style="height:248px"><img src="assets/img/wiz-chair.jpg" style="object-position:50% 27%"></div>
+      <div class="caption">BIG WIZ · 13.12.26 · EAGLE SQUARE</div>
+    </div>
+    <div class="ads">
+      <div class="ad"><b>WANTED</b>Five friends who know every word of <i>Ojuelegba</i>. Report to Eagle Square, 13 Dec. Apply: <span class="u">wizkid.tix.africa</span></div>
       <div class="ad"><b>LOST</b>Your excuse for missing Big Wiz in Abuja. If found, please do not return.</div>
-      <div class="ad"><b>NOTICE TO GROUP CHATS</b>Outfit discussions may begin only after every member has a ticket.</div>
-      <div class="ad hot"><b>FOR SALE</b>Tickets to Live Out Loud Music Festival. Available now. Don't wait till 12 December. <span class="u">wizkid.tix.africa</span></div>
+      <div class="ad hot"><b>FOR SALE</b>Tickets to Live Out Loud. Don't wait till 12 December. <span class="u">wizkid.tix.africa</span></div>
     </div>
-  </div>
-  <div style="position:absolute;left:54px;right:54px;bottom:54px">
-    <div class="photo" style="height:232px"><img src="assets/img/wiz-chair.jpg" style="object-position:50% 27%"></div>
-    <div class="caption" style="display:flex;justify-content:space-between"><span>BIG WIZ · 13.12.26 · EAGLE SQUARE</span><span>Tickets: wizkid.tix.africa</span></div>
   </div>
 </section>
 
@@ -229,33 +308,20 @@ p { margin: 0 0 12px; }
 <section class="page" id="p3">
   <div class="ticker">LIVE OUT LOUD MUSIC FESTIVAL<b>★</b>13.12.2026<b>★</b>EAGLE SQUARE, ABUJA<b>★</b>WIZKID.TIX.AFRICA</div>
   <div class="dbl"></div>
-  <div class="sechead"><h1>FESTIVAL<br>ESSENTIALS</h1><div class="pg">PAGE 3<br>THE LIVE OUT LOUD TIMES</div></div>
+  <div class="sechead"><h1>FESTIVAL<br>ESSENTIALS</h1><div class="pg">PAGE 3<br>THE PACKING LIST</div></div>
   <div class="dbl inv"></div>
-  <div class="p3top">
-    <div>
-      <div class="kicker spot" style="margin-bottom:8px">The sound</div>
-      <h2>THE GLOBAL RISE<br>OF AFROBEATS</h2>
-      <div class="body">
-        <p>Afrobeats has grown from a regional sound into one of the world's most celebrated music movements, carried by streaming, international collaborations and sold-out arenas. Wizkid has played a major part in that rise, proving that African music can travel without losing itself, and opening doors for a new generation of Nigerian artists.</p>
-      </div>
-    </div>
-    <div>
-      <div class="photo" style="height:300px"><img src="assets/img/wiz-portrait.jpg" style="object-position:50% 28%"></div>
-      <div class="caption">Wizkid: from Lagos to the world, and now to Eagle Square.</div>
-    </div>
+  <div class="deck2">The packing list festival guides recommend the world over, adapted for a harmattan night in Abuja.</div>
+  <div class="pack">
+    <div class="it"><div class="badge"><svg viewBox="0 0 120 120"><g transform="rotate(-12 60 60)"><path d="M12 38 h96 v12 a10 10 0 0 0 0 20 v12 h-96 v-12 a10 10 0 0 0 0 -20 z" fill="#F4E9DA"/><path d="M82 38 h26 v12 a10 10 0 0 0 0 20 v12 h-26 z" fill="#D9481A"/><path d="M82 42 v36" stroke-dasharray="3 5"/><path d="M46 46 l3.5 7.5 l8 .8 l-6 5.5 l1.8 8 l-7.3 -4.2 l-7.3 4.2 l1.8 -8 l-6 -5.5 l8 -.8 z" fill="#1A1613" stroke="none"/><path d="M28 74 h36" stroke-width="2"/></g></svg></div><b>Your ticket</b><span>Get it first, on your phone and ready at the gate.</span></div>
+    <div class="it"><div class="badge"><svg viewBox="0 0 120 120"><rect x="14" y="30" width="92" height="62" rx="8" fill="#F4E9DA"/><path d="M22 30 h76 a8 8 0 0 1 8 8 v6 h-92 v-6 a8 8 0 0 1 8 -8 z" fill="#D9481A"/><rect x="24" y="52" width="28" height="32" rx="3" fill="url(#hatch)"/><circle cx="38" cy="63" r="6" fill="#F4E9DA"/><path d="M28 84 q10 -16 20 0" fill="#F4E9DA"/><path d="M60 56 h36 M60 66 h36 M60 76 h22"/></svg></div><b>Photo ID</b><span>Valid ID, in case it's asked for at entry.</span></div>
+    <div class="it"><div class="badge"><svg viewBox="0 0 120 120"><rect x="36" y="12" width="48" height="84" rx="11" fill="#F4E9DA"/><rect x="46" y="22" width="28" height="12" rx="2" fill="url(#hatch)"/><rect x="46" y="40" width="28" height="12" rx="2" fill="#D9481A"/><rect x="46" y="58" width="28" height="12" rx="2" fill="#D9481A"/><rect x="46" y="76" width="28" height="12" rx="2" fill="#D9481A"/><path d="M60 96 v8 q0 10 -14 10 h-16"/><rect x="18" y="108" width="12" height="8" rx="2" fill="#1A1613"/><path d="M96 30 l-8 16 h10 l-8 16" stroke="#D9481A" stroke-width="4"/></svg></div><b>Power bank</b><span>Fully charged. Your camera roll will thank you.</span></div>
+    <div class="it"><div class="badge"><svg viewBox="0 0 120 120"><path d="M14 82 v-38 q0 -6 7 -6 h12 q4 18 22 22 l26 4 q26 4 29 18 z" fill="#F4E9DA"/><path d="M14 82 v-38 q0 -6 7 -6 h6 v44 z" fill="url(#hatch)"/><path d="M86 66 q18 3 24 16 h-30 q0 -10 6 -16 z" fill="url(#hatch)"/><path d="M10 82 h102 v6 q0 8 -8 8 h-88 q-6 0 -6 -6 z" fill="#D9481A"/><path d="M40 52 l12 -4 M46 58 l12 -4 M54 62 l12 -4"/><circle cx="40" cy="52" r="2" fill="#1A1613"/><circle cx="46" cy="58" r="2" fill="#1A1613"/><circle cx="54" cy="62" r="2" fill="#1A1613"/><path d="M16 104 h90" stroke-dasharray="5 4" stroke-width="2.4"/></svg></div><b>Comfy shoes</b><span>You'll be on your feet from gates to encore.</span></div>
+    <div class="it"><div class="badge"><svg viewBox="0 0 120 120"><rect x="48" y="10" width="24" height="12" rx="3" fill="#1A1613"/><path d="M50 22 h20 v8 q12 6 12 18 v54 q0 8 -8 8 h-28 q-8 0 -8 -8 v-54 q0 -12 12 -18 z" fill="#F4E9DA"/><path d="M41 64 q9.5 -7 19 0 t19 0 v38 q0 5 -5 5 h-28 q-5 0 -5 -5 z" fill="#D9481A" stroke="none"/><path d="M38 80 h44" stroke-width="2"/><path d="M98 26 q8 12 0 17 q-8 -5 0 -17 z" fill="#F4E9DA"/></svg></div><b>Water</b><span>Stay hydrated; harmattan air is dry.</span></div>
+    <div class="it"><div class="badge"><svg viewBox="0 0 120 120"><g transform="rotate(-10 58 52)"><rect x="14" y="26" width="80" height="46" rx="4" fill="#F4E9DA"/><circle cx="54" cy="49" r="11" fill="url(#hatch)"/><path d="M22 34 h10 M76 64 h10"/></g><rect x="34" y="54" width="76" height="48" rx="7" fill="#D9481A"/><rect x="44" y="66" width="16" height="12" rx="2" fill="#F4E9DA"/><path d="M44 90 h56" stroke="#F4E9DA" stroke-dasharray="6 4"/></svg></div><b>Card &amp; cash</b><span>For food, drinks and merch on the night.</span></div>
+    <div class="it"><div class="badge"><svg viewBox="0 0 120 120"><rect x="32" y="24" width="22" height="42" rx="11" fill="#D9481A" transform="rotate(-14 43 45)"/><rect x="66" y="24" width="22" height="42" rx="11" fill="#D9481A" transform="rotate(14 77 45)"/><path d="M38 44 h12 M70 44 h12" stroke="#1A1613" stroke-width="2" transform="rotate(0)"/><path d="M47 66 q2 34 13 34 q11 0 13 -34"/><path d="M16 36 q-6 9 0 18 M8 30 q-10 15 0 30" stroke-width="2.4"/><path d="M104 36 q6 9 0 18 M112 30 q10 15 0 30" stroke-width="2.4"/></svg></div><b>Earplugs</b><span>Protect your ears near the speakers.</span></div>
+    <div class="it"><div class="badge"><svg viewBox="0 0 120 120"><path d="M42 18 l18 10 l18 -10 l22 12 l10 40 l-14 4 l-6 -22 v52 h-60 v-52 l-6 22 l-14 -4 l10 -40 z" fill="#F4E9DA"/><path d="M42 18 l18 16 l18 -16" fill="#D9481A"/><path d="M60 34 v70" stroke-dasharray="4 4"/><path d="M44 78 h10 M66 78 h10"/><path d="M38 52 v52 h-0" fill="url(#hatch)"/><path d="M6 20 h16 M2 30 h14 M8 40 h12" stroke="#D9481A" stroke-width="3"/></svg></div><b>Light jacket</b><span>Harmattan nights get cool after dark.</span></div>
   </div>
-  <div class="psa">
-    <span class="label spotbg">A public service announcement</span>
-    <h2>HOW TO PULL UP</h2>
-    <ol>
-      <li><span>Get your ticket first at <b class="spot">wizkid.tix.africa</b>. Everything else comes second.</span></li>
-      <li>Sort the squad. Agree a meeting point before you arrive.</li>
-      <li>Plan your ride to Eagle Square early; the Central Area will be busy.</li>
-      <li>Charge your phone and pack a power bank.</li>
-      <li>Outfit first, comfortable shoes a close second.</li>
-      <li>Learn the words. See the Rehearsal Playlist on page 2.</li>
-    </ol>
-  </div>
+  <div class="packnote">Pack light, and check the organiser's latest entry and bag rules before you go.</div>
   <div class="facts">
     <div><div class="k">WHAT</div><div class="v">Live Out Loud Music Festival</div></div>
     <div><div class="k">WHO</div><div class="v">Wizkid</div></div>
@@ -263,9 +329,9 @@ p { margin: 0 0 12px; }
     <div><div class="k">WHERE</div><div class="v">Eagle Square, Abuja</div></div>
     <div><div class="k">TICKETS</div><div class="v spot">wizkid.tix<wbr>.africa</div></div>
   </div>
-  <div class="partners">
-    <div class="row"><span class="t">OUR PARTNERS</span><span class="s">Live Out Loud Music Festival is supported by</span></div>
-    <img src="assets/img/sponsors.png" alt="Hennessy, Heineken, Coca-Cola, Desperados, BEST, AXE, Lord's Gin, Transcorp Hotels, Vodi Group, United Nigeria, Trace+, Square Meter, Nova Flair">
+  <div class="partners2">
+    <div class="phead"><span class="t">OUR PARTNERS</span><span class="s">Live Out Loud Music Festival is proudly supported by</span></div>
+    <div class="tiles" id="tiles"></div>
   </div>
 </section>
 
@@ -275,13 +341,13 @@ p { margin: 0 0 12px; }
   <div class="dbl"></div>
   <div class="sechead"><h1>THE BIG WIZ<br>WORD HUNT</h1><div class="pg">PAGE 4<br>PUZZLES</div></div>
   <div class="dbl inv"></div>
-  <div class="intro">Nineteen words are hiding in this grid: Wizkid's hits, his albums and the night itself. Look forwards, backwards, up, down and diagonally. We've circled <b>STARBOY</b> to get you started.</div>
+  <div class="intro"><span class="nwords">Nineteen</span> words are hiding in this grid: Wizkid's hits, his albums and the night itself. Look forwards, backwards, up, down and diagonally. We've circled <b>STARBOY</b> to get you started.</div>
   <div class="ws">
     <div class="gridwrap" id="grid"></div>
     <div class="wl" id="wordlist"></div>
   </div>
   <div class="secret">
-    <div class="h">THE SECRET MESSAGE<small>Found all 19? Read the 33 unused letters, left to right and top to bottom. They spell your next move.</small></div>
+    <div class="h">THE SECRET MESSAGE<small>Found all <span class="nnum">19</span>? Read the <span class="nfree">33</span> unused letters, left to right and top to bottom. They spell your next move.</small></div>
     <div class="blanks" id="blanks"></div>
   </div>
   <div class="p4foot"><span class="t">Stuck? The answer is on every page of this paper.</span><span class="u">WIZKID.TIX.AFRICA</span></div>
@@ -307,6 +373,27 @@ p { margin: 0 0 12px; }
   for (const [cat, words] of Object.entries(W.categories)) {
     wl.insertAdjacentHTML('beforeend', `<h3>${cat}</h3><ul>${words.map(w => `<li class="${w === W.example ? 'found' : ''}">${title(w)}</li>`).join('')}</ul>`);
   }
+
+  // page 4 copy follows the generated puzzle
+  const nw = Object.values(W.categories).flat().length, words = {19: 'Nineteen', 20: 'Twenty', 21: 'Twenty-one', 22: 'Twenty-two'};
+  document.querySelectorAll('.nwords').forEach(e => e.textContent = words[nw] || nw);
+  document.querySelectorAll('.nnum').forEach(e => e.textContent = nw);
+  document.querySelectorAll('.nfree').forEach(e => e.textContent = W.messageCells.length);
+
+  // page 2: countdown from the issue date, starburst, LED dot grid
+  const ISSUE = new Date('2026-11-03T12:00:00'), EVENT = new Date('2026-12-13T12:00:00');
+  const days = Math.round((EVENT - ISSUE) / 864e5);
+  document.getElementById('daysLeft').textContent = days; document.getElementById('daysLeft2').textContent = days;
+  document.getElementById('issueDate').textContent = ISSUE.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase();
+  const pts = []; for (let i = 0; i < 48; i++) { const r = i % 2 ? 78 : 98, t = i / 48 * Math.PI * 2; pts.push((100 + r * Math.cos(t)).toFixed(1) + ',' + (100 + r * Math.sin(t)).toFixed(1)); }
+  document.getElementById('burstPoly').setAttribute('points', pts.join(' '));
+  let dots = ''; for (let y = 0; y < 6; y++) for (let x = 0; x < 10; x++) dots += `<circle cx="${22 + x * 8.4}" cy="${30 + y * 8.6}" r="${(x + y) % 3 ? 2 : 3}" ${((x * 3 + y * 5) % 7 < 2) ? 'fill="#D9481A"' : ''}/>`;
+  document.getElementById('ledDots').innerHTML = dots;
+
+  // page 3: one tile per sponsor logo, cut from the official flyer
+  const names = ["Hennessy","Heineken","Coca-Cola","Desperados","BEST","AXE","Lord's Gin","Transcorp Hotels","Vodi Group","United Nigeria","Trace+","Square Meter","Nova Flair"];
+  document.getElementById('tiles').innerHTML = names.map((n, i) => `<div><img src="assets/img/sponsors/${String(i + 1).padStart(2, '0')}.png" alt="${n}"></div>`).join('')
+    + `<div class="you"><strong>+ YOU</strong>WIZKID.TIX<br>.AFRICA</div>`;
   document.getElementById('blanks').innerHTML = W.message.split(' ')
     .map(w => `<span class="w">${'<i></i>'.repeat(w.length)}</span>`).join('');
 })();
