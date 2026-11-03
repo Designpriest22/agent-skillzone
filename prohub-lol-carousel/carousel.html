@@ -1,141 +1,67 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><title>Prohub × Live Out Loud: case study carousel</title>
+<html lang="en"><head><meta charset="utf-8"><title>Prohub × Live Out Loud</title>
 <style>
-@font-face { font-family: "BSD"; src: url(assets/big-shoulders-display-latin-600-normal.woff2); font-weight: 600; }
-@font-face { font-family: "BSD"; src: url(assets/big-shoulders-display-latin-800-normal.woff2); font-weight: 800; }
-@font-face { font-family: "BSD"; src: url(assets/big-shoulders-display-latin-900-normal.woff2); font-weight: 900; }
-:root { --bg: #0B0B0C; --ink: #F4F1EC; --orange: #FD8D18; --muted: #8F8A83; }
 html, body { margin: 0; background: #000; }
-#s { position: relative; width: 1080px; height: 1350px; overflow: hidden; background: var(--bg); color: var(--ink); font-family: Inter, sans-serif; }
-.abs { position: absolute; }
-.k { font: 800 26px/1 BSD; letter-spacing: 8px; color: var(--orange); text-transform: uppercase; }
-.h { font: 900 112px/0.9 BSD; text-transform: uppercase; letter-spacing: 1px; }
-.p { font: 400 29px/1.42 Inter; color: #CFC9C1; }
-.foot { left: 70px; right: 70px; bottom: 56px; display: flex; justify-content: space-between; align-items: center; font: 800 22px/1 BSD; letter-spacing: 6px; color: var(--muted); }
-.phone { border-radius: 40px; overflow: hidden; background: #000; box-shadow: 0 0 0 9px #1C1C1E, 0 0 0 11px #3A3A3C, 0 40px 90px rgba(0,0,0,.6); }
-.phone img { width: 100%; height: 100%; display: block; object-fit: cover; }
-.cap { font: 800 23px/1.2 BSD; letter-spacing: 5px; color: var(--muted); text-align: center; text-transform: uppercase; }
-.glow { position: absolute; border-radius: 50%; filter: blur(90px); opacity: .35; background: var(--orange); }
-.grain { position: absolute; inset: 0; pointer-events: none; opacity: .05; background: repeating-linear-gradient(0deg, #fff 0 1px, transparent 1px 3px); mix-blend-mode: overlay; }
-.stat b { display: block; font: 900 150px/0.85 BSD; color: var(--ink); }
-.stat span { font: 800 26px/1.2 BSD; letter-spacing: 4px; color: var(--muted); text-transform: uppercase; }
-.pill { display: inline-block; border: 2px solid var(--orange); color: var(--orange); border-radius: 40px; padding: 12px 22px 11px; font: 800 24px/1 BSD; letter-spacing: 4px; }
-.chips { display: flex; flex-wrap: wrap; gap: 12px; }
-.chips span { border: 1.5px solid #3A3A3C; color: #CFC9C1; border-radius: 30px; padding: 10px 16px 9px; font: 800 21px/1 BSD; letter-spacing: 3px; }
+#view { position: relative; width: 1080px; height: 1350px; overflow: hidden; }
+#set { position: absolute; left: 0; top: 0; width: 8640px; height: 1350px; background: url(assets/concrete.jpg) 0 0 / 8640px 1350px; }
+.o { position: absolute; transform-origin: 50% 50%; }
+/* one light source for the whole set: up and to the left */
+.lay { filter: drop-shadow(3px 4px 3px rgba(20,18,15,.35)) drop-shadow(18px 26px 26px rgba(20,18,15,.28)); }
+.phone { width: 340px; height: 690px; border-radius: 54px; background: linear-gradient(145deg, #2b2b2d, #0e0e0f 60%); padding: 13px; box-sizing: border-box;
+  box-shadow: 3px 4px 4px rgba(20,18,15,.4), 22px 32px 34px rgba(20,18,15,.32), inset 0 0 0 1.5px rgba(255,255,255,.12); }
+.phone .scr { width: 100%; height: 100%; border-radius: 42px; overflow: hidden; background: #000; position: relative; }
+.phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.phone .scr::after { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255,255,255,.10), rgba(255,255,255,0) 38%); }
+.paper { box-shadow: 1px 2px 2px rgba(20,18,15,.3), 14px 20px 26px rgba(20,18,15,.26); }
+.paper img { display: block; width: 100%; }
+.tablet { width: 820px; height: 1010px; border-radius: 40px; background: linear-gradient(145deg, #2b2b2d, #0e0e0f 60%); padding: 30px; box-sizing: border-box;
+  box-shadow: 3px 4px 4px rgba(20,18,15,.4), 26px 38px 40px rgba(20,18,15,.32), inset 0 0 0 1.5px rgba(255,255,255,.12); }
+.tablet .scr { width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #000; position: relative; }
+.tablet img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tablet .scr::after { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255,255,255,.08), rgba(255,255,255,0) 35%); }
+.cap { font: 400 21px/1 "JetBrains Mono", monospace; letter-spacing: .5px; color: #2B2926; }
 </style></head>
-<body><div id="s"></div>
-<script>
-const TOTAL = 8, q = new URLSearchParams(location.search), N = +(q.get('slide') || 1), FPS = 30;
-const S = document.getElementById('s');
-const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
-const P = (t, a, d) => clamp((t - a) / d);
-const eo = p => 1 - Math.pow(1 - p, 3), eio = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
-const eb = p => { const s = 1.4; return 1 + (s + 1) * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2); };
-const $ = id => document.getElementById(id);
-const frame = (clip, t) => `assets/clips/${clip}/f${String(Math.min(180, 1 + Math.floor(t * FPS))).padStart(3, '0')}.jpg`;
-const rise = (t, ids, start, gap = .12, dy = 40) => ids.forEach((id, i) => { const p = eo(P(t, start + i * gap, .55)); const e = $(id); if (e) { e.style.opacity = p; e.style.transform = `translateY(${(1 - p) * dy}px)`; } });
-const header = (n, kicker, title) => `<div class="abs k" id="kk" style="left:70px;top:84px">${kicker}</div>
-  <div class="abs h" id="hh" style="left:70px;top:128px">${title}</div>
-  <div class="abs foot" id="ft"><img src="assets/prohub-logo.svg" style="height:46px"><span>${n} / ${TOTAL}</span></div>`;
-const phone = (id, l, top, w) => `<div class="abs phone" id="p${id}" style="left:${l}px;top:${top}px;width:${w}px;height:${Math.round(w * 16 / 9)}px"><img id="v${id}"></div>`;
+<body><div id="view"><div id="set">
 
-const slides = {
-  1: {
-    html: `<div class="glow" id="g1" style="width:700px;height:700px;left:520px;top:-200px"></div>
-      <div class="abs k" id="a" style="left:70px;top:150px">Case study · Prohub Creative Solutions</div>
-      <div class="abs h" id="b" style="left:66px;top:200px;font-size:170px">Live<br>Out<br>Loud<br><span style="color:var(--orange)">× Wizkid</span></div>
-      <div class="abs p" id="c" style="left:70px;top:900px;width:560px">One festival. A complete campaign: ads, social, print and merch, delivered end to end.</div>
-      <img class="abs" id="lol" src="assets/lol-logo.png" style="right:44px;top:640px;width:330px">
-      <div class="abs" id="line" style="left:70px;top:1110px;height:6px;width:940px;background:var(--orange);transform-origin:0 50%"></div>
-      <div class="abs foot" id="ft"><img src="assets/prohub-logo.svg" style="height:46px"><span>SWIPE →</span></div>`,
-    render(t) {
-      rise(t, ['a', 'b', 'c'], .1, .18, 60);
-      const p = eb(P(t, .7, .7)); $('lol').style.opacity = clamp(P(t, .7, .3)); $('lol').style.transform = `scale(${.7 + .3 * p}) rotate(${(1 - p) * -8 + Math.sin(t * 1.4) * 1.5}deg)`;
-      $('line').style.transform = `scaleX(${eio(P(t, 1.3, .9))})`;
-      $('g1').style.transform = `translate(${Math.sin(t * .6) * 40}px, ${Math.cos(t * .5) * 30}px)`;
-      rise(t, ['ft'], 1.6);
-    },
-  },
-  2: {
-    html: header(2, 'Motion · Ad library', 'Every spot.<br>Every screen.') +
-      phone(1, 70, 440, 290) + phone(2, 395, 440, 290) + phone(3, 720, 440, 290) +
-      `<div class="abs" id="t1" style="left:70px;top:1000px;width:940px">
-         <div class="p" style="color:var(--ink)">3 cinematic ads and 5 story animations, each laid out for its own canvas.</div>
-         <div class="chips" style="margin-top:20px"><span>STORIES</span><span>REELS</span><span>TIKTOK</span><span>4:5 FEED</span><span>SQUARE</span><span>16:9</span><span>BILLBOARD</span></div></div>`,
-    render(t) {
-      rise(t, ['kk', 'hh'], .05); rise(t, ['p1', 'p2', 'p3'], .3, .14, 120); rise(t, ['t1', 'ft'], .9, .2);
-      $('v1').src = frame('s1', t); $('v2').src = frame('s2', t); $('v3').src = frame('s5', t);
-    },
-  },
-  3: {
-    html: header(3, 'Social · WhatsApp story ads', 'Story ads in<br>two languages') +
-      phone(1, 120, 430, 380) + phone(2, 580, 430, 380) +
-      `<div class="abs cap" id="c1" style="left:120px;width:380px;top:1134px">English</div><div class="abs cap" id="c2" style="left:580px;width:380px;top:1134px">Hausa</div>`,
-    render(t) { rise(t, ['kk', 'hh'], .05); rise(t, ['p1', 'p2'], .35, .15, 120); rise(t, ['c1', 'c2', 'ft'], .9); $('v1').src = frame('en', t); $('v2').src = frame('ha', t); },
-  },
-  4: {
-    html: header(4, 'Motion · Kinetic type & PSA edits', 'The DEC 13<br>checklist') +
-      phone(1, 90, 430, 400) +
-      `<div class="abs" id="t1" style="left:560px;top:500px;width:440px">
-         <div class="p" style="font-size:32px;color:var(--ink)">A 15-second spot cut to a 120 bpm original beat.</div>
-         <div class="p" style="margin-top:22px">Every tick lands on the beat. The music drops out for the missing ticket, then hits on the flyer.</div>
-         <div class="p" style="margin-top:22px">Plus two "PSA" edits on supplied fan clips: title card, guide tag and the event artwork close.</div>
-         <div style="margin-top:30px"><span class="pill">ORIGINAL SOUND DESIGN</span></div></div>`,
-    render(t) { rise(t, ['kk', 'hh'], .05); rise(t, ['p1'], .3, 0, 120); rise(t, ['t1', 'ft'], .7, .2); $('v1').src = frame('ck', t); },
-  },
-  5: {
-    html: header(5, 'Social · Ticket guide', 'How to get<br>your ticket') +
-      `<img class="abs" id="tg" src="assets/ticket-guide.png" style="left:250px;top:420px;width:580px;border-radius:14px;box-shadow:0 40px 100px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08)">
-       <div class="abs cap" id="c1" style="left:70px;right:70px;top:1176px">Three steps to WIZKID.TIX.AFRICA · 4:5 feed graphic</div>`,
-    render(t) {
-      rise(t, ['kk', 'hh'], .05);
-      const p = eo(P(t, .35, .8)); $('tg').style.opacity = clamp(P(t, .35, .3));
-      $('tg').style.transform = `translateY(${(1 - p) * 120}px) rotate(${(1 - p) * 4 + Math.sin(t * .9) * .6}deg) scale(${1 + .015 * Math.sin(t * .7)})`;
-      rise(t, ['c1', 'ft'], 1.1);
-    },
-  },
-  6: {
-    html: header(6, 'Print & social · 4-page carousel', 'The Live Out<br>Loud Times') +
-      [1, 2, 3, 4].map(i => `<img class="abs" id="pg${i}" src="../live-out-loud-newspaper/out/page-${i}.png" style="left:290px;top:420px;width:500px;box-shadow:0 30px 70px rgba(0,0,0,.6);transform-origin:50% 120%">`).join('') +
-      `<div class="abs cap" id="c1" style="left:70px;right:70px;top:1196px">Word hunt · live news feed · illustrated packing list · partner wall</div>`,
-    render(t) {
-      rise(t, ['kk', 'hh'], .05);
-      [1, 2, 3, 4].forEach((i, k) => { const p = eio(P(t, .4 + k * .12, .9)); const fan = (k - 1.5) * 13 * eio(P(t, 1.6, 1.1));
-        const e = $('pg' + i); e.style.opacity = clamp(p * 2); e.style.zIndex = k;
-        e.style.transform = `translateY(${(1 - p) * 400}px) rotate(${fan}deg) scale(${.94 + .06 * p})`; });
-      rise(t, ['c1', 'ft'], 2.2);
-    },
-  },
-  7: {
-    html: header(7, 'Merch · Concept & mockups', 'Official merch<br>collection') +
-      ['tee-onyx-back', 'tank-onyx-back', 'jersey-chalk-back', 'polo-ember-front'].map((n, i) =>
-        `<img class="abs" id="m${i}" src="../lol-merch/out/mockups/${n}.png" style="left:${70 + (i % 2) * 480}px;top:${440 + Math.floor(i / 2) * 400}px;width:460px;height:380px;object-fit:cover;object-position:50% 38%;border-radius:18px">`).join(''),
-    render(t) {
-      rise(t, ['kk', 'hh'], .05);
-      [0, 1, 2, 3].forEach(i => { const p = eb(P(t, .35 + i * .15, .6)); const e = $('m' + i); e.style.opacity = clamp(P(t, .35 + i * .15, .25));
-        e.style.transform = `scale(${.8 + .2 * p}) translateY(${Math.sin(t * 1.2 + i) * 4}px)`; });
-      rise(t, ['ft'], 1.4);
-    },
-  },
-  8: {
-    html: `<div class="glow" id="g1" style="width:800px;height:800px;left:140px;top:250px"></div>
-      <div class="abs k" id="kk" style="left:70px;top:84px">The campaign, delivered</div>
-      <div class="abs" id="st" style="left:70px;right:70px;top:160px;display:grid;grid-template-columns:1fr 1fr;gap:56px 40px">
-        <div class="stat" id="s0"><b id="n0">0</b><span>Video spots</span></div><div class="stat" id="s1"><b id="n1">0</b><span>Platform exports</span></div>
-        <div class="stat" id="s2"><b id="n2">0</b><span>Newspaper pages</span></div><div class="stat" id="s3"><b id="n3">0</b><span>Merch mockups</span></div></div>
-      <div class="abs h" id="cta" style="left:70px;top:850px;font-size:132px">Your event,<br><span style="color:var(--orange)">next.</span></div>
-      <img class="abs" id="lg" src="assets/prohub-logo.svg" style="left:70px;top:1150px;width:300px">
-      <div class="abs k" id="cs" style="right:70px;top:1200px;color:var(--muted)">Prohub Creative Solutions</div>`,
-    render(t) {
-      const vals = [13, 81, 4, 24];
-      vals.forEach((v, i) => { const p = eo(P(t, .2 + i * .15, 1.1)); $('n' + i).textContent = Math.round(v * p); $('s' + i).style.opacity = clamp(P(t, .2 + i * .15, .3)); });
-      rise(t, ['kk'], 0); rise(t, ['cta'], 1.5, 0, 60); rise(t, ['lg', 'cs'], 2.1, .15);
-      $('g1').style.opacity = .22 + .1 * Math.sin(t * 2);
-    },
-  },
-};
-S.innerHTML = slides[N].html + '<div class="grain"></div>';
-window.renderAt = t => slides[N].render(t);
-window.ready = document.fonts.load('900 40px BSD').then(() => document.fonts.load('800 20px BSD'))
-  .then(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))));
+  <!-- 1 · the artist, live -->
+  <img class="o" src="assets/prohub-logo-dark.svg" style="left:72px;top:74px;height:58px">
+  <div class="o tablet" style="left:180px;top:170px;transform:rotate(-2deg)"><div class="scr"><img data-clip="walk"></div></div>
+  <div class="o cap" style="left:72px;top:1262px">Live Out Loud × Wizkid — Abuja, 2026</div>
+
+  <!-- 2 -->
+  <div class="o paper" style="left:1220px;top:200px;width:700px;transform:rotate(3.5deg)"><img src="assets/posters/red-feed.jpg"></div>
+
+  <!-- 3 -->
+  <div class="o phone" style="left:2290px;top:310px;transform:rotate(-3deg)"><div class="scr"><img src="assets/posters/red-story.jpg"></div></div>
+  <div class="o phone" style="left:2720px;top:260px;transform:rotate(2deg)"><div class="scr"><img data-clip="reel"></div></div>
+
+  <!-- 4 -->
+  <div class="o paper" style="left:3320px;top:170px;width:920px;transform:rotate(-2deg)"><img src="assets/posters/landscape-qr.png"></div>
+  <div class="o paper" style="left:3560px;top:760px;width:420px;transform:rotate(4deg)"><img src="assets/posters/minimal.jpg"></div>
+
+  <!-- 5 -->
+  <div class="o paper" style="left:4400px;top:250px;width:600px;transform:rotate(-4deg)"><img src="assets/posters/sold-out.jpg"></div>
+  <div class="o phone" style="left:4960px;top:330px;transform:rotate(3deg)"><div class="scr"><img src="assets/posters/website.png" style="object-position:50% 0"></div></div>
+
+  <!-- 6 · the artist, live -->
+  <div class="o phone" style="left:5520px;top:280px;transform:rotate(-2deg)"><div class="scr"><img data-clip="pyro"></div></div>
+  <div class="o paper" style="left:5960px;top:200px;width:490px;transform:rotate(5deg)"><img src="../live-out-loud-newspaper/out/page-1.png"></div>
+
+  <!-- 7 -->
+  <div class="o paper" style="left:6570px;top:480px;width:450px;transform:rotate(-5deg)"><img src="../live-out-loud-newspaper/out/page-4.png"></div>
+  <img class="o lay" src="assets/garments/tee-onyx-back.png" style="left:6950px;top:120px;width:600px;transform:rotate(6deg)">
+
+  <!-- 8 -->
+  <img class="o lay" src="assets/garments/polo-ember-front.png" style="left:7520px;top:620px;width:540px;transform:rotate(-8deg)">
+  <img class="o lay" src="assets/garments/jersey-chalk-back.png" style="left:7900px;top:110px;width:600px;transform:rotate(4deg)">
+  <img class="o" src="assets/prohub-logo-dark.svg" style="left:8230px;top:1200px;height:66px">
+
+</div></div>
+<script>
+const n = +(new URLSearchParams(location.search).get('slide') || 1);
+document.getElementById('set').style.transform = `translateX(${-(n - 1) * 1080}px)`;
+const clips = [...document.querySelectorAll('[data-clip]')];
+window.renderAt = t => clips.forEach(i => { i.src = `assets/clips/${i.dataset.clip}/f${String(Math.min(180, 1 + Math.floor(t * 30))).padStart(3, '0')}.jpg`; });
+window.renderAt(0);
+window.ready = document.fonts.ready.then(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))));
 </script></body></html>
