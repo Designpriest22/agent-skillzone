@@ -6,7 +6,7 @@ Voice: an old-school broadsheet with an Abuja wink. Every page points to one act
 - **Ticker:** LIVE OUT LOUD MUSIC FESTIVAL ★ 13.12.2026 ★ EAGLE SQUARE, ABUJA ★ WIZKID.TIX.AFRICA
 - **Masthead:** LIVE OUT LOUD / MUSIC FESTIVAL
 - **Dateline:** SPECIAL EDITION · ABUJA | ★ WIZKID.TIX.AFRICA ★ | DECEMBER 2026
-- **Headline:** WINZEMBER IN ABUJA (kept from the client's paper; it works)
+- **Headline:** WIZZEMBER IN ABUJA (revision 5, per the owner; was "Winzember")
 - **Deck:** Big Wiz headlines Eagle Square on Sunday 13 December, and the whole city is invited.
 - **Story, "STARBOY TAKES THE CAPITAL":**
   - On Sunday 13 December, Eagle Square hands the mic to Wizkid. Live Out Loud Music Festival brings Big Wiz to Abuja for one night: the records that soundtracked a generation of Afrobeats, played live, with the city singing every word back.
