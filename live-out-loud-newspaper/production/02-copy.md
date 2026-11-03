@@ -19,7 +19,7 @@ Voice: an old-school broadsheet with an Abuja wink. Every page points to one act
 ## Page 2: Live Experience
 - **What fans can expect** (client copy, tightened, puffery removed): Expect a premium concert experience with large-scale LED visuals, immersive lighting, concert-grade sound and staging, curated festival installations, lifestyle activations and premium hospitality zones, plus food vendors and merchandise. Every part of the night has been planned, from the moment you arrive to the final encore.
 - **Culture, more than music:** Festivals are no longer only about the music. They are where fashion, photography, art, food and youth culture meet. Live Out Loud is built for exactly that: a night to dress up, show up and be part of the story, in the heart of the capital.
-- **Rehearsal Playlist** (song titles only, no lyrics): Ojuelegba · Essence · Joro · Soco · Fever · Come Closer · Ginger · Pakurumo · Holla at Your Boy · Kese (Dance). *"Homework, not the official setlist."*
+- **Learn the Lyrics** (renamed from "Rehearsal Playlist" in revision 3; song titles only, no lyrics): Ojuelegba · Essence · Joro · Soco · Fever · Come Closer · Ginger · Pakurumo · Holla at Your Boy · Kese (Dance). *"Homework, not the official setlist."*
 - **The Classifieds:** these replace the template's lorem-ipsum "Advert Space" and echo the WhatsApp campaign.
   - **WANTED:** Five friends who know every word of *Ojuelegba*. Report to Eagle Square, 13 December. Apply: wizkid.tix.africa
   - **LOST:** Your excuse for missing Big Wiz in Abuja. If found, please do not return.
@@ -35,7 +35,7 @@ Voice: an old-school broadsheet with an Abuja wink. Every page points to one act
   3. Plan your ride to Eagle Square early; the Central Area will be busy.
   4. Charge your phone and pack a power bank.
   5. Outfit first, comfortable shoes a close second.
-  6. Learn the words (see the Rehearsal Playlist on page 2).
+  6. Learn the words (see Learn the Lyrics on page 2).
 - **The facts:** What, Live Out Loud Music Festival · Who, Wizkid · When, Sunday 13 December 2026 · Where, Eagle Square, Abuja · Tickets, wizkid.tix.africa
 - **Partners band:** OUR PARTNERS: Live Out Loud Music Festival is supported by…
 
@@ -53,3 +53,7 @@ Voice: an old-school broadsheet with an Abuja wink. Every page points to one act
 - [x] Every claim is supportable. Removed from the template: "six years in the making", "Vol. 19, No. 190" and the unverified `lolmusicfest.com`. No prices, set times, scarcity or prizes.
 - [x] Song and album titles only. No lyrics are reproduced.
 - [x] One action on every page: wizkid.tix.africa.
+
+## Revision 3 (owner)
+- The page 2 list is renamed **Learn the Lyrics**. The cover index and the Live Feed are updated to match.
+- Festival Essentials: **Card only.** "Only card is accepted for food, drinks and merch." This replaces "Card & cash", per the owner.

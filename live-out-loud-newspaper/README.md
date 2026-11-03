@@ -7,6 +7,7 @@ It was produced through Prohub's creative workflow. See `production/`: MD brief 
 ## Outputs (`out/`)
 - `page-1.png` … `page-4.png`: carousel slides
 - `live-out-loud-times.pdf`: all four pages
+- `live-out-loud-times.pptx`: PowerPoint, one 4:5 slide per page (2× resolution images), with each page's text in the speaker notes
 - `contact-sheet.png`: overview
 
 ## Editing
@@ -19,4 +20,5 @@ It was produced through Prohub's creative workflow. See `production/`: MD brief 
 npm install
 python3 tools/wordsearch.py
 node build.mjs        # needs Playwright + Chromium
+python3 tools/make_pptx.py   # PowerPoint export (pip install python-pptx)
 ```

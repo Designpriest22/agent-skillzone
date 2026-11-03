@@ -47,3 +47,10 @@
 **Time-sensitive:** the countdown and "Updated" date come from `ISSUE` in `index.html`. Change it and rebuild before posting on a later date.
 
 **Removed to make room:** the "How to Pull Up" PSA box (its first step now lives on the ticket tile) and the "Global Rise of Afrobeats" article.
+
+---
+
+# Revision 3 (3 Nov 2026)
+- The page 2 list is renamed **Learn the Lyrics**. The cover index and Live Feed item are updated to match.
+- Festival Essentials: **Card only**, with a new icon (contactless card, cash crossed out) and the tip "Only card is accepted for food, drinks and merch." Per the owner, this replaces "Card & cash".
+- Exported to **PowerPoint** (`out/live-out-loud-times.pptx`). The slides are images of the pages, so their text can't be edited in PowerPoint; the text of each page is in the speaker notes. Edits go through `index.html`, followed by a rebuild.
