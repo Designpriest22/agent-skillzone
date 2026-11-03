@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>The Live Out Loud Times</title>
+<script src="wordsearch.js"></script>
+<style>
+@font-face { font-family: "Playfair"; src: url(assets/fonts/playfair-display-latin-400-normal.woff2) format("woff2"); font-weight: 400; }
+@font-face { font-family: "Playfair"; src: url(assets/fonts/playfair-display-latin-700-normal.woff2) format("woff2"); font-weight: 700; }
+@font-face { font-family: "Playfair"; src: url(assets/fonts/playfair-display-latin-900-normal.woff2) format("woff2"); font-weight: 900; }
+@font-face { font-family: "Playfair"; src: url(assets/fonts/playfair-display-latin-400-italic.woff2) format("woff2"); font-weight: 400; font-style: italic; }
+@font-face { font-family: "Playfair"; src: url(assets/fonts/playfair-display-latin-700-italic.woff2) format("woff2"); font-weight: 700; font-style: italic; }
+@font-face { font-family: "OldStd"; src: url(assets/fonts/old-standard-tt-latin-400-normal.woff2) format("woff2"); font-weight: 400; }
+@font-face { font-family: "OldStd"; src: url(assets/fonts/old-standard-tt-latin-700-normal.woff2) format("woff2"); font-weight: 700; }
+@font-face { font-family: "OldStd"; src: url(assets/fonts/old-standard-tt-latin-400-italic.woff2) format("woff2"); font-weight: 400; font-style: italic; }
+
+:root { --paper: #EFE8D9; --ink: #1A1613; --muted: #4A423B; --spot: #D9481A; --rule: #1A1613; }
+@page { size: 1080px 1350px; margin: 0; }
+html, body { margin: 0; background: #888; }
+body { display: flex; flex-direction: column; gap: 40px; align-items: center; padding: 40px 0; }
+@media print { body { padding: 0; gap: 0; background: none; } }
+
+.page { position: relative; width: 1080px; height: 1350px; overflow: hidden; background: var(--paper); color: var(--ink);
+  font-family: OldStd, serif; break-after: page; box-sizing: border-box; padding: 0 54px; }
+.page::before { content: ""; position: absolute; inset: 0; background: url(assets/img/paper-noise.png); opacity: .16; mix-blend-mode: multiply; pointer-events: none; z-index: 20; }
+.page::after { content: ""; position: absolute; inset: 0; pointer-events: none; z-index: 21;
+  background: radial-gradient(120% 90% at 50% 45%, rgba(0,0,0,0) 60%, rgba(70,50,20,.16) 100%); }
+
+/* furniture */
+.ticker { font: 700 14px/1 OldStd; letter-spacing: 3px; text-align: center; padding: 26px 0 14px; white-space: nowrap; }
+.ticker b { color: var(--spot); font-weight: 700; padding: 0 10px; }
+.dbl { border-top: 5px solid var(--rule); border-bottom: 1.5px solid var(--rule); height: 4px; }
+.dbl.inv { border-top-width: 1.5px; border-bottom-width: 5px; }
+.hair { border-top: 1.5px solid var(--rule); }
+.kicker { font: 700 15px/1 OldStd; letter-spacing: 4px; text-transform: uppercase; }
+.spot { color: var(--spot); }
+h1, h2, h3 { margin: 0; font-family: Playfair; }
+p { margin: 0 0 12px; }
+.body { font: 400 17.5px/1.42 OldStd; text-align: justify; hyphens: auto; }
+.body p:first-child::first-letter { font: 900 64px/0.8 Playfair; float: left; padding: 6px 8px 0 0; color: var(--spot); }
+.body.nodrop p:first-child::first-letter { font: inherit; float: none; padding: 0; color: inherit; }
+.photo { position: relative; overflow: hidden; background: #222; }
+.photo img { width: 100%; height: 100%; object-fit: cover; display: block; filter: grayscale(1) contrast(1.12) brightness(1.02); }
+.photo::after { content: ""; position: absolute; inset: 0; mix-blend-mode: multiply; opacity: .55;
+  background: radial-gradient(circle, rgba(0,0,0,.55) 0.9px, rgba(0,0,0,0) 1.5px) 0 0/4px 4px; }
+.caption { font: italic 400 14px/1.3 OldStd; color: var(--muted); padding-top: 7px; }
+.boxed { border: 2px solid var(--ink); padding: 16px 18px; }
+.label { display: inline-block; background: var(--ink); color: var(--paper); font: 700 15px/1 OldStd; letter-spacing: 3px; padding: 8px 12px 7px; text-transform: uppercase; }
+.label.spotbg { background: var(--spot); }
+.cta { background: var(--spot); color: #FFF7EC; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; }
+.cta .l { font: 700 18px/1.1 OldStd; letter-spacing: 4px; }
+.cta .r { font: 900 46px/1 Playfair; letter-spacing: .5px; }
+
+/* ---------- page 1 ---------- */
+.mast { text-align: center; padding: 14px 0 6px; }
+.mast h1 { font-weight: 900; font-size: 112px; line-height: .92; letter-spacing: -2px; }
+.mast .sub { font: 700 26px/1 OldStd; letter-spacing: 12px; margin-top: 12px; }
+.dateline { display: flex; justify-content: space-between; align-items: center; padding: 11px 2px 9px; font: 700 15px/1 OldStd; letter-spacing: 3px; }
+.headline { font-weight: 900; font-size: 80px; line-height: 1; text-align: center; letter-spacing: -1px; padding: 18px 0 8px; }
+.deck { font: italic 400 25px/1.3 Playfair; text-align: center; padding: 0 30px 16px; }
+.p1cols { display: grid; grid-template-columns: 430px 1fr; gap: 28px; padding-top: 18px; }
+.p1cols h2 { font-size: 33px; line-height: 1.05; margin-bottom: 12px; }
+.quote { font: italic 700 27px/1.22 Playfair; text-align: center; padding: 16px 10px 14px; border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); margin-top: 6px; }
+.ticketoffice { margin-top: 14px; border: 2px dashed var(--ink); padding: 12px 14px; text-align: center; }
+.ticketoffice .t { font: 700 14px/1 OldStd; letter-spacing: 4px; }
+.ticketoffice .u { font: 900 30px/1.1 Playfair; color: var(--spot); margin-top: 6px; }
+.index { margin-top: 14px; border-top: 5px solid var(--ink); border-bottom: 1.5px solid var(--ink); padding: 10px 0 8px; font: 400 16px/1.35 OldStd; }
+.index .t { font: 700 14px/1 OldStd; letter-spacing: 4px; margin-bottom: 8px; }
+.index div + div { padding: 4px 0; border-top: 1px dotted rgba(26,22,19,.4); }
+.index b { display: inline-block; width: 26px; font: 900 20px/1 Playfair; color: var(--spot); }
+
+/* ---------- page 2 ---------- */
+.sechead { display: flex; align-items: flex-end; justify-content: space-between; padding: 30px 0 14px; }
+.sechead h1 { font-weight: 900; font-size: 96px; line-height: .9; letter-spacing: -1px; }
+.sechead .pg { font: 700 14px/1.5 OldStd; letter-spacing: 3px; text-align: right; }
+.p2grid { display: grid; grid-template-columns: 1fr 360px; gap: 30px; padding-top: 18px; }
+.p2grid h2 { font-size: 40px; line-height: 1; }
+.p2grid h3 { font: 700 16px/1 OldStd; letter-spacing: 4px; margin: 8px 0 14px; text-transform: uppercase; }
+.playlist ol { margin: 14px 0 6px; padding: 0; list-style: none; counter-reset: n; }
+.playlist li { counter-increment: n; display: flex; align-items: baseline; font: 400 21px/1.62 Playfair; }
+.playlist li::before { content: counter(n, decimal-leading-zero); font: 700 14px/1 OldStd; color: var(--spot); width: 34px; flex: none; }
+.playlist li span { flex: 1; border-bottom: 1.5px dotted rgba(26,22,19,.45); margin-left: 8px; transform: translateY(-6px); }
+.playlist .note { font: italic 400 15px/1.3 OldStd; color: var(--muted); }
+.classifieds { margin-top: 18px; }
+.classifieds .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+.ad { border: 1.5px solid var(--ink); padding: 10px 12px; font: 400 15.5px/1.32 OldStd; }
+.ad b { display: block; font: 900 20px/1 Playfair; letter-spacing: .5px; margin-bottom: 5px; }
+.ad.hot { background: var(--ink); color: var(--paper); }
+.ad.hot b { color: #F7A57E; }
+.ad .u { font-weight: 700; color: var(--spot); }
+.ad.hot .u { color: #F7A57E; }
+
+/* ---------- page 3 ---------- */
+.p3top { display: grid; grid-template-columns: 1fr 400px; gap: 28px; padding-top: 18px; }
+.p3top h2 { font-size: 36px; line-height: 1.02; margin-bottom: 12px; }
+.psa { border: 3px solid var(--ink); position: relative; padding: 22px 22px 14px; margin-top: 22px; }
+.psa .label { position: absolute; top: -17px; left: 20px; }
+.psa h2 { font-size: 40px; line-height: 1; margin-bottom: 10px; }
+.psa ol { margin: 0; padding: 0; list-style: none; counter-reset: s; columns: 2; column-gap: 34px; }
+.psa li { counter-increment: s; break-inside: avoid; display: flex; gap: 12px; font: 400 17px/1.35 OldStd; margin-bottom: 11px; }
+.psa li::before { content: counter(s); flex: none; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--paper);
+  font: 900 19px/34px Playfair; text-align: center; }
+.psa li:first-child::before { background: var(--spot); }
+.facts { display: grid; grid-template-columns: repeat(5, 1fr); border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); margin-top: 18px; }
+.facts div { padding: 12px 10px; border-left: 1.5px solid var(--ink); }
+.facts div:first-child { border-left: 0; }
+.facts .k { font: 700 13px/1 OldStd; letter-spacing: 3px; color: var(--spot); }
+.facts .v { font: 700 19px/1.15 Playfair; margin-top: 6px; }
+.partners { position: absolute; left: 54px; right: 54px; bottom: 54px; background: #141110; color: var(--paper); padding: 16px 26px 8px; }
+.partners .row { display: flex; justify-content: space-between; align-items: baseline; }
+.partners .t { font: 900 30px/1 Playfair; letter-spacing: 1px; }
+.partners .s { font: italic 400 16px/1 OldStd; color: #BFB5A6; }
+.partners img { display: block; width: 100%; margin-top: 8px; }
+
+/* ---------- page 4 ---------- */
+.p4 .sechead h1 { font-size: 84px; }
+.intro { font: italic 400 21px/1.38 Playfair; padding: 14px 0 12px; }
+.intro b { font-style: normal; color: var(--spot); }
+.ws { display: grid; grid-template-columns: 728px 1fr; gap: 26px; }
+.gridwrap { position: relative; width: 728px; height: 728px; border: 3px solid var(--ink); box-sizing: border-box; }
+.gridwrap svg { position: absolute; inset: 0; }
+.cell { position: absolute; width: 55.4px; height: 55.4px; display: flex; align-items: center; justify-content: center; font: 700 31px/1 OldStd; }
+.wl h3 { font: 700 14px/1 OldStd; letter-spacing: 3px; color: var(--spot); margin: 0 0 8px; }
+.wl ul { list-style: none; margin: 0 0 18px; padding: 0; }
+.wl li { font: 400 19px/1.55 Playfair; display: flex; align-items: center; gap: 9px; white-space: nowrap; }
+.wl li::before { content: ""; width: 13px; height: 13px; border: 1.5px solid var(--ink); flex: none; }
+.wl li.found { text-decoration: line-through; text-decoration-color: var(--spot); text-decoration-thickness: 2px; }
+.wl li.found::before { background: var(--spot); border-color: var(--spot); }
+.secret { margin-top: 16px; display: grid; grid-template-columns: 250px 1fr; gap: 20px; align-items: center; border-top: 1.5px solid var(--ink); border-bottom: 5px solid var(--ink); padding: 14px 0 16px; }
+.secret .h { font: 900 30px/1.02 Playfair; }
+.secret .h small { display: block; font: italic 400 15px/1.3 OldStd; margin-top: 6px; color: var(--muted); }
+.blanks { display: flex; flex-wrap: wrap; gap: 6px 15px; }
+.blanks .w { display: flex; gap: 4px; }
+.blanks i { width: 21px; height: 28px; border-bottom: 2.5px solid var(--ink); display: block; }
+.blanks .w:first-child i:first-child { border-color: var(--spot); }
+.p4foot { display: flex; justify-content: space-between; align-items: center; padding-top: 14px; }
+.p4foot .t { font: italic 400 17px/1.3 OldStd; }
+.p4foot .u { font: 900 34px/1 Playfair; color: var(--spot); }
+.sponsorslim { margin-top: 14px; background: #141110; padding: 8px 18px; }
+.sponsorslim img { display: block; width: 100%; }
+</style>
+</head>
+<body>
+
+<!-- ======================= PAGE 1 · COVER ======================= -->
+<section class="page" id="p1">
+  <div class="ticker">LIVE OUT LOUD MUSIC FESTIVAL<b>★</b>13.12.2026<b>★</b>EAGLE SQUARE, ABUJA<b>★</b>WIZKID.TIX.AFRICA</div>
+  <div class="dbl"></div>
+  <div class="mast"><h1>LIVE OUT LOUD</h1><div class="sub">— MUSIC FESTIVAL —</div></div>
+  <div class="dbl inv" style="margin-top:12px"></div>
+  <div class="dateline"><span>SPECIAL EDITION · ABUJA</span><span class="spot">★ WIZKID.TIX.AFRICA ★</span><span>DECEMBER 2026</span></div>
+  <div class="dbl"></div>
+  <h1 class="headline">WINZEMBER IN ABUJA</h1>
+  <div class="deck">Big Wiz headlines Eagle Square on Sunday 13 December, and the whole city is invited.</div>
+  <div class="hair"></div>
+  <div class="p1cols">
+    <div>
+      <div class="kicker spot" style="margin-bottom:8px">Lead story</div>
+      <h2>STARBOY TAKES<br>THE CAPITAL</h2>
+      <div class="body">
+        <p>On Sunday 13 December, Eagle Square hands the mic to Wizkid. Live Out Loud Music Festival brings Big Wiz to Abuja for one night: the records that soundtracked a generation of Afrobeats, played live, with the city singing every word back.</p>
+        <p>From <i>Ojuelegba</i> to <i>Essence</i>, these are songs Abuja already knows by heart. This December you hear them the way they were made to be heard: loud, live and outdoors, with your people around you.</p>
+        <p>Tickets are on sale now. Buy yours before the group chat asks.</p>
+      </div>
+      <div class="ticketoffice"><div class="t">THE TICKET OFFICE IS OPEN</div><div class="u">WIZKID.TIX.AFRICA</div></div>
+      <div class="index">
+        <div class="t">IN THIS ISSUE</div>
+        <div><b>2</b> Live Experience · The Rehearsal Playlist · The Classifieds</div>
+        <div><b>3</b> How to Pull Up · Our Partners</div>
+        <div><b>4</b> The Big Wiz Word Hunt, with a secret message</div>
+      </div>
+    </div>
+    <div>
+      <div class="photo" style="height:560px"><img src="assets/img/wiz-cover.jpg" style="object-position:50% 14%"></div>
+      <div class="caption">Starboy, headlining Eagle Square on 13.12.2026.</div>
+      <div class="quote">“One night. One stage. One city singing every word.”</div>
+    </div>
+  </div>
+  <div class="cta" style="position:absolute;left:54px;right:54px;bottom:54px;height:96px">
+    <span class="l">TICKETS ON<br>SALE NOW →</span><span class="r">WIZKID.TIX.AFRICA</span>
+  </div>
+  <div class="ticker" style="position:absolute;left:0;right:0;bottom:6px;padding:14px 0">LIVE OUT LOUD MUSIC FESTIVAL<b>★</b>LIVE OUT LOUD MUSIC FESTIVAL<b>★</b>LIVE OUT LOUD MUSIC FESTIVAL</div>
+</section>
+
+<!-- ======================= PAGE 2 · LIVE EXPERIENCE ======================= -->
+<section class="page" id="p2">
+  <div class="ticker">LIVE OUT LOUD MUSIC FESTIVAL<b>★</b>13.12.2026<b>★</b>EAGLE SQUARE, ABUJA<b>★</b>WIZKID.TIX.AFRICA</div>
+  <div class="dbl"></div>
+  <div class="sechead"><h1>LIVE<br>EXPERIENCE</h1><div class="pg">PAGE 2<br>THE LIVE OUT LOUD TIMES</div></div>
+  <div class="dbl inv"></div>
+  <div class="p2grid">
+    <div>
+      <h3>What fans can expect</h3>
+      <div class="body">
+        <p>Expect a premium concert experience with large-scale LED visuals, immersive lighting, concert-grade sound and staging, curated festival installations, lifestyle activations and premium hospitality zones, plus food vendors and merchandise. Every part of the night has been planned, from the moment you arrive to the final encore.</p>
+      </div>
+      <div class="hair" style="margin:16px 0 14px"></div>
+      <h2>CULTURE</h2>
+      <h3>More than music</h3>
+      <div class="body nodrop">
+        <p>Festivals are no longer only about the music. They are where fashion, photography, art, food and youth culture meet. Live Out Loud is built for exactly that: a night to dress up, show up and be part of the story, in the heart of the capital.</p>
+      </div>
+    </div>
+    <div class="boxed playlist">
+      <span class="label spotbg">The rehearsal playlist</span>
+      <ol>
+        <li>Ojuelegba<span></span></li><li>Essence<span></span></li><li>Joro<span></span></li><li>Soco<span></span></li><li>Fever<span></span></li>
+        <li>Come Closer<span></span></li><li>Ginger<span></span></li><li>Pakurumo<span></span></li><li>Holla at Your Boy<span></span></li><li>Kese (Dance)<span></span></li>
+      </ol>
+      <div class="note">Homework, not the official setlist. Learn the words before 13 December.</div>
+    </div>
+  </div>
+  <div class="classifieds">
+    <span class="label">The classifieds</span>
+    <div class="grid">
+      <div class="ad"><b>WANTED</b>Five friends who know every word of <i>Ojuelegba</i>. Report to Eagle Square, 13 December. Apply: <span class="u">wizkid.tix.africa</span></div>
+      <div class="ad"><b>LOST</b>Your excuse for missing Big Wiz in Abuja. If found, please do not return.</div>
+      <div class="ad"><b>NOTICE TO GROUP CHATS</b>Outfit discussions may begin only after every member has a ticket.</div>
+      <div class="ad hot"><b>FOR SALE</b>Tickets to Live Out Loud Music Festival. Available now. Don't wait till 12 December. <span class="u">wizkid.tix.africa</span></div>
+    </div>
+  </div>
+  <div style="position:absolute;left:54px;right:54px;bottom:54px">
+    <div class="photo" style="height:232px"><img src="assets/img/wiz-chair.jpg" style="object-position:50% 27%"></div>
+    <div class="caption" style="display:flex;justify-content:space-between"><span>BIG WIZ · 13.12.26 · EAGLE SQUARE</span><span>Tickets: wizkid.tix.africa</span></div>
+  </div>
+</section>
+
+<!-- ======================= PAGE 3 · FESTIVAL ESSENTIALS ======================= -->
+<section class="page" id="p3">
+  <div class="ticker">LIVE OUT LOUD MUSIC FESTIVAL<b>★</b>13.12.2026<b>★</b>EAGLE SQUARE, ABUJA<b>★</b>WIZKID.TIX.AFRICA</div>
+  <div class="dbl"></div>
+  <div class="sechead"><h1>FESTIVAL<br>ESSENTIALS</h1><div class="pg">PAGE 3<br>THE LIVE OUT LOUD TIMES</div></div>
+  <div class="dbl inv"></div>
+  <div class="p3top">
+    <div>
+      <div class="kicker spot" style="margin-bottom:8px">The sound</div>
+      <h2>THE GLOBAL RISE<br>OF AFROBEATS</h2>
+      <div class="body">
+        <p>Afrobeats has grown from a regional sound into one of the world's most celebrated music movements, carried by streaming, international collaborations and sold-out arenas. Wizkid has played a major part in that rise, proving that African music can travel without losing itself, and opening doors for a new generation of Nigerian artists.</p>
+      </div>
+    </div>
+    <div>
+      <div class="photo" style="height:300px"><img src="assets/img/wiz-portrait.jpg" style="object-position:50% 28%"></div>
+      <div class="caption">Wizkid: from Lagos to the world, and now to Eagle Square.</div>
+    </div>
+  </div>
+  <div class="psa">
+    <span class="label spotbg">A public service announcement</span>
+    <h2>HOW TO PULL UP</h2>
+    <ol>
+      <li><span>Get your ticket first at <b class="spot">wizkid.tix.africa</b>. Everything else comes second.</span></li>
+      <li>Sort the squad. Agree a meeting point before you arrive.</li>
+      <li>Plan your ride to Eagle Square early; the Central Area will be busy.</li>
+      <li>Charge your phone and pack a power bank.</li>
+      <li>Outfit first, comfortable shoes a close second.</li>
+      <li>Learn the words. See the Rehearsal Playlist on page 2.</li>
+    </ol>
+  </div>
+  <div class="facts">
+    <div><div class="k">WHAT</div><div class="v">Live Out Loud Music Festival</div></div>
+    <div><div class="k">WHO</div><div class="v">Wizkid</div></div>
+    <div><div class="k">WHEN</div><div class="v">Sunday 13 December 2026</div></div>
+    <div><div class="k">WHERE</div><div class="v">Eagle Square, Abuja</div></div>
+    <div><div class="k">TICKETS</div><div class="v spot">wizkid.tix<wbr>.africa</div></div>
+  </div>
+  <div class="partners">
+    <div class="row"><span class="t">OUR PARTNERS</span><span class="s">Live Out Loud Music Festival is supported by</span></div>
+    <img src="assets/img/sponsors.png" alt="Hennessy, Heineken, Coca-Cola, Desperados, BEST, AXE, Lord's Gin, Transcorp Hotels, Vodi Group, United Nigeria, Trace+, Square Meter, Nova Flair">
+  </div>
+</section>
+
+<!-- ======================= PAGE 4 · WORD HUNT ======================= -->
+<section class="page p4" id="p4">
+  <div class="ticker">LIVE OUT LOUD MUSIC FESTIVAL<b>★</b>13.12.2026<b>★</b>EAGLE SQUARE, ABUJA<b>★</b>WIZKID.TIX.AFRICA</div>
+  <div class="dbl"></div>
+  <div class="sechead"><h1>THE BIG WIZ<br>WORD HUNT</h1><div class="pg">PAGE 4<br>PUZZLES</div></div>
+  <div class="dbl inv"></div>
+  <div class="intro">Nineteen words are hiding in this grid: Wizkid's hits, his albums and the night itself. Look forwards, backwards, up, down and diagonally. We've circled <b>STARBOY</b> to get you started.</div>
+  <div class="ws">
+    <div class="gridwrap" id="grid"></div>
+    <div class="wl" id="wordlist"></div>
+  </div>
+  <div class="secret">
+    <div class="h">THE SECRET MESSAGE<small>Found all 19? Read the 33 unused letters, left to right and top to bottom. They spell your next move.</small></div>
+    <div class="blanks" id="blanks"></div>
+  </div>
+  <div class="p4foot"><span class="t">Stuck? The answer is on every page of this paper.</span><span class="u">WIZKID.TIX.AFRICA</span></div>
+</section>
+
+<script>
+(function () {
+  const W = window.WORDSEARCH, N = W.size, cell = 722 / N;
+  const g = document.getElementById('grid');
+  W.grid.forEach((row, r) => [...row].forEach((ch, c) => {
+    const d = document.createElement('div'); d.className = 'cell'; d.textContent = ch;
+    d.style.left = (c * cell) + 'px'; d.style.top = (r * cell) + 'px'; d.style.width = d.style.height = cell + 'px';
+    g.appendChild(d);
+  }));
+  // circle the example word with a capsule in the spot colour
+  const ex = W.placed[W.example], a = ex[0], b = ex[ex.length - 1];
+  const cx = c => (c + 0.5) * cell;
+  g.insertAdjacentHTML('afterbegin', `<svg width="722" height="722"><line x1="${cx(a[1])}" y1="${cx(a[0])}" x2="${cx(b[1])}" y2="${cx(b[0])}"
+    stroke="#D9481A" stroke-opacity=".28" stroke-width="${cell * 0.78}" stroke-linecap="round"/><line x1="${cx(a[1])}" y1="${cx(a[0])}" x2="${cx(b[1])}" y2="${cx(b[0])}"
+    stroke="none"/></svg>`);
+  const wl = document.getElementById('wordlist');
+  const title = s => s.toLowerCase().replace(/(^|\s)\S/g, m => m.toUpperCase()).replace(' In ', ' in ');
+  for (const [cat, words] of Object.entries(W.categories)) {
+    wl.insertAdjacentHTML('beforeend', `<h3>${cat}</h3><ul>${words.map(w => `<li class="${w === W.example ? 'found' : ''}">${title(w)}</li>`).join('')}</ul>`);
+  }
+  document.getElementById('blanks').innerHTML = W.message.split(' ')
+    .map(w => `<span class="w">${'<i></i>'.repeat(w.length)}</span>`).join('');
+})();
+window.ready = document.fonts.ready.then(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))));
+</script>
+</body>
+</html>
