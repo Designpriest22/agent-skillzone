@@ -54,3 +54,9 @@
 - The page 2 list is renamed **Learn the Lyrics**. The cover index and Live Feed item are updated to match.
 - Festival Essentials: **Card only**, with a new icon (contactless card, cash crossed out) and the tip "Only card is accepted for food, drinks and merch." Per the owner, this replaces "Card & cash".
 - Exported to **PowerPoint** (`out/live-out-loud-times.pptx`). The slides are images of the pages, so their text can't be edited in PowerPoint; the text of each page is in the speaker notes. Edits go through `index.html`, followed by a rebuild.
+
+---
+
+# Revision 4 (3 Nov 2026)
+- The page 2 photo (Wizkid in a chair) is replaced with the owner-supplied satellite view of **Eagle Square**. It gets the same B&W halftone treatment as the other photos, an orange venue pin redrawn over the original (whose red would be lost in greyscale), and a "You are here · 13.12.26" tag.
+- **Attribution kept:** the Google mark stays in frame, with the caption credit "Imagery: Google". Google Maps/Earth imagery may be used in marketing material only with attribution. Before running it as a paid ad, check Google's permission guidelines for maps imagery.

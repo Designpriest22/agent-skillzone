@@ -151,6 +151,9 @@ p { margin: 0 0 12px; }
 .p2bottom .ad { font-size: 14.5px; padding: 8px 11px; }
 .p2bottom .ad b { font-size: 18px; margin-bottom: 3px; }
 
+.venue .pin { position: absolute; left: 262px; top: 18px; width: 30px; height: 40px; z-index: 2; filter: drop-shadow(0 3px 3px rgba(0,0,0,.4)); }
+.venue .tag { position: absolute; left: 300px; top: 20px; z-index: 2; background: var(--ink); color: var(--paper); font: 700 12.5px/1 OldStd; letter-spacing: 2.5px; padding: 7px 9px 6px; }
+.venue img { filter: grayscale(1) contrast(1.18) brightness(1.08); }
 /* ---------- page 3 v2 ---------- */
 .pack { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; border-top: 1.5px solid var(--ink); }
 .pack .it { display: flex; flex-direction: column; align-items: center; text-align: center; padding: 14px 12px 12px; border-bottom: 1.5px solid var(--ink); border-left: 1.5px solid var(--ink); }
@@ -293,8 +296,11 @@ p { margin: 0 0 12px; }
   </div>
   <div class="p2bottom">
     <div>
-      <div class="photo" style="height:248px"><img src="assets/img/wiz-chair.jpg" style="object-position:50% 27%"></div>
-      <div class="caption">BIG WIZ · 13.12.26 · EAGLE SQUARE</div>
+      <div class="photo venue" style="height:248px"><img src="assets/img/eagle-square-map.jpg" style="object-position:50% 100%">
+        <svg class="pin" viewBox="0 0 30 40"><path d="M15 39 C15 39 2 22 2 14 a13 13 0 0 1 26 0 C28 22 15 39 15 39 Z" fill="#D9481A" stroke="#1A1613" stroke-width="2"/><circle cx="15" cy="14" r="5" fill="#FFF7EC"/></svg>
+        <div class="tag">YOU ARE HERE · 13.12.26</div>
+      </div>
+      <div class="caption" style="display:flex;justify-content:space-between"><span>THE VENUE · Eagle Square, Central Business District, Abuja</span><span>Imagery: Google</span></div>
     </div>
     <div class="ads">
       <div class="ad"><b>WANTED</b>Five friends who know every word of <i>Ojuelegba</i>. Report to Eagle Square, 13 Dec. Apply: <span class="u">wizkid.tix.africa</span></div>
