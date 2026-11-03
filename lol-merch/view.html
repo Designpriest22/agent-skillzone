@@ -1,0 +1,21 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>LOL merch view</title>
+<style>
+@font-face { font-family: "BSD"; src: url(assets/fonts/big-shoulders-display-latin-600-normal.woff2); font-weight: 600; }
+@font-face { font-family: "BSD"; src: url(assets/fonts/big-shoulders-display-latin-800-normal.woff2); font-weight: 800; }
+@font-face { font-family: "BSD"; src: url(assets/fonts/big-shoulders-display-latin-900-normal.woff2); font-weight: 900; }
+html, body { margin: 0; background: #ddd; }
+#v { width: 1000px; height: 1200px; }
+#v.zoom { width: 900px; height: 900px; }
+</style>
+<script src="merch.js"></script></head>
+<body><div id="v"></div>
+<script>
+const q = new URLSearchParams(location.search);
+const opts = { g: q.get('g') || 'tee', c: q.get('c') || 'onyx', v: q.get('v') || 'front', zoom: q.get('z') || null };
+const el = document.getElementById('v'); if (opts.zoom) el.className = 'zoom';
+el.innerHTML = MERCH.garmentSVG(opts);
+window.ready = document.fonts.load('900 40px BSD').then(() => document.fonts.load('800 20px BSD')).then(() => document.fonts.load('600 20px BSD'))
+  .then(() => Promise.all([...document.querySelectorAll('image')].map(i => new Promise(r => { const im = new Image(); im.onload = im.onerror = r; im.src = i.getAttribute('href'); }))))
+  .then(() => new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r))));
+</script></body></html>

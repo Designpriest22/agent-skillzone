@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>LOL FEST 2026 — Official Merch Collection</title>
+<script src="merch.js"></script>
+<style>
+@font-face { font-family: "BSD"; src: url(assets/fonts/big-shoulders-display-latin-600-normal.woff2); font-weight: 600; }
+@font-face { font-family: "BSD"; src: url(assets/fonts/big-shoulders-display-latin-800-normal.woff2); font-weight: 800; }
+@font-face { font-family: "BSD"; src: url(assets/fonts/big-shoulders-display-latin-900-normal.woff2); font-weight: 900; }
+:root { --ink: #121110; --paper: #EDEAE4; --card: #F6F4F0; --orange: #E8561B; --gold: #E7B064; --muted: #6B655D; --line: #CFC9C0; }
+html, body { margin: 0; background: var(--paper); color: var(--ink); font-family: Inter, sans-serif; }
+#board { width: 2400px; }
+.sec { padding: 90px 100px; border-bottom: 2px solid var(--line); }
+.eyebrow { font: 800 22px/1 BSD; letter-spacing: 8px; color: var(--orange); text-transform: uppercase; }
+h1, h2, h3 { font-family: BSD; margin: 0; }
+h2 { font-weight: 900; font-size: 96px; line-height: .92; letter-spacing: 1px; text-transform: uppercase; }
+h3 { font-weight: 800; font-size: 34px; letter-spacing: 3px; text-transform: uppercase; }
+p { font-size: 25px; line-height: 1.45; margin: 0 0 16px; }
+.muted { color: var(--muted); }
+img.r { display: block; width: 100%; border-radius: 10px; }
+/* header */
+.head { background: var(--ink); color: var(--paper); padding: 90px 100px 80px; display: grid; grid-template-columns: 1fr 560px; gap: 60px; align-items: center; border: 0; }
+.head h1 { font-weight: 900; font-size: 168px; line-height: .86; letter-spacing: 1px; }
+.head h1 span { color: var(--gold); }
+.head .sub { font: 800 30px/1.3 BSD; letter-spacing: 6px; margin-top: 28px; color: #D8D2C8; }
+.head .sub b { color: var(--orange); font-weight: 800; }
+.head img { width: 100%; }
+/* concept */
+.concept { display: grid; grid-template-columns: 860px 1fr; gap: 90px; }
+.concept .big { font: 900 64px/1.02 BSD; text-transform: uppercase; margin: 18px 0 26px; }
+.pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 26px; }
+.pillars div { background: var(--card); border-radius: 10px; padding: 24px 24px 18px; }
+.pillars b { display: block; font: 800 26px/1 BSD; letter-spacing: 3px; margin-bottom: 10px; text-transform: uppercase; }
+.pillars span { font-size: 20px; line-height: 1.4; color: var(--muted); }
+/* identity */
+.ident { display: grid; grid-template-columns: 520px 1fr 520px; gap: 40px; margin-top: 50px; }
+.card { background: var(--card); border-radius: 14px; padding: 34px; }
+.card h3 { margin-bottom: 18px; }
+.swatches { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sw { border-radius: 10px; height: 118px; padding: 14px; box-sizing: border-box; display: flex; flex-direction: column; justify-content: flex-end; font: 800 20px/1.15 BSD; letter-spacing: 2px; }
+.sw small { font: 600 16px/1.2 Inter; letter-spacing: 0; opacity: .8; }
+.anat { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.anat > div { border-radius: 10px; overflow: hidden; }
+.legend { display: grid; grid-template-columns: repeat(5, auto); gap: 10px 26px; margin-top: 22px; font-size: 19px; color: var(--muted); }
+.legend b { color: var(--ink); }
+/* design sections */
+.design { display: grid; grid-template-columns: 1340px 1fr; gap: 70px; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.pair figure, .closeups figure { margin: 0; }
+figcaption { font: 800 19px/1 BSD; letter-spacing: 4px; color: var(--muted); padding-top: 12px; text-transform: uppercase; }
+.closeups { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 30px; }
+.spec { margin-top: 26px; border-top: 2px solid var(--ink); }
+.spec div { display: grid; grid-template-columns: 210px 1fr; gap: 18px; padding: 13px 0; border-bottom: 1px solid var(--line); font-size: 20px; line-height: 1.35; }
+.spec b { font: 800 19px/1.3 BSD; letter-spacing: 2.5px; text-transform: uppercase; }
+.tag { display: inline-block; background: var(--ink); color: var(--paper); font: 800 20px/1 BSD; letter-spacing: 4px; padding: 10px 14px 9px; margin-bottom: 18px; }
+/* colourways */
+.matrix { display: grid; grid-template-columns: 200px repeat(4, 1fr); gap: 18px; margin-top: 40px; align-items: center; }
+.matrix .h { font: 800 26px/1 BSD; letter-spacing: 4px; text-align: center; text-transform: uppercase; }
+.matrix .rl b { display: block; font: 900 40px/1 BSD; letter-spacing: 3px; }
+.matrix .rl span { font-size: 18px; color: var(--muted); }
+.matrix .chips { display: flex; gap: 6px; margin-top: 12px; }
+.matrix .chips i { width: 30px; height: 30px; border-radius: 50%; border: 1px solid rgba(0,0,0,.2); }
+.matrix .cell { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+/* tables */
+table { width: 100%; border-collapse: collapse; font-size: 20px; line-height: 1.35; }
+th { font: 800 20px/1.2 BSD; letter-spacing: 3px; text-transform: uppercase; text-align: left; padding: 14px 16px; background: var(--ink); color: var(--paper); }
+td { padding: 14px 16px; border-bottom: 1px solid var(--line); vertical-align: top; }
+td:first-child { font: 800 21px/1.25 BSD; letter-spacing: 2px; text-transform: uppercase; width: 220px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 40px; }
+.note { background: #FBEDE4; border-left: 8px solid var(--orange); padding: 22px 26px; font-size: 21px; line-height: 1.45; margin-top: 30px; border-radius: 0 10px 10px 0; }
+/* hero */
+.hero { background: var(--ink); color: var(--paper); border: 0; display: grid; grid-template-columns: 1fr 760px; gap: 70px; align-items: center; }
+.hero h2 { font-size: 130px; }
+.hero h2 span { color: var(--gold); }
+.hero .pair figcaption { color: #9C958B; }
+.hero ul { padding-left: 26px; font-size: 24px; line-height: 1.5; color: #D8D2C8; }
+.hero ul b { color: var(--paper); }
+.foot { padding: 34px 100px; display: flex; justify-content: space-between; font: 800 20px/1 BSD; letter-spacing: 5px; color: var(--muted); }
+</style></head>
+<body><div id="board">
+
+<section class="sec head">
+  <div>
+    <div class="eyebrow" style="color:var(--gold)">Concept board · Version 1</div>
+    <h1 style="margin-top:22px">LOL FEST 2026 —<br><span>OFFICIAL MERCH</span><br>COLLECTION</h1>
+    <div class="sub">LIVE OUT LOUD MUSIC FESTIVAL · WIZKID · <b>SUNDAY 13 DECEMBER 2026</b> · EAGLE SQUARE, ABUJA</div>
+  </div>
+  <img src="assets/lol-logo.png" alt="Live Out Loud Music Festival logo">
+</section>
+
+<section class="sec">
+  <div class="concept">
+    <div>
+      <div class="eyebrow">The concept</div>
+      <div class="big">Fixture: DEC 13.<br>Venue: Eagle Square.</div>
+      <p>We treat the festival like a matchday. The LOL logo is worn like a club crest on the chest, and the date is worn like a squad number on the back. From across the crowd or on a phone screen, one thing reads first: <b>DEC 13</b>.</p>
+      <p class="muted">The language is football kit (crest, numbering, jock tag) built on premium streetwear blanks. Every colour comes from the official logo. Nothing is added that the logo doesn't already own.</p>
+    </div>
+    <div>
+      <div class="pillars">
+        <div><b>Crest on the chest</b><span>The original logo, never redrawn, set on a black crest badge with a gold rule. One treatment on every garment and every colour.</span></div>
+        <div><b>13 on the back</b><span>Custom chamfered numerals built like tackle twill: fill, gap, outline and an inner stitch line. DEC sits above in the same layers.</span></div>
+        <div><b>Matchday details</b><span>A "LOL FEST 2026" nape print and an "Official Merchandise" jock tag at the hem. The collared polo keeps a clean back.</span></div>
+      </div>
+      <div class="ident" style="grid-template-columns: 1fr 1fr; margin-top: 30px">
+        <div class="card"><h3>The palette, from the logo</h3>
+          <div class="swatches">
+            <div class="sw" style="background:#161616;color:#F2EFE8">INK<small>#161616 · body / crest</small></div>
+            <div class="sw" style="background:#F2EFE8;color:#121110;border:1px solid #ddd">CHALK<small>#F2EFE8 · body / numbers</small></div>
+            <div class="sw" style="background:#E8561B;color:#fff">BLAZE<small>#E8561B · from the zig-zag</small></div>
+            <div class="sw" style="background:#E7B064;color:#121110">GOLD<small>#E7B064 · from the letters</small></div>
+            <div class="sw" style="background:#9A3714;color:#F6E7C8">EMBER<small>#9A3714 · from the extrusion</small></div>
+            <div class="sw" style="background:#F6E7C8;color:#121110">CREAM<small>#F6E7C8 · from "Music Festival"</small></div>
+          </div>
+          <p class="muted" style="font-size:18px;margin-top:14px">Hex values for screen. Match to Pantone TCX/TPX on lab dips at sampling.</p>
+        </div>
+        <div class="card"><h3>Type</h3>
+          <div style="font:900 120px/0.9 BSD;letter-spacing:4px">DEC 13</div>
+          <div style="font:800 34px/1.2 BSD;letter-spacing:10px;margin-top:10px">LOL FEST 2026</div>
+          <p class="muted" style="font-size:20px;margin-top:16px">Supporting type is Big Shoulders Display (open source, OFL): condensed, sporty, made for nameplates. The numerals 1 and 3 are custom-drawn, not a font, so the 13 is unique to LOL FEST.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card" style="margin-top:40px">
+    <h3>The DEC 13 numbering system: three treatments</h3>
+    <div class="anat" id="anat"></div>
+    <div class="legend"><span><b>Fill</b>: top twill layer</span><span><b>Gap</b>: body-colour separation</span><span><b>Outline</b>: base twill layer</span><span><b>Stitch</b>: zig-zag edge, 3 mm in</span><span><b>Shadow</b>: offset depth layer</span></div>
+  </div>
+</section>
+
+<section class="sec" id="dA"></section>
+<section class="sec" id="dB"></section>
+<section class="sec" id="dC"></section>
+<section class="sec" id="dD"></section>
+
+<section class="sec">
+  <div class="eyebrow">Colourways</div>
+  <h2 style="margin-top:14px">Three colourways, one system</h2>
+  <div class="matrix" id="matrix"></div>
+</section>
+
+<section class="sec">
+  <div class="eyebrow">Production</div>
+  <h2 style="margin-top:14px">Placement &amp; making</h2>
+  <div class="two">
+    <div>
+      <h3 style="margin-bottom:16px">Placement guide (size L)</h3>
+      <table>
+        <tr><th>Element</th><th>Tee</th><th>Sleeveless</th><th>Jersey</th><th>Polo</th></tr>
+        <tr><td>Front crest</td><td>Centre chest, 22 cm wide, top 10 cm below HPS</td><td>Centre chest, 22 cm wide, top 10 cm below HPS</td><td>Centre chest, 16 cm wide, 3 cm below neck binding</td><td>Left chest (wearer's), 9.5 cm wide, top 16 cm below HPS</td></tr>
+        <tr><td>Nape print</td><td colspan="4">"LOL FEST 2026", 2.5 cm cap height, centred 6 cm below back neck seam</td></tr>
+        <tr><td>DEC</td><td colspan="3">6 cm cap height, centred, top 22 cm below back neck, 2 cm above the number</td><td>None</td></tr>
+        <tr><td>13</td><td>35 cm high, top 31 cm below back neck</td><td>35 cm high, top 31 cm below back neck</td><td>36 cm high</td><td>None: clean back</td></tr>
+        <tr><td>Jock tag</td><td colspan="4">Wearer's right front, 6 cm above hem, 9 × 5.5 cm woven label</td></tr>
+        <tr><td>Polo only</td><td colspan="4">"LOL FEST / ABUJA · 2026" tonal embroidery, wearer's right chest, opposite the crest</td></tr>
+      </table>
+    </div>
+    <div>
+      <h3 style="margin-bottom:16px">Fabric &amp; decoration</h3>
+      <table>
+        <tr><th>Item</th><th>Recommendation</th></tr>
+        <tr><td>Tee</td><td>260–280 gsm combed ring-spun cotton jersey, boxy drop shoulder, 2.5 cm rib neck, garment-dyed for Onyx and Ember. Crest: digital (DTF) print with a high-density clear top-coat. Number: layered tackle-twill appliqué with zig-zag stitch (premium) or layered HD plastisol print (volume).</td></tr>
+        <tr><td>Jersey</td><td>160–180 gsm recycled-polyester micro-mesh, moisture-wicking. 2.5 cm contrast rib binding with a knitted accent stripe. Side stripes knitted in. Number: cut heat-transfer TPU in 3 layers. Chalk body can be fully sublimated.</td></tr>
+        <tr><td>Polo</td><td>220 gsm cotton-poly piqué, flat-knit collar and cuffs with tipping, 2-button placket with branded buttons. Back: clean, nape print only.</td></tr>
+        <tr><td>Sleeveless</td><td>240–260 gsm combed cotton jersey, boxy cropped fit. Square cut-away armholes finished with a turned, twin-needle-stitched band, and a 2.5 cm rib crew neck. Crest: DTF + HD top-coat. Number: tackle twill or layered HD print.</td></tr>
+        <tr><td>Crest</td><td>Dye-sublimated woven badge with a merrowed gold border, heat-sealed then edge-stitched. This keeps the logo's 3D gradients exactly as supplied; thread embroidery cannot reproduce them.</td></tr>
+        <tr><td>Finishing</td><td>Tagless printed neck label (size + "Official Merchandise"), woven jock tag, wash-tested for shrinkage and number lift (ISO 6330), size run XS–3XL.</td></tr>
+      </table>
+    </div>
+  </div>
+  <div class="note"><b>Logo rule.</b> The LOL logo is used exactly as supplied: it is cut from the official artwork, never redrawn, recoloured or re-proportioned. It always sits on the black crest so the cream "Music Festival" line and the brackets stay legible on light garments. For production, request the master vector or high-resolution file from the festival. The mockups use the logo as cut from the flyer.</div>
+</section>
+
+<section class="sec hero">
+  <div>
+    <div class="eyebrow" style="color:var(--gold)">Recommended hero</div>
+    <h2 style="margin-top:16px">The Crowd<br>Tee · <span>Onyx</span></h2>
+    <ul>
+      <li><b>It carries the whole idea.</b> Crest on the chest, DEC 13 on the back: the matchday concept in its simplest, most wearable form.</li>
+      <li><b>Onyx sells to everyone.</b> Black is the night-show staple, it photographs well under stage light, and the white 13 reads from the back of the crowd.</li>
+      <li><b>A launch line-up.</b> The tee is the volume hero. The boxy sleeveless is the trend piece, the jersey is the hype drop, and the clean-back polo is the premium, understated option.</li>
+    </ul>
+  </div>
+  <div class="pair" id="hero"></div>
+</section>
+<div class="foot"><span>LOL FEST 2026 · OFFICIAL MERCH COLLECTION</span><span>CONCEPT BOARD · NOT FOR PRODUCTION WITHOUT LAB DIPS &amp; PRE-PRODUCTION SAMPLES</span></div>
+</div>
+
+<script>
+const M = window.MERCH, img = (n, cap) => `<figure><img class="r" src="out/mockups/${n}.png">${cap ? `<figcaption>${cap}</figcaption>` : ''}</figure>`;
+const D = {
+  dA: { g: 'tee', c: 'onyx', tag: 'Design A', name: 'The Crowd Tee', line: 'Classic oversized T-shirt',
+        desc: 'A heavyweight boxy tee with a drop shoulder and a thick rib neck. The crest sits centre-chest in the sponsor position, big enough to read across a room. On the back, the full matchday number.',
+        spec: [['Fit', 'Oversized, boxy, drop shoulder, 74 cm body length (L)'], ['Fabric', '260–280 gsm combed cotton jersey'], ['Crest', 'DTF print with HD top-coat, 22 cm'], ['Number', 'Tackle twill, 3 layers + zig-zag stitch'], ['Details', 'Rib neck with cover-stitch, nape print, jock tag']] },
+  dB: { g: 'jersey', c: 'chalk', tag: 'Design B', name: 'The Courtside Jersey', line: 'Sleeveless jersey',
+        desc: 'An athletic sleeveless cut from basketball and football training jerseys, with a deep scoop neck and wide armholes. The rib binding carries a knitted accent stripe, and twin stripes run down each side seam. Mesh body, built for a hot crowd.',
+        spec: [['Fit', 'Athletic straight cut, deep armholes'], ['Fabric', '160–180 gsm recycled poly micro-mesh'], ['Trims', '2.5 cm contrast rib binding with accent stripe; knitted side stripes'], ['Crest', 'Sublimated woven badge, 16 cm, heat-sealed'], ['Number', 'Heat-transfer TPU, 3 cut layers, gloss fill']] },
+  dD: { g: 'tank', c: 'onyx', tag: 'Design D', name: 'The Boxy Sleeveless', line: 'Boxy sleeveless tee',
+        desc: 'A heavyweight cotton muscle tee with square shoulders, deep cut-away armholes finished with a stitched band, and a boxy, slightly cropped body. It shares the tee\'s centre-chest crest and the full DEC 13 back: the trend piece of the drop.',
+        spec: [['Fit', 'Boxy, slightly cropped, square cut-away armholes'], ['Fabric', '240–260 gsm combed cotton jersey'], ['Trims', '2.5 cm rib crew neck; turned and twin-needle-stitched armhole band'], ['Crest', 'DTF print with HD top-coat, 22 cm'], ['Number', 'Tackle twill, 3 layers + zig-zag stitch']] },
+  dC: { g: 'polo', c: 'ember', tag: 'Design C', name: 'The Matchday Polo', line: 'Collared polo jersey',
+        desc: 'A structured collared jersey with a flat-knit tipped collar and cuffs, a two-button placket, and the crest at left chest where a club badge sits. The back stays clean apart from the nape print, which makes it the most understated piece in the drop.',
+        spec: [['Fit', 'Regular, set-in sleeve, rib cuffs'], ['Fabric', '220 gsm cotton-poly piqué'], ['Collar', 'Flat-knit with contrast tipping, branded buttons'], ['Crest', 'Sublimated woven badge, 9.5 cm, edge-stitched'], ['Back', 'Clean: "LOL FEST 2026" nape print only']] },
+};
+for (const [id, d] of Object.entries(D)) {
+  const n = `${d.g}-${d.c}`;
+  document.getElementById(id).innerHTML = `<div class="design">
+    <div class="pair">${img(n + '-front', 'Front · ' + M.CW[d.c].name)}${img(n + '-back', 'Back · ' + M.CW[d.c].name)}</div>
+    <div><span class="tag">${d.tag}</span><h2>${d.name}</h2><div style="font:800 28px/1.2 BSD;letter-spacing:4px;color:var(--muted);margin:12px 0 22px;text-transform:uppercase">${d.line}</div>
+      <p>${d.desc}</p>
+      <div class="spec">${d.spec.map(([k, v]) => `<div><b>${k}</b><span>${v}</span></div>`).join('')}</div>
+      <div class="closeups">${img(n + '-front-logo', 'Crest close-up')}${d.g === 'polo' ? img(n + '-back-nape', 'Back collar & nape') : img(n + '-back-number', 'Number close-up')}</div></div></div>`;
+}
+const Cs = ['onyx', 'chalk', 'ember'], Gs = ['tee', 'tank', 'jersey', 'polo'];
+document.getElementById('matrix').innerHTML = `<div></div>${Gs.map(g => `<div class="h">${M.G[g].label}</div>`).join('')}` +
+  Cs.map(c => { const cw = M.CW[c]; return `<div class="rl"><b>${cw.name}</b><span>${cw.note}</span><div class="chips">${[cw.body, cw.num.fill, cw.num.line, cw.trim].map(x => `<i style="background:${x}"></i>`).join('')}</div></div>` +
+    Gs.map(g => `<div class="cell"><img class="r" src="out/mockups/${g}-${c}-front.png"><img class="r" src="out/mockups/${g}-${c}-back.png"></div>`).join(''); }).join('');
+document.getElementById('hero').innerHTML = img('tee-onyx-front', 'Front') + img('tee-onyx-back', 'Back');
+// numbering anatomy: the three treatments drawn live from the same system
+document.getElementById('anat').innerHTML = Cs.map((c, i) => { const cw = M.CW[c];
+  return `<div style="background:${cw.body};padding:26px 0 10px"><svg viewBox="0 0 600 520" width="100%"><defs>
+    <pattern id="pinx${i}" patternUnits="userSpaceOnUse" width="6" height="6"><rect width="6" height="1.3" fill="${cw.num.stripes || '#000'}" opacity=".85"/></pattern>
+    <linearGradient id="glossx${i}" x1="0" y1="0" x2="0.3" y2="1"><stop offset="0" stop-color="#fff" stop-opacity=".38"/><stop offset=".45" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
+    ${M.layered('DEC', 300, 92, 82, cw, 22)}
+    ${M.number13(300, 130, 330, cw, 'x' + i)}
+    </svg><div style="text-align:center;font:900 30px/1 BSD;letter-spacing:6px;color:${cw.text};padding:4px 0 10px">${cw.name}</div></div>`; }).join('');
+window.ready = document.fonts.load('900 40px BSD').then(() => document.fonts.load('800 20px BSD')).then(() => document.fonts.load('600 20px BSD'))
+  .then(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))));
+</script>
+</body></html>
