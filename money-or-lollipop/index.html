@@ -1,0 +1,592 @@
+<title>Money or Lollipop</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: the 9:16 animation centered on a plain dark ground, with a small transport bar under it. Nothing else on the page. */
+:root {
+  color-scheme: dark;
+  --ground: #121110;
+  --panel: #1f1c1a;
+  --line: #34302c;
+  --ink: #efe9e2;
+  --muted: #a69c91;
+  --accent: #3ddc6a;
+  --ui: system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+html, body { height: 100%; }
+body { background: var(--ground); color: var(--ink); font: 14px/1.4 var(--ui);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 16px; }
+.wrap { width: 100%; max-width: 440px; margin: 0 auto; }
+.stagebox { position: relative; width: 100%; max-width: 100%; aspect-ratio: 9 / 16; border-radius: 16px; overflow: hidden; background: #000; }
+#stage { width: 100%; height: 100%; display: block; }
+.bigplay { position: absolute; inset: 0; display: grid; place-items: center; background: rgba(0,0,0,.25); border: 0; cursor: pointer; }
+.bigplay span { width: 84px; height: 84px; border-radius: 50%; background: rgba(255,255,255,.92); display: grid; place-items: center; }
+.bigplay span::before { content: ""; margin-left: 8px; border-style: solid; border-width: 18px 0 18px 30px; border-color: transparent transparent transparent #111; }
+.transport { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.transport button { background: var(--panel); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 8px 12px; font: 600 14px var(--ui); cursor: pointer; min-width: 70px; }
+.transport input[type=range] { flex: 1; min-width: 0; accent-color: var(--accent); }
+.tc { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 13px; min-width: 64px; text-align: right; }
+button:focus-visible, input:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; }
+body.render { padding: 0; background: #000; }
+body.render .wrap { max-width: none; }
+body.render .stagebox { width: 1080px; height: 1920px; border-radius: 0; }
+body.render .transport, body.render .bigplay { display: none !important; }
+</style>
+
+<div class="wrap">
+  <div class="stagebox" id="r">
+    <svg id="stage" viewBox="0 0 1080 1920" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Animated version of a compound-yard video: a little girl in a blue head-tie is offered a fan of naira notes or a lollipop while the adults around her react">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a9cde6"/><stop offset="1" stop-color="#eef2f0"/></linearGradient>
+        <linearGradient id="wallG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d9c4a4"/><stop offset="1" stop-color="#c8ae8a"/></linearGradient>
+        <linearGradient id="dirt" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b39472"/><stop offset="1" stop-color="#957454"/></linearGradient>
+        <filter id="grime" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".008 .025" numOctaves="3" seed="4"/><feColorMatrix values="0 0 0 0 .32  0 0 0 0 .24  0 0 0 0 .16  0 0 0 -1.7 1.1"/></filter>
+        <filter id="dirtN" x="0" y="0" width="100%" height="100%"><feTurbulence type="fractalNoise" baseFrequency=".05" numOctaves="2" seed="11"/><feColorMatrix values="0 0 0 0 .35  0 0 0 0 .26  0 0 0 0 .17  0 0 0 -1.4 .9"/></filter>
+        <pattern id="slats" width="40" height="24" patternUnits="userSpaceOnUse"><rect width="40" height="24" fill="#5a3f37"/><rect y="14" width="40" height="7" fill="#3f2a23"/><rect y="2" width="40" height="3" fill="#6f5246"/></pattern>
+        <pattern id="headtie" width="46" height="46" patternUnits="userSpaceOnUse"><rect width="46" height="46" fill="#1cb4dc"/><path d="M4 30 q10 -14 20 0 t20 0" stroke="#0f86ad" stroke-width="4" fill="none"/><circle cx="12" cy="10" r="2.6" fill="#bff0ff"/><circle cx="34" cy="16" r="2" fill="#bff0ff"/></pattern>
+        <pattern id="leopard" width="54" height="54" patternUnits="userSpaceOnUse"><rect width="54" height="54" fill="#c8a7cd"/>
+          <path d="M8 10 q6 -6 12 0 q-2 8 -12 0z M30 6 q8 -2 10 6 q-8 4 -10 -6z M38 30 q8 0 8 8 q-8 2 -8 -8z M12 34 q6 -4 12 2 q-4 8 -12 -2z M24 22 q4 -3 7 1 q-3 4 -7 -1z" fill="#3e2a2c"/>
+          <circle cx="44" cy="46" r="3" fill="#3e2a2c"/><circle cx="4" cy="48" r="2.5" fill="#3e2a2c"/></pattern>
+        <pattern id="ankara" width="76" height="86" patternUnits="userSpaceOnUse"><rect width="76" height="86" fill="#ec7a1f"/>
+          <ellipse cx="38" cy="43" rx="24" ry="31" fill="#c22a1e" stroke="#2c1308" stroke-width="3"/><ellipse cx="38" cy="43" rx="14" ry="20" fill="none" stroke="#f4c430" stroke-width="5"/><ellipse cx="38" cy="43" rx="5" ry="8" fill="#2c1308"/>
+          <ellipse cx="0" cy="0" rx="10" ry="12" fill="#c22a1e"/><ellipse cx="76" cy="0" rx="10" ry="12" fill="#c22a1e"/><ellipse cx="0" cy="86" rx="10" ry="12" fill="#c22a1e"/><ellipse cx="76" cy="86" rx="10" ry="12" fill="#c22a1e"/></pattern>
+        <pattern id="floral" width="56" height="56" patternUnits="userSpaceOnUse"><rect width="56" height="56" fill="#1c1b1f"/>
+          <g transform="translate(14 14)"><circle r="8" fill="#d8343a"/><circle r="3" fill="#fff"/><path d="M-12 6 q-4 6 2 10 M10 8 q6 4 2 10" stroke="#e9e9e9" stroke-width="2.5" fill="none"/></g>
+          <g transform="translate(42 40)"><circle r="7" fill="#d8343a"/><circle r="2.6" fill="#fff"/><path d="M-10 -8 q-6 -2 -6 -8" stroke="#e9e9e9" stroke-width="2.5" fill="none"/></g></pattern>
+        <pattern id="camo" width="90" height="90" patternUnits="userSpaceOnUse"><rect width="90" height="90" fill="#6f6d5c"/>
+          <path d="M6 10 q20 -8 30 6 q-10 14 -30 -6z M48 40 q22 -6 32 10 q-16 12 -32 -10z M10 60 q14 -4 22 8 q-12 10 -22 -8z" fill="#8f8b72"/><path d="M40 12 q10 -4 16 4 q-8 8 -16 -4z M60 70 q10 -2 14 6 q-8 6 -14 -6z" fill="#4c4b3f"/></pattern>
+        <g id="note">
+          <rect x="-115" y="-56" width="230" height="112" rx="8" fill="#b3e0ab" stroke="#3a7a45" stroke-width="5"/>
+          <rect x="-102" y="-44" width="204" height="88" rx="4" fill="none" stroke="#6eb176" stroke-width="3"/>
+          <ellipse cx="50" cy="2" rx="30" ry="34" fill="#8ccb8f" stroke="#4a8a52" stroke-width="3"/>
+          <circle cx="50" cy="-6" r="11" fill="#5c9e63"/><path d="M32 24 Q50 6 68 24" fill="#5c9e63"/>
+          <path d="M-88 -22 h44 M-88 -8 h30 M-88 20 h60 M-88 32 h40" stroke="#6eb176" stroke-width="5" stroke-linecap="round"/>
+          <circle cx="-70" cy="-30" r="0" fill="none"/>
+        </g>
+        <g id="lolly">
+          <rect x="-5" y="0" width="10" height="150" rx="4" fill="#f4f1ea" stroke="#9a948a" stroke-width="3"/>
+          <path d="M-44 -6 q-14 26 -2 30 l14 -6z M44 -6 q14 26 2 30 l-14 -6z" fill="#e8f7ef" stroke="#8fb39d" stroke-width="3" opacity=".9"/>
+          <circle cx="0" cy="-36" r="40" fill="#5fcf55" stroke="#2c6e2a" stroke-width="5"/>
+          <path d="M-26 -50 q26 -20 46 6 q-8 26 -36 22 q-12 -10 4 -18" stroke="#f3e244" stroke-width="8" fill="none" stroke-linecap="round"/>
+          <ellipse cx="-14" cy="-54" rx="10" ry="6" fill="#fff" opacity=".6"/>
+        </g>
+        <g id="coke">
+          <path d="M-22 -110 h44 v14 q14 20 14 40 v90 q0 14 -14 14 h-44 q-14 0 -14 -14 v-90 q0 -20 14 -40z" fill="#c8222b" stroke="#5d0d12" stroke-width="5" stroke-linejoin="round"/>
+          <rect x="-18" y="-128" width="36" height="20" rx="4" fill="#d02631" stroke="#5d0d12" stroke-width="4"/>
+          <rect x="-36" y="-30" width="72" height="34" fill="#f2f2f2"/><path d="M-36 -14 q36 -16 72 0" stroke="#c8222b" stroke-width="5" fill="none"/>
+          <rect x="-14" y="-90" width="8" height="40" rx="4" fill="#fff" opacity=".35"/>
+        </g>
+      </defs>
+
+      <g id="world">
+        <!-- ===== BACKGROUND (world coords, x 0-2700) ===== -->
+        <g id="bg">
+          <rect x="-400" y="-600" width="3600" height="1800" fill="url(#sky)"/>
+          <!-- distant buildings to the right of the corner -->
+          <path d="M1580 820 h1200 v400 h-1200z" fill="#e7dac4"/><path d="M1560 820 l200 -70 h900 l120 70z" fill="#a47a52"/>
+          <g fill="#7c5f45"><rect x="1660" y="880" width="80" height="60"/><rect x="1800" y="880" width="80" height="60"/><rect x="2300" y="880" width="80" height="60"/><rect x="2440" y="880" width="80" height="60"/></g>
+          <rect x="2000" y="930" width="160" height="70" rx="6" fill="#e9eef2" stroke="#9aa6ad" stroke-width="4"/><rect x="2010" y="940" width="40" height="50" fill="#d84a4a"/>
+          <g transform="translate(1700 700) rotate(-18)"><ellipse rx="56" ry="60" fill="#37a7d6" stroke="#1d6f95" stroke-width="5"/><ellipse rx="22" ry="24" fill="#2b8db8"/><path d="M0 0 L50 -40" stroke="#555" stroke-width="5"/><rect x="-4" y="55" width="8" height="200" fill="#777"/></g>
+          <g transform="translate(2240 760) rotate(-24) scale(.7)"><ellipse rx="56" ry="60" fill="#37a7d6" stroke="#1d6f95" stroke-width="5"/><ellipse rx="22" ry="24" fill="#2b8db8"/><rect x="-4" y="55" width="8" height="160" fill="#777"/></g>
+          <path d="M1600 400 L2700 600" stroke="#444" stroke-width="3"/><path d="M1600 300 L2700 520" stroke="#444" stroke-width="2"/>
+          <!-- concrete staircase -->
+          <g transform="translate(1660 1180) scale(.9)" stroke="#6f6a62" stroke-width="5" stroke-linejoin="round">
+            <path d="M0 0 L420 -520 L460 -520 L460 0z" fill="#b8b2a6"/>
+            <path d="M40 -50 h40 v-50 h40 v-50 h40 v-50 h40 v-50 h40 v-50 h40 v-50 h40 v-50 h40 v-50" fill="none"/>
+            <rect x="380" y="-560" width="300" height="40" fill="#a9a398"/>
+          </g>
+          <g transform="translate(2560 1040)"><path d="M-60 0 q60 -50 120 0z" fill="#e0443e" stroke="#7a1c19" stroke-width="4"/><rect x="-3" y="0" width="6" height="140" fill="#555"/></g>
+          <!-- table with sacks -->
+          <g transform="translate(1800 1150)"><rect x="-150" y="-20" width="300" height="24" fill="#7a5a3e" stroke="#3a2818" stroke-width="5"/><rect x="-140" y="4" width="14" height="110" fill="#5a4030"/><rect x="126" y="4" width="14" height="110" fill="#5a4030"/>
+            <path d="M-120 -20 q-10 -70 50 -80 q60 10 50 80z" fill="#f2f0ea" stroke="#9c988c" stroke-width="5"/><path d="M0 -20 q-6 -56 46 -64 q50 8 44 64z" fill="#ecebe4" stroke="#9c988c" stroke-width="5"/></g>
+          <!-- main wall -->
+          <rect x="-400" y="-200" width="1980" height="1400" fill="url(#wallG)"/>
+          <rect x="-400" y="-200" width="1980" height="1400" filter="url(#grime)" opacity=".55"/>
+          <rect x="1540" y="-200" width="60" height="1400" fill="#bba07c"/><rect x="1570" y="-200" width="40" height="1400" fill="#a88d6a"/>
+          <path d="M-400 140 h1980" stroke="#bfa47f" stroke-width="18"/>
+          <!-- shutter windows -->
+          <g id="win1" transform="translate(140 260)">
+            <rect x="0" y="0" width="640" height="790" rx="6" fill="#3a251f"/>
+            <rect x="22" y="22" width="290" height="746" fill="url(#slats)" stroke="#2a1a14" stroke-width="8"/><rect x="328" y="22" width="290" height="746" fill="url(#slats)" stroke="#2a1a14" stroke-width="8"/>
+            <path d="M167 22 v746 M473 22 v746" stroke="#2a1a14" stroke-width="10"/>
+            <rect x="110" y="250" width="80" height="80" fill="#4a3027" stroke="#2a1a14" stroke-width="5"/><rect x="420" y="70" width="60" height="50" fill="#4a3027" stroke="#2a1a14" stroke-width="5"/>
+            <path d="M0 800 h640" stroke="#a88d6a" stroke-width="16"/>
+          </g>
+          <g transform="translate(1120 260)">
+            <rect x="0" y="0" width="420" height="790" rx="6" fill="#3a251f"/>
+            <rect x="22" y="22" width="180" height="746" fill="url(#slats)" stroke="#2a1a14" stroke-width="8"/><rect x="218" y="22" width="180" height="746" fill="url(#slats)" stroke="#2a1a14" stroke-width="8"/>
+            <path d="M0 800 h420" stroke="#a88d6a" stroke-width="16"/>
+          </g>
+          <!-- paper scraps on the wall -->
+          <g fill="#f2eee6" opacity=".8"><path d="M860 300 l50 -6 l6 44 l-26 -6 l-34 12z"/><path d="M900 400 l24 2 l-4 26 l-22 -6z"/><path d="M940 340 l14 -4 l4 22 l-16 2z"/><path d="M-120 380 l40 -4 l4 30 l-40 4z"/></g>
+          <!-- ground -->
+          <rect x="-400" y="1180" width="3600" height="1600" fill="url(#dirt)"/>
+          <rect x="-400" y="1180" width="3600" height="1600" filter="url(#dirtN)" opacity=".5"/>
+          <path d="M-400 1180 h3600 v16 h-3600z" fill="#7f6142" opacity=".6"/>
+          <g fill="#857055"><ellipse cx="160" cy="1700" rx="40" ry="14"/><ellipse cx="1240" cy="1820" rx="50" ry="16"/><ellipse cx="560" cy="1990" rx="44" ry="15"/><ellipse cx="1900" cy="1560" rx="40" ry="14"/><ellipse cx="300" cy="2150" rx="60" ry="18"/></g>
+          <g fill="#d7c5a6"><ellipse cx="190" cy="1694" rx="12" ry="6"/><ellipse cx="760" cy="1720" rx="14" ry="6"/><ellipse cx="1400" cy="1700" rx="10" ry="5"/><ellipse cx="420" cy="1880" rx="16" ry="7"/></g>
+          <!-- litter: sweet wrappers, sachets, a lying bottle, sandals -->
+          <g><rect x="540" y="1640" width="24" height="12" fill="#6b4bd6" transform="rotate(20 552 1646)"/><rect x="880" y="1830" width="20" height="10" fill="#7a5ae0"/><rect x="1300" y="1610" width="22" height="11" fill="#5a3fc8" transform="rotate(-30 1310 1616)"/>
+            <rect x="680" y="2000" width="26" height="12" fill="#6b4bd6"/><rect x="1500" y="1900" width="30" height="16" fill="#e9e9e9" transform="rotate(14 1515 1908)"/><rect x="1130" y="1690" width="26" height="12" fill="#e9e9e9"/></g>
+          <g transform="translate(1180 1990) rotate(78) scale(.8)"><use href="#coke"/></g>
+          <g transform="translate(330 1560)" fill="#2b2b2e" stroke="#111" stroke-width="3"><ellipse cx="0" cy="0" rx="40" ry="14"/><ellipse cx="60" cy="8" rx="40" ry="14"/></g>
+          <g transform="translate(1660 1420)" fill="#2b2b2e" stroke="#111" stroke-width="3"><ellipse cx="0" cy="0" rx="30" ry="11"/><ellipse cx="44" cy="6" rx="30" ry="11"/></g>
+          <!-- backpack against the wall -->
+          <g transform="translate(1090 1150)"><path d="M-40 40 q-6 -80 40 -90 q46 10 40 90z" fill="#7c7a6c" stroke="#3c3a32" stroke-width="5"/><rect x="-24" y="-10" width="48" height="30" rx="6" fill="#67655a" stroke="#3c3a32" stroke-width="4"/></g>
+          <!-- bench under the window -->
+          <g id="bench"><rect x="460" y="1300" width="22" height="200" fill="#4b3f36"/><rect x="880" y="1300" width="22" height="200" fill="#4b3f36"/>
+            <rect x="420" y="1262" width="500" height="44" rx="6" fill="#5e837c" stroke="#2f4440" stroke-width="5"/>
+            <g fill="#b2ad90" opacity=".85"><rect x="450" y="1270" width="50" height="9"/><rect x="600" y="1286" width="70" height="8"/><rect x="780" y="1272" width="40" height="10"/><rect x="860" y="1288" width="30" height="7"/></g>
+            <path d="M560 1340 q30 -14 60 0 l-6 26 q-24 8 -48 0z" fill="#2e9a4e" stroke="#14532a" stroke-width="4"/></g>
+          <!-- green plastic chair -->
+          <g id="chair" transform="translate(1230 1290) scale(.52)">
+            <path d="M-110 -330 q110 -40 220 0 l-10 220 h-200z" fill="#2fa052" stroke="#14532a" stroke-width="6"/>
+            <path d="M-100 -280 h200 M-100 -230 h200" stroke="#248a43" stroke-width="8"/>
+            <path d="M-120 -10 h240 l-14 40 h-212z" fill="#2fa052" stroke="#14532a" stroke-width="6"/>
+            <path d="M-100 30 l-20 210 M100 30 l20 210 M-60 30 l-10 200 M60 30 l10 200" stroke="#248a43" stroke-width="14" stroke-linecap="round"/>
+          </g>
+        </g>
+
+        <g id="hair" transform="translate(1305 1225) scale(.54)"></g>
+        <g id="ank" transform="translate(1230 1290) scale(.52)"></g>
+        <g id="man" transform="translate(690 1290) scale(.85)"></g>
+        <g id="pink" transform="translate(-300 1330) scale(1.05)"></g>
+        <g id="bottleG"><use href="#coke"/></g>
+        <g id="kid" transform="translate(980 1580) scale(1.15)"></g>
+        <g id="manNoteG" opacity="0"><use href="#note" transform="scale(.55)"/></g>
+      </g>
+
+      <!-- ===== POV hands (screen space, handheld) ===== -->
+      <g id="pov" transform="translate(540 1920) scale(1.22) translate(-540 -1920)">
+        <g id="handCash">
+          <g id="cashFan" transform="translate(250 1560)"></g>
+          <path d="M-80 1990 C20 1880 130 1760 190 1680 L300 1720 C250 1810 160 1910 120 1990z" fill="#4e2c1c" stroke="#1a0d06" stroke-width="7"/>
+          <path d="M178 1640 C210 1600 292 1600 314 1644 C330 1678 312 1728 274 1732 C232 1738 182 1712 172 1680z" fill="#5d3622" stroke="#1a0d06" stroke-width="7"/>
+          <path d="M262 1632 C292 1612 322 1622 314 1652 C302 1672 272 1662 262 1652z" fill="#6c4129" stroke="#1a0d06" stroke-width="6"/>
+          <path d="M200 1692 q30 10 60 4 M206 1712 q30 8 56 2" stroke="#2e180c" stroke-width="5" fill="none"/>
+        </g>
+        <g id="handLolly">
+          <g id="lollyPov" transform="translate(842 1500) rotate(6)"><use href="#lolly"/></g>
+          <path d="M1160 1990 C1060 1880 950 1780 890 1710 L800 1750 C850 1830 930 1920 970 1990z" fill="#4e2c1c" stroke="#1a0d06" stroke-width="7"/>
+          <path d="M790 1660 C810 1610 890 1606 908 1650 C922 1690 896 1740 856 1742 C820 1744 782 1710 790 1660z" fill="#5d3622" stroke="#1a0d06" stroke-width="7"/>
+          <path d="M800 1660 C780 1630 810 1610 830 1628 C842 1644 830 1670 812 1670z" fill="#6c4129" stroke="#1a0d06" stroke-width="6"/>
+          <path d="M820 1700 q30 10 66 0 M826 1720 q28 8 56 0" stroke="#2e180c" stroke-width="5" fill="none"/>
+        </g>
+      </g>
+    </svg>
+    <button class="bigplay" id="bigplay" type="button" aria-label="Play with sound"><span></span></button>
+  </div>
+  <div class="transport">
+    <button type="button" id="play">Play</button>
+    <input type="range" id="scrub" min="0" max="54" step="0.01" value="0" aria-label="Scrub">
+    <span class="tc" id="tc">0:00</span>
+  </div>
+</div>
+
+<script>
+(() => {
+const DUR = 54.1;
+const $ = id => document.getElementById(id);
+const NS = 'http://www.w3.org/2000/svg';
+const el = (tag, attrs = {}, parent) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; };
+const clamp = (x, a = 0, b = 1) => Math.max(a, Math.min(b, x));
+const lerp = (a, b, k) => a + (b - a) * k;
+const ease = k => k < .5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+const win = (t, a, b) => t >= a && t < b;
+// keyframe track: [[time reached, value, transition seconds?]]; values: number or {k: number | [numbers]}
+function track(keys, dur = .3) {
+  return t => {
+    if (t <= keys[0][0]) return keys[0][1];
+    for (let i = 1; i < keys.length; i++) {
+      const [ti, vi, d0] = keys[i];
+      if (t < ti) {
+        const vp = keys[i - 1][1], d = d0 ?? dur, start = Math.max(keys[i - 1][0], ti - d);
+        if (t < start) return vp;
+        const k = ease(clamp((t - start) / (ti - start || 1)));
+        if (typeof vi === 'number') return lerp(vp, vi, k);
+        const o = {}; for (const key in vi) o[key] = Array.isArray(vi[key]) ? vi[key].map((v, j) => lerp(vp[key][j], v, k)) : lerp(vp[key], vi[key], k); return o;
+      }
+    }
+    return keys[keys.length - 1][1];
+  };
+}
+const stepAt = keys => t => { let v = keys[0][1]; for (const [ti, vi] of keys) if (t >= ti) v = vi; return v; };
+// visible ranges -> 0..1 with slide in/out
+const ranges = (list, d = .3) => t => { let v = 0; for (const [a, b] of list) v = Math.max(v, clamp((t - a + d) / d) * clamp((b - t) / d)); return ease(v); };
+
+/* ---------- 2-bone IK arms ---------- */
+function buildArm(g, o) {
+  const sh = el('g', {}, g), ink = o.ink, sw = 6;
+  el('rect', { x: -o.w / 2, y: -6, width: o.w, height: o.L1 + 12, rx: o.w / 2, fill: o.long ? o.sleeve : o.skin, stroke: ink, 'stroke-width': sw }, sh);
+  if (o.sleeve && !o.long) el('path', { d: `M${-o.w / 2 - 9} -14 h${o.w + 18} v${o.L1 * .45} h${-(o.w + 18)}z`, fill: o.sleeve, stroke: ink, 'stroke-width': sw, 'stroke-linejoin': 'round' }, sh);
+  const elg = el('g', {}, sh);
+  el('rect', { x: -o.w / 2 + 2, y: -8, width: o.w - 4, height: o.L2 + 8, rx: o.w / 2, fill: o.long ? o.sleeve : o.skin, stroke: ink, 'stroke-width': sw }, elg);
+  const hand = el('g', { transform: `translate(0 ${o.L2})` }, elg);
+  const propG = el('g', {}, hand);
+  el('ellipse', { rx: o.w * .6, ry: o.w * .68, fill: o.skin, stroke: ink, 'stroke-width': sw }, hand);
+  el('ellipse', { cx: o.w * .45, cy: -6, rx: o.w * .22, ry: o.w * .34, fill: o.skin, stroke: ink, 'stroke-width': 5 }, hand);
+  const fing = el('rect', { x: -6, y: 8, width: 12, height: o.w * 1.1, rx: 6, fill: o.skin, stroke: ink, 'stroke-width': 5, opacity: 0 }, hand);
+  return { sh, elg, hand, propG, fing, L1: o.L1, L2: o.L2 };
+}
+function poseArm(a, sx, sy, tx, ty, side) {
+  const dx = tx - sx, dy = ty - sy; const d = clamp(Math.hypot(dx, dy), 10, a.L1 + a.L2 - 1);
+  const th = Math.atan2(dy, dx), al = Math.acos(clamp((a.L1 * a.L1 + d * d - a.L2 * a.L2) / (2 * a.L1 * d), -1, 1));
+  let best = null;
+  for (const s of [1, -1]) { const ph = th + s * al, ex = Math.cos(ph) * a.L1; if (!best || (side < 0 ? ex < best.ex : ex > best.ex)) best = { ph, ex, ey: Math.sin(ph) * a.L1 }; }
+  const ps = Math.atan2(dy - best.ey, dx - best.ex);
+  a.sh.setAttribute('transform', `translate(${sx} ${sy}) rotate(${(best.ph * 180 / Math.PI - 90).toFixed(2)})`);
+  a.elg.setAttribute('transform', `translate(0 ${a.L1}) rotate(${((ps - best.ph) * 180 / Math.PI).toFixed(2)})`);
+}
+
+/* ---------- shared face parts: eyes open / squint / crying, and mouths ---------- */
+function face(p, o) {
+  const { ex, ey, er, ink, lip, my } = o;
+  return `
+  <g id="${p}-brows" stroke="${o.brow}" stroke-width="${er * .5}" stroke-linecap="round"><path d="M${-ex - er} ${ey - er * 1.7} q${er} ${-er * .5} ${er * 2} 0"/><path d="M${ex - er} ${ey - er * 1.7} q${er} ${-er * .5} ${er * 2} 0"/></g>
+  <g id="${p}-eo"><ellipse cx="${-ex}" cy="${ey}" rx="${er}" ry="${er * 1.12}" fill="#fff" stroke="${ink}" stroke-width="4"/><ellipse cx="${ex}" cy="${ey}" rx="${er}" ry="${er * 1.12}" fill="#fff" stroke="${ink}" stroke-width="4"/>
+    <g id="${p}-pp"><circle cx="${-ex}" cy="${ey + 1}" r="${er * .5}" fill="#1a0e08"/><circle cx="${ex}" cy="${ey + 1}" r="${er * .5}" fill="#1a0e08"/><circle cx="${-ex - er * .2}" cy="${ey - er * .2}" r="${er * .16}" fill="#fff"/><circle cx="${ex - er * .2}" cy="${ey - er * .2}" r="${er * .16}" fill="#fff"/></g></g>
+  <g id="${p}-es" fill="none" stroke="${ink}" stroke-width="${er * .42}" stroke-linecap="round"><path d="M${-ex - er} ${ey + 3} q${er} ${-er * 1.2} ${er * 2} 0"/><path d="M${ex - er} ${ey + 3} q${er} ${-er * 1.2} ${er * 2} 0"/></g>
+  <g id="${p}-ec"><g fill="none" stroke="${ink}" stroke-width="${er * .42}" stroke-linecap="round"><path d="M${-ex - er} ${ey} q${er} ${er * .9} ${er * 2} 0"/><path d="M${ex - er} ${ey} q${er} ${er * .9} ${er * 2} 0"/></g>
+    <g fill="#9fdcff" stroke="#3b88b8" stroke-width="3"><path d="M${-ex} ${ey + er} q-8 18 0 24 q8 -6 0 -24z"/><path d="M${ex} ${ey + er} q-8 18 0 24 q8 -6 0 -24z"/></g></g>
+  <g id="${p}-m-neutral"><path d="M${-er * .9} ${my} q${er * .9} ${er * .35} ${er * 1.8} 0" fill="none" stroke="${ink}" stroke-width="4.5" stroke-linecap="round"/></g>
+  <g id="${p}-m-smile"><path d="M${-er * 1.4} ${my - 3} q${er * 1.4} ${er * 1.3} ${er * 2.8} 0 q${-er * 1.4} ${er * .5} ${-er * 2.8} 0z" fill="#5a1414" stroke="${ink}" stroke-width="4"/><path d="M${-er * 1.1} ${my - 1} q${er * 1.1} ${er * .4} ${er * 2.2} 0" stroke="#fff" stroke-width="4" fill="none"/></g>
+  <g id="${p}-m-laugh"><path d="M${-er * 1.6} ${my - 6} q${er * 1.6} ${-er * .3} ${er * 3.2} 0 q${-er * .2} ${er * 2.2} ${-er * 1.6} ${er * 2.3} q${-er * 1.4} ${-er * .1} ${-er * 1.6} ${-er * 2.3}z" fill="#4a0f12" stroke="${ink}" stroke-width="4.5"/>
+    <path d="M${-er * 1.4} ${my - 5} h${er * 2.8} v${er * .4} h${-er * 2.8}z" fill="#fff"/><ellipse cx="0" cy="${my + er * 1.5}" rx="${er * .7}" ry="${er * .4}" fill="${lip}"/></g>
+  <g id="${p}-m-talk"><ellipse cx="0" cy="${my + 4}" rx="${er * .95}" ry="${er * .75}" fill="#4a0f12" stroke="${ink}" stroke-width="4.5"/><path d="M${-er * .6} ${my - 1} h${er * 1.2}" stroke="#fff" stroke-width="4"/></g>
+  <g id="${p}-m-o"><ellipse cx="0" cy="${my + 6}" rx="${er * .6}" ry="${er * .85}" fill="#4a0f12" stroke="${ink}" stroke-width="4.5"/></g>
+  <g id="${p}-m-cry"><path d="M${-er * 1.5} ${my + er * 1.2} q${er * 1.5} ${-er * 2.6} ${er * 3} 0 q${-er * 1.5} ${-er * .6} ${-er * 3} 0z" fill="#4a0f12" stroke="${ink}" stroke-width="4.5"/><path d="M${-er * .9} ${my + er * .6} q${er * .9} ${-er * .8} ${er * 1.8} 0" stroke="${lip}" stroke-width="4" fill="none"/></g>
+  <g id="${p}-m-pout"><ellipse cx="0" cy="${my + 3}" rx="${er * .55}" ry="${er * .4}" fill="${lip}" stroke="${ink}" stroke-width="4"/></g>`;
+}
+const MOUTHS = ['neutral', 'smile', 'laugh', 'talk', 'o', 'cry', 'pout'];
+function setFace(p, eyes, mouth, t, look = [0, 0], brow = 0) {
+  ['o', 's', 'c'].forEach(k => $(`${p}-e${k}`).setAttribute('opacity', eyes === k ? 1 : 0));
+  // talking flips between talk and neutral so the mouth moves
+  let m = mouth; if (m === 'talk' && Math.sin(t * 23) + Math.sin(t * 9) < -.4) m = 'neutral';
+  if (m === 'laugh' && Math.sin(t * 17) < -.7) m = 'smile';
+  MOUTHS.forEach(k => { const e = $(`${p}-m-${k}`); if (e) e.setAttribute('opacity', m === k ? 1 : 0); });
+  $(`${p}-pp`).setAttribute('transform', `translate(${look[0]} ${look[1]})`);
+  $(`${p}-brows`).setAttribute('transform', `translate(0 ${-brow})`);
+}
+
+/* =================== CHARACTERS =================== */
+// --- the little girl: blue head-tie, leopard dress, barefoot ---
+const K = { skin: '#6a4128', ink: '#22130a' };
+$('kid').innerHTML = `
+  <ellipse cx="0" cy="4" rx="90" ry="14" fill="#000" opacity=".22"/>
+  <g id="k-legs" stroke="${K.ink}" stroke-width="5">
+    <g id="k-legL"><rect x="-40" y="-160" width="32" height="150" rx="14" fill="${K.skin}"/><ellipse cx="-28" cy="-8" rx="24" ry="11" fill="${K.skin}"/></g>
+    <g id="k-legR"><rect x="8" y="-160" width="32" height="150" rx="14" fill="${K.skin}"/><ellipse cx="28" cy="-8" rx="24" ry="11" fill="${K.skin}"/></g>
+  </g>
+  <g id="k-body">
+    <path d="M-62 -332 Q-68 -384 -40 -396 L40 -396 Q68 -384 62 -332z" fill="${K.skin}" stroke="${K.ink}" stroke-width="5"/>
+    <path d="M-30 -388 q30 14 60 0" fill="none" stroke="#4e2e1c" stroke-width="4"/>
+    <path d="M-70 -336 Q-80 -236 -96 -138 Q0 -118 96 -138 Q80 -236 70 -336 Q0 -350 -70 -336z" fill="url(#leopard)" stroke="${K.ink}" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M-70 -330 Q0 -344 70 -330" fill="none" stroke="#9e7ea6" stroke-width="6"/>
+    <path d="M-40 -300 q-10 80 -24 150 M30 -296 q8 80 20 150" stroke="#a685ad" stroke-width="4" fill="none" opacity=".7"/>
+    <rect x="-16" y="-418" width="32" height="30" fill="${K.skin}"/>
+    <g id="k-head" transform="translate(0 -486)">
+      <path d="M-96 -20 C-130 30 -120 90 -84 110 C-90 70 -80 30 -64 10z" fill="url(#headtie)" stroke="#0b5f7c" stroke-width="5"/>
+      <ellipse cx="-70" cy="10" rx="14" ry="18" fill="${K.skin}" stroke="${K.ink}" stroke-width="5"/><ellipse cx="70" cy="10" rx="14" ry="18" fill="${K.skin}" stroke="${K.ink}" stroke-width="5"/>
+      <ellipse cx="0" cy="8" rx="70" ry="72" fill="${K.skin}" stroke="${K.ink}" stroke-width="5"/>
+      <ellipse cx="-40" cy="40" rx="14" ry="9" fill="#8a4a3a" opacity=".45"/><ellipse cx="40" cy="40" rx="14" ry="9" fill="#8a4a3a" opacity=".45"/>
+      <path d="M-84 -6 C-96 -90 -40 -126 10 -120 C70 -118 104 -70 86 -4 C60 -26 -50 -30 -84 -6z" fill="url(#headtie)" stroke="#0b5f7c" stroke-width="5" stroke-linejoin="round"/>
+      <path d="M-60 -60 q40 -30 100 -8 M-70 -30 q60 -26 140 0" stroke="#0b6f92" stroke-width="5" fill="none"/>
+      <path d="M-100 -40 C-140 -60 -150 -20 -120 -4 C-110 -20 -100 -30 -84 -22z" fill="url(#headtie)" stroke="#0b5f7c" stroke-width="5"/>
+      ${face('k', { ex: 26, ey: 10, er: 14, ink: K.ink, lip: '#b85a5a', my: 46, brow: '#2a1810' })}
+      <path d="M-6 22 q6 12 12 0" fill="none" stroke="#3e2416" stroke-width="4"/>
+    </g>
+  </g>
+  <g id="k-armL"></g><g id="k-armR"></g>`;
+const kArmL = buildArm($('k-armL'), { L1: 74, L2: 66, w: 28, ...K });
+const kArmR = buildArm($('k-armR'), { L1: 74, L2: 66, w: 28, ...K });
+el('use', { href: '#coke', transform: 'translate(0 30) scale(.55)' }, kArmL.propG).id = 'k-coke';
+el('use', { href: '#lolly', transform: 'translate(0 -6) rotate(180) scale(.62)' }, kArmR.propG).id = 'k-lolly';
+
+// --- the man: dark tee, camo trousers with green patches, black slides; seated on the bench ---
+const M = { skin: '#5e3a22', ink: '#1e120a', sleeve: '#2f3036' };
+$('man').innerHTML = `
+  <ellipse cx="0" cy="252" rx="160" ry="16" fill="#000" opacity=".2"/>
+  <g id="m-legs" stroke="${M.ink}" stroke-width="6" stroke-linejoin="round">
+    <path d="M-86 -10 L-120 210 L-66 220 L-20 0z" fill="url(#camo)"/><path d="M86 -10 L120 210 L66 220 L20 0z" fill="url(#camo)"/>
+    <path d="M-108 70 l40 6 l-6 46 l-40 -6z" fill="#47c35d"/><path d="M104 64 l-36 6 l4 44 l38 -6z" fill="#47c35d"/>
+    <path d="M-116 150 l30 4 l-4 30 l-30 -4z" fill="#3aa84f"/><path d="M116 146 l-30 4 l4 30 l30 -4z" fill="#3aa84f"/>
+    <path d="M-136 214 h76 l6 26 h-88z" fill="#222326"/><path d="M136 214 h-76 l-6 26 h88z" fill="#222326"/>
+    <path d="M-122 210 h46 M122 210 h-46" stroke="#cfd84a" stroke-width="6"/>
+  </g>
+  <path d="M-98 -20 Q0 30 98 -20 L104 22 Q0 64 -104 22z" fill="url(#camo)" stroke="${M.ink}" stroke-width="6"/>
+  <g id="m-torso">
+    <path d="M-90 -238 Q-112 -120 -98 -8 Q0 20 98 -8 Q112 -120 90 -238 Q0 -264 -90 -238z" fill="${M.sleeve}" stroke="#141418" stroke-width="6" stroke-linejoin="round"/>
+    <path d="M-40 -242 Q0 -212 40 -242" fill="#5e3a22" stroke="#141418" stroke-width="6"/>
+    <g transform="translate(-4 -160)" fill="#d9d9de"><path d="M-12 16 L0 -14 L12 16 h-6 L0 0 L-6 16z"/><circle cx="18" cy="-10" r="4"/></g>
+    <path d="M-60 -70 q20 10 40 0 M30 -110 q16 8 30 0" stroke="#24252b" stroke-width="5" fill="none"/>
+    <rect x="-22" y="-266" width="44" height="36" fill="${M.skin}"/>
+    <g id="m-head" transform="translate(0 -338)">
+      <ellipse cx="-70" cy="8" rx="15" ry="22" fill="${M.skin}" stroke="${M.ink}" stroke-width="5"/><ellipse cx="70" cy="8" rx="15" ry="22" fill="${M.skin}" stroke="${M.ink}" stroke-width="5"/>
+      <path d="M-66 -40 Q-74 60 -40 92 Q0 112 40 92 Q74 60 66 -40 Q60 -92 0 -94 Q-60 -92 -66 -40z" fill="${M.skin}" stroke="${M.ink}" stroke-width="6"/>
+      <path d="M-66 -34 Q-70 -98 0 -100 Q70 -98 66 -34 Q56 -76 0 -78 Q-56 -76 -66 -34z" fill="#170f0a"/>
+      <path d="M-58 -50 q58 -20 116 0" stroke="#2b1d14" stroke-width="4" fill="none"/>
+      ${face('m', { ex: 26, ey: -6, er: 15, ink: M.ink, lip: '#c45a5a', my: 52, brow: '#170f0a' })}
+      <path d="M-8 8 Q0 32 10 26 Q14 32 4 34" fill="#4e2e1a" stroke="${M.ink}" stroke-width="4"/>
+    </g>
+    <g id="m-armL"></g><g id="m-armR"></g>
+  </g>`;
+const mArmL = buildArm($('m-armL'), { L1: 112, L2: 104, w: 40, ...M });
+const mArmR = buildArm($('m-armR'), { L1: 112, L2: 104, w: 40, ...M });
+
+// --- the woman in pink: long-sleeve raspberry top, black capri leggings, gold earrings, green fan, tan cloth ---
+const P = { skin: '#7c4a2c', ink: '#1b0f0c', sleeve: '#c4436d' };
+$('pink').innerHTML = `
+  <ellipse cx="0" cy="318" rx="110" ry="14" fill="#000" opacity=".2"/>
+  <g stroke="${P.ink}" stroke-width="6" stroke-linejoin="round">
+    <g id="p-legL"><rect x="-54" y="40" width="44" height="190" rx="18" fill="#151517"/><rect x="-48" y="220" width="32" height="90" rx="14" fill="${P.skin}"/><path d="M-62 300 h52 v16 h-58z" fill="#3a3a3e"/></g>
+    <g id="p-legR"><rect x="10" y="40" width="44" height="190" rx="18" fill="#151517"/><rect x="16" y="220" width="32" height="90" rx="14" fill="${P.skin}"/><path d="M10 300 h52 l6 16 h-58z" fill="#3a3a3e"/></g>
+    <path d="M-76 -10 Q-84 50 -80 80 Q0 96 80 80 Q84 50 76 -10z" fill="${P.sleeve}"/>
+  </g>
+  <g id="p-torso">
+    <path d="M-74 -250 Q-92 -120 -80 10 Q0 26 80 10 Q92 -120 74 -250 Q0 -276 -74 -250z" fill="${P.sleeve}" stroke="${P.ink}" stroke-width="6"/>
+    <path d="M-30 -254 Q0 -228 30 -254" fill="${P.skin}" stroke="${P.ink}" stroke-width="5"/>
+    <path d="M-50 -120 q20 30 10 110 M40 -150 q-14 40 -6 140" stroke="#a63158" stroke-width="5" fill="none"/>
+    <rect x="-18" y="-282" width="36" height="32" fill="${P.skin}"/>
+    <g id="p-head" transform="translate(0 -350)">
+      <ellipse cx="0" cy="-70" rx="30" ry="22" fill="#140c09"/>
+      <path d="M-62 -10 Q-66 74 0 82 Q66 74 62 -10 Q60 -80 0 -82 Q-60 -80 -62 -10z" fill="${P.skin}" stroke="#24140b" stroke-width="6"/>
+      <path d="M-62 -6 Q-68 -86 0 -88 Q68 -86 62 -6 Q58 -54 0 -60 Q-58 -54 -62 -6z" fill="#140c09"/>
+      <path d="M-40 -66 q40 -14 80 0 M-30 -76 q30 -8 60 0" stroke="#3a2a22" stroke-width="3" fill="none"/>
+      <g fill="#e9b836" stroke="#8a6512" stroke-width="3"><circle cx="-66" cy="22" r="13"/><circle cx="66" cy="22" r="13"/></g>
+      ${face('p', { ex: 24, ey: 4, er: 13, ink: '#24140b', lip: '#b24b5a', my: 44, brow: '#140c09' })}
+      <path d="M-6 16 Q0 32 8 28" fill="none" stroke="#4e2c18" stroke-width="4"/>
+    </g>
+    <g id="p-armL"></g><g id="p-armR"></g>
+  </g>`;
+const pArmL = buildArm($('p-armL'), { L1: 104, L2: 98, w: 36, long: true, ...P });
+const pArmR = buildArm($('p-armR'), { L1: 104, L2: 98, w: 36, long: true, ...P });
+pArmR.propG.innerHTML = `<g transform="translate(0 10)"><rect x="-6" y="0" width="12" height="60" fill="#3a9a52" stroke="#14532a" stroke-width="4"/>
+  <g transform="translate(0 112)"><ellipse rx="68" ry="62" fill="#41db6c" stroke="#14602c" stroke-width="6"/><path d="M0 -56 V56 M-40 -30 L0 0 L40 -30 M-50 10 L0 30 L50 10" stroke="#27b04f" stroke-width="4" fill="none"/></g></g>`;
+pArmL.propG.innerHTML = `<path d="M-40 -60 q-14 90 10 150 q30 10 60 -6 q-6 -80 -10 -150z" fill="#c9a27e" stroke="#6f5236" stroke-width="5"/><path d="M-20 -20 q-6 60 6 110" stroke="#a9845f" stroke-width="4" fill="none"/>`;
+
+// --- seated woman in the orange ankara dress, hair being combed ---
+const A = { skin: '#7a4a2c', ink: '#22130a', sleeve: 'url(#ankara)' };
+$('ank').innerHTML = `
+  <g stroke="${A.ink}" stroke-width="6" stroke-linejoin="round">
+    <rect x="-70" y="40" width="40" height="170" rx="16" fill="${A.skin}"/><rect x="30" y="40" width="40" height="170" rx="16" fill="${A.skin}"/>
+    <path d="M-86 200 h56 v18 h-62z" fill="#d8d0c4"/><path d="M30 200 h56 l6 18 h-62z" fill="#d8d0c4"/>
+    <path d="M-104 -16 Q-120 60 -100 90 Q0 110 100 90 Q120 60 104 -16z" fill="url(#ankara)"/>
+  </g>
+  <g id="a-torso">
+    <path d="M-82 -244 Q-100 -120 -90 0 Q0 18 90 0 Q100 -120 82 -244 Q0 -270 -82 -244z" fill="url(#ankara)" stroke="${A.ink}" stroke-width="6"/>
+    <path d="M-34 -250 Q0 -220 34 -250" fill="${A.skin}" stroke="${A.ink}" stroke-width="5"/>
+    <rect x="-20" y="-276" width="40" height="32" fill="${A.skin}"/>
+    <g id="a-head" transform="translate(0 -340)">
+      <path d="M-74 -10 C-96 -70 -60 -126 0 -122 C60 -126 100 -70 76 -8 C90 -40 60 -90 0 -88 C-60 -90 -90 -40 -74 -10z" fill="#140c09"/>
+      <path d="M-70 -14 C-100 -50 -96 -106 -50 -118 M70 -14 C100 -40 96 -100 50 -116" stroke="#140c09" stroke-width="18" fill="none" stroke-linecap="round"/>
+      <path d="M-64 -10 Q-68 74 0 84 Q68 74 64 -10 Q62 -80 0 -82 Q-62 -80 -64 -10z" fill="${A.skin}" stroke="#24140b" stroke-width="6"/>
+      <path d="M-64 -10 Q-60 -70 0 -76 Q60 -70 64 -10 Q48 -50 0 -54 Q-48 -50 -64 -10z" fill="#140c09"/>
+      <path d="M-30 -110 v-30 M0 -116 v-36 M30 -110 v-30" stroke="#140c09" stroke-width="10" stroke-linecap="round"/>
+      ${face('a', { ex: 25, ey: 6, er: 13, ink: '#24140b', lip: '#b24b5a', my: 46, brow: '#140c09' })}
+      <path d="M-6 18 Q0 34 8 30" fill="none" stroke="#4e2c18" stroke-width="4"/>
+    </g>
+    <g id="a-armL"></g><g id="a-armR"></g>
+  </g>`;
+const aArmL = buildArm($('a-armL'), { L1: 108, L2: 100, w: 38, ...A });
+const aArmR = buildArm($('a-armR'), { L1: 108, L2: 100, w: 38, ...A });
+aArmL.propG.innerHTML = `<g transform="translate(-8 22) rotate(-12)"><rect x="-44" y="-30" width="88" height="62" fill="#fbfbf8" stroke="#8d8a82" stroke-width="4"/><path d="M-30 -12 h50 M-30 2 h40 M-30 16 h56" stroke="#c9c6bd" stroke-width="3"/></g>`;
+
+// --- the woman doing her hair: black floral shirt, grey head-wrap, black shorts ---
+const H = { skin: '#6e4127', ink: '#1b0f0c', sleeve: 'url(#floral)' };
+$('hair').innerHTML = `
+  <ellipse cx="0" cy="318" rx="100" ry="14" fill="#000" opacity=".2"/>
+  <g stroke="${H.ink}" stroke-width="6" stroke-linejoin="round">
+    <g id="h-legL"><rect x="-50" y="80" width="38" height="230" rx="16" fill="${H.skin}"/><ellipse cx="-34" cy="308" rx="26" ry="10" fill="${H.skin}"/></g>
+    <g id="h-legR"><rect x="12" y="80" width="38" height="230" rx="16" fill="${H.skin}"/><ellipse cx="34" cy="308" rx="26" ry="10" fill="${H.skin}"/></g>
+    <path d="M-74 -10 L-80 120 L-4 124 L0 60 L4 124 L80 120 L74 -10z" fill="#151517"/>
+  </g>
+  <g id="h-torso">
+    <path d="M-72 -250 Q-90 -120 -78 8 Q0 22 78 8 Q90 -120 72 -250 Q0 -274 -72 -250z" fill="url(#floral)" stroke="${H.ink}" stroke-width="6"/>
+    <path d="M-30 -254 Q0 -226 30 -254" fill="${H.skin}" stroke="${H.ink}" stroke-width="5"/>
+    <rect x="-18" y="-282" width="36" height="32" fill="${H.skin}"/>
+    <g id="h-head" transform="translate(0 -348)">
+      <path d="M40 -60 C90 -40 100 30 80 90 C70 50 60 0 40 -20z" fill="#a9a9ad" stroke="#5a5a60" stroke-width="5"/>
+      <path d="M-60 -10 Q-64 72 0 80 Q64 72 60 -10 Q58 -78 0 -80 Q-58 -78 -60 -10z" fill="${H.skin}" stroke="#24140b" stroke-width="6"/>
+      <path d="M-70 -4 C-84 -90 -30 -120 10 -116 C70 -112 92 -60 72 0 C40 -30 -40 -34 -70 -4z" fill="#b0b0b5" stroke="#5a5a60" stroke-width="5"/>
+      <path d="M-50 -60 q50 -26 110 -4 M-56 -30 q60 -24 120 0" stroke="#8e8e94" stroke-width="5" fill="none"/>
+      ${face('h', { ex: 23, ey: 6, er: 13, ink: '#24140b', lip: '#b24b5a', my: 44, brow: '#140c09' })}
+      <path d="M-6 18 Q0 32 8 28" fill="none" stroke="#4e2c18" stroke-width="4"/>
+    </g>
+    <g id="h-armL"></g><g id="h-armR"></g>
+  </g>`;
+const hArmL = buildArm($('h-armL'), { L1: 104, L2: 98, w: 34, ...H });
+const hArmR = buildArm($('h-armR'), { L1: 104, L2: 98, w: 34, ...H });
+hArmL.propG.innerHTML = `<g transform="translate(0 10) rotate(80)"><rect x="-6" y="-8" width="90" height="16" rx="3" fill="#151515"/><path d="M10 8 v14 M22 8 v14 M34 8 v14 M46 8 v14 M58 8 v14 M70 8 v14" stroke="#151515" stroke-width="4"/></g>`;
+
+/* ---------- cash fan in the POV hand ---------- */
+const cashNotes = [];
+for (let i = 0; i < 7; i++) cashNotes.push(el('use', { href: '#note' }, $('cashFan')));
+function drawCash(n, t) { cashNotes.forEach((u, i) => { u.setAttribute('opacity', i < n ? 1 : 0); u.setAttribute('transform', `rotate(${-62 + i * 11 + Math.sin(t * 4 + i) * 1.1}) translate(0 -120)`); }); }
+
+/* =================== TIMELINE (seconds match the source video) =================== */
+// camera: world point to centre on, and zoom
+const SH = {
+  wideL: { x: 930, y: 1300, z: 1.7 }, kid: { x: 1010, y: 1290, z: 1.75 }, ankCU: { x: 1240, y: 1100, z: 4.0 }, manLean: { x: 830, y: 1220, z: 1.7 },
+  manCU: { x: 740, y: 1080, z: 3.0 }, manB: { x: 720, y: 1200, z: 2.0 }, pinkKid: { x: 940, y: 1290, z: 1.7 }, ankMid: { x: 1270, y: 1160, z: 3.0 },
+  carry: { x: 850, y: 1260, z: 1.75 }, manH: { x: 700, y: 1160, z: 2.3 }, manBg: { x: 840, y: 1260, z: 1.8 }, right: { x: 1450, y: 1250, z: 1.6 },
+  pinkLaugh: { x: 940, y: 1160, z: 1.9 }, manPink: { x: 770, y: 1160, z: 1.9 }, women: { x: 1230, y: 1250, z: 2.1 },
+};
+const cam = track([
+  [0, SH.wideL], [1.4, SH.kid, 1.4], [4.6, SH.kid], [5.3, SH.ankCU, .5], [6.9, SH.ankCU], [7.3, SH.kid, .4], [9.2, SH.kid], [9.6, SH.manLean, .35], [10.4, SH.manLean],
+  [10.8, SH.kid, .35], [12.6, SH.kid], [13.0, SH.manCU, .35], [14.1, SH.manCU], [14.5, SH.manB, .3], [14.9, SH.manB], [15.3, SH.pinkKid, .35], [18.6, SH.pinkKid],
+  [19.0, SH.ankMid, .35], [20.2, SH.ankMid], [20.6, SH.pinkKid, .35], [23.0, SH.pinkKid], [23.6, SH.manB, .45], [26.2, SH.manB], [26.6, SH.carry, .35], [27.6, SH.carry],
+  [28.0, SH.manB, .35], [28.7, SH.manB], [29.1, SH.carry, .35], [31.8, SH.pinkKid, .6], [32.1, SH.manH, .3], [33.3, SH.manH], [33.7, SH.manBg, .35], [36.0, SH.manBg],
+  [36.4, SH.pinkKid, .35], [38.6, SH.pinkKid], [39.8, SH.right, 1.1], [40.6, SH.right], [41.0, SH.pinkLaugh, .35], [42.8, SH.pinkLaugh], [43.2, SH.manPink, .35], [44.6, SH.manPink],
+  [45.0, SH.women, .4], [49.2, SH.women], [49.6, SH.manH, .4], [54.2, SH.manH],
+]);
+// the girl
+const kidPos = track([[0, { x: 830, y: 1560 }], [1.5, { x: 980, y: 1610 }, 1.5], [38.6, { x: 980, y: 1610 }], [40.6, { x: 1400, y: 1570 }, 2.0], [44.8, { x: 1400, y: 1570 }], [45.0, { x: 1110, y: 1485 }, .2], [49, { x: 1060, y: 1495 }, 3]]);
+const kidWalk = ranges([[0, 1.5], [38.7, 40.6], [46, 48.5]], .15);
+const carried = ranges([[26.55, 31.6]], .25);
+const KP = { side: { L: [-70, -230], R: [70, -230] }, bottle: { L: [-64, -262], R: [72, -228] }, shy: { L: [-14, -300], R: [14, -300] }, reach: { L: [-70, -230], R: [196, -330] },
+  hug: { L: [-60, -330], R: [40, -360] }, reachC: { L: [-60, -330], R: [200, -360] }, lolly: { L: [-130, -280], R: [60, -360] }, lollyMouth: { L: [-70, -230], R: [36, -420] } };
+const kidArms = track([[0, KP.bottle], [12.8, KP.bottle], [15.1, KP.side, .3], [20.4, KP.side], [20.8, KP.shy, .3], [22.8, KP.shy], [23.2, KP.side], [26.6, KP.hug, .25], [29.8, KP.hug],
+  [30.3, KP.reachC, .4], [31.2, KP.reachC], [31.8, KP.side, .3], [36.2, KP.side], [36.8, KP.reach, .45], [37.1, KP.reach], [37.5, KP.lolly, .3], [44.8, KP.lolly], [45.4, KP.lollyMouth, .4]]);
+const kidFace = stepAt([[0, ['o', 'neutral']], [3.5, ['o', 'pout']], [9, ['o', 'neutral']], [20.6, ['s', 'smile']], [23, ['o', 'neutral']], [26.8, ['s', 'smile']], [29.5, ['o', 'neutral']],
+  [31.8, ['o', 'pout']], [37.3, ['c', 'cry']], [40.6, ['o', 'pout']], [45.3, ['o', 'neutral']]]);
+const kidLook = track([[0, [0, 2]], [2, [-6, 6]], [3.2, [6, 6]], [4.4, [0, 4]], [8, [-6, 6]], [11, [6, 6]], [16, [-6, 4]], [21, [6, 6]], [36, [6, 6]], [45, [0, 2]]], .25);
+// the man
+const MP = { rest: { L: [-78, 16], R: [78, 16] }, reach: { L: [-78, 16], R: [230, -90] }, point: { L: [-80, 10], R: [220, 40] }, head: { L: [-46, -404], R: [46, -404] },
+  headOne: { L: [-78, 16], R: [46, -404] }, slap: { L: [-60, 40], R: [180, 110] }, talk: { L: [-78, 16], R: [150, -170] }, take: { L: [-78, 16], R: [200, -100] }, note: { L: [-30, -60], R: [30, -60] } };
+const manArms = track([[0, MP.rest], [9.4, MP.reach, .3], [10.6, MP.reach], [10.9, MP.rest], [12.9, MP.point, .3], [15.1, MP.point], [15.4, MP.rest], [23.5, MP.rest], [24.0, MP.slap, .35],
+  [26.3, MP.slap], [26.7, MP.rest], [27.8, MP.talk, .3], [28.8, MP.talk], [29.2, MP.rest], [31.9, MP.head, .3], [35.8, MP.head], [36.1, MP.headOne, .3], [38, MP.rest, .5], [42.9, MP.head, .3],
+  [44.8, MP.head], [45.2, MP.rest], [49.3, MP.head, .3], [52.0, MP.head], [52.4, MP.take, .3], [52.7, MP.take], [53.1, MP.note, .35]]);
+const manTorso = track([[0, 0], [9.4, 16], [10.6, 16], [10.9, 2], [12.9, 18], [15.1, 14], [15.4, 0], [24.0, 28, .35], [26.3, 26], [26.7, 0], [31.9, -10, .4], [35.8, -10], [36.1, -4], [38, 0],
+  [42.9, -10], [44.8, -10], [45.2, 0], [49.3, -10], [52, -8], [52.4, 8], [53.2, 4]]);
+const manLift = track([[0, 0], [23.6, 0], [24.0, 70, .35], [26.3, 70], [26.6, 0, .3]]);
+const manFace = stepAt([[0, ['o', 'neutral']], [9.4, ['s', 'laugh']], [10.6, ['o', 'neutral']], [12.9, ['o', 'talk']], [15.2, ['o', 'neutral']], [23.6, ['s', 'laugh']], [26.4, ['o', 'neutral']],
+  [27.8, ['o', 'talk']], [29, ['o', 'neutral']], [31.9, ['o', 'o']], [33.6, ['o', 'pout']], [38, ['o', 'neutral']], [42.9, ['o', 'o']], [45, ['o', 'neutral']], [49.3, ['o', 'pout']], [51.2, ['o', 'neutral']], [53.1, ['s', 'smile']]]);
+// the woman in pink
+const pinkPos = track([[0, { x: -300, y: 1262 }], [14.4, { x: 380, y: 1330 }, .01], [15.3, { x: 620, y: 1330 }, .9], [22.9, { x: 620, y: 1330 }], [23.4, { x: 790, y: 1330 }, .5], [29.0, { x: 790, y: 1330 }],
+  [30.6, { x: 880, y: 1330 }, 1.6], [31.9, { x: 880, y: 1330 }], [32.0, { x: 1150, y: 1330 }, .05], [33.4, { x: 1150, y: 1330 }], [33.5, { x: 620, y: 1330 }, .05], [38.8, { x: 620, y: 1330 }], [40.8, { x: 930, y: 1310 }, .3], [42.9, { x: 930, y: 1310 }], [43.1, { x: 880, y: 1320 }, .2], [44.8, { x: 880, y: 1320 }],
+  [45.0, { x: 1000, y: 1340 }, .2], [49.2, { x: 1000, y: 1340 }], [49.4, { x: 900, y: 1330 }, .2], [51.0, { x: 420, y: 1330 }, 1.6]]);
+const pinkWalk = ranges([[14.4, 15.3], [29.0, 30.6], [49.4, 51.0]], .1);
+const pinkBend = track([[0, 0], [15.3, 0], [15.8, 50, .5], [22.4, 50], [22.9, 0, .5], [25.8, 0], [26.2, 45, .35], [26.6, 0, .4], [30.6, 0], [31.1, 48, .4], [31.6, 48], [31.9, 12, .3], [32.4, 50, .4],
+  [36.2, 50], [36.6, 40], [38.6, 40], [39.0, 0, .4]]);
+const PP = { rest: { L: [-80, -10], R: [80, -10] }, fanUp: { L: [-80, -10], R: [110, -290] }, whisper: { L: [-60, -110], R: [70, -150] }, carry: { L: [-30, -110], R: [90, -40] },
+  pick: { L: [40, -40], R: [110, -10] }, handHold: { L: [-60, -110], R: [150, -30] }, laugh: { L: [-30, -150], R: [100, -260] } };
+const pinkArms = track([[0, PP.rest], [15.4, PP.rest], [15.9, PP.whisper, .4], [22.4, PP.whisper], [22.9, PP.fanUp, .4], [25.8, PP.fanUp], [26.2, PP.pick, .35], [26.6, PP.carry, .3], [30.6, PP.carry],
+  [31.1, PP.pick, .4], [31.8, PP.pick], [32.4, PP.whisper, .4], [36.2, PP.whisper], [36.7, PP.handHold, .4], [38.6, PP.handHold], [39.0, PP.rest, .3], [40.8, PP.laugh, .3], [42.9, PP.laugh],
+  [43.1, PP.fanUp, .2], [44.8, PP.fanUp], [45, PP.fanUp], [49.4, PP.rest, .3]]);
+const pinkFace = stepAt([[0, ['o', 'smile']], [15.6, ['o', 'talk']], [22.6, ['s', 'laugh']], [26.2, ['o', 'smile']], [26.7, ['s', 'laugh']], [30.6, ['o', 'smile']], [32.4, ['o', 'talk']], [36.4, ['s', 'laugh']],
+  [39, ['s', 'laugh']], [45, ['o', 'smile']], [49.4, ['o', 'talk']]]);
+// seated woman (ankara)
+const AP = { paper: { L: [-90, -110], R: [60, 10] }, lap: { L: [-60, 10], R: [60, 10] }, talk: { L: [-90, -110], R: [110, -120] }, head: { L: [-50, -410], R: [50, -410] } };
+const ankArms = track([[0, AP.paper], [4.8, AP.paper], [5.4, AP.talk, .3], [6.8, AP.talk], [7.2, AP.paper], [18.8, AP.paper], [19.1, AP.head, .3], [20.3, AP.head], [20.7, AP.paper, .3]]);
+const ankFace = stepAt([[0, ['o', 'neutral']], [5.2, ['s', 'laugh']], [6.0, ['o', 'talk']], [7.1, ['o', 'neutral']], [8, ['s', 'smile']], [10, ['o', 'neutral']], [19, ['s', 'laugh']], [20.6, ['o', 'smile']],
+  [27, ['s', 'laugh']], [29, ['o', 'smile']], [37.4, ['s', 'laugh']], [40, ['o', 'smile']], [45, ['o', 'neutral']]]);
+// woman doing hair
+const HP = { comb: { L: [-130, -320], R: [-110, -250] }, laugh: { L: [-60, -20], R: [20, -300] }, dance: { L: [-180, -230], R: [180, -230] }, mouth: { L: [-50, -40], R: [10, -300] } };
+const hairArms = track([[0, HP.comb], [7.2, HP.comb], [7.5, HP.laugh, .3], [8.8, HP.laugh], [9.2, HP.comb], [16.3, HP.comb], [16.6, HP.dance, .3], [18.4, HP.dance], [18.8, HP.comb], [19.0, HP.mouth, .2],
+  [20.3, HP.mouth], [20.7, HP.comb], [37, HP.comb], [37.3, HP.mouth], [39, HP.mouth], [39.4, HP.comb]]);
+const hairX = track([[0, 1305], [7.5, 1305], [8.2, 1385, .6], [8.9, 1385], [9.4, 1305, .5]]);
+const hairFace = stepAt([[0, ['o', 'neutral']], [7.4, ['s', 'laugh']], [9.2, ['o', 'smile']], [16.4, ['s', 'laugh']], [18.6, ['o', 'smile']], [19, ['s', 'laugh']], [21, ['o', 'smile']], [37, ['s', 'laugh']], [40, ['o', 'smile']]]);
+// POV hands
+const cashVis = ranges([[-1, 5.0], [7.1, 12.6], [13.0, 14.3], [15.1, 18.8], [20.4, 23.3], [26.5, 27.7], [29.0, 31.9], [33.6, 40.9], [41.0, 42.9], [44.0, 44.8], [45.0, 49.3], [51.2, 52.9]]);
+const lollyVis = ranges([[-1, 5.0], [7.1, 12.6], [15.1, 18.8], [20.4, 23.3], [26.5, 27.7], [29.0, 31.9], [36.3, 37.6]]);
+const cashShift = track([[0, { x: 0, y: 0 }], [12.9, { x: 0, y: 0 }], [13.0, { x: 520, y: 40 }, .05], [14.3, { x: 520, y: 40 }], [14.4, { x: 0, y: 0 }, .05], [51.0, { x: 0, y: 0 }], [51.6, { x: 240, y: -260 }, .6], [52.5, { x: 260, y: -300 }], [53, { x: 0, y: 0 }, .5]]);
+const lollyReach = track([[0, 0], [36.4, 0], [36.95, 1, .5], [37.3, 1], [37.6, 0, .3]]);
+const cashCount = stepAt([[0, 7], [52.6, 6]]);
+
+/* =================== RENDER =================== */
+function renderAt(t) {
+  t = clamp(t, 0, DUR);
+  // handheld camera
+  const c = cam(t), jx = Math.sin(t * 1.3) * 9 + Math.sin(t * 3.7) * 4, jy = Math.cos(t * 1.1) * 8 + Math.sin(t * 4.3) * 3, jr = Math.sin(t * .8) * .9 + Math.sin(t * 2.3) * .3;
+  $('world').setAttribute('transform', `translate(${540 + jx} ${960 + jy}) rotate(${jr.toFixed(3)}) scale(${c.z.toFixed(4)}) translate(${-c.x.toFixed(1)} ${-c.y.toFixed(1)})`);
+
+  // --- woman in pink ---
+  const pp = pinkPos(t), pw = pinkWalk(t) * Math.sin(t * 13), pb = pinkBend(t);
+  $('pink').setAttribute('transform', `translate(${pp.x.toFixed(1)} ${(pp.y - Math.abs(pw) * 10).toFixed(1)}) scale(1.05)`);
+  $('p-legL').setAttribute('transform', `rotate(${(pw * 12).toFixed(1)} -32 40)`); $('p-legR').setAttribute('transform', `rotate(${(-pw * 12).toFixed(1)} 32 40)`);
+  const laughing = pinkFace(t)[1] === 'laugh';
+  $('p-torso').setAttribute('transform', `rotate(${(pb + (laughing ? Math.sin(t * 9) * 3 : 0)).toFixed(2)})`);
+  const pa = pinkArms(t), fan = win(t, 22.9, 26) || win(t, 40.8, 45) ? Math.sin(t * 11) * 34 : 0;
+  poseArm(pArmL, -68, -232, pa.L[0], pa.L[1], -1); poseArm(pArmR, 68, -232, pa.R[0] + fan, pa.R[1] + fan * .3, 1);
+  const pf = pinkFace(t); setFace('p', pf[0], pf[1], t, [pb > 30 ? 6 : 0, pb > 30 ? 6 : 0]);
+  $('p-head').setAttribute('transform', `translate(0 -350) rotate(${(pb > 30 ? -pb * .45 : 0).toFixed(1)})`);
+
+  // --- the girl ---
+  let kp = kidPos(t), ks = clamp(lerp(.82, 1.15, (kp.y - 1485) / 125), .82, 1.15), kr = 0;
+  const cw = carried(t);
+  if (cw > 0) { // sitting on the hip of the woman in pink
+    const hx = pp.x + 70, hy = pp.y + 120;
+    kp = { x: lerp(kp.x, hx, cw), y: lerp(kp.y, hy, cw) }; ks = lerp(ks, .95, cw); kr = -6 * cw;
+  }
+  const kw = kidWalk(t) * Math.sin(t * 12);
+  $('kid').setAttribute('transform', `translate(${kp.x.toFixed(1)} ${(kp.y - Math.abs(kw) * 8).toFixed(1)}) rotate(${kr.toFixed(2)}) scale(${ks.toFixed(3)})`);
+  $('k-legL').setAttribute('transform', `rotate(${(kw * 10 - cw * 70).toFixed(1)} -24 -150)`); $('k-legR').setAttribute('transform', `rotate(${(-kw * 10 - cw * 50).toFixed(1)} 24 -150)`);
+  const sway = Math.sin(t * 1.6) * 2.5 * (1 - cw);
+  $('k-body').setAttribute('transform', `rotate(${sway.toFixed(2)} 0 -150)`);
+  $('k-head').setAttribute('transform', `translate(0 -486) rotate(${(Math.sin(t * 1.1) * 3 + (win(t, 37.3, 40.6) ? Math.sin(t * 7) * 4 : 0)).toFixed(1)})`);
+  const ka = kidArms(t);
+  poseArm(kArmL, -56, -378, ka.L[0], ka.L[1], -1); poseArm(kArmR, 56, -378, ka.R[0], ka.R[1], 1);
+  $('k-coke').setAttribute('opacity', t < 15.0 ? 1 : 0);
+  $('k-lolly').setAttribute('opacity', t >= 37.1 ? 1 : 0);
+  const kf = kidFace(t); setFace('k', kf[0], kf[1], t, kidLook(t));
+  // the bottle she put down
+  const bt = $('bottleG'); bt.setAttribute('opacity', t >= 15.0 ? 1 : 0); bt.setAttribute('transform', 'translate(1100 1630) rotate(-84) scale(.6)');
+
+  // --- the man ---
+  const ml = manLift(t), mt = manTorso(t);
+  $('man').setAttribute('transform', `translate(690 ${(1290 - ml).toFixed(1)}) scale(.85)`);
+  $('m-legs').setAttribute('transform', `translate(0 ${(ml * .2).toFixed(1)}) scale(1 ${(1 + ml / 300).toFixed(3)})`);
+  $('m-torso').setAttribute('transform', `rotate(${(mt + (manFace(t)[1] === 'laugh' ? Math.sin(t * 12) * 3 : 0)).toFixed(2)})`);
+  const ma = manArms(t), slap = win(t, 24.2, 26.2) ? Math.max(0, Math.sin(t * 10)) * -40 : 0, shake = win(t, 49.3, 52) || win(t, 31.9, 33.6) ? Math.sin(t * 5) * 6 : 0;
+  poseArm(mArmL, -82, -222, ma.L[0] + shake, ma.L[1], -1); poseArm(mArmR, 82, -222, ma.R[0] + shake, ma.R[1] + slap, 1);
+  mArmR.fing.setAttribute('opacity', win(t, 9.6, 10.7) || win(t, 13.0, 15.3) ? 1 : 0);
+  const mf = manFace(t); setFace('m', mf[0], mf[1], t, t < 31 ? [6, 6] : [0, 4], mf[1] === 'o' ? 6 : 0);
+  $('m-head').setAttribute('transform', `translate(0 -338) rotate(${(shake * .8).toFixed(1)})`);
+  const mn = $('manNoteG');
+  if (t >= 52.6) { mn.setAttribute('opacity', 1); const k = clamp((t - 52.6) / .5); mn.setAttribute('transform', `translate(${lerp(900, 690, k)} ${lerp(1060, 1236, ease(k))}) rotate(${lerp(-10, 6, k)}) scale(.85)`); } else mn.setAttribute('opacity', 0);
+
+  // --- seated woman + hair woman ---
+  const aa = ankArms(t), af = ankFace(t), comb = win(t, 0, 7.2) || win(t, 9.2, 16.3) || win(t, 20.7, 37) || t > 39.4;
+  $('a-torso').setAttribute('transform', `rotate(${(comb ? Math.sin(t * 6) * 1.5 : 0) + (af[1] === 'laugh' ? Math.sin(t * 10) * 3 : 0)})`);
+  $('a-head').setAttribute('transform', `translate(0 -340) rotate(${(comb ? Math.sin(t * 6) * 5 : 0).toFixed(1)})`);
+  poseArm(aArmL, -76, -226, aa.L[0], aa.L[1], -1); poseArm(aArmR, 76, -226, aa.R[0], aa.R[1], 1);
+  setFace('a', af[0], af[1], t, [6, 2]);
+  const ha = hairArms(t), hf = hairFace(t), stroke = comb ? Math.sin(t * 6) * 22 : 0, dance = win(t, 16.5, 18.5) ? Math.sin(t * 10) : 0;
+  $('hair').setAttribute('transform', `translate(${hairX(t).toFixed(1)} ${(1225 - Math.abs(dance) * 10).toFixed(1)}) scale(.54)`);
+  $('h-torso').setAttribute('transform', `rotate(${(dance * 8 + (hf[1] === 'laugh' ? Math.sin(t * 9) * 3 : -4)).toFixed(2)})`);
+  $('h-legL').setAttribute('transform', `rotate(${(dance * 10).toFixed(1)} -30 80)`); $('h-legR').setAttribute('transform', `rotate(${(-dance * 10).toFixed(1)} 30 80)`);
+  poseArm(hArmL, -66, -232, ha.L[0], ha.L[1] + stroke, -1); poseArm(hArmR, 66, -232, ha.R[0], ha.R[1] + (comb ? -stroke * .2 : 0), 1);
+  setFace('h', hf[0], hf[1], t, [-6, 4]);
+
+  // --- POV hands ---
+  const hb = Math.sin(t * 2.1) * 8, hb2 = Math.cos(t * 1.7) * 6, cs = cashShift(t);
+  $('handCash').setAttribute('transform', `translate(${(hb2 + cs.x).toFixed(1)} ${(hb + cs.y + (1 - cashVis(t)) * 900).toFixed(1)})`);
+  const lr = lollyReach(t);
+  $('handLolly').setAttribute('transform', `translate(${(-hb2 - lr * 90).toFixed(1)} ${(hb * .8 - lr * 120 + (1 - lollyVis(t)) * 900).toFixed(1)})`);
+  $('lollyPov').setAttribute('opacity', t < 37.1 ? 1 : 0);
+  drawCash(cashCount(t), t);
+
+  // UI
+  const s = Math.floor(t); $('tc').textContent = `${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+  if (document.activeElement !== $('scrub')) $('scrub').value = t;
+}
+
+/* =================== PLAYER (audio clock is master) =================== */
+let actx = null, buf = null, src = null, playing = false, startAt = 0, offset = 0, rafId = 0, clock0 = 0;
+const now = () => playing ? (actx && buf ? actx.currentTime - startAt : (performance.now() - clock0) / 1000) : offset;
+async function loadAudio() { if (actx) return; try { actx = new (window.AudioContext || window.webkitAudioContext)(); const r = await fetch('audio.mp3'); buf = await actx.decodeAudioData(await r.arrayBuffer()); } catch (e) { buf = null; } }
+function startSource(at) { if (actx && buf) { src = actx.createBufferSource(); src.buffer = buf; src.connect(actx.destination); startAt = actx.currentTime - at; src.start(0, at); } else clock0 = performance.now() - at * 1000; }
+async function play() { await loadAudio(); if (actx && actx.state === 'suspended') await actx.resume(); playing = true; startSource(offset); $('play').textContent = 'Pause'; $('bigplay').hidden = true; loop(); }
+function pause() { offset = now(); playing = false; if (src) { try { src.stop(); } catch (e) {} src = null; } $('play').textContent = 'Play'; cancelAnimationFrame(rafId); renderAt(offset); }
+function seek(t) { const was = playing; if (playing) pause(); offset = clamp(t, 0, DUR - .01); renderAt(offset); if (was) play(); }
+function loop() { let t = now(); if (t >= DUR) { if (src) { try { src.stop(); } catch (e) {} } offset = 0; startSource(0); t = 0; } renderAt(t); rafId = requestAnimationFrame(loop); }
+$('play').onclick = () => playing ? pause() : play();
+$('bigplay').onclick = () => play();
+$('scrub').oninput = e => seek(+e.target.value);
+document.addEventListener('keydown', e => { if (e.code === 'Space' && e.target === document.body) { e.preventDefault(); playing ? pause() : play(); } });
+
+const params = new URLSearchParams(location.search);
+if (params.has('render')) document.body.classList.add('render');
+window.renderAt = renderAt; window.DURATION = DUR; window.ready = Promise.resolve();
+renderAt(params.has('t') ? +params.get('t') : 2.5);
+})();
+</script>
