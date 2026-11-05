@@ -272,14 +272,16 @@
     <div class="game-intro">
       <span class="eyebrow">Built To Move · Abuja Edition</span>
       <h2 class="section-title" style="margin-top:0.75rem;">Run The <span class="rtc-flag-text">Capital</span></h2>
-      <p class="game-copy">Run Abuja end to end, from <b>golden hour under Aso Rock</b> through <b>dusk at the National Mosque</b> and <b>Wuse 2 after dark</b> to <b>harmattan haze at Zuma Rock</b>. Dodge green taxis, keke and mai ruwa carts, jump the odd Sallah ram, grab suya and stack your naira. Capital no dey carry last.</p>
+      <p class="game-copy">The Vibe Killers want to cancel the city's party. Run, gun and brawl through Abuja as <b>Odumodublvck</b>, <b>DJ Romie</b>, <b>PsychoYP</b> or one of three street fits, from <b>golden hour under Aso Rock</b> to <b>Wuse 2 after dark</b> and <b>harmattan haze at Zuma Rock</b>. Punch through enemy waves, shoot down weapon capsules, crack open Ghana Must Go bags and take down a boss at the end of every district. Capital no dey carry last.</p>
     </div>
     <ul class="game-keys" aria-label="Controls">
       <li><kbd>↑</kbd><kbd>↓</kbd> Switch lanes</li>
       <li><kbd>Space</kbd> Jump</li>
+      <li><kbd>X</kbd> Punch / shoot (hold)</li>
+      <li><kbd>C</kbd> Backup special</li>
       <li><kbd>P</kbd> Pause</li>
       <li><kbd>M</kbd> Sound</li>
-      <li>Mobile: swipe ↑↓ · tap to jump</li>
+      <li>Mobile: swipe ↑↓ · tap left to jump · tap right to attack</li>
     </ul>
   </div>
 
@@ -292,17 +294,21 @@
       <div class="rtc-hud-left">
         <div class="rtc-dist"><span id="rtc-dist">0</span><small>M</small></div>
         <div class="rtc-zone" id="rtc-zone">Three Arms Zone</div>
+        <div class="rtc-hp" id="rtc-hp" role="meter" aria-label="Health" aria-valuemin="0" aria-valuemax="100" aria-valuenow="100"><span id="rtc-hero">Odumodublvck</span><i><b id="rtc-hp-fill"></b></i></div>
       </div>
       <div class="rtc-hud-right">
         <span class="rtc-chip naira" title="Naira stacked">&#8358;<span id="rtc-score">0</span></span>
         <span class="rtc-chip" title="Suya collected"><canvas data-icon="suya" width="20" height="20" aria-hidden="true"></canvas><span id="rtc-suya">0</span></span>
-        <span class="rtc-chip rtc-lives" id="rtc-lives" aria-label="3 lives left"></span>
+        <span class="rtc-chip rtc-weapon" id="rtc-weapon" hidden></span>
+        <span class="rtc-chip rtc-special" id="rtc-special" title="Backup specials (C)">&#9733; 1</span>
         <button class="rtc-icon-btn" id="rtc-pause-btn" type="button" aria-label="Pause"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg></button>
         <button class="rtc-icon-btn" id="rtc-mute" type="button" aria-label="Mute sound"></button>
         <button class="rtc-icon-btn" id="rtc-fs" type="button" aria-label="Toggle fullscreen"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
       </div>
     </div>
     <div class="rtc-powers" id="rtc-powers" aria-hidden="true"></div>
+    <div class="rtc-bossbar" id="rtc-bossbar" hidden><span id="rtc-boss-name"></span><i><b id="rtc-boss-fill"></b></i></div>
+    <div class="rtc-go" id="rtc-go" hidden aria-hidden="true">GO <span>→</span></div>
     <div class="rtc-banner" id="rtc-banner" aria-hidden="true"></div>
     <p class="sr-only" id="rtc-live" aria-live="polite"></p>
 
@@ -310,11 +316,14 @@
       <div class="rtc-strip" aria-hidden="true"></div>
       <p class="rtc-kicker">Sannu da zuwa · Welcome to Abuja</p>
       <h3 class="rtc-title">Run The <em class="rtc-flag-text">Capital</em></h3>
-      <p class="rtc-sub">Four districts, one city, zero brakes. Pick your fit, then oya, move!</p>
-      <div class="rtc-fits" role="radiogroup" aria-label="Choose your fit">
-        <button class="rtc-fit" type="button" role="radio" aria-checked="true" data-fit="ankara"><canvas aria-hidden="true"></canvas>Ankara Drip</button>
-        <button class="rtc-fit" type="button" role="radio" aria-checked="false" data-fit="eagles"><canvas aria-hidden="true"></canvas>Super Eagles</button>
-        <button class="rtc-fit" type="button" role="radio" aria-checked="false" data-fit="riga"><canvas aria-hidden="true"></canvas>Babban Riga</button>
+      <p class="rtc-sub">Four districts, four bosses, one city. Pick your hero, then oya, move!</p>
+      <div class="rtc-fits" role="radiogroup" aria-label="Choose your hero">
+        <button class="rtc-fit" type="button" role="radio" aria-checked="true" data-fit="odumodu"><canvas aria-hidden="true"></canvas>Odumodublvck<small>Power brawler</small></button>
+        <button class="rtc-fit" type="button" role="radio" aria-checked="false" data-fit="romie"><canvas aria-hidden="true"></canvas>DJ Romie<small>Disc slinger</small></button>
+        <button class="rtc-fit" type="button" role="radio" aria-checked="false" data-fit="psycho"><canvas aria-hidden="true"></canvas>PsychoYP<small>Sharpshooter</small></button>
+        <button class="rtc-fit" type="button" role="radio" aria-checked="false" data-fit="ankara"><canvas aria-hidden="true"></canvas>Ankara Drip<small>All-rounder</small></button>
+        <button class="rtc-fit" type="button" role="radio" aria-checked="false" data-fit="eagles"><canvas aria-hidden="true"></canvas>Super Eagles<small>Speed striker</small></button>
+        <button class="rtc-fit" type="button" role="radio" aria-checked="false" data-fit="riga"><canvas aria-hidden="true"></canvas>Babban Riga<small>Tank</small></button>
       </div>
       <button class="game-start-btn" id="game-start" type="button">Oya, Start Moving</button>
       <p class="rtc-best">Your best: <b id="rtc-best">0</b>m</p>
@@ -333,7 +342,7 @@
       <p class="rtc-sub" id="rtc-over-line"></p>
       <div class="rtc-stats">
         <div><b id="rtc-o-dist">0</b><span>Metres moved</span></div>
-        <div><b id="rtc-o-suya">0</b><span>Suya</span></div>
+        <div><b id="rtc-o-kos">0</b><span>Vibe Killers KO'd</span></div>
         <div><b id="rtc-o-score">&#8358;0</b><span>Naira stacked</span></div>
       </div>
       <p class="rtc-best" id="rtc-o-best"></p>
@@ -344,7 +353,9 @@
     </div>
 
     <div class="rtc-pad" aria-hidden="true">
+      <button class="spec" id="rtc-spec" type="button" tabindex="-1">&#9733;</button>
       <button class="jump" id="rtc-jump" type="button" tabindex="-1">Jump</button>
+      <button class="fire" id="rtc-fire" type="button" tabindex="-1">Hit</button>
       <div class="rtc-pad-col">
         <button id="rtc-up" type="button" tabindex="-1">▲</button>
         <button id="rtc-down" type="button" tabindex="-1">▼</button>
@@ -360,6 +371,21 @@
     <div class="rtc-card"><canvas data-icon="magnet" aria-hidden="true"></canvas><div><b>DJ Magnet</b><small>Pulls every suya to you</small></div></div>
     <div class="rtc-card"><canvas data-icon="x2" aria-hidden="true"></canvas><div><b>Owambe x2</b><small>Double naira, make it rain</small></div></div>
     <div class="rtc-card"><canvas data-icon="rush" aria-hidden="true"></canvas><div><b>Gbas Gbos Rush</b><small>Unstoppable sprint, clear the road</small></div></div>
+    <h3>FIGHT <span>· punch up close, shoot from range</span></h3>
+    <div class="rtc-card"><canvas data-icon="foe-grunt" aria-hidden="true"></canvas><div><b>Vibe Killer</b><small>Walks up, swings hard</small></div></div>
+    <div class="rtc-card"><canvas data-icon="foe-tout" aria-hidden="true"></canvas><div><b>Flyer Tout</b><small>Throws fake flyers from range</small></div></div>
+    <div class="rtc-card"><canvas data-icon="foe-bouncer" aria-hidden="true"></canvas><div><b>Fake Bouncer</b><small>Big, slow, shrugs off jabs</small></div></div>
+    <div class="rtc-card"><canvas data-icon="boss-gen" aria-hidden="true"></canvas><div><b>Big Gen</b><small>Boss · jump the smoke</small></div></div>
+    <div class="rtc-card"><canvas data-icon="boss-tower" aria-hidden="true"></canvas><div><b>DJ Off-Beat</b><small>Boss · dodge the sound waves</small></div></div>
+    <h3>ARSENAL <span>· shoot the flying capsule, grab the medallion</span></h3>
+    <div class="rtc-card"><canvas data-icon="capsule" aria-hidden="true"></canvas><div><b>Weapon Capsule</b><small>Shoot it or jump into it</small></div></div>
+    <div class="rtc-card"><canvas data-icon="wS" aria-hidden="true"></canvas><div><b>Spread Bars</b><small>Fires into all three lanes</small></div></div>
+    <div class="rtc-card"><canvas data-icon="wM" aria-hidden="true"></canvas><div><b>Machine Flow</b><small>Hold for rapid fire</small></div></div>
+    <div class="rtc-card"><canvas data-icon="wL" aria-hidden="true"></canvas><div><b>Laser Verse</b><small>Pierces the whole lane</small></div></div>
+    <div class="rtc-card"><canvas data-icon="wF" aria-hidden="true"></canvas><div><b>Fire Bars</b><small>Slow, heavy hitter</small></div></div>
+    <div class="rtc-card"><canvas data-icon="bag" aria-hidden="true"></canvas><div><b>Ghana Must Go</b><small>Break it for drops</small></div></div>
+    <div class="rtc-card"><canvas data-icon="jollof" aria-hidden="true"></canvas><div><b>Jollof</b><small>Big health refill</small></div></div>
+    <div class="rtc-card"><canvas data-icon="backup" aria-hidden="true"></canvas><div><b>Backup</b><small>+1 special · press C</small></div></div>
     <h3>DODGE <span>· switch lanes</span></h3>
     <div class="rtc-card"><canvas data-icon="taxi" aria-hidden="true"></canvas><div><b>FCT Taxi</b><small>Green, fast, no send you</small></div></div>
     <div class="rtc-card"><canvas data-icon="keke" aria-hidden="true"></canvas><div><b>Keke</b><small>Three wheels of wahala</small></div></div>
@@ -562,6 +588,7 @@ if (typeof window.gsap === 'undefined') {
 
 })();
 </script>
+<script src="js/rtc-sprites.js" defer></script>
 <script src="js/run-the-capital.js" defer></script>
 </body>
 </html>
