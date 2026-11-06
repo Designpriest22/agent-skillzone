@@ -199,6 +199,7 @@ for i in range(int(DUR / (BEAT / 4)) + 1):
             pat = (3, 6, 7, 11, 14) if g == 'piano' else (3, 7, 10, 14)
             if s16 in pat: add(drm, logdrum(55 if s16 % 2 else 49), t, .55 * I)
 
+if spec.get('sfxOnly'): mus[:] = 0; drm[:] = 0   # SFX layer only (mixed under a supplied track)
 # ---------------- sound effects at the edit points ----------------
 fx = np.zeros(N); duck = np.ones(N)
 for c in spec['cues']:

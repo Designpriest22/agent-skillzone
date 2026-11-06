@@ -89,6 +89,9 @@ async function loadFonts() {
     ['Montserrat', 'montserrat-latin-600-normal', 600], ['Montserrat', 'montserrat-latin-700-normal', 700],
     ['Montserrat', 'montserrat-latin-800-normal', 800],
     ['Serif', 'instrument-serif-latin-400-normal', 400], ['Serif', 'instrument-serif-latin-400-italic', 400, 'italic'],
+    ['Playfair', 'playfair-display-latin-700-normal', 700], ['Playfair', 'playfair-display-latin-900-normal', 900],
+    ['Playfair', 'playfair-display-latin-400-italic', 400, 'italic'], ['Playfair', 'playfair-display-latin-700-italic', 700, 'italic'],
+    ['Archivo', 'archivo-black-latin-400-normal', 400],
   ];
   await Promise.all(F.map(async ([fam, file, w, style]) => {
     const ff = new FontFace(fam, `url(assets/fonts/${file}.woff2)`, { weight: String(w), style: style || 'normal' });

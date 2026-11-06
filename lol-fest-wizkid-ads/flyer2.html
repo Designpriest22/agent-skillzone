@@ -1,0 +1,235 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>LOL FEST x sponsor flyers v2</title>
+<style>html,body{margin:0;background:#222}canvas{display:block;max-width:100vw;max-height:100vh;margin:auto}</style>
+</head><body><canvas id="c"></canvas>
+<script src="lib.js"></script>
+<script>
+'use strict';
+// v2 static co-branded flyers, built on the grammar of the client's own LOL FEST flyer:
+// one full, unclipped portrait (the supplied colour cutout), thin condensed WIZKID headline behind the head,
+// 13 DEC / LIVE / ABUJA flanking the head, the festival logo on the chest, venue, ticket line, and the ONE sponsor logo.
+// ?s=<sponsor>&v=1|2&f=feed|story|square&dpr=1|2
+//   v=1 "Signature"     the flyer layout, re-cut in the sponsor's palette with the brush-stroke field in its tones
+//   v=2 "Brand Edition" the sponsor's device as the backdrop (always BEHIND the portrait), an info panel and a ticket button
+const Q = new URLSearchParams(location.search);
+const FMT = { feed: [1080, 1350], story: [1080, 1920], square: [1080, 1080] };
+const fk = Q.get('f') || 'feed', V = Number(Q.get('v') || 1), dpr = Number(Q.get('dpr') || 1);
+const [W, H] = FMT[fk], CX = W / 2;
+const pk = (st, fe, sq) => fk === 'story' ? st : fk === 'feed' ? fe : sq;
+const cv = document.getElementById('c'); cv.width = W * dpr; cv.height = H * dpr; cv.style.aspectRatio = `${W}/${H}`;
+const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+const L = { W, H, u: 1 };
+const IM = {};
+window.__sizes = {};
+const note = (k, v) => { window.__sizes[k] = Math.min(window.__sizes[k] ?? 1e9, v); };
+
+// ---------------- primitives ----------------
+const radial = (c0, c1, cx = CX, cy = H * .4, r = Math.hypot(W, H) * .7) => { const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, c0); g.addColorStop(1, c1); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); };
+const lin = (stops, x0 = 0, y0 = 0, x1 = 0, y1 = H) => { const g = ctx.createLinearGradient(x0, y0, x1, y1); stops.forEach(([o, c]) => g.addColorStop(o, c)); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); };
+const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+const capK = {}; function capOf(fam, w) { const k = fam + w; if (!capK[k]) { setFont(ctx, fam, 100, w); capK[k] = ctx.measureText('H').actualBoundingBoxAscent / 100; } return capK[k]; }
+// big headline: fit a cap height, then track out to the target width (never stretched)
+function headline(str, cx, capTop, targetW, cap, o) {
+  let size = cap / capOf(o.fam, o.w); let nat = measure(ctx, str, { fam: o.fam, w: o.w, size });
+  if (nat > targetW) { size *= targetW / nat; nat = targetW; }
+  const track = Math.max(0, (targetW - nat) / ((str.length - 1) * size));
+  const base = capTop + size * capOf(o.fam, o.w);
+  text(ctx, str, cx, base, { fam: o.fam, w: o.w, size, track, color: o.color, align: o.align || 'center', alpha: o.alpha ?? 1, shadow: o.shadow });
+  return { size, base, h: size * capOf(o.fam, o.w) };
+}
+function tline(str, x, base, cap, o) { const size = cap / capOf(o.fam, o.w); text(ctx, str, x, base, { ...o, size }); return measure(ctx, str, { ...o, size }); }
+// the supplied colour portrait, drawn whole. Never masked into a shape.
+function portrait(cx, top, w, o = {}) {
+  const im = IM.portrait, h = w * im.height / im.width;
+  ctx.save(); if (o.shadow) { ctx.shadowColor = o.shadow; ctx.shadowBlur = 60; }
+  drawImg(ctx, im, cx, top + h / 2, w); ctx.restore();
+  return { x: cx - w / 2, y: top, w, h };
+}
+const SL = (cx, cy, maxW, maxH, o = {}) => { const im = IMG.sponsor, w = Math.min(maxW, maxH * im.width / im.height); drawImg(ctx, im, cx, cy, w, o); return { w, h: w * im.height / im.width }; };
+const lolW = h => h * IMG.lol.width / IMG.lol.height;
+// dry-brush stroke field (the flyer's texture), seeded per sponsor
+function brush(seed, col, a = .55, n = 70) {
+  const r = rng(seed); ctx.save(); ctx.lineCap = 'round';
+  for (let i = 0; i < n; i++) {
+    const x = r() * W, y = r() * H, ang = [-1.05, 1.0, -.35, .5, -1.25][Math.floor(r() * 5)] + (r() - .5) * .3;
+    const len = (220 + r() * 620) * (W / 1080), wid = 34 + r() * 80, br = 12 + Math.floor(r() * 8);
+    const dx = Math.cos(ang), dy = Math.sin(ang), nx = -dy, ny = dx;
+    for (let k = 0; k < br; k++) {
+      const off = (k / (br - 1) - .5) * wid, lw = wid / br * (0.7 + r() * 1.3);
+      ctx.strokeStyle = col; ctx.globalAlpha = a * (.35 + r() * .65); ctx.lineWidth = lw;
+      const l0 = len * (r() * .15), l1 = len * (.75 + r() * .25);
+      ctx.setLineDash([len * (.2 + r() * .6), len * r() * .08]);
+      ctx.beginPath(); const sx = x + nx * off, sy = y + ny * off;
+      ctx.moveTo(sx + dx * l0, sy + dy * l0);
+      const bend = (r() - .5) * 30; ctx.quadraticCurveTo(sx + dx * len * .5 + nx * bend, sy + dy * len * .5 + ny * bend, sx + dx * l1, sy + dy * l1); ctx.stroke();
+    }
+  }
+  ctx.setLineDash([]);
+  for (let c = 0; c < 14; c++) { const cx = r() * W, cy = r() * H; for (let i = 0; i < 26; i++) { const d = Math.pow(r(), 2) * 120; const th = r() * 7; ctx.globalAlpha = a * (.4 + r() * .6); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(cx + Math.cos(th) * d, cy + Math.sin(th) * d, .8 + r() * 5 * (1 - d / 130), 0, 7); ctx.fill(); } }
+  ctx.restore();
+}
+function grainFx(a = .05) { const r = rng(7); const g = ctx.createImageData(256, 256); for (let i = 0; i < g.data.length; i += 4) { const v = r() * 255; g.data[i] = g.data[i + 1] = g.data[i + 2] = v; g.data[i + 3] = 255; } const c = document.createElement('canvas'); c.width = c.height = 256; c.getContext('2d').putImageData(g, 0, 0); ctx.save(); ctx.globalAlpha = a; ctx.globalCompositeOperation = 'overlay'; ctx.fillStyle = ctx.createPattern(c, 'repeat'); ctx.fillRect(0, 0, W, H); ctx.restore(); }
+const fadeDown = (y0, y1, col) => { const g = ctx.createLinearGradient(0, y0, 0, y1); g.addColorStop(0, rgba(col, 0)); g.addColorStop(1, rgba(col, 1)); ctx.fillStyle = g; ctx.fillRect(0, y0, W, y1 - y0 + 1); ctx.fillStyle = col; ctx.fillRect(0, y1, W, H - y1); };
+
+// ticket line, the flyer's way: light lead + bold URL on one line
+function ticketLine(cx, base, urlSize, T) {
+  const lead = { fam: 'Montserrat', w: 400, size: urlSize * .74, track: .08 }, url = { fam: 'Montserrat', w: 700, size: urlSize, track: .02 };
+  const wl = measure(ctx, BRAND.event.ticketsLead, lead), wu = measure(ctx, BRAND.event.url, url), gap = urlSize * .5, x = cx - (wl + gap + wu) / 2;
+  text(ctx, BRAND.event.ticketsLead, x, base, { ...lead, align: 'left', color: T.lead });
+  text(ctx, BRAND.event.url, x + wl + gap, base, { ...url, align: 'left', color: T.url });
+  note('url', urlSize); return wl + gap + wu;
+}
+function venue(cx, base, size, T, align = 'center', track = .3) { text(ctx, BRAND.event.venue, cx, base, { fam: 'Oswald', w: 700, size, track, align, color: T.venue }); note('venue', size); }
+// ticket button for the Brand Edition (one shape per sponsor)
+function ticketButton(x, y, w, h, T) {
+  const c = T.btn; ctx.save();
+  const rr = r => { ctx.beginPath(); ctx.roundRect(x, y, w, h, r); };
+  if (c.shape === 'pill') { rr(h / 2); ctx.fillStyle = c.bg; ctx.fill(); }
+  else if (c.shape === 'line') { ctx.strokeStyle = c.line; ctx.lineWidth = 2; ctx.strokeRect(x, y, w, h); ctx.strokeRect(x + 7, y + 7, w - 14, h - 14); }
+  else if (c.shape === 'block') { ctx.fillStyle = c.shadow || 'transparent'; ctx.fillRect(x + 10, y + 10, w, h); ctx.fillStyle = c.bg; ctx.fillRect(x, y, w, h); }
+  else if (c.shape === 'slant') { ctx.fillStyle = c.bg; ctx.beginPath(); ctx.moveTo(x + 22, y); ctx.lineTo(x + w, y); ctx.lineTo(x + w - 22, y + h); ctx.lineTo(x, y + h); ctx.closePath(); ctx.fill(); }
+  else if (c.shape === 'plaque') { ctx.fillStyle = c.bg; ctx.fillRect(x, y, w, h); ctx.strokeStyle = c.line; ctx.lineWidth = 2; ctx.strokeRect(x + 6, y + 6, w - 12, h - 12); }
+  else if (c.shape === 'pass') { rr(14); ctx.fillStyle = c.bg; ctx.fill(); ctx.fillStyle = c.stub; ctx.beginPath(); ctx.roundRect(x + w * .86, y, w * .14, h, [0, 14, 14, 0]); ctx.fill(); ctx.fillStyle = c.bg; for (let yy = y + 8; yy < y + h - 6; yy += 13) ctx.fillRect(x + w * .86 - 2, yy, 4, 6); }
+  else if (c.shape === 'grad') { rr(h / 2); const g = ctx.createLinearGradient(x, 0, x + w, 0); g.addColorStop(0, '#FC543C'); g.addColorStop(.55, '#FCB424'); g.addColorStop(1, '#CC3C6C'); ctx.fillStyle = g; ctx.fill(); }
+  ctx.restore();
+  const inner = c.shape === 'pass' ? w * .845 : w * .93, cxT = c.shape === 'pass' ? x + w * .43 : x + w / 2;
+  const us = Math.min(h * .5, fitSize(ctx, BRAND.event.url, inner, { fam: 'Montserrat', w: 800, track: .02 }));
+  text(ctx, BRAND.event.url, cxT, y + h / 2 + us * .36, { fam: 'Montserrat', w: 800, size: us, track: .02, color: c.fg, align: 'center' }); note('url', us);
+}
+
+// ---------------- brand devices for the Brand Edition backdrop (behind the portrait) ----------------
+const DEVICE = {
+  amber: T => { radial('#2a1709', '#050403', CX, H * .3); ctx.save(); ctx.globalCompositeOperation = 'screen'; const g = ctx.createLinearGradient(CX - 140, 0, CX + 140, 0); g.addColorStop(0, 'rgba(255,170,70,0)'); g.addColorStop(.5, 'rgba(255,170,70,.22)'); g.addColorStop(1, 'rgba(255,170,70,0)'); ctx.fillStyle = g; ctx.fillRect(CX - 140, 0, 280, H); ctx.translate(CX, H * .42); ctx.scale(1, .35); const r = ctx.createRadialGradient(0, 0, 0, 0, 0, W * .7); r.addColorStop(0, 'rgba(255,170,70,.4)'); r.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = r; ctx.fillRect(-W, -H * 3, W * 2, H * 6); ctx.restore(); ctx.strokeStyle = 'rgba(201,151,79,.55)'; ctx.lineWidth = 1.5; ctx.strokeRect(28, 28, W - 56, H - 56); },
+  rays: T => { radial('#16924a', '#032412', CX, H * .3); ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.translate(CX, H * .3); for (let i = 0; i < 14; i++) { ctx.rotate(Math.PI / 7); ctx.fillStyle = 'rgba(180,255,205,.06)'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-70, -H * 1.5); ctx.lineTo(70, -H * 1.5); ctx.fill(); } ctx.restore(); },
+  ribbon: T => { ctx.fillStyle = '#F40009'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.strokeStyle = '#fff'; ctx.lineCap = 'round'; for (const [y0, lw, a] of [[H * .36, 46, 1], [H * .36 + 70, 10, .8]]) { ctx.globalAlpha = a; ctx.lineWidth = lw; ctx.beginPath(); for (let x = -20; x <= W + 20; x += 10) { const y = y0 + Math.sin(x / 170 + .6) * 70 - x * .12; x < 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } ctx.stroke(); } const r = rng(3); ctx.globalAlpha = .45; ctx.lineWidth = 2.5; for (let i = 0; i < 46; i++) { ctx.beginPath(); ctx.arc(r() * W, r() * H * .8, 4 + r() * 16, 0, 7); ctx.stroke(); } ctx.restore(); },
+  slashes: T => { ctx.fillStyle = '#0A0A0A'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.translate(CX, H * .4); ctx.rotate(-.42); ctx.fillStyle = '#D7191C'; ctx.fillRect(-W * .55, -H, 300, H * 2); ctx.fillRect(W * .18, -H, 120, H * 2); ctx.fillStyle = '#fff'; ctx.fillRect(-W * .55 + 330, -H, 18, H * 2); ctx.restore(); },
+  guilloche: T => { radial('#241e15', '#060504', CX, H * .35); ctx.save(); ctx.strokeStyle = '#E6C88F'; ctx.lineWidth = 1; for (let k = 0; k < 12; k++) { ctx.globalAlpha = .12; ctx.beginPath(); for (let i = 0; i <= 720; i++) { const th = i / 360 * Math.PI; const rr = W * (.28 + .03 * Math.sin(th * 14 + k * .7) + k * .022); const X = CX + Math.cos(th) * rr, Y = H * .36 + Math.sin(th) * rr; i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); } ctx.stroke(); } ctx.restore(); ctx.strokeStyle = 'rgba(230,200,143,.6)'; ctx.lineWidth = 2; ctx.strokeRect(26, 26, W - 52, H - 52); ctx.lineWidth = 1; ctx.strokeRect(36, 36, W - 72, H - 72); },
+  bars: T => { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.translate(CX, H * .4); ctx.rotate(.35); ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(-W * .62, -H, W * .3, H * 2); ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.fillRect(W * .26, -H, 26, H * 2); ctx.fillRect(-W * .7, -H, 10, H * 2); ctx.restore(); },
+  label: T => { radial('#4a1218', '#120304', CX, H * .35); const m = 34; labelFrame(m, m, W - 2 * m, H - 2 * m); },
+  arch: T => { lin([[0, '#13254a'], [1, '#060c1a']]); const r = W * pk(.34, .34, .25), cy = pk(H * .3, H * .36, H * .42); ctx.save(); ctx.globalCompositeOperation = 'screen'; const g = ctx.createRadialGradient(CX, cy, 0, CX, cy, r * 1.6); g.addColorStop(0, 'rgba(255,205,130,.35)'); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.restore(); ctx.strokeStyle = '#D8B878'; ctx.lineWidth = 2.5; for (const d of [0, 16]) { ctx.beginPath(); ctx.moveTo(CX - r - d, H); ctx.lineTo(CX - r - d, cy); ctx.arc(CX, cy, r + d, Math.PI, 0); ctx.lineTo(CX + r + d, H); ctx.globalAlpha = d ? .45 : 1; ctx.stroke(); } ctx.globalAlpha = 1; },
+  weave: T => { radial('#14432a', '#04100a', CX, H * .35); ctx.save(); for (let x = 0; x < W; x += 44) { ctx.fillStyle = (x / 44) % 2 ? 'rgba(60,180,84,.28)' : 'rgba(180,204,84,.18)'; ctx.fillRect(x, 0, 3, H); } for (let y = 0; y < H; y += 44) { ctx.fillStyle = (y / 44) % 2 ? 'rgba(60,180,84,.22)' : 'rgba(180,204,84,.15)'; ctx.fillRect(0, y, W, 3); } ctx.restore(); },
+  sky: T => { lin([[0, '#8cc4ec'], [.6, '#dceefa'], [1, '#ffffff']]); ctx.save(); ctx.strokeStyle = 'rgba(12,108,180,.6)'; ctx.lineWidth = 4; ctx.setLineDash([18, 14]); ctx.beginPath(); ctx.moveTo(-40, H * .52); ctx.quadraticCurveTo(CX, H * .02, W + 40, H * .3); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = 'rgba(255,255,255,.7)'; const r = rng(5); for (let i = 0; i < 6; i++) ctx.fillRect(r() * W, H * (.08 + r() * .4), 160 + r() * 240, 3); ctx.restore(); },
+  plus: T => { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.beginPath(); plusPath(ctx, CX, H * .38, W * .62, W * .17); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.5)'; for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) { ctx.beginPath(); plusPath(ctx, 70 + i * 34, 70 + j * 34, 8, 2.5); ctx.fill(); } ctx.restore(); },
+  plan: T => { ctx.fillStyle = '#16181b'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.strokeStyle = '#8FA3B8'; ctx.globalAlpha = .18; ctx.lineWidth = 1; for (let x = 0; x < W; x += 54) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); } for (let y = 0; y < H; y += 54) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); } ctx.globalAlpha = .7; ctx.strokeStyle = '#C9D2DC'; const s = W * .62, x0 = CX - s / 2, y0 = pk(H * .17, H * .14, H * .12); ctx.lineWidth = 2; ctx.strokeRect(x0, y0, s, s); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x0, y0 - 24); ctx.lineTo(x0 + s, y0 - 24); ctx.moveTo(x0, y0 - 34); ctx.lineTo(x0, y0 - 14); ctx.moveTo(x0 + s, y0 - 34); ctx.lineTo(x0 + s, y0 - 14); ctx.moveTo(x0 - 24, y0); ctx.lineTo(x0 - 24, y0 + s); ctx.moveTo(x0 - 34, y0); ctx.lineTo(x0 - 14, y0); ctx.moveTo(x0 - 34, y0 + s); ctx.lineTo(x0 - 14, y0 + s); ctx.stroke(); ctx.restore(); },
+  burst: T => { radial('#3a1236', '#0d030d', CX, H * .35); ctx.save(); ctx.globalAlpha = .55; const cols = ['#FCB424', '#FC543C', '#CC3C6C', '#FCD27A']; ctx.translate(CX, H * .36); for (let i = 0; i < 8; i++) { ctx.rotate(Math.PI / 4 + .05); ctx.fillStyle = cols[i % 4]; ctx.beginPath(); ctx.moveTo(-26, 0); ctx.lineTo(0, -H); ctx.lineTo(26, 0); ctx.fill(); } ctx.restore(); ctx.save(); ctx.strokeStyle = '#FCB424'; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.globalAlpha = .8; ctx.beginPath(); for (let x = 40; x <= W - 40; x += 8) { const y = H * .62 + Math.sin(x / 70) * 22; x === 40 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } ctx.stroke(); ctx.restore(); },
+};
+function plusPath(g, cx, cy, r, th) { [[-th, -r], [th, -r], [th, -th], [r, -th], [r, th], [th, th], [th, r], [-th, r], [-th, th], [-r, th], [-r, -th], [-th, -th]].forEach(([x, y], i) => i ? g.lineTo(cx + x, cy + y) : g.moveTo(cx + x, cy + y)); g.closePath(); }
+function labelFrame(x, y, w, h) { ctx.save(); ctx.strokeStyle = '#F3E6D0'; ctx.lineWidth = 4; ctx.strokeRect(x, y, w, h); ctx.lineWidth = 1.5; ctx.strokeRect(x + 14, y + 14, w - 28, h - 28); ctx.fillStyle = '#E0453C'; for (const [cx, cy] of [[x, y], [x + w, y], [x + w, y + h], [x, y + h]]) { ctx.save(); ctx.translate(cx, cy); ctx.rotate(Math.PI / 4); ctx.fillRect(-8, -8, 16, 16); ctx.restore(); } ctx.restore(); }
+
+// ---------------- per-sponsor themes ----------------
+// bg: Signature backdrop [centre, edge]; stroke: brush tone; head/num/live/abuja/venue/lead/url: type colours
+// panel: Brand Edition info panel colour; dev: Brand Edition backdrop; btn: ticket button; tab: plate behind the sponsor logo (only where the logo needs contrast)
+const TH = {
+  hennessy: { bg: ['#2c190a', '#060403'], stroke: '#0c0703', head: '#D9A55B', num: '#F4E3C3', live: '#F4E3C3', abuja: '#C9822B', venue: '#D9A55B', lead: '#F4E3C3', url: '#FFFFFF',
+    panel: '#070504', dev: 'amber', btn: { shape: 'line', line: '#C9974F', fg: '#F4E3C3' } },
+  heineken: { bg: ['#0e5a2c', '#021a0c'], stroke: '#02200e', head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#E3001B', venue: '#9BE7A8', lead: '#D8F5DF', url: '#FFFFFF',
+    panel: '#04240f', dev: 'rays', btn: { shape: 'pill', bg: '#008200', fg: '#FFFFFF' } },
+  'coca-cola': { bg: ['#FFFFFF', '#F1EDEA'], stroke: '#F40009', strokeA: .11, head: '#F40009', num: '#1a1a1a', live: '#1a1a1a', abuja: '#F40009', venue: '#1a1a1a', lead: '#333333', url: '#F40009', bottom: '#FFFFFF',
+    panel: '#FFFFFF', ptype: { num: '#F40009', live: '#1a1a1a', abuja: '#F40009', venue: '#1a1a1a', lead: '#333' }, dev: 'ribbon', btn: { shape: 'pill', bg: '#F40009', fg: '#FFFFFF' }, tab: '#FFFFFF' },
+  desperados: { bg: ['#2a0405', '#060000'], stroke: '#D7191C', strokeA: .28, head: '#D7191C', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FF2A2D', venue: '#FFFFFF', lead: '#FFFFFF', url: '#FFFFFF',
+    panel: '#0A0A0A', dev: 'slashes', btn: { shape: 'block', bg: '#D7191C', shadow: '#FFFFFF', fg: '#FFFFFF' } },
+  best: { bg: ['#221c13', '#060504'], stroke: '#050403', head: '#E6C88F', num: '#FFFFFF', live: '#FFFFFF', abuja: '#E6C88F', venue: '#E6C88F', lead: '#EDE3CF', url: '#FFFFFF',
+    panel: '#090806', dev: 'guilloche', btn: { shape: 'line', line: '#E6C88F', fg: '#E6C88F' } },
+  axe: { bg: ['#1c1c1c', '#000000'], stroke: '#050505', head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFFFFF', venue: '#BDBDBD', lead: '#D0D0D0', url: '#FFFFFF',
+    panel: '#000000', dev: 'bars', btn: { shape: 'slant', bg: '#FFFFFF', fg: '#000000' } },
+  'lords-gin': { bg: ['#5a161c', '#1a0405'], stroke: '#1c0306', head: '#F3E6D0', num: '#F3E6D0', live: '#F3E6D0', abuja: '#E0453C', venue: '#E9C9A8', lead: '#F3E6D0', url: '#FFFFFF',
+    panel: '#2a080b', dev: 'label', btn: { shape: 'plaque', bg: '#F3E6D0', line: '#CC2424', fg: '#3E0E12' } },
+  'transcorp-hotels': { bg: ['#1a2c55', '#050a16'], stroke: '#030816', head: '#D8B878', num: '#FFFFFF', live: '#FFFFFF', abuja: '#D8B878', venue: '#D8B878', lead: '#E8EDF7', url: '#FFFFFF',
+    panel: '#0b1630', dev: 'arch', btn: { shape: 'line', line: '#D8B878', fg: '#FFFFFF' } },
+  'vodi-group': { bg: ['#164a2a', '#030c06'], stroke: '#020b05', head: '#B4CC54', num: '#FFFFFF', live: '#FFFFFF', abuja: '#3CB454', venue: '#B4CC54', lead: '#E3F0D5', url: '#FFFFFF',
+    panel: '#061a0d', dev: 'weave', btn: { shape: 'pill', bg: '#3CB454', fg: '#FFFFFF' } },
+  'united-nigeria': { bg: ['#F4FAFE', '#A9D3F2'], stroke: '#FFFFFF', strokeA: .6, head: '#0C6CB4', num: '#0C3D66', live: '#0C3D66', abuja: '#E40C0C', venue: '#0C3D66', lead: '#0C3D66', url: '#0C6CB4', bottom: '#EAF5FC',
+    panel: '#0C3D66', ptype: { num: '#FFFFFF', live: '#FFFFFF', abuja: '#FF5A4E', venue: '#BFE0F6', lead: '#BFE0F6' }, dev: 'sky', btn: { shape: 'pass', bg: '#FFFFFF', stub: '#E40C0C', fg: '#0C3D66' } },
+  trace: { bg: ['#1a1a1a', '#000000'], stroke: '#060606', head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFFFFF', venue: '#CFCFCF', lead: '#D8D8D8', url: '#FFFFFF',
+    panel: '#000000', dev: 'plus', btn: { shape: 'block', bg: '#FFFFFF', fg: '#000000' } },
+  'square-meter': { bg: ['#262a30', '#0d0f11'], stroke: '#0a0c0e', head: '#8FA3B8', num: '#FFFFFF', live: '#FFFFFF', abuja: '#C9D2DC', venue: '#C9D2DC', lead: '#DCE2E8', url: '#FFFFFF',
+    panel: '#121417', dev: 'plan', btn: { shape: 'line', line: '#E8EDF2', fg: '#FFFFFF' } },
+  'nova-flair': { bg: ['#4a1646', '#120412'], stroke: '#120312', head: '#FCB424', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FC543C', venue: '#FCB424', lead: '#F6DCE8', url: '#FFFFFF',
+    panel: '#1a061a', dev: 'burst', btn: { shape: 'grad', fg: '#1a0418' } },
+};
+const SID = Q.get('s') || 'hennessy', T = TH[SID];
+const LOGO = { hennessy: '01-hennessy', heineken: '02-heineken', 'coca-cola': '03-coca-cola', desperados: '04-desperados', best: '05-best', axe: '06-axe', 'lords-gin': '07-lords-gin', 'transcorp-hotels': '08-transcorp-hotels', 'vodi-group': '09-vodi-group', 'united-nigeria': '10-united-nigeria', trace: '11-trace', 'square-meter': '12-square-meter', 'nova-flair': '13-nova-flair' }[SID];
+
+// ---------------- V1 "Signature": the flyer's layout ----------------
+// numbers measured off the client's flyer (1600x2000) and re-set per format
+const P1 = {
+  feed:   { head: [96, .84, 345], por: [.48, 297, .8], num: [110, 594, 732, 112], live: [990, 630, 140], abuja: [712, 42], lol: [.5, 930, 290], venue: [1146, 38], tix: [1204, 44], logo: [1270, 300, 78] },
+  story:  { head: [190, .86, 380], por: [.48, 520, .92], num: [86, 900, 1048, 128], live: [1010, 940, 160], abuja: [1048, 50], lol: [.5, 1305, 330], venue: [1530, 42], tix: [1596, 46], logo: [1676, 340, 96] },
+  square: { head: [54, .76, 250], por: [.49, 222, .58], num: [120, 452, 560, 92], live: [980, 480, 112], abuja: [540, 34], lol: [.5, 700, 200], venue: [846, 34], tix: [900, 40], logo: [976, 260, 66] },
+}[fk];
+function signature() {
+  const p = P1;
+  radial(T.bg[0], T.bg[1], CX, H * .38); brush(Math.floor(hash(SID.length * 7) * 1e6), T.stroke, T.strokeA ?? .5, pk(64, 52, 42));
+  // headline behind the head
+  const hd = headline('WIZKID', CX, p.head[0], W * p.head[1], p.head[2], { fam: 'Oswald', w: 200, color: T.head });
+  note('head', hd.size);
+  // the portrait, whole, over the headline
+  const por = portrait(W * p.por[0], p.por[1], W * p.por[2]);
+  // 13 / DEC (left), LIVE / ABUJA (right), set in front of the portrait as on the flyer
+  const [nx, b13, bDec, ncap] = p.num; tline('13', nx, b13, ncap, { fam: 'Oswald', w: 200, color: T.num, align: 'left' }); tline('DEC', nx, bDec, ncap * 1.03, { fam: 'Oswald', w: 200, color: T.num, align: 'left' });
+  const [lx, lb, lcap] = p.live; tline('LIVE', lx, lb, lcap, { fam: 'Oswald', w: 200, color: T.live, align: 'right' });
+  tline('ABUJA', lx, p.abuja[0], p.abuja[1], { fam: 'Bebas', w: 400, color: T.abuja, align: 'right' }); note('date', ncap);
+  // darken the lower third so the information reads over the jacket
+  const bc = T.bottom || T.bg[1]; ctx.save(); const g = ctx.createLinearGradient(0, H * .62, 0, H); g.addColorStop(0, rgba(bc, 0)); g.addColorStop(.55, rgba(bc, .82)); g.addColorStop(1, rgba(bc, 1)); ctx.fillStyle = g; ctx.fillRect(0, H * .62, W, H * .38); ctx.restore();
+  // festival logo on the chest
+  const lh = p.lol[2]; ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 30; lolLogo(ctx, W * p.lol[0], p.lol[1], lolW(lh)); ctx.restore();
+  venue(CX, p.venue[0], p.venue[1], T);
+  ticketLine(CX, p.tix[0], p.tix[1], T);
+  // the one sponsor logo where the flyer carries its partner row
+  const [ly, lmw, lmh] = p.logo; logoPlate(CX, ly, lmw, lmh);
+  grainFx(.05);
+}
+function logoPlate(cx, cy, mw, mh) {
+  // equal optical area for every mark (wide wordmarks and compact crests read at the same weight)
+  const im = IMG.sponsor, ar = im.width / im.height; let w = Math.min(mw * 1.15, Math.sqrt(mw * mh * .62 * ar)); if (w / ar > mh * 1.45) w = mh * 1.45 * ar; if (w / ar < 46) w = Math.min(46 * ar, mw * 1.75); const h = w / ar; mw = w; mh = h;
+  if (T.tab) { ctx.save(); ctx.fillStyle = T.tab; ctx.beginPath(); ctx.roundRect(cx - w / 2 - 26, cy - h / 2 - 14, w + 52, h + 28, 12); ctx.fill(); ctx.restore(); }
+  SL(cx, cy, mw, mh); note('logoH', h);
+}
+
+// ---------------- V2 "Brand Edition" ----------------
+const P2 = {
+  feed:   { logo: [112, 300, 76], head: [196, .9, 250], por: [.5, 236, .8], fade: [780, 930], grid: { top: 960, left: [70, 340], div: 380, right: [420, 1010], numCap: 84, live: 54, venue: 30, btnH: 84, gap: 22 } },
+  story:  { logo: [268, 340, 92], head: [370, .9, 290], por: [.5, 450, .92], fade: [1160, 1300], grid: { top: 1330, left: [70, 350], div: 390, right: [430, 1010], numCap: 112, live: 64, venue: 34, btnH: 92, gap: 32 } },
+  square: { logo: [80, 250, 58], head: [136, .8, 196], por: [.28, 250, .52], side: 560, grid: { top: 384, left: [576, 1032], numCap: 84, live: 48, venue: 28, btnH: 76, gap: 22 } },
+}[fk];
+function brandEdition() {
+  const p = P2, ty = { ...T, ...(T.ptype || {}) };
+  DEVICE[T.dev](T);
+  logoPlate(CX, p.logo[0], p.logo[1], p.logo[2]);
+  const hd = headline('WIZKID', CX, p.head[0], W * p.head[1], p.head[2], { fam: 'Oswald', w: 200, color: T.dev === 'ribbon' ? '#FFFFFF' : T.head }); note('head', hd.size);
+  const por = portrait(W * p.por[0], p.por[1], W * p.por[2], { shadow: 'rgba(0,0,0,.35)' });
+  const G = p.grid;
+  if (fk !== 'square') {
+    fadeDown(p.fade[0], p.fade[1], T.panel);
+    // left column: festival logo; hairline; right column: date, LIVE ABUJA, venue, ticket button
+    const lw = G.left[1] - G.left[0], rx = G.right[0], rw = G.right[1] - G.right[0];
+    const numB = G.top + G.numCap, liveB = numB + G.gap + G.live * .72, venB = liveB + G.gap + G.venue * .72 + 4, leadB = venB + G.gap + 18, btnY = leadB + 14;
+    const bottom = btnY + G.btnH;
+    const lh = Math.min(bottom - G.top, lw / lolW(1)); lolLogo(ctx, (G.left[0] + G.left[1]) / 2, (G.top + bottom) / 2, lolW(lh));
+    ctx.fillStyle = rgba(ty.venue.startsWith('#') ? ty.venue : '#ffffff', .5); ctx.fillRect(G.div, G.top, 2, bottom - G.top);
+    tline('13 DEC', rx, numB, G.numCap, { fam: 'Oswald', w: 200, color: ty.num, align: 'left' }); note('date', G.numCap);
+    const wl = tline('LIVE', rx, liveB, G.live * .72, { fam: 'Oswald', w: 300, color: ty.live, align: 'left', track: .1 });
+    tline('ABUJA', rx + wl + 16, liveB, G.live * .72, { fam: 'Bebas', w: 400, color: ty.abuja, align: 'left' });
+    venue(rx, venB, Math.min(G.venue, fitSize(ctx, BRAND.event.venue, rw, { fam: 'Oswald', w: 700, track: .22 })), ty, 'left', .22);
+    text(ctx, BRAND.event.ticketsLead, rx, leadB, { fam: 'Montserrat', w: 600, size: 22, track: .2, color: ty.lead, align: 'left' });
+    ticketButton(rx, btnY, rw, G.btnH, T);
+  } else {
+    // square: portrait left over the device, information panel right
+    const sx = p.side; ctx.save(); const g = ctx.createLinearGradient(sx - 120, 0, sx + 10, 0); g.addColorStop(0, rgba(T.panel, 0)); g.addColorStop(1, rgba(T.panel, .94)); ctx.fillStyle = g; ctx.fillRect(sx - 120, 348, W - sx + 120, H - 348); const g2 = ctx.createLinearGradient(0, 300, 0, 340); g2.addColorStop(0, rgba(T.panel, 0)); g2.addColorStop(1, rgba(T.panel, 0)); ctx.restore();
+    const rx = G.left[0], rw = G.left[1] - G.left[0]; let y = G.top;
+    tline('13 DEC', rx, y + G.numCap, G.numCap, { fam: 'Oswald', w: 200, color: ty.num, align: 'left' }); note('date', G.numCap); y += G.numCap + G.gap;
+    const wl = tline('LIVE', rx, y + G.live * .72, G.live * .72, { fam: 'Oswald', w: 300, color: ty.live, align: 'left', track: .1 }); tline('ABUJA', rx + wl + 14, y + G.live * .72, G.live * .72, { fam: 'Bebas', w: 400, color: ty.abuja, align: 'left' }); y += G.live * .72 + G.gap;
+    venue(rx, y + G.venue * .72, Math.min(G.venue, fitSize(ctx, BRAND.event.venue, rw, { fam: 'Oswald', w: 700, track: .2 })), ty, 'left', .2); y += G.venue * .72 + G.gap + 6;
+    text(ctx, BRAND.event.ticketsLead, rx, y + 16, { fam: 'Montserrat', w: 600, size: 20, track: .2, color: ty.lead, align: 'left' }); y += 30;
+    ticketButton(rx, y, rw, G.btnH, T); y += G.btnH + G.gap + 10;
+    const lh = Math.min(H - 64 - y, rw * .55 / lolW(1)); lolLogo(ctx, rx + lolW(lh) / 2, y + lh / 2, lolW(lh));
+  }
+  grainFx(.04);
+}
+
+async function render() { ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); window.__log = { texts: [], imgs: [] }; window.__sizes = {}; V === 1 ? signature() : brandEdition(); }
+window.meta = { W, H, dpr, sponsorLogo: LOGO + '.png' };
+window.ready = (async () => { await loadFonts(); await loadBrand(); IM.portrait = await loadImg('assets/flyer/wizkid-portrait-color.png'); IMG.sponsor = IMG[LOGO]; await render(); })();
+window.png = async () => { await render(); return cv.toDataURL('image/png').split(',')[1]; };
+window.audit = async () => { await render(); return { log: window.__log, sizes: window.__sizes }; };
+</script></body></html>
