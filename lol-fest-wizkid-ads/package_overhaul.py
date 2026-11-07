@@ -77,7 +77,7 @@ Notes
 Z = OUT / 'OVERHAUL'; [z.unlink() for z in Z.glob('*.zip')]
 def files(p): return sorted(x for x in p.rglob('*') if x.is_file())
 groups = [('Part1_Research-Flyers-Masters', [D / 'README.txt'] + files(R1) + files(R3) + files(R4)), ('Part2_Sponsor-Videos', files(R2)), ('Part3_Final-Exports-Videos', files(R5 / 'All Videos')), ('Part4_Final-Exports-Flyers', files(R5 / 'All Flyers'))]
-LIM = 480 * 2**20; parts = []
+LIM = 380 * 2**20; parts = []
 for name, fl in groups:
     chunk, size, n = [], 0, 1
     for f in fl:
