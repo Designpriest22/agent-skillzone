@@ -1,0 +1,215 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>LOL FEST hand props and flags</title>
+<style>html,body{margin:0;background:#222}canvas{display:block;max-width:100vw;max-height:100vh;margin:auto}</style>
+</head><body><canvas id="c"></canvas>
+<script src="lib.js"></script>
+<script>
+'use strict';
+// LOL FEST x WIZKID: crowd hand props and flags.
+//   ?p=<id>&side=front|back&mode=art   print artwork at production size, drawn in millimetres (trim origin, bleed around)
+//   ?p=<id>&mode=die                   the same artwork with trim / bleed / safe lines and dimension notes
+//   ?p=<id>&mode=mock                  product mockup, 2400 x 1600
+// Copy: approved festival information only (LIVE OUT LOUD MUSIC FESTIVAL, WIZKID, DECEMBER 13, 2026, EAGLE SQUARE, ABUJA, LIVE, ABUJA, 13 DEC).
+const Q = new URLSearchParams(location.search);
+const PID = Q.get('p') || 'fan', MODE = Q.get('mode') || 'art', SIDE = Q.get('side') || 'front';
+const cv = document.getElementById('c'); let ctx = cv.getContext('2d');
+const IM = {};
+const C = { maroon: '#5a0f1e', deep: '#2a0709', ink: '#140405', peach: '#FDB97A', white: '#FFF4EE', orange: '#F7791F', flame: '#E6531A', tan: '#C39C80', cream: '#F4E6D6', gold: '#F6C26B' };
+const rgba = (hex, a) => { const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16},${(n >> 8) & 255},${n & 255},${a})`; };
+const capK = {}; function capOf(fam, w) { const k = fam + w; if (!capK[k]) { const c = document.createElement('canvas').getContext('2d'); setFont(c, fam, 100, w); capK[k] = c.measureText('H').actualBoundingBoxAscent / 100; } return capK[k]; }
+// type set by cap height (mm); optional tracking to a target width
+function T(g, str, x, base, cap, o = {}) { let size = cap / capOf(o.fam || 'Oswald', o.w ?? 200); let track = o.track || 0;
+  if (o.width) { let nat = measure(g, str, { fam: o.fam || 'Oswald', w: o.w ?? 200, size }); if (nat > o.width) { size *= o.width / nat; nat = o.width; } track = Math.max(0, (o.width - nat) / ((str.length - 1) * size)); }
+  text(g, str, x, base, { fam: o.fam || 'Oswald', w: o.w ?? 200, size, track, color: o.color || C.white, align: o.align || 'center', alpha: o.alpha ?? 1 }); return size; }
+const LOL = (g, cx, cy, w) => lolLogo(g, cx, cy, w);
+const lolH = w => w * IMG.lol.height / IMG.lol.width;
+// the flyer's dry-brush field, scaled to the piece
+function brush(g, x0, y0, w, h, seed, col, a = .5, n = 60) {
+  const r = rng(seed), S = Math.max(w, h) / 1000; g.save(); g.lineCap = 'round';
+  for (let i = 0; i < n; i++) {
+    const x = x0 + r() * w, y = y0 + r() * h, ang = [-1.05, 1.0, -.35, .5, -1.25][Math.floor(r() * 5)] + (r() - .5) * .3;
+    const len = (220 + r() * 620) * S, wid = (34 + r() * 80) * S, br = 12 + Math.floor(r() * 8), dx = Math.cos(ang), dy = Math.sin(ang), nx = -dy, ny = dx;
+    for (let k = 0; k < br; k++) { const off = (k / (br - 1) - .5) * wid; g.strokeStyle = col; g.globalAlpha = a * (.35 + r() * .65); g.lineWidth = wid / br * (.7 + r() * 1.3);
+      g.setLineDash([len * (.2 + r() * .6), len * r() * .08]); const sx = x + nx * off, sy = y + ny * off, l0 = len * r() * .15, l1 = len * (.75 + r() * .25), bend = (r() - .5) * 30 * S;
+      g.beginPath(); g.moveTo(sx + dx * l0, sy + dy * l0); g.quadraticCurveTo(sx + dx * len * .5 + nx * bend, sy + dy * len * .5 + ny * bend, sx + dx * l1, sy + dy * l1); g.stroke(); }
+  }
+  g.setLineDash([]);
+  for (let c = 0; c < 12; c++) { const cx = x0 + r() * w, cy = y0 + r() * h; for (let i = 0; i < 24; i++) { const d = Math.pow(r(), 2) * 120 * S, th = r() * 7; g.globalAlpha = a * (.4 + r() * .6); g.fillStyle = col; g.beginPath(); g.arc(cx + Math.cos(th) * d, cy + Math.sin(th) * d, (.8 + r() * 5) * S * (1 - d / (130 * S)), 0, 7); g.fill(); } }
+  g.restore();
+}
+function field(g, x0, y0, w, h, seed, o = {}) { const gr = g.createRadialGradient(x0 + w / 2, y0 + h * .4, 0, x0 + w / 2, y0 + h * .4, Math.hypot(w, h) * .65); gr.addColorStop(0, o.c0 || '#6a1424'); gr.addColorStop(1, o.c1 || C.deep); g.fillStyle = gr; g.fillRect(x0, y0, w, h); brush(g, x0, y0, w, h, seed, o.stroke || '#1c0306', o.a ?? .5, o.n ?? 60); }
+function zig(g, cx, y, w, amp, n, col = C.flame) { zigzag(g, cx - w / 2, y, w, amp, n, { color: col, lw: amp * .55 }); }
+// repeated LOL zigzag pattern (bandana / backs)
+function zigRows(g, x0, y0, w, h, gap, amp, col, a) { g.save(); g.globalAlpha = a; for (let y = y0 + gap / 2; y < y0 + h; y += gap) zigzag(g, x0 - gap, y, w + gap * 2, amp, Math.round((w + gap * 2) / (amp * 2.2)), { color: col, lw: amp * .45 }); g.restore(); }
+function portraitImg(g, cx, top, w) { const im = IM.portrait, h = w * im.height / im.width; drawImg(g, im, cx, top + h / 2, w); return h; }
+
+// ---------------- the pieces (mm) ----------------
+// shape: rect | circle | swallow | band ; dpi: print resolution ; sides drawn by draw(g, side, W, H)
+const P = {
+  fan: { name: 'Hand fan', w: 220, h: 220, bleed: 3, dpi: 300, shape: 'circle', sides: ['front', 'back'],
+    spec: 'Round paddle fan, 220 mm diameter, 0.5 mm white PP, 4/4 colour, with a 230 mm plastic handle riveted at the base.',
+    draw(g, side, W, H) { const cx = W / 2, cy = H / 2;
+      if (side === 'front') { field(g, -3, -3, W + 6, H + 6, 11); LOL(g, cx, cy - 6, 150); zig(g, cx, cy + 66, 70, 7, 5); }
+      else { field(g, -3, -3, W + 6, H + 6, 23, { c0: '#E6531A', c1: '#9c2a0c', stroke: '#7a1d07', a: .45 });
+        T(g, 'WIZKID', cx, 92, 42, { color: C.white, width: 150 }); T(g, '13 DEC', cx, 128, 22, { color: C.ink, w: 300 });
+        T(g, 'LIVE', cx - 4, 160, 20, { color: C.white, align: 'right', w: 200 }); T(g, 'ABUJA', cx + 4, 160, 20, { color: C.ink, fam: 'Bebas', w: 400, align: 'left' });
+        T(g, 'EAGLE SQUARE, ABUJA', cx, 176, 6, { color: C.white, w: 700, track: .26 }); } } },
+  thunder: { name: 'Inflatable thundersticks (pair)', w: 600, h: 100, bleed: 3, dpi: 150, shape: 'rect', sides: ['front', 'back'],
+    spec: 'Pair of inflatable LDPE bang sticks, 600 x 100 mm flat, printed 2 colours one side (one maroon stick, one orange), sold with a straw valve.',
+    draw(g, side, W, H) {
+      if (side === 'front') { field(g, -3, -3, W + 6, H + 6, 31, { n: 40 }); LOL(g, 70, H / 2, 108); T(g, 'WIZKID', 340, H / 2 + 26, 52, { color: C.peach, width: 330 }); zig(g, 556, H / 2, 60, 9, 4); }
+      else { g.fillStyle = C.flame; g.fillRect(-3, -3, W + 6, H + 6); brush(g, -3, -3, W + 6, H + 6, 37, '#9c2a0c', .35, 40);
+        T(g, 'LIVE', 120, H / 2 + 22, 44, { color: C.white, align: 'center' }); T(g, 'ABUJA', 300, H / 2 + 22, 44, { color: C.ink, fam: 'Bebas', w: 400 }); T(g, '13 DEC', 480, H / 2 + 22, 44, { color: C.white }); } } },
+  clapper: { name: 'Paper hand clapper', w: 270, h: 180, bleed: 3, dpi: 300, shape: 'rect', sides: ['front', 'back'], folds: [90, 180],
+    spec: 'Three-panel folding paper clapper, 270 x 180 mm flat (90 mm panels), 250 gsm FSC card, 4/4 colour, accordion-folded at 90 and 180 mm.',
+    draw(g, side, W, H) {
+      if (side === 'front') { field(g, -3, -3, W + 6, H + 6, 41, { n: 46 });
+        LOL(g, 45, 82, 72); zig(g, 45, 140, 44, 5, 4);
+        T(g, 'WIZKID', 135, 104, 46, { color: C.peach, width: 76 }); T(g, 'LIVE OUT LOUD MUSIC FESTIVAL', 135, 132, 3.2, { color: C.white, w: 700, fam: 'Montserrat', track: .05, width: 74 });
+        T(g, '13 DEC', 225, 66, 22, { color: C.white, w: 300 }); T(g, 'LIVE', 225, 122, 40, { color: C.white }); T(g, 'ABUJA', 225, 150, 18, { color: C.orange, fam: 'Bebas', w: 400 }); }
+      else { g.fillStyle = C.flame; g.fillRect(-3, -3, W + 6, H + 6); zigRows(g, -3, -3, W + 6, H + 6, 22, 6, '#9c2a0c', .55);
+        for (const x of [45, 135, 225]) { g.fillStyle = C.deep; g.beginPath(); g.roundRect(x - 38, 60, 76, 60, 6); g.fill(); LOL(g, x, 90, 52); } } } },
+  ledstick: { name: 'LED foam glow stick sleeve', w: 400, h: 150, bleed: 3, dpi: 300, shape: 'rect', sides: ['front'],
+    spec: '480 mm LED foam baton, 40 mm diameter, 3-mode orange / white LEDs. The printed self-adhesive PET sleeve (400 x 150 mm, 4/0) wraps the handle so the foam glows above it.',
+    draw(g, side, W, H) { g.fillStyle = C.ink; g.fillRect(-3, -3, W + 6, H + 6); brush(g, -3, -3, W + 6, H + 6, 51, '#3a0a10', .6, 40);
+      for (let i = 0; i < 3; i++) { const x = 66 + i * 134; LOL(g, x, 60, 84); }
+      g.fillStyle = C.flame; g.fillRect(-3, 112, W + 6, 41); T(g, 'WIZKID', W / 2, 140, 18, { color: C.white, w: 300, width: 300 }); } },
+  wristband: { name: 'Festival wristband', w: 254, h: 25, bleed: 2, dpi: 300, shape: 'band', sides: ['front'],
+    spec: 'Tyvek tamper-proof wristband, 254 x 25 mm, 4/0, with a numbered tear-off and an adhesive tab (the right 30 mm is the glue tab, printed plain). Woven fabric version for VIP.',
+    draw(g, side, W, H) { g.fillStyle = C.maroon; g.fillRect(-2, -2, W + 4, H + 4); brush(g, -2, -2, W + 4, H + 4, 61, '#2a0709', .5, 30);
+      LOL(g, 18, H / 2, 24); g.fillStyle = C.flame; g.fillRect(34, 4, .8, H - 8);
+      T(g, 'LIVE OUT LOUD MUSIC FESTIVAL', 40, 11, 4.2, { color: C.white, w: 700, track: .12, align: 'left', fam: 'Montserrat' });
+      T(g, 'WIZKID', 40, 20.5, 6.5, { color: C.peach, w: 300, align: 'left', track: .2 }); T(g, 'DECEMBER 13, 2026', 128, 20.5, 4.2, { color: C.white, w: 700, fam: 'Montserrat', align: 'left' }); T(g, 'EAGLE SQUARE, ABUJA', 128, 11, 4.2, { color: C.tan, w: 700, align: 'left', track: .2 });
+      g.fillStyle = '#e9e2da'; g.fillRect(W - 30, -2, 32, H + 4); } },
+  bandana: { name: 'Harmattan bandana', w: 550, h: 550, bleed: 5, dpi: 150, shape: 'rect', sides: ['front'],
+    spec: '550 x 550 mm, 100% cotton voile, sublimation or screen print, hemmed edges. It works as a dust and face cover in the harmattan haze, a neck scarf or a wristband.',
+    draw(g, side, W, H) { g.fillStyle = C.flame; g.fillRect(-5, -5, W + 10, H + 10);
+      zigRows(g, -5, -5, W + 10, H + 10, 34, 8, '#b83a0e', .7);
+      g.strokeStyle = C.deep; g.lineWidth = 26; g.strokeRect(13, 13, W - 26, H - 26); g.strokeStyle = C.white; g.lineWidth = 1.6; g.strokeRect(32, 32, W - 64, H - 64);
+      // border text on all four sides
+      for (let k = 0; k < 4; k++) { g.save(); g.translate(W / 2, H / 2); g.rotate(k * Math.PI / 2); for (const dx of [-140, 140]) T(g, 'LIVE OUT LOUD MUSIC FESTIVAL', dx, -H / 2 + 18, 6.5, { color: C.peach, w: 700, fam: 'Montserrat', track: .18 }); g.restore(); }
+      // centre medallion
+      g.fillStyle = C.deep; g.beginPath(); g.arc(W / 2, H / 2, 150, 0, 7); g.fill(); g.strokeStyle = C.peach; g.lineWidth = 2; g.beginPath(); g.arc(W / 2, H / 2, 140, 0, 7); g.stroke();
+      LOL(g, W / 2, H / 2 - 8, 190); T(g, 'WIZKID', W / 2, H / 2 + 112, 22, { color: C.peach, width: 120 });
+      // corners: date / city
+      for (const [x, y, r] of [[80, 80, -Math.PI / 4], [W - 80, 80, Math.PI / 4], [W - 80, H - 80, 3 * Math.PI / 4], [80, H - 80, -3 * Math.PI / 4]]) { g.save(); g.translate(x, y); g.rotate(r); T(g, '13 DEC', 0, 8, 16, { color: C.white, w: 300 }); g.restore(); } } },
+  bighead: { name: 'Wizkid big-head fan board', w: 300, h: 250, bleed: 0, dpi: 300, shape: 'cutout', sides: ['front', 'back'],
+    spec: 'Die-cut fan board following the portrait silhouette with an 8 mm white keyline, 3 mm corrugated PP or 1.5 mm board, on a 400 mm paper-tube handle. The back shows the festival logo. The supplied portrait is 1080 px wide, so ask for the original high-resolution photo before print.',
+    draw(g, side, W, H) { if (side === 'front') { keylined(g, W / 2, 8, 280, 8); } else { silhouette(g, W / 2, 8, 280, 8, C.flame); g.save(); g.globalCompositeOperation = 'source-atop'; brush(g, 0, 0, W, H, 71, '#9c2a0c', .45, 30); g.restore(); LOL(g, W / 2, 158, 150); zig(g, W / 2, 232, 60, 6, 4); } } },
+  shades: { name: 'Festival party shades', w: 300, h: 120, bleed: 2, dpi: 300, shape: 'shadesSheet', sides: ['front'],
+    spec: 'Die-cut card or PVC party shades: a 150 mm front with tinted lenses plus two 140 mm temples, nested on one 300 x 120 mm sheet. A nod to the rectangular sunglasses in the official photo.',
+    draw(g, side, W, H) { if (!window.NOBG) { g.fillStyle = '#fff'; g.fillRect(-2, -2, W + 4, H + 4); }
+      g.save(); shadesFrontPath(g, 8, 8, 150, 50); g.clip(); field(g, 0, 0, 170, 70, 81, { n: 24 }); g.restore();
+      g.save(); g.fillStyle = 'rgba(30,14,6,.88)'; for (const lx of [8 + 18, 8 + 84]) { g.beginPath(); g.roundRect(lx, 8 + 14, 48, 22, 3); g.fill(); } g.restore();
+      LOL(g, 8 + 75, 8 + 7.5, 13);
+      for (const [y, s, flip] of [[74, 'WIZKID', 0], [98, 'ABUJA', 1]]) { g.save(); templePath(g, 8, y, 150, 14); g.clip(); g.fillStyle = flip ? C.flame : C.maroon; g.fillRect(0, y - 2, 170, 20); g.restore(); T(g, s, 8 + 62, y + 10.5, 7, { color: flip ? C.ink : C.peach, fam: flip ? 'Bebas' : 'Oswald', w: flip ? 400 : 300, track: .3 }); }
+      T(g, '13 DEC', 8 + 128, 74 + 10.5, 6, { color: C.white, w: 300 }); T(g, 'LIVE', 8 + 128, 98 + 10.5, 6, { color: C.white, w: 300 });
+      if (!window.NOBG) { g.save(); g.strokeStyle = '#d23'; g.lineWidth = .3; g.setLineDash([2, 1.2]); shadesFrontPath(g, 8, 8, 150, 50); g.stroke(); templePath(g, 8, 74, 150, 14); g.stroke(); templePath(g, 8, 98, 150, 14); g.stroke(); g.restore(); } } },
+  // ---- flags ----
+  flag1: { name: 'Flag 01: stick hand flag', w: 450, h: 300, bleed: 10, dpi: 150, shape: 'rect', sides: ['front'], sleeve: 'left',
+    spec: '450 x 300 mm, 110 g knitted polyester, dye-sublimated with about 90% show-through, with a 30 mm left sleeve on a 600 mm flexible plastic stick with a safety cap. Hard poles are best avoided at a dense standing show.',
+    draw(g, side, W, H) { field(g, -10, -10, W + 20, H + 20, 91, { n: 50 }); LOL(g, W / 2, H / 2 - 12, 236); zig(g, W / 2, H / 2 + 112, 110, 10, 6); } },
+  flag2: { name: 'Flag 02: swallowtail city flag', w: 500, h: 330, bleed: 10, dpi: 150, shape: 'swallow', sides: ['front'], sleeve: 'left',
+    spec: '500 x 330 mm swallowtail with a 120 mm notch, 110 g knitted polyester, dye-sublimated, with a left sleeve on a 600 mm flexible stick.',
+    draw(g, side, W, H) { g.fillStyle = C.flame; g.fillRect(-10, -10, W + 20, H + 20); brush(g, -10, -10, W + 20, H + 20, 97, '#9c2a0c', .4, 40);
+      g.fillStyle = C.deep; g.fillRect(-10, -10, 205, H + 20); LOL(g, 98, H / 2 - 10, 158); zig(g, 98, H / 2 + 98, 80, 8, 5);
+      T(g, 'LIVE', 228, 150, 92, { color: C.white, align: 'left' }); T(g, 'ABUJA', 228, 236, 66, { color: C.ink, fam: 'Bebas', w: 400, align: 'left' }); T(g, '13 DEC', 230, 284, 30, { color: C.white, align: 'left', w: 300 }); } },
+  flag3: { name: 'Flag 03: two-hand crowd flag', w: 1500, h: 900, bleed: 15, dpi: 100, shape: 'rect', sides: ['front'], sleeve: 'hem',
+    spec: '1500 x 900 mm, 110 g knitted polyester, single-sided dye-sublimation, hemmed edges with 4 corner hand loops and no pole. It is waved overhead in the photo moments and doubles as a fan cape.',
+    draw(g, side, W, H) { field(g, -15, -15, W + 30, H + 30, 103, { n: 70 });
+      T(g, 'WIZKID', W / 2, 330, 280, { color: C.peach, width: 1260 });
+      T(g, '13', 120, 520, 110, { color: C.white, align: 'left' }); T(g, 'DEC', 120, 650, 112, { color: C.white, align: 'left' });
+      T(g, 'LIVE', W - 120, 560, 150, { color: C.white, align: 'right' }); T(g, 'ABUJA', W - 120, 650, 52, { color: C.orange, fam: 'Bebas', w: 400, align: 'right' });
+      LOL(g, W / 2, 560, 420);
+      T(g, 'EAGLE SQUARE, ABUJA', W / 2, 820, 30, { color: C.tan, w: 700, track: .3 }); T(g, 'DECEMBER 13, 2026', W / 2, 868, 24, { color: C.white, w: 700, fam: 'Montserrat', track: .1 }); } },
+};
+function shadesFrontPath(g, x, y, w, h) { g.beginPath(); g.moveTo(x, y + 6); g.lineTo(x + w, y + 6); g.lineTo(x + w, y + h - 18); g.quadraticCurveTo(x + w * .62, y + h + 2, x + w * .55, y + h - 14); g.quadraticCurveTo(x + w / 2, y + h - 22, x + w * .45, y + h - 14); g.quadraticCurveTo(x + w * .38, y + h + 2, x, y + h - 18); g.closePath(); }
+function templePath(g, x, y, w, h) { g.beginPath(); g.moveTo(x, y); g.lineTo(x + w - 18, y); g.quadraticCurveTo(x + w, y, x + w, y + h + 4); g.lineTo(x + w - 6, y + h + 4); g.quadraticCurveTo(x + w - 8, y + h, x + w - 20, y + h); g.lineTo(x, y + h); g.closePath(); }
+// silhouette with keyline (die-cut follows the portrait + offset)
+const CUT = .66;
+function silhouette(g, cx, top, w, off, col) { const im = IM.portrait, h = w * im.height / im.width; const [c, x] = offC(g); const k = g.getTransform().a;
+  x.setTransform(g.getTransform()); for (let a = 0; a < 32; a++) { const th = a / 32 * Math.PI * 2; x.drawImage(im, cx - w / 2 + Math.cos(th) * off, top + Math.sin(th) * off, w, h); }
+  x.globalCompositeOperation = 'source-in'; x.setTransform(1, 0, 0, 1, 0, 0); x.fillStyle = col; x.fillRect(0, 0, c.width, c.height);
+  // keep only the head-and-shoulders part (the photo fades out below the chest)
+  x.globalCompositeOperation = 'destination-in'; x.setTransform(g.getTransform()); x.fillStyle = '#000'; x.fillRect(cx - w, top - off * 2, w * 2, h * CUT + off * 2);
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(c, 0, 0); g.restore(); return h; }
+function keylined(g, cx, top, w, off) { const h = silhouette(g, cx, top, w, off, '#ffffff'); const im = IM.portrait; const [c, x] = offC(g, 1); x.setTransform(g.getTransform()); x.drawImage(im, cx - w / 2, top, w, h); x.globalCompositeOperation = 'destination-in'; x.fillStyle = '#000'; x.fillRect(cx - w, top - 10, w * 2, h * CUT + 10 - off); g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.drawImage(c, 0, 0); g.restore(); if (window.__log) window.__log.imgs.push('wizkid-portrait-color.png'); }
+const OFF = []; function offC(g, i = 0) { const W = g.canvas.width, H = g.canvas.height; if (!OFF[i] || OFF[i].width !== W || OFF[i].height !== H) { OFF[i] = document.createElement('canvas'); OFF[i].width = W; OFF[i].height = H; } const x = OFF[i].getContext('2d'); x.setTransform(1, 0, 0, 1, 0, 0); x.globalCompositeOperation = 'source-over'; x.clearRect(0, 0, W, H); return [OFF[i], x]; }
+
+// trim-shape clip used for the artwork bleed edge
+function trimPath(g, p, W, H, b) { g.beginPath(); if (p.shape === 'circle') g.arc(W / 2, H / 2, W / 2 + b, 0, 7); else if (p.shape === 'swallow') { g.moveTo(-b, -b); g.lineTo(W + b, -b); g.lineTo(W - 120 + b * .4, H / 2); g.lineTo(W + b, H + b); g.lineTo(-b, H + b); g.closePath(); } else if (p.shape === 'band') { g.roundRect(-b, -b, W + 2 * b, H + 2 * b, 4); } else g.rect(-b, -b, W + 2 * b, H + 2 * b); }
+// draw a piece into a canvas at dpi
+function renderArt(p, side, dpi, canvas) { const b = p.bleed, k = dpi / 25.4; canvas.width = Math.round((p.w + 2 * b) * k); canvas.height = Math.round((p.h + 2 * b) * k);
+  const g = canvas.getContext('2d'); g.setTransform(k, 0, 0, k, b * k, b * k); g.clearRect(-b, -b, p.w + 2 * b, p.h + 2 * b);
+  g.save(); if (p.shape !== 'cutout' && p.shape !== 'shadesSheet') { trimPath(g, p, p.w, p.h, b); g.clip(); } p.draw(g, side, p.w, p.h); g.restore(); return g; }
+function dieOverlay(g, p) { const W = p.w, H = p.h, b = p.bleed; g.save(); g.lineWidth = .35;
+  const dash = (col, d) => { g.strokeStyle = col; g.setLineDash(d); };
+  if (b) { dash('#ff2d2d', [3, 2]); trimPath(g, p, W, H, b); g.stroke(); }
+  dash('#111', []); g.lineWidth = .5; if (p.shape === 'cutout') {} else { trimPath(g, p, W, H, 0); g.strokeStyle = '#00e0ff'; g.stroke(); }
+  const s = Math.min(W, H) > 60 ? 6 : 2; dash('#19c37d', [2, 2]); g.lineWidth = .35; if (p.shape === 'circle') { g.beginPath(); g.arc(W / 2, H / 2, W / 2 - s, 0, 7); g.stroke(); } else if (p.shape !== 'cutout' && p.shape !== 'shadesSheet') { g.strokeRect(s, s, W - 2 * s, H - 2 * s); }
+  if (p.folds) { dash('#ff00ff', [4, 2]); for (const x of p.folds) { g.beginPath(); g.moveTo(x, -b); g.lineTo(x, H + b); g.stroke(); } }
+  if (p.sleeve === 'left') { dash('#ffb000', [4, 2]); g.beginPath(); g.moveTo(30, -b); g.lineTo(30, H + b); g.stroke(); }
+  if (p.shape === 'circle') { dash('#ffb000', [4, 2]); g.strokeRect(W / 2 - 15, H - 2, 30, 8); }
+  g.restore(); }
+
+// ---------------- mockups ----------------
+const MW = 2400, MH = 1600;
+function stage(g, tone = ['#2c2422', '#0d0a0a']) { const gr = g.createRadialGradient(MW / 2, MH * .42, 0, MW / 2, MH * .42, MW * .75); gr.addColorStop(0, tone[0]); gr.addColorStop(1, tone[1]); g.fillStyle = gr; g.fillRect(0, 0, MW, MH); }
+function shadow(g, cx, cy, rx, ry, a = .45) { g.save(); g.translate(cx, cy); g.scale(1, ry / rx); const gr = g.createRadialGradient(0, 0, 0, 0, 0, rx); gr.addColorStop(0, `rgba(0,0,0,${a})`); gr.addColorStop(1, 'rgba(0,0,0,0)'); g.fillStyle = gr; g.fillRect(-rx, -rx, rx * 2, rx * 2); g.restore(); }
+function art(id, side = 'front', dpi = 60) { const c = document.createElement('canvas'); renderArt(P[id], side, dpi, c); return c; }
+// trimmed art (bleed removed)
+function trimmed(id, side = 'front', dpi = 60) { const p = P[id], c = art(id, side, dpi), k = dpi / 25.4, b = p.bleed * k; const t = document.createElement('canvas'); t.width = Math.round(p.w * k); t.height = Math.round(p.h * k); const x = t.getContext('2d'); x.drawImage(c, -b, -b); if (p.shape === 'circle') { x.globalCompositeOperation = 'destination-in'; x.beginPath(); x.arc(t.width / 2, t.height / 2, t.width / 2, 0, 7); x.fill(); } if (p.shape === 'swallow') { x.globalCompositeOperation = 'destination-in'; x.beginPath(); x.moveTo(0, 0); x.lineTo(t.width, 0); x.lineTo(t.width - 120 * k, t.height / 2); x.lineTo(t.width, t.height); x.lineTo(0, t.height); x.fill(); } return t; }
+// cloth: draw art in vertical strips displaced by a wave, with light/shade bands
+function cloth(g, img, x, y, w, h, amp, waves, phase = 0, persp = 0) { const n = 120; for (let i = 0; i < n; i++) { const u = i / n, sx = img.width * u, sw = img.width / n + 1;
+  const dy = Math.sin(u * waves * Math.PI * 2 + phase) * amp * u, sc = 1 - persp * u, dx = x + w * u;
+  g.drawImage(img, sx, 0, sw, img.height, dx, y + dy + h * (1 - sc) / 2, w / n + 1.5, h * sc);
+  const sh = Math.cos(u * waves * Math.PI * 2 + phase); g.fillStyle = sh > 0 ? `rgba(255,255,255,${.1 * sh * u})` : `rgba(0,0,0,${-.32 * sh * u})`; g.fillRect(dx, y + dy + h * (1 - sc) / 2, w / n + 1.5, h * sc); } }
+function pole(g, x, y0, y1, col = '#f2efe9', wdt = 16) { g.save(); const gr = g.createLinearGradient(x - wdt / 2, 0, x + wdt / 2, 0); gr.addColorStop(0, '#9a958d'); gr.addColorStop(.4, col); gr.addColorStop(1, '#6d6a64'); g.fillStyle = gr; g.beginPath(); g.roundRect(x - wdt / 2, y0, wdt, y1 - y0, wdt / 2); g.fill(); g.fillStyle = C.flame; g.beginPath(); g.arc(x, y0, wdt * .9, 0, 7); g.fill(); g.restore(); }
+function capsule(g, img, cx, cy, len, thk, rot) { g.save(); g.translate(cx, cy); g.rotate(rot); g.beginPath(); g.roundRect(-len / 2, -thk / 2, len, thk, thk / 2); g.save(); g.shadowColor = 'rgba(0,0,0,.5)'; g.shadowBlur = 50; g.shadowOffsetY = 24; g.fillStyle = '#000'; g.fill(); g.restore(); g.clip(); g.drawImage(img, -len / 2, -thk / 2, len, thk);
+  const gr = g.createLinearGradient(0, -thk / 2, 0, thk / 2); gr.addColorStop(0, 'rgba(0,0,0,.45)'); gr.addColorStop(.25, 'rgba(255,255,255,.28)'); gr.addColorStop(.38, 'rgba(255,255,255,.05)'); gr.addColorStop(.8, 'rgba(0,0,0,.15)'); gr.addColorStop(1, 'rgba(0,0,0,.55)'); g.fillStyle = gr; g.fillRect(-len / 2, -thk / 2, len, thk); g.restore(); }
+function label(g, s, x, y, o = {}) { text(g, s, x, y, { fam: 'Montserrat', w: 600, size: o.size || 30, track: .2, color: o.color || 'rgba(255,255,255,.55)', align: o.align || 'left' }); }
+const MOCK = {
+  fan(g) { stage(g); const F = trimmed('fan', 'front', 90), Bk = trimmed('fan', 'back', 90);
+    const sc = (img, cx, cy, d, rot) => { g.save(); g.translate(cx, cy); g.rotate(rot); g.fillStyle = '#ece8e2'; g.beginPath(); g.roundRect(-22, d / 2 - 30, 44, d * .75, 20); g.fill(); g.save(); g.shadowColor = 'rgba(0,0,0,.5)'; g.shadowBlur = 60; g.shadowOffsetY = 30; g.beginPath(); g.arc(0, 0, d / 2, 0, 7); g.fillStyle = '#000'; g.fill(); g.restore(); g.drawImage(img, -d / 2, -d / 2, d, d); const gr = g.createLinearGradient(-d / 2, -d / 2, d / 2, d / 2); gr.addColorStop(0, 'rgba(255,255,255,.18)'); gr.addColorStop(.5, 'rgba(255,255,255,0)'); gr.addColorStop(1, 'rgba(0,0,0,.2)'); g.fillStyle = gr; g.beginPath(); g.arc(0, 0, d / 2, 0, 7); g.fill(); g.restore(); };
+    sc(Bk, 1500, 700, 760, .16); sc(F, 900, 720, 820, -.12); },
+  thunder(g) { stage(g); capsule(g, trimmed('thunder', 'front', 80), 1200, 760, 1900, 320, -.32); capsule(g, trimmed('thunder', 'back', 80), 1200, 800, 1900, 320, .3); },
+  clapper(g) { stage(g); const A = trimmed('clapper', 'front', 120); const pw = A.width / 3, ph = A.height; const W3 = 520, H3 = W3 * ph / pw, x0 = 560, y0 = 800 - H3 / 2;
+    for (let i = 0; i < 3; i++) { g.save(); const skew = i % 2 ? .18 : -.18; g.setTransform(.86, skew, 0, 1, x0 + i * W3 * .86, y0 + (i % 2 ? 0 : 60)); g.shadowColor = 'rgba(0,0,0,.45)'; g.shadowBlur = 40; g.shadowOffsetY = 20; g.drawImage(A, i * pw, 0, pw, ph, 0, 0, W3, H3); g.shadowColor = 'transparent'; g.fillStyle = i % 2 ? 'rgba(0,0,0,.22)' : 'rgba(255,255,255,.06)'; g.fillRect(0, 0, W3, H3); g.restore(); } },
+  ledstick(g) { stage(g, ['#1d1416', '#050304']); const S = trimmed('ledstick', 'front', 90);
+    const one = (cx, rot, col) => { g.save(); g.translate(cx, 820); g.rotate(rot); const L = 1300, D = 110;
+      g.save(); g.globalCompositeOperation = 'screen'; const gl = g.createRadialGradient(0, -L * .32, 0, 0, -L * .32, 520); gl.addColorStop(0, rgba(col, .55)); gl.addColorStop(1, rgba(col, 0)); g.fillStyle = gl; g.fillRect(-600, -L, 1200, L * 1.2); g.restore();
+      g.fillStyle = col; g.beginPath(); g.roundRect(-D / 2, -L * .66, D, L * .58, D / 2); g.fill(); const hl = g.createLinearGradient(-D / 2, 0, D / 2, 0); hl.addColorStop(0, 'rgba(255,255,255,.1)'); hl.addColorStop(.35, 'rgba(255,255,255,.75)'); hl.addColorStop(1, 'rgba(255,255,255,0)'); g.fillStyle = hl; g.beginPath(); g.roundRect(-D / 2, -L * .66, D, L * .58, D / 2); g.fill();
+      g.save(); g.beginPath(); g.rect(-D / 2 - 4, -L * .1, D + 8, L * .5); g.clip(); g.save(); g.translate(0, -L * .1); g.rotate(Math.PI / 2); g.drawImage(S, 0, -D / 2 - 4, L * .5, D + 8); g.restore(); const sh = g.createLinearGradient(-D / 2, 0, D / 2, 0); sh.addColorStop(0, 'rgba(0,0,0,.6)'); sh.addColorStop(.35, 'rgba(255,255,255,.15)'); sh.addColorStop(1, 'rgba(0,0,0,.65)'); g.fillStyle = sh; g.fillRect(-D / 2 - 4, -L * .1, D + 8, L * .5); g.restore(); g.restore(); };
+    one(980, -.18, '#ff7a1f'); one(1420, .16, '#fff1dc'); },
+  wristband(g) { stage(g, ['#e9e1d6', '#b9ab9b']); const S = trimmed('wristband', 'front', 200); const n = 160, len = 2000, x0 = 200;
+    for (let i = 0; i < n; i++) { const u = i / n, x = x0 + len * u, y = 760 + Math.sin(u * Math.PI * 1.6 + .4) * 160; const sc = .85 + .15 * Math.cos(u * Math.PI * 1.6 + .4); g.drawImage(S, S.width * u, 0, S.width / n + 1, S.height, x, y - 100 * sc, len / n + 2, 200 * sc); g.fillStyle = `rgba(0,0,0,${.18 * (1 - sc) * 4})`; g.fillRect(x, y - 100 * sc, len / n + 2, 200 * sc); } },
+  bandana(g) { stage(g, ['#3a2b25', '#120d0b']); const S = trimmed('bandana', 'front', 40); g.save(); g.translate(1200, 800); g.rotate(.12); g.shadowColor = 'rgba(0,0,0,.5)'; g.shadowBlur = 60; g.shadowOffsetY = 26; cloth(g, S, -620, -620, 1240, 1240, 26, 1.5, .4, .04); g.restore(); },
+  bighead(g) { stage(g, ['#4a1a20', '#120406']); const F = document.createElement('canvas'), Bk = document.createElement('canvas'); renderArt(P.bighead, 'front', 110, F); renderArt(P.bighead, 'back', 110, Bk);
+    const one = (img, cx, rot, s) => { g.save(); g.translate(cx, 1040); g.rotate(rot); g.fillStyle = '#f2ede4'; g.fillRect(-14, -40, 28, 760); g.fillStyle = C.flame; for (let y = 20; y < 760; y += 60) g.fillRect(-14, y, 28, 22); g.shadowColor = 'rgba(0,0,0,.55)'; g.shadowBlur = 60; g.shadowOffsetY = 30; const w = img.width * s, h = img.height * s; g.drawImage(img, -w / 2, -h * .97, w, h); g.restore(); };
+    one(Bk, 1560, .1, .8); one(F, 880, -.06, .9); },
+  shades(g) { stage(g, ['#f0e7dc', '#c5b5a2']); const sheet = trimmed('shades', 'front', 80); window.NOBG = true; const S = trimmed('shades', 'front', 220); window.NOBG = false; const k = 220 / 25.4;
+    const fw = 1150, fh = fw * 50 / 150, cx = 1200, cy = 620;
+    // temples recede behind the front
+    for (const sgn of [-1, 1]) { g.save(); g.translate(cx + sgn * fw * .5, cy - fh * .28); g.transform(.42, -.16 * sgn, 0, 1, 0, 0); g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = 20; g.drawImage(S, 8 * k, (sgn < 0 ? 74 : 98) * k, 150 * k, 20 * k, sgn < 0 ? -fw : 0, 0, fw, fw * 20 / 150); g.restore(); }
+    g.save(); g.shadowColor = 'rgba(0,0,0,.35)'; g.shadowBlur = 50; g.shadowOffsetY = 24; g.drawImage(S, 8 * k, 8 * k, 150 * k, 50 * k, cx - fw / 2, cy - fh / 2, fw, fh); g.restore();
+    g.save(); g.fillStyle = 'rgba(255,255,255,.16)'; for (const lx of [-.36, .1]) { g.beginPath(); g.moveTo(cx + fw * lx, cy - fh * .16); g.lineTo(cx + fw * (lx + .12), cy - fh * .16); g.lineTo(cx + fw * (lx + .05), cy + fh * .2); g.lineTo(cx + fw * (lx - .07), cy + fh * .2); g.fill(); } g.restore();
+    const sw = 900, sh = sw * sheet.height / sheet.width; g.save(); g.shadowColor = 'rgba(0,0,0,.2)'; g.shadowBlur = 30; g.drawImage(sheet, cx - sw / 2, 1040, sw, sh); g.restore(); label(g, 'FLAT DIE-CUT SHEET', cx - sw / 2, 1020, { color: 'rgba(0,0,0,.5)', size: 24 }); },
+  flag1(g) { stage(g, ['#2b2322', '#0b0909']); const S = trimmed('flag1', 'front', 70); pole(g, 700, 260, 1460); g.save(); g.shadowColor = 'rgba(0,0,0,.45)'; g.shadowBlur = 50; g.shadowOffsetY = 20; cloth(g, S, 700, 300, 1150, 767, 60, 1.25, .2, .08); g.restore(); },
+  flag2(g) { stage(g, ['#2b2322', '#0b0909']); const S = trimmed('flag2', 'front', 70); pole(g, 640, 240, 1460); g.save(); g.shadowColor = 'rgba(0,0,0,.45)'; g.shadowBlur = 50; g.shadowOffsetY = 20; cloth(g, S, 640, 300, 1260, 832, 54, 1.4, .6, .1); g.restore(); },
+  flag3(g) { stage(g, ['#2b2322', '#0b0909']); const S = trimmed('flag3', 'front', 30); g.save(); g.shadowColor = 'rgba(0,0,0,.5)'; g.shadowBlur = 60; g.shadowOffsetY = 30; cloth(g, S, 230, 330, 1940, 1164, 46, 1.1, 1.2, 0); g.restore();
+    g.strokeStyle = '#1a0507'; g.lineWidth = 14; for (const [x, y, d] of [[236, 336, -1], [2164, 330 + Math.sin(1.1 * Math.PI * 2 + 1.2) * 46 + 6, 1]]) { g.beginPath(); g.arc(x + d * 26, y - 26, 34, 0, 7); g.stroke(); } },
+};
+
+async function main() {
+  await loadFonts(); await loadBrand(); IM.portrait = await loadImg('assets/flyer/wizkid-portrait-color.png');
+  window.__log = { texts: [], imgs: [] };
+  const p = P[PID];
+  if (MODE === 'mock') { cv.width = MW; cv.height = MH; ctx = cv.getContext('2d'); MOCK[PID](ctx);
+    text(ctx, p.name.toUpperCase(), 80, MH - 70, { fam: 'Montserrat', w: 700, size: 34, track: .2, color: PID === 'wristband' || PID === 'shades' ? 'rgba(0,0,0,.55)' : 'rgba(255,255,255,.6)', align: 'left' }); }
+  else { const g = renderArt(p, SIDE, Number(Q.get('dpi') || p.dpi), cv); if (MODE === 'die') dieOverlay(g, p); }
+  window.meta = { name: p.name, spec: p.spec, w: p.w, h: p.h, bleed: p.bleed, dpi: p.dpi, sides: p.sides, W: cv.width, H: cv.height };
+}
+window.PIECES = Object.fromEntries(Object.entries(P).map(([k, p]) => [k, { name: p.name, spec: p.spec, w: p.w, h: p.h, bleed: p.bleed, dpi: p.dpi, sides: p.sides }]));
+window.ready = main();
+window.png = async (type = 'image/png') => { await window.ready; return cv.toDataURL(type, .92).split(',')[1]; };
+</script></body></html>
