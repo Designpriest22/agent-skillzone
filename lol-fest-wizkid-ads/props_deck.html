@@ -19,46 +19,48 @@ table{border-collapse:collapse;width:100%;font-size:8.6pt}td,th{padding:2.2mm 2.
 .flat{margin-top:4mm;display:flex;gap:4mm;align-items:center;height:56mm}.flat img{max-height:56mm;max-width:86mm;object-fit:contain;background:#fff;border-radius:1mm;padding:1.5mm}
 .num{font:200 54pt/1 Oswald;color:#F7791F}.name{font:200 26pt/1.05 Oswald;color:#FDB97A;margin:1mm 0 4mm}
 .spec{font-size:9pt}.spec b{color:#FDB97A;font-weight:700}.why{margin-top:4mm;padding-top:4mm;border-top:1px solid rgba(255,244,238,.18);font-size:9pt}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:3mm}.grid img{width:100%;border-radius:1.5mm;display:block}.grid div{font:700 6.5pt Montserrat;letter-spacing:.18em;color:rgba(255,244,238,.6);margin-top:1mm}
+.grid{display:grid;grid-template-columns:repeat(5,1fr);gap:3mm}.grid img{width:100%;border-radius:1.5mm;display:block}.grid div{font:700 6.5pt Montserrat;letter-spacing:.18em;color:rgba(255,244,238,.6);margin-top:1mm}
 .sw{display:flex;gap:3mm;margin:3mm 0}.sw span{width:24mm;height:16mm;border-radius:1mm;display:flex;align-items:flex-end;padding:1mm;font:700 6pt Montserrat;color:#140405}
 </style></head><body>
 <script>
 const R = 'out/_work/props/';
 const WHY = {
   fan: 'Abuja in December runs at about 32–35 °C with harmattan haze. A fan is the prop people keep in their hand all night, and the most visible logo in crowd shots and drone footage.',
-  thunder: 'The standard crowd-noise prop for the drops and the walk-out. Inflatable means no hard parts, flat-pack shipping and very low unit cost. Each crossed pair reads as a banner.',
   clapper: 'The eco, lowest-cost noise maker. The three panels open out to read LOL / WIZKID / 13 DEC LIVE ABUJA, so every clap shows the lock-up.',
-  ledstick: 'The night light show: the affordable lightstick for an open-air night set. The orange / white LED modes match the festival palette, and the printed sleeve carries the logo in every photo.',
-  wristband: 'Access control, a keepsake and a photo detail in one. Every attendee gets it. The full festival name, WIZKID, date and venue run along the band.',
   bandana: 'Specific to Abuja in December: a dust cover against the harmattan, then a neck scarf or wrist tie. The festival border and the 13 DEC corners make it collectable.',
   bighead: 'The fan-culture photo prop, cut from the official portrait only, never a generated likeness. The back shows the festival logo. Needs the original high-resolution photo for print.',
-  shades: 'A playful nod to the rectangular sunglasses in the official portrait: fans wear the look. Die-cut from a single sheet, with WIZKID and 13 DEC / LIVE ABUJA on the temples.',
-  flag1: 'The core flag: the LOL FEST logo and zigzag on the flyer brush field. The flexible stick with a safety cap suits a dense standing crowd.',
-  flag2: 'The swallowtail city flag: the logo panel with LIVE / ABUJA / 13 DEC in the flyer typography, the "I was there" flag.',
-  flag3: 'The big two-hand wave and fan cape for the front sections and VIP: the full flyer lock-up with WIZKID, 13 DEC, LIVE ABUJA, the logo, venue and date. Corner hand loops and no pole.',
+  towel: 'Festival brand only. Swung overhead in the drops, then used against heat and dust. Black, brown and white, so it works for any LOL FEST headliner and any year.',
+  hat: 'Festival brand only. Shade for the hot afternoon gates and dust cover for the evening. A wearable that keeps the LOL FEST logo on the street after the show.',
+  megaphone: 'Festival brand only. The LOUD in Live Out Loud, made literal: a flat-packed card cone that fans roll on entry. Silent to ship, loud on the night.',
+  placard: 'Festival brand only. The festival logo itself becomes the sign, die-cut with a keyline, so it reads instantly on screens and in crowd photography.',
+  tattoo: 'Festival brand only. Face and arm tattoos (logo, chevrons, zigzag armband), the cheapest and most photographed piece of festival identity.',
+  bag: 'Festival brand only. The carry-all for fan, towel and bandana through the gates and home again: a long-life billboard for the festival brand.',
+  flag1: 'White stick flag with the LOL FEST logo only: black sleeve, brown dry-brush texture and frame. Flexible stick with a safety cap.',
+  flag2: 'Black and brown swallowtail with the LOL FEST logo only: a bold diagonal brown band with a white pin-stripe.',
+  flag3: 'The one artist flag: LOL FEST logo plus WIZKID on a brown dry-brush field with black bands and a white frame. Two-hand wave with corner loops and no pole.',
 };
-const ORDER = ['fan','thunder','clapper','ledstick','wristband','bandana','bighead','shades','flag1','flag2','flag3'];
+const ORDER = ['fan','clapper','bandana','bighead','towel','hat','megaphone','placard','tattoo','bag','flag1','flag2','flag3'];
 (async () => {
   const meta = await (await fetch(R + 'pieces.json')).json(); const P = meta.pieces; const n = i => String(i + 1).padStart(2, '0') + '-' + ORDER[i];
   const foot = (p) => `<div class="foot"><span>LIVE OUT LOUD MUSIC FESTIVAL · WIZKID · HAND PROPS & FLAGS</span><span>${p}</span></div>`;
-  let h = `<section class="pg" style="background:#140405"><img src="${R}11-flag3/11-flag3_MOCKUP.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;opacity:.7"><div style="position:absolute;inset:0;background:linear-gradient(90deg,#140405 0%,rgba(20,4,5,.92) 38%,rgba(20,4,5,.2) 75%),linear-gradient(0deg,#140405 0%,rgba(20,4,5,0) 30%)"></div>
+  let h = `<section class="pg" style="background:#140405"><img src="${R}13-flag3/13-flag3_MOCKUP.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:60% 40%;opacity:.7"><div style="position:absolute;inset:0;background:linear-gradient(90deg,#140405 0%,rgba(20,4,5,.92) 38%,rgba(20,4,5,.2) 75%),linear-gradient(0deg,#140405 0%,rgba(20,4,5,0) 30%)"></div>
     <div class="pad" style="display:flex;flex-direction:column;justify-content:flex-end"><div class="k">LIVE OUT LOUD MUSIC FESTIVAL · DECEMBER 13, 2026 · EAGLE SQUARE, ABUJA</div><h1 style="margin-top:4mm">HAND PROPS<br>&amp; FLAGS</h1>
-    <p style="max-width:150mm;margin-top:5mm">Research-led crowd props for WIZKID at Eagle Square: 8 hand props and 3 flags with the LOL FEST logo, each with print artwork, a die-line and a mockup.</p></div>${foot('01')}</section>`;
+    <p style="max-width:150mm;margin-top:5mm">Research-led crowd props for WIZKID at Eagle Square: 10 hand props (6 of them festival-brand only) and 3 flags in white, black and brown, each with print artwork, a die-line and a mockup.</p></div>${foot('01')}</section>`;
   h += `<section class="pg"><div class="pad"><div class="k">01 · Research</div><h2>What the crowd needs on the night</h2><table>
     <tr><th style="width:44%">Finding</th><th>What it means for the props</th></tr>
     <tr><td>Abuja in December is harmattan season: days around 32–35 °C, nights 15–20 °C, and Saharan dust haze that irritates breathing.</td><td>A hand fan and a cotton bandana (dust cover or neck scarf). Everything light and soft-edged to carry for hours.</td></tr>
-    <tr><td>Eagle Square is an open-air parade ground, and the headline set is after dark.</td><td>Props that glow and read at night: an LED foam baton, plus high-contrast peach, orange and white on maroon for screens and drones.</td></tr>
-    <tr><td>Lightsticks are the main visual prop at big shows. Hand banners, boards and towels are the comfortable alternatives.</td><td>An LED stick with a printed sleeve, and three flag formats as the hand banners.</td></tr>
-    <tr><td>Thundersticks are the standard crowd-noise prop.</td><td>Inflatable thundersticks plus a paper clapper (the eco option).</td></tr>
+    <tr><td>Eagle Square is an open-air parade ground: hot afternoon gates, a cool dusty night.</td><td>Rally towel, bucket hat and bandana for sun, dust and sweat. High-contrast white, black and brown that reads on screens and in drone shots.</td></tr>
+    <tr><td>Hand banners, boards and towels are the comfortable visual props at big shows.</td><td>A logo die-cut placard, a rally towel and three flag formats as the hand banners.</td></tr>
+    <tr><td>Crowd noise is part of the show's energy.</td><td>The paper clapper and a paper megaphone: the LOUD in Live Out Loud, flat-packed and with no plastic inflatables.</td></tr>
     <tr><td>Prop size and pole rules vary by venue, and promoters set them.</td><td>Flexible sticks with safety caps, a poleless crowd flag with hand loops and a paper-tube handle. Clear every prop with venue security.</td></tr>
-    <tr><td>Detty December merch is mostly tees, caps, hoodies and wristbands. These build the artist's brand more than they earn money.</td><td>A wristband for every attendee. Every prop is photo-first, designed to be seen in crowd shots and on social media.</td></tr>
-    <tr><td>The official portrait shows Wizkid in rectangular sunglasses.</td><td>Party shades, and a big-head board cut from the official photo only.</td></tr></table>
+    <tr><td>Detty December merch builds the brand more than it earns money: wearables and carry items travel furthest.</td><td>Festival-only LOL pieces (bag, hat, towel, tattoos) that carry the LOL FEST brand beyond this one headliner and this one night.</td></tr>
+    <tr><td>Fan-culture photo props are central at artist shows.</td><td>A big-head board cut from the official photo only, and one WIZKID crowd flag. Everything else is LOL FEST brand only.</td></tr></table>
     <p style="font-size:7pt;opacity:.6;margin-top:4mm">Sources: Champion Traveler, MileHacker and Tripbase Abuja climate guides; Harmattan (Wikipedia); GoPromotional guide to bang sticks; Lazada Media Hub concert merch guides; Fanlore "Lightstick"; africa.com on Detty December; Detty December (Wikipedia). Full links are in HAND-PROPS-RESEARCH-AND-SPEC.md.</p></div>${foot('02')}</section>`;
   h += `<section class="pg"><div class="pad"><div class="k">02 · Design system</div><h2>The client flyer, as objects</h2>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10mm"><div><p>Every piece uses the grammar of the client's own LOL FEST flyer: a dry-brush maroon field, a thin condensed WIZKID headline, 13 DEC and LIVE / ABUJA, the bold ABUJA accent, the orange zigzag and the official LIVE OUT LOUD MUSIC FESTIVAL logo, unaltered.</p>
-    <div class="sw"><span style="background:#5A0F1E;color:#FFF4EE">MAROON 5A0F1E</span><span style="background:#2A0709;color:#FFF4EE">DEEP 2A0709</span><span style="background:#FDB97A">PEACH FDB97A</span><span style="background:#F7791F">ORANGE F7791F</span><span style="background:#E6531A">FLAME E6531A</span><span style="background:#C39C80">TAN C39C80</span></div>
+    <div class="sw"><span style="background:#5A0F1E;color:#FFF4EE">MAROON 5A0F1E</span><span style="background:#2A0709;color:#FFF4EE">DEEP 2A0709</span><span style="background:#FDB97A">PEACH FDB97A</span><span style="background:#F7791F">ORANGE F7791F</span><span style="background:#E6531A">FLAME E6531A</span><span style="background:#C39C80">TAN C39C80</span></div><div class="k" style="margin-top:3mm">Festival-only props and flags</div><div class="sw"><span style="background:#F7F4EF">WHITE F7F4EF</span><span style="background:#0E0C0B;color:#F7F4EF">BLACK 0E0C0B</span><span style="background:#6B4226;color:#F7F4EF">BROWN 6B4226</span><span style="background:#3A2416;color:#F7F4EF">DARK 3A2416</span><span style="background:#A9764C">LIGHT A9764C</span></div>
     <p><b style="color:#FDB97A">Copy:</b> approved festival information only. <b style="color:#FDB97A">Photo:</b> the supplied official portrait, on the big-head board only. No slogans, no sponsor logos and no ticket links in the default artwork. A single-sponsor co-brand back is available as an option.</p></div>
-    <div class="grid" style="grid-template-columns:1fr 1fr">${ORDER.slice(0, 4).map((id, i) => `<div><img src="${R}${n(i)}/${n(i)}_PRINT-ARTWORK_front.png" style="background:#fff;padding:1mm;max-height:44mm;object-fit:contain"></div>`).join('')}</div></div></div>${foot('03')}</section>`;
+    <div class="grid" style="grid-template-columns:1fr 1fr">${[4, 5, 10, 12].map(i => `<div><img src="${R}${n(i)}/${n(i)}_MOCKUP.jpg"></div>`).join('')}</div></div></div>${foot('03')}</section>`;
   ORDER.forEach((id, i) => { const p = P[id], d = n(i), sides = p.sides;
     const flats = sides.map(s => `<img src="${R}${d}/${d}_DIELINE_${s}.png">`).join('');
     h += `<section class="pg"><div class="pad"><div class="piece"><div><img class="m" src="${R}${d}/${d}_MOCKUP.jpg"><div class="flat">${flats}</div></div>
@@ -66,8 +68,8 @@ const ORDER = ['fan','thunder','clapper','ledstick','wristband','bandana','bighe
       <div class="spec"><b>Specification</b><br>${p.spec}<br><br><b>Artwork</b><br>${p.w} × ${p.h} mm trim, ${p.bleed} mm bleed, ${p.dpi} dpi · ${sides.join(' + ')}</div>
       <div class="why"><b style="color:#F7791F;letter-spacing:.15em;font-size:7.5pt">WHY IT EARNS ITS PLACE</b><br>${WHY[id]}</div>
       <div style="margin-top:5mm;font-size:6.5pt;opacity:.6;line-height:1.6">Die-line key: <span style="color:#00e0ff">cyan trim</span> · <span style="color:#ff6b6b">red dashed bleed</span> · <span style="color:#19c37d">green dashed safe area</span> · <span style="color:#ff6bff">magenta folds</span> · <span style="color:#ffb000">amber sleeve / handle</span></div></div></div></div>${foot(String(i + 4).padStart(2, '0'))}</section>`; });
-  h += `<section class="pg"><div class="pad"><div class="k">Overview</div><h2>8 hand props · 3 flags</h2><div class="grid">${ORDER.map((id, i) => `<div><img src="${R}${n(i)}/${n(i)}_MOCKUP.jpg"><div>${P[id].name.toUpperCase()}</div></div>`).join('')}</div>
-    <p style="font-size:8pt;margin-top:4mm;opacity:.8">Planning ratios as a share of confirmed attendance: wristbands 100% (+3% spare) · fans 40–60% · LED sticks 30–50% · thunderstick pairs 30% · clappers 30% · bandanas 15–25% · F1 and F2 flags 20% each · F3 crowd flags 2–5% · shades 15% · big-head boards 1–3%. Before print: vector LOL logo, high-resolution portrait, CMYK / textile proofs, and venue security clearance.</p></div>${foot(String(ORDER.length + 4).padStart(2, '0'))}</section>`;
+  h += `<section class="pg"><div class="pad"><div class="k">Overview</div><h2>10 hand props · 3 flags</h2><div class="grid">${ORDER.map((id, i) => `<div><img src="${R}${n(i)}/${n(i)}_MOCKUP.jpg"><div>${P[id].name.toUpperCase()}</div></div>`).join('')}</div>
+    <p style="font-size:8pt;margin-top:4mm;opacity:.8">Planning ratios as a share of confirmed attendance: fans 40–60% · clappers 30% · paper megaphones 25% · rally towels 20–30% · tattoo sheets 30% · bandanas 15–25% · bucket hats 10% (sold) · drawstring bags 10–20% · placards 5% · big-head boards 1–3% · F1 and F2 flags 20% each · F3 crowd flags 2–5%. Before print: vector LOL logo, high-resolution portrait, CMYK / textile proofs, and venue security clearance.</p></div>${foot(String(ORDER.length + 4).padStart(2, '0'))}</section>`;
   document.body.insertAdjacentHTML('beforeend', h);
   await Promise.all([...document.images].map(im => im.complete ? 0 : new Promise(r => { im.onload = im.onerror = r; }))); await document.fonts.ready; window.done = true;
 })();

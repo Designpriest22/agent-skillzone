@@ -6,12 +6,12 @@ LIVE OUT LOUD MUSIC FESTIVAL · WIZKID · DECEMBER 13, 2026 · EAGLE SQUARE, ABU
 | Finding | Source | What it means for the props |
 |---|---|---|
 | Abuja in December is harmattan season. Days reach about 32–35 °C, nights fall to roughly 15–20 °C, and Saharan dust brings haze, poorer visibility and breathing irritation. | Champion Traveler, MileHacker and Tripbase climate guides; Harmattan (Wikipedia) | A **hand fan** for the warm, dusty evening. A **cotton bandana** that works as a dust cover and neck scarf. Props should be light and soft-edged so they can be carried for hours. |
-| Eagle Square is an open-air parade ground, and the show runs after dark. | Event information | Props must **read and glow at night**: an LED foam baton, plus high-contrast colours (peach, orange and white on maroon) that show on screens and in drone shots. |
-| Lightsticks and light-up batons are the main visual crowd prop at large shows. Hand banners, light boards and towels are the main comfortable alternatives. | Fan guides (Lazada Media Hub, Fanlore "Lightstick") | An **LED foam stick** with a printed sleeve is the affordable lightstick. **Flags** are the "hand banner" prop. |
-| Thundersticks are the standard crowd-noise prop, and light-up versions exist. | GoPromotional guide to bang sticks | **Inflatable thundersticks** are very cheap, flat-packed and safe (no hard parts), and each pair is a printed banner. |
+| Eagle Square is an open-air parade ground: hot afternoon gates and a cool, dusty night. | Event information | A rally towel, bucket hat and bandana for sun, dust and sweat, in high-contrast white, black and brown that reads on screens and in drone shots. |
+| Hand banners, light boards and towels are the comfortable visual props at large shows. | Fan guides (Lazada Media Hub, Fanlore) | **Flags**, a **rally towel** and a **logo die-cut placard** as the visual crowd props. |
+| Crowd-noise props are standard at big shows (thundersticks, clappers). | GoPromotional guide to bang sticks | Paper noise makers only, with no inflatables: the **clapper** and the **paper megaphone**. |
 | Venue and security rules on prop size and poles vary, and fans are told to check the promoter's rules. | Lazada Media Hub concert guide | Hand-flag sticks are **flexible plastic with safety caps**. The large flag uses **corner hand loops and no pole**. The big-head board uses a **paper-tube handle**. All props should be cleared with venue security before production. |
-| Merchandise at Detty December shows is mostly T-shirts, caps, hoodies and **wristbands**. These help build the artist's brand more than they earn money. | africa.com, "From Lagos to Joburg: how Detty December went continental" | A **festival wristband** as the keepsake every attendee gets. The props are photo-first: every piece is designed to be seen in crowd shots and on social media. |
-| The official portrait shows Wizkid in rectangular sunglasses. | Supplied photograph | **Party shades** as a playful fan-identity prop, plus a **big-head fan board** made from the official photo only (no generated likeness). |
+| Detty December merchandise helps build the brand more than it earns money; wearables and carry items travel furthest. | africa.com, "From Lagos to Joburg: how Detty December went continental" | **Festival-brand-only LOL pieces** (bag, hat, towel, tattoos, placard, megaphone) that carry LOL FEST beyond one headliner and one night. |
+| Fan-culture photo props matter at artist shows. | Supplied photograph | One **big-head fan board** from the official photo only, and one WIZKID crowd flag. Everything else is LOL FEST brand. |
 
 Sources:
 - [Best time to visit Abuja (Champion Traveler)](https://championtraveler.com/dates/best-time-to-visit-abuja-ng/)
@@ -34,38 +34,37 @@ The props follow the grammar of the client's LOL FEST flyer, the same grammar th
 - **Copy:** approved copy only (LIVE OUT LOUD MUSIC FESTIVAL, WIZKID, DECEMBER 13, 2026, EAGLE SQUARE, ABUJA, LIVE, ABUJA, 13 DEC). There are no slogans, no sponsor logos and no ticket links on the props.
 - **Photo:** the only photograph used is the supplied official portrait. It appears on the big-head board only, uncropped by any shape apart from its own silhouette.
 
-## 3. The pieces
+## 3. The pieces (revision 2, after client review)
 
-| # | Piece | Size and material | Print | Why it earns its place |
+**Removed at client request:** the LED glow sticks, ticket wristbands, party shades and inflatable thundersticks.
+
+**Added:** six LOL FEST props that are festival-brand only (no artist name or photo), in the festival-only palette of white #F7F4EF, black #0E0C0B and brown #6B4226 / #3A2416 / #A9764C.
+
+**Flags:** rebuilt in white, black and brown. Two carry the LOL FEST logo only; one carries the LOL FEST logo plus WIZKID.
+
+| # | Piece | Brand | Size and material | Why it earns its place |
 |---|---|---|---|---|
-| 01 | **Hand fan** | 220 mm round paddle, 0.5 mm PP, 230 mm plastic handle | 4/4: logo front, WIZKID / 13 DEC / LIVE ABUJA / venue back | Heat and dust relief all night, and the most visible prop in crowd shots |
-| 02 | **Inflatable thundersticks** (pair) | 600 × 100 mm flat, LDPE, straw valve | 2 colours, one maroon and one orange stick | Crowd noise on the drops; flat-packed and cheap |
-| 03 | **Paper hand clapper** | 270 × 180 mm flat, 3 × 90 mm panels, 250 gsm FSC card | 4/4, accordion fold | An eco, low-cost noise maker; opened out it reads LOL / WIZKID / 13 DEC LIVE ABUJA |
-| 04 | **LED foam glow stick** | 480 mm × 40 mm baton, 3-mode orange / white LED, printed PET sleeve 400 × 150 mm | 4/0 sleeve | The night-time light show across the parade ground |
-| 05 | **Festival wristband** | 254 × 25 mm Tyvek, numbered, adhesive tab (woven for VIP) | 4/0 | Access, keepsake and photo detail for every attendee |
-| 06 | **Harmattan bandana** | 550 × 550 mm cotton voile, hemmed | Sublimation or screen print | A dust cover, neck scarf or wrist tie, and Abuja-specific |
-| 07 | **Wizkid big-head fan board** | about 300 × 250 mm die-cut, 3 mm corrugated PP, 400 mm paper-tube handle | 4/4: portrait front, logo back | The fan-culture photo prop. **Needs the original high-resolution photo**: the supplied cut-out is 1080 px wide |
-| 08 | **Party shades** | Die-cut card or PVC, 150 mm front and two 140 mm temples nested on a 300 × 120 mm sheet | 4/0 plus tinted lens film | A playful nod to the rectangular sunglasses in the official portrait |
-| F1 | **Flag 01: stick hand flag** | 450 × 300 mm, 110 g knitted polyester, 30 mm sleeve, 600 mm flexible stick and safety cap | Dye-sublimation, about 90% show-through | The core flag: the LOL logo and zigzag on the brush field |
-| F2 | **Flag 02: swallowtail city flag** | 500 × 330 mm swallowtail with a 120 mm notch, same build as F1 | Dye-sublimation | The logo panel plus LIVE / ABUJA / 13 DEC, the "I was there" flag |
-| F3 | **Flag 03: two-hand crowd flag** | 1500 × 900 mm, 110 g knitted polyester, hemmed, 4 corner hand loops, no pole | Single-sided dye-sublimation | The big wave moment and fan cape: the full flyer lock-up (WIZKID, 13 DEC, LIVE ABUJA, the LOL logo, venue and date) |
+| 01 | Hand fan | LOL + event | 220 mm round paddle, 0.5 mm PP, 230 mm handle, 4/4 | Heat and dust relief, and the most visible logo in crowd shots |
+| 02 | Paper hand clapper | LOL + event | 270 × 180 mm flat, 3 × 90 mm panels, 250 gsm FSC card | An eco noise maker that reads LOL / WIZKID / 13 DEC LIVE ABUJA |
+| 03 | Harmattan bandana | LOL + event | 550 × 550 mm cotton voile, hemmed | Dust cover, neck scarf or wrist tie |
+| 04 | Wizkid big-head fan board | Artist | about 300 × 250 mm die-cut, 3 mm PP, paper-tube handle | The fan photo prop, from the official portrait only. Needs the high-resolution original |
+| 05 | **LOL rally towel** | Festival only | 400 × 600 mm microfibre, sublimation | Swung in the drops, then used against heat and sweat |
+| 06 | **LOL bucket hat** | Festival only | Cotton twill, 58 cm. Printed crown, band and brim panels on a 700 × 460 mm sheet | Sun at the gates, dust at night, and a long-life wearable |
+| 07 | **LOL paper megaphone** | Festival only | 300 gsm card sector with a 15 mm glue tab, rolls to a 300 mm cone (50 / 180 mm ends) | The LOUD in Live Out Loud; ships flat, with no plastic |
+| 08 | **LOL logo die-cut placard** | Festival only | The logo shape with a 10 mm keyline and a 4 mm white edge (black front, brown back), 3 mm PP, paper-tube handle | The logo itself becomes the sign, instantly readable on screens |
+| 09 | **LOL temporary tattoo sheet** | Festival only | A5, skin-safe water transfer with white underprint, on printed kraft backing | Face and arm identity: logo, chevrons, zigzag armband |
+| 10 | **LOL drawstring bag** | Festival only | 350 × 450 mm, 210D polyester or cotton, black cords | Carries the fan, towel and bandana, and stays a billboard after the show |
+| F1 | **Flag 01: LOL stick hand flag** | LOL logo only | 450 × 300 mm knitted polyester, black sleeve, 600 mm flexible stick | A white field with brown brush texture and frame. A brown band behind the logo keeps its white MUSIC FESTIVAL line legible on the white field |
+| F2 | **Flag 02: LOL swallowtail** | LOL logo only | 500 × 330 mm swallowtail with a 120 mm notch, flexible stick | Black field with a diagonal brown band and white pin-stripe |
+| F3 | **Flag 03: LOL × WIZKID crowd flag** | LOL logo + WIZKID | 1500 × 900 mm, hemmed, 4 corner hand loops, no pole | Brown dry-brush field, black bands, white frame, the WIZKID headline and the LOL logo |
 
-**Suggested quantities, as a share of the confirmed attendance (planning ratios, not counts):**
-- Wristbands: 100%, plus 3% spare.
-- Hand fans: 40–60%.
-- LED sticks: 30–50%, or sell them.
-- Thundersticks: 30% of pairs.
-- Clappers: 30%.
-- Bandanas: 15–25%, or sell them.
-- Stick flags F1 and F2: 20% each.
-- Crowd flags F3: 2–5%, given to the front sections and VIP.
-- Big-head boards: 1–3%.
-- Shades: 15%.
-
-**Sponsor option:** any prop back (fan back, clapper back, flag reverse, wristband tab) can carry a single sponsor's logo in a dedicated co-brand version, so long as that sponsor's own guidelines allow it. The default artwork here carries festival branding only.
+**Suggested quantities, as a share of confirmed attendance (planning ratios):**
+- Fans 40–60%, clappers 30%, megaphones 25%, rally towels 20–30%, tattoo sheets 30%, bandanas 15–25%.
+- Bucket hats 10% (sold), drawstring bags 10–20%, placards 5%, big-head boards 1–3%.
+- F1 and F2 flags 20% each, F3 crowd flags 2–5%.
 
 ## 4. Files per piece
-- `PRINT-ARTWORK_<side>.png`: production-size artwork with bleed, at the stated dpi. Fan, clapper, wristband, shades and big-head are at 300 dpi; thundersticks, bandana and flags 01 and 02 at 150 dpi; flag 03 at 100 dpi, which suits large-format textile.
+- `PRINT-ARTWORK_<side>.png`: production-size artwork with bleed, at the stated dpi. Fan, clapper, big-head, megaphone, placard and tattoos are at 300 dpi; the hat sheet at 200 dpi; bandana, towel, bag and flags 01 and 02 at 150 dpi; flag 03 at 100 dpi.
 - `DIELINE_<side>.png`: the same artwork with the trim (cyan), bleed (red dashed), safe area (green dashed), folds (magenta) and sleeve / handle zone (amber) marked.
 - `MOCKUP.jpg`: a product visual at 2400 × 1600.
 
@@ -73,5 +72,5 @@ The props follow the grammar of the client's LOL FEST flyer, the same grammar th
 1. Supply the **vector LOL FEST logo**. The logo file in the pack is a 1065 px raster, which is fine for screen work and these proofs, but large flags and 300 dpi pieces should be printed from vector.
 2. Supply the **original high-resolution portrait** for the big-head board.
 3. Convert to the printer's CMYK and textile profiles. The brand orange and peach are outside the CMYK gamut, so ask for a drawdown proof.
-4. Clear prop types with Eagle Square security: stick length and material, the inflatables and the LED batteries.
+4. Clear prop types with Eagle Square security: stick length and material, and the handles of the flags, placards and boards.
 5. The editable source is `props.html`, and `props_render.mjs` re-renders every piece. Every colour, size and layout is a value in the file.

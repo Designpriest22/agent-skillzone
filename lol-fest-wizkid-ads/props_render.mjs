@@ -4,7 +4,7 @@ import { serve } from './serve.mjs';
 const { chromium } = createRequire(import.meta.url)('playwright');
 const dir = path.dirname(new URL(import.meta.url).pathname);
 const out = process.argv[2] || path.join(dir, 'out', '_work', 'props'); const preview = process.argv.includes('--preview');
-const ORDER = ['fan', 'thunder', 'clapper', 'ledstick', 'wristband', 'bandana', 'bighead', 'shades', 'flag1', 'flag2', 'flag3'];
+const ORDER = ['fan', 'clapper', 'bandana', 'bighead', 'towel', 'hat', 'megaphone', 'placard', 'tattoo', 'bag', 'flag1', 'flag2', 'flag3'];
 const srv = await serve(dir); const browser = await chromium.launch();
 const errs = []; const meta = {};
 async function shot(q, file, type = 'image/png') { const page = await browser.newPage(); page.on('pageerror', e => errs.push(`${q}: ${e.message}`));
@@ -13,7 +13,7 @@ async function shot(q, file, type = 'image/png') { const page = await browser.ne
 const q = [];
 ORDER.forEach((id, i) => { const n = String(i + 1).padStart(2, '0') + '-' + id;
   q.push(async () => { meta[id] = await shot(`p=${id}&mode=mock`, path.join(out, n, `${n}_MOCKUP.jpg`), 'image/jpeg'); });
-  for (const side of id === 'fan' || id === 'thunder' || id === 'clapper' || id === 'bighead' ? ['front', 'back'] : ['front']) {
+  for (const side of ['fan', 'clapper', 'bighead', 'placard'].includes(id) ? ['front', 'back'] : ['front']) {
     q.push(async () => { await shot(`p=${id}&side=${side}&mode=art${preview ? '&dpi=40' : ''}`, path.join(out, n, `${n}_PRINT-ARTWORK_${side}.png`)); });
     q.push(async () => { await shot(`p=${id}&side=${side}&mode=die&dpi=${preview ? 40 : 100}`, path.join(out, n, `${n}_DIELINE_${side}.png`)); });
   } });
