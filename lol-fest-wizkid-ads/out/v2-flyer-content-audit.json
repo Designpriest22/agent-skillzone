@@ -1,0 +1,1679 @@
+[
+ {
+  "id": "axe-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 61.364155258275964
+  }
+ },
+ {
+  "id": "axe-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 52.54912308572477
+  }
+ },
+ {
+  "id": "axe-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 72.47394572526575
+  }
+ },
+ {
+  "id": "axe-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 60.57232653260922,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "axe-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 48.304860527298885,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "axe-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 70.94800754976069,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "best-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 75.5885420512221
+  }
+ },
+ {
+  "id": "best-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 64.73016019534383
+  }
+ },
+ {
+  "id": "best-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 89.27361374103513
+  }
+ },
+ {
+  "id": "best-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 74.6131651609918,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "best-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 59.50206543018799,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "best-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 87.39395872971363,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "coca-cola-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 67.49510835680125
+  }
+ },
+ {
+  "id": "coca-cola-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 57.7993576510211
+  }
+ },
+ {
+  "id": "coca-cola-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 79.71488891492605
+  }
+ },
+ {
+  "id": "coca-cola-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 66.62416724445379,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "coca-cola-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 53.13104664649481,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "coca-cola-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 78.03649275566983,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "desperados-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 96.3099504588028
+  }
+ },
+ {
+  "id": "desperados-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 82.4749142188692
+  }
+ },
+ {
+  "id": "desperados-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 113.74656903490809
+  }
+ },
+ {
+  "id": "desperados-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 95.06718935470471,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "desperados-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 75.81361960777751,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "desperados-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 111.35163620372133,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "heineken-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 88.68457440082128
+  }
+ },
+ {
+  "id": "heineken-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 75.94493228789874
+  }
+ },
+ {
+  "id": "heineken-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 104.74064223228402
+  }
+ },
+ {
+  "id": "heineken-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 87.54020936819695,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "heineken-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 69.81104814894,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "heineken-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 102.53532909651196,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "hennessy-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 59.287727328568735
+  }
+ },
+ {
+  "id": "hennessy-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 50.770976439729736
+  }
+ },
+ {
+  "id": "hennessy-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 70.02158694273801
+  }
+ },
+ {
+  "id": "hennessy-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 58.52269234388316,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "hennessy-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 46.670330383156326,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "hennessy-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 68.54728315596185,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "lords-gin-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 113.1
+  }
+ },
+ {
+  "id": "lords-gin-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 95.69999999999999
+  }
+ },
+ {
+  "id": "lords-gin-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 139.2
+  }
+ },
+ {
+  "id": "lords-gin-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 110.20000000000002,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "lords-gin-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 84.1,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "lords-gin-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 133.4,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "nova-flair-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 72.92237864176477
+  }
+ },
+ {
+  "id": "nova-flair-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 62.44699425619673
+  }
+ },
+ {
+  "id": "nova-flair-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 86.12474969461542
+  }
+ },
+ {
+  "id": "nova-flair-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 71.98140530139257,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "nova-flair-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 57.403305150758314,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "nova-flair-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 84.3113939831295,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "square-meter-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 67.42456482948957
+  }
+ },
+ {
+  "id": "square-meter-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 57.738947783338574
+  }
+ },
+ {
+  "id": "square-meter-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 79.63157370023538
+  }
+ },
+ {
+  "id": "square-meter-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 66.55453399434059,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "square-meter-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 53.07551593424836,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "square-meter-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 77.95493174196027,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "trace-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 51.633322573702344
+  }
+ },
+ {
+  "id": "trace-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 46
+  }
+ },
+ {
+  "id": "trace-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 60.98137588746424
+  }
+ },
+ {
+  "id": "trace-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 50.96705824001446,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "trace-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 46,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "trace-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 59.69741365068671,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "transcorp-hotels-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 46
+  }
+ },
+ {
+  "id": "transcorp-hotels-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 46
+  }
+ },
+ {
+  "id": "transcorp-hotels-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 52.34263448294693
+  }
+ },
+ {
+  "id": "transcorp-hotels-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 46,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "transcorp-hotels-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 46,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "transcorp-hotels-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 51.24056085683564,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "united-nigeria-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 78.06171552844681
+  }
+ },
+ {
+  "id": "united-nigeria-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 66.84805943016632
+  }
+ },
+ {
+  "id": "united-nigeria-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 92.19454762504515
+  }
+ },
+ {
+  "id": "united-nigeria-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 77.05442538536423,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "united-nigeria-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 61.44890718779601,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 36.115881889287195
+  }
+ },
+ {
+  "id": "united-nigeria-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 90.25339238109338,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 45.936867315321436
+  }
+ },
+ {
+  "id": "vodi-group-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 363.4672236466958,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 113.1
+  }
+ },
+ {
+  "id": "vodi-group-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 308.641975308642,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 95.7
+  }
+ },
+ {
+  "id": "vodi-group-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "head": 372.120605832774,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 139.2
+  }
+ },
+ {
+  "id": "vodi-group-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 110.2,
+   "head": 308.641975308642,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "vodi-group-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 84.1,
+   "head": 241.9753086419753,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "vodi-group-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "WIZKID",
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 133.40000000000003,
+   "head": 358.02469135802465,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ }
+]
