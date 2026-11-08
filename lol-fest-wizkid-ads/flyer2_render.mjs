@@ -16,7 +16,7 @@ if (process.argv[1] === new URL(import.meta.url).pathname) {
   const srv = await serve(dir); const browser = await chromium.launch(); const sheet = process.env.SHEET; const tmp = fs.mkdtempSync('/tmp/fl2'); const shots = [];
   const queue = [...todo];
   await Promise.all([0, 1, 2, 3].map(async () => { while (queue.length) { const j = queue.shift();
-    for (const dpr of sheet ? [1] : [1, 2]) {
+    for (const dpr of sheet || process.env.NOMASTER ? [1] : [1, 2]) {
       const page = await browser.newPage(); page.on('pageerror', e => console.error(`[${j.id}]`, e.message));
       await page.goto(`${srv.url}/flyer2.html?${j.q}&dpr=${dpr}`); await page.evaluate(() => window.ready);
       const b = Buffer.from(await page.evaluate(() => window.png()), 'base64'); await page.close();

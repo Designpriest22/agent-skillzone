@@ -19,7 +19,8 @@ await Promise.all([0, 1, 2, 3].map(async () => { while (q.length) { const j = q.
   for (const im of log.imgs) { if (/^\d\d-.*\.png$/.test(im) && im !== sponsorLogo) P.push(`other sponsor logo ${im}`); if (/^(rt|slo|matte)\//.test(im) || /footage/.test(im)) P.push(`footage in flyer ${im}`); if (/cutout|aerial|flyer-/.test(im)) P.push(`old image ${im}`); }
   if (!log.imgs.includes('wizkid-portrait-color.png')) P.push('supplied portrait missing');
   if (!log.imgs.includes('lol-logo')) P.push('festival logo missing'); if (!log.imgs.includes(sponsorLogo)) P.push('sponsor logo missing');
-  for (const need of ['WIZKID', 'ABUJA', 'EAGLE SQUARE, ABUJA', 'WIZKID.TIX.AFRICA', 'GET TICKETS AT']) if (!tx.includes(need)) P.push(`missing "${need}"`);
+  if (!log.imgs.includes('wizkid-wordmark.png')) P.push('WIZKID text logo missing');
+  for (const need of ['ABUJA', 'EAGLE SQUARE, ABUJA', 'WIZKID.TIX.AFRICA', 'GET TICKETS AT']) if (!tx.includes(need)) P.push(`missing "${need}"`);
   if (!(tx.includes('13 DEC') || (tx.includes('13') && tx.includes('DEC')))) P.push('missing 13 DEC');
   const minUrl = j.f === 'square' && j.v === 2 ? 36 : 40;
   if (sizes.url < minUrl) P.push(`URL ${sizes.url.toFixed(1)} px < ${minUrl}`); if (sizes.venue < 28) P.push(`venue ${sizes.venue.toFixed(1)} px`); if (sizes.date < 80) P.push(`date cap ${sizes.date} px`); if (sizes.logoH < 40) P.push(`sponsor logo ${sizes.logoH.toFixed(0)} px tall`);

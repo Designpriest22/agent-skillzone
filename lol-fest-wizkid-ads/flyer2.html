@@ -112,10 +112,10 @@ const DEVICE = {
   bars: T => { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.translate(CX, H * .4); ctx.rotate(.35); ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(-W * .62, -H, W * .3, H * 2); ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.fillRect(W * .26, -H, 26, H * 2); ctx.fillRect(-W * .7, -H, 10, H * 2); ctx.restore(); },
   label: T => { radial('#4a1218', '#120304', CX, H * .35); const m = 34; labelFrame(m, m, W - 2 * m, H - 2 * m); },
   arch: T => { lin([[0, '#13254a'], [1, '#060c1a']]); const r = W * pk(.34, .34, .25), cy = pk(H * .3, H * .36, H * .42); ctx.save(); ctx.globalCompositeOperation = 'screen'; const g = ctx.createRadialGradient(CX, cy, 0, CX, cy, r * 1.6); g.addColorStop(0, 'rgba(255,205,130,.35)'); g.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.restore(); ctx.strokeStyle = '#D8B878'; ctx.lineWidth = 2.5; for (const d of [0, 16]) { ctx.beginPath(); ctx.moveTo(CX - r - d, H); ctx.lineTo(CX - r - d, cy); ctx.arc(CX, cy, r + d, Math.PI, 0); ctx.lineTo(CX + r + d, H); ctx.globalAlpha = d ? .45 : 1; ctx.stroke(); } ctx.globalAlpha = 1; },
-  weave: T => { radial('#14432a', '#04100a', CX, H * .35); ctx.save(); for (let x = 0; x < W; x += 44) { ctx.fillStyle = (x / 44) % 2 ? 'rgba(60,180,84,.28)' : 'rgba(180,204,84,.18)'; ctx.fillRect(x, 0, 3, H); } for (let y = 0; y < H; y += 44) { ctx.fillStyle = (y / 44) % 2 ? 'rgba(60,180,84,.22)' : 'rgba(180,204,84,.15)'; ctx.fillRect(0, y, W, 3); } ctx.restore(); },
+  weave: T => { radial('#14432a', '#04100a', CX, H * .35); },
   sky: T => { lin([[0, '#8cc4ec'], [.6, '#dceefa'], [1, '#ffffff']]); ctx.save(); ctx.strokeStyle = 'rgba(12,108,180,.6)'; ctx.lineWidth = 4; ctx.setLineDash([18, 14]); ctx.beginPath(); ctx.moveTo(-40, H * .52); ctx.quadraticCurveTo(CX, H * .02, W + 40, H * .3); ctx.stroke(); ctx.setLineDash([]); ctx.fillStyle = 'rgba(255,255,255,.7)'; const r = rng(5); for (let i = 0; i < 6; i++) ctx.fillRect(r() * W, H * (.08 + r() * .4), 160 + r() * 240, 3); ctx.restore(); },
-  plus: T => { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.beginPath(); plusPath(ctx, CX, H * .38, W * .62, W * .17); ctx.fill(); ctx.fillStyle = 'rgba(255,255,255,.5)'; for (let i = 0; i < 6; i++) for (let j = 0; j < 4; j++) { ctx.beginPath(); plusPath(ctx, 70 + i * 34, 70 + j * 34, 8, 2.5); ctx.fill(); } ctx.restore(); },
-  plan: T => { ctx.fillStyle = '#16181b'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.strokeStyle = '#8FA3B8'; ctx.globalAlpha = .18; ctx.lineWidth = 1; for (let x = 0; x < W; x += 54) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); } for (let y = 0; y < H; y += 54) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); } ctx.globalAlpha = .7; ctx.strokeStyle = '#C9D2DC'; const s = W * .62, x0 = CX - s / 2, y0 = pk(H * .17, H * .14, H * .12); ctx.lineWidth = 2; ctx.strokeRect(x0, y0, s, s); ctx.lineWidth = 1; ctx.beginPath(); ctx.moveTo(x0, y0 - 24); ctx.lineTo(x0 + s, y0 - 24); ctx.moveTo(x0, y0 - 34); ctx.lineTo(x0, y0 - 14); ctx.moveTo(x0 + s, y0 - 34); ctx.lineTo(x0 + s, y0 - 14); ctx.moveTo(x0 - 24, y0); ctx.lineTo(x0 - 24, y0 + s); ctx.moveTo(x0 - 34, y0); ctx.lineTo(x0 - 14, y0); ctx.moveTo(x0 - 34, y0 + s); ctx.lineTo(x0 - 14, y0 + s); ctx.stroke(); ctx.restore(); },
+  plus: T => { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.fillStyle = 'rgba(255,255,255,.08)'; ctx.beginPath(); plusPath(ctx, CX, H * .38, W * .62, W * .17); ctx.fill(); ctx.restore(); },
+  plan: T => { ctx.fillStyle = '#16181b'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.globalAlpha = .7; ctx.strokeStyle = '#C9D2DC'; const s = W * .62, x0 = CX - s / 2, y0 = pk(H * .17, H * .14, H * .12); ctx.lineWidth = 2; ctx.strokeRect(x0, y0, s, s); ctx.restore(); },
   burst: T => { radial('#3a1236', '#0d030d', CX, H * .35); ctx.save(); ctx.globalAlpha = .55; const cols = ['#FCB424', '#FC543C', '#CC3C6C', '#FCD27A']; ctx.translate(CX, H * .36); for (let i = 0; i < 8; i++) { ctx.rotate(Math.PI / 4 + .05); ctx.fillStyle = cols[i % 4]; ctx.beginPath(); ctx.moveTo(-26, 0); ctx.lineTo(0, -H); ctx.lineTo(26, 0); ctx.fill(); } ctx.restore(); ctx.save(); ctx.strokeStyle = '#FCB424'; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.globalAlpha = .8; ctx.beginPath(); for (let x = 40; x <= W - 40; x += 8) { const y = H * .62 + Math.sin(x / 70) * 22; x === 40 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } ctx.stroke(); ctx.restore(); },
 };
 function tornEdge(y, seed) { const r = rng(seed); ctx.save(); ctx.beginPath(); ctx.moveTo(0, H + 10); ctx.lineTo(0, y); for (let x = 0; x <= W + 30; x += 18 + r() * 26) ctx.lineTo(x, y + (r() - .5) * 46 + Math.sin(x / 140) * 14); ctx.lineTo(W, H + 10); ctx.closePath(); ctx.strokeStyle = 'rgba(235,230,225,.85)'; ctx.lineWidth = 5; ctx.stroke(); ctx.fillStyle = '#0A0A0A'; ctx.fill(); ctx.restore(); }
@@ -134,7 +134,7 @@ const TH = {
     panel: '#FFFFFF', ptype: { num: '#F40009', live: '#1a1a1a', abuja: '#F40009', venue: '#1a1a1a', lead: '#333' }, dev: 'ribbon', btn: { shape: 'pill', bg: '#F40009', fg: '#FFFFFF' }, tab: '#FFFFFF' },
   desperados: { bg: ['#EC1B24', '#9A000C'], stroke: '#7a0008', strokeA: .32, head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFD200', venue: '#FFD200', lead: '#FFFFFF', url: '#FFFFFF', bottom: '#0A0A0A', torn: true,
     panel: '#0A0A0A', dev: 'desp', btn: { shape: 'block', bg: '#E30613', shadow: '#FFD200', fg: '#FFFFFF' } },
-  best: { logoDark: '#1C1610', wizDark: '#1C1610', lolDark: '#1C1610', bg: ['#FBF6EA', '#E4D2AE'], stroke: '#cdb68c', strokeA: .45, head: '#2B2116', num: '#2B2116', live: '#2B2116', abuja: '#A8803F', venue: '#7A5C2E', lead: '#5a4630', url: '#2B2116', bottom: '#F1E6CC',
+  best: { panelLight: true, logoDark: '#1C1610', wizDark: '#1C1610', lolDark: '#1C1610', bg: ['#FBF6EA', '#E4D2AE'], stroke: '#cdb68c', strokeA: .45, head: '#2B2116', num: '#2B2116', live: '#2B2116', abuja: '#A8803F', venue: '#7A5C2E', lead: '#5a4630', url: '#2B2116', bottom: '#F1E6CC',
     panel: '#F1E6CC', ptype: { num: '#1C1610', live: '#1C1610', abuja: '#A8803F', venue: '#7A5C2E', lead: '#5a4630' }, dev: 'cream', btn: { shape: 'line', line: '#1C1610', fg: '#1C1610' } },
   axe: { bg: ['#1c1c1c', '#000000'], stroke: '#050505', head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFFFFF', venue: '#BDBDBD', lead: '#D0D0D0', url: '#FFFFFF',
     panel: '#000000', dev: 'bars', btn: { shape: 'slant', bg: '#FFFFFF', fg: '#000000' } },
@@ -144,7 +144,7 @@ const TH = {
     panel: '#0b1630', dev: 'arch', btn: { shape: 'line', line: '#D8B878', fg: '#FFFFFF' } },
   'vodi-group': { bg: ['#164a2a', '#030c06'], stroke: '#020b05', head: '#B4CC54', num: '#FFFFFF', live: '#FFFFFF', abuja: '#3CB454', venue: '#B4CC54', lead: '#E3F0D5', url: '#FFFFFF',
     panel: '#061a0d', dev: 'weave', btn: { shape: 'pill', bg: '#3CB454', fg: '#FFFFFF' } },
-  'united-nigeria': { bg: ['#F4FAFE', '#A9D3F2'], stroke: '#FFFFFF', strokeA: .6, head: '#0C6CB4', num: '#0C3D66', live: '#0C3D66', abuja: '#E40C0C', venue: '#0C3D66', lead: '#0C3D66', url: '#0C6CB4', bottom: '#EAF5FC',
+  'united-nigeria': { wizDark: '#0C3D66', lolDark: '#0C3D66', bg: ['#F4FAFE', '#A9D3F2'], stroke: '#FFFFFF', strokeA: .6, head: '#0C6CB4', num: '#0C3D66', live: '#0C3D66', abuja: '#E40C0C', venue: '#0C3D66', lead: '#0C3D66', url: '#0C6CB4', bottom: '#EAF5FC',
     panel: '#0C3D66', ptype: { num: '#FFFFFF', live: '#FFFFFF', abuja: '#FF5A4E', venue: '#BFE0F6', lead: '#BFE0F6' }, dev: 'sky', btn: { shape: 'pass', bg: '#FFFFFF', stub: '#E40C0C', fg: '#0C3D66' } },
   trace: { bg: ['#1a1a1a', '#000000'], stroke: '#060606', head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFFFFF', venue: '#CFCFCF', lead: '#D8D8D8', url: '#FFFFFF',
     panel: '#000000', dev: 'plus', btn: { shape: 'block', bg: '#FFFFFF', fg: '#000000' } },
@@ -211,7 +211,7 @@ function brandEdition() {
     const lw = G.left[1] - G.left[0], rx = G.right[0], rw = G.right[1] - G.right[0];
     const numB = G.top + G.numCap, liveB = numB + G.gap + G.live * .72, venB = liveB + G.gap + G.venue * .72 + 4, leadB = venB + G.gap + 18, btnY = leadB + 14;
     const bottom = btnY + G.btnH;
-    const lh = Math.min(bottom - G.top, lw / lolW(1)); lolLogo(ctx, (G.left[0] + G.left[1]) / 2, (G.top + bottom) / 2, lolW(lh), T.lolDark ? { dark: T.lolDark } : {});
+    const lh = Math.min(bottom - G.top, lw / lolW(1)); lolLogo(ctx, (G.left[0] + G.left[1]) / 2, (G.top + bottom) / 2, lolW(lh), T.panelLight && T.lolDark ? { dark: T.lolDark } : {});
     ctx.fillStyle = rgba(ty.venue.startsWith('#') ? ty.venue : '#ffffff', .5); ctx.fillRect(G.div, G.top, 2, bottom - G.top);
     tline('13 DEC', rx, numB, G.numCap, { fam: 'Oswald', w: 200, color: ty.num, align: 'left' }); note('date', G.numCap);
     const wl = tline('LIVE', rx, liveB, G.live * .72, { fam: 'Oswald', w: 300, color: ty.live, align: 'left', track: .1 });
@@ -228,7 +228,7 @@ function brandEdition() {
     venue(rx, y + G.venue * .72, Math.min(G.venue, fitSize(ctx, BRAND.event.venue, rw, { fam: 'Oswald', w: 700, track: .2 })), ty, 'left', .2); y += G.venue * .72 + G.gap + 6;
     text(ctx, BRAND.event.ticketsLead, rx, y + 16, { fam: 'Montserrat', w: 600, size: 20, track: .2, color: ty.lead, align: 'left' }); y += 30;
     ticketButton(rx, y, rw, G.btnH, T); y += G.btnH + G.gap + 10;
-    const lh = Math.min(H - 64 - y, rw * .55 / lolW(1)); lolLogo(ctx, rx + lolW(lh) / 2, y + lh / 2, lolW(lh), T.lolDark ? { dark: T.lolDark } : {});
+    const lh = Math.min(H - 64 - y, rw * .55 / lolW(1)); lolLogo(ctx, rx + lolW(lh) / 2, y + lh / 2, lolW(lh), T.panelLight && T.lolDark ? { dark: T.lolDark } : {});
   }
   grainFx(.04);
 }
