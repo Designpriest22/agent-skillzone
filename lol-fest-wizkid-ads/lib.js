@@ -191,8 +191,11 @@ function withClip(ctx, path, fn) { ctx.save(); ctx.beginPath(); path(ctx); ctx.c
 const rectPath = (x, y, w, h) => c => c.rect(x, y, w, h);
 
 // ---------- images ----------
+// single-colour version of a transparent image (e.g. a black logo for light backgrounds); keeps the source name for audits
+const _tint = new Map();
+function tinted(img, col) { const k = (img.__src || img.src) + col; if (_tint.has(k)) return _tint.get(k); const c = document.createElement('canvas'); c.width = img.width; c.height = img.height; const x = c.getContext('2d'); x.drawImage(img, 0, 0); x.globalCompositeOperation = 'source-in'; x.fillStyle = col; x.fillRect(0, 0, c.width, c.height); c.__src = img.__src || img.src; _tint.set(k, c); return c; }
 function drawImg(ctx, img, cx, cy, w, o = {}) {
-  if (window.__log) window.__log.imgs.push(img.src.split('/').pop());
+  if (window.__log) window.__log.imgs.push((img.__src || img.src).split('/').pop());
   const h = w * img.height / img.width;
   ctx.save(); ctx.globalAlpha *= (o.alpha ?? 1);
   if (o.blur) ctx.filter = `blur(${o.blur}px)`;
@@ -218,8 +221,9 @@ function lolLogo(ctx, cx, cy, w, a = {}) {
     if (an.blur) ctx.filter = `blur(${an.blur}px)`;
     ctx.drawImage(img, -w / 2, -h / 2, w, h); ctx.restore();
   };
-  L(IMG.chevL, a.chevL || a.chev); L(IMG.chevR, a.chevR || a.chev);
-  L(IMG.lolWord, a.word); L(IMG.lolMF, a.mf); L(IMG.lolZig, a.zig);
+  const dk = a.dark ? (im) => tinted(im, a.dark) : (im) => im;
+  L(dk(IMG.chevL), a.chevL || a.chev); L(dk(IMG.chevR), a.chevR || a.chev);
+  L(IMG.lolWord, a.word); L(dk(IMG.lolMF), a.mf); L(IMG.lolZig, a.zig);
   return h;
 }
 // light sweep across an image-shaped region (uses the image alpha as mask)
@@ -330,6 +334,6 @@ function drawSponsors(ctx, placed, t, o = {}) {
   });
 }
 
-Object.assign(window, { APPROVED, clamp, mix, prog, E, kf, env, rng, hash, BRAND, SPONSORS, FORMATS, layout, IMG, loadImg, loadFonts, loadBrand,
+Object.assign(window, { tinted, APPROVED, clamp, mix, prog, E, kf, env, rng, hash, BRAND, SPONSORS, FORMATS, layout, IMG, loadImg, loadFonts, loadBrand,
   FOOT, loadFootageMeta, shotRange, getFrame, srcFrame, drawCover, setFont, text, measure, fitSize, withClip, rectPath, drawImg, lolLogo,
   sweepImg, zigzag, flash, vignette, letterbox, makeGrain, grain, grade, sponsorBoxes, packSponsors, drawSponsors });

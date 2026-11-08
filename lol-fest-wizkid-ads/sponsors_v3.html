@@ -101,27 +101,29 @@ function lockLayout() {
 }
 function lockup(lt) {
   const c = LKS, st = SP.lock, ty = { ...SP.type, ...(SP.lock.colors || {}) };
+  const dk = st.dark, sImg = dk ? tinted(IMG.sponsor, dk) : IMG.sponsor, wImg = dk ? tinted(IMG.wizkid, dk) : IMG.wizkid;
+  const SLk = (cx, cy, w) => drawImg(ctx, sImg, cx, cy, w); const LOLk = (cx, cy, w) => lolLogo(ctx, cx, cy, w, dk ? { dark: dk } : {});
   const ap = (i, d = .55) => (st.ease || E.outCubic)(prog(lt, (st.t0 ?? .1) + i * (st.step ?? .13), (st.t0 ?? .1) + i * (st.step ?? .13) + d));
   const rise = p => (1 - p) * U(st.rise ?? 26);
   const reveal = (i, cy, h, fn) => { const p = ap(i); if (p <= 0) return; if (st.reveal === 'mask') maskUp(-W, cy - h / 2 - U(6), W * 3, h + U(12), clamp(p), fn); else { ctx.save(); ctx.globalAlpha *= clamp(p); ctx.translate(0, rise(p)); fn(); ctx.restore(); } };
   if (c.pair) {
     const [y0, y1, y2] = c.ys; const rc = y0 + c.rowH / 2;
     const gx = U(st.pairGap ?? 46); const totalW = c.sW + gx * 2 + c.lW; const x0 = L.cx - totalW / 2;
-    reveal(0, rc, c.rowH, () => SL(x0 + c.sW / 2, rc, c.sW));
+    reveal(0, rc, c.rowH, () => SLk(x0 + c.sW / 2, rc, c.sW));
     const dp = ap(1); if (st.divider !== 'none' && dp > 0) { ctx.save(); ctx.globalAlpha = dp; ctx.fillStyle = st.divColor || ty.venue; const dh = c.rowH * .8 * dp; ctx.fillRect(x0 + c.sW + gx - U(1), rc - dh / 2, U(2), dh); ctx.restore(); }
-    reveal(1, rc, c.rowH, () => lolLogo(ctx, x0 + c.sW + gx * 2 + c.lW / 2, rc, c.lW));
-    reveal(2, y1 + c.wH / 2, c.wH, () => drawImg(ctx, IMG.wizkid, L.cx, y1 + c.wH / 2, c.wW));
-    if (st.sweep) sweepImg(ctx, IMG.wizkid, L.cx, y1 + c.wH / 2, c.wW, prog(lt, st.sweep, st.sweep + 1.1), st.sweepCol);
+    reveal(1, rc, c.rowH, () => LOLk(x0 + c.sW + gx * 2 + c.lW / 2, rc, c.lW));
+    reveal(2, y1 + c.wH / 2, c.wH, () => drawImg(ctx, wImg, L.cx, y1 + c.wH / 2, c.wW));
+    if (st.sweep) sweepImg(ctx, wImg, L.cx, y1 + c.wH / 2, c.wW, prog(lt, st.sweep, st.sweep + 1.1), st.sweepCol);
     reveal(3, y2 + c.ds * .45, c.ds, () => text(ctx, BRAND.event.dateLong, L.cx, y2 + c.ds * .86, { fam: 'Anton', size: c.ds, track: .02, color: ty.date }));
     reveal(4, y2 + c.ds + c.vs, c.vs * 1.4, () => text(ctx, BRAND.event.venue, L.cx, y2 + c.ds * .86 + c.vs * 1.55, { fam: 'Oswald', w: 700, size: c.vs, track: .3, color: ty.venue }));
     ticketCTA(c.ys[3], ap(5), ty);
   } else {
     const [y0, yd, y1, y2, y3] = c.ys;
-    reveal(0, y0 + c.sH / 2, c.sH, () => SL(L.cx, y0 + c.sH / 2, c.sW));
+    reveal(0, y0 + c.sH / 2, c.sH, () => SLk(L.cx, y0 + c.sH / 2, c.sW));
     const dp = ap(1); if (st.divider !== 'none' && dp > 0) { ctx.save(); ctx.globalAlpha = dp; ctx.fillStyle = st.divColor || ty.venue; const dw = L.sw * .34 * dp; ctx.fillRect(L.cx - dw / 2, yd + U(4), dw, U(2)); ctx.restore(); }
-    reveal(2, y1 + c.lH / 2, c.lH, () => lolLogo(ctx, L.cx, y1 + c.lH / 2, c.lW));
-    reveal(3, y2 + c.wH / 2, c.wH, () => drawImg(ctx, IMG.wizkid, L.cx, y2 + c.wH / 2, c.wW));
-    if (st.sweep) sweepImg(ctx, IMG.wizkid, L.cx, y2 + c.wH / 2, c.wW, prog(lt, st.sweep, st.sweep + 1.1), st.sweepCol);
+    reveal(2, y1 + c.lH / 2, c.lH, () => LOLk(L.cx, y1 + c.lH / 2, c.lW));
+    reveal(3, y2 + c.wH / 2, c.wH, () => drawImg(ctx, wImg, L.cx, y2 + c.wH / 2, c.wW));
+    if (st.sweep) sweepImg(ctx, wImg, L.cx, y2 + c.wH / 2, c.wW, prog(lt, st.sweep, st.sweep + 1.1), st.sweepCol);
     reveal(4, y3 + c.ds * .45, c.ds, () => text(ctx, BRAND.event.dateLong, L.cx, y3 + c.ds * .86, { fam: 'Anton', size: c.ds, track: .02, color: ty.date }));
     reveal(5, y3 + c.ds + c.vs, c.vs * 1.4, () => text(ctx, BRAND.event.venue, L.cx, y3 + c.ds * .86 + c.vs * 1.55, { fam: 'Oswald', w: 700, size: c.vs, track: .3, color: ty.venue }));
     ticketCTA(c.ys[5], ap(6), ty);
@@ -262,19 +264,17 @@ const SPONSORS_CFG = {
 
   // 5 ── BEST · The Crest ──────────────────────────────────────────────────────────────────────────
   best: { logo: '05-best', name: 'BEST', bpm: 96, music: 'sp-lux2',
-    // v3: BEST cream. The supplied BEST logo is white, so it always sits on a dark crest (never recoloured).
+    // v3: BEST cream; the BEST logo is shown in black on cream (white over footage)
     grade: [['soft-light', 'rgba(245,225,185,.28)'], ['multiply', 'rgba(40,30,15,.1)']], filter: 'contrast(1.06) brightness(1.3)',
     type: { date: '#FFFFFF', venue: '#F1DDB0', reveal: 'fade' },
     intro(t) {
-      bestCream(); guilloche(L.cx, L.cy, U(L.vert ? 470 : 390), t, .5 * E.outCubic(prog(t, 0, 1.2)));
-      const R = U(L.vert ? 360 : 290); const mp = clamp(E.outBack(prog(t, .2, .95), 1.3), 0, 1.04);
-      ctx.save(); ctx.fillStyle = '#17120c'; ctx.shadowColor = 'rgba(60,40,10,.35)'; ctx.shadowBlur = U(40); ctx.beginPath(); ctx.arc(L.cx, L.cy, R * .95 * mp, 0, 7); ctx.fill(); ctx.restore();
-      const p = E.inOutCubic(prog(t, .5, 1.6));
+      bestCream(); const R = U(L.vert ? 360 : 290);
+      const p = E.inOutCubic(prog(t, .2, 1.4));
       ctx.save(); ctx.strokeStyle = '#B08D4F'; ctx.lineWidth = U(4); ctx.beginPath(); ctx.arc(L.cx, L.cy, R, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * p); ctx.stroke();
       ctx.globalAlpha = .5; ctx.lineWidth = U(1.5); ctx.beginPath(); ctx.arc(L.cx, L.cy, R + U(16), Math.PI / 2, Math.PI / 2 + Math.PI * 2 * p); ctx.stroke(); ctx.restore();
       const w = slW(R * 1.55, R * .86); const lp = E.outCubic(prog(t, 1.0, 1.8));
-      SL(L.cx, L.cy, w, { alpha: lp, s: mix(.92, 1, lp) });
-      sweepImg(ctx, IMG.sponsor, L.cx, L.cy, w, prog(t, 2.0, 3.0), 'rgba(255,230,180,.95)');
+      drawImg(ctx, tinted(IMG.sponsor, BEST_INK), L.cx, L.cy, w, { alpha: lp, s: mix(.92, 1, lp) });
+      sweepImg(ctx, tinted(IMG.sponsor, BEST_INK), L.cx, L.cy, w, prog(t, 2.0, 3.0), 'rgba(214,170,90,.9)');
     },
     clips: [() => clip(3.45, 5.6, 'arrival', { from: 4.3, to: 5.6, fx: FX.arrival, fy: .56, z: [1.08, 1.14], mask: (g, t) => g.arc(L.cx, L.cy, Math.max(W, H) * E.inQuart(prog(t, 3.45, 4.1)) + 1, 0, 7) }),
             () => clip(5.6, 8.2, 'walk', { from: 5.76, to: 7.86, fx: FX.walk, z: [1.08, 1.0] }),
@@ -285,13 +285,9 @@ const SPONSORS_CFG = {
         ctx.save(); ctx.globalAlpha = p; ctx.strokeStyle = '#F1DDB0'; ctx.lineWidth = U(3); ctx.beginPath(); ctx.arc(px, py, U(L.vert ? 230 : 190), 0, 7); ctx.stroke(); ctx.globalAlpha = p * .45; ctx.beginPath(); ctx.arc(px, py, U(L.vert ? 246 : 204), 0, 7); ctx.stroke(); ctx.restore(); }
       // cream frame around the footage keeps the brand colour on screen
       ctx.save(); ctx.strokeStyle = '#F3E9D2'; ctx.lineWidth = U(L.vert ? 22 : 18); ctx.strokeRect(0, 0, W, H); ctx.strokeStyle = '#B08D4F'; ctx.lineWidth = U(2); const m = U(L.vert ? 22 : 18); ctx.strokeRect(m, m, W - 2 * m, H - 2 * m); ctx.restore(); },
-    lock: { divider: 'line', divColor: '#C9A86A', reveal: 'fade', ease: E.outQuart, step: .15, sweep: 1.0, sweepCol: 'rgba(255,230,180,.9)', logoK: 1.0, vig: .08,
-      cta: { shape: 'line', line: '#C9A86A', fg: '#F1DDB0', lead: '#C9A86A', bg: null } },
-    lockBg(lt) { bestCream(); guilloche(L.cx, H / 2, Math.max(W, H) * .42, lt + 3, .35);
-      const c = LKS, last = c.ys[c.ys.length - 1] + c.ctaH, top = c.ys[0] - U(L.vert ? 70 : 46), bot = last + U(L.vert ? 70 : 46), x0 = L.x0 - U(10), x1 = L.x1 + U(10), p = E.outCubic(prog(lt, 0, .45));
-      const cy = (top + bot) / 2, hh = (bot - top) / 2 * p;
-      ctx.save(); ctx.fillStyle = '#17120c'; ctx.shadowColor = 'rgba(60,40,10,.35)'; ctx.shadowBlur = U(40); ctx.beginPath(); ctx.roundRect(x0, cy - hh, x1 - x0, hh * 2, U(26)); ctx.fill(); ctx.restore();
-      ctx.save(); ctx.strokeStyle = '#B08D4F'; ctx.globalAlpha = p; ctx.lineWidth = U(2); ctx.beginPath(); ctx.roundRect(x0 + U(12), cy - hh + U(12), x1 - x0 - U(24), hh * 2 - U(24), U(18)); ctx.stroke(); ctx.restore(); },
+    lock: { divider: 'line', divColor: '#B08D4F', reveal: 'fade', ease: E.outQuart, step: .15, sweep: 1.0, sweepCol: 'rgba(214,170,90,.8)', logoK: 1.0, vig: .06, dark: '#1C1610', colors: { date: '#1C1610', venue: '#8A6A35' },
+      cta: { shape: 'line', line: '#1C1610', fg: '#1C1610', lead: '#8A6A35', bg: null } },
+    lockBg(lt) { bestCream(); ctx.save(); ctx.fillStyle = '#B08D4F'; ctx.globalAlpha = .6 * E.outCubic(prog(lt, .2, 1)); ctx.fillRect(L.x0, L.y0 - U(20), L.sw, U(1.5)); ctx.fillRect(L.x0, L.y1 + U(20), L.sw, U(1.5)); ctx.restore(); },
     cues: [{ t: 0, k: 'swell', d: 1.2 }, { t: 1.0, k: 'chime' }, { t: 2.0, k: 'shimmer', g: .6 }, { t: 3.45, k: 'whoosh', g: .6 }, { t: 4, k: 'hit', g: .7 }, { t: 5.6, k: 'thump' }, { t: 8.2, k: 'impact', g: .7 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'boom' }, { t: 11, k: 'shimmer', g: .5 }] },
 
   // 6 ── AXE · Hard Lines ──────────────────────────────────────────────────────────────────────────
@@ -506,10 +502,10 @@ function silk(t, a) { if (a <= 0) return; ctx.save(); ctx.globalCompositeOperati
     ctx.strokeStyle = g; ctx.lineWidth = U(96 - i * 18); ctx.filter = `blur(${U(6 + i * 5)}px)`; ctx.beginPath(); for (let x = -U(100); x <= W + U(100); x += U(24)) { const yy = y0 + Math.sin(x / U(260) + ph) * amp - x * .22; x <= -U(100) ? ctx.moveTo(x, yy) : ctx.lineTo(x, yy); } ctx.stroke(); }
   ctx.filter = 'none'; ctx.restore(); }
 function despRed(k, t) { radial('#EC1B24', '#9A000C', W / 2, H * .4);
-  ctx.save(); ctx.fillStyle = 'rgba(120,0,8,.22)'; const r = rng(17), row = U(52); for (let y = U(20); y < H; y += row) { let x = -U(40) + r() * U(60); while (x < W) { const w = U(60 + r() * 220); ctx.beginPath(); ctx.roundRect(x, y, w, row * .42, U(4)); ctx.fill(); x += w + U(24 + r() * 50); } } ctx.restore();
   if (k < 1) { ctx.fillStyle = `rgba(40,0,0,${1 - k})`; ctx.fillRect(0, 0, W, H); } }
 function torn(y, seed) { if (y >= H) return; const r = rng(seed); ctx.save(); ctx.beginPath(); ctx.moveTo(0, H + 10); ctx.lineTo(0, y); for (let x = 0; x <= W + U(30); x += U(18 + r() * 26)) ctx.lineTo(x, y + (r() - .5) * U(46) + Math.sin(x / U(140)) * U(14)); ctx.lineTo(W, H + 10); ctx.closePath();
   ctx.strokeStyle = 'rgba(235,230,225,.85)'; ctx.lineWidth = U(5); ctx.stroke(); ctx.fillStyle = '#0A0A0A'; ctx.fill(); ctx.restore(); }
+const BEST_INK = '#1C1610';
 function bestCream() { radial('#FBF6EA', '#E4D2AE', W / 2, H * .42); }
 function guilloche(cx, cy, r, t, a) { if (a <= 0) return; ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = '#B79A64'; ctx.lineWidth = U(1.2); for (let k = 0; k < 8; k++) { ctx.beginPath(); for (let i = 0; i <= 360; i++) { const th = i / 180 * Math.PI; const rr = r * (.8 + .08 * Math.sin(th * 12 + k * .8 + t * .3) + k * .03); const X = cx + Math.cos(th) * rr, Y = cy + Math.sin(th) * rr; i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); } ctx.stroke(); } ctx.restore(); }
 function frameRect() { const m = U(L.vert ? 90 : 70); return L.vert ? [m, H * .2, W - 2 * m, H * .56] : [L.x0 + U(20), L.y0 + U(10), L.sw - U(40), L.sh - U(20)]; }
