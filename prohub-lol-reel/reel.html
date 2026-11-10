@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Prohub × Live Out Loud — reel</title>
+<style>
+:root { --paper: #EFEFEC; --ink: #0A0A0A; --hot: #E8561B; }
+html, body { margin: 0; background: #000; }
+#r { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: var(--paper); color: var(--ink); }
+.sc { position: absolute; inset: 0; display: none; }
+.a { position: absolute; }
+.big { font-family: "Inter Display", Inter, sans-serif; font-weight: 900; letter-spacing: -0.055em; line-height: .8; white-space: nowrap; }
+.mono { font-family: "JetBrains Mono", monospace; font-weight: 500; font-size: 26px; letter-spacing: .02em; text-transform: uppercase; white-space: nowrap; }
+.box { border: 3px solid var(--ink); box-sizing: border-box; overflow: hidden; background: var(--ink); }
+.box img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tag { background: var(--ink); color: var(--paper); padding: 6px 10px 5px; font-size: 22px; }
+/* fixed chrome: the frame of the whole reel */
+.band { position: absolute; left: 0; right: 0; height: 110px; background: var(--ink); color: var(--paper); z-index: 10; display: flex; align-items: center; justify-content: space-between; padding: 0 40px; box-sizing: border-box; }
+.rule { position: absolute; z-index: 9; background: rgba(10,10,10,.35); }
+</style></head>
+<body><div id="r">
+
+<!-- 1 · title -->
+<div class="sc" id="s1">
+  <div class="a big" id="w1" style="left:30px;top:170px;font-size:410px">LIVE</div>
+  <div class="a big" id="w2" style="left:30px;top:500px;font-size:410px">OUT</div>
+  <div class="a big" id="w3" style="left:30px;top:830px;font-size:410px">LOUD</div>
+  <div class="a" id="blk" style="left:0;right:0;top:1180px;bottom:110px;background:var(--ink)">
+    <div class="a big" style="left:30px;top:70px;font-size:250px;color:var(--paper)">×WIZKID</div>
+    <div class="a mono" style="left:40px;bottom:46px;color:var(--hot);font-size:34px">ABUJA — 13.12.2026</div>
+  </div>
+</div>
+
+<!-- 2 · walk-out footage -->
+<div class="sc" id="s2" style="background:var(--ink)">
+  <div class="a box" style="left:0;top:285px;width:1080px;height:1350px;border:0"><img id="walk"></div>
+  <div class="a mono" style="left:40px;top:160px;color:var(--paper);font-size:30px">FILM / 01</div>
+  <div class="a" id="bar2" style="left:0;top:1660px;height:24px;width:1080px;background:var(--hot);transform-origin:0 50%"></div>
+</div>
+
+<!-- 3 · poster wall -->
+<div class="sc" id="s3">
+  <div class="a box" id="p1" style="left:0;top:110px;width:540px;height:850px"><img src="assets/red-feed.jpg"></div>
+  <div class="a box" id="p2" style="left:540px;top:110px;width:540px;height:850px"><img src="assets/sold-out.jpg"></div>
+  <div class="a box" id="p3" style="left:0;top:960px;width:540px;height:850px"><img src="assets/minimal.jpg"></div>
+  <div class="a box" id="p4" style="left:540px;top:960px;width:540px;height:850px"><img src="assets/red-story.jpg" style="object-position:50% 25%"></div>
+  <div class="a box" id="p5" style="left:0;top:655px;width:1080px;height:610px;border-width:6px"><img src="assets/landscape-qr.png"></div>
+  <div class="a mono tag" id="t3" style="left:20px;top:130px">POSTERS / 05</div>
+</div>
+
+<!-- 4 · pre-drop -->
+<div class="sc" id="s4" style="background:var(--hot)">
+  <div class="a big" style="left:-10px;top:330px;font-size:760px">13</div>
+  <div class="a big" style="left:20px;top:980px;font-size:560px">DEC</div>
+</div>
+
+<!-- 5 · stage footage -->
+<div class="sc" id="s5" style="background:var(--ink)">
+  <div class="a box" style="left:0;top:285px;width:1080px;height:1350px;border:0"><img id="pyro"></div>
+  <div class="a mono" style="left:40px;top:160px;color:var(--paper);font-size:30px">FILM / 02</div>
+  <div class="a big" style="left:30px;top:1660px;font-size:140px;color:var(--hot)">EAGLE SQ.</div>
+</div>
+
+<!-- 6 · social -->
+<div class="sc" id="s6">
+  <div class="a box" id="v1" style="left:30px;top:200px;width:320px;height:569px"><img id="en"></div>
+  <div class="a box" id="v2" style="left:380px;top:200px;width:320px;height:569px"><img id="ha"></div>
+  <div class="a box" id="v3" style="left:730px;top:200px;width:320px;height:569px"><img id="reel"></div>
+  <div class="a mono" style="left:30px;top:150px">EN</div><div class="a mono" style="left:380px;top:150px">HA</div><div class="a mono" style="left:730px;top:150px">REEL</div>
+  <div class="a box" id="web" style="left:30px;top:820px;width:1020px;height:960px;background:#1a1410"><img id="webimg" src="assets/website.png" style="height:auto;object-fit:initial"></div>
+  <div class="a mono tag" style="left:30px;top:820px">WEB</div>
+</div>
+
+<!-- 7 · print -->
+<div class="sc" id="s7">
+  <div class="a box" id="n1" style="left:30px;top:150px;width:620px;height:775px"><img src="../live-out-loud-newspaper/out/page-1.png"></div>
+  <div class="a box" id="n2" style="left:430px;top:560px;width:620px;height:775px"><img src="../live-out-loud-newspaper/out/page-2.png"></div>
+  <div class="a box" id="n3" style="left:110px;top:990px;width:620px;height:775px"><img src="../live-out-loud-newspaper/out/page-3.png"></div>
+  <div class="a box" id="nz" style="left:0;top:110px;width:1080px;height:1700px;border:0"><img id="wh" src="../live-out-loud-newspaper/out/page-4.png" style="width:auto;height:auto;object-fit:initial;transform-origin:0 0"></div>
+  <div class="a mono tag" style="left:30px;top:130px;z-index:5">PRINT / 4PP</div>
+</div>
+
+<!-- 8 · merch -->
+<div class="sc" id="s8" style="background:var(--hot)">
+  <div class="a big" style="left:-20px;top:120px;font-size:1250px;color:rgba(10,10,10,.12);letter-spacing:-.08em">13</div>
+  <img class="a" id="g" style="left:90px;top:330px;width:900px">
+  <div class="a mono tag" style="left:30px;top:130px">MERCH</div>
+  <div class="a mono" id="gc" style="right:40px;top:1720px;font-size:30px"></div>
+</div>
+
+<!-- 9 · end -->
+<div class="sc" id="s9">
+  <div class="a" id="endblk" style="left:0;right:0;top:110px;bottom:110px;background:var(--ink)"></div>
+  <img class="a" id="logo" src="assets/prohub-logo-dark.svg" style="left:140px;top:760px;width:800px">
+  <div class="a" id="endbar" style="left:140px;top:1150px;width:800px;height:24px;background:var(--hot);transform-origin:0 50%"></div>
+</div>
+
+<div class="rule" style="left:40px;top:110px;bottom:110px;width:1px"></div>
+<div class="rule" style="right:40px;top:110px;bottom:110px;width:1px"></div>
+<div class="band mono" style="top:0"><span>PROHUB</span><span>LIVE OUT LOUD × WIZKID</span></div>
+<div class="band mono" style="bottom:0"><span id="sec"></span><span id="tc"></span></div>
+</div>
+<script>
+const FPS = 30, BEAT = .5;
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const eo = p => 1 - Math.pow(1 - p, 4);
+const fr = (clip, lt, n) => `clips/${clip}/f${String(clamp(1 + Math.floor(lt * FPS), 1, n)).padStart(3, '0')}.jpg`;
+const SC = [ // [id, start, end, section label]
+  ['s1', 0, 2, '00 / TITLE'], ['s2', 2, 5, '01 / FILM'], ['s3', 5, 7.5, '02 / POSTERS'], ['s4', 7.5, 8, '03'],
+  ['s5', 8, 10, '03 / FILM'], ['s6', 10, 12.5, '04 / SOCIAL + WEB'], ['s7', 12.5, 15, '05 / PRINT'],
+  ['s8', 15, 17.5, '06 / MERCH'], ['s9', 17.5, 20, '07 / PROHUB']];
+const on = (id, v) => { $(id).style.display = v ? 'block' : 'none'; };
+const slam = (id, lt, at) => { const p = eo(clamp((lt - at) / .12)); const e = $(id); e.style.visibility = lt >= at ? 'visible' : 'hidden'; e.style.transform = `translateY(${(1 - p) * 60}px)`; };
+const GAR = ['tee-onyx-back', 'tank-ember-back', 'jersey-chalk-back', 'tee-chalk-back', 'polo-onyx-front'];
+GAR.forEach(g => { const i = new Image(); i.src = `assets/${g}.png`; });
+
+window.renderAt = t => {
+  let cur;
+  for (const s of SC) { const v = t >= s[1] && t < s[2]; on(s[0], v); if (v) cur = s; }
+  if (!cur) cur = SC[SC.length - 1], on('s9', true);
+  const lt = t - cur[1];
+  $('sec').textContent = cur[3];
+  const f = Math.floor(t * FPS);
+  $('tc').textContent = `00:00:${String(Math.floor(t)).padStart(2, '0')}:${String(f % FPS).padStart(2, '0')}`;
+
+  if (cur[0] === 's1') { ['w1', 'w2', 'w3'].forEach((w, i) => slam(w, lt, i * BEAT)); const p = eo(clamp((lt - 1.5) / .15)); $('blk').style.transform = `translateY(${(1 - p) * 700}px)`; }
+  if (cur[0] === 's2') { $('walk').src = fr('walk', lt, 90); $('bar2').style.transform = `scaleX(${lt / 3})`; }
+  if (cur[0] === 's3') { ['p1', 'p2', 'p3', 'p4'].forEach((p, i) => slam(p, lt, i * .25)); slam('p5', lt, 1.5); slam('t3', lt, 0); }
+  if (cur[0] === 's5') $('pyro').src = fr('pyro', lt, 65);
+  if (cur[0] === 's6') {
+    ['v1', 'v2', 'v3'].forEach((v, i) => slam(v, lt, i * .25)); slam('web', lt, .75);
+    $('en').src = fr('en', lt, 78); $('ha').src = fr('ha', lt, 78); $('reel').src = fr('reel', lt, 78);
+    const w = $('webimg'); w.style.width = '1014px'; w.style.transform = `translateY(${-clamp((lt - 1.0) / 1.4) * 1200}px)`;
+  }
+  if (cur[0] === 's7') {
+    ['n1', 'n2', 'n3'].forEach((n, i) => slam(n, lt, i * .25));
+    const z = lt >= 1.25; $('nz').style.display = z ? 'block' : 'none';
+    if (z) { const k = 3.1 + .25 * (lt - 1.25); const wh = $('wh'); wh.style.width = '1080px'; wh.style.transform = `scale(${k}) translate(-70px, -${400 - 20 * (lt - 1.25)}px)`; }
+  }
+  if (cur[0] === 's8') { const i = Math.min(GAR.length - 1, Math.floor(lt / BEAT)); $('g').src = `assets/${GAR[i]}.png`; $('gc').textContent = `${i + 1} / ${GAR.length}`; }
+  if (cur[0] === 's9') {
+    const black = lt < .5; $('endblk').style.display = black ? 'block' : 'none'; $('logo').style.visibility = black ? 'hidden' : 'visible';
+    $('endbar').style.transform = `scaleX(${eo(clamp((lt - .6) / .5))})`;
+  }
+};
+window.ready = document.fonts.load('900 100px "Inter Display"').then(() => document.fonts.load('500 20px "JetBrains Mono"'))
+  .then(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))));
+</script></body></html>
