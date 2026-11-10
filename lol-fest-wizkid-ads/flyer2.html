@@ -107,7 +107,7 @@ const DEVICE = {
   bloom: T => { bpCream(); },
   amber: T => { radial('#2a1709', '#050403', CX, H * .3); ctx.save(); ctx.globalCompositeOperation = 'screen'; const g = ctx.createLinearGradient(CX - 140, 0, CX + 140, 0); g.addColorStop(0, 'rgba(255,170,70,0)'); g.addColorStop(.5, 'rgba(255,170,70,.22)'); g.addColorStop(1, 'rgba(255,170,70,0)'); ctx.fillStyle = g; ctx.fillRect(CX - 140, 0, 280, H); ctx.translate(CX, H * .42); ctx.scale(1, .35); const r = ctx.createRadialGradient(0, 0, 0, 0, 0, W * .7); r.addColorStop(0, 'rgba(255,170,70,.4)'); r.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = r; ctx.fillRect(-W, -H * 3, W * 2, H * 6); ctx.restore(); ctx.strokeStyle = 'rgba(201,151,79,.55)'; ctx.lineWidth = 1.5; ctx.strokeRect(28, 28, W - 56, H - 56); },
   rays: T => { radial('#16924a', '#032412', CX, H * .3); ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.translate(CX, H * .3); for (let i = 0; i < 14; i++) { ctx.rotate(Math.PI / 7); ctx.fillStyle = 'rgba(180,255,205,.06)'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-70, -H * 1.5); ctx.lineTo(70, -H * 1.5); ctx.fill(); } ctx.restore(); },
-  ribbon: T => { ctx.fillStyle = '#F40009'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.strokeStyle = '#fff'; ctx.lineCap = 'round'; for (const [y0, lw, a] of [[H * .36, 46, 1], [H * .36 + 70, 10, .8]]) { ctx.globalAlpha = a; ctx.lineWidth = lw; ctx.beginPath(); for (let x = -20; x <= W + 20; x += 10) { const y = y0 + Math.sin(x / 170 + .6) * 70 - x * .12; x < 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } ctx.stroke(); } ctx.restore(); },
+  ribbon: T => { cokeRed(true); },
   slashes: T => { ctx.fillStyle = '#0A0A0A'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.translate(CX, H * .4); ctx.rotate(-.42); ctx.fillStyle = '#D7191C'; ctx.fillRect(-W * .55, -H, 300, H * 2); ctx.fillRect(W * .18, -H, 120, H * 2); ctx.fillStyle = '#fff'; ctx.fillRect(-W * .55 + 330, -H, 18, H * 2); ctx.restore(); },
   guilloche: T => { radial('#241e15', '#060504', CX, H * .35); ctx.save(); ctx.strokeStyle = '#E6C88F'; ctx.lineWidth = 1; for (let k = 0; k < 12; k++) { ctx.globalAlpha = .12; ctx.beginPath(); for (let i = 0; i <= 720; i++) { const th = i / 360 * Math.PI; const rr = W * (.28 + .03 * Math.sin(th * 14 + k * .7) + k * .022); const X = CX + Math.cos(th) * rr, Y = H * .36 + Math.sin(th) * rr; i ? ctx.lineTo(X, Y) : ctx.moveTo(X, Y); } ctx.stroke(); } ctx.restore(); ctx.strokeStyle = 'rgba(230,200,143,.6)'; ctx.lineWidth = 2; ctx.strokeRect(26, 26, W - 52, H - 52); ctx.lineWidth = 1; ctx.strokeRect(36, 36, W - 72, H - 72); },
   bars: T => { ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.translate(CX, H * .4); ctx.rotate(.35); ctx.fillStyle = 'rgba(255,255,255,.1)'; ctx.fillRect(-W * .62, -H, W * .3, H * 2); ctx.fillStyle = 'rgba(255,255,255,.9)'; ctx.fillRect(W * .26, -H, 26, H * 2); ctx.fillRect(-W * .7, -H, 10, H * 2); ctx.restore(); },
@@ -119,7 +119,43 @@ const DEVICE = {
   plan: T => { ctx.fillStyle = '#16181b'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.globalAlpha = .7; ctx.strokeStyle = '#C9D2DC'; const s = W * .62, x0 = CX - s / 2, y0 = pk(H * .17, H * .14, H * .12); ctx.lineWidth = 2; ctx.strokeRect(x0, y0, s, s); ctx.restore(); },
   burst: T => { radial('#3a1236', '#0d030d', CX, H * .35); ctx.save(); ctx.globalAlpha = .55; const cols = ['#FCB424', '#FC543C', '#CC3C6C', '#FCD27A']; ctx.translate(CX, H * .36); for (let i = 0; i < 8; i++) { ctx.rotate(Math.PI / 4 + .05); ctx.fillStyle = cols[i % 4]; ctx.beginPath(); ctx.moveTo(-26, 0); ctx.lineTo(0, -H); ctx.lineTo(26, 0); ctx.fill(); } ctx.restore(); ctx.save(); ctx.strokeStyle = '#FCB424'; ctx.lineWidth = 7; ctx.lineCap = 'round'; ctx.globalAlpha = .8; ctx.beginPath(); for (let x = 40; x <= W - 40; x += 8) { const y = H * .62 + Math.sin(x / 70) * 22; x === 40 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } ctx.stroke(); ctx.restore(); },
 };
-const BGFX = { bpTeal: () => bpTeal() };
+const BGFX = { bpTeal: () => bpTeal(), cokeRed: () => cokeRed(false) };
+// ---- Coca-Cola: glow, light burst, dynamic white ribbons, rising fizz, sparkles ----
+function cokeRibbon(P, w0, t0 = 0, t1 = 1, a = 1) {   // tapered ribbon along a cubic bezier P = [[x,y] x4]
+  const B = (t, i) => (1 - t) ** 3 * P[0][i] + 3 * (1 - t) ** 2 * t * P[1][i] + 3 * (1 - t) * t * t * P[2][i] + t ** 3 * P[3][i];
+  const top = [], bot = [], n = 90;
+  for (let k = 0; k <= n; k++) { const t = t0 + (t1 - t0) * k / n, x = B(t, 0), y = B(t, 1), dx = B(Math.min(1, t + .002), 0) - B(Math.max(0, t - .002), 0), dy = B(Math.min(1, t + .002), 1) - B(Math.max(0, t - .002), 1), l = Math.hypot(dx, dy) || 1;
+    const w = w0 * Math.pow(Math.sin(Math.PI * k / n), .55) * (.75 + .25 * Math.sin(k / n * 5)); top.push([x - dy / l * w / 2, y + dx / l * w / 2]); bot.push([x + dy / l * w / 2, y - dx / l * w / 2]); }
+  ctx.save(); ctx.globalAlpha *= a; ctx.beginPath(); top.forEach(([x, y], i) => i ? ctx.lineTo(x, y) : ctx.moveTo(x, y)); bot.reverse().forEach(([x, y]) => ctx.lineTo(x, y)); ctx.closePath();
+  const g = ctx.createLinearGradient(P[0][0], P[0][1] - w0, P[3][0], P[3][1] + w0); g.addColorStop(0, '#FFFFFF'); g.addColorStop(.5, '#F4F4F4'); g.addColorStop(1, '#FFFFFF');
+  ctx.shadowColor = 'rgba(90,0,4,.45)'; ctx.shadowBlur = 30; ctx.shadowOffsetY = 10; ctx.fillStyle = g; ctx.fill(); ctx.restore(); }
+function fizz(seed, x0, x1, y0, y1, n, a = 1) {      // rising streams of bubbles, larger near the top of each stream
+  const r = rng(seed); ctx.save();
+  for (let st = 0; st < n; st++) { const sx = x0 + r() * (x1 - x0), depth = .35 + r() * .65, len = (y1 - y0) * (.4 + r() * .6), sy = y1 - r() * (y1 - y0) * .3;
+    for (let k = 0; k < 14; k++) { const u = k / 13, y = sy - len * u, x = sx + Math.sin(u * 9 + st) * 14 * depth, rad = (2 + u * 11 * depth + r() * 3) * depth;
+      if (y < y0) break; ctx.globalAlpha = a * (.35 + .55 * depth) * (1 - u * .35);
+      ctx.strokeStyle = '#FFFFFF'; ctx.lineWidth = Math.max(1, rad * .22); ctx.beginPath(); ctx.arc(x, y, rad, 0, 7); ctx.stroke();
+      ctx.fillStyle = 'rgba(255,255,255,.18)'; ctx.fill(); ctx.fillStyle = '#FFFFFF'; ctx.beginPath(); ctx.arc(x - rad * .35, y - rad * .35, rad * .22, 0, 7); ctx.fill(); } }
+  ctx.restore(); }
+function sparkle(x, y, s, a = 1) { ctx.save(); ctx.globalAlpha *= a; ctx.translate(x, y); ctx.fillStyle = '#FFFFFF'; ctx.shadowColor = '#fff'; ctx.shadowBlur = s * 1.2;
+  ctx.beginPath(); ctx.moveTo(0, -s); ctx.quadraticCurveTo(s * .12, -s * .12, s, 0); ctx.quadraticCurveTo(s * .12, s * .12, 0, s); ctx.quadraticCurveTo(-s * .12, s * .12, -s, 0); ctx.quadraticCurveTo(-s * .12, -s * .12, 0, -s); ctx.fill(); ctx.restore(); }
+function cokeRed(edition) {
+  radial('#FF2A2A', '#8E0006', CX, H * pk(.36, .38, .42));
+  // light bursting from behind the head
+  ctx.save(); ctx.globalCompositeOperation = 'screen'; const hy = H * pk(.34, .36, .4); ctx.translate(CX, hy);
+  for (let i = 0; i < 18; i++) { ctx.rotate(Math.PI / 9); const g = ctx.createLinearGradient(0, 0, 0, -H); g.addColorStop(0, 'rgba(255,190,180,.22)'); g.addColorStop(1, 'rgba(255,120,110,0)'); ctx.fillStyle = g; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-W * .07, -H); ctx.lineTo(W * .07, -H); ctx.fill(); }
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); const gl = ctx.createRadialGradient(CX, hy, 0, CX, hy, W * .55); gl.addColorStop(0, 'rgba(255,200,190,.5)'); gl.addColorStop(1, 'rgba(255,0,0,0)'); ctx.fillStyle = gl; ctx.fillRect(0, 0, W, H); ctx.restore();
+  // dynamic ribbons sweep behind him at chest height (under 13 DEC / LIVE ABUJA, above the info)
+  const yA = edition ? H * pk(.4, .42, .44) : H * pk(.6, .63, .6), yB = edition ? H * pk(.46, .48, .5) : H * pk(.66, .7, .66);
+  cokeRibbon([[-W * .1, yB + H * .08], [W * .3, yA - H * .1], [W * .7, yB + H * .12], [W * 1.1, yA - H * .02]], W * pk(.13, .14, .11));
+  cokeRibbon([[-W * .1, yB + H * .14], [W * .35, yA], [W * .65, yB + H * .17], [W * 1.1, yA + H * .06]], W * .035, 0, 1, .9);
+  // fizz rising up both sides, a few sparkles
+  fizz(31, W * .01, W * .085, H * pk(.56, .56, .54), H * pk(.9, .86, .82), 4, .9); fizz(37, W * .915, W * .99, H * pk(.56, .56, .54), H * pk(.9, .86, .82), 4, .9);
+  fizz(43, W * .015, W * .08, H * pk(.06, .08, .06), H * pk(.36, .4, .4), 2, .7); fizz(47, W * .92, W * .985, H * pk(.06, .08, .06), H * pk(.36, .4, .4), 2, .7);
+  fizz(41, W * .3, W * .7, H * pk(.66, .68, .64), H * pk(.8, .8, .76), 4, .45);
+  for (const [x, y, sz] of [[.16, .3, 22], [.86, .26, 16], [.72, .58, 12], [.08, .62, 14], [.93, .7, 20], [.3, .74, 10]]) sparkle(W * x, H * pk(y, y * 1.02, y), sz);
+}
+
 function poppy(cx, cy, R, rot, o = {}) {
   ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot); ctx.globalAlpha *= (o.a ?? 1); if (o.blur) ctx.filter = `blur(${o.blur}px)`;
   const layer = (r, k, c0, c1, ph) => { const g = ctx.createRadialGradient(0, 0, r * .1, 0, 0, r); g.addColorStop(0, c0); g.addColorStop(1, c1); ctx.fillStyle = g; ctx.beginPath();
@@ -156,7 +192,7 @@ const TH = {
     panel: '#5a040c', dev: 'silk', btn: { shape: 'line', line: '#FFFFFF', fg: '#FFFFFF' } },
   heineken: { bg: ['#0e5a2c', '#021a0c'], stroke: '#02200e', head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#E3001B', venue: '#9BE7A8', lead: '#D8F5DF', url: '#FFFFFF',
     panel: '#04240f', dev: 'rays', btn: { shape: 'pill', bg: '#008200', fg: '#FFFFFF' } },
-  'coca-cola': { powered: '#F40009', bg: ['#F40009', '#A5000A'], stroke: '#9c0007', strokeA: .3, head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFFFFF', venue: '#FFFFFF', lead: '#FFE5E5', url: '#FFFFFF', bottom: '#8f0007',
+  'coca-cola': { powered: '#F40009', bgFx: 'cokeRed', panelLight: true, lolDarkPanelOnly: true, lolDark: '#8E0006', bg: ['#F40009', '#A5000A'], stroke: '#9c0007', strokeA: .3, head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFFFFF', venue: '#FFFFFF', lead: '#FFE5E5', url: '#FFFFFF', bottom: '#8f0007',
     panel: '#FFFFFF', ptype: { num: '#F40009', live: '#1a1a1a', abuja: '#F40009', venue: '#1a1a1a', lead: '#333' }, dev: 'ribbon', btn: { shape: 'pill', bg: '#F40009', fg: '#FFFFFF' }, tab: '#FFFFFF' },
   desperados: { bg: ['#EC1B24', '#9A000C'], stroke: '#7a0008', strokeA: .32, head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFD200', venue: '#FFD200', lead: '#FFFFFF', url: '#FFFFFF', bottom: '#0A0A0A', torn: true,
     panel: '#0A0A0A', dev: 'desp', btn: { shape: 'block', bg: '#E30613', shadow: '#FFD200', fg: '#FFFFFF' } },
@@ -206,7 +242,7 @@ function signature() {
   // darken the lower third so the information reads over the jacket
   const bc = T.bottom || T.bg[1]; if (T.torn) { tornEdge(p.venue[0] - p.venue[1] - pk(150, 120, 100), 7); } else { ctx.save(); const g = ctx.createLinearGradient(0, H * .62, 0, H); g.addColorStop(0, rgba(bc, 0)); g.addColorStop(.55, rgba(bc, .82)); g.addColorStop(1, rgba(bc, 1)); ctx.fillStyle = g; ctx.fillRect(0, H * .62, W, H * .38); ctx.restore(); }
   // festival logo on the chest
-  const lh = p.lol[2]; ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 30; lolLogo(ctx, W * p.lol[0], p.lol[1], lolW(lh), T.lolDark ? { dark: T.lolDark } : {}); ctx.restore();
+  const lh = p.lol[2]; ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 30; lolLogo(ctx, W * p.lol[0], p.lol[1], lolW(lh), T.lolDark && !T.lolDarkPanelOnly ? { dark: T.lolDark } : {}); ctx.restore();
   const up = T.powered ? pk(18, 26, 20) : 0;   // room for the POWERED BY credit above the logo
   venue(CX, p.venue[0] - up, p.venue[1], T);
   ticketLine(CX, p.tix[0] - up, p.tix[1], T);
