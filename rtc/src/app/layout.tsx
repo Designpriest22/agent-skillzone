@@ -10,7 +10,7 @@ export const metadata: Metadata = {
   openGraph: { title: "Run The Capital", description: "Fight through Abuja. Climb CAPITAL STATUS.", images: ["/game/logo.webp"] },
 };
 
-export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#0F2A33" };
+export const viewport: Viewport = { width: "device-width", initialScale: 1, viewportFit: "cover", themeColor: "#170a06" };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (

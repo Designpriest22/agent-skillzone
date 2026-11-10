@@ -14,6 +14,8 @@
     "db:migrate": "tsx scripts/migrate.ts",
     "db:reset": "tsx scripts/migrate.ts --reset",
     "test": "vitest run",
+    "smoke": "tsx scripts/smoke.ts",
+    "preview:html": "tsx scripts/build-preview.ts",
     "test:unit": "vitest run tests/unit",
     "test:integration": "vitest run tests/integration"
   },

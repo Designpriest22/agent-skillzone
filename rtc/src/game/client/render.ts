@@ -3,15 +3,29 @@ import { FLOOR_BOT, FLOOR_TOP, VIEW_H, VIEW_W, tileIndex, type Actor, type Sim, 
 import { FIGHTERS } from "../data/roster";
 import { BOSSES, ENEMIES } from "../data/world";
 import ATLAS_META from "./atlas-meta.json";
+import { asset } from "./assets";
 
 interface AtlasMeta { cell: [number, number]; anchor: [number, number]; height: number; anims: Record<string, { row: number; n: number }> }
 const META = ATLAS_META as unknown as Record<string, AtlasMeta>;
+
+/** Roadside billboards per substage (world x). Cosmetic only: the simulation never sees them. */
+const BILLBOARD_ART = ["odumodu", "wizkid"] as const;
+const BILLBOARDS: Record<string, { x: number; art: (typeof BILLBOARD_ART)[number] }[]> = {
+  "01A": [{ x: 380, art: "odumodu" }, { x: 1450, art: "wizkid" }],
+  "01B": [{ x: 520, art: "wizkid" }, { x: 1700, art: "odumodu" }],
+  "01C": [{ x: 300, art: "odumodu" }, { x: 900, art: "wizkid" }],
+  "02A": [{ x: 420, art: "wizkid" }, { x: 1500, art: "odumodu" }],
+  "02B": [{ x: 600, art: "odumodu" }, { x: 1600, art: "wizkid" }],
+  "02C": [{ x: 260, art: "wizkid" }, { x: 820, art: "odumodu" }],
+};
+const BB_PARALLAX = 0.7;
 
 export interface Assets { images: Record<string, HTMLImageElement> }
 
 export function assetManifest(stageBg: string, fighterId: string): Record<string, string> {
   const m: Record<string, string> = { [`bg_${stageBg}`]: `/game/bg/${stageBg}.webp` };
   for (const k of Object.keys(META)) m[`atlas_${k}`] = `/game/sprites/${k}.png`;
+  for (const b of BILLBOARD_ART) m[`bb_${b}`] = `/game/billboards/${b}.webp`;
   m.boss_gen = "/game/sprites/boss_gen.png";
   m.boss_tower = "/game/sprites/boss_tower.png";
   const p = FIGHTERS[fighterId]?.art.portrait;
@@ -30,7 +44,7 @@ export function preload(manifest: Record<string, string>, onProgress: (f: number
       const fin = () => { done++; onProgress(done / keys.length); if (done === keys.length) resolve({ images }); };
       img.onload = () => { images[k] = img; fin(); };
       img.onerror = fin;
-      img.src = manifest[k]!;
+      img.src = asset(manifest[k]!);
     }
   });
 }
@@ -58,7 +72,7 @@ export class Renderer {
     const c = document.createElement("canvas");
     c.width = 512; c.height = FLOOR_BOT - FLOOR_TOP + 40;
     const g = c.getContext("2d")!;
-    const base = this.night ? "#23262e" : "#5f5850";
+    const base = this.night ? "#2a1d17" : "#5f5248";
     g.fillStyle = base; g.fillRect(0, 0, c.width, c.height);
     // seeded speckle and hand-inked cracks for texture
     let s = 7;
@@ -109,7 +123,7 @@ export class Renderer {
     items.sort((a, b) => a.y - b.y);
     for (const it of items) it.draw();
     this.drawFx(cam);
-    if (this.night) { const v = g.createRadialGradient(VIEW_W / 2, VIEW_H * 0.6, 200, VIEW_W / 2, VIEW_H * 0.6, 700); v.addColorStop(0, "rgba(0,0,0,0)"); v.addColorStop(1, "rgba(5,10,25,0.45)"); g.fillStyle = v; g.fillRect(0, 0, VIEW_W, VIEW_H); }
+    if (this.night) { const v = g.createRadialGradient(VIEW_W / 2, VIEW_H * 0.6, 200, VIEW_W / 2, VIEW_H * 0.6, 700); v.addColorStop(0, "rgba(0,0,0,0)"); v.addColorStop(1, "rgba(25,6,2,0.5)"); g.fillStyle = v; g.fillRect(0, 0, VIEW_W, VIEW_H); }
     if (this.flash > 0) { g.fillStyle = `rgba(255,255,255,${this.flash * 0.12})`; g.fillRect(0, 0, VIEW_W, VIEW_H); this.flash--; }
     g.restore();
   }
@@ -124,11 +138,49 @@ export class Renderer {
       const travel = Math.max(1, sim.stage.length - VIEW_W);
       const px = (Math.max(0, w - VIEW_W) * cam) / travel;
       g.drawImage(img, -px, bgBottom - h * 1.08, w, h * 1.08);
-      if (this.night && this.bgKey === "wuse") { g.fillStyle = "rgba(12,22,48,0.45)"; g.fillRect(0, 0, VIEW_W, bgBottom); }
+      if (this.night && this.bgKey === "wuse") { g.fillStyle = "rgba(40,12,6,0.42)"; g.fillRect(0, 0, VIEW_W, bgBottom); }
+      // Warm "war" grade: pull every backdrop toward ember orange so the night neon still reads as fire.
+      g.save();
+      g.globalCompositeOperation = "color"; g.fillStyle = this.night ? "rgba(190,70,20,0.38)" : "rgba(200,90,30,0.14)"; g.fillRect(0, 0, VIEW_W, bgBottom);
+      g.globalCompositeOperation = "soft-light"; g.fillStyle = "rgba(255,120,40,0.35)"; g.fillRect(0, 0, VIEW_W, bgBottom);
+      g.restore();
     } else {
       const sky = g.createLinearGradient(0, 0, 0, bgBottom);
-      sky.addColorStop(0, this.night ? "#0F2A33" : "#e0744a"); sky.addColorStop(1, this.night ? "#12333B" : "#ffc56e");
+      sky.addColorStop(0, this.night ? "#1a0b06" : "#e0744a"); sky.addColorStop(1, this.night ? "#3a160a" : "#ffc56e");
       g.fillStyle = sky; g.fillRect(0, 0, VIEW_W, bgBottom);
+    }
+    this.drawBillboards(sim, cam, bgBottom);
+  }
+
+  private drawBillboards(sim: Sim, cam: number, ground: number) {
+    const g = this.g;
+    const W = 260, H = 130, top = 58;
+    for (const b of BILLBOARDS[sim.stage.id] ?? []) {
+      const x = b.x - cam * BB_PARALLAX;
+      if (x + W < -20 || x > VIEW_W + 20) continue;
+      // posts and catwalk
+      g.fillStyle = "#14161C";
+      for (const px of [x + W * 0.22, x + W * 0.78]) g.fillRect(px - 5, top + H, 10, ground - top - H - 6);
+      g.fillRect(x + W * 0.22 - 22, ground - 10, 44, 8); g.fillRect(x + W * 0.78 - 22, ground - 10, 44, 8);
+      g.fillRect(x - 6, top + H + 4, W + 12, 6);
+      g.strokeStyle = "#14161C"; g.lineWidth = 2;
+      for (let i = 0; i <= 6; i++) { g.beginPath(); g.moveTo(x + (W * i) / 6, top + H + 4); g.lineTo(x + (W * i) / 6, top + H + 16); g.stroke(); }
+      g.beginPath(); g.moveTo(x - 6, top + H + 16); g.lineTo(x + W + 6, top + H + 16); g.stroke();
+      // panel
+      const img = this.assets.images[`bb_${b.art}`];
+      g.fillStyle = "#14161C"; g.fillRect(x - 6, top - 6, W + 12, H + 12);
+      if (img) g.drawImage(img, x, top, W, H);
+      else { g.fillStyle = "#c81e1e"; g.fillRect(x, top, W, H); }
+      // lamps throw warm light at night, a soft sheen by day
+      const sheen = g.createLinearGradient(x, top, x + W, top + H);
+      sheen.addColorStop(0, this.night ? "rgba(255,190,90,0.22)" : "rgba(255,255,255,0.12)");
+      sheen.addColorStop(0.5, "rgba(0,0,0,0)"); sheen.addColorStop(1, "rgba(0,0,0,0.25)");
+      g.fillStyle = sheen; g.fillRect(x, top, W, H);
+      g.fillStyle = "#14161C";
+      for (const lx of [x + W * 0.2, x + W * 0.5, x + W * 0.8]) {
+        g.fillRect(lx - 1, top - 20, 2, 14); g.fillRect(lx - 9, top - 22, 18, 6);
+        if (this.night) { const cone = g.createRadialGradient(lx, top, 2, lx, top + 30, 70); cone.addColorStop(0, "rgba(255,200,110,0.35)"); cone.addColorStop(1, "rgba(255,200,110,0)"); g.fillStyle = cone; g.fillRect(lx - 70, top - 10, 140, 100); g.fillStyle = "#14161C"; }
+      }
     }
   }
 

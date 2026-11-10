@@ -32,6 +32,7 @@ const nextConfig: NextConfig = {
           { key: "X-Content-Type-Options", value: "nosniff" },
           { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
           { key: "X-Frame-Options", value: "DENY" },
+          ...(isDev ? [] : [{ key: "Strict-Transport-Security", value: "max-age=63072000; includeSubDomains; preload" }]),
           // The game never asks for location: players pick a home area instead.
           { key: "Permissions-Policy", value: "microphone=(), camera=(), geolocation=()" },
         ],

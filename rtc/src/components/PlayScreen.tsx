@@ -7,6 +7,7 @@ import { Controls, loadKeys } from "@/game/client/controls";
 import { sfx, startMusic, stopMusic } from "@/game/client/audio";
 import { api, ApiError, queueRun, type FinishOutcome } from "@/game/client/api";
 import { FIGHTERS } from "@/game/data/roster";
+import { asset } from "@/game/client/assets";
 import { BOSSES, SUBSTAGES, type EquipmentId } from "@/game/data/world";
 
 export interface RunSetup { substage: string; fighter: string; equipment: EquipmentId | null; signedIn: boolean }
@@ -138,7 +139,7 @@ export function PlayScreen({ setup, onExit, onDone }: { setup: RunSetup; onExit:
         {hud && (
           <div className="hud">
             <div className="hud-player">
-              <div className="hud-portrait" style={{ backgroundImage: fighter.art.portrait ? `url(${fighter.art.portrait.replace(".png", ".webp")})` : undefined, backgroundColor: fighter.colors.primary }} />
+              <div className="hud-portrait" style={{ backgroundImage: fighter.art.portrait ? `url(${asset(fighter.art.portrait.replace(".png", ".webp"))})` : undefined, backgroundColor: fighter.colors.primary }} />
               <div className="hud-bars">
                 <div className="hud-name">{fighter.name} <span className="lives">×{hud.lives + 1}</span><span className="score">{hud.score.toString().padStart(7, "0")}</span></div>
                 <div className="bar hp"><i style={{ width: pct(hud.hp, hud.maxHp) }} /></div>
@@ -149,7 +150,7 @@ export function PlayScreen({ setup, onExit, onDone }: { setup: RunSetup; onExit:
             <button className="pause-btn" onClick={() => setPaused(true)} aria-label="Pause">❚❚</button>
             {hud.combo >= 2 && <div className="combo" key={hud.combo}><b>{hud.combo}</b>hits</div>}
             {hud.go && <div className="go">GO ➜</div>}
-            {hud.boss && <div className="boss-bar"><div className="boss-face" style={{ backgroundImage: `url(/game/portraits/${hud.boss.id}.webp)` }} /><div><span>{hud.boss.name}</span><div className="bar boss"><i style={{ width: pct(hud.boss.hp, hud.boss.max) }} /></div></div></div>}
+            {hud.boss && <div className="boss-bar"><div className="boss-face" style={{ backgroundImage: `url(${asset(`/game/portraits/${hud.boss.id}.webp`)})` }} /><div><span>{hud.boss.name}</span><div className="bar boss"><i style={{ width: pct(hud.boss.hp, hud.boss.max) }} /></div></div></div>}
           </div>
         )}
         {banner && <div className="stage-banner"><b>{banner.title}</b><span>{banner.sub}</span></div>}

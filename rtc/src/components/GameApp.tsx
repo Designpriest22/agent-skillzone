@@ -8,10 +8,11 @@ import { loadVolume, setVolume, sfx } from "@/game/client/audio";
 import { FIGHTERS, ROSTER, STARTERS, type Fighter } from "@/game/data/roster";
 import { ACHIEVEMENTS, AREAS, BOSSES, EQUIPMENT, RANKS, STAGES, STORE, SUBSTAGES, SUBSTAGE_ORDER, activeMissions, rankForXp, type EquipmentId } from "@/game/data/world";
 import type { RunResult } from "@/game/sim/sim";
+import { asset, isPreview } from "@/game/client/assets";
 
 type Screen = "menu" | "auth" | "map" | "select" | "play" | "results" | "boards" | "status" | "store" | "profile" | "settings" | "fighters";
 
-export const portraitOf = (f: Fighter) => f.art.portrait?.replace(".png", ".webp");
+export const portraitOf = (f: Fighter) => (f.art.portrait ? asset(f.art.portrait.replace(".png", ".webp")) : undefined);
 const naira = (kobo: number) => `₦${(kobo / 100).toLocaleString("en-NG")}`;
 const cc = (n: number) => `${n.toLocaleString("en-NG")} CC`;
 
@@ -84,7 +85,7 @@ export function GameApp() {
       {notice && <div className="notice" role="status" onClick={() => setNotice(null)}>{notice}</div>}
       <main className="screen" key={screen}>
         {screen === "menu" && <MainMenu me={me} go={go} />}
-        {screen === "auth" && <Auth onDone={async () => { await refresh(); setScreen("menu"); }} />}
+        {screen === "auth" && (isPreview() ? <PreviewOnly what="Profiles and sign-in" /> : <Auth onDone={async () => { await refresh(); setScreen("menu"); }} />)}
         {screen === "map" && <StageMap unlocked={unlocked} bests={me?.bests ?? {}} selected={substage} onSelect={setSubstage} onPlay={(id) => { setSubstage(id); go("select"); }} onBack={() => go("menu")} />}
         {(screen === "select" || screen === "fighters") && (
           <FighterSelect owned={owned} me={me} browse={screen === "fighters"} substage={substage}
@@ -97,7 +98,7 @@ export function GameApp() {
             onNext={(id) => { setSubstage(id); setScreen("select"); }}
             onMap={() => go("map")} onAuth={() => go("auth")} />
         )}
-        {screen === "boards" && <Leaderboards me={me} />}
+        {screen === "boards" && (isPreview() ? <PreviewOnly what="Live leaderboards" /> : <Leaderboards me={me} />)}
         {screen === "status" && <Status me={me} onAuth={() => go("auth")} />}
         {screen === "store" && <Store me={me} onChange={refresh} onAuth={() => go("auth")} />}
         {screen === "profile" && <Profile me={me} onAuth={() => go("auth")} onSignOut={async () => { await api.signOut().catch(() => {}); await refresh(); go("menu"); }} />}
@@ -112,12 +113,16 @@ export function GameApp() {
   );
 }
 
+function PreviewOnly({ what }: { what: string }) {
+  return <section className="panel center-panel"><h1>{what}</h1><p>This is the offline preview build. {what} run on the live server at launch; everything else here is playable now.</p></section>;
+}
+
 /* ------------------------------------------------------------------ top bar */
 function TopBar({ me, onHome, onAuth }: { me: MeResponse | null; onHome: () => void; onAuth: () => void }) {
   const p = me?.profile;
   return (
     <header className="topbar">
-      <button className="brand" onClick={onHome} aria-label="Run The Capital home"><img src="/game/logo.webp" alt="Run The Capital" /></button>
+      <button className="brand" onClick={onHome} aria-label="Run The Capital home"><img src={asset("/game/logo.webp")} alt="Run The Capital" /></button>
       <div className="topbar-right">
         {p ? (
           <>
@@ -125,7 +130,7 @@ function TopBar({ me, onHome, onAuth }: { me: MeResponse | null; onHome: () => v
             <span className="chip cash">{cc(p.cash)}</span>
             <span className="chip user">@{p.username}</span>
           </>
-        ) : me ? <button className="btn small" onClick={onAuth}>Sign in</button> : null}
+        ) : isPreview() ? <span className="chip">Preview build</span> : me ? <button className="btn small" onClick={onAuth}>Sign in</button> : null}
       </div>
     </header>
   );
@@ -151,7 +156,7 @@ function MainMenu({ me, go }: { me: MeResponse | null; go: (s: Screen) => void }
         <div className="menu-art-fade" />
       </div>
       <nav className="menu-list">
-        <img src="/game/logo.webp" alt="Run The Capital" className="menu-logo" />
+        <img src={asset("/game/logo.webp")} alt="Run The Capital" className="menu-logo" />
         {!me?.user && me && <p className="menu-hint">Playing as a guest. <button className="link" onClick={() => go("auth")}>Create a profile</button> to save XP, cash and ranks.</p>}
         <ul>
           {items.map(([s, label, sub], i) => (
