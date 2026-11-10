@@ -12,8 +12,9 @@ Status key: ✅ done in code · 🔲 needs TCM / a person
 
 ## Rights and consent (blocking for public launch)
 - 🔲 Written consent from every real artist used as a fighter or on a billboard: Odumodublvck, DJ Romie, PsychoYP, Obey The Hypeman, Wizkid
-- 🔲 Odumodublvck "Rise of the Machine" billboard: confirm with Kalacious Entertainment that the poster art may appear in-game (sponsor logos and ticket link were left out)
-- 🔲 Wizkid billboard: licensed artwork from Wizkid's team; until then it is a typographic placeholder with no photo or album art (`public/game/billboards/wizkid.webp`, 800×400, swap the file)
+- 🔲 Odumodublvck "Rise of the Machine" billboard: confirm with Kalacious Entertainment that the poster art may appear in-game
+- 🔲 Wizkid "Live Out Loud" billboard: confirm with Wizkid's team and the festival organisers that the poster art may appear in-game
+- ✅ Sponsor logos and ticket links are not shown on either billboard
 
 ## Infrastructure
 - 🔲 Hosting: Vercel (or any Node 22 host). Root directory `rtc`, build `npm run build`, start `npm start`
