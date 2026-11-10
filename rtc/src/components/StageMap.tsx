@@ -95,8 +95,8 @@ export function StageMap({ unlocked, bests, selected, onSelect, onPlay, onBack }
             return (
               <li key={id}>
                 <button disabled={!open} className={selected === id ? "on" : ""} onClick={() => { onSelect(id); sfx("swing"); }} onDoubleClick={() => open && onPlay(id)}>
-                  <span className="sid">{id}</span>
-                  <span className="sname">{s?.name ?? "???"}{s?.boss && <em> · Boss: {BOSSES[s.boss]?.name}</em>}<small>{s ? (open ? s.objective : "Clear the previous fight to unlock.") : ""}</small></span>
+                  <span className="sid">{s?.bonus ? "★" : id}</span>
+                  <span className="sname">{s?.name ?? "???"}{s?.boss && <em> · Boss: {BOSSES[s.boss]?.name}</em>}{s?.bonus && <em className="bonus-tag"> · Bonus stage · XP party</em>}<small>{s ? (open ? s.objective : "Clear the previous fight to unlock.") : ""}</small></span>
                   <span className={`best r-${best?.rating ?? "none"}`}>{best?.rating ?? (open ? "–" : "🔒")}</span>
                 </button>
               </li>

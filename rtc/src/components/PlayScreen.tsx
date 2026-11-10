@@ -13,7 +13,7 @@ import { BOSSES, SUBSTAGES, type EquipmentId } from "@/game/data/world";
 export interface RunSetup { substage: string; fighter: string; equipment: EquipmentId | null; signedIn: boolean }
 interface Hud { hp: number; maxHp: number; special: number; ult: number; score: number; combo: number; lives: number; boss: { name: string; hp: number; max: number; id: string } | null; go: boolean; equipReady: number }
 
-const SFX_MAP: Record<string, string> = { hit: "hit", block: "block", ko: "ko", break: "break", pickup: "pickup", wave: "wave", go: "go" };
+const SFX_MAP: Record<string, string> = { hit: "hit", block: "block", ko: "ko", break: "chest", shot: "shot", pickup: "pickup", wave: "wave", go: "go" };
 
 export function PlayScreen({ setup, onExit, onDone }: { setup: RunSetup; onExit: () => void; onDone: (o: { outcome: FinishOutcome | null; local: ReturnType<Sim["result"]>; error?: string }) => void }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -135,7 +135,18 @@ export function PlayScreen({ setup, onExit, onDone }: { setup: RunSetup; onExit:
     <div className="play">
       <div className="stage-wrap" ref={wrapRef}>
         <canvas ref={canvasRef} className="stage-canvas" aria-label={`${stage.name} gameplay`} />
-        {loading < 1 && <div className="loading"><div className="loading-bar"><i style={{ width: `${loading * 100}%` }} /></div><span>Loading {stage.name}…</span></div>}
+        {loading < 1 && (
+          <div className="loading">
+            {FIGHTERS[setup.fighter]?.art.portrait && <img className="loading-art" src={asset(FIGHTERS[setup.fighter]!.art.portrait!.replace(".png", ".webp"))} alt="" />}
+            <div className="loading-copy">
+              <em>{stage.id} · {stage.night ? "Night" : "Day"}</em>
+              <b>{stage.name}</b>
+              <p>{stage.objective}</p>
+              <div className="loading-bar"><i style={{ width: `${loading * 100}%` }} /></div>
+              <span className="tip">Tip: hold Dodge to block, and save your special for crowds.</span>
+            </div>
+          </div>
+        )}
         {hud && (
           <div className="hud">
             <div className="hud-player">

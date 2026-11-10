@@ -2,7 +2,7 @@
   "name": "run-the-capital",
   "version": "0.2.0",
   "private": true,
-  "description": "Run The Capital: an Abuja street-fighting game by The Capital Movement.",
+  "description": "Run The Capital: an Abuja street-fighting game by Prohub Creative Solutions, in partnership with The Capital Movement.",
   "engines": {
     "node": ">=20.18"
   },

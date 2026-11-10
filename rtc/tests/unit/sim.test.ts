@@ -51,6 +51,11 @@ describe("simulation", () => {
     expect(result.cleared).toBe(true);
   });
 
+  it("Romie's Block bonus stage has no enemies and clears by reaching the decks", () => {
+    const { result } = playBot("02R", "romie", 4);
+    expect(result.cleared).toBe(true);
+  });
+
   it("every fighter's special and ultimate runs without errors", () => {
     for (const f of ROSTER) {
       const sim = new Sim({ seed: 3, substage: "01A", fighter: f.id, recordEvents: false });

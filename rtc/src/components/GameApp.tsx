@@ -136,38 +136,66 @@ function TopBar({ me, onHome, onAuth }: { me: MeResponse | null; onHome: () => v
   );
 }
 
+/* ------------------------------------------------------------------ title splash */
+/** Publisher ident, partner credit and logo slam. Shown once per session; any key or tap skips. */
+function TitleSplash({ onDone }: { onDone: () => void }) {
+  const [phase, setPhase] = useState(0);
+  useEffect(() => {
+    const ts = [setTimeout(() => setPhase(1), 1700), setTimeout(() => setPhase(2), 3300), setTimeout(() => setPhase(3), 4200)];
+    return () => ts.forEach(clearTimeout);
+  }, []);
+  useEffect(() => {
+    const skip = () => { if (phase >= 3) { sfx("go"); onDone(); } else setPhase(3); };
+    window.addEventListener("keydown", skip);
+    return () => window.removeEventListener("keydown", skip);
+  }, [phase, onDone]);
+  return (
+    <section className={`splash p${phase}`} onClick={() => { if (phase >= 3) { sfx("go"); onDone(); } else setPhase(3); }} role="button" tabIndex={0} aria-label="Start">
+      <div className="splash-bg" style={{ backgroundImage: `url(${asset("/game/bg/wuse.webp")})` }} />
+      <div className="splash-embers" aria-hidden>{Array.from({ length: 24 }, (_, i) => <i key={i} style={{ ["--i" as string]: i }} />)}</div>
+      <div className="ident ident-1"><small>Prohub Creative Solutions</small><b>presents</b></div>
+      <div className="ident ident-2"><small>in partnership with</small><b>The Capital Movement</b></div>
+      <div className="splash-title">
+        <img src={asset("/game/logo.webp")} alt="Run The Capital" />
+        <p className="press">Press any key · Tap to start</p>
+      </div>
+    </section>
+  );
+}
+
 /* ------------------------------------------------------------------ main menu */
 function MainMenu({ me, go }: { me: MeResponse | null; go: (s: Screen) => void }) {
   const items: [Screen, string, string][] = [
-    ["map", "Campaign", "Five districts. Fifteen fights."],
-    ["fighters", "Fighters", "The 14 of the capital."],
-    ["boards", "Leaderboards", "Who runs the city right now."],
-    ["status", "Capital Status", "Ranks, missions, rewards."],
-    ["store", "Store", "Cosmetics and boosts. Never pay-to-win."],
-    ["profile", "Profile", "Your record and your card."],
-    ["settings", "Settings", "Controls, gamepad, sound."],
+    ["fighters", "Fighters", "The 14 of the capital"],
+    ["boards", "Leaderboards", "Who runs the city right now"],
+    ["status", "Capital Status", "Ranks, missions, rewards"],
+    ["store", "Store", "Cosmetics only. Never pay-to-win"],
+    ["profile", "Profile", "Your record and your card"],
+    ["settings", "Settings", "Controls, gamepad, sound"],
   ];
-  const [hover, setHover] = useState(0);
-  const cast = ["odumodu", "settings", "romie", "kekequeen", "agbadadon", "suyaspice", "gateman", "mallamtech"].map((id) => FIGHTERS[id]!).filter((f) => portraitOf(f));
+  const [splash, setSplash] = useState(() => { try { return !sessionStorage.getItem("rtc.splash"); } catch { return true; } });
+  const lineup = ["kekequeen", "settings", "odumodu", "romie", "agbadadon"].map((id) => FIGHTERS[id]!).filter((f) => portraitOf(f));
+  if (splash) return <TitleSplash onDone={() => { try { sessionStorage.setItem("rtc.splash", "1"); } catch { /* storage blocked */ } setSplash(false); }} />;
   return (
-    <section className="menu">
-      <div className="menu-art" aria-hidden>
-        {cast.map((f, i) => <img key={f.id} src={portraitOf(f)} alt="" className={`cast c${i}`} style={{ ["--i" as string]: i }} />)}
-        <div className="menu-art-fade" />
+    <section className="home">
+      <div className="home-bg" style={{ backgroundImage: `url(${asset("/game/bg/wuse.webp")})` }} aria-hidden />
+      <div className="home-slash" aria-hidden />
+      <div className="home-lineup" aria-hidden>
+        {lineup.map((f, i) => <img key={f.id} src={portraitOf(f)} alt="" className={`lu lu${i}`} style={{ ["--i" as string]: i }} />)}
       </div>
-      <nav className="menu-list">
-        <img src={asset("/game/logo.webp")} alt="Run The Capital" className="menu-logo" />
+      <div className="splash-embers home-embers" aria-hidden>{Array.from({ length: 18 }, (_, i) => <i key={i} style={{ ["--i" as string]: i }} />)}</div>
+      <div className="home-shade" aria-hidden />
+      <nav className="home-nav">
+        <img src={asset("/game/logo.webp")} alt="Run The Capital" className="home-logo" />
+        <p className="home-tag">Abuja is under siege. Fourteen fighters. Five districts. One city to take back.</p>
+        <button className="play-cta" onClick={() => go("map")}><span>Play</span><small>Campaign · Five districts, fifteen fights</small></button>
         {!me?.user && me && <p className="menu-hint">Playing as a guest. <button className="link" onClick={() => go("auth")}>Create a profile</button> to save XP, cash and ranks.</p>}
-        <ul>
-          {items.map(([s, label, sub], i) => (
-            <li key={s}>
-              <button className={hover === i ? "on" : ""} onMouseEnter={() => setHover(i)} onFocus={() => setHover(i)} onClick={() => go(s)}>
-                <span>{label}</span><small>{sub}</small>
-              </button>
-            </li>
+        <ul className="home-list">
+          {items.map(([s, label, sub]) => (
+            <li key={s}><button onClick={() => go(s)}><span>{label}</span><small>{sub}</small></button></li>
           ))}
         </ul>
-        <p className="menu-foot">A TCM game · Abuja, Nigeria</p>
+        <p className="home-credit">A <b>Prohub Creative Solutions</b> production · in partnership with The Capital Movement</p>
       </nav>
       {activeEvents(new Date()).map((e) => (
         <button key={e.id} className="event-card" onClick={() => go("status")} aria-label={`${e.name} event`}>
@@ -253,7 +281,7 @@ function FighterSelect({ owned, me, browse, substage, onBack, onFight }: { owned
       else if (e.code === "ArrowLeft" || e.code === "KeyA") n = (i - 1 + ROSTER.length) % ROSTER.length;
       else if (e.code === "ArrowDown" || e.code === "KeyS") n = (i + cols) % ROSTER.length;
       else if (e.code === "ArrowUp" || e.code === "KeyW") n = (i - cols + ROSTER.length) % ROSTER.length;
-      else if ((e.code === "Enter" || e.code === "KeyJ") && !browse && owned.has(sel)) { onFight(sel, equip); return; }
+      else if ((e.code === "Enter" || e.code === "KeyJ") && !browse && owned.has(sel) && !FIGHTERS[sel]?.art.pending) { onFight(sel, equip); return; }
       else return;
       e.preventDefault(); sfx("swing"); setSel(ROSTER[n]!.id);
     };
@@ -295,7 +323,7 @@ function FighterSelect({ owned, me, browse, substage, onBack, onFight }: { owned
             })}
           </div>
         )}
-        {locked ? <p className="lock">🔒 {lockReason(f)}</p> : !browse && <button className="btn big" onClick={() => onFight(sel, equip)}>Fight</button>}
+        {f.art.pending ? <p className="lock">Coming soon · in-game art in production</p> : locked ? <p className="lock">🔒 {lockReason(f)}</p> : !browse && <button className="btn big" onClick={() => onFight(sel, equip)}>Fight</button>}
       </div>
       <div className="roster-grid" role="listbox" aria-label="Fighters">
         {ROSTER.map((r) => (
@@ -448,7 +476,7 @@ function Store({ me, onChange, onAuth }: { me: MeResponse | null; onChange: () =
       if (withNaira) { const { authorizationUrl } = await api.checkout(id); location.href = authorizationUrl; return; }
       await api.buy(id); sfx("pickup"); setMsg("Added to your profile."); await onChange();
     } catch (e) {
-      setMsg(e instanceof ApiError ? (e.status === 503 ? "Naira payments open soon. TCM is connecting Paystack." : e.message) : "Couldn't reach the server.");
+      setMsg(e instanceof ApiError ? (e.status === 503 ? "Naira payments open soon." : e.message) : "Couldn't reach the server.");
     } finally { setBusy(null); }
   };
   return (

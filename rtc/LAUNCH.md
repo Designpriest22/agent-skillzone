@@ -1,6 +1,6 @@
 # Launch checklist — Run The Capital
 
-Status key: ✅ done in code · 🔲 needs TCM / a person
+Status key: ✅ done in code · 🔲 needs Prohub, TCM or a person
 
 ## Product
 - ✅ 14 fighters, campaign stages 01–02 (6 substages, 2 bosses) playable; 03–05 shown as "coming soon"

@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.APP_URL ?? "http://localhost:3000"),
-  title: "Run The Capital · TCM",
+  title: "Run The Capital · A Prohub Creative Solutions game",
   description: "An Abuja street beat 'em up. Pick your fighter, run the districts, take the city back from the Vibe Killers.",
   openGraph: { title: "Run The Capital", description: "Fight through Abuja. Climb CAPITAL STATUS.", images: ["/game/logo.webp"] },
 };

@@ -69,6 +69,7 @@ export type SimEvent =
   | { e: "boss"; id: string; line: string }
   | { e: "ability"; who: string; kind: string; name: string; ult: boolean; x: number; y: number }
   | { e: "shake"; power: number }
+  | { e: "shot"; x: number; y: number; z: number; face: number; range: number; last: boolean }
   | { e: "sfx"; name: string }
   | { e: "toast"; text: string };
 
@@ -101,6 +102,7 @@ export class Sim {
   waveIdx = 0;
   waveLive: number[] = [];
   hitstop = 0;
+  private pendingAb: { ab: Ability; isUlt: boolean } | null = null;
   score = 0; combo = 0; comboT = 0; maxCombo = 0; kos = 0; dmgTaken = 0; tokens = 0; lives = 2;
   special = 30; ult = 0; equipCD = 0; buffT = 0; buffMul = 1; buffKind = ""; shieldT = 0; smokeT = 0;
   dashT = 0; dashLeft = 0; dashDmg = 0; dashUlt = false;
@@ -473,6 +475,7 @@ export class Sim {
 
   // ---------------------------------------------------------------- abilities
   private startAbility(p: Actor, ab: Ability, isUlt: boolean) {
+    this.pendingAb = null;
     p.st = "ability"; p.t = 0; p.move = ab.kind; p.hits = []; p.inv = isUlt ? 999 : 20;
     this.ev({ e: "ability", who: this.fighter.id, kind: ab.kind, name: ab.name, ult: isUlt, x: p.x, y: p.y });
     this.ev({ e: "shake", power: isUlt ? 0.5 : 0.2 });
@@ -483,20 +486,12 @@ export class Sim {
     };
     const near = (r: number) => (e: Actor) => Math.abs(e.x - p.x) < r && Math.abs(e.y - p.y) < Math.max(50, r * 0.45);
     switch (ab.kind) {
-      case "shockwave": hitAll(near(ab.range), ab.dmg, true); if (ab.ticks) for (const e of this.enemies) e.distracted = ab.ticks; break;
-      case "projectile":
-        this.projs.push({ id: this.nextId++, team: 0, kind: this.fighter.id, x: p.x + p.face * 30, y: p.y, z: 40, vx: p.face * 8, vy: 0, dmg: ab.dmg, life: Math.round(ab.range / 8), w: 30, d: 22, hit: [], launch: true, slow: tide });
-        break;
+      case "shockwave": case "projectile": case "burst": this.pendingAb = { ab, isUlt }; break;
       case "dash": this.dashT = 0; this.dashLeft = ab.ticks ?? 1; this.dashDmg = ab.dmg; this.dashUlt = isUlt; p.aux = Math.round(Math.min(ab.range, 400) / 12); break;
       case "buff": this.buffT = ab.ticks ?? 360; this.buffMul = ab.mul ?? 1.4; this.buffKind = this.fighter.id === "corperada" ? "speed" : "dmg"; break;
       case "pull":
-        for (const e of this.enemies) {
-          const dx = (e.x - p.x) * p.face;
-          if (!e.boss && dx > 0 && dx < ab.range && Math.abs(e.y - p.y) < 60) { e.x = p.x + p.face * 44; e.y = p.y; this.dealHit(p, e, "ability", { dmg: ab.dmg, kb: 0, stun: 70 }); }
-          else if (e.boss && dx > 0 && dx < ab.range) this.dealHit(p, e, "ability", { dmg: ab.dmg, kb: 0, stun: 0 });
-        }
-        break;
-      case "decoy": for (const e of this.enemies) { e.distracted = ab.ticks ?? 120; e.token = false; } if (isUlt) hitAll(() => true, ab.dmg, true); break;
+        this.pendingAb = { ab, isUlt }; break;
+      case "decoy": for (const e of this.enemies) { e.distracted = ab.ticks ?? 120; e.token = false; } if (isUlt) this.pendingAb = { ab, isUlt }; break;
       case "shield": this.shieldT = ab.ticks ?? 50; break;
       case "summon":
         this.projs.push({ id: this.nextId++, team: 0, kind: `summon_${this.fighter.id}`, x: this.camX - 80, y: (FLOOR_TOP + FLOOR_BOT) / 2, z: 0, vx: 16, vy: 0, dmg: ab.dmg, life: 80, w: 70, d: 140, hit: [], launch: true, slow: tide });
@@ -506,7 +501,49 @@ export class Sim {
     }
   }
 
+  /** Specials land on their active frame (tick 9 of the 24-tick animation) so hits match the art. */
+  private resolvePending(p: Actor) {
+    const pend = this.pendingAb;
+    if (!pend) return;
+    const { ab, isUlt } = pend;
+    const tide = this.fighter.passive.id === "tide";
+    const hitAll = (filter: (e: Actor) => boolean, dmg: number, launch: boolean) => {
+      for (const e of this.enemies) if (filter(e)) { this.dealHit(p, e, "ability", { dmg, kb: 6, stun: 40, launch, armorBreak: true }, 1); if (tide) e.slow = 180; }
+    };
+    const near = (r: number) => (e: Actor) => Math.abs(e.x - p.x) < r && Math.abs(e.y - p.y) < Math.max(50, r * 0.45);
+    if (ab.kind === "burst") {
+      // three rounds on ticks 6, 11 and 16, each hitting the nearest enemy in the lane in front
+      const shots = [6, 11, 16];
+      const k = shots.indexOf(p.t);
+      if (k < 0) return;
+      const last = k === shots.length - 1;
+      this.ev({ e: "shot", x: p.x, y: p.y, z: 86, face: p.face, range: ab.range, last });
+      this.ev({ e: "shake", power: last ? 0.22 : 0.1 });
+      let best: Actor | null = null;
+      for (const e of this.enemies) {
+        const dx = (e.x - p.x) * p.face;
+        if (dx > 10 && dx < ab.range && Math.abs(e.y - p.y) < 34 && e.hp > 0 && (!best || dx < (best.x - p.x) * p.face)) best = e;
+      }
+      if (best) this.dealHit(p, best, "ability", { dmg: ab.dmg / 3, kb: last ? 7 : 2, stun: 30, launch: last, armorBreak: last }, 1);
+      if (last) this.pendingAb = null;
+      return;
+    }
+    if (p.t !== 9) return;
+    this.pendingAb = null;
+    if (ab.kind === "shockwave") { hitAll(near(ab.range), ab.dmg, true); if (ab.ticks) for (const e of this.enemies) e.distracted = ab.ticks; }
+    else if (ab.kind === "projectile") this.projs.push({ id: this.nextId++, team: 0, kind: this.fighter.id, x: p.x + p.face * 30, y: p.y, z: 40, vx: p.face * 8, vy: 0, dmg: ab.dmg, life: Math.round(ab.range / 8), w: 30, d: 22, hit: [], launch: true, slow: tide });
+    else if (ab.kind === "decoy" && isUlt) hitAll(() => true, ab.dmg, true);
+    else if (ab.kind === "pull") {
+      for (const e of this.enemies) {
+        const dx = (e.x - p.x) * p.face;
+        if (!e.boss && dx > 0 && dx < ab.range && Math.abs(e.y - p.y) < 60) { e.x = p.x + p.face * 44; e.y = p.y; this.dealHit(p, e, "ability", { dmg: ab.dmg, kb: 0, stun: 70 }); }
+        else if (e.boss && dx > 0 && dx < ab.range) this.dealHit(p, e, "ability", { dmg: ab.dmg, kb: 0, stun: 0 });
+      }
+    }
+  }
+
   private updateAbility(p: Actor) {
+    this.resolvePending(p);
     const kind = p.move;
     if (kind === "dash" && this.dashLeft > 0) {
       p.x += p.face * 12; this.dashT++;

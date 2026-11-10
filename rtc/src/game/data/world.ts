@@ -19,7 +19,7 @@ export interface EnemyDef {
 
 export const ENEMIES: Record<string, EnemyDef> = {
   grunt: { id: "grunt", name: "Vibe Killer", hp: 40, speed: 1.6, dmg: 8, reach: 42, windup: 22, cooldown: 60, armor: 0, score: 100, colors: { primary: "#3b2a5a", secondary: "#8a4dff", skin: "#4a2b1d" }, atlas: "grunt" },
-  runner: { id: "runner", name: "Route Runner", hp: 28, speed: 2.6, dmg: 6, reach: 38, windup: 14, cooldown: 45, armor: 0, score: 120, colors: { primary: "#F2C230", secondary: "#3b2a5a", skin: "#5b3524" } },
+  runner: { id: "runner", name: "Route Runner", hp: 28, speed: 2.6, dmg: 6, reach: 38, windup: 14, cooldown: 45, armor: 0, score: 120, colors: { primary: "#F2C230", secondary: "#3b2a5a", skin: "#5b3524" }, atlas: "runner" },
   tout: { id: "tout", name: "Flyer Tout", hp: 30, speed: 1.4, dmg: 7, reach: 300, windup: 30, cooldown: 100, armor: 0, ranged: true, score: 140, colors: { primary: "#c2185b", secondary: "#2a2238", skin: "#5b3524" }, atlas: "tout" },
   bouncer: { id: "bouncer", name: "Fake Bouncer", hp: 110, speed: 1.0, dmg: 14, reach: 48, windup: 34, cooldown: 80, armor: 9, grabs: true, score: 300, colors: { primary: "#101012", secondary: "#8a4dff", skin: "#3e2418" }, atlas: "bouncer" },
 };
@@ -94,13 +94,15 @@ export interface Substage {
   hazards: Hazard[];
   boss?: string;
   unlockedBy?: string;
+  /** Bonus party stage: no enemies, smash the party chests and reach the end. */
+  bonus?: boolean;
 }
 
 export interface Stage { id: string; name: string; district: string; blurb: string; substages: string[]; playable: boolean; mapPos: [number, number] }
 
 export const STAGES: Stage[] = [
   { id: "01", name: "Wuse II", district: "Wuse", blurb: "The Vibe Killers have taken the plaza.", substages: ["01A", "01B", "01C"], playable: true, mapPos: [0.46, 0.36] },
-  { id: "02", name: "Aminu Kano", district: "Wuse II", blurb: "The Crescent's nightlife belongs to Madam Crescent.", substages: ["02A", "02B", "02C"], playable: true, mapPos: [0.6, 0.22] },
+  { id: "02", name: "Aminu Kano", district: "Wuse II", blurb: "The Crescent's nightlife belongs to Madam Crescent.", substages: ["02A", "02B", "02R", "02C"], playable: true, mapPos: [0.6, 0.22] },
   { id: "03", name: "Garki", district: "Garki", blurb: "Market levies and backstreet tolls.", substages: ["03A", "03B", "03C"], playable: false, mapPos: [0.7, 0.62] },
   { id: "04", name: "Area 1", district: "Garki", blurb: "The estate has its own rules.", substages: ["04A", "04B", "04C"], playable: false, mapPos: [0.42, 0.74] },
   { id: "05", name: "Jabi", district: "Jabi", blurb: "Trouble on the waterfront.", substages: ["05A", "05B", "05C"], playable: false, mapPos: [0.22, 0.34] },
@@ -125,7 +127,7 @@ export const SUBSTAGES: Record<string, Substage> = {
     hazards: [],
   },
   "01B": {
-    id: "01B", stage: "01", name: "The Night Shift", objective: "Survive the night traffic and break the blockade.", bg: "wuse", night: true, length: 2400, par: 180,
+    id: "01B", stage: "01", name: "The Night Shift", objective: "Survive the night traffic and break the blockade.", bg: "nightshift", night: true, length: 2400, par: 180,
     waves: [
       { at: 160, groups: [G("runner", 3, "both")] },
       { at: 760, groups: [G("grunt", 3), G("tout", 1)] },
@@ -142,7 +144,7 @@ export const SUBSTAGES: Record<string, Substage> = {
     unlockedBy: "01A",
   },
   "01C": {
-    id: "01C", stage: "01", name: "The Final Stop", objective: "Take the motor park from Oga Danfo.", bg: "wuse", night: true, length: 1500, par: 200,
+    id: "01C", stage: "01", name: "The Final Stop", objective: "Take the motor park from Oga Danfo.", bg: "motorpark", night: true, length: 1500, par: 200,
     waves: [{ at: 140, groups: [G("grunt", 3, "both")] }],
     breakables: [
       { x: 420, y: 470, kind: "bag", drop: "suya" },
@@ -168,7 +170,7 @@ export const SUBSTAGES: Record<string, Substage> = {
     unlockedBy: "01C",
   },
   "02B": {
-    id: "02B", stage: "02", name: "The Nightlife District", objective: "Get past the speakers and the guest list.", bg: "crescent", night: true, length: 2400, par: 190,
+    id: "02B", stage: "02", name: "The Nightlife District", objective: "Get past the speakers and the guest list.", bg: "nightlife", night: true, length: 2400, par: 190,
     waves: [
       { at: 160, groups: [G("bouncer", 1), G("grunt", 2, "both")] },
       { at: 900, groups: [G("tout", 3), G("runner", 2, "L")] },
@@ -182,8 +184,27 @@ export const SUBSTAGES: Record<string, Substage> = {
     hazards: [{ kind: "pulse", every: 300, x: 1150, w: 220, dmg: 14 }],
     unlockedBy: "02A",
   },
+  /**
+   * Bonus stage: Romie's Block, DJ Romie's weekly Monday night party (Papiees Meatro, Jahi), Afrobeats into
+   * Amapiano into Afro-House. No enemies: dance through the crowd, smash the party chests, reach the decks.
+   */
+  "02R": {
+    id: "02R", stage: "02", name: "Romie's Block", objective: "Bonus stage · Monday night at Romie's Block. Dance through the crowd and grab everything.", bg: "romiesblock", night: true, length: 2600, par: 90,
+    waves: [],
+    breakables: [
+      { x: 360, y: 450, kind: "bag", drop: "cash" }, { x: 560, y: 505, kind: "crate", drop: "cash" },
+      { x: 760, y: 430, kind: "cooler", drop: "token" }, { x: 980, y: 480, kind: "bag", drop: "cash" },
+      { x: 1180, y: 510, kind: "crate", drop: "suya" }, { x: 1380, y: 440, kind: "bag", drop: "cash" },
+      { x: 1580, y: 490, kind: "cooler", drop: "cash" }, { x: 1780, y: 430, kind: "bag", drop: "token" },
+      { x: 1980, y: 500, kind: "crate", drop: "cash" }, { x: 2180, y: 455, kind: "bag", drop: "jollof" },
+      { x: 2380, y: 485, kind: "cooler", drop: "token" },
+    ],
+    hazards: [],
+    unlockedBy: "02B",
+    bonus: true,
+  },
   "02C": {
-    id: "02C", stage: "02", name: "The Nightlife Boss", objective: "Close down Madam Crescent's racket.", bg: "crescent", night: true, length: 1400, par: 240,
+    id: "02C", stage: "02", name: "The Nightlife Boss", objective: "Close down Madam Crescent's racket.", bg: "clubboss", night: true, length: 1400, par: 240,
     waves: [],
     breakables: [
       { x: 300, y: 470, kind: "cooler", drop: "suya" },
@@ -191,11 +212,11 @@ export const SUBSTAGES: Record<string, Substage> = {
     ],
     hazards: [],
     boss: "madam_crescent",
-    unlockedBy: "02B",
+    unlockedBy: "02R",
   },
 };
 
-export const SUBSTAGE_ORDER = ["01A", "01B", "01C", "02A", "02B", "02C"];
+export const SUBSTAGE_ORDER = ["01A", "01B", "01C", "02A", "02B", "02R", "02C"];
 
 /** Home areas. Players pick one at signup; it shapes their intro mission and rewards. No location data is collected. */
 export const AREAS = [

@@ -7,6 +7,7 @@
 export type Archetype = "street" | "tactical" | "heavyweight" | "fast" | "technical" | "supernatural";
 
 export type AbilityKind =
+  | "burst" // timed rounds fired down the lane
   | "shockwave" // radial blast around the fighter
   | "projectile" // travelling hit along the depth line
   | "dash" // fighter travels forward hitting everything in the path
@@ -77,7 +78,7 @@ export const ROSTER: Fighter[] = [
     backstory:
       "Came up in the capital's drill scene, where a verse had to hit like a fist. When the Vibe Killers started shutting down shows, he decided the next bars would be delivered in person.",
     stats: { health: 9, strength: 9, speed: 4, defence: 7 },
-    special: { name: "Capital Stomp", kind: "shockwave", desc: "Stamps the ground and knocks down everyone close.", cost: 35, dmg: 22, range: 110 },
+    special: { name: "Drill Burst", kind: "burst", desc: "Three quick rounds down the lane. The last one knocks them flat.", cost: 35, dmg: 24, range: 300 },
     ultimate: { name: "Mic Drop", kind: "slam", desc: "Leaps off-screen and drops on the crowd like a bass hit.", cost: 100, dmg: 70, range: 220 },
     signature: "Jab, jab, cross, then a knee that launches.",
     passive: { id: "heavy_hands", name: "Heavy Hands", desc: "Finishers knock enemies further and break armour." },
@@ -164,7 +165,7 @@ export const ROSTER: Fighter[] = [
     voice: "bright, unbothered, always mid-call",
     movement: "hip-led glide, phone never leaves her hand",
     colors: { primary: "#00A862", secondary: "#FFC93C", skin: "#6a4029" },
-    art: { portrait: "/game/portraits/settings.png" },
+    art: { portrait: "/game/portraits/settings.png", atlas: "settings" },
   },
   {
     id: "kekequeen",
@@ -183,7 +184,7 @@ export const ROSTER: Fighter[] = [
     voice: "fast, loud, haggling",
     movement: "leaning forward like she's always late",
     colors: { primary: "#F2C230", secondary: "#008751", skin: "#5b3524" },
-    art: { portrait: "/game/portraits/kekequeen.png" },
+    art: { portrait: "/game/portraits/kekequeen.png", atlas: "kekequeen" },
   },
   {
     id: "gateman",
@@ -202,7 +203,7 @@ export const ROSTER: Fighter[] = [
     voice: "slow, suspicious, Hausa-inflected",
     movement: "planted feet, hands behind his back",
     colors: { primary: "#3a5a8a", secondary: "#f3ead6", skin: "#6a4029" },
-    art: { portrait: "/game/portraits/gateman.png" },
+    art: { portrait: "/game/portraits/gateman.png", atlas: "gateman" },
   },
   {
     id: "mallamtech",
@@ -221,7 +222,7 @@ export const ROSTER: Fighter[] = [
     voice: "precise, patient, mildly offended",
     movement: "hunched, peering over his glasses",
     colors: { primary: "#7a7f88", secondary: "#00A862", skin: "#4a2b1d" },
-    art: { portrait: "/game/portraits/mallamtech.png" },
+    art: { portrait: "/game/portraits/mallamtech.png", atlas: "mallamtech" },
   },
   {
     id: "agbadadon",
@@ -240,7 +241,7 @@ export const ROSTER: Fighter[] = [
     voice: "rich, slow, generous until it isn't",
     movement: "rolling gait, sleeves flowing",
     colors: { primary: "#f3ead6", secondary: "#c9a23a", skin: "#6a4029" },
-    art: { portrait: "/game/portraits/agbadadon.png" },
+    art: { portrait: "/game/portraits/agbadadon.png", atlas: "agbadadon" },
   },
   {
     id: "suyaspice",
@@ -259,7 +260,7 @@ export const ROSTER: Fighter[] = [
     voice: "teasing, sing-song, smoky",
     movement: "light on his feet, fanning the air",
     colors: { primary: "#8a1d12", secondary: "#f3b24a", skin: "#5b3524" },
-    art: { portrait: "/game/portraits/suyaspice.png" },
+    art: { portrait: "/game/portraits/suyaspice.png", atlas: "suyaspice" },
   },
   {
     id: "corperada",
@@ -278,7 +279,7 @@ export const ROSTER: Fighter[] = [
     voice: "crisp, commanding, secretly funny",
     movement: "marching rhythm, elbows tight",
     colors: { primary: "#c7b98a", secondary: "#00A862", skin: "#5b3524" },
-    art: { portrait: "/game/portraits/corperada.png" },
+    art: { portrait: "/game/portraits/corperada.png", atlas: "corperada" },
   },
   {
     id: "mamaput",
@@ -297,7 +298,7 @@ export const ROSTER: Fighter[] = [
     voice: "warm, scolding, unstoppable",
     movement: "rolling sway, ladle resting on shoulder",
     colors: { primary: "#d9501c", secondary: "#f3ead6", skin: "#4a2b1d" },
-    art: { portrait: "/game/portraits/mamaput.png" },
+    art: { portrait: "/game/portraits/mamaput.png", atlas: "mamaput" },
   },
   {
     id: "okadaghost",
@@ -316,7 +317,7 @@ export const ROSTER: Fighter[] = [
     voice: "echoing, distant, never in a hurry",
     movement: "drifts a hand-width above the ground",
     colors: { primary: "#6fd3ff", secondary: "#14161C", skin: "#2e2a3a" },
-    art: { portrait: "/game/portraits/okadaghost.png" },
+    art: { portrait: "/game/portraits/okadaghost.png", atlas: "okadaghost" },
   },
   {
     id: "jabisiren",
@@ -335,7 +336,7 @@ export const ROSTER: Fighter[] = [
     voice: "soft, certain, carrying over water",
     movement: "flowing, weight shifting like waves",
     colors: { primary: "#1e7aa8", secondary: "#e8f5ec", skin: "#4a2b1d" },
-    art: { portrait: "/game/portraits/jabisiren.png" },
+    art: { portrait: "/game/portraits/jabisiren.png", atlas: "jabisiren" },
   },
 ];
 

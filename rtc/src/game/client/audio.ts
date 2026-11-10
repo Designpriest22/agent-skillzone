@@ -1,4 +1,8 @@
-/** Synthesised SFX and an afrobeats loop (kick, clap, shaker, talking drum). Nothing to download. */
+/**
+ * Synthesised SFX plus the soundtrack: "Run The Capital" theme (action Afrobeats, 108 BPM) streamed from
+ * /game/audio/theme.mp3 and routed through the master gain. Falls back to a synthesised loop if it can't load.
+ */
+import { asset } from "./assets";
 let ac: AudioContext | null = null;
 let master: GainNode | null = null;
 let musicTimer = 0;
@@ -51,14 +55,40 @@ export function sfx(name: string) {
     case "go": [523, 659, 784].forEach((f, i) => tone("triangle", f, f, t + i * 0.08, 0.15, 0.14)); break;
     case "nope": tone("square", 160, 120, t, 0.18, 0.08); break;
     case "lights": tone("sawtooth", 200, 900, t, 0.6, 0.06); break;
+    case "shot": noise(t, 0.05, 0.9, 3200, "highpass"); noise(t, 0.18, 0.55, 600, "lowpass"); tone("square", 220, 50, t, 0.09, 0.25); noise(t + 0.06, 0.25, 0.08, 1200); break;
+    case "chest": noise(t, 0.12, 0.3, 900, "lowpass"); [880, 1175, 1568].forEach((f, i) => tone("triangle", f, f, t + 0.05 + i * 0.05, 0.14, 0.12)); break;
     default: break;
   }
 }
 
+let theme: HTMLAudioElement | null = null;
+let themeFailed = false;
+
+/** Starts the soundtrack. The streamed theme is preferred; the synth groove is the fallback. */
 export function startMusic(night: boolean) {
   if (!ctx()) return;
   if (ac!.state === "suspended") void ac!.resume();
   stopMusic();
+  if (!themeFailed) {
+    try {
+      if (!theme) {
+        theme = new Audio(asset("/game/audio/theme.mp3"));
+        theme.loop = true; theme.preload = "auto"; theme.crossOrigin = "anonymous";
+        const src = ac!.createMediaElementSource(theme);
+        const mg = ac!.createGain(); mg.gain.value = 0.55; src.connect(mg); mg.connect(master!);
+        theme.addEventListener("error", () => { themeFailed = true; theme = null; startSynth(night); }, { once: true });
+      }
+      theme.currentTime = 0;
+      void theme.play().catch(() => { themeFailed = true; startSynth(night); });
+      return;
+    } catch { themeFailed = true; }
+  }
+  startSynth(night);
+}
+
+function startSynth(night: boolean) {
+  if (!ac) return;
+  stopSynth();
   const spb = 60 / (night ? 112 : 104) / 4;
   step = 0; nextT = ac!.currentTime + 0.1;
   const K = [1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 1, 0, 0];
@@ -79,6 +109,7 @@ export function startMusic(night: boolean) {
   }, 25);
 }
 
-export function stopMusic() { if (musicTimer) { clearInterval(musicTimer); musicTimer = 0; } }
+function stopSynth() { if (musicTimer) { clearInterval(musicTimer); musicTimer = 0; } }
+export function stopMusic() { stopSynth(); if (theme) theme.pause(); }
 export function setVolume(v: number) { volume = v; if (master) master.gain.value = v; try { localStorage.setItem("rtc.volume", String(v)); } catch { /* storage blocked */ } }
 export function loadVolume() { try { const v = localStorage.getItem("rtc.volume"); if (v !== null) volume = Number(v); } catch { /* storage blocked */ } return volume; }

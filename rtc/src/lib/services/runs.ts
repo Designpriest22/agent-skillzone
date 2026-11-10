@@ -136,6 +136,12 @@ async function applyRewards(tx: Tx, userId: string, runId: string, r: RunResult)
     const cash = Math.min(cashRoom, (firstClear ? 150 : 60) + ratingCash + r.tokens * 25);
     await award(tx, userId, xp, cash, "run", runId);
     rewards.push({ label: `${r.substage} cleared · ${r.rating} rating`, xp, cash });
+    if (SUBSTAGES[r.substage]?.bonus) {
+      // Experience bonus stage (Romie's Block): a big XP payout on first clear, a smaller one after.
+      const bonusXp = firstClear ? 750 : 200;
+      await award(tx, userId, bonusXp, 0, firstClear ? "bonus_first" : "bonus", firstClear ? r.substage : runId);
+      rewards.push({ label: `${SUBSTAGES[r.substage]!.name} · party bonus`, xp: bonusXp, cash: 0 });
+    }
     await tx`update profiles set wins = wins + 1 where user_id = ${userId}`;
     await tx`insert into substage_bests (user_id, substage_id, best_score, best_rating, best_ticks) values (${userId}, ${r.substage}, ${r.score}, ${r.rating}, ${r.ticks})
       on conflict (user_id, substage_id) do update set clears = substage_bests.clears + 1,
