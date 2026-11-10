@@ -104,6 +104,7 @@ const DEVICE = {
   silk: T => { radial('#D9161F', '#62050e', CX, H * .3); ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.lineCap = 'round'; for (let i = 0; i < 4; i++) { const y0 = H * (.12 + i * .07), amp = 110 + i * 30, ph = i * 1.3; const g = ctx.createLinearGradient(0, 0, W, 0); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.3, `rgba(255,232,232,${.22 * (1 - i * .18)})`); g.addColorStop(1, 'rgba(255,255,255,0)'); ctx.strokeStyle = g; ctx.lineWidth = 96 - i * 18; ctx.filter = `blur(${6 + i * 5}px)`; ctx.beginPath(); for (let x = -100; x <= W + 100; x += 24) { const yy = y0 + Math.sin(x / 260 + ph) * amp - x * .22; x <= -100 ? ctx.moveTo(x, yy) : ctx.lineTo(x, yy); } ctx.stroke(); } ctx.filter = 'none'; ctx.restore(); },
   desp: T => { radial('#EC1B24', '#9A000C', CX, H * .35); ctx.save(); ctx.translate(CX, H * .4); ctx.rotate(-.42); ctx.fillStyle = '#0A0A0A'; ctx.fillRect(W * .3, -H, 120, H * 2); ctx.fillStyle = '#FFD200'; ctx.fillRect(W * .3 + 140, -H, 16, H * 2); ctx.restore(); },
   cream: T => { radial('#FBF6EA', '#E4D2AE', CX, H * .35); ctx.strokeStyle = '#B08D4F'; ctx.lineWidth = 2; ctx.strokeRect(26, 26, W - 52, H - 52); },
+  bloom: T => { radial('#FAFAF3', '#E3E3D6', CX, H * .35); const cy = pk(H * .3, H * .33, H * .38), R = W * pk(.42, .4, .3); ctx.save(); ctx.translate(CX, cy); ctx.rotate(-.3); for (let i = 0; i < 6; i++) { ctx.save(); ctx.rotate(i * Math.PI / 3); ctx.fillStyle = 'rgba(7,128,139,.13)'; ctx.beginPath(); ctx.ellipse(0, -R * .58, R * .44, R * .66, 0, 0, 7); ctx.fill(); ctx.restore(); } ctx.fillStyle = 'rgba(6,111,121,.1)'; ctx.beginPath(); ctx.arc(0, 0, R * .9, 0, 7); ctx.fill(); ctx.restore(); },
   amber: T => { radial('#2a1709', '#050403', CX, H * .3); ctx.save(); ctx.globalCompositeOperation = 'screen'; const g = ctx.createLinearGradient(CX - 140, 0, CX + 140, 0); g.addColorStop(0, 'rgba(255,170,70,0)'); g.addColorStop(.5, 'rgba(255,170,70,.22)'); g.addColorStop(1, 'rgba(255,170,70,0)'); ctx.fillStyle = g; ctx.fillRect(CX - 140, 0, 280, H); ctx.translate(CX, H * .42); ctx.scale(1, .35); const r = ctx.createRadialGradient(0, 0, 0, 0, 0, W * .7); r.addColorStop(0, 'rgba(255,170,70,.4)'); r.addColorStop(1, 'rgba(0,0,0,0)'); ctx.fillStyle = r; ctx.fillRect(-W, -H * 3, W * 2, H * 6); ctx.restore(); ctx.strokeStyle = 'rgba(201,151,79,.55)'; ctx.lineWidth = 1.5; ctx.strokeRect(28, 28, W - 56, H - 56); },
   rays: T => { radial('#16924a', '#032412', CX, H * .3); ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.translate(CX, H * .3); for (let i = 0; i < 14; i++) { ctx.rotate(Math.PI / 7); ctx.fillStyle = 'rgba(180,255,205,.06)'; ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(-70, -H * 1.5); ctx.lineTo(70, -H * 1.5); ctx.fill(); } ctx.restore(); },
   ribbon: T => { ctx.fillStyle = '#F40009'; ctx.fillRect(0, 0, W, H); ctx.save(); ctx.strokeStyle = '#fff'; ctx.lineCap = 'round'; for (const [y0, lw, a] of [[H * .36, 46, 1], [H * .36 + 70, 10, .8]]) { ctx.globalAlpha = a; ctx.lineWidth = lw; ctx.beginPath(); for (let x = -20; x <= W + 20; x += 10) { const y = y0 + Math.sin(x / 170 + .6) * 70 - x * .12; x < 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y); } ctx.stroke(); } ctx.restore(); },
@@ -130,7 +131,7 @@ const TH = {
     panel: '#5a040c', dev: 'silk', btn: { shape: 'line', line: '#FFFFFF', fg: '#FFFFFF' } },
   heineken: { bg: ['#0e5a2c', '#021a0c'], stroke: '#02200e', head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#E3001B', venue: '#9BE7A8', lead: '#D8F5DF', url: '#FFFFFF',
     panel: '#04240f', dev: 'rays', btn: { shape: 'pill', bg: '#008200', fg: '#FFFFFF' } },
-  'coca-cola': { bg: ['#F40009', '#A5000A'], stroke: '#9c0007', strokeA: .3, head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFFFFF', venue: '#FFFFFF', lead: '#FFE5E5', url: '#FFFFFF', bottom: '#8f0007',
+  'coca-cola': { powered: '#F40009', bg: ['#F40009', '#A5000A'], stroke: '#9c0007', strokeA: .3, head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFFFFF', venue: '#FFFFFF', lead: '#FFE5E5', url: '#FFFFFF', bottom: '#8f0007',
     panel: '#FFFFFF', ptype: { num: '#F40009', live: '#1a1a1a', abuja: '#F40009', venue: '#1a1a1a', lead: '#333' }, dev: 'ribbon', btn: { shape: 'pill', bg: '#F40009', fg: '#FFFFFF' }, tab: '#FFFFFF' },
   desperados: { bg: ['#EC1B24', '#9A000C'], stroke: '#7a0008', strokeA: .32, head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFD200', venue: '#FFD200', lead: '#FFFFFF', url: '#FFFFFF', bottom: '#0A0A0A', torn: true,
     panel: '#0A0A0A', dev: 'desp', btn: { shape: 'block', bg: '#E30613', shadow: '#FFD200', fg: '#FFFFFF' } },
@@ -150,11 +151,13 @@ const TH = {
     panel: '#000000', dev: 'plus', btn: { shape: 'block', bg: '#FFFFFF', fg: '#000000' } },
   'square-meter': { bg: ['#262a30', '#0d0f11'], stroke: '#0a0c0e', head: '#8FA3B8', num: '#FFFFFF', live: '#FFFFFF', abuja: '#C9D2DC', venue: '#C9D2DC', lead: '#DCE2E8', url: '#FFFFFF',
     panel: '#121417', dev: 'plan', btn: { shape: 'line', line: '#E8EDF2', fg: '#FFFFFF' } },
+  'blue-poppy': { bg: ['#0A8E99', '#04454C'], head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#F2F2E9', venue: '#BFE6E8', lead: '#E6F4F4', url: '#FFFFFF', bottom: '#04454C',
+    logoV2: '14-blue-poppy-teal', wizDark2: '#07808B', panel: '#07808B', ptype: { num: '#FFFFFF', live: '#FFFFFF', abuja: '#F2F2E9', venue: '#BFE6E8', lead: '#E6F4F4' }, dev: 'bloom', btn: { shape: 'pill', bg: '#F2F2E9', fg: '#07808B' } },
   'nova-flair': { bg: ['#4a1646', '#120412'], stroke: '#120312', head: '#FCB424', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FC543C', venue: '#FCB424', lead: '#F6DCE8', url: '#FFFFFF',
     panel: '#1a061a', dev: 'burst', btn: { shape: 'grad', fg: '#1a0418' } },
 };
 const SID = Q.get('s') || 'hennessy', T = TH[SID];
-const LOGO = { hennessy: '01-hennessy', heineken: '02-heineken', 'coca-cola': '03-coca-cola', desperados: '04-desperados', best: '05-best', axe: '06-axe', 'lords-gin': '07-lords-gin', 'transcorp-hotels': '08-transcorp-hotels', 'vodi-group': '09-vodi-group', 'united-nigeria': '10-united-nigeria', trace: '11-trace', 'square-meter': '12-square-meter', 'nova-flair': '13-nova-flair' }[SID];
+const LOGO = { hennessy: '01-hennessy', heineken: '02-heineken', 'coca-cola': '03-coca-cola', desperados: '04-desperados', best: '05-best', axe: '06-axe', 'lords-gin': '07-lords-gin', 'transcorp-hotels': '08-transcorp-hotels', 'vodi-group': '09-vodi-group', 'united-nigeria': '10-united-nigeria', trace: '11-trace', 'square-meter': '12-square-meter', 'nova-flair': '13-nova-flair', 'blue-poppy': '14-blue-poppy' }[SID];
 
 // ---------------- V1 "Signature": the flyer's layout ----------------
 // numbers measured off the client's flyer (1600x2000) and re-set per format
@@ -179,16 +182,19 @@ function signature() {
   const bc = T.bottom || T.bg[1]; if (T.torn) { tornEdge(p.venue[0] - p.venue[1] - pk(150, 120, 100), 7); } else { ctx.save(); const g = ctx.createLinearGradient(0, H * .62, 0, H); g.addColorStop(0, rgba(bc, 0)); g.addColorStop(.55, rgba(bc, .82)); g.addColorStop(1, rgba(bc, 1)); ctx.fillStyle = g; ctx.fillRect(0, H * .62, W, H * .38); ctx.restore(); }
   // festival logo on the chest
   const lh = p.lol[2]; ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 30; lolLogo(ctx, W * p.lol[0], p.lol[1], lolW(lh), T.lolDark ? { dark: T.lolDark } : {}); ctx.restore();
-  venue(CX, p.venue[0], p.venue[1], T);
-  ticketLine(CX, p.tix[0], p.tix[1], T);
+  const up = T.powered ? pk(18, 26, 20) : 0;   // room for the POWERED BY credit above the logo
+  venue(CX, p.venue[0] - up, p.venue[1], T);
+  ticketLine(CX, p.tix[0] - up, p.tix[1], T);
   // the one sponsor logo where the flyer carries its partner row
-  const [ly, lmw, lmh] = p.logo; logoPlate(CX, ly, lmw, lmh);
+  const [ly, lmw, lmh] = p.logo; logoPlate(CX, ly + (T.powered ? pk(6, 6, 4) : 0), lmw, T.powered ? lmh * .86 : lmh);
   grainFx(.05);
 }
 function logoPlate(cx, cy, mw, mh) {
   // equal optical area for every mark (wide wordmarks and compact crests read at the same weight)
   const im = IMG.sponsor, ar = im.width / im.height; let w = Math.min(mw * 1.15, Math.sqrt(mw * mh * .62 * ar)); if (w / ar > mh * 1.45) w = mh * 1.45 * ar; if (w / ar < 46) w = Math.min(46 * ar, mw * 1.75); const h = w / ar; mw = w; mh = h;
-  if (T.tab) { ctx.save(); ctx.fillStyle = T.tab; ctx.beginPath(); ctx.roundRect(cx - w / 2 - 26, cy - h / 2 - 14, w + 52, h + 28, 12); ctx.fill(); ctx.restore(); }
+  const ph = T.powered ? Math.max(15, h * .2) : 0, gap = ph ? ph * .7 : 0;
+  if (T.tab) { ctx.save(); ctx.fillStyle = T.tab; ctx.beginPath(); ctx.roundRect(cx - w / 2 - 26, cy - h / 2 - 14 - ph - gap, w + 52, h + 28 + ph + gap, 12); ctx.fill(); ctx.restore(); }
+  if (ph) text(ctx, 'POWERED BY', cx, cy - h / 2 - gap * .9, { fam: 'Montserrat', w: 700, size: ph, track: .28, color: T.powered, align: 'center' });
   SL(cx, cy, mw, mh); note('logoH', h);
 }
 
@@ -201,8 +207,9 @@ const P2 = {
 function brandEdition() {
   const p = P2, ty = { ...T, ...(T.ptype || {}) };
   DEVICE[T.dev](T);
+  if (T.logoV2) IMG.sponsor = IMG[T.logoV2];
   logoPlate(CX, p.logo[0], p.logo[1], p.logo[2]);
-  const hd = wizMark(CX, p.head[0], W * p.head[1] * .9, T.dev === 'ribbon' ? null : T.wizDark);
+  const hd = wizMark(CX, p.head[0], W * p.head[1] * .9, T.wizDark2 ?? (T.dev === 'ribbon' ? null : T.wizDark));
   const por = portrait(W * p.por[0], p.por[1], W * p.por[2], { shadow: 'rgba(0,0,0,.35)' });
   const G = p.grid;
   if (fk !== 'square') {

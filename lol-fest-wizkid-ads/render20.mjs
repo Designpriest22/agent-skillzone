@@ -9,7 +9,7 @@ const dir = path.dirname(new URL(import.meta.url).pathname);
 const WORK = path.join(dir, 'out', '_work', 'v2'); fs.mkdirSync(WORK, { recursive: true });
 const SONG = process.env.SONG || path.join(dir, 'out/DELIVERY/LOLFEST_WIZKID_CAMPAIGN/07-PROJECT-FILES-ASSETS/music/Final-Baba-Nla_edit_20s.wav');
 export const SPN = { hennessy: '01-Hennessy', heineken: '02-Heineken', 'coca-cola': '03-Coca-Cola', desperados: '04-Desperados', best: '05-BEST', axe: '06-AXE', 'lords-gin': '07-Lords-London-Dry-Gin',
-  'transcorp-hotels': '08-Transcorp-Hotels', 'vodi-group': '09-Vodi-Group', 'united-nigeria': '10-United-Nigeria-Airlines', trace: '11-TRACE-Plus', 'square-meter': '12-Square-Meter-Spaces', 'nova-flair': '13-Nova-Flair' };
+  'transcorp-hotels': '08-Transcorp-Hotels', 'vodi-group': '09-Vodi-Group', 'united-nigeria': '10-United-Nigeria-Airlines', trace: '11-TRACE-Plus', 'square-meter': '12-Square-Meter-Spaces', 'nova-flair': '13-Nova-Flair', 'blue-poppy': '14-Blue-Poppy' };
 export const SPF = { reels: ['Vertical 9x16', '1080x1920_9x16_Stories-Reels-TikTok'], feed: ['Portrait 4x5', '1080x1350_4x5_Feed'], square: ['Square 1x1', '1080x1080_1x1_Square'] };
 export const jobs = [];
 for (const [s, n] of Object.entries(SPN)) for (const [f, [, tag]] of Object.entries(SPF))

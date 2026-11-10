@@ -1,7 +1,7 @@
 # LOL FEST × WIZKID: final sponsor assets, QC report
 
-**Ads:** 39 files. Technical QC passed: 39/39. Content audit passed: 39/39.
-**Flyers:** 78 PNG (plus matching JPG). Size check passed: 78/78. Content audit passed: 78/78.
+**Ads:** 42 files. Technical QC passed: 42/42. Content audit passed: 42/42.
+**Flyers:** 84 PNG (plus matching JPG). Size check passed: 84/84. Content audit passed: 84/84.
 
 The content audit checks every 2nd frame of every ad and every flyer for:
 - approved copy only;
@@ -53,3 +53,6 @@ Audio: the supplied "Final (Baba Nla)" 15 s edit (cut on a downbeat, -14 LUFS).
 | 13-Nova-Flair | LOLFEST_x_Nova-Flair_15s_1080x1080_1x1_Square.mp4 | 15.000 | 1080x1080 | -13.8 | -3.2 | PASS |
 | 13-Nova-Flair | LOLFEST_x_Nova-Flair_15s_1080x1350_4x5_Feed.mp4 | 15.000 | 1080x1350 | -13.8 | -3.2 | PASS |
 | 13-Nova-Flair | LOLFEST_x_Nova-Flair_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4 | 15.000 | 1080x1920 | -13.8 | -3.2 | PASS |
+| 14-Blue-Poppy | LOLFEST_x_Blue-Poppy_15s_1080x1080_1x1_Square.mp4 | 15.000 | 1080x1080 | -13.8 | -3.2 | PASS |
+| 14-Blue-Poppy | LOLFEST_x_Blue-Poppy_15s_1080x1350_4x5_Feed.mp4 | 15.000 | 1080x1350 | -13.8 | -3.2 | PASS |
+| 14-Blue-Poppy | LOLFEST_x_Blue-Poppy_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4 | 15.000 | 1080x1920 | -13.8 | -3.2 | PASS |

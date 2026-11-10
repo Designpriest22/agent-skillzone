@@ -15,7 +15,7 @@ await Promise.all([0, 1, 2].map(async () => { while (q.length) { const j = q.shi
   const P = [], texts = new Set(), intro = new Set(), fest = new Set(), festT = new Set(); let endMiss = 0, endN = 0;
   for (let f = 0; f < FPS * DUR; f += 2) { const t = f / FPS; const log = await page.evaluate(f => window.audit(f), f); const tx = log.texts.map(s => s.trim());
     for (const s of tx) { texts.add(s); if (!APPROVED.includes(s)) P.push(`unapproved text "${s}"`); }
-    for (const im of log.imgs) if (/^\d\d-.*\.png$/.test(im) && im !== sponsorLogo) P.push(`other sponsor logo ${im}`);
+    for (const im of log.imgs) if (/^\d\d-.*\.png$/.test(im) && im !== sponsorLogo && !im.startsWith(sponsorLogo.replace('.png', '-'))) P.push(`other sponsor logo ${im}`);
     if (t < 4) log.imgs.forEach(x => intro.add(x));
     else if (t < ENDFRAME) { log.imgs.forEach(x => fest.add(x)); tx.forEach(x => festT.add(x)); }
     else if (t >= ENDFRAME + 1.2) { endN++; const need = [tx.includes('WIZKID.TIX.AFRICA'), tx.includes('DECEMBER 13, 2026'), tx.includes('EAGLE SQUARE, ABUJA'), log.imgs.includes(sponsorLogo), log.imgs.includes('lol-logo'), log.imgs.includes('wizkid-wordmark.png')]; if (need.includes(false)) endMiss++; }
@@ -29,4 +29,4 @@ await Promise.all([0, 1, 2].map(async () => { while (q.length) { const j = q.shi
   console.log(`${u.length ? 'FAIL' : 'PASS'} ${j.id}${u.length ? ' - ' + u.join('; ') : ''}`);
 } }));
 await browser.close(); srv.close(); fs.writeFileSync(path.join(dir, 'out', 'v3-video-content-audit.json'), JSON.stringify(report.sort((a, b) => a.id.localeCompare(b.id)), null, 1));
-console.log(fails ? `${fails} FAILED` : 'ALL 39 ADS PASS'); process.exit(fails ? 1 : 0);
+console.log(fails ? `${fails} FAILED` : `ALL ${jobs.length} ADS PASS`); process.exit(fails ? 1 : 0);

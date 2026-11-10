@@ -30,7 +30,8 @@ One folder per sponsor brand. Each folder contains:
 
 Ad structure: 00:00-00:04 sponsor intro · 00:04-00:11 Wizkid footage with the LOL FEST logo, WIZKID, date and venue
               00:11-00:15 end frame (4 s): sponsor logo, LOL FEST logo, WIZKID, DECEMBER 13, 2026, EAGLE SQUARE, ABUJA, GET TICKETS AT WIZKID.TIX.AFRICA
-Brand colours: Hennessy red · Desperados red · BEST cream (black BEST logo) · Coca-Cola red and white · every other sponsor in its own palette, no background patterns.
+Brand colours: Hennessy red · Desperados red · BEST cream (black BEST logo) · Coca-Cola red and white, with POWERED BY above the Coca-Cola logo
+              Blue Poppy teal #07808B and cream #F2F2E9 · every other sponsor in its own palette, no background patterns.
 Music: "Final (Baba Nla)" as supplied. Confirm sync / usage rights before paid placement.
 
 _REPORTS & SOURCE: QC report, content audits, the music edit and the editable project source.

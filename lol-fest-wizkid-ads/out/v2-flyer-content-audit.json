@@ -240,7 +240,7 @@
   }
  },
  {
-  "id": "coca-cola-v1-feed",
+  "id": "blue-poppy-v1-feed",
   "pass": true,
   "problems": [],
   "copy": [
@@ -257,11 +257,11 @@
    "date": 112,
    "venue": 38,
    "url": 44,
-   "logoH": 67.49510835680125
+   "logoH": 49.33670272951438
   }
  },
  {
-  "id": "coca-cola-v1-square",
+  "id": "blue-poppy-v1-square",
   "pass": true,
   "problems": [],
   "copy": [
@@ -278,11 +278,11 @@
    "date": 92,
    "venue": 34,
    "url": 40,
-   "logoH": 57.7993576510211
+   "logoH": 46
   }
  },
  {
-  "id": "coca-cola-v1-story",
+  "id": "blue-poppy-v1-story",
   "pass": true,
   "problems": [],
   "copy": [
@@ -299,7 +299,130 @@
    "date": 128,
    "venue": 42,
    "url": 46,
-   "logoH": 79.71488891492605
+   "logoH": 58.26896012554762
+  }
+ },
+ {
+  "id": "blue-poppy-v2-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 48.6853314789029,
+   "date": 84,
+   "venue": 30,
+   "url": 42
+  }
+ },
+ {
+  "id": "blue-poppy-v2-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 46,
+   "date": 84,
+   "venue": 28,
+   "url": 38
+  }
+ },
+ {
+  "id": "blue-poppy-v2-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "13 DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA"
+  ],
+  "sizes": {
+   "logoH": 57.02484060057144,
+   "date": 112,
+   "venue": 34,
+   "url": 46
+  }
+ },
+ {
+  "id": "coca-cola-v1-feed",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA",
+   "POWERED BY"
+  ],
+  "sizes": {
+   "head": null,
+   "date": 112,
+   "venue": 38,
+   "url": 44,
+   "logoH": 62.592388521311875
+  }
+ },
+ {
+  "id": "coca-cola-v1-square",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA",
+   "POWERED BY"
+  ],
+  "sizes": {
+   "head": null,
+   "date": 92,
+   "venue": 34,
+   "url": 40,
+   "logoH": 53.60091921402804
+  }
+ },
+ {
+  "id": "coca-cola-v1-story",
+  "pass": true,
+  "problems": [],
+  "copy": [
+   "13",
+   "DEC",
+   "LIVE",
+   "ABUJA",
+   "EAGLE SQUARE, ABUJA",
+   "GET TICKETS AT",
+   "WIZKID.TIX.AFRICA",
+   "POWERED BY"
+  ],
+  "sizes": {
+   "head": null,
+   "date": 128,
+   "venue": 42,
+   "url": 46,
+   "logoH": 73.92454682078437
   }
  },
  {
@@ -307,6 +430,7 @@
   "pass": true,
   "problems": [],
   "copy": [
+   "POWERED BY",
    "13 DEC",
    "LIVE",
    "ABUJA",
@@ -326,6 +450,7 @@
   "pass": true,
   "problems": [],
   "copy": [
+   "POWERED BY",
    "13 DEC",
    "LIVE",
    "ABUJA",
@@ -345,6 +470,7 @@
   "pass": true,
   "problems": [],
   "copy": [
+   "POWERED BY",
    "13 DEC",
    "LIVE",
    "ABUJA",
