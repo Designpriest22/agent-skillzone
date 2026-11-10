@@ -276,7 +276,7 @@ export const STORE: StoreItem[] = [
 export const STORE_BY_ID: Record<string, StoreItem> = Object.fromEntries(STORE.map((i) => [i.id, i]));
 
 /** Missions: per-run goals checked against the server-verified result. */
-export interface MissionDef { id: string; name: string; desc: string; period: "daily" | "weekly"; xp: number; cash: number; check: { combo?: number; rating?: string; boss?: boolean; kos?: number; noDamage?: boolean; tokens?: number; substage?: string } }
+export interface MissionDef { id: string; name: string; desc: string; period: "daily" | "weekly" | "event"; xp: number; cash: number; check: { combo?: number; rating?: string; boss?: boolean; kos?: number; noDamage?: boolean; tokens?: number; substage?: string } }
 export const MISSIONS: MissionDef[] = [
   { id: "d_combo20", name: "Chain Reaction", desc: "Land a 20-hit combo.", period: "daily", xp: 250, cash: 120, check: { combo: 20 } },
   { id: "d_rating_a", name: "Clean Work", desc: "Clear any substage with an A rating or better.", period: "daily", xp: 300, cash: 150, check: { rating: "A" } },
@@ -287,15 +287,30 @@ export const MISSIONS: MissionDef[] = [
   { id: "w_s_rank", name: "Capital Standard", desc: "Earn an S rating.", period: "weekly", xp: 1200, cash: 600, check: { rating: "S" } },
 ];
 
+/** Limited-time festival events: one extra mission each, claimable once per player while the event runs. */
+export interface GameEvent { id: string; name: string; tagline: string; date: string; venue: string; art: string; start: string; end: string; mission: MissionDef }
+export const EVENTS: GameEvent[] = [
+  {
+    id: "liveoutloud", name: "Live Out Loud Music Festival", tagline: "Wizkid live in Abuja", date: "13 Dec", venue: "Eagle Square, Abuja",
+    art: "/game/events/liveoutloud.webp", start: "2026-11-01T00:00:00Z", end: "2026-12-13T23:00:00Z",
+    mission: { id: "e_liveoutloud", name: "Live Out Loud", desc: "Clear The Strip (02A) with a 25-hit combo before the festival.", period: "event", xp: 1500, cash: 750, check: { substage: "02A", combo: 25 } },
+  },
+];
+export function activeEvents(date: Date): GameEvent[] {
+  const t = date.getTime();
+  return EVENTS.filter((e) => t >= Date.parse(e.start) && t < Date.parse(e.end));
+}
+
 export function activeMissions(date: Date): MissionDef[] {
   const day = Math.floor(date.getTime() / 86400000);
   const week = Math.floor((day + 3) / 7);
   const daily = MISSIONS.filter((m) => m.period === "daily");
   const weekly = MISSIONS.filter((m) => m.period === "weekly");
-  return [daily[day % daily.length]!, daily[(day + 1) % daily.length]!, weekly[week % weekly.length]!];
+  return [daily[day % daily.length]!, daily[(day + 1) % daily.length]!, weekly[week % weekly.length]!, ...activeEvents(date).map((e) => e.mission)];
 }
 export function missionPeriod(m: MissionDef, date: Date): string {
   const day = Math.floor(date.getTime() / 86400000);
+  if (m.period === "event") return "event";
   return m.period === "daily" ? `d${day}` : `w${Math.floor((day + 3) / 7)}`;
 }
 

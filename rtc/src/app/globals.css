@@ -365,3 +365,16 @@ select:focus, input:focus { border-color: var(--gold); outline: none; }
 @media (pointer: coarse) and (orientation: portrait) {
   .rotate-hint { display: block; position: absolute; left: 50%; top: 58%; transform: translateX(-50%); background: #000b; padding: 6px 14px; font-weight: 600; font-size: 13px; pointer-events: none; white-space: nowrap; }
 }
+
+/* Festival event card (main menu, bottom right) */
+.event-card { position: absolute; right: 24px; bottom: 24px; z-index: 8; display: flex; gap: 12px; align-items: stretch; width: min(400px, calc(100% - 32px));
+  background: linear-gradient(120deg, #1a0905f2, #3d1a0df2); border: 2px solid var(--ink); border-left: 5px solid var(--fire); padding: 10px; text-align: left;
+  box-shadow: 0 12px 40px #000a, 0 0 30px #ff8a1f33; animation: slideIn 0.5s 0.4s both ease-out; }
+.event-card:hover { border-left-color: var(--gold); }
+.event-card img { width: 96px; height: 100px; object-fit: cover; object-position: 50% 30%; flex: none; }
+.event-card div { display: grid; gap: 2px; align-content: center; }
+.event-card em { font-style: normal; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fire); font-weight: 700; }
+.event-card b { font-family: var(--display); font-weight: 400; font-size: 26px; line-height: 1; letter-spacing: 0.03em; }
+.event-card span { font-size: 13px; }
+.event-card small { color: var(--gold); font-size: 12px; font-weight: 600; }
+@media (max-width: 900px) { .event-card { position: relative; right: auto; bottom: auto; margin: 0 16px 24px; z-index: 6; } }

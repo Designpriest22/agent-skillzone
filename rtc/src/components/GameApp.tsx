@@ -6,7 +6,7 @@ import { api, ApiError, flushQueue, type BoardRow, type FinishOutcome, type MeRe
 import { ACTION_LABELS, DEFAULT_KEYS, keyLabel, loadKeys, saveKeys, type Action } from "@/game/client/controls";
 import { loadVolume, setVolume, sfx } from "@/game/client/audio";
 import { FIGHTERS, ROSTER, STARTERS, type Fighter } from "@/game/data/roster";
-import { ACHIEVEMENTS, AREAS, BOSSES, EQUIPMENT, RANKS, STAGES, STORE, SUBSTAGES, SUBSTAGE_ORDER, activeMissions, rankForXp, type EquipmentId } from "@/game/data/world";
+import { ACHIEVEMENTS, AREAS, BOSSES, EQUIPMENT, RANKS, STAGES, STORE, SUBSTAGES, SUBSTAGE_ORDER, activeEvents, activeMissions, rankForXp, type EquipmentId } from "@/game/data/world";
 import type { RunResult } from "@/game/sim/sim";
 import { asset, isPreview } from "@/game/client/assets";
 
@@ -169,6 +169,17 @@ function MainMenu({ me, go }: { me: MeResponse | null; go: (s: Screen) => void }
         </ul>
         <p className="menu-foot">A TCM game · Abuja, Nigeria</p>
       </nav>
+      {activeEvents(new Date()).map((e) => (
+        <button key={e.id} className="event-card" onClick={() => go("status")} aria-label={`${e.name} event`}>
+          <img src={asset(e.art)} alt="" />
+          <div>
+            <em>Festival event · until {e.date}</em>
+            <b>{e.mission.name}</b>
+            <span>{e.mission.desc}</span>
+            <small>+{e.mission.xp.toLocaleString()} XP · +{cc(e.mission.cash)} · {e.venue}</small>
+          </div>
+        </button>
+      ))}
     </section>
   );
 }
@@ -414,7 +425,7 @@ function Status({ me, onAuth }: { me: MeResponse | null; onAuth: () => void }) {
           <li key={m.id} className={m.done ? "done" : ""}>
             <span className="period">{m.period}</span>
             <div><b>{m.name}</b><small>{m.desc}</small></div>
-            <span className="pay">+{m.xp} XP · +{cc(m.cash)}</span>
+            <span className="pay">+{m.xp.toLocaleString("en-NG")} XP · +{cc(m.cash)}</span>
             {m.done && <span className="tick" aria-label="Done">✔</span>}
           </li>
         ))}

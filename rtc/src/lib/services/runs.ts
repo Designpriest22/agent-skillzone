@@ -167,7 +167,8 @@ async function applyRewards(tx: Tx, userId: string, runId: string, r: RunResult)
   for (const m of activeMissions(now)) {
     const c = m.check;
     const ok = (!c.combo || r.maxCombo >= c.combo) && (!c.kos || r.kos >= c.kos) && (!c.tokens || r.tokens >= c.tokens) &&
-      (!c.boss || r.bossDefeated) && (!c.rating || (r.cleared && RATING_ORDER.indexOf(r.rating) >= RATING_ORDER.indexOf(c.rating)));
+      (!c.boss || r.bossDefeated) && (!c.rating || (r.cleared && RATING_ORDER.indexOf(r.rating) >= RATING_ORDER.indexOf(c.rating))) &&
+      (!c.substage || (r.cleared && r.substage === c.substage)) && (!c.noDamage || (r.cleared && r.damageTaken === 0));
     if (!ok) continue;
     const period = missionPeriod(m, now);
     const ins = await tx`insert into mission_claims (user_id, mission_id, period, run_id) values (${userId}, ${m.id}, ${period}, ${runId}) on conflict do nothing returning mission_id`;
