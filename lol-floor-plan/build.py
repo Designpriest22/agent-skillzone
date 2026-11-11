@@ -239,42 +239,180 @@ def svg(box, inner, label):
 
 # ------------------------------------------------------------ combined site plan
 def combined():
-    top, gap = 50, 50
-    sl, sa = 0.5, 0.92
-    out, pos = [], {}
+    """Full site construct (organiser's combined plan), drawn upright in its own pixel space.
+    Arena detail drawing sits rotated 90 deg clockwise on site; validation and table
+    parking drawings sit rotated 90 deg anticlockwise."""
+    S = 0.4
 
-    def place(title, box, inner, X, Y, sc):
-        bx, by, bw, bh = box
-        pos[title] = (X, Y, bx, by, sc)
-        out.append(f'<g transform="translate({X - bx * sc} {Y - by * sc}) scale({sc})">{inner}</g>')
-        out.append(T(X, Y - 14, title, 24, anchor="start", weight=700))
-        return X + bw * sc, Y + bh * sc
+    def cw(x, y):                      # arena drawing -> site
+        return 1742.4 - S * y, 160.8 + S * x
 
-    v, t, a = "VALIDATION POINT / GENERAL PARKING", "TABLE PARKING", "EVENT ARENA"
-    vr, vb = place(v, VALID_BOX, draw_valid(), 20, top, sl)
-    tr, tb = place(t, TABLE_BOX, draw_table(), 20, vb + gap + 20, sl)
-    ax = max(vr, tr) + gap + 30
-    ar, ab = place(a, ARENA_BOX, draw_arena(), ax, top, sa)
+    def cw_rect(x, y, w, h):
+        X1, Y1 = cw(x, y + h)
+        return X1, Y1, h * S, w * S
 
-    def P(title, x, y):
-        X, Y, bx, by, sc = pos[title]
-        return X + (x - bx) * sc, Y + (y - by) * sc
+    def cw_pts(pts):
+        out = []
+        for p in pts.split():
+            x, y = map(float, p.split(","))
+            X, Y = cw(x, y)
+            out.append(f"{X:.1f},{Y:.1f}")
+        return " ".join(out)
 
-    x1, y1 = P(v, 1570, 1072)
-    x2, y2 = P(t, 580, 205)
-    gx = max(vr, tr) + 18
-    x3, y3 = P(t, 580, 1300)
-    x4, y4 = P(a, 1428, 1340)
-    by_ = max(tb, ab) + 26
-    dash = f'fill="none" stroke="{FLOW}" stroke-width="4" stroke-dasharray="3 8" stroke-linecap="round"'
-    out.append(f'<path d="M{x1},{y1} L{gx},{y1} L{gx},{y2 - 18} L{x2},{y2 - 18} L{x2},{y2}" {dash}/>')
-    out.append(f'<path d="M{x3},{y3} L{x3},{by_} L{x4},{by_} L{x4},{y4}" {dash}/>')
-    out.append(chev(gx, (y1 + y2) / 2, 180, FLOW, 0.6))
-    out.append(chev((x3 + x4) / 2, by_, 90, FLOW, 0.6))
-    out.append(T((x3 + x4) / 2, by_ + 30, "REGULAR WALK IN  ·  TABLE PARKING TO REGULAR ENTRY POINT", 17, FLOW, weight=700))
-    W, H = ar + 20, by_ + 50
-    return (f'<svg viewBox="0 0 {W:.0f} {H:.0f}" class="plan" role="img" aria-label="Combined site plan" '
-            f'font-family="Oswald, \'Arial Narrow\', sans-serif">{"".join(out)}</svg>')
+    def RR(t, fill, rx=0, stroke=None, sw=1.5):
+        return R(round(t[0], 1), round(t[1], 1), round(t[2], 1), round(t[3], 1), fill, rx, stroke, sw)
+
+    def wall(zone, x0, x1, y=None, x=None):
+        """Draw one zone wall's slots evenly along a construct line (horizontal if y given)."""
+        ss = [s for s in SLOTS if s["zone"] == zone and x0[0] <= int(s["id"][1:]) <= x0[1]]
+        a, b = x1
+        n, g = len(ss), 3
+        L = (b - a - g * (n - 1)) / n
+        out = []
+        for i in range(n):
+            p = a + i * (L + g)
+            if y is not None:
+                out.append(R(round(p, 1), y - 4, round(L, 1), 8, ZC[zone], 1))
+            else:
+                out.append(R(x - 4, round(p, 1), 8, round(L, 1), ZC[zone], 1))
+        return "".join(out)
+
+    def tag(x, y, code, size, zone, rot=None):
+        tr = f' transform="rotate({rot} {x} {y})"' if rot is not None else ""
+        return (f'<g{tr}>{R(x - 46, y - 17, 92, 34, "#ffffff", 5, ZC[zone], 3)}'
+                f'<text x="{x}" y="{y - 2}" font-size="13" text-anchor="middle" font-weight="700" fill="{INK}" '
+                f'font-family="Inter, Arial, sans-serif">{code}</text>'
+                f'<text x="{x}" y="{y + 12}" font-size="11" text-anchor="middle" fill="{INK}" '
+                f'font-family="Inter, Arial, sans-serif">{size}</text></g>')
+
+    o = []
+    # roads
+    RD = "#7a7876"
+    o += [R(219, 60, 52, 972, RD), R(1683, 62, 52, 972, RD), R(271, 182, 1471, 52, RD), R(271, 852, 1412, 53, RD),
+          R(271, 234, 1412, 618, "#ffffff"),
+          T(1077, 218, "HOSPITAL AVE.", 30, "#ffffff", weight=700, ls=1),
+          T(1058, 889, "UNITY ROAD", 30, "#ffffff", weight=700, ls=1),
+          T(245, 560, "3RD AVENUE ROAD", 28, "#ffffff", rot=-90, weight=700, ls=1),
+          T(1709, 560, "KUKWARA ROAD", 28, "#ffffff", rot=90, weight=700, ls=1)]
+    # entrances
+    o += [T(552, 150, "MAIN ENTRANCE", 30, weight=700), T(552, 172, "Table cars & general parking", 15, "#77736e", weight=500),
+          '<path d="M660,145 C700,120 735,135 735,170" fill="none" stroke="#2b2b2b" stroke-width="3"/>',
+          chev(733, 196, 180, INK, 0.75),
+          T(560, 985, "PEDESTRIAN ENTRANCE", 30, weight=700), T(560, 1007, "Walk-in entrance for all regular guests", 15, "#77736e", weight=500),
+          '<path d="M420,985 C370,990 350,960 360,925" fill="none" stroke="#2b2b2b" stroke-width="3"/>']
+
+    # ---------------- validation point
+    o += [R(280, 241, 422, 604, SITE2)]
+    for r in [(287, 260, 15, 237), (284, 710, 38, 122), (373, 757, 314, 83)]:
+        o.append(R(*r, STRUCT, 4, "#cdbfae", 2))
+    o += [R(400, 492, 262, 33, STAGE, 4), R(337, 540, 33, 18, "#111"),
+          R(326, 529, 6, 178, INK), T(316, 620, "LOL BRANDING", 12, rot=-90, weight=700)]
+    o += [R(376, y, 15, 45, STAGE, 3) for y in (530, 620, 702)]
+    o += [R(486, y, 17, 15, BLOCK) for y in range(536, 737, 25)]
+    o += [T(355, 790, "TICKET|PURCHASE", 13, weight=700),
+          T(590, 682, "REGULAR TICKET|VALIDATION POINT", 22, "#ffffff", weight=700, ls=0),
+          T(490, 375, "VALIDATION POINT", 22, "#8b8781", weight=700)]
+    # lane + general parking
+    o += [R(702, 241, 57, 604, "#ffffff"), R(705, 835, 65, 13, PINK), T(737, 930, "NO ACCESS", 14, PINK, weight=700),
+          R(759, 241, 91, 464, SITE2), R(769, 611, 73, 90, STAGE, 4),
+          T(805, 390, "GENERAL|PARKING", 17, "#ffffff", weight=700),
+          R(772, 780, 78, 68, SITE2), R(772, 773, 78, 5, INK)]
+    # ---------------- table parking + table walk-in
+    o += [R(852, 242, 166, 455, SITE2), PL("854,336 854,492"), PL("854,540 854,692"), PL("854,336 1015,336 1015,692"),
+          T(935, 440, "TABLE|PARKING", 28, "#ffffff", weight=700, ls=0),
+          T(880, 520, "TABLE CAR|ENTRANCE", 11, weight=700, anchor="start"),
+          R(1032, 242, 175, 455, SITE), R(1135, 605, 62, 72, "#4a4a4a", 6), T(1166, 647, "LOL", 16, "#ffffff", weight=700),
+          T(1110, 420, "TABLE|WALK IN", 24, weight=700),
+          PL("1207,696 1240,696")]
+    for x0, x1, y in [(852, 852, 0), (1030, 1030, 0)]:
+        o += [R(x0 - 5, yy, 10, 4, INK) for yy in range(703, 776, 8)]
+    o += [R(853, 780, 4, 52, INK), R(1228, 780, 4, 50, INK)]
+    # ---------------- arena (arena drawing mapped 90 deg clockwise)
+    o.append(RR(cw_rect(206, 211, 1484, 1112), SITE, 4))
+    o.append(RR(cw_rect(494, 316, 874, 694), GREY))
+    o.append(RR(cw_rect(744, 386, 373, 84), STAGE))
+    o.append(RR(cw_rect(648, 476, 565, 522), BLOCK))
+    o.append(RR(cw_rect(889, 465, 79, 80), STAGE))
+    o.append(RR(cw_rect(904, 550, 48, 200), PINK))
+    o.append(RR(cw_rect(893, 749, 73, 37), "#f4a9c9", 0, PINK, 2))
+    o.append(RR(cw_rect(1221, 480, 226, 515), BLOCK))
+    for x in (1336, 1393, 1449):
+        o.append(RR(cw_rect(x, 488, 51, 25), "#d8d5f1", 0, "#8c86cc", 1))
+    for y in range(525, 856, 56):
+        o.append(RR(cw_rect(1470, y, 27, 52), "#d8d5f1", 0, "#8c86cc", 1))
+    for x, y, w, h in [(468, 553, 160, 117), (463, 692, 168, 120), (463, 840, 168, 158)]:
+        o.append(RR(cw_rect(x, y, w, h), BLOCK))
+    bars = [(256, 309, 92, 228, "B"), (256, 585, 92, 244, "H"), (256, 881, 92, 236, "B"),
+            (1514, 309, 92, 228, "B"), (1514, 585, 92, 244, "H"), (1514, 881, 92, 236, "B"),
+            (530, 1116, 224, 102, "B"), (824, 1116, 224, 102, "OVERFLOW"), (1113, 1116, 225, 102, "B")]
+    for x, y, w, h, t in bars:
+        X, Y, W_, H_ = cw_rect(x, y, w, h)
+        if t == "OVERFLOW":
+            o += [R(round(X, 1), round(Y, 1), round(W_, 1), round(H_, 1), BLOCK, 4),
+                  T(X + W_ / 2, Y + H_ / 2, "CROWD OVERFLOW", 12, ORANGE, rot=-90, weight=700)]
+        else:
+            o += [R(round(X, 1), round(Y, 1), round(W_, 1), round(H_, 1), BAR, 4),
+                  T(X + W_ / 2, Y + H_ / 2 + 6, t, 17, "#5b8f9c", weight=700)]
+    for x in (852, 958, 1065, 1172):
+        o.append(RR(cw_rect(x, 220, 100, 50), "#c9f2cf", 0, "#4cc35e", 2))
+    o.append(f'<polyline points="{cw_pts("350,311 1507,311")}" fill="none" stroke="{INK}" stroke-width="3"/>')
+    for pts in ["612,212 612,472 527,472 527,433", "494,433 494,470 449,470 449,1013 516,1013 516,1082",
+                "349,678 645,678", "400,735 449,735", "449,826 645,826", "645,476 645,1113",
+                "578,1082 578,1012 645,1012", "745,472 880,472 880,550 977,550 977,472 1117,472",
+                "1213,472 1513,472", "1216,476 1216,1028", "333,541 333,581", "333,836 333,876",
+                "338,1117 338,1157 398,1157 398,1140", "457,1140 457,1155 527,1155",
+                "1512,545 1512,582", "1516,836 1516,874"]:
+        o.append(f'<polyline points="{cw_pts(pts)}" fill="none" stroke="{PINK}" stroke-width="2.5"/>')
+    o += [T(1447, 612, "WIZKID FC", 36, "#6e645d", weight=700, ls=0),
+          T(1572, 533, "MAIN STAGE", 13, "#ffffff", rot=-90, weight=700),
+          T(1447, 690, "STARBOY|MARKETPLACE", 15, "#a39b94", weight=700),
+          T(1373, 375, "GOLD", 11, "#a39b94", weight=700), T(1441, 375, "BLACK", 11, "#a39b94", weight=700),
+          T(1497, 375, "PLAT.", 11, "#a39b94", weight=700),
+          T(1610, 386, "GREEN ROOM ×4", 10, rot=90, weight=600, anchor="start"),
+          T(1668, 340, "PLATINUM GATE", 10, rot=90, weight=700),
+          T(1668, 740, "TALENT ENTRANCE", 10, rot=90, weight=700),
+          T(1668, 805, "POWER", 10, rot=90, weight=700),
+          T(1232, 330, "TABLE ENTRY", 12, rot=-90, weight=700),
+          T(1238, 738, "REGULAR ENTRY", 12, FLOW, rot=-90, weight=700),
+          R(1248, 846, 30, 10, PINK), T(1263, 930, "NO ACCESS", 14, PINK, weight=700)]
+
+    # ---------------- brand walls (each slot drawn; one tag per wall)
+    o += [wall("V", (10, 17), (380, 755), y=529), wall("V", (2, 9), (377, 697), y=752),
+          wall("V", (1, 1), (334, 374), y=529), wall("V", (18, 19), (775, 849), y=775),
+          wall("T", (1, 5), (857, 1016), y=780), wall("T", (6, 8), (857, 958), y=696),
+          wall("T", (9, 11), (1034, 1226), y=780)]
+    # arena walls mapped from the detail drawing
+    for s in SLOTS:
+        if s["zone"] != "A":
+            continue
+        if s["orient"] == "v":
+            X1, Y1 = cw(s["axis"], s["b"])
+            X2, _ = cw(s["axis"], s["a"])
+            o.append(R(round(X1, 1), round(Y1 - 4, 1), round(X2 - X1, 1), 8, ORANGE, 1))
+        else:
+            X1, Y1 = cw(s["a"], s["axis"])
+            _, Y2 = cw(s["b"], s["axis"])
+            o.append(R(round(X1 - 4, 1), round(Y1, 1), 8, round(Y2 - Y1, 1), ORANGE, 1))
+    o += [tag(600, 552, "V10–V17", "39 × 10 ft", "V"), tag(537, 780, "V02–V09", "32 × 10 ft", "V"),
+          tag(352, 508, "V01", "36 × 10 ft", "V"), tag(811, 813, "V18–V19", "80 × 10 ft", "V"),
+          tag(936, 815, "T01–T05", "50 × 10 ft", "T"), tag(907, 668, "T06–T08", "49 × 10 ft", "T"),
+          tag(1131, 815, "T09–T11", "32 × 10 ft", "T"),
+          tag(1376, 326, "A01–A08", "30 × 10 ft", "A"), tag(1276, 646, "A09–A16", "40 × 10 ft", "A", rot=-90),
+          tag(1348, 822, "A17–A19", "20 × 10 ft", "A"),
+          f'<line x1="1348" y1="762" x2="1348" y2="805" stroke="{ORANGE}" stroke-width="2"/>']
+
+    # ---------------- flow
+    o.append(f'<path d="M805,705 L805,875 L352,875 L352,597 L730,597 L730,738 L1331,738 L1331,537 L1342,537" '
+             f'fill="none" stroke="{FLOW}" stroke-width="4" stroke-dasharray="3 8" stroke-linecap="round"/>')
+    o.append(f'<path d="M975,650 L990,712 L1045,712 L1045,330 L1255,330" fill="none" stroke="{FLOW2}" '
+             f'stroke-width="3" stroke-dasharray="2 7" stroke-linecap="round"/>')
+    o += [chev(805, 742, 180, FLOW, 0.6), chev(600, 875, 270, FLOW, 0.6), chev(352, 700, 0, FLOW, 0.6),
+          chev(430, 597, 90, FLOW, 0.6), chev(640, 597, 90, FLOW, 0.6), chev(730, 680, 180, FLOW, 0.6),
+          chev(930, 738, 90, FLOW, 0.6), chev(1120, 738, 90, FLOW, 0.6), chev(1331, 640, 0, FLOW, 0.5),
+          chev(732, 300, 180, FLOW2, 0.6), chev(732, 460, 180, FLOW2, 0.6), chev(832, 516, 90, FLOW2, 0.5),
+          chev(1045, 520, 0, FLOW2, 0.5), chev(1160, 330, 90, FLOW2, 0.5)]
+    return (f'<svg viewBox="200 110 1560 935" class="plan" role="img" aria-label="Combined site plan of Eagle Square" '
+            f'font-family="Oswald, \'Arial Narrow\', sans-serif">{"".join(o)}</svg>')
 
 
 # ------------------------------------------------------------ tables
@@ -313,13 +451,20 @@ def key(extra=""):
 </div>'''
 
 
+ORIENT = {
+    "A": "On site this plan is turned a quarter-turn: Hospital Avenue is on its left, Unity Road on its right and the stage faces Kukwara Road. See the combined site plan.",
+    "T": "On site this plan is turned a quarter-turn: Hospital Avenue is on its right, Unity Road on its left and the arena is below it. See the combined site plan.",
+    "V": "On site this plan is turned a quarter-turn: Hospital Avenue is on its right, Unity Road (pedestrian entrance) on its left and 3rd Avenue Road at the top. See the combined site plan.",
+}
+
+
 def zone_page(num, title, sub, plan, zone):
     n = sum(1 for s in SLOTS if s["zone"] == zone)
     return f'''<section class="page">
   <header><h2>{title}</h2><p class="meta">{sub} · {n} brand slots · Sheet {num} of 6</p></header>
   <div class="zone">
     <div class="plan-box">{plan}</div>
-    <aside>{grouped(zone)}<p class="small">Sizes are width × height. Each slot is one brand. Find your slot code on the plan.</p></aside>
+    <aside>{grouped(zone)}<p class="small"><b>Orientation.</b> {ORIENT[zone]}</p><p class="small">Sizes are width × height. Each slot is one brand. Find your slot code on the plan.</p></aside>
   </div>
 </section>'''
 
@@ -386,7 +531,7 @@ aside {{ display: grid; gap: 14px; min-width: 0; }}
   .page:last-child {{ break-after: auto; }}
   .zone {{ grid-template-columns: minmax(0, 2.6fr) minmax(0, 1fr); align-items: start; }}
   .zone .plan {{ max-height: 240mm; }}
-  .combined .plan {{ max-height: 222mm; width: auto; max-width: 100%; margin: 0 auto; }}
+  .combined .plan {{ max-height: 228mm; width: auto; max-width: 100%; margin: 0 auto; }}
   .cover {{ min-height: 0; }}
   .schs .t td {{ padding: 3.5px 8px; }}
 }}
@@ -410,7 +555,7 @@ aside {{ display: grid; gap: 14px; min-width: 0; }}
 </section>
 
 <section class="page combined">
-  <header><h2>Combined site plan</h2><p class="meta">All three areas in guest order, car park to stage · Sheet 2 of 6</p></header>
+  <header><h2>Combined site plan</h2><p class="meta">Eagle Square as built: validation, parking and arena between Hospital Ave. and Unity Road · Sheet 2 of 6</p></header>
   <div class="plan-box">{combined()}</div>
   {key()}
 </section>
