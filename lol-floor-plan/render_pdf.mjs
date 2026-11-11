@@ -14,7 +14,7 @@ const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1400, height: 1000 }, deviceScaleFactor: 1 });
 await page.goto(new URL('out/preview.html', here).href, { waitUntil: 'networkidle' });
 await page.evaluate(() => document.fonts.ready);
-const sheets = await page.$$('section.sheet');
+const sheets = await page.$$('section.page');
 for (let i = 0; i < sheets.length; i++) {
   await sheets[i].screenshot({ path: new URL(`out/sheet-${i}.png`, here).pathname });
 }
