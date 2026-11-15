@@ -25,5 +25,5 @@ Rebuild: `python3 docs/run-the-capital/grant/build.py && node docs/run-the-capit
 ## Assumptions to confirm before submission
 - **Funder:** the pack is written for a creative-economy / digital-innovation funder. Tailor section names and length to the actual call (e.g. iDICE, a foundation or a corporate programme).
 - **Gamer share 20%:** 46.5M players ÷ ~230M population; used to size the Abuja market.
-- **Revenue projections, targets and rates** are planning estimates, not results. The analytics dashboard image uses demo data.
+- **Targets (updated from the deck):** 130,000 players, 90,000 profiles, 60 trained, 24 stages and 18% day-7 retention by month 12. These are planning estimates, not results. The analytics dashboard image uses demo data.
 - **Artist licences:** C1 assumes ₦1.25M per artist for four artists; replace with negotiated fees.
