@@ -1,5 +1,5 @@
 "use client";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { PlayScreen, type RunSetup } from "./PlayScreen";
 import { StageMap } from "./StageMap";
 import { api, ApiError, flushQueue, type BoardRow, type FinishOutcome, type MeResponse } from "@/game/client/api";
@@ -9,6 +9,7 @@ import { FIGHTERS, ROSTER, STARTERS, type Fighter } from "@/game/data/roster";
 import { ACHIEVEMENTS, AREAS, BOSSES, EQUIPMENT, RANKS, STAGES, STORE, SUBSTAGES, SUBSTAGE_ORDER, activeEvents, activeMissions, rankForXp, type EquipmentId } from "@/game/data/world";
 import type { RunResult } from "@/game/sim/sim";
 import { asset, isPreview } from "@/game/client/assets";
+import { analyticsEnabled, setAnalyticsEnabled, track, trackSessionStart } from "@/game/client/track";
 
 type Screen = "menu" | "auth" | "map" | "select" | "play" | "results" | "boards" | "status" | "store" | "profile" | "settings" | "fighters";
 
@@ -42,6 +43,7 @@ export function GameApp() {
   useEffect(() => {
     void refresh();
     loadVolume();
+    trackSessionStart();
     void flushQueue().then((n) => { if (n) { setNotice(`${n} offline run${n > 1 ? "s" : ""} verified.`); void refresh(); } });
     const q = new URLSearchParams(location.search);
     if (q.get("purchase")) { setNotice("Payment received. Your item appears once Paystack confirms it. This can take a minute."); setScreen("store"); history.replaceState(null, "", "/"); }
@@ -62,19 +64,28 @@ export function GameApp() {
   }, []);
 
   const go = (s: Screen) => { sfx("swing"); setScreen(s); };
+  useEffect(() => { if (screen !== "play") track("screen_viewed", { screen }); }, [screen]);
+  const runStartedAt = useRef(0);
 
   const onDone = useCallback((r: { outcome: FinishOutcome | null; local: RunResult; error?: string }) => {
     setResult(r);
+    const l = r.local;
+    track("run_finished", { substage: l.substage, fighter: l.fighter, cleared: l.cleared, rating: l.rating, score: l.score, max_combo: l.maxCombo, kos: l.kos, duration_s: Math.round(l.ticks / 60) });
     if (r.local.cleared && !r.outcome) addGuestClear(r.local.substage);
     for (const a of r.outcome?.achievements ?? []) { const d = ACHIEVEMENTS.find((x) => x.id === a); if (d) toast(d.name, `${d.xp.toLocaleString()} XP`); }
     if (r.outcome?.rankUp) toast("Rank up", r.outcome.rankUp);
     setScreen("results");
     void refresh();
   }, [refresh, toast]);
-  const onExit = useCallback(() => setScreen("map"), []);
+  const onExit = useCallback(() => {
+    setSetup((st) => { if (st) track("run_quit", { substage: st.substage, fighter: st.fighter, duration_s: Math.round((Date.now() - runStartedAt.current) / 1000) }); return st; });
+    setScreen("map");
+  }, []);
 
   const startRun = (fighter: string, equipment: EquipmentId | null) => {
     setSetup({ substage, fighter, equipment, signedIn });
+    runStartedAt.current = Date.now();
+    track("run_started", { substage, fighter, signed_in: signedIn });
     if (signedIn && me?.profile?.selectedFighter !== fighter) void api.patchMe({ selectedFighter: fighter, equipment }).catch(() => {});
     setScreen("play");
   };
@@ -94,7 +105,7 @@ export function GameApp() {
         {screen === "play" && setup && <PlayScreen setup={setup} onExit={onExit} onDone={onDone} />}
         {screen === "results" && result && (
           <Results r={result} signedIn={signedIn}
-            onRetry={() => { setSetup((s) => s && { ...s }); setScreen("play"); }}
+            onRetry={() => { setSetup((s) => { if (s) { runStartedAt.current = Date.now(); track("run_started", { substage: s.substage, fighter: s.fighter, signed_in: s.signedIn }); } return s && { ...s }; }); setScreen("play"); }}
             onNext={(id) => { setSubstage(id); setScreen("select"); }}
             onMap={() => go("map")} onAuth={() => go("auth")} />
         )}
@@ -170,7 +181,7 @@ function MainMenu({ me, go }: { me: MeResponse | null; go: (s: Screen) => void }
         <p className="menu-foot">A TCM game · Abuja, Nigeria</p>
       </nav>
       {activeEvents(new Date()).map((e) => (
-        <button key={e.id} className="event-card" onClick={() => go("status")} aria-label={`${e.name} event`}>
+        <button key={e.id} className="event-card" onClick={() => { track("event_card_clicked", { event: e.id }); go("status"); }} aria-label={`${e.name} event`}>
           <img src={asset(e.art)} alt="" />
           <div>
             <em>Festival event · until {e.date}</em>
@@ -194,7 +205,8 @@ function Auth({ onDone }: { onDone: () => void }) {
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setBusy(true); setErr(null);
     try {
-      if (mode === "up") await api.signUp(f); else await api.signIn({ email: f.email, password: f.password });
+      if (mode === "up") { await api.signUp(f); track("signup_completed", { home_area: f.homeArea, fighter: f.fighter }); }
+      else await api.signIn({ email: f.email, password: f.password });
       onDone();
     } catch (x) { setErr(x instanceof ApiError ? x.message : "Couldn't reach the server."); } finally { setBusy(false); }
   };
@@ -300,7 +312,7 @@ function FighterSelect({ owned, me, browse, substage, onBack, onFight }: { owned
       <div className="roster-grid" role="listbox" aria-label="Fighters">
         {ROSTER.map((r) => (
           <button key={r.id} role="option" aria-selected={sel === r.id} className={`tile ${sel === r.id ? "on" : ""} ${owned.has(r.id) ? "" : "locked"}`}
-            style={{ ["--c" as string]: r.colors.primary }} onClick={() => { sfx("swing"); setSel(r.id); }} title={r.name}>
+            style={{ ["--c" as string]: r.colors.primary }} onClick={() => { sfx("swing"); setSel(r.id); track("fighter_selected", { fighter: r.id, owned: owned.has(r.id) }); }} title={r.name}>
             {portraitOf(r) ? <img src={portraitOf(r)} alt="" /> : <span className="initials">{r.name.split(" ").map((w) => w[0]).join("")}</span>}
             <span className="tile-name">{r.name}</span>
           </button>
@@ -444,6 +456,7 @@ function Store({ me, onChange, onAuth }: { me: MeResponse | null; onChange: () =
   const buy = async (id: string, withNaira: boolean) => {
     if (!me?.user) { onAuth(); return; }
     setBusy(id); setMsg(null);
+    track("store_purchase_started", { item: id, method: withNaira ? "naira" : "cash" });
     try {
       if (withNaira) { const { authorizationUrl } = await api.checkout(id); location.href = authorizationUrl; return; }
       await api.buy(id); sfx("pickup"); setMsg("Added to your profile."); await onChange();
@@ -488,7 +501,10 @@ function Profile({ me, onAuth, onSignOut }: { me: MeResponse | null; onAuth: () 
   const f = FIGHTERS[p.avatar] ?? FIGHTERS[p.selectedFighter];
   const link = typeof location !== "undefined" ? `${location.origin}/p/${p.username}` : `/p/${p.username}`;
   const share = async () => {
-    try { if (navigator.share) await navigator.share({ title: "Run The Capital", text: `I'm ${p.rank.name} in Run The Capital.`, url: link }); else { await navigator.clipboard.writeText(link); setCopied(true); } } catch { /* cancelled */ }
+    try {
+      if (navigator.share) { await navigator.share({ title: "Run The Capital", text: `I'm ${p.rank.name} in Run The Capital.`, url: link }); track("profile_shared", { method: "native" }); }
+      else { await navigator.clipboard.writeText(link); setCopied(true); track("profile_shared", { method: "copy" }); }
+    } catch { /* cancelled */ }
   };
   return (
     <section className="panel profile">
@@ -515,6 +531,7 @@ function Settings() {
   const [keys, setKeys] = useState(loadKeys);
   const [listen, setListen] = useState<Action | null>(null);
   const [vol, setVol] = useState(() => loadVolume());
+  const [stats, setStats] = useState(() => analyticsEnabled());
   const [pad, setPad] = useState<{ size: number; left: boolean }>(() => { try { return { size: 1, left: false, ...JSON.parse(localStorage.getItem("rtc.pad.v1") ?? "{}") }; } catch { return { size: 1, left: false }; } });
   useEffect(() => { try { localStorage.setItem("rtc.pad.v1", JSON.stringify(pad)); } catch { /* storage blocked */ } }, [pad]);
   useEffect(() => {
@@ -547,6 +564,9 @@ function Settings() {
       <label className="check"><input type="checkbox" checked={pad.left} onChange={(e) => setPad({ ...pad, left: e.target.checked })} />Left-handed layout (buttons on the left)</label>
       <h2>Sound</h2>
       <label className="range">Volume<input type="range" min={0} max={1} step={0.05} value={vol} onChange={(e) => { setVol(Number(e.target.value)); setVolume(Number(e.target.value)); sfx("hit"); }} /></label>
+      <h2>Privacy</h2>
+      <label className="check"><input type="checkbox" checked={stats} onChange={(e) => { setStats(e.target.checked); setAnalyticsEnabled(e.target.checked); }} />Share anonymous gameplay stats</label>
+      <p className="muted small">Helps TCM balance stages and plan events. A random ID only: no name, email, IP address or location. Off automatically if your browser sends Do Not Track.</p>
     </section>
   );
 }

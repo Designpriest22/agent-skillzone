@@ -77,6 +77,22 @@ async function main() {
   check(board.rows.some((r: { username: string }) => r.username === u), "player appears on the live leaderboard");
   const pub = await call(`/api/players/${u}`);
   check(pub.username === u && !("email" in pub), "public profile exposes no email");
+  // Analytics: valid events stored, unknown props dropped; dashboard is staff-only
+  const anon = `smoke-${Date.now()}`;
+  const ev = await call("/api/events", { anonId: anon, sessionId: `${anon}-s`, platform: "desktop", events: [
+    { name: "session_started", at: Date.now(), props: { source: "smoke", returning: false } },
+    { name: "run_started", at: Date.now(), props: { substage: "01A", fighter: "odumodu", signed_in: true } },
+    { name: "run_started", at: Date.now(), props: { substage: "01A" } },
+  ] });
+  check(ev.accepted === 2 && ev.dropped === 1, `analytics ingest validates events (${ev.accepted} stored, ${ev.dropped} dropped)`);
+  const [stored] = await sql`select area from analytics_events where anon_id = ${anon} limit 1`;
+  check(stored?.area === "garki", "signed-in events carry the self-selected home area only");
+  const dash = await call("/api/admin/analytics").catch((e) => e);
+  check(dash instanceof Error && /403/.test(dash.message), "analytics dashboard is refused to non-staff");
+  await sql`update users set role = 'admin' where id = (select user_id from profiles where username = ${u})`;
+  const dash2 = await call("/api/admin/analytics");
+  check(typeof dash2.kpi?.dau === "number" && dash2.funnel.length === 5, `staff dashboard returns live metrics (DAU ${dash2.kpi.dau})`);
+  await sql`update users set role = 'player' where id = (select user_id from profiles where username = ${u})`;
   await sql.end();
 }
 main().catch(async (e) => { console.error(e); await sql.end(); process.exit(1); });

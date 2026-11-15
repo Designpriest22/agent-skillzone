@@ -37,6 +37,13 @@ Status key: ✅ done in code · 🔲 needs TCM / a person
 - ✅ CSP, HSTS, no geolocation (players pick a home area)
 - 🔲 Pick a moderator account: `update users set role = 'moderator' where email = …`
 
+## Live player analytics
+- ✅ First-party, anonymous events (`src/game/client/events.ts` is the tracking plan), validated on ingest
+- ✅ Staff dashboard at `/admin/analytics`: live players, DAU/WAU/MAU, funnel, stage win/quit, hour heatmap, home areas, fighters, sources, retention
+- ✅ Opt-out in Settings; Do Not Track respected; no IP, name, email or location stored; 13-month retention (`pruneEvents`)
+- 🔲 Schedule `pruneEvents()` monthly on the host
+- 🔲 Add a privacy notice page describing the analytics before launch
+
 ## Day-one checks
 - 🔲 `/api/health` returns `{"ok":true}` on the live domain
 - 🔲 Sign up, clear 01A, see the run on the leaderboard
