@@ -76,7 +76,7 @@ function bug(t) {
   const p = E.outCubic(prog(t, T1 + .2, T1 + .7)) * (1 - E.inCubic(prog(t, T2 - .3, T2)));
   if (p <= 0 || SP.noBug) return;
   const bImg = SP.bugLogo ? IMG[SP.bugLogo] : IMG.sponsor, w = SP.bugLogo ? U(L.vert ? 118 : 100) : slW(U(L.vert ? 250 : 210), U(L.vert ? 110 : 90)), h = w * bImg.height / bImg.width;
-  ctx.save(); ctx.globalAlpha = p * .95; ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = U(18);
+  ctx.save(); ctx.globalAlpha = p * .95; if (!SP.noLogoFx) { ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = U(18); }
   const ph = SP.lock.powered ? U(26) : 0; if (ph) poweredBy(L.x0 + w / 2, L.y0 + U(16), U(16), '#FFFFFF');
   drawImg(ctx, bImg, L.x0 + w / 2, L.y0 + ph + h / 2, w); ctx.restore();
 }
@@ -210,7 +210,7 @@ const SPONSORS_CFG = {
     cues: [{ t: .1, k: 'riser', d: .8 }, { t: .95, k: 'hit' }, { t: 1.8, k: 'shimmer', g: .5 }, { t: 3.55, k: 'whoosh' }, { t: 4.1, k: 'impact', g: .7 }, { t: 6.1, k: 'whoosh', g: .7 }, { t: 6.3, k: 'hit', g: .7 }, { t: 8.2, k: 'whoosh', g: .7 }, { t: 8.4, k: 'hit', g: .7 }, { t: 9.75, k: 'reverse', d: .25 }, { t: 10, k: 'impact', g: .8 }] },
 
   // 3 ── COCA-COLA · Red Wave ──────────────────────────────────────────────────────────────────────
-  'coca-cola': { logo: '03-coca-cola', mainLogo: '03-coca-cola-noborder', bugLogo: '03-coca-cola-whiteborder', name: 'Coca-Cola', bpm: 112, music: 'sp-bright',
+  'coca-cola': { noLogoFx: true, logo: '03-coca-cola', mainLogo: '03-coca-cola-noborder', bugLogo: '03-coca-cola-whiteborder', name: 'Coca-Cola', bpm: 112, music: 'sp-bright',
     grade: [['soft-light', 'rgba(244,0,9,.22)'], ['screen', 'rgba(255,80,60,.05)']], filter: 'contrast(1.12) saturate(1.3) brightness(1.2)',
     type: { date: '#FFFFFF', venue: '#FFFFFF', reveal: 'slide' },
     intro(t) {
@@ -218,8 +218,7 @@ const SPONSORS_CFG = {
       // client-supplied square logo (no white border) opens the spot
       const w = Math.min(L.sw * (L.vert ? .62 : .5), U(560)), lh = w, cy = L.cy - U(20);
       const p = clamp(E.outBack(prog(t, .1, .8), 1.4), 0, 1.04);
-      ctx.save(); ctx.shadowColor = 'rgba(120,0,0,.25)'; ctx.shadowBlur = U(40); drawImg(ctx, IMG['03-coca-cola-noborder'], L.cx, cy, w, { s: mix(.82, 1, p) + t * .008, alpha: clamp(p * 1.6) }); ctx.restore();
-      sweepImg(ctx, IMG['03-coca-cola-noborder'], L.cx, cy, w, prog(t, 1.2, 2.1), 'rgba(255,255,255,.55)');
+      drawImg(ctx, IMG['03-coca-cola-noborder'], L.cx, cy, w, { s: mix(.82, 1, p) + t * .008, alpha: clamp(p * 1.6) });   // no shadow, no sheen: Coca-Cola brand rules
       poweredBy(L.cx, cy - lh / 2 - U(L.vert ? 34 : 28), U(L.vert ? 30 : 26), '#E41E2B', E.outCubic(prog(t, .7, 1.2)));
       // the red wave rises from the bottom, bubbles inside, and keeps rising into the footage
       waveRed(t, 2.4, 4.1);
