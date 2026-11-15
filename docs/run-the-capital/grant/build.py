@@ -1,4 +1,4 @@
-"""Builds the grant pack: inlines images into grant-pack.html and writes the budget workbook.
+"""Builds the project pack: inlines images into grant-pack.html and writes the budget workbook.
 Usage: python3 docs/run-the-capital/grant/build.py   (PDFs: node docs/run-the-capital/grant/pdf.js)"""
 import base64, mimetypes, re
 from pathlib import Path
@@ -26,42 +26,43 @@ def inline_images():
 LINES = [
     ("A", "Game content and art", None),
     ("A1", "Fighter animation sets", ("14 fighters", 14, 300_000, (0.35, 0.65, 0, 0))),
-    ("A2", "Stage environment art (9 new substages)", ("9", 9, 250_000, (0.2, 0.3, 0.3, 0.2))),
-    ("A3", "New bosses, art and animation", ("3", 3, 350_000, (0, 0.34, 0.33, 0.33))),
+    ("A2", "Stage environment art (18 new stages)", ("18", 18, 250_000, (0.15, 0.3, 0.3, 0.25))),
+    ("A3", "New bosses, art and animation", ("6", 6, 350_000, (0, 0.34, 0.33, 0.33))),
     ("A4", "Remaining portraits and interface art", ("1 lot", 1, 1_000_000, (0.6, 0.4, 0, 0))),
     ("A5", "Original music and sound (Abuja producers)", ("6 tracks", 6, 250_000, (0.33, 0.33, 0.17, 0.17))),
-    ("A6", "Game and level designer (contract)", ("8 months", 8, 250_000, (0.25, 0.375, 0.375, 0))),
-    ("A7", "QA testers", ("2 × 6 months", 12, 100_000, (0.17, 0.5, 0.33, 0))),
+    ("A6", "Game and level designer (contract)", ("12 months", 12, 250_000, (0.25, 0.25, 0.25, 0.25))),
+    ("A7", "QA testers", ("2 × 9 months", 18, 100_000, (0.1, 0.35, 0.35, 0.2))),
     ("A8", "Device test lab (entry and mid-range Android)", ("10 phones", 10, 130_000, (1, 0, 0, 0))),
     ("B", "Engineering and hosting", None),
-    ("B1", "Lead engineer", ("9 months", 9, 500_000, (0.33, 0.33, 0.34, 0))),
-    ("B2", "Game developer", ("9 months", 9, 350_000, (0.33, 0.33, 0.34, 0))),
-    ("B3", "Cloud hosting, database, CDN, monitoring", ("12 months", 12, 85_000, (0.25, 0.25, 0.25, 0.25))),
-    ("B4", "Domain, email, tools and licences", ("1 lot", 1, 330_000, (1, 0, 0, 0))),
+    ("B1", "Lead engineer", ("12 months", 12, 500_000, (0.25, 0.25, 0.25, 0.25))),
+    ("B2", "Game developer", ("12 months", 12, 350_000, (0.25, 0.25, 0.25, 0.25))),
+    ("B3", "Cloud hosting, database, CDN, monitoring (scaled for 90k daily players)", ("12 months", 12, 200_000, (0.1, 0.2, 0.35, 0.35))),
+    ("B4", "Domain, email, tools and licences", ("1 lot", 1, 350_000, (1, 0, 0, 0))),
+    ("B5", "Load testing and security audit before launch", ("1", 1, 600_000, (0, 1, 0, 0))),
     ("C", "Artist rights and talent", None),
     ("C1", "Name and likeness licences", ("4 artists", 4, 1_250_000, (1, 0, 0, 0))),
     ("C2", "Artist launch appearances and content", ("4", 4, 375_000, (0, 0.75, 0.25, 0))),
     ("C3", "Talent agreements (legal drafting)", ("1 lot", 1, 500_000, (1, 0, 0, 0))),
     ("D", "Launch and marketing", None),
-    ("D1", "Festival launch activation (stage, screens, QR, crew)", ("1", 1, 3_500_000, (0, 1, 0, 0))),
-    ("D2", "Targeted social ads, Abuja", ("5 months", 5, 500_000, (0, 0.4, 0.4, 0.2))),
-    ("D3", "Creator and influencer content", ("10", 10, 150_000, (0, 0.5, 0.3, 0.2))),
-    ("D4", "Campus ambassador programme", ("10 campuses", 10, 50_000, (0, 0.6, 0.4, 0))),
-    ("D5", "Tournament prize pool and production", ("1", 1, 1_500_000, (0, 0, 1, 0))),
+    ("D1", "Festival launch activation (stage, screens, QR, crew)", ("1", 1, 6_000_000, (0, 1, 0, 0))),
+    ("D2", "Targeted social and digital ads", ("8 months", 8, 1_000_000, (0, 0.25, 0.375, 0.375))),
+    ("D3", "Creator and influencer content", ("25", 25, 150_000, (0, 0.5, 0.3, 0.2))),
+    ("D4", "Campus ambassador programme", ("20 campuses", 20, 50_000, (0, 0.6, 0.4, 0))),
+    ("D5", "Tournament prize pool and production", ("1", 1, 2_000_000, (0, 0, 1, 0))),
     ("E", "Capital Game Lab (training)", None),
-    ("E1", "Trainee stipends (30 trainees × 12 weeks)", ("360 trainee-weeks", 360, 7_500, (0.25, 0.25, 0.25, 0.25))),
-    ("E2", "Facilitators and mentors", ("2 cohorts", 2, 450_000, (0.25, 0.25, 0.25, 0.25))),
-    ("E3", "Venue, data and equipment", ("2 cohorts", 2, 450_000, (0.25, 0.25, 0.25, 0.25))),
+    ("E1", "Trainee stipends (60 trainees × 12 weeks)", ("720 trainee-weeks", 720, 7_500, (0.083, 0.167, 0.5, 0.25))),
+    ("E2", "Facilitators and mentors", ("2 cohorts", 2, 600_000, (0.25, 0.25, 0.25, 0.25))),
+    ("E3", "Venue, data and equipment", ("2 cohorts", 2, 600_000, (0.25, 0.25, 0.25, 0.25))),
     ("F", "Research and evaluation", None),
-    ("F1", "Player research sessions (40 players each)", ("6", 6, 150_000, (0.33, 0.33, 0.17, 0.17))),
+    ("F1", "Player research sessions (40 players each)", ("8", 8, 150_000, (0.25, 0.25, 0.25, 0.25))),
     ("F2", "Surveys and participant incentives", ("1 lot", 1, 300_000, (0, 0.5, 0, 0.5))),
     ("F3", "Independent end-of-project evaluation", ("1", 1, 800_000, (0, 0, 0, 1))),
     ("G", "Legal and compliance", None),
     ("G1", "Data protection review and policies (NDPA 2023)", ("1", 1, 600_000, (1, 0, 0, 0))),
     ("G2", "Contracts, company secretarial, IP registration", ("1 lot", 1, 500_000, (0.6, 0.2, 0.2, 0))),
-    ("G3", "External audit of grant funds", ("1", 1, 400_000, (0, 0, 0, 1))),
-    ("H", "Contingency (4%)", None),
-    ("H1", "Contingency, released only with funder approval", ("1", 1, 2_000_000, (0.25, 0.25, 0.25, 0.25))),
+    ("G3", "External audit of funds", ("1", 1, 400_000, (0, 0, 0, 1))),
+    ("H", "Contingency (3.6%)", None),
+    ("H1", "Contingency, released only with funder approval", ("1", 1, 2_700_000, (0.25, 0.25, 0.25, 0.25))),
 ]
 
 
@@ -73,7 +74,7 @@ def workbook():
     thin = Side(style="thin", color="D9D2CC")
     ws["A1"] = "Run The Capital · Project budget · The Capital Movement (TCM)"
     ws["A1"].font = Font(bold=True, size=14, color=black)
-    ws["A2"] = "All figures in Naira. Grant request ₦50,000,000. Exchange rate cell F2 (CBN official, 6 Nov 2026)."
+    ws["A2"] = "All figures in Naira. Total project budget ₦75,000,000. Exchange rate cell F2 (CBN official, 6 Nov 2026)."
     ws["A2"].font = Font(italic=True, color="6B6560")
     ws["E2"] = "₦ per US$"
     ws["F2"] = 1347
@@ -110,7 +111,7 @@ def workbook():
         for col in "FGHIJ":
             ws[f"{col}{g}"] = f"=SUM({col}{rows[0]}:{col}{rows[-1]})"
     ws.append([])
-    ws.append(["", "Total grant requested"])
+    ws.append(["", "Total project budget"])
     t = ws.max_row
     for col in "FGHIJ":
         ws[f"{col}{t}"] = "=" + "+".join(f"{col}{g}" for g in group_rows)
@@ -121,9 +122,9 @@ def workbook():
     u = ws.max_row
     ws[f"F{u}"] = f"=F{t}/$F$2"
     ws[f"F{u}"].number_format = '"$"#,##0'
-    ws.append(["", "Check: equals ₦50,000,000"])
+    ws.append(["", "Check: equals ₦75,000,000"])
     k = ws.max_row
-    ws[f"F{k}"] = f'=IF(F{t}=50000000,"OK","CHECK")'
+    ws[f"F{k}"] = f'=IF(F{t}=75000000,"OK","CHECK")'
     for row in ws.iter_rows(min_row=hr + 1, max_row=t):
         for cell in row:
             cell.border = Border(bottom=thin)
@@ -166,7 +167,7 @@ def workbook():
                 quarters[i] += round(amt * spec[3][i])
             quarters[3] += amt - sum(round(amt * spec[3][i]) for i in range(3))
     print("total", total, "quarters", quarters)
-    assert total == 50_000_000, total
+    assert total == 75_000_000, total
 
 
 if __name__ == "__main__":

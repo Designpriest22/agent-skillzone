@@ -1,14 +1,14 @@
-# Run The Capital: ₦50M grant pack (TCM)
+# Run The Capital: ₦75M project pack (TCM)
 
 | File | What it is |
 |---|---|
 | `01_TCM_Company_Profile.pdf` | Background, operations, achievements, services, leadership (TCM facts only) |
 | `02_Project_Description.pdf` | Project, objectives, expected impact, funding requirement |
 | `03_Business_Plan.pdf` | Operations, market, competition, revenue model, sustainability, growth |
-| `04_Project_Budget.pdf` | ₦50,000,000 by category and line item, spend by quarter |
+| `04_Project_Budget.pdf` | ₦75,000,000 by category and line item, spend by quarter |
 | `05_Implementation_Plan.pdf` | Phases, timeline, deliverables, M&E, risks, governance |
 | `TCM_RunTheCapital_Grant_Pack.pdf` | All five in one file |
-| `TCM_RunTheCapital_Budget.xlsx` | Budget workbook with live formulas and a ₦50M check cell |
+| `TCM_RunTheCapital_Budget.xlsx` | Budget workbook with live formulas and a ₦75M check cell |
 | `grant-pack.html` | The designed web version (built from `grant-pack.src.html`) |
 
 Rebuild: `python3 docs/run-the-capital/grant/build.py && node docs/run-the-capital/grant/pdf.js`
