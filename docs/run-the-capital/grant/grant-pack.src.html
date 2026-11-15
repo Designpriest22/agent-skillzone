@@ -1,0 +1,684 @@
+<title>Run The Capital Grant Pack</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a TCM-branded dossier. Black ground, red for money and the project, gold for TCM's own record, silver for structure.
+   Five sections, one per grant requirement, each printable on its own. Committed single dark theme (TCM brand). */
+:root {
+  color-scheme: dark;
+  --bg: #0D0C0C;
+  --bg-2: #151212;
+  --card: #1C1818;
+  --line: #322B2B;
+  --fg: #F2EFEA;
+  --muted: #B3ACA5;
+  --faint: #8A827C;
+  --red: #E2342E;
+  --red-deep: #7A1F1B;
+  --gold: #E8C547;
+  --silver: #C8CCD1;
+  --blue: #5B8FD6;
+  --display: 'Inter Tight', 'Arial Narrow', Arial, sans-serif;
+  --body: 'Inter Tight', Arial, sans-serif;
+  --mono: 'JetBrains Mono', 'Courier New', monospace;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font: 16px/1.55 var(--body); margin: 0; }
+img { max-width: 100%; display: block; }
+a { color: var(--gold); }
+.wrap { max-width: 1180px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+
+/* top bar */
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: #0D0C0CF2; }
+.topbar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: #0D0C0CF2; backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.topbar .wrap { display: flex; align-items: center; gap: 20px; padding-block: 10px; }
+.topbar img { height: 30px; width: auto; }
+.topbar nav { display: flex; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+.topbar nav a { font: 600 13px/1 var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 9px 12px; border-radius: 999px; white-space: nowrap; }
+.topbar nav a:hover, .topbar nav a:focus-visible { color: var(--fg); background: var(--card); outline: none; }
+
+/* hero */
+.hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); }
+.hero > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .32; }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, #0D0C0C 15%, #0D0C0CCC 55%, #0D0C0C55); }
+.hero .wrap { position: relative; z-index: 1; padding-block: 72px 56px; display: grid; gap: 22px; }
+.hero h1 { font: 800 clamp(44px, 8vw, 92px)/.95 var(--display); letter-spacing: -.03em; margin: 0; text-wrap: balance; }
+.hero p.sub { font-size: clamp(18px, 2.2vw, 22px); color: var(--fg); max-width: 640px; margin: 0; }
+.eyebrow { font: 600 13px/1.2 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin: 0; }
+.keyrow { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); margin-top: 18px; }
+.keyrow div { background: #0D0C0CE6; padding: 18px 20px; }
+.keyrow b { display: block; font: 800 34px/1 var(--display); letter-spacing: -.02em; }
+.keyrow span { font-size: 13px; color: var(--muted); }
+
+/* sections */
+section.doc { padding-block: 72px; border-bottom: 1px solid var(--line); scroll-margin-top: 60px; }
+section.doc:nth-of-type(even) { background: var(--bg-2); }
+.doc-head { display: grid; grid-template-columns: 120px 1fr; gap: 24px; align-items: start; margin-bottom: 40px; }
+.doc-num { font: 800 64px/0.9 var(--display); color: var(--red); letter-spacing: -.04em; }
+.doc-head h2 { font: 800 clamp(30px, 4.2vw, 46px)/1.02 var(--display); letter-spacing: -.02em; margin: 6px 0 10px; text-wrap: balance; }
+.doc-head p { color: var(--muted); max-width: 66ch; margin: 0; font-size: 17px; }
+h3 { font: 800 22px/1.2 var(--display); margin: 0 0 8px; letter-spacing: -.01em; }
+h4 { font: 600 12px/1.2 var(--mono); letter-spacing: .12em; text-transform: uppercase; color: var(--gold); margin: 0 0 12px; }
+p { margin: 0; }
+.muted { color: var(--muted); }
+.small { font-size: 14px; }
+.block { margin-top: 48px; }
+.grid2 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+.grid3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
+.grid4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+.split { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 40px; align-items: start; }
+.card { background: var(--card); border-top: 3px solid var(--red); padding: 22px; display: grid; gap: 8px; align-content: start; }
+.card.gold { border-top-color: var(--gold); }
+.card.silver { border-top-color: var(--silver); }
+.card p { color: var(--muted); font-size: 15px; }
+.stat b { display: block; font: 800 46px/1 var(--display); letter-spacing: -.03em; }
+.stat span { color: var(--muted); font-size: 14px; }
+.stat.red b { color: var(--red); }
+.stat.gold b { color: var(--gold); }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { font-size: 14px; font-weight: 600; background: var(--card); border: 1px solid var(--line); padding: 7px 13px; border-radius: 999px; }
+.chip.on { background: var(--red); border-color: var(--red); }
+.src { font: 12px/1.5 var(--mono); color: var(--faint); margin-top: 12px; }
+.photo { width: 100%; object-fit: cover; }
+.figure { display: grid; gap: 8px; }
+.figure figcaption { font: 12px var(--mono); color: var(--faint); }
+figure { margin: 0; }
+
+/* timeline */
+.tl { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+.tl div { border-top: 3px solid var(--line); padding-top: 14px; }
+.tl div:first-child { border-top-color: var(--red); }
+.tl div:last-child { border-top-color: var(--gold); }
+.tl b { font: 800 30px/1 var(--display); display: block; margin-bottom: 6px; }
+.tl div:first-child b { color: var(--red); }
+.tl div:last-child b { color: var(--gold); }
+.tl p { font-size: 14px; color: var(--muted); }
+
+/* team */
+.team { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 16px; }
+.team img { aspect-ratio: 4/5; object-fit: cover; width: 100%; filter: grayscale(1); }
+.team b { display: block; margin-top: 10px; font-size: 15px; }
+.team span { color: var(--muted); font-size: 13px; }
+
+/* bar chart */
+.bars { display: grid; gap: 10px; }
+.bar { display: grid; grid-template-columns: 190px minmax(0, 1fr) 118px; gap: 14px; align-items: center; font-size: 14px; }
+.bar .t { height: 26px; background: #2A2323; border-radius: 0 5px 5px 0; overflow: hidden; }
+.bar .f { height: 100%; background: var(--red); border-radius: 0 5px 5px 0; }
+.bar .f.muted { background: #6E6460; }
+.bar .v { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.bar:hover .f, .bar:focus-within .f { filter: brightness(1.18); }
+
+/* columns */
+.cols { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 18px; align-items: end; height: 240px; border-bottom: 1px solid var(--line); }
+.cols > div { display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; height: 100%; text-align: center; }
+.cols .c { background: var(--red); border-radius: 5px 5px 0 0; }
+.cols .c.gold { background: var(--gold); }
+.cols .cv { font-weight: 800; font-variant-numeric: tabular-nums; }
+.collab { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 18px; text-align: center; font-size: 13px; color: var(--muted); padding-top: 8px; }
+
+/* nested market boxes */
+.mkt { display: grid; gap: 10px; }
+.mkt div { padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.mkt b { font: 800 34px/1 var(--display); white-space: nowrap; }
+.mkt span { font-size: 14px; }
+.mkt small { display: block; font: 600 11px var(--mono); letter-spacing: .12em; text-transform: uppercase; opacity: .85; }
+
+/* tables */
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); }
+table { width: 100%; border-collapse: collapse; font-size: 14px; font-variant-numeric: tabular-nums; }
+th { text-align: left; font: 600 11px/1.3 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); padding: 12px 14px; background: var(--card); border-bottom: 1px solid var(--line); }
+td { padding: 11px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+td.n, th.n { text-align: right; white-space: nowrap; }
+tr.group td { background: #241D1D; font-weight: 700; }
+tr.total td { background: var(--red-deep); font-weight: 800; font-size: 15px; }
+.lvl { font: 600 11px var(--mono); letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 999px; border: 1px solid var(--line); white-space: nowrap; }
+.lvl.med { color: var(--gold); border-color: #E8C54766; }
+.lvl.low { color: var(--silver); }
+
+/* 2x2 */
+.quad { position: relative; aspect-ratio: 1.35; border: 1px solid var(--line); background: linear-gradient(var(--line), var(--line)) 50% 0 / 1px 100% no-repeat, linear-gradient(var(--line), var(--line)) 0 50% / 100% 1px no-repeat; }
+.quad .dot { position: absolute; transform: translate(-50%, -50%); display: grid; justify-items: center; gap: 6px; text-align: center; width: 150px; font-size: 13px; }
+.quad .dot i { width: 14px; height: 14px; border-radius: 50%; background: #8A827C; display: block; }
+.quad .dot.us i { width: 20px; height: 20px; background: var(--red); box-shadow: 0 0 0 6px #E2342E33; }
+.quad .dot.us { font-weight: 800; }
+.quad .ax { position: absolute; font: 11px var(--mono); color: var(--faint); letter-spacing: .08em; text-transform: uppercase; }
+
+/* gantt */
+.gantt { display: grid; gap: 8px; min-width: 760px; }
+.g { display: grid; grid-template-columns: 220px repeat(12, minmax(0, 1fr)); gap: 3px; align-items: center; font-size: 14px; }
+.g .m { font: 11px var(--mono); color: var(--faint); text-align: center; }
+.g .cell { height: 24px; background: #1E1919; }
+.g .cell.r { background: var(--red); }
+.g .cell.y { background: var(--gold); }
+.g .cell.s { background: var(--silver); }
+.legend { display: flex; gap: 18px; flex-wrap: wrap; font-size: 13px; color: var(--muted); margin-top: 14px; }
+.legend i { display: inline-block; width: 12px; height: 12px; margin-right: 6px; vertical-align: -1px; }
+
+.tip { position: fixed; z-index: 30; pointer-events: none; background: #050505; border: 1px solid #ffffff33; padding: 6px 10px; font-size: 13px; max-width: 280px; }
+
+footer { padding-block: 40px 56px; color: var(--faint); font-size: 13px; }
+footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wrap: wrap; align-items: center; }
+footer img { height: 34px; width: auto; }
+
+@media (max-width: 900px) {
+  .grid3, .grid4, .split, .grid2 { grid-template-columns: minmax(0, 1fr); }
+  .keyrow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tl { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .team { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .doc-head { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .bar { grid-template-columns: 120px minmax(0, 1fr) 96px; font-size: 13px; }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .bar .f, .cols .c { transform-origin: left; animation: grow .8s cubic-bezier(.2,.7,.2,1) both; }
+  .cols .c { transform-origin: bottom; animation-name: growUp; }
+  @keyframes grow { from { transform: scaleX(.02); } }
+  @keyframes growUp { from { transform: scaleY(.02); } }
+}
+@media print {
+  .topbar, .tip { display: none !important; }
+  section.doc { break-before: page; padding-block: 28px; }
+  .card, tr, .bar, figure { break-inside: avoid; }
+}
+</style>
+
+<header class="topbar">
+  <div class="wrap">
+    <img src="img/tcm-logo.png" alt="TCM, The Capital Movement">
+    <nav aria-label="Sections">
+      <a href="#profile">Company profile</a>
+      <a href="#project">Project</a>
+      <a href="#business-plan">Business plan</a>
+      <a href="#budget">Budget</a>
+      <a href="#implementation">Implementation</a>
+    </nav>
+  </div>
+</header>
+
+<div class="hero">
+  <img src="img/crowd.jpg" alt="">
+  <div class="wrap">
+    <p class="eyebrow">Grant application · The Capital Movement (TCM)</p>
+    <h1>Run The Capital</h1>
+    <p class="sub">Abuja’s first city game: a browser fighting game built by TCM, using the capital’s real streets and artists.</p>
+    <div class="keyrow">
+      <div><b>₦50M</b><span>grant requested (≈ US$37,100)</span></div>
+      <div><b>12</b><span>months to deliver</span></div>
+      <div><b>60k</b><span>players targeted, year one</span></div>
+      <div><b>30</b><span>young creatives trained</span></div>
+    </div>
+  </div>
+</div>
+
+<main>
+<!-- 1 ─────────────────────────────── COMPANY PROFILE -->
+<section class="doc" id="profile">
+<div class="wrap">
+  <div class="doc-head">
+    <div class="doc-num">01</div>
+    <div><p class="eyebrow">Business / company profile</p><h2>The Capital Movement</h2>
+    <p>Abuja’s culture platform since 2016. TCM connects music, nightlife, fashion, live experiences, talent development, brand partnerships, media and creative services into one movement.</p></div>
+  </div>
+
+  <div class="grid4">
+    <div class="stat gold"><b>10</b><span>years operating in Abuja</span></div>
+    <div class="stat"><b>100+</b><span>events and campaigns created</span></div>
+    <div class="stat"><b>50,000+</b><span>people moved through TCM experiences</span></div>
+    <div class="stat red"><b>20+</b><span>brands moved</span></div>
+  </div>
+  <p class="src">Source: TCM published totals, thecapitalmovement.com</p>
+
+  <div class="block split">
+    <div class="grid2" style="gap:16px">
+      <div class="card"><h4>Background</h4><p>Founded in Abuja in 2016 with one festival and one belief: the capital’s creative energy deserved a platform built to match it.</p></div>
+      <div class="card gold"><h4>Mission</h4><p>To be creative, to inspire, to commit: experiences, platforms and campaigns that connect with audiences emotionally and culturally.</p></div>
+      <div class="card gold"><h4>Vision</h4><p>Abuja recognised as a global culture capital.</p></div>
+      <div class="card silver"><h4>Values</h4><p>Creativity · Clarity · Collaboration · Excellence</p></div>
+    </div>
+    <figure class="figure"><img class="photo" src="img/festival.jpg" alt="Crowd at TCM Festival at night" style="aspect-ratio:3/2"><figcaption>TCM Festival, Abuja’s flagship annual festival since 2016</figcaption></figure>
+  </div>
+
+  <div class="block">
+    <h4>Nature of operations</h4>
+    <div class="grid4">
+      <div class="card"><h3>Owned properties</h3><p>TCM Festival, Meat &amp; Greet (16+ editions), OTB by TCM hangout series.</p></div>
+      <div class="card"><h3>Partner productions</h3><p>Capital Block Party, Festival of Lights, Guinness Bright House.</p></div>
+      <div class="card"><h3>Talent</h3><p>Booking and management across headline acts, DJs and producers.</p></div>
+      <div class="card"><h3>Brand campaigns</h3><p>Activations, sponsorships, content and media for long-term partners.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h4>Achievements</h4>
+    <div class="tl">
+      <div><b>2016</b><p>TCM founded; TCM Festival launches and runs every year since.</p></div>
+      <div><b>2018</b><p>Capital Block Party and Festival of Lights partnerships launch.</p></div>
+      <div><b>2020</b><p>Meat &amp; Greet, a free TCM-owned BBQ party, becomes a city fixture.</p></div>
+      <div><b>2024</b><p>Guinness, Heineken, Pepsi and Hennessy embed as long-term partners.</p></div>
+      <div><b>Now</b><p>Owned festivals, partner productions, talent and campaigns at full scale.</p></div>
+    </div>
+    <div class="grid3" style="margin-top:24px">
+      <figure class="figure"><img class="photo" src="img/odumodu-cbp.jpg" alt="Odumodu Blvck headlining Capital Block Party" style="aspect-ratio:4/3"><figcaption>Odumodu x Capital Block Party: sold out</figcaption></figure>
+      <figure class="figure"><img class="photo" src="img/festival-of-lights.jpg" alt="Festival of Lights crowd" style="aspect-ratio:4/3"><figcaption>Festival of Lights, Area 11, Garki</figcaption></figure>
+      <figure class="figure"><img class="photo" src="img/meat-and-greet.jpg" alt="Guests at Meat and Greet" style="aspect-ratio:4/3"><figcaption>Meat &amp; Greet: 16+ editions</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="block grid2">
+    <div><h4>Brands moved with</h4><div class="chips"><span class="chip">Guinness</span><span class="chip">Heineken</span><span class="chip">Pepsi</span><span class="chip">Hennessy</span><span class="chip">Johnnie Walker</span><span class="chip">Rémy Martin</span><span class="chip">Chivas</span><span class="chip">Glenfiddich</span><span class="chip">Smirnoff</span></div></div>
+    <div><h4>Talent moved for</h4><div class="chips"><span class="chip">Davido</span><span class="chip">Burna Boy</span><span class="chip">Wizkid</span><span class="chip">Tems</span><span class="chip">Rema</span><span class="chip">Asake</span><span class="chip on">Odumodu Blvck</span><span class="chip">Seyi Vibez</span><span class="chip">Ruger</span><span class="chip">Omah Lay</span><span class="chip">Mayorkun</span><span class="chip on">DJ Romie</span><span class="chip">DJ Spinall</span><span class="chip">Sarz</span></div><p class="small muted" style="margin-top:8px">Red: already playable in Run The Capital.</p></div>
+  </div>
+
+  <div class="block">
+    <h4>Services offered</h4>
+    <div class="grid4">
+      <div class="card silver"><h3>Event management</h3><p>Stage builds, lighting and sound, technical direction, pyrotechnics.</p></div>
+      <div class="card silver"><h3>Live streaming</h3><p>Multi-camera broadcasts that take the show beyond the venue.</p></div>
+      <div class="card silver"><h3>PR and marketing</h3><p>Media relations, campaigns and rollouts from announcement to sell-out.</p></div>
+      <div class="card silver"><h3>Design and content</h3><p>Copy, graphic design, 3D event visuals, recap films and social.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h4>Leadership</h4>
+    <div class="team">
+      <div><img src="img/team-oluwasowapo-alonge.jpg" alt="Oluwasowapo Alonge"><b>Oluwasowapo Alonge</b><span>Founder · Lead, Marketing &amp; Growth</span></div>
+      <div><img src="img/team-osaretin-omoruyi.jpg" alt="Osaretin Omoruyi"><b>Osaretin Omoruyi</b><span>Creative Director, Events &amp; Brand Development</span></div>
+      <div><img src="img/team-adeoluwaseye-adeniyi.jpg" alt="Adeoluwaseye Adeniyi"><b>Adeoluwaseye Adeniyi</b><span>Creative Director, Strategy &amp; Innovation</span></div>
+      <div><img src="img/team-nasiru-nyenke.jpg" alt="Nasiru Nyenke"><b>Nasiru Nyenke</b><span>Head, Finance &amp; Administration</span></div>
+      <div><img src="img/team-stephen-egho.jpg" alt="Stephen Egho"><b>Stephen Egho</b><span>Talent &amp; Culture Division</span></div>
+    </div>
+    <p class="small muted" style="margin-top:20px">contact@thecapitalmovement.com · 0704 192 4247 · +234 903 185 7483 · Abuja, FCT, Nigeria</p>
+  </div>
+</div>
+</section>
+
+<!-- 2 ─────────────────────────────── PROJECT -->
+<section class="doc" id="project">
+<div class="wrap">
+  <div class="doc-head">
+    <div class="doc-num">02</div>
+    <div><p class="eyebrow">Proposed project</p><h2>Run The Capital</h2>
+    <p>A free browser game where players fight through Abuja’s real districts as the city’s own artists. It plays on any phone with no download, and every score is verified on TCM’s server. A working build exists today; the grant takes it to a full public launch.</p></div>
+  </div>
+
+  <div class="split">
+    <figure class="figure"><img class="photo" src="img/game-street.jpg" alt="Gameplay: Odumodublvck on a Wuse street with an in-game event billboard" style="aspect-ratio:16/10"><figcaption>Working build: Wuse II stage with a live TCM event billboard</figcaption></figure>
+    <div class="grid2" style="gap:14px">
+      <div class="stat"><b>14</b><span>fighters, including Odumodublvck and DJ Romie</span></div>
+      <div class="stat"><b>6/15</b><span>stages playable today</span></div>
+      <div class="stat red"><b>100%</b><span>of rewarded runs replayed on the server</span></div>
+      <div class="stat gold"><b>19/19</b><span>automated end-to-end checks passing</span></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h4>Objectives</h4>
+    <div class="grid4">
+      <div class="card"><h3>Put Abuja on the digital map</h3><p>Complete all 5 districts and 15 stages, set in real Abuja places and culture.</p></div>
+      <div class="card"><h3>Grow young creative talent</h3><p>Train 30 young Abuja artists, animators and coders in the Capital Game Lab.</p></div>
+      <div class="card"><h3>Build a lasting product</h3><p>Fund running costs from brand placements and cosmetics, never pay-to-win.</p></div>
+      <div class="card"><h3>Decide with data</h3><p>Use live player analytics to guide every update and report to the funder.</p></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h4>Expected impact (12 months, base case)</h4>
+    <div class="tablewrap"><table>
+      <tr><th>Area</th><th>Output</th><th class="n">Target</th><th>Outcome</th></tr>
+      <tr><td>Reach</td><td>Unique players</td><td class="n">60,000</td><td>Abuja culture played on phones across Nigeria</td></tr>
+      <tr><td>Engagement</td><td>Registered profiles</td><td class="n">15,000</td><td>A repeat audience TCM and partners can reach</td></tr>
+      <tr><td>Skills</td><td>Young creatives trained</td><td class="n">30</td><td>Portfolio-ready game artists, animators and developers</td></tr>
+      <tr><td>Jobs</td><td>Paid creative contracts</td><td class="n">18</td><td>Income for Abuja illustrators, musicians, testers and developers</td></tr>
+      <tr><td>City identity</td><td>Stages of real Abuja live</td><td class="n">15</td><td>Wuse, Aminu Kano, Garki, Area 1 and Jabi seen on screens worldwide</td></tr>
+      <tr><td>Sustainability</td><td>Revenue earned in year one</td><td class="n">₦12.2M</td><td>Break-even in year two without further grants</td></tr>
+    </table></div>
+  </div>
+
+  <div class="block split">
+    <div>
+      <h4>Funding requirement</h4>
+      <p class="stat" style="margin-bottom:14px"><b style="font-size:56px">₦50,000,000</b><span>≈ US$37,100 at ₦1,347/$ (CBN, 6 Nov 2026). Grant funds only; TCM contributes its venues, events, team and partner network in kind.</span></p>
+      <div class="bars" data-tipbars>
+        <div class="bar"><span>Content and art</span><div class="t"><div class="f" style="width:100%"></div></div><span class="v">₦14.5M</span></div>
+        <div class="bar"><span>Launch and marketing</span><div class="t"><div class="f" style="width:65.5%"></div></div><span class="v">₦9.5M</span></div>
+        <div class="bar"><span>Engineering and hosting</span><div class="t"><div class="f" style="width:62.1%"></div></div><span class="v">₦9.0M</span></div>
+        <div class="bar"><span>Artist rights</span><div class="t"><div class="f" style="width:48.3%"></div></div><span class="v">₦7.0M</span></div>
+        <div class="bar"><span>Game Lab training</span><div class="t"><div class="f" style="width:31%"></div></div><span class="v">₦4.5M</span></div>
+        <div class="bar"><span>Other (see budget)</span><div class="t"><div class="f muted" style="width:37.9%"></div></div><span class="v">₦5.5M</span></div>
+      </div>
+    </div>
+    <div>
+      <h4>Who benefits</h4>
+      <div class="grid2" style="gap:14px">
+        <div class="card"><h3>Young players</h3><p>Free, data-light entertainment that celebrates their own city.</p></div>
+        <div class="card gold"><h3>Abuja creatives</h3><p>Paid work and training in a growing digital craft.</p></div>
+        <div class="card silver"><h3>Artists</h3><p>A new digital stage reaching fans between shows.</p></div>
+        <div class="card silver"><h3>Brands and the city</h3><p>A modern channel to reach Abuja’s youth, and a new image of the capital.</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 3 ─────────────────────────────── BUSINESS PLAN -->
+<section class="doc" id="business-plan">
+<div class="wrap">
+  <div class="doc-head">
+    <div class="doc-num">03</div>
+    <div><p class="eyebrow">Business plan</p><h2>A national market, won from the capital</h2>
+    <p>Nigeria has Africa’s second-largest games market and almost all of it plays on mobile. No mainstream game tells Abuja’s story. TCM brings the content, the artists and the crowds.</p></div>
+  </div>
+
+  <div class="grid4">
+    <div class="stat"><b>46.5M</b><span>Nigerians play games</span></div>
+    <div class="stat"><b>~90%</b><span>of them on a mobile phone</span></div>
+    <div class="stat"><b>$300M</b><span>Nigeria games revenue, 2024</span></div>
+    <div class="stat red"><b>50.6%</b><span>broadband penetration, Nov 2025 (NCC)</span></div>
+  </div>
+  <p class="src">Sources: Carry1st × Newzoo, Africa Games Report (Feb 2025); Maliyo Games, Nigeria Gaming &amp; Esports Report 2025; NCC data via Nairametrics (Dec 2025)</p>
+
+  <div class="block grid2">
+    <div>
+      <h4>Games revenue by country, 2024 (US$)</h4>
+      <div class="bars" data-tipbars>
+        <div class="bar"><span>Egypt</span><div class="t"><div class="f muted" style="width:100%"></div></div><span class="v">$368M</span></div>
+        <div class="bar"><span><b>Nigeria</b></span><div class="t"><div class="f" style="width:81.5%"></div></div><span class="v">$300M</span></div>
+        <div class="bar"><span>South Africa</span><div class="t"><div class="f muted" style="width:75.5%"></div></div><span class="v">$278M</span></div>
+      </div>
+      <p class="small muted" style="margin-top:14px">Africa overall: $1.8B in 2024, up about 12% year on year, 349M players.</p>
+    </div>
+    <div>
+      <h4>Market size</h4>
+      <div class="mkt">
+        <div style="background:#3A1614"><span><small>TAM · Nigeria</small>All Nigerian gamers ($300M market)</span><b>46.5M</b></div>
+        <div style="background:#7A1F1B;width:80%"><span><small>SAM · Abuja metro</small>4.2M residents × 20% who play</span><b>~840k</b></div>
+        <div style="background:var(--red);width:60%"><span><small>SOM · Year 3</small>Active players</span><b>100k</b></div>
+      </div>
+      <p class="small muted" style="margin-top:12px">20% = Nigeria’s share of people who play (46.5M of ~230M). Year-3 target is about one in eight Abuja gamers plus fans reached through TCM’s artists. Boxes not to scale.</p>
+    </div>
+  </div>
+
+  <div class="block split">
+    <div>
+      <h4>Business operations</h4>
+      <div class="grid2" style="gap:14px">
+        <div class="card"><h3>Build</h3><p>A small core team (lead engineer, developer, game designer) with contracted Abuja artists and musicians.</p></div>
+        <div class="card"><h3>Run live</h3><p>Monthly seasons: new districts, festival missions and tournaments tied to TCM’s calendar.</p></div>
+        <div class="card gold"><h3>Sell</h3><p>TCM’s partnerships team sells in-game placements alongside its event sponsorships.</p></div>
+        <div class="card silver"><h3>Measure</h3><p>A live analytics dashboard tracks players, retention and stage difficulty every day.</p></div>
+      </div>
+    </div>
+    <div>
+      <h4>Competitive position</h4>
+      <div class="quad" role="img" aria-label="Positioning map: local relevance versus ease of access. Run The Capital sits top right.">
+        <span class="ax" style="left:8px;top:8px">High local culture</span>
+        <span class="ax" style="right:8px;bottom:8px">Easy to access →</span>
+        <div class="dot" style="left:24%;top:72%"><i></i>Global console titles</div>
+        <div class="dot" style="left:74%;top:70%"><i></i>Global mobile hits</div>
+        <div class="dot" style="left:30%;top:30%"><i></i>Local app-store games</div>
+        <div class="dot us" style="left:76%;top:24%"><i></i>Run The Capital</div>
+      </div>
+      <p class="small muted" style="margin-top:10px">Easy to access: free, in the browser, data-light, no install. High local culture: real places and real artists.</p>
+    </div>
+  </div>
+
+  <div class="block split">
+    <div>
+      <h4>Revenue model</h4>
+      <div class="tablewrap"><table>
+        <tr><th>Stream</th><th class="n">Year 1</th><th class="n">Year 2</th><th class="n">Year 3</th></tr>
+        <tr><td>In-game brand placements</td><td class="n">₦8.0M</td><td class="n">₦22.0M</td><td class="n">₦40.0M</td></tr>
+        <tr><td>Event tie-ins and tournaments</td><td class="n">₦3.0M</td><td class="n">₦8.0M</td><td class="n">₦14.0M</td></tr>
+        <tr><td>Cosmetics and boosts (₦350–₦800)</td><td class="n">₦1.2M</td><td class="n">₦6.0M</td><td class="n">₦14.0M</td></tr>
+        <tr class="total"><td>Total revenue</td><td class="n">₦12.2M</td><td class="n">₦36.0M</td><td class="n">₦68.0M</td></tr>
+        <tr><td>Running costs after the grant</td><td class="n">grant-funded</td><td class="n">₦30.0M</td><td class="n">₦42.0M</td></tr>
+      </table></div>
+      <p class="small muted" style="margin-top:12px">Projections, base case. Alcohol brands stay at physical events only; in-game placements are limited to all-ages categories such as telecoms, fintech and food.</p>
+    </div>
+    <div>
+      <h4>Revenue vs running costs (₦M)</h4>
+      <div class="cols" data-tipcols>
+        <div data-tip="Year 1 revenue: ₦12.2M"><span class="cv">12.2</span><div class="c" style="height:16%"></div></div>
+        <div data-tip="Year 2 revenue: ₦36.0M, costs ₦30.0M"><span class="cv">36.0</span><div class="c" style="height:48%"></div></div>
+        <div data-tip="Year 3 revenue: ₦68.0M, costs ₦42.0M"><span class="cv">68.0</span><div class="c" style="height:90%"></div></div>
+      </div>
+      <div class="collab"><span>Year 1</span><span>Year 2</span><span>Year 3</span></div>
+      <p class="small muted" style="margin-top:12px">Break-even in year 2: revenue ₦36.0M against ₦30.0M running costs.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h4>Key assumptions</h4>
+    <div class="tablewrap"><table>
+      <tr><th>Assumption</th><th class="n">Value</th><th>Basis</th></tr>
+      <tr><td>Day-1 / Day-7 / Day-30 retention</td><td class="n">25% / 10% / 4%</td><td>Mobile games benchmarks: D1 ≈ 22–27%, D7 ≈ 8–13%, D30 ≈ 3–7% (GameAnalytics 2026)</td></tr>
+      <tr><td>Players who buy a cosmetic</td><td class="n">2%</td><td>Typical 1–2% payer conversion in free-to-play games</td></tr>
+      <tr><td>Brand placement price</td><td class="n">₦2.0–2.5M per campaign</td><td>Comparable to one TCM event activation</td></tr>
+      <tr><td>Campaigns per year</td><td class="n">4 → 9 → 16</td><td>TCM’s 20+ existing brand relationships</td></tr>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <h4>Sustainability and growth strategy</h4>
+    <div class="grid3">
+      <div class="card"><p class="eyebrow" style="color:var(--red)">Year 1 · Abuja</p><h3>Own the capital</h3><p>Launch at TCM events, campus ambassadors, area leaderboards for all 10 home areas.</p></div>
+      <div class="card gold"><p class="eyebrow">Year 2 · Nigeria</p><h3>Go national</h3><p>Lagos and Port Harcourt guest districts, artist collaborations, national tournaments.</p></div>
+      <div class="card silver"><p class="eyebrow" style="color:var(--silver)">Year 3 · Diaspora</p><h3>Take Abuja abroad</h3><p>Diaspora fan events, a mobile app wrapper, licensing the engine to other city brands.</p></div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- 4 ─────────────────────────────── BUDGET -->
+<section class="doc" id="budget">
+<div class="wrap">
+  <div class="doc-head">
+    <div class="doc-num">04</div>
+    <div><p class="eyebrow">Project budget</p><h2>₦50,000,000, line by line</h2>
+    <p>Every line ties to an activity and a deliverable. Unit × quantity × rate is shown for each. Unused contingency is reported and returned or reallocated with the funder’s approval.</p></div>
+  </div>
+
+  <div class="split">
+    <div>
+      <h4>Allocation by category</h4>
+      <div class="bars" data-tipbars>
+        <div class="bar"><span>Game content and art</span><div class="t"><div class="f" style="width:100%"></div></div><span class="v">₦14.5M · 29%</span></div>
+        <div class="bar"><span>Launch and marketing</span><div class="t"><div class="f" style="width:65.5%"></div></div><span class="v">₦9.5M · 19%</span></div>
+        <div class="bar"><span>Engineering and hosting</span><div class="t"><div class="f" style="width:62.1%"></div></div><span class="v">₦9.0M · 18%</span></div>
+        <div class="bar"><span>Artist rights and talent</span><div class="t"><div class="f" style="width:48.3%"></div></div><span class="v">₦7.0M · 14%</span></div>
+        <div class="bar"><span>Capital Game Lab</span><div class="t"><div class="f" style="width:31%"></div></div><span class="v">₦4.5M · 9%</span></div>
+        <div class="bar"><span>Research and evaluation</span><div class="t"><div class="f" style="width:13.8%"></div></div><span class="v">₦2.0M · 4%</span></div>
+        <div class="bar"><span>Contingency</span><div class="t"><div class="f muted" style="width:13.8%"></div></div><span class="v">₦2.0M · 4%</span></div>
+        <div class="bar"><span>Legal and compliance</span><div class="t"><div class="f" style="width:10.3%"></div></div><span class="v">₦1.5M · 3%</span></div>
+      </div>
+    </div>
+    <div>
+      <h4>Planned spend by quarter (₦M)</h4>
+      <div class="cols" data-tipcols>
+        <div data-tip="Q1 (months 1–3): ₦16.5M · team, artist licences, art, beta"><span class="cv">16.5</span><div class="c" style="height:88%"></div></div>
+        <div data-tip="Q2 (months 4–6): ₦17.6M · production peak and launch"><span class="cv">17.6</span><div class="c" style="height:94%"></div></div>
+        <div data-tip="Q3 (months 7–9): ₦10.7M · seasons, tournament, cohort 2"><span class="cv">10.7</span><div class="c" style="height:57%"></div></div>
+        <div data-tip="Q4 (months 10–12): ₦5.2M · final stages, evaluation, audit"><span class="cv">5.2</span><div class="c" style="height:28%"></div></div>
+      </div>
+      <div class="collab"><span>Q1</span><span>Q2</span><span>Q3</span><span>Q4</span></div>
+      <p class="small muted" style="margin-top:12px">Spend peaks in Q2 with production and the month-6 launch.</p>
+    </div>
+  </div>
+
+  <div class="block">
+    <h4>Detailed line items</h4>
+    <div class="tablewrap"><table>
+      <tr><th>Code</th><th>Item</th><th class="n">Qty</th><th class="n">Unit cost (₦)</th><th class="n">Total (₦)</th></tr>
+      <tr class="group"><td>A</td><td>Game content and art</td><td></td><td></td><td class="n">14,500,000</td></tr>
+      <tr><td>A1</td><td>Fighter animation sets</td><td class="n">14 fighters</td><td class="n">300,000</td><td class="n">4,200,000</td></tr>
+      <tr><td>A2</td><td>Stage environment art (9 new substages)</td><td class="n">9</td><td class="n">250,000</td><td class="n">2,250,000</td></tr>
+      <tr><td>A3</td><td>New bosses, art and animation</td><td class="n">3</td><td class="n">350,000</td><td class="n">1,050,000</td></tr>
+      <tr><td>A4</td><td>Remaining portraits and interface art</td><td class="n">1 lot</td><td class="n">1,000,000</td><td class="n">1,000,000</td></tr>
+      <tr><td>A5</td><td>Original music and sound (Abuja producers)</td><td class="n">6 tracks</td><td class="n">250,000</td><td class="n">1,500,000</td></tr>
+      <tr><td>A6</td><td>Game and level designer (contract)</td><td class="n">8 months</td><td class="n">250,000</td><td class="n">2,000,000</td></tr>
+      <tr><td>A7</td><td>QA testers</td><td class="n">2 × 6 months</td><td class="n">100,000</td><td class="n">1,200,000</td></tr>
+      <tr><td>A8</td><td>Device test lab (entry and mid-range Android)</td><td class="n">10 phones</td><td class="n">130,000</td><td class="n">1,300,000</td></tr>
+      <tr class="group"><td>B</td><td>Engineering and hosting</td><td></td><td></td><td class="n">9,000,000</td></tr>
+      <tr><td>B1</td><td>Lead engineer</td><td class="n">9 months</td><td class="n">500,000</td><td class="n">4,500,000</td></tr>
+      <tr><td>B2</td><td>Game developer</td><td class="n">9 months</td><td class="n">350,000</td><td class="n">3,150,000</td></tr>
+      <tr><td>B3</td><td>Cloud hosting, database, CDN, monitoring</td><td class="n">12 months</td><td class="n">85,000</td><td class="n">1,020,000</td></tr>
+      <tr><td>B4</td><td>Domain, email, tools and licences</td><td class="n">1 lot</td><td class="n">330,000</td><td class="n">330,000</td></tr>
+      <tr class="group"><td>C</td><td>Artist rights and talent</td><td></td><td></td><td class="n">7,000,000</td></tr>
+      <tr><td>C1</td><td>Name and likeness licences</td><td class="n">4 artists</td><td class="n">1,250,000</td><td class="n">5,000,000</td></tr>
+      <tr><td>C2</td><td>Artist launch appearances and content</td><td class="n">4</td><td class="n">375,000</td><td class="n">1,500,000</td></tr>
+      <tr><td>C3</td><td>Talent agreements (legal drafting)</td><td class="n">1 lot</td><td class="n">500,000</td><td class="n">500,000</td></tr>
+      <tr class="group"><td>D</td><td>Launch and marketing</td><td></td><td></td><td class="n">9,500,000</td></tr>
+      <tr><td>D1</td><td>Festival launch activation (stage, screens, QR, crew)</td><td class="n">1</td><td class="n">3,500,000</td><td class="n">3,500,000</td></tr>
+      <tr><td>D2</td><td>Targeted social ads, Abuja</td><td class="n">5 months</td><td class="n">500,000</td><td class="n">2,500,000</td></tr>
+      <tr><td>D3</td><td>Creator and influencer content</td><td class="n">10</td><td class="n">150,000</td><td class="n">1,500,000</td></tr>
+      <tr><td>D4</td><td>Campus ambassador programme</td><td class="n">10 campuses</td><td class="n">50,000</td><td class="n">500,000</td></tr>
+      <tr><td>D5</td><td>Tournament prize pool and production</td><td class="n">1</td><td class="n">1,500,000</td><td class="n">1,500,000</td></tr>
+      <tr class="group"><td>E</td><td>Capital Game Lab (training)</td><td></td><td></td><td class="n">4,500,000</td></tr>
+      <tr><td>E1</td><td>Trainee stipends</td><td class="n">30 × 12 weeks</td><td class="n">7,500 / week</td><td class="n">2,700,000</td></tr>
+      <tr><td>E2</td><td>Facilitators and mentors</td><td class="n">2 cohorts</td><td class="n">450,000</td><td class="n">900,000</td></tr>
+      <tr><td>E3</td><td>Venue, data and equipment</td><td class="n">2 cohorts</td><td class="n">450,000</td><td class="n">900,000</td></tr>
+      <tr class="group"><td>F</td><td>Research and evaluation</td><td></td><td></td><td class="n">2,000,000</td></tr>
+      <tr><td>F1</td><td>Player research sessions (40 players each)</td><td class="n">6</td><td class="n">150,000</td><td class="n">900,000</td></tr>
+      <tr><td>F2</td><td>Surveys and participant incentives</td><td class="n">1 lot</td><td class="n">300,000</td><td class="n">300,000</td></tr>
+      <tr><td>F3</td><td>Independent end-of-project evaluation</td><td class="n">1</td><td class="n">800,000</td><td class="n">800,000</td></tr>
+      <tr class="group"><td>G</td><td>Legal and compliance</td><td></td><td></td><td class="n">1,500,000</td></tr>
+      <tr><td>G1</td><td>Data protection review and policies (NDPA 2023)</td><td class="n">1</td><td class="n">600,000</td><td class="n">600,000</td></tr>
+      <tr><td>G2</td><td>Contracts, company secretarial, IP registration</td><td class="n">1 lot</td><td class="n">500,000</td><td class="n">500,000</td></tr>
+      <tr><td>G3</td><td>External audit of grant funds</td><td class="n">1</td><td class="n">400,000</td><td class="n">400,000</td></tr>
+      <tr class="group"><td>H</td><td>Contingency (4%)</td><td></td><td></td><td class="n">2,000,000</td></tr>
+      <tr class="total"><td></td><td>Total grant requested</td><td></td><td></td><td class="n">50,000,000</td></tr>
+    </table></div>
+    <p class="src">Rates are planning estimates in Naira, November 2026. ≈ US$37,100 at ₦1,347/$ (CBN official rate, 6 Nov 2026). Full workbook with formulas: Budget sheet (.xlsx).</p>
+  </div>
+</div>
+</section>
+
+<!-- 5 ─────────────────────────────── IMPLEMENTATION -->
+<section class="doc" id="implementation">
+<div class="wrap">
+  <div class="doc-head">
+    <div class="doc-num">05</div>
+    <div><p class="eyebrow">Implementation plan</p><h2>Twelve months, four phases</h2>
+    <p>The public launch lands in month 6 at a TCM event. Players, retention and stage data are reported to the funder every quarter from the live dashboard.</p></div>
+  </div>
+
+  <div class="tablewrap" style="border:0">
+    <div class="gantt" role="img" aria-label="Twelve-month timeline of project activities">
+      <div class="g"><span></span><span class="m">M1</span><span class="m">M2</span><span class="m">M3</span><span class="m">M4</span><span class="m">M5</span><span class="m">M6</span><span class="m">M7</span><span class="m">M8</span><span class="m">M9</span><span class="m">M10</span><span class="m">M11</span><span class="m">M12</span></div>
+      <!-- rows filled by the script below from one data list -->
+    </div>
+  </div>
+  <div class="legend"><span><i style="background:var(--red)"></i>Game delivery</span><span><i style="background:var(--gold)"></i>Training</span><span><i style="background:var(--silver)"></i>Setup and reporting</span></div>
+
+  <div class="block grid4">
+    <div class="card silver"><p class="eyebrow" style="color:var(--silver)">Months 1–2</p><h3>Foundation</h3><p>Hire core team, sign artist licences, data protection review, closed beta with 500 players.</p></div>
+    <div class="card"><p class="eyebrow" style="color:var(--red)">Months 3–5</p><h3>Production</h3><p>Animations for all 14 fighters, Garki stages, first Game Lab cohort, launch content.</p></div>
+    <div class="card"><p class="eyebrow" style="color:var(--red)">Month 6</p><h3>Launch</h3><p>Public launch on stage at a TCM event, Paystack store live, campus ambassadors.</p></div>
+    <div class="card gold"><p class="eyebrow">Months 7–12</p><h3>Grow and sustain</h3><p>Area 1 and Jabi districts, monthly seasons, tournament, second cohort, evaluation.</p></div>
+  </div>
+
+  <div class="block">
+    <h4>Deliverables and milestones</h4>
+    <div class="tablewrap"><table>
+      <tr><th>Month</th><th>Deliverable</th><th>Evidence for the funder</th></tr>
+      <tr><td>2</td><td>Signed artist licences; closed beta live</td><td>Contracts; beta player report</td></tr>
+      <tr><td>3</td><td>Q1 report; data protection policy published</td><td>Dashboard export; privacy notice</td></tr>
+      <tr><td>5</td><td>Game Lab cohort 1 graduates (15); 14 fighters animated</td><td>Register; trainee portfolios; build</td></tr>
+      <tr><td>6</td><td>Public launch; 9 stages live</td><td>Launch recap film; player numbers</td></tr>
+      <tr><td>9</td><td>Tournament held; Q3 report</td><td>Results; sponsor contracts</td></tr>
+      <tr><td>10</td><td>Game Lab cohort 2 graduates (15)</td><td>Register; portfolios</td></tr>
+      <tr><td>12</td><td>All 15 stages live; independent evaluation; audit</td><td>Evaluation report; audited accounts</td></tr>
+    </table></div>
+  </div>
+
+  <div class="block">
+    <h4>Monitoring and evaluation</h4>
+    <div class="tablewrap"><table>
+      <tr><th>Indicator</th><th class="n">Today</th><th class="n">Month 6</th><th class="n">Month 12</th><th>Measured by</th></tr>
+      <tr><td>Unique players</td><td class="n">0</td><td class="n">15,000</td><td class="n">60,000</td><td>Live analytics</td></tr>
+      <tr><td>Registered profiles</td><td class="n">0</td><td class="n">4,000</td><td class="n">15,000</td><td>Game database</td></tr>
+      <tr><td>Day-7 retention</td><td class="n">–</td><td class="n">8%</td><td class="n">10%</td><td>Cohort report</td></tr>
+      <tr><td>Stages live</td><td class="n">6</td><td class="n">9</td><td class="n">15</td><td>Released build</td></tr>
+      <tr><td>Young creatives trained</td><td class="n">0</td><td class="n">15</td><td class="n">30</td><td>Game Lab register</td></tr>
+      <tr><td>Brand campaigns in game</td><td class="n">2</td><td class="n">3</td><td class="n">6</td><td>Signed contracts</td></tr>
+      <tr><td>Revenue earned</td><td class="n">₦0</td><td class="n">₦3M</td><td class="n">₦12.2M</td><td>Audited ledger</td></tr>
+    </table></div>
+    <p class="small muted" style="margin-top:12px">“Today” brand campaigns are the two event billboards already in the game.</p>
+  </div>
+
+  <div class="block split">
+    <figure class="figure"><img class="photo" src="img/dashboard.jpg" alt="Live player analytics dashboard" style="aspect-ratio:16/10;object-position:top"><figcaption>Staff analytics dashboard from the working build, shown with demo data</figcaption></figure>
+    <div>
+      <h4>Risks and mitigation</h4>
+      <div class="tablewrap"><table>
+        <tr><th>Risk</th><th>Level</th><th>Mitigation</th></tr>
+        <tr><td>Artist consent delays</td><td><span class="lvl med">Medium</span></td><td>Contracts in month 1; original fighters as stand-ins</td></tr>
+        <tr><td>Players drop off early</td><td><span class="lvl med">Medium</span></td><td>Weekly balancing from live funnel data</td></tr>
+        <tr><td>Data costs, old phones</td><td><span class="lvl med">Medium</span></td><td>~4 MB browser game, plays offline once loaded</td></tr>
+        <tr><td>Leaderboard cheating</td><td><span class="lvl low">Low</span></td><td>Server replays every run</td></tr>
+        <tr><td>Payment fraud</td><td><span class="lvl low">Low</span></td><td>Paystack-verified payments only</td></tr>
+        <tr><td>Privacy law</td><td><span class="lvl low">Low</span></td><td>Anonymous analytics, opt-out, NDPA review</td></tr>
+      </table></div>
+    </div>
+  </div>
+
+  <div class="block">
+    <h4>Governance</h4>
+    <div class="grid4">
+      <div class="card"><h3>Project lead</h3><p>Oluwasowapo Alonge: delivery, growth and partner relations.</p></div>
+      <div class="card"><h3>Creative</h3><p>Osaretin Omoruyi and Adeoluwaseye Adeniyi: art direction, launch event, strategy.</p></div>
+      <div class="card gold"><h3>Finance and reporting</h3><p>Nasiru Nyenke: grant account, quarterly reports, audit.</p></div>
+      <div class="card silver"><h3>Talent</h3><p>Stephen Egho: artist licences, appearances and consent.</p></div>
+    </div>
+  </div>
+</div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <img src="img/tcm-logo.png" alt="TCM">
+    <span>The Capital Movement · Abuja, FCT, Nigeria · contact@thecapitalmovement.com · Prepared November 2026</span>
+  </div>
+</footer>
+
+<div class="tip" id="tip" hidden></div>
+<script>
+// Gantt rows from one list: [label, colour, [start, end] month ranges]
+const ROWS = [
+  ['Team, contracts, artist rights', 's', [[1, 2]]],
+  ['Analytics and closed beta', 's', [[1, 3]]],
+  ['Fighter animation and art', 'r', [[2, 7]]],
+  ['Stages 03–05 and bosses', 'r', [[3, 10]]],
+  ['Capital Game Lab cohorts', 'y', [[3, 5], [8, 10]]],
+  ['Launch campaign', 'r', [[5, 6]]],
+  ['Live seasons and tournament', 'r', [[7, 12]]],
+  ['Reports to funder', 's', [[3, 3], [6, 6], [9, 9], [12, 12]]],
+];
+const gantt = document.querySelector('.gantt');
+for (const [label, colour, ranges] of ROWS) {
+  const row = document.createElement('div'); row.className = 'g';
+  const name = document.createElement('span'); name.textContent = label; row.append(name);
+  for (let m = 1; m <= 12; m++) {
+    const c = document.createElement('span');
+    const on = ranges.some(([a, b]) => m >= a && m <= b);
+    c.className = 'cell' + (on ? ' ' + colour : '');
+    if (on) c.dataset.tip = `${label}: month ${m}`;
+    row.append(c);
+  }
+  gantt.append(row);
+}
+// Hover readouts for bars, columns and gantt cells
+const tip = document.getElementById('tip');
+document.addEventListener('mousemove', (e) => {
+  const bar = e.target.closest('.bar');
+  const el = e.target.closest('[data-tip]');
+  const text = el ? el.dataset.tip : bar ? `${bar.children[0].textContent}: ${bar.children[2].textContent}` : '';
+  if (!text) { tip.hidden = true; return; }
+  tip.textContent = text; tip.hidden = false;
+  tip.style.left = Math.min(e.clientX + 14, innerWidth - 300) + 'px'; tip.style.top = (e.clientY + 14) + 'px';
+});
+</script>
