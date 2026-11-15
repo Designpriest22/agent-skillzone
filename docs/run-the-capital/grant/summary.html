@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>Run The Capital Project Summary</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;600;800&family=JetBrains+Mono:wght@600&display=swap">
+<style>
+:root { --bg:#0D0C0C; --card:#1C1818; --line:#322B2B; --fg:#F2EFEA; --muted:#B3ACA5; --red:#E2342E; --gold:#E8C547; }
+@page { size: A4; margin: 0; }
+* { box-sizing: border-box; margin: 0; }
+html, body { background: var(--bg); color: var(--fg); font: 13.5px/1.5 'Inter Tight', Arial, sans-serif; }
+.page { width: 210mm; min-height: 297mm; padding: 16mm 16mm 12mm; display: flex; flex-direction: column; gap: 7mm; }
+header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid var(--line); padding-bottom: 6mm; }
+header img { height: 34px; }
+.eyebrow { font: 600 10px 'JetBrains Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); }
+h1 { font: 800 40px/1 'Inter Tight', Arial, sans-serif; letter-spacing: -.02em; margin-top: 6px; }
+.ask { text-align: right; }
+.ask b { display: block; font: 800 26px/1 'Inter Tight', Arial, sans-serif; color: var(--red); margin-top: 6px; }
+.ask span { color: var(--muted); font-size: 12px; }
+.lead { font-size: 16px; line-height: 1.45; max-width: 160mm; }
+h2 { font: 600 10px 'JetBrains Mono', monospace; letter-spacing: .14em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+.box { background: var(--card); border-top: 3px solid var(--red); padding: 5mm; }
+.box p, li { color: var(--muted); }
+ul { padding-left: 16px; display: grid; gap: 3px; }
+.stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3mm; }
+.stats div { border-top: 3px solid var(--red); padding-top: 3mm; }
+.stats b { display: block; font: 800 24px/1 'Inter Tight', Arial, sans-serif; }
+.stats span { color: var(--muted); font-size: 11.5px; }
+footer { margin-top: auto; border-top: 1px solid var(--line); padding-top: 4mm; display: flex; justify-content: space-between; color: var(--muted); font-size: 11.5px; }
+</style></head>
+<body><div class="page">
+
+<header>
+  <div><img src="img/tcm-logo.png" alt="TCM"><p class="eyebrow" style="margin-top:10px">Project summary</p><h1>Run The Capital</h1></div>
+  <div class="ask"><p class="eyebrow">Grant request</p><b>₦50,000,000</b><span>12 months</span></div>
+</header>
+
+<p class="lead">A free browser fighting game set in real Abuja. Players fight through the city’s districts as Abuja’s own artists, including Odumodublvck and DJ Romie. It runs on any phone with no download.</p>
+
+<div class="two">
+  <div class="box"><h2>The opportunity</h2><p>46.5 million Nigerians play games, about 90% of them on mobile. No mainstream game tells Abuja’s story.</p></div>
+  <div class="box"><h2>Where it stands</h2><p>A working build already exists: 14 fighters, 6 playable stages, player profiles, leaderboards, secure payments and live player analytics.</p></div>
+</div>
+
+<div class="two">
+  <div><h2>What the grant funds</h2><ul>
+    <li>Completing the game: 24 stages across Abuja</li>
+    <li>Animation, art and music by Abuja creatives</li>
+    <li>Training 60 young Abuja creatives in game production</li>
+    <li>Public launch at a TCM event</li>
+  </ul></div>
+  <div><h2>How it sustains itself</h2><ul>
+    <li>In-game brand placements</li>
+    <li>Event tie-ins and tournaments</li>
+    <li>Cosmetic items, never pay-to-win</li>
+    <li>Break-even in year two</li>
+  </ul></div>
+</div>
+
+<div><h2>12-month targets</h2>
+  <div class="stats">
+    <div><b>130k</b><span>players</span></div>
+    <div><b>90k</b><span>registered profiles</span></div>
+    <div><b>60</b><span>youths trained</span></div>
+    <div><b>18</b><span>paid creative contracts</span></div>
+    <div><b>24</b><span>stages of real Abuja</span></div>
+  </div>
+</div>
+
+<div class="box" style="border-top-color:var(--gold)"><h2>Who delivers it</h2><p>The Capital Movement (TCM), Abuja’s culture platform since 2016: 100+ events, 50,000+ people and 20+ brand partners.</p></div>
+
+<footer><span>The Capital Movement · Abuja, FCT, Nigeria</span><span>contact@thecapitalmovement.com · 0704 192 4247</span></footer>
+</div></body></html>
