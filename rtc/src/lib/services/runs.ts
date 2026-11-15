@@ -15,7 +15,11 @@ export const startSchema = z.object({
   substage: z.string().refine((s) => !!SUBSTAGES[s], "Unknown stage."),
   fighter: z.string().refine((f) => !!FIGHTERS[f], "Unknown fighter."),
   equipment: z.string().nullable().optional(),
+  assist: z.string().refine((f) => !!FIGHTERS[f], "Unknown crew member.").nullable().optional(),
 });
+
+/** Story Mode stars Odumodu Blvck; only his runs may call in a crew member. */
+export const STORY_LEAD = "odumodu";
 
 export const finishSchema = z.object({
   runId: z.string().uuid(),
@@ -37,7 +41,13 @@ export async function startRun(userId: string | null, input: z.infer<typeof star
   const open = await unlockedSubstages(userId);
   if (!open.has(input.substage)) throw new HttpError(403, "Clear the previous substage first.", "locked_stage");
   let equipment: EquipmentId | null = null;
+  const assist = input.assist ?? null;
+  if (assist && (input.fighter !== STORY_LEAD || assist === STORY_LEAD)) throw new HttpError(400, "Only Odumodu can call in a crew member.", "bad_assist");
   if (userId) {
+    if (assist) {
+      const crew = await db()`select 1 from fighters_owned where user_id = ${userId} and fighter_id = ${assist}`;
+      if (!crew.length) throw new HttpError(403, "That crew member hasn't joined you yet.", "locked_assist");
+    }
     const owned = await db()`select 1 from fighters_owned where user_id = ${userId} and fighter_id = ${input.fighter}`;
     if (!owned.length) throw new HttpError(403, "You haven't unlocked that fighter yet.", "locked_fighter");
     if (input.equipment) {
@@ -48,14 +58,14 @@ export async function startRun(userId: string | null, input: z.infer<typeof star
       if (!inv.length) throw new HttpError(403, "You don't own that equipment.", "locked_equipment");
       equipment = id;
     }
-  } else if (!STARTERS.includes(input.fighter)) {
+  } else if (!STARTERS.includes(input.fighter) || (assist && !STARTERS.includes(assist))) {
     throw new HttpError(403, "Sign in to play that fighter.", "locked_fighter");
   }
   const seed = randomInt(1, 2 ** 31 - 1);
   const [r] = await db()`
-    insert into runs (user_id, fighter_id, substage_id, equipment, seed)
-    values (${userId}, ${input.fighter}, ${input.substage}, ${equipment}, ${seed}) returning id`;
-  return { runId: r!.id as string, seed, equipment };
+    insert into runs (user_id, fighter_id, substage_id, equipment, assist, seed)
+    values (${userId}, ${input.fighter}, ${input.substage}, ${equipment}, ${assist}, ${seed}) returning id`;
+  return { runId: r!.id as string, seed, equipment, assist };
 }
 
 export interface RewardLine { label: string; xp: number; cash: number }
@@ -91,7 +101,7 @@ export async function finishRun(userId: string | null, input: z.infer<typeof fin
     if (elapsed + 3 < inputs.length / 60) return reject("submitted faster than real time");
     if (elapsed > 3 * 3600) return reject("run expired");
 
-    const result = simulate({ seed: Number(run.seed), substage: run.substage_id, fighter: run.fighter_id, equipment: run.equipment }, inputs);
+    const result = simulate({ seed: Number(run.seed), substage: run.substage_id, fighter: run.fighter_id, equipment: run.equipment, assist: run.assist ?? null }, inputs);
     if (result.score !== input.claimed.score || result.cleared !== input.claimed.cleared) return reject("score did not match the server replay");
 
     await tx`update runs set status = 'verified', finished_at = now(), ticks = ${result.ticks}, score = ${result.score},

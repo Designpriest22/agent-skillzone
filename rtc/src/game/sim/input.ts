@@ -1,4 +1,4 @@
-/** Input bits. One 11-bit mask per 60 Hz tick is the whole player input. */
+/** Input bits. One 12-bit mask per 60 Hz tick is the whole player input. */
 export const B = {
   LEFT: 1,
   RIGHT: 2,
@@ -11,6 +11,7 @@ export const B = {
   DODGE: 256,
   ULT: 512,
   EQUIP: 1024,
+  ASSIST: 2048, // call the crew member (Story Mode)
 } as const;
 
 export const MAX_TICKS = 60 * 60 * 12; // 12 minutes per run
@@ -39,7 +40,7 @@ export function decodeInputs(s: string, maxTicks = MAX_TICKS): Uint16Array {
     if (dot < 1) throw new Error("bad input encoding");
     const m = parseInt(p.slice(0, dot), 36);
     const n = parseInt(p.slice(dot + 1), 36);
-    if (!Number.isFinite(m) || !Number.isFinite(n) || m < 0 || m > 2047 || n < 1) throw new Error("bad input encoding");
+    if (!Number.isFinite(m) || !Number.isFinite(n) || m < 0 || m > 4095 || n < 1) throw new Error("bad input encoding");
     total += n;
     if (total > maxTicks) throw new Error("input log too long");
     pairs.push([m, n]);

@@ -72,7 +72,10 @@ export type SimEvent =
   | { e: "sfx"; name: string }
   | { e: "toast"; text: string };
 
-export interface SimConfig { seed: number; substage: string; fighter: string; equipment?: EquipmentId | null; recordEvents?: boolean }
+/** `assist` is the crew member Odumodu calls in during Story Mode (any fighter id other than the player's). */
+export interface SimConfig { seed: number; substage: string; fighter: string; equipment?: EquipmentId | null; assist?: string | null; recordEvents?: boolean }
+
+export const ASSIST_COOLDOWN = 900; // 15 seconds
 
 export interface RunResult {
   substage: string; fighter: string; cleared: boolean; failed: boolean; ticks: number;
@@ -102,6 +105,7 @@ export class Sim {
   waveLive: number[] = [];
   hitstop = 0;
   score = 0; combo = 0; comboT = 0; maxCombo = 0; kos = 0; dmgTaken = 0; tokens = 0; lives = 2;
+  assistCD = 0;
   special = 30; ult = 0; equipCD = 0; buffT = 0; buffMul = 1; buffKind = ""; shieldT = 0; smokeT = 0;
   dashT = 0; dashLeft = 0; dashDmg = 0; dashUlt = false;
   ended: "clear" | "fail" | null = null;
@@ -173,6 +177,7 @@ export class Sim {
     if (this.shieldT > 0) this.shieldT--;
     if (this.smokeT > 0) this.smokeT--;
     if (this.equipCD > 0) this.equipCD--;
+    if (this.assistCD > 0) this.assistCD--;
     this.actors = this.actors.filter((a) => a.st !== "dead" || a.t < 60);
     for (const a of this.actors) if (a.st === "dead") a.t++;
   }
@@ -256,6 +261,7 @@ export class Sim {
       this.ev({ e: "sfx", name: "nope" });
     }
     if (pressed & B.EQUIP) this.useEquipment(p);
+    if (pressed & B.ASSIST) this.callAssist(p);
     if (pressed & B.JUMP) {
       p.st = "air"; p.t = 0; p.vz = this.tune.jumpV; p.airAtk = 0; p.move = null; p.airJumps = this.tune.airJumps;
       this.ev({ e: "sfx", name: "jump" });
@@ -346,6 +352,17 @@ export class Sim {
     if (Math.abs(e.y - p.y) > mv.ry + (e.boss ? 10 : 0)) return false;
     if (mv.air) return Math.abs(e.z - p.z) < 70;
     return e.z < 60 || e.st === "thrown";
+  }
+
+  /** Story Mode crew call: the crew member charges across the player's lane, hitting everything in it. */
+  private callAssist(p: Actor) {
+    const id = this.cfg.assist;
+    const crew = id ? FIGHTERS[id] : undefined;
+    if (!crew || crew.id === this.fighter.id || this.assistCD > 0) { if (crew) this.ev({ e: "sfx", name: "nope" }); return; }
+    this.assistCD = ASSIST_COOLDOWN;
+    const dmg = 18 + crew.stats.strength * 2;
+    this.projs.push({ id: this.nextId++, team: 0, kind: `summon_${crew.id}`, x: this.camX - 80, y: p.y, z: 0, vx: 14, vy: 0, dmg, life: 90, w: 70, d: 70, hit: [], launch: true, slow: false });
+    this.ev({ e: "ability", who: crew.id, kind: "summon", name: `${crew.name} pulls up`, ult: false, x: p.x, y: p.y });
   }
 
   /** Player (or ability) hits an enemy. */
