@@ -378,7 +378,7 @@
    "date": 112,
    "venue": 38,
    "url": 44,
-   "logoH": 62.592388521311875
+   "logoH": 108
   }
  },
  {
@@ -400,7 +400,7 @@
    "date": 92,
    "venue": 34,
    "url": 40,
-   "logoH": 53.60091921402804
+   "logoH": 96
   }
  },
  {
@@ -422,7 +422,7 @@
    "date": 128,
    "venue": 42,
    "url": 46,
-   "logoH": 73.92454682078437
+   "logoH": 132
   }
  },
  {
@@ -439,7 +439,7 @@
    "WIZKID.TIX.AFRICA"
   ],
   "sizes": {
-   "logoH": 66.62416724445379,
+   "logoH": 128,
    "date": 84,
    "venue": 30,
    "url": 42
@@ -459,7 +459,7 @@
    "WIZKID.TIX.AFRICA"
   ],
   "sizes": {
-   "logoH": 53.13104664649481,
+   "logoH": 84,
    "date": 84,
    "venue": 28,
    "url": 38
@@ -479,7 +479,7 @@
    "WIZKID.TIX.AFRICA"
   ],
   "sizes": {
-   "logoH": 78.03649275566983,
+   "logoH": 150,
    "date": 112,
    "venue": 34,
    "url": 46

@@ -28,5 +28,5 @@ await Promise.all([0, 1, 2, 3].map(async () => { while (q.length) { const j = q.
   console.log(`${P.length ? 'FAIL' : 'PASS'} ${j.id}${P.length ? ' - ' + P.join('; ') : ''}`);
 } }));
 await browser.close(); srv.close();
-fs.writeFileSync(path.join(dir, 'out', 'v2-flyer-content-audit.json'), JSON.stringify(report.sort((a, b) => a.id.localeCompare(b.id)), null, 1));
+const OUTF = path.join(dir, 'out', 'v2-flyer-content-audit.json'); const prev = fs.existsSync(OUTF) ? JSON.parse(fs.readFileSync(OUTF, 'utf8')) : []; const merged = [...prev.filter(r => !report.some(n => n.id === r.id)), ...report]; fs.writeFileSync(OUTF, JSON.stringify(merged.sort((a, b) => a.id.localeCompare(b.id)), null, 1));
 console.log(fails ? `${fails} flyer(s) FAILED` : `ALL ${fjobs.length} FLYERS PASS`); process.exit(fails ? 1 : 0);

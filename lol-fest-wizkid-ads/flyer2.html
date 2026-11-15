@@ -192,8 +192,8 @@ const TH = {
     panel: '#5a040c', dev: 'silk', btn: { shape: 'line', line: '#FFFFFF', fg: '#FFFFFF' } },
   heineken: { bg: ['#0e5a2c', '#021a0c'], stroke: '#02200e', head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#E3001B', venue: '#9BE7A8', lead: '#D8F5DF', url: '#FFFFFF',
     panel: '#04240f', dev: 'rays', btn: { shape: 'pill', bg: '#008200', fg: '#FFFFFF' } },
-  'coca-cola': { powered: '#F40009', bgFx: 'cokeRed', panelLight: true, lolDarkPanelOnly: true, lolDark: '#8E0006', bg: ['#F40009', '#A5000A'], stroke: '#9c0007', strokeA: .3, head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFFFFF', venue: '#FFFFFF', lead: '#FFE5E5', url: '#FFFFFF', bottom: '#8f0007',
-    panel: '#FFFFFF', ptype: { num: '#F40009', live: '#1a1a1a', abuja: '#F40009', venue: '#1a1a1a', lead: '#333' }, dev: 'ribbon', btn: { shape: 'pill', bg: '#F40009', fg: '#FFFFFF' }, tab: '#FFFFFF' },
+  'coca-cola': { logoAll: '03-coca-cola-whiteborder', badge: { feed: 108, story: 132, square: 96 }, badge2: { feed: 128, story: 150, square: 84 }, badgeDy: 10, upK: { feed: 48, story: 50, square: 34 }, lolK: .88, powered: '#FFFFFF', bgFx: 'cokeRed', panelLight: true, lolDarkPanelOnly: true, lolDark: '#8E0006', bg: ['#F40009', '#A5000A'], stroke: '#9c0007', strokeA: .3, head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFFFFF', venue: '#FFFFFF', lead: '#FFE5E5', url: '#FFFFFF', bottom: '#8f0007',
+    panel: '#FFFFFF', ptype: { num: '#F40009', live: '#1a1a1a', abuja: '#F40009', venue: '#1a1a1a', lead: '#333' }, dev: 'ribbon', btn: { shape: 'pill', bg: '#F40009', fg: '#FFFFFF' } },
   desperados: { bg: ['#EC1B24', '#9A000C'], stroke: '#7a0008', strokeA: .32, head: '#FFFFFF', num: '#FFFFFF', live: '#FFFFFF', abuja: '#FFD200', venue: '#FFD200', lead: '#FFFFFF', url: '#FFFFFF', bottom: '#0A0A0A', torn: true,
     panel: '#0A0A0A', dev: 'desp', btn: { shape: 'block', bg: '#E30613', shadow: '#FFD200', fg: '#FFFFFF' } },
   best: { panelLight: true, logoDark: '#1C1610', wizDark: '#1C1610', lolDark: '#1C1610', bg: ['#FBF6EA', '#E4D2AE'], stroke: '#cdb68c', strokeA: .45, head: '#2B2116', num: '#2B2116', live: '#2B2116', abuja: '#A8803F', venue: '#7A5C2E', lead: '#5a4630', url: '#2B2116', bottom: '#F1E6CC',
@@ -242,18 +242,22 @@ function signature() {
   // darken the lower third so the information reads over the jacket
   const bc = T.bottom || T.bg[1]; if (T.torn) { tornEdge(p.venue[0] - p.venue[1] - pk(150, 120, 100), 7); } else { ctx.save(); const g = ctx.createLinearGradient(0, H * .62, 0, H); g.addColorStop(0, rgba(bc, 0)); g.addColorStop(.55, rgba(bc, .82)); g.addColorStop(1, rgba(bc, 1)); ctx.fillStyle = g; ctx.fillRect(0, H * .62, W, H * .38); ctx.restore(); }
   // festival logo on the chest
-  const lh = p.lol[2]; ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 30; lolLogo(ctx, W * p.lol[0], p.lol[1], lolW(lh), T.lolDark && !T.lolDarkPanelOnly ? { dark: T.lolDark } : {}); ctx.restore();
-  const up = T.powered ? pk(18, 26, 20) : 0;   // room for the POWERED BY credit above the logo
+  const lh = p.lol[2] * (T.lolK || 1); ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 30; lolLogo(ctx, W * p.lol[0], p.lol[1], lolW(lh), T.lolDark && !T.lolDarkPanelOnly ? { dark: T.lolDark } : {}); ctx.restore();
+  const up = T.upK ? T.upK[fk] : T.powered ? pk(18, 26, 20) : 0;   // room for the POWERED BY credit above the logo
   venue(CX, p.venue[0] - up, p.venue[1], T);
-  ticketLine(CX, p.tix[0] - up, p.tix[1], T);
+  ticketLine(CX, p.tix[0] - up, p.tix[1], T); TIXB = p.tix[0] - up;
   // the one sponsor logo where the flyer carries its partner row
   const [ly, lmw, lmh] = p.logo; logoPlate(CX, ly + (T.powered ? pk(6, 6, 4) : 0), lmw, T.powered ? lmh * .86 : lmh);
   grainFx(.05);
 }
+let TIXB = 0; const h0 = (w, ar) => w / ar;
 function logoPlate(cx, cy, mw, mh) {
   // equal optical area for every mark (wide wordmarks and compact crests read at the same weight)
-  const im = IMG.sponsor, ar = im.width / im.height; let w = Math.min(mw * 1.15, Math.sqrt(mw * mh * .62 * ar)); if (w / ar > mh * 1.45) w = mh * 1.45 * ar; if (w / ar < 46) w = Math.min(46 * ar, mw * 1.75); const h = w / ar; mw = w; mh = h;
-  const ph = T.powered ? Math.max(15, h * .2) : 0, gap = ph ? ph * .7 : 0;
+  const im = IMG.sponsor, ar = im.width / im.height; let w = Math.min(mw * 1.15, Math.sqrt(mw * mh * .62 * ar)); if (w / ar > mh * 1.45) w = mh * 1.45 * ar; if (w / ar < 46) w = Math.min(46 * ar, mw * 1.75);
+  let ph = T.powered ? Math.max(15, h0(w, ar) * .2) : 0, gap = ph ? ph * .7 : 0;
+  if (T.badge) { w = (V === 1 ? T.badge : T.badge2)[fk] * ar; ph = pk(18, 17, 15); gap = 10;   // fixed size for a square badge logo
+    cy = V === 1 ? TIXB + pk(30, 26, 22) + ph + gap + w / ar / 2 : cy + (T.badgeDy || 0); }
+  const h = w / ar; mw = w; mh = h;
   if (T.tab) { ctx.save(); ctx.fillStyle = T.tab; ctx.beginPath(); ctx.roundRect(cx - w / 2 - 26, cy - h / 2 - 14 - ph - gap, w + 52, h + 28 + ph + gap, 12); ctx.fill(); ctx.restore(); }
   if (ph) text(ctx, 'POWERED BY', cx, cy - h / 2 - gap * .9, { fam: 'Montserrat', w: 700, size: ph, track: .28, color: T.powered, align: 'center' });
   SL(cx, cy, mw, mh); note('logoH', h);
@@ -303,7 +307,7 @@ function brandEdition() {
 
 async function render() { ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H); window.__log = { texts: [], imgs: [] }; window.__sizes = {}; V === 1 ? signature() : brandEdition(); }
 window.meta = { W, H, dpr, sponsorLogo: LOGO + '.png' };
-window.ready = (async () => { await loadFonts(); await loadBrand(); IM.portrait = await loadImg('assets/flyer/wizkid-portrait-color.png'); IMG.sponsor = IMG[LOGO]; await render(); })();
+window.ready = (async () => { await loadFonts(); await loadBrand(); IM.portrait = await loadImg('assets/flyer/wizkid-portrait-color.png'); IMG.sponsor = IMG[TH[SID].logoAll || LOGO]; await render(); })();
 window.png = async () => { await render(); return cv.toDataURL('image/png').split(',')[1]; };
 window.audit = async () => { await render(); return { log: window.__log, sizes: window.__sizes }; };
 </script></body></html>

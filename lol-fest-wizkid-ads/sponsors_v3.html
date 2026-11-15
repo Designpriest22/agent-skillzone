@@ -75,10 +75,10 @@ function beat(t, b) {
 function bug(t) {
   const p = E.outCubic(prog(t, T1 + .2, T1 + .7)) * (1 - E.inCubic(prog(t, T2 - .3, T2)));
   if (p <= 0 || SP.noBug) return;
-  const w = slW(U(L.vert ? 250 : 210), U(L.vert ? 110 : 90)); const h = slH(w);
+  const bImg = SP.bugLogo ? IMG[SP.bugLogo] : IMG.sponsor, w = SP.bugLogo ? U(L.vert ? 118 : 100) : slW(U(L.vert ? 250 : 210), U(L.vert ? 110 : 90)), h = w * bImg.height / bImg.width;
   ctx.save(); ctx.globalAlpha = p * .95; ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = U(18);
   const ph = SP.lock.powered ? U(26) : 0; if (ph) poweredBy(L.x0 + w / 2, L.y0 + U(16), U(16), '#FFFFFF');
-  SL(L.x0 + w / 2, L.y0 + ph + h / 2, w); ctx.restore();
+  drawImg(ctx, bImg, L.x0 + w / 2, L.y0 + ph + h / 2, w); ctx.restore();
 }
 
 // ---- co-branded lock-up (00:10-00:15) ----
@@ -103,7 +103,7 @@ function lockLayout() {
 function lockup(lt) {
   const c = LKS, st = SP.lock, ty = { ...SP.type, ...(SP.lock.colors || {}) };
   const dk = st.dark, sImg = dk ? tinted(IMG.sponsor, dk) : IMG.sponsor, wImg = dk ? tinted(IMG.wizkid, dk) : IMG.wizkid;
-  const SLk = (cx, cy, w) => drawImg(ctx, sImg, cx, cy, w); const LOLk = (cx, cy, w) => lolLogo(ctx, cx, cy, w, dk ? { dark: dk } : {});
+  const SLk = (cx, cy, w) => drawImg(ctx, sImg, cx, cy, w); const LOLk = (cx, cy, w) => lolLogo(ctx, cx, cy, w, (st.lolDark || dk) ? { dark: st.lolDark || dk } : {});
   const ap = (i, d = .55) => (st.ease || E.outCubic)(prog(lt, (st.t0 ?? .1) + i * (st.step ?? .13), (st.t0 ?? .1) + i * (st.step ?? .13) + d));
   const rise = p => (1 - p) * U(st.rise ?? 26);
   const reveal = (i, cy, h, fn) => { const p = ap(i); if (p <= 0) return; if (st.reveal === 'mask') maskUp(-W, cy - h / 2 - U(6), W * 3, h + U(12), clamp(p), fn); else { ctx.save(); ctx.globalAlpha *= clamp(p); ctx.translate(0, rise(p)); fn(); ctx.restore(); } };
@@ -210,15 +210,17 @@ const SPONSORS_CFG = {
     cues: [{ t: .1, k: 'riser', d: .8 }, { t: .95, k: 'hit' }, { t: 1.8, k: 'shimmer', g: .5 }, { t: 3.55, k: 'whoosh' }, { t: 4.1, k: 'impact', g: .7 }, { t: 6.1, k: 'whoosh', g: .7 }, { t: 6.3, k: 'hit', g: .7 }, { t: 8.2, k: 'whoosh', g: .7 }, { t: 8.4, k: 'hit', g: .7 }, { t: 9.75, k: 'reverse', d: .25 }, { t: 10, k: 'impact', g: .8 }] },
 
   // 3 ── COCA-COLA · Red Wave ──────────────────────────────────────────────────────────────────────
-  'coca-cola': { logo: '03-coca-cola', name: 'Coca-Cola', bpm: 112, music: 'sp-bright',
+  'coca-cola': { logo: '03-coca-cola', mainLogo: '03-coca-cola-noborder', bugLogo: '03-coca-cola-whiteborder', name: 'Coca-Cola', bpm: 112, music: 'sp-bright',
     grade: [['soft-light', 'rgba(244,0,9,.22)'], ['screen', 'rgba(255,80,60,.05)']], filter: 'contrast(1.12) saturate(1.3) brightness(1.2)',
     type: { date: '#FFFFFF', venue: '#FFFFFF', reveal: 'slide' },
     intro(t) {
       ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, W, H);
-      const w = slW(L.sw * (L.vert ? .84 : .66), U(320)); const lh = slH(w);
-      const p = E.inOutCubic(prog(t, .15, 1.4));   // the script writes on left to right
-      ctx.save(); ctx.beginPath(); ctx.rect(L.cx - w / 2 - U(10), 0, (w + U(20)) * p, H); ctx.clip(); SL(L.cx, L.cy - U(20), w); ctx.restore();
-      poweredBy(L.cx, L.cy - U(20) - lh / 2 - U(L.vert ? 34 : 28), U(L.vert ? 30 : 26), '#E41E2B', E.outCubic(prog(t, 1.1, 1.7)));
+      // client-supplied square logo (no white border) opens the spot
+      const w = Math.min(L.sw * (L.vert ? .62 : .5), U(560)), lh = w, cy = L.cy - U(20);
+      const p = clamp(E.outBack(prog(t, .1, .8), 1.4), 0, 1.04);
+      ctx.save(); ctx.shadowColor = 'rgba(120,0,0,.25)'; ctx.shadowBlur = U(40); drawImg(ctx, IMG['03-coca-cola-noborder'], L.cx, cy, w, { s: mix(.82, 1, p) + t * .008, alpha: clamp(p * 1.6) }); ctx.restore();
+      sweepImg(ctx, IMG['03-coca-cola-noborder'], L.cx, cy, w, prog(t, 1.2, 2.1), 'rgba(255,255,255,.55)');
+      poweredBy(L.cx, cy - lh / 2 - U(L.vert ? 34 : 28), U(L.vert ? 30 : 26), '#E41E2B', E.outCubic(prog(t, .7, 1.2)));
       // the red wave rises from the bottom, bubbles inside, and keeps rising into the footage
       waveRed(t, 2.4, 4.1);
     },
@@ -228,7 +230,7 @@ const SPONSORS_CFG = {
     beats: [{ k: 'lol', a: 4.3, b: 6.2, y: () => L.y0 + L.sh * .28, style: 'pop' }, { k: 'wizkid', a: 6.6, b: 8.2, y: () => L.y0 + L.sh * .78, dir: -140 },
             { k: 'date', a: 8.6, b: 10, y: () => L.y0 + L.sh * .3, dir: 140 }, { k: 'venue', a: 8.85, b: 10, y: () => L.y0 + L.sh * .3 + U(100), dir: -140 }],
     fx(t) { for (const t0 of [6.2, 8.2]) waveRed(t, t0 - .45, t0 + .02, true); },
-    lock: { divider: 'none', reveal: 'fade', ease: E.outCubic, step: .1, rise: 34, pair: true, pairGap: 40, sweep: 1.3, powered: '#E41E2B', cta: { shape: 'pill', bg: '#FFFFFF', fg: '#E41E2B', lead: '#FFFFFF' } },
+    lock: { divider: 'none', reveal: 'fade', ease: E.outCubic, step: .1, rise: 34, pair: true, pairGap: 40, sweep: 1.3, powered: '#E41E2B', lolDark: '#8E0006', cta: { shape: 'pill', bg: '#FFFFFF', fg: '#E41E2B', lead: '#FFFFFF' } },
     lockBg(lt) {
       ctx.fillStyle = '#E41E2B'; ctx.fillRect(0, 0, W, H);
       // white panel behind the red script: the logo stays in its own colours
@@ -593,6 +595,6 @@ window.cues = () => ({ bpm: SP.bpm, dur: DUR, cues: SP.cues.map(c => ({ ...c, t:
 window.grab = async (frame) => { await renderAt(frame); return cv.toDataURL('image/jpeg', .93).slice(23); };
 window.audit = async (frame) => { await renderAt(frame); return window.__log; };
 window.meta = { FPS, DUR, END: DUR, ENDFRAME: TEND, W: L.W * L.dpr, H: L.H * L.dpr, sponsorLogo: SP.logo + '.png' };
-window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), loadFootageMeta()]); IMG.sponsor = IMG[SP.logo]; makeGrain(); lockLayout(); })();
+window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), loadFootageMeta()]); IMG.sponsor = IMG[SP.mainLogo || SP.logo]; makeGrain(); lockLayout(); })();
 if (!Q.has('render')) window.ready.then(() => { const ui = document.getElementById('ui'); let f = Number(Q.get('t') || 0) * FPS; const loop = async () => { await renderAt(Math.floor(f)); ui.textContent = SID + ' ' + (f / FPS).toFixed(2) + 's'; f = (f + 1) % (DUR * FPS); requestAnimationFrame(loop); }; loop(); });
 </script></body></html>

@@ -109,6 +109,8 @@ async function loadBrand() {
   await Promise.all(Object.entries(list).map(async ([k, v]) => { IMG[k] = await loadImg(v); }));
   await Promise.all(SPONSORS.map(async s => { IMG[s] = await loadImg(`assets/logos/${s}.png`); }));
   IMG['14-blue-poppy-teal'] = await loadImg('assets/logos/14-blue-poppy-teal.png');   // teal version for light grounds
+  // Coca-Cola square logos supplied by the client: no white border (video intro + white end frame), white border (footage corner + flyers)
+  IMG['03-coca-cola-noborder'] = await loadImg('assets/logos/03-coca-cola-noborder.png'); IMG['03-coca-cola-whiteborder'] = await loadImg('assets/logos/03-coca-cola-whiteborder.png');
 }
 
 // ---------- footage ----------
