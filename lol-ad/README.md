@@ -21,3 +21,12 @@ Formats (each laid out for its own canvas, nothing cropped):
 
 Build: `python3 tools/prep.py && python3 tools/stopmo.py` (needs `pip install rembg onnxruntime`; frames from the C3 footage in `clips/src/`), then ` && python3 tools/score.py out/score.wav && node render.mjs <format>`, then mux with ffmpeg (see `mux.sh`).
 Footage frames and every render are git-ignored (artist footage, public repo).
+
+## Music
+The ad runs on a bite from **Wizkid – "Manya" (feat. Mut4y)**, 0:34.94–0:59.94. The bite starts on the downbeat of the hook. The song moves in 4-bar phrases of 8.73 s at 110 BPM, and the hook block (34.94–52.41) is the most repeated and loudest part. It ends at 17.5 s, as the end card lands, and the calmer next section carries the end card and partners, with a 1.5 s fade-out. `tools/pick_bite.py` does the analysis.
+
+```
+ffmpeg -ss 34.94 -t 25 -i music/manya.mp3 -af "afade=t=in:d=0.02,afade=t=out:st=23.5:d=1.5,loudnorm=I=-14:TP=-1.0" -ar 48000 out/bite.wav
+./mux.sh bite.wav      # or ./mux.sh score.wav for the original, cleared score
+```
+The song file is git-ignored. Paid placements need a sync licence for the recording; the original score versions are cleared.
