@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Iconiq Fest × Fola — reel</title>
+<style>
+@font-face { font-family: Anton; src: url(assets/fonts/anton.woff2); }
+@font-face { font-family: Arch; src: url(assets/fonts/archivo-black.woff2); }
+@font-face { font-family: SMono; src: url(assets/fonts/space-mono.woff2); }
+@font-face { font-family: Marker; src: url(assets/fonts/marker.woff2); }
+/* 1rem = 1% of width in 9:16, a touch smaller in 4:5 so the same timeline fits both */
+html { font-size: min(1vw, .75vh); }
+:root { --blue:#1F4BFF; --sky:#18B8FF; --lime:#C6F59B; --red:#FF3B2F; --org:#FF6A3D; --ink:#0D0D10; --white:#F6F6F2; }
+html, body { margin: 0; background: #000; overflow: hidden; }
+#r { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: var(--ink); }
+#stage { position: absolute; inset: -3%; }
+#stage > .sc { position: absolute; inset: 3%; overflow: hidden; display: none; }
+.a { position: absolute; }
+.fill { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.an { font-family: Anton, sans-serif; line-height: .86; white-space: nowrap; text-transform: uppercase; }
+.ar { font-family: Arch, sans-serif; line-height: .9; white-space: nowrap; text-transform: uppercase; }
+.mo { font-family: SMono, monospace; font-size: 2.7rem; letter-spacing: .04em; white-space: nowrap; text-transform: uppercase; }
+.mk { font-family: Marker, cursive; white-space: nowrap; }
+.ext { text-shadow: .3rem .3rem 0 #23232b, .6rem .6rem 0 #23232b, .9rem .9rem 0 #23232b, 1.2rem 1.2rem 0 #23232b, 1.5rem 1.5rem 0 #23232b; }
+.stroke { color: transparent; -webkit-text-stroke: .35rem var(--lime); }
+.tag { padding: .6rem 1.2rem .5rem; }
+.cx { left: 50%; transform: translateX(-50%); }
+svg { overflow: visible; }
+/* chrome */
+#chrome .mo { position: absolute; background: var(--ink); color: var(--white); padding: .7rem 1.1rem .5rem; font-size: 2.4rem; }
+#prog { position: absolute; left: 0; bottom: 0; height: .9rem; background: var(--lime); }
+#grain { position: absolute; inset: -512px; background: url(assets/grain.png); mix-blend-mode: overlay; opacity: .16; pointer-events: none; }
+#flash { position: absolute; inset: 0; display: none; }
+#vig { position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,.45)); pointer-events: none; }
+</style></head>
+<body><div id="r">
+<div id="stage">
+
+<!-- swirl rings: the flyer's backdrop, shared by blue scenes -->
+<svg id="ringsDef" width="0" height="0" style="position:absolute"><defs>
+  <g id="rings" fill="none" stroke="#fff" stroke-width="2.2">
+    <ellipse cx="0" cy="0" rx="120" ry="300"/><ellipse cx="0" cy="0" rx="220" ry="420" transform="rotate(25)"/>
+    <ellipse cx="0" cy="0" rx="300" ry="560" transform="rotate(-30)"/><ellipse cx="0" cy="0" rx="420" ry="700" transform="rotate(60)"/>
+    <ellipse cx="0" cy="0" rx="520" ry="860" transform="rotate(-70)"/>
+  </g></defs></svg>
+
+<!-- 1 · ICONIQ / FEST / CLOUD 9 -->
+<div class="sc" id="s1">
+  <svg class="a" id="r1" style="left:50%;top:50%;opacity:.28" width="1" height="1"><use href="#rings"/></svg>
+  <div class="a an ext" id="w1" style="font-size:33rem;color:var(--white);top:16vh;left:50%">ICONIQ</div>
+  <div class="a an ext" id="w2" style="font-size:33rem;color:var(--white);top:calc(16vh + 29rem);left:50%">FEST</div>
+  <img class="a" id="b9" src="assets/cloud9.png" style="width:42rem;left:50%;top:50%">
+  <img class="a" id="m1" src="assets/mark.png" style="width:74rem;left:50%;top:calc(50vh - 16rem)">
+  <div class="a ar" id="w3" style="font-size:19rem;color:var(--white);left:50%;top:calc(50vh + 6rem);text-shadow:0 .7rem 0 #0b1f8a">CLOUD</div>
+</div>
+
+<!-- 2 · pyro footage + stamps -->
+<div class="sc" id="s2">
+  <img class="fill" id="f2">
+  <div class="a an stroke" id="v2" style="font-size:30rem;left:100%;top:0;transform-origin:0 0">CLOUD 9 · CLOUD 9 · CLOUD 9 · CLOUD 9</div>
+  <div class="a ar tag" id="st1" style="font-size:11rem;left:5rem;top:52vh;background:var(--white);color:var(--ink)">THE NIGHT</div>
+  <div class="a ar tag" id="st2" style="font-size:17rem;left:4rem;top:calc(52vh + 15rem);background:var(--red);color:var(--white)">ABUJA</div>
+  <div class="a ar tag" id="st3" style="font-size:11rem;left:9rem;top:calc(52vh + 37rem);background:var(--lime);color:var(--ink)">GOES UP.</div>
+</div>
+
+<!-- 3 · countdown strobe -->
+<div class="sc" id="s3">
+  <div class="fill" id="s3bg"></div>
+  <img class="fill" id="s3p" src="assets/portrait.jpg" style="filter:grayscale(1) contrast(1.35);mix-blend-mode:multiply">
+  <div class="a an" id="s3n" style="font-size:95rem;left:50%;top:50%;-webkit-text-stroke:.6rem var(--white);color:transparent">3</div>
+</div>
+
+<!-- 4 · hands up footage -->
+<div class="sc" id="s4">
+  <img class="fill" id="f4">
+  <svg class="a" id="circ" style="left:47vw;top:19vh" width="1" height="1" viewBox="0 0 1 1">
+    <path id="circP" d="M -150 -40 C -160 -190, 130 -230, 160 -60 C 185 90, -60 190, -150 70 C -190 10, -120 -110, -40 -150" fill="none" stroke="#C6F59B" stroke-width="11" stroke-linecap="round"/>
+  </svg>
+  <div class="a mk" id="hu" style="font-size:9rem;color:var(--lime);left:57vw;top:24vh;transform:rotate(-7deg);line-height:1">HANDS<br>UP,<br>ABUJA!</div>
+  <div class="a" id="mq" style="left:0;top:66vh;height:26rem;width:100%;background:var(--red);overflow:hidden;transform-origin:0 50%">
+    <div class="a an" id="mqt" style="font-size:25rem;color:var(--ink);top:.6rem;left:0">ABUJA ABUJA ABUJA ABUJA ABUJA ABUJA</div>
+  </div>
+  <div class="fill" id="slab4" style="background:var(--ink);border-top:3.5rem solid var(--red)"></div>
+</div>
+
+<!-- 5 · FOLA reveal -->
+<div class="sc" id="s5" style="background:var(--ink)">
+  <div class="a an" id="hl" style="font-size:16rem;color:transparent;-webkit-text-stroke:.18rem #3a3a46;left:-10rem;top:-2rem;line-height:.9;white-space:pre">HEADLINER HEADLINER HEADLINER
+HEADLINER HEADLINER HEADLINER
+HEADLINER HEADLINER HEADLINER
+HEADLINER HEADLINER HEADLINER
+HEADLINER HEADLINER HEADLINER
+HEADLINER HEADLINER HEADLINER
+HEADLINER HEADLINER HEADLINER
+HEADLINER HEADLINER HEADLINER</div>
+  <div class="a" id="pbox" style="left:12rem;right:12rem;top:12vh;height:48vh;border:.6rem solid var(--white);overflow:hidden;background:var(--blue)">
+    <img class="fill" id="pimg" src="assets/portrait.jpg" style="object-position:50% 20%;filter:grayscale(1) contrast(1.15)">
+  </div>
+  <div class="a mo tag" id="hl1" style="left:12rem;top:calc(12vh - 4.6rem);background:var(--lime);color:var(--ink)">HEADLINER / 01</div>
+  <div class="a" id="fwrap" style="left:50%;top:58vh;width:88rem;height:24rem;transform:translateX(-50%) rotate(-3deg)">
+    <img class="fill" id="fr" src="assets/fola.png" style="object-fit:contain;filter:hue-rotate(160deg) saturate(3);opacity:.0">
+    <img class="fill" id="fo" src="assets/fola.png" style="object-fit:contain">
+  </div>
+  <div class="a mo" id="s5m" style="color:var(--white);left:12rem;top:calc(58vh + 29rem)">ICONIQ FEST — CLOUD 9 &nbsp;/&nbsp; LIVE IN ABUJA</div>
+</div>
+
+<!-- 6 · ONE NIGHT / ONE CITY / ONE CLOUD -->
+<div class="sc" id="s6">
+  <img class="fill" id="f6" style="filter:brightness(.62) contrast(1.15)">
+  <div class="a an" id="one" style="font-size:20rem;color:var(--white);left:7rem;top:30vh">ONE</div>
+  <div class="a" id="nb" style="left:5rem;top:calc(30vh + 18rem);height:31rem;background:var(--lime);transform-origin:0 50%"></div>
+  <div class="a an" id="noun" style="font-size:34rem;color:var(--ink);left:7rem;top:calc(30vh + 17.5rem)">NIGHT.</div>
+</div>
+
+<!-- 7 · date box -->
+<div class="sc" id="s7" style="background:linear-gradient(160deg,var(--red),var(--org))">
+  <svg class="a" style="left:50%;top:50%;opacity:.18" width="1" height="1"><use href="#rings"/></svg>
+  <div class="a" id="dbox" style="left:50%;top:50%;width:80rem;height:118rem;margin:-59rem 0 0 -40rem;transform-style:preserve-3d">
+    <div class="a" id="dside" style="left:-14rem;top:4rem;width:14rem;height:110rem;background:#4a1612;transform:skewY(-14deg);transform-origin:100% 0"></div>
+    <div class="a" style="inset:0;background:linear-gradient(180deg,#ff4a35,#ff2d4a)"></div>
+    <div class="a an" id="d16" style="font-size:62rem;color:var(--white);left:5rem;top:2rem;line-height:.82;letter-spacing:-.02em">16</div>
+    <div class="a ar" id="dth" style="font-size:7rem;color:var(--white);left:63rem;top:5rem">TH</div>
+    <div class="a an" id="ddec" style="font-size:40rem;color:var(--white);left:5rem;top:52rem">DEC</div>
+    <div class="a an" id="d26" style="font-size:24rem;color:var(--ink);left:5rem;top:88rem">2026</div>
+  </div>
+  <div class="a mo tag" id="dwed" style="background:var(--ink);color:var(--lime);right:6rem;bottom:8vh;font-size:3.2rem">SAVE THE DATE · WEDNESDAY</div>
+</div>
+
+<!-- 8 · triptych + venue bands -->
+<div class="sc" id="s8" style="background:var(--ink)">
+  <div class="a" id="tp1" style="left:0;top:0;width:33.6%;height:100%;overflow:hidden"><img class="fill" id="tf1"></div>
+  <div class="a" id="tp2" style="left:33.2%;top:0;width:33.6%;height:100%;overflow:hidden;border-left:.6rem solid var(--ink);border-right:.6rem solid var(--ink)"><img class="fill" id="tf2"></div>
+  <div class="a" id="tp3" style="left:66.4%;top:0;width:33.6%;height:100%;overflow:hidden"><img class="fill" id="tf3"></div>
+  <div class="a" id="band1" style="left:-10%;width:120%;top:42vh;height:15rem;background:var(--lime);transform:rotate(-5deg);overflow:hidden;transform-origin:0 50%">
+    <div class="a ar" id="bt1" style="font-size:9rem;color:var(--ink);top:3.4rem;left:0">● BALI RECREATIONAL PARK — ABUJA ● BALI RECREATIONAL PARK — ABUJA ● BALI RECREATIONAL PARK — ABUJA</div>
+  </div>
+  <div class="a" id="band2" style="left:-10%;width:120%;top:68vh;height:12rem;background:var(--red);transform:rotate(4deg);overflow:hidden;transform-origin:100% 50%">
+    <div class="a an" id="bt2" style="font-size:10rem;color:var(--white);top:1rem;left:0">ICONIQ FEST ✦ CLOUD 9 ✦ ICONIQ FEST ✦ CLOUD 9 ✦ ICONIQ FEST ✦ CLOUD 9 ✦ ICONIQ FEST ✦ CLOUD 9</div>
+  </div>
+</div>
+
+<!-- 9 · tickets -->
+<div class="sc" id="s9" style="background:var(--blue)">
+  <svg class="a" id="r9" style="left:50%;top:55%;opacity:.25" width="1" height="1"><use href="#rings"/></svg>
+  <div class="a ar tag" id="tk" style="font-size:8.5rem;background:var(--lime);color:var(--ink);left:8rem;top:18vh;line-height:1">GET YOUR<br>TICKETS AT</div>
+  <svg class="a" id="arr" style="left:78rem;top:19vh" width="1" height="1"><path d="M0 0 V150 M-40 110 L0 150 L40 110" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="square"/></svg>
+  <div class="a mo" id="www" style="font-size:5rem;color:var(--lime);left:8rem;top:calc(18vh + 28rem)">WWW.</div>
+  <div class="a an" id="url" style="font-size:15rem;color:var(--white);left:7rem;top:calc(18vh + 36rem)"><span id="urlt"></span><span id="cur" style="display:inline-block;width:6.5rem;height:13rem;background:var(--lime);margin-left:1rem;vertical-align:-.5rem"></span></div>
+  <svg class="a" id="ul" style="left:7rem;top:calc(18vh + 53rem)" width="1" height="1"><path id="ulP" d="M0 10 C 200 -6, 420 22, 620 4 S 840 -4, 880 12" fill="none" stroke="#FF3B2F" stroke-width="16" stroke-linecap="round"/></svg>
+  <div class="a mk" id="lib" style="font-size:9rem;color:var(--white);right:9rem;top:calc(18vh + 62rem);transform:rotate(-8deg)">link in bio ↗</div>
+  <div class="fill" id="slab9" style="background:var(--lime)"></div>
+</div>
+
+<!-- 10 · end card, the flyer rebuilt -->
+<div class="sc" id="s10" style="background:linear-gradient(180deg,#1846ff 0%,#2a6bff 55%,#1840e8 100%)">
+  <div id="e10" class="fill">
+    <svg class="a" id="r10" style="left:50%;top:45%;opacity:.3" width="1" height="1"><use href="#rings"/></svg>
+    <div class="a an" id="sideL" style="font-size:44rem;color:var(--lime);left:-17rem;top:30vh;transform:rotate(90deg);transform-origin:50% 50%;filter:blur(.25rem);opacity:.85">CLOUD</div>
+    <div class="a an" id="sideR" style="font-size:44rem;color:var(--red);right:-14rem;top:30vh;transform:rotate(-90deg);filter:blur(.25rem);opacity:.85">FEST</div>
+    <div class="a" id="glow" style="left:50%;top:40vh;width:70rem;height:50rem;margin-left:-35rem;background:radial-gradient(closest-side,#34e05a,rgba(52,224,90,0));opacity:.8"></div>
+    <img class="a" id="ep" src="assets/portrait.jpg" style="left:50%;width:74rem;height:80rem;margin-left:-37rem;top:calc(4.5vh + 34rem);object-fit:cover;object-position:50% 15%;filter:grayscale(1) contrast(1.1);border:.5rem solid var(--white);box-sizing:border-box">
+    <img class="a" id="emark" src="assets/mark.png" style="left:50%;width:72rem;margin-left:-36rem;top:4.5vh">
+    <div class="a" id="ecl" style="left:50%;top:calc(4.5vh + 18rem);transform:translateX(-50%);display:flex;align-items:center;gap:2rem">
+      <span class="ar" style="font-size:12rem;color:var(--white);text-shadow:0 .6rem 0 #0b1f8a">CLOUD</span><img src="assets/cloud9.png" style="width:12rem">
+    </div>
+    <div class="a" id="einfo" style="left:21rem;right:4rem;top:62vh;height:36rem;background:#141417">
+      <img class="a" src="assets/fola.png" style="left:5rem;top:1.5rem;width:58rem">
+      <div class="a ar" style="left:6rem;top:19rem;font-size:5.6rem;color:var(--red)">⌖ ABUJA</div>
+      <div class="a ar" style="left:6rem;top:25rem;font-size:2.8rem;color:var(--white)">BALI RECREATIONAL PARK</div>
+      <div class="a ar" style="left:6rem;top:29.5rem;font-size:4.9rem;color:var(--white)">WWW.ICONIQFEST.COM</div>
+      <div class="a" style="right:0;top:2rem;width:7rem;height:30rem;background:linear-gradient(90deg,#9a9aa2,#d9d9de)"></div>
+    </div>
+    <div class="a" id="edate" style="left:4rem;top:calc(62vh - 4rem);width:22rem;height:40rem;background:linear-gradient(180deg,#ff4a35,#ff2d4a)">
+      <div class="a an" style="left:2rem;top:2rem;font-size:15rem;color:var(--white)">16</div>
+      <div class="a ar" style="left:16.5rem;top:2rem;font-size:2.6rem;color:var(--white)">TH</div>
+      <div class="a an" style="left:2rem;top:16rem;font-size:11rem;color:var(--white)">DEC</div>
+      <div class="a an" style="left:2rem;top:27rem;font-size:10rem;color:var(--white)">2026</div>
+    </div>
+    <div class="a" id="elogo" style="right:4rem;bottom:2.5vh;text-align:right">
+      <div class="ar" style="font-size:2.4rem;color:var(--white);margin-bottom:.5rem">PRODUCED BY:</div>
+      <img src="assets/logos.png" style="width:46rem;display:block">
+    </div>
+  </div>
+</div>
+
+</div><!-- /stage -->
+
+<div id="chrome">
+  <div class="mo" id="c1" style="left:3.5rem;top:3.5vh">ICONIQ FEST / CLOUD 9</div>
+  <div class="mo" id="c2" style="right:3.5rem;top:3.5vh;color:var(--lime)">REC 00:00:00</div>
+  <div class="mo" id="c3" style="left:3.5rem;bottom:3vh">ABJ → 16.12.26</div>
+  <div id="prog"></div>
+</div>
+<div id="vig"></div>
+<div id="grain"></div>
+<div id="flash"></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, d) => cl((t - a) / d);                       // progress of a move starting at a, lasting d
+const eo = x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x);         // expo out: snappy
+const ebk = (x, c = 1.9) => 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2); // back out: overshoot
+const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const lerp = (a, b, x) => a + (b - a) * x;
+const step = (x, n) => Math.floor(x * n) / n;                  // stepped motion: the hand-cranked feel
+// value noise for handheld shake and jitter
+const h = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+const nz = (t, k) => { const i = Math.floor(t), f = t - i, u = f * f * (3 - 2 * f); return lerp(h(i + k * 57), h(i + 1 + k * 57), u) * 2 - 1; };
+
+const SC = [['s1', 0, 2], ['s2', 2, 5], ['s3', 5, 6], ['s4', 6, 9.5], ['s5', 9.5, 11.5], ['s6', 11.5, 14], ['s7', 14, 16], ['s8', 16, 19], ['s9', 19, 22], ['s10', 22, 25]];
+// beat hits that kick the camera (s, strength)
+const HITS = [[0, 1], [.5, .7], [1, 1], [1.5, 1.2], [2, 1], [2.3, .4], [2.8, .6], [3.3, .4], [5, .8], [5.25, .8], [5.5, .9], [5.75, 1], [6, 1.2], [9.5, 1], [9.9, .8],
+  [11.5, 1], [11.75, .6], [12.25, .9], [12.5, .5], [13, 1], [13.25, .6], [14, 1.4], [14.5, .7], [15, .7], [16, 1], [16.6, .6], [18, .6], [19, .8], [21.7, .6], [22, 1.2], [22.5, .5]];
+// one-frame flash at cuts
+const FL = { 2: '#C6F59B', 5: '#fff', 6: '#FF3B2F', 9.5: '#fff', 11.5: '#C6F59B', 14: '#fff', 16: '#0D0D10', 19: '#fff', 22: '#C6F59B' };
+
+const frame = (dir, n, t, fps = 30) => `clips/${dir}/${String(Math.min(n, Math.floor(t * fps * (30 / fps)) + 1)).padStart(3, '0')}.jpg`;
+const setSrc = (el, src) => { if (el.getAttribute('src') !== src) el.setAttribute('src', src); };
+const vw = () => innerWidth / 100, vh = () => innerHeight / 100, rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize);
+const T = (el, s) => { (typeof el === 'string' ? $(el) : el).style.transform = s; };
+const O = (el, o) => { (typeof el === 'string' ? $(el) : el).style.opacity = o; };
+const stamp = (t, a) => { const x = P(t, a, .12); return { s: lerp(1.35, 1, eo(x)), o: t >= a ? 1 : 0 }; };
+const draw = (path, x) => { const L = path.getTotalLength(); path.style.strokeDasharray = L; path.style.strokeDashoffset = L * (1 - x); };
+
+function renderAt(t) {
+  const R = rem();
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+
+  // handheld camera: low-frequency drift + decaying kicks on hits
+  let k = 0; for (const [ht, s] of HITS) if (t >= ht) k += s * Math.exp(-(t - ht) * 9);
+  const dx = nz(t * 1.3, 1) * 5 + nz(t * 24, 2) * k * 16, dy = nz(t * 1.1, 3) * 5 + nz(t * 24, 4) * k * 16, rot = nz(t * .9, 5) * .25 + nz(t * 20, 6) * k * .5;
+  T('stage', `translate(${dx}px,${dy}px) rotate(${rot}deg) scale(${1 + k * .012})`);
+  $('grain').style.transform = `translate(${Math.floor(h(Math.floor(t * 30)) * 512)}px,${Math.floor(h(Math.floor(t * 30) + 9) * 512)}px)`;
+  const fk = Object.keys(FL).find(c => t >= +c && t < +c + 1 / 30 + 1e-6);
+  $('flash').style.display = fk ? 'block' : 'none'; if (fk) $('flash').style.background = FL[fk];
+
+  // chrome over the footage scenes
+  const foot = (t >= 2 && t < 5) || (t >= 6 && t < 9.2) || (t >= 11.5 && t < 14) || (t >= 16 && t < 19);
+  $('chrome').style.display = t < 22 ? 'block' : 'none';
+  for (const c of ['c1', 'c2', 'c3']) O(c, foot ? 1 : 0);
+  const fr = Math.floor(t * 30); $('c2').textContent = `REC 00:${String(Math.floor(t)).padStart(2, '0')}:${String(fr % 30).padStart(2, '0')}`;
+  $('prog').style.width = (t / 25 * 100) + '%';
+
+  // 1 · title slams, one per beat; the background flips with them
+  if (t < 2) {
+    $('s1').style.background = t < .5 ? '#0D0D10' : t < 1 ? '#1F4BFF' : t < 1.5 ? '#FF3B2F' : '#1F4BFF';
+    O('r1', t < .5 ? 0 : .28); T('r1', `rotate(${t * 22}deg) scale(${1.1 + t * .15})`);
+    const a = P(t, 0, .3), b = P(t, .5, .3), out = eio(P(t, 1.0, .25));
+    T('w1', `translateX(-50%) skewX(-11deg) scale(${lerp(2.6, 1, eo(a))})`); $('w1').style.filter = `blur(${(1 - eo(a)) * 14}px)`;
+    $('w1').style.top = `calc(16vh - ${out * 60}vh)`; $('w2').style.top = `calc(16vh + 29rem + ${out * 70}vh)`;
+    T('w2', `translateX(${lerp(60, -50, ebk(b))}%) skewX(-11deg)`); O('w2', t >= .5 ? 1 : 0);
+    const c = P(t, 1, .35), d = P(t, 1.5, .3);
+    O('b9', t >= 1 ? 1 : 0);
+    const bs = t < 1.5 ? lerp(.2, 1, ebk(c)) : lerp(1, .42, eo(d));
+    T('b9', `translate(calc(-50% + ${eo(d) * 37 * R}px), calc(-50% + ${eo(d) * 14.5 * R}px)) rotate(${lerp(-25, 0, ebk(c)) + eo(d) * 6}deg) scale(${bs})`);
+    O('w3', t >= 1.5 ? 1 : 0); T('w3', `translateX(calc(-50% - 10rem)) scale(${lerp(3, 1, eo(d))})`); $('w3').style.filter = `blur(${(1 - eo(d)) * 10}px)`;
+    const m = P(t, 1.6, .25); O('m1', t >= 1.6 ? 1 : 0); T('m1', `translateX(-50%) translateY(${(1 - ebk(m)) * -12}rem) skewX(${(1 - eo(m)) * -14}deg)`);
+  }
+
+  // 2 · pyro footage, stamped words
+  if (t >= 2 && t < 5) {
+    const lt = t - 2; setSrc($('f2'), frame('pyro', 96, lt));
+    T('f2', `scale(${1.12 - lt * .03})`); $('f2').style.filter = 'contrast(1.15) saturate(1.2)';
+    T('v2', `rotate(90deg) translateX(${-lt * 14 * R}px) translateY(-1rem)`);
+    [['st1', .3, -3], ['st2', .8, 2], ['st3', 1.3, -1.5]].forEach(([id, a, r], i) => {
+      const s = stamp(lt, a), ex = eio(P(lt, 2.55 + i * .07, .3));
+      O(id, s.o); T(id, `translateX(${-ex * 120}vw) rotate(${r + nz(lt * 6, i) * .6}deg) scale(${s.s})`);
+    });
+  }
+
+  // 3 · 3-2-1 strobe over the portrait
+  if (t >= 5 && t < 6) {
+    const i = Math.min(3, Math.floor((t - 5) / .25)), lt = (t - 5) % .25;
+    $('s3bg').style.background = ['#1F4BFF', '#FF3B2F', '#C6F59B', '#F6F6F2'][i];
+    $('s3n').textContent = ['3', '2', '1', 'GO'][i];
+    $('s3n').style.color = i === 3 ? '#0D0D10' : 'transparent'; $('s3n').style.fontSize = i === 3 ? '70rem' : '95rem';
+    T('s3n', `translate(-50%,-50%) scale(${lerp(1.25, 1, eo(lt / .2))}) rotate(${[-4, 3, -2, 0][i]}deg)`);
+    T('s3p', `scale(${1.05 + lt * .4}) translateX(${[0, -3, 3, 0][i]}%)`); $('s3p').style.objectPosition = `50% ${[20, 30, 15, 25][i]}%`;
+  }
+
+  // 4 · hands up: stutter in, scribble on the fist, red marquee
+  if (t >= 6 && t < 9.5) {
+    const lt = t - 6; setSrc($('f4'), frame('hand', 115, lt < .6 ? step(lt, 8) : lt, 30));
+    T('f4', `scale(${1.04 + lt * .02})`); $('f4').style.filter = 'contrast(1.12) saturate(1.15)';
+    draw($('circP'), eio(P(lt, 1.35, .45))); T('circ', `scale(${R / 10.8})`);
+    const hl = P(lt, 1.7, .55); $('hu').style.clipPath = `inset(0 ${100 - step(hl, 7) * 100}% 0 0)`;
+    T('hu', `rotate(${-7 + nz(lt * 3, 8) * 1}deg)`);
+    const m = eo(P(lt, .25, .4)); T('mq', `scaleY(${m}) rotate(-2deg)`); T('mqt', `translateX(${-lt * 30 * R}px)`);
+    const sl = eio(P(lt, 3.05, .45)); T('slab4', `translateY(${(1 - sl) * 110}%)`);
+  }
+
+  // 5 · FOLA: portrait wipe, stepped scratch-on wordmark with misregistration
+  if (t >= 9.5 && t < 11.5) {
+    const lt = t - 9.5;
+    T('hl', `translateX(${-lt * 6 * R}px)`);
+    const pr = eo(P(lt, 0, .45)); $('pbox').style.clipPath = `inset(${(1 - pr) * 100}% 0 0 0)`; T('pimg', `scale(${1.25 - pr * .2 - lt * .02})`);
+    O('hl1', lt > .35 ? 1 : 0);
+    const fw = step(P(lt, .38, .42), 6); $('fwrap').style.clipPath = `inset(-20% ${100 - fw * 100}% -20% -5%)`;
+    const g = lt > .38 && lt < .95 ? 1 : 0; O('fr', g * .8);
+    T('fr', `translate(${nz(lt * 30, 1) * 2 * R}px,${nz(lt * 30, 2) * R}px)`); T('fo', `translate(${nz(lt * 4, 3) * .3 * R}px,0)`);
+    T('fwrap', `translateX(-50%) rotate(${-3 + (lt < .9 ? nz(lt * 15, 4) : 0)}deg) scale(${lerp(1.15, 1, eo(P(lt, .38, .5)))})`);
+    const mt = P(lt, 1.05, .5); $('s5m').style.clipPath = `inset(0 ${100 - step(mt, 12) * 100}% 0 0)`;
+  }
+
+  // 6 · ONE NIGHT / ONE CITY / ONE CLOUD — hard cuts on the beat
+  if (t >= 11.5 && t < 14) {
+    const lt = t - 11.5; setSrc($('f6'), frame('red', 96, lt, lt > 2 ? 15 : 30)); T('f6', `scale(${1.1 - lt * .02})`);
+    const W = [[0, 'NIGHT.', '#C6F59B', '#0D0D10'], [.75, 'CITY.', '#F6F6F2', '#FF3B2F'], [1.5, 'CLOUD 9.', '#FF3B2F', '#F6F6F2']];
+    let i = 0; for (let j = 0; j < 3; j++) if (lt >= W[j][0]) i = j;
+    const [a, word, bg, fg] = W[i], x = lt - a;
+    $('noun').textContent = word; $('noun').style.color = fg; $('nb').style.background = bg;
+    $('noun').style.fontSize = i === 2 ? '27rem' : '34rem';
+    O('one', 1); T('one', `translateY(${(1 - eo(P(x, 0, .15))) * 6}rem)`);
+    const nb = eo(P(x, .2, .22)); $('nb').style.width = `calc(${nb} * (${$('noun').offsetWidth}px + 4rem))`;
+    O('noun', x >= .25 ? 1 : 0); T('noun', `scale(${lerp(1.2, 1, eo(P(x, .25, .15)))}) rotate(${[-1.5, 1, -1][i]}deg)`);
+    T('nb', `rotate(${[-1.5, 1, -1][i]}deg)`);
+  }
+
+  // 7 · the date, as a folded 3D box
+  if (t >= 14 && t < 16) {
+    const lt = t - 14, r = lerp(-62, -14, eo(P(lt, 0, .7))) + Math.sin(lt * 2) * 2;
+    $('s7').style.perspective = (160 * R) + 'px';
+    T('dbox', `rotateY(${r}deg) rotateX(${lerp(12, 4, eo(P(lt, 0, .8)))}deg) scale(${lerp(1.25, .92, eo(P(lt, 0, 2)))})`);
+    T('d16', `scale(${lerp(1.6, 1, ebk(P(lt, 0, .3)))})`); $('d16').style.transformOrigin = '0 50%';
+    O('dth', lt > .25 ? 1 : 0);
+    T('ddec', `translateX(${(1 - eo(P(lt, .5, .3))) * -90}rem)`); O('ddec', lt > .5 ? 1 : 0);
+    T('d26', `translateX(${(1 - eo(P(lt, 1, .3))) * 90}rem)`); O('d26', lt > 1 ? 1 : 0);
+    O('dwed', lt > 1.3 ? 1 : 0); $('dwed').style.clipPath = `inset(0 ${100 - step(P(lt, 1.3, .35), 9) * 100}% 0 0)`;
+  }
+
+  // 8 · triptych, venue bands
+  if (t >= 16 && t < 19) {
+    const lt = t - 16;
+    [['tp1', 'tf1', 't1', 0, 0], ['tp2', 'tf2', 't2', .25, 1], ['tp3', 'tf3', 't3', .5, 0]].forEach(([p, f, d, a, dir]) => {
+      const x = eo(P(lt, a, .4)); $(p).style.clipPath = dir ? `inset(${(1 - x) * 100}% 0 0 0)` : `inset(0 0 ${(1 - x) * 100}% 0)`;
+      setSrc($(f), frame(d, 96, Math.max(0, lt - a))); T(f, `scale(${1.15 - x * .1}) translateY(${(dir ? 1 : -1) * lt * .8}%)`);
+      $(f).style.filter = 'contrast(1.15) saturate(1.1)';
+    });
+    T('band1', `rotate(-5deg) scaleX(${eo(P(lt, .6, .45))})`); T('bt1', `translateX(${-lt * 22 * R}px)`);
+    T('band2', `rotate(4deg) scaleX(${eo(P(lt, 2, .45))})`); T('bt2', `translateX(${(-260 + lt * 24) * R}px)`);
+  }
+
+  // 9 · tickets: typed URL, marker underline, link in bio
+  if (t >= 19 && t < 22) {
+    const lt = t - 19;
+    T('r9', `rotate(${-lt * 15}deg) scale(1.2)`);
+    const s = stamp(lt, 0); O('tk', 1); T('tk', `rotate(-2deg) scale(${s.s})`);
+    T('arr', `translateY(${Math.abs(Math.sin(lt * Math.PI * 2)) * -3 * R}px) scale(${R / 10.8})`); O('arr', lt > .2 ? 1 : 0);
+    O('www', lt > .5 ? 1 : 0);
+    const word = 'ICONIQFEST.COM', n = Math.floor(cl((lt - .55) / .065, 0, word.length));
+    $('urlt').textContent = word.slice(0, n);
+    O('cur', (n < word.length || Math.floor(lt * 4) % 2 === 0) && lt < 2.6 ? 1 : 0);
+    draw($('ulP'), eio(P(lt, 1.75, .4))); T('ul', `scale(${R / 10.8})`);
+    O('lib', lt > 2.1 ? 1 : 0); $('lib').style.clipPath = `inset(0 ${100 - step(P(lt, 2.1, .35), 8) * 100}% 0 0)`;
+    T('slab9', `translateX(${lerp(-110, 110, eio(P(lt, 2.7, .55)))}%) skewX(-12deg)`);
+  }
+
+  // 10 · end card: flyer rebuilt in a stagger, then a slow push to the loop point
+  if (t >= 22) {
+    const lt = t - 22;
+    T('e10', `scale(${1 + lt * .012})`);
+    T('r10', `rotate(${lt * 8}deg) scale(1.3)`);
+    T('sideL', `rotate(90deg) translateX(${(1 - eo(P(lt, 0, .6))) * 60 - lt * 3}rem)`);
+    T('sideR', `rotate(-90deg) translateX(${(1 - eo(P(lt, 0, .6))) * 60 - lt * 3}rem)`);
+    T('emark', `translateY(${(1 - ebk(P(lt, 0, .35))) * -30}rem) skewX(${(1 - eo(P(lt, 0, .3))) * -12}deg)`);
+    const c = P(lt, .15, .35); O('ecl', c > 0 ? 1 : 0); T('ecl', `translateX(-50%) scale(${lerp(1.4, 1, eo(c))})`);
+    const p = eo(P(lt, .1, .6)); T('ep', `translateY(${(1 - p) * 12}rem) scale(${lerp(1.1, 1, p)})`); O('ep', p);
+    O('glow', .5 + .3 * Math.sin(lt * 4));
+    const ib = eo(P(lt, .45, .4)); $('einfo').style.clipPath = `inset(0 ${100 - ib * 100}% 0 0)`;
+    const db = ebk(P(lt, .7, .35)); O('edate', lt > .7 ? 1 : 0); T('edate', `perspective(${100 * R}px) rotateY(${lerp(80, 14, db)}deg)`); $('edate').style.transformOrigin = '100% 50%';
+    O('elogo', lt > 1.1 ? 1 : 0); T('elogo', `translateY(${(1 - eo(P(lt, 1.1, .3))) * 5}rem)`);
+    // one late glitch blip on the wordmark so the hold still breathes
+    const gl = lt > 2.3 && lt < 2.4; T('einfo', gl ? `translateX(${nz(lt * 60, 2) * 1.5}rem)` : '');
+  }
+}
+window.renderAt = renderAt;
+window.ready = document.fonts.ready.then(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; })))).then(() => renderAt(0));
+</script>
+</body></html>
