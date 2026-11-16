@@ -121,11 +121,6 @@ p { margin: 0 0 12px; }
 .p2head { position: relative; }
 .p2head h1 { position: relative; z-index: 1; }
 .beams { position: absolute; right: -54px; top: 0; width: 640px; height: 100%; pointer-events: none; }
-.burst { position: relative; width: 210px; height: 210px; margin: -26px 6px -20px 0; transform: rotate(-8deg); flex: none; z-index: 2; }
-.burst svg { position: absolute; inset: 0; width: 100%; height: 100%; }
-.burst .bt { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #FFF7EC; }
-.burst .bt span { font: 900 78px/0.9 Playfair; }
-.burst .bt small { font: 700 15px/1 OldStd; letter-spacing: 3px; margin-top: 4px; }
 .deck2 { font: italic 400 23px/1.3 Playfair; padding: 14px 0 10px; }
 .expect .row { display: grid; grid-template-columns: repeat(6, 1fr); border-top: 1.5px solid var(--ink); border-bottom: 1.5px solid var(--ink); margin-top: 10px; }
 .expect .row > div { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px 10px; font: 700 14px/1.15 OldStd; letter-spacing: 1.5px; text-transform: uppercase; text-align: center; border-left: 1.5px solid var(--ink); }
@@ -169,11 +164,11 @@ p { margin: 0 0 12px; }
 .partners2 .phead { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1.5px solid rgba(239,232,217,.35); padding: 0 4px 12px; }
 .partners2 .t { font: 900 34px/1 Playfair; letter-spacing: 1px; }
 .partners2 .s { font: italic 400 16px/1 OldStd; color: #BFB5A6; }
-.tiles { display: grid; grid-template-columns: repeat(7, 1fr); }
+.tiles { display: grid; grid-template-columns: repeat(8, 1fr); }
 .tiles > div { height: 104px; display: flex; align-items: center; justify-content: center; padding: 10px; border-right: 1px solid rgba(239,232,217,.22); border-bottom: 1px solid rgba(239,232,217,.22); box-sizing: border-box; }
-.tiles > div:nth-child(7n) { border-right: 0; }
-.tiles > div:nth-child(n+8) { border-bottom: 0; }
-.tiles img { max-width: 100%; max-height: 72px; object-fit: contain; }
+.tiles > div:nth-child(8n) { border-right: 0; }
+.tiles > div:nth-child(n+9) { border-bottom: 0; }
+.tiles img { max-width: 100%; max-height: 74px; object-fit: contain; }
 .tiles .you { background: var(--spot); flex-direction: column; text-align: center; font: 700 12px/1.25 OldStd; letter-spacing: 1.5px; color: #FFF7EC; }
 .tiles .you strong { font: 900 22px/1 Playfair; letter-spacing: 0; display: block; margin-bottom: 4px; }
 
@@ -258,8 +253,6 @@ p { margin: 0 0 12px; }
   <div class="sechead p2head">
     <svg class="beams" viewBox="0 0 600 300" preserveAspectRatio="none"><path d="M600 0 L330 300 L430 300 Z M600 0 L470 300 L560 300 Z M600 0 L190 300 L280 300 Z" fill="url(#hatchSpot)" opacity=".55"/></svg>
     <h1>LIVE<br>EXPERIENCE</h1>
-    <div class="burst" id="burst"><svg viewBox="0 0 200 200"><polygon id="burstPoly" fill="#D9481A" stroke="#1A1613" stroke-width="3"/></svg>
-      <div class="bt"><span id="daysLeft">40</span><small>DAYS TO GO</small></div></div>
   </div>
   <div class="dbl inv"></div>
   <div class="deck2">Fashion, photography, art, food and Afrobeats: one night in the heart of the capital.</div>
@@ -278,7 +271,6 @@ p { margin: 0 0 12px; }
     <div class="feed">
       <div class="feedhead"><span class="t">THE LIVE FEED</span><span class="u"><i></i>UPDATED <span id="issueDate">3 NOV 2026</span></span></div>
       <ol>
-        <li><div class="d">TODAY · COUNTDOWN</div><div class="h"><span id="daysLeft2">40</span> days to Eagle Square.</div><div class="x">Sunday 13 December 2026. Set the reminder now.</div></li>
         <li><div class="d">OCT 2026 · CONFIRMED</div><div class="h">Wizkid headlines Live Out Loud in Abuja.</div><div class="x">Eagle Square, Sunday 13 December. Announced in mid-October.</div></li>
         <li><div class="d">OCT 2026 · ABUJA FIRST</div><div class="h">The capital gets Big Wiz before Lagos.</div><div class="x">His December run opens in Abuja, five days before his Lagos show on 18 December.</div></li>
         <li><div class="d">JAN 2026 · ON REPEAT</div><div class="h">“Jogodo” with Asake.</div><div class="x">Lead single from their joint EP <i>Real, Vol. 1</i>. Added to Learn the Lyrics.</div></li>
@@ -386,18 +378,14 @@ p { margin: 0 0 12px; }
   document.querySelectorAll('.nnum').forEach(e => e.textContent = nw);
   document.querySelectorAll('.nfree').forEach(e => e.textContent = W.messageCells.length);
 
-  // page 2: countdown from the issue date, starburst, LED dot grid
-  const ISSUE = new Date('2026-11-03T12:00:00'), EVENT = new Date('2026-12-13T12:00:00');
-  const days = Math.round((EVENT - ISSUE) / 864e5);
-  document.getElementById('daysLeft').textContent = days; document.getElementById('daysLeft2').textContent = days;
+  // page 2: feed date, LED dot grid
+  const ISSUE = new Date('2026-11-03T12:00:00');
   document.getElementById('issueDate').textContent = ISSUE.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase();
-  const pts = []; for (let i = 0; i < 48; i++) { const r = i % 2 ? 78 : 98, t = i / 48 * Math.PI * 2; pts.push((100 + r * Math.cos(t)).toFixed(1) + ',' + (100 + r * Math.sin(t)).toFixed(1)); }
-  document.getElementById('burstPoly').setAttribute('points', pts.join(' '));
   let dots = ''; for (let y = 0; y < 6; y++) for (let x = 0; x < 10; x++) dots += `<circle cx="${22 + x * 8.4}" cy="${30 + y * 8.6}" r="${(x + y) % 3 ? 2 : 3}" ${((x * 3 + y * 5) % 7 < 2) ? 'fill="#D9481A"' : ''}/>`;
   document.getElementById('ledDots').innerHTML = dots;
 
   // page 3: one tile per sponsor logo, cut from the official flyer
-  const names = ["Hennessy","Heineken","Coca-Cola","Desperados","BEST","AXE","Lord's Gin","Transcorp Hotels","Vodi Group","United Nigeria","Trace+","Square Meter","Nova Flair"];
+  const names = ["Hennessy","Heineken","Coca-Cola","Desperados","BEST","AXE","Lord's Gin","Transcorp Hotels","Vodi Group","United Nigeria","Trace+","Square Meter","Nova Flair","The Beat 97.9 FM","Soundcity"];
   document.getElementById('tiles').innerHTML = names.map((n, i) => `<div><img src="assets/img/sponsors/${String(i + 1).padStart(2, '0')}.png" alt="${n}"></div>`).join('')
     + `<div class="you"><strong>+ YOU</strong>WIZKID.TIX<br>.AFRICA</div>`;
   document.getElementById('blanks').innerHTML = W.message.split(' ')
