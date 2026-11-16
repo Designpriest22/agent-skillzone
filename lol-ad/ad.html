@@ -138,25 +138,27 @@ let html = `<svg width="0" height="0" style="position:absolute"><defs>
     <img class="a" id="s2wm" src="assets/wizkid-wordmark.png" style="left:${L ? W - S.x - wmw : cx - wmw / 2}px;top:${wmy}px;width:${wmw}px;filter:drop-shadow(0 6px 0 var(--ink))">
   </div>`; }
 
-// ===== S3 6–9 · THE EXPERIENCE =====
-{ const ts = L ? fit('EXPERIENCE', 'Anton', S.w * .46, S.h * .3) : fit('EXPERIENCE', 'Anton', S.w * .96, S.h * .15);
-  const tx = L ? S.x : cx - ts * 2.4, ty = S.y + (L ? S.h * .1 : S.h * .03);
-  const tagS = L ? S.h * .09 : Math.min(S.h * .065, S.w * .095);
-  const tags = ['LED SCREENS', 'IMMERSIVE LIGHTING', 'CONCERT SOUND', 'FOOD & MERCH'];
-  const tagY = i => L ? S.y + S.h * .45 + i * tagS * 1.5 : S.y + S.h * .6 + i * tagS * 1.42, tagX = i => L ? S.x + (i % 2) * S.w * .05 : S.x + (i % 2 ? S.w * .2 : S.w * .02);
-  const ph = L ? [[.5, 0, .3, .55, -4, '20% 30%'], [.7, .26, .3, .5, 5, '75% 55%'], [.48, .58, .3, .42, 2, '45% 90%']]
-               : [[0, .18, .62, .25, -4, '20% 30%'], [.38, .27, .62, .23, 5, '75% 55%'], [.06, .38, .56, .2, 2, '45% 90%']];
-  html += `<div class="sc" id="s3" style="background:var(--ink)">
-    ${ph.map(([x, y, w, h, r, bp], i) => { const pw = S.w * w, pH = S.h * h;
-      return `<div class="a shadow" id="s3p${i}" style="left:${S.x + S.w * x}px;top:${S.y + S.h * y}px;width:${pw}px;height:${pH}px;transform:rotate(${r}deg)">
-        <div style="position:relative;width:100%;height:100%;clip-path:${torn(pw, pH, 90 + i, 9, 16)};background:url(assets/crowd-duo.jpg) ${bp}/180% auto"><div class="dots" style="opacity:.5"></div></div></div>`; }).join('')}
-    ${tape(S.x + S.w * ph[1][0] + S.w * ph[1][2] * .4, S.y + S.h * ph[1][1] - 14 * U, S.w * .14, -8, 33)}
-    ${text('s3a', 'mk', 'the', tx, ty - ts * .2, ts * .62, 'var(--hot)', 'transform:rotate(-6deg)')}
-    ${text('s3b', 'anton', 'EXPERIENCE', tx, ty + ts * .32, ts, 'var(--cream)')}
-    ${tags.map((w, i) => `<div class="a anton" id="s3t${i}" style="left:${tagX(i)}px;top:${tagY(i)}px;font-size:${tagS}px;color:${i % 2 ? 'var(--ink)' : 'var(--cream)'};background:${i % 2 ? 'var(--paper)' : 'var(--hot)'};padding:${tagS * .18}px ${tagS * .35}px ${tagS * .1}px;transform:rotate(${i % 2 ? 2 : -2.5}deg)">${w}</div>`).join('')}
-    ${svg(stroke(3, 'spark', { x: tx + ts * 4.9, y: ty + ts * .3, s: 30 * U }, 6.9, .2, 'var(--hot)', 8 * U) +
-       stroke(3, 'burst', { cx: S.x + S.w * (L ? .86 : .9), cy: S.y + S.h * (L ? .1 : .22), r1: 26 * U, r2: 70 * U, n: 9, a0: 0 }, 7.1, .3, 'var(--cream)', 7 * U) +
-       stroke(3, 'under', { x1: tagX(2), x2: tagX(2) + tagS * 6.6, y: tagY(2) + tagS * 1.25, amp: 7 * U }, 8.2, .3, 'var(--cream)', 7 * U))}
+// ===== S3 6–9 · PULL UP WITH THE LOUD GANG (stop motion) =====
+{ const wh = L ? H * .98 : H * ({ story: .68, feed: .74, square: .76 }[fk]), ww = wh * .7998;
+  const wx = L ? S.x + S.w * .74 - ww / 2 : cx - ww / 2 + S.w * .12, wy = H - wh;
+  const colW = L ? S.w * .5 : S.w;
+  const pS = L ? S.h * .1 : S.w * .085, gS = L ? fit('THE LOUD', 'Anton', colW, S.h * .3) : fit('THE LOUD', 'Anton', S.w * .96, S.h * ({ story: .19, feed: .15, square: .14 }[fk]));
+  const y0 = S.y + (L ? S.h * .06 : 0), yA = y0 + pS * 1.25, yB = yA + gS * .86, yT = yB + gS * .9;
+  const tS = L ? S.h * .09 : S.w * .08;
+  const crH = L ? H * .36 : H * .3, crW = W * 1.12;
+  html += `<div class="sc" id="s3" style="background:radial-gradient(90% 70% at 50% 40%, #F06A28, #C7400F)">
+    <div class="a" id="s3cr" style="left:${-W * .06}px;top:${H - crH}px;width:${crW}px;height:${crH + 40 * U}px;clip-path:${torn(crW, crH + 40 * U, 41, 16, 22)};background:url(assets/crowd-sketch.png) 50% 0/cover"></div>
+    ${tape(W * .12, H - crH - 14 * U, W * .14, -7, 42)}${tape(W * .74, H - crH - 10 * U, W * .12, 6, 43)}
+    <img class="a" id="s3w" style="left:${wx}px;top:${wy}px;width:${ww}px;height:${wh}px;filter:drop-shadow(6px 8px 0 rgba(20,16,14,.35))">
+    ${text('s3a', 'mk', 'pull up with', S.x + (L ? 0 : S.w * .02), y0, pS, 'var(--cream)', 'transform:rotate(-4deg)')}
+    ${text('s3b', 'anton', 'THE LOUD', S.x, yA, gS, 'var(--ink)')}
+    ${text('s3c', 'anton', 'GANG', S.x, yB, gS, 'var(--cream)', 'text-shadow:6px 6px 0 var(--ink)')}
+    <div class="a anton" id="s3d" style="left:${S.x + (L ? S.w * .02 : S.w * .03)}px;top:${yT}px;font-size:${tS}px;color:var(--cream);background:var(--ink);padding:${tS * .2}px ${tS * .4}px ${tS * .1}px;transform:rotate(-3deg)">&amp; THE FC</div>
+    ${svg((() => { cv.font = `${tS}px Anton`; const tw = cv.measureText('& THE FC').width + tS * .8, x1 = S.x + (L ? S.w * .02 : S.w * .03);
+      return stroke(3, 'circle', { cx: x1 + tw / 2, cy: yT + tS * .55, rx: tw * .66, ry: tS * 1.05 }, 7.9, .4, 'var(--cream)', 8 * U) +
+        stroke(3, 'arrow', { x1: x1 + tw * 1.25, y1: yT + tS * .4, x2: wx + ww * .32, y2: wy + wh * .2, bend: -.3, head: 30 * U }, 8.25, .35, 'var(--ink)', 8 * U); })() +
+      stroke(3, 'spark', { x: S.x + S.w * .93, y: y0 + pS * .6, s: 32 * U }, 6.6, .2, 'var(--cream)', 8 * U) +
+      stroke(3, 'burst', { cx: wx + ww * .48, cy: wy + wh * .14, r1: wh * .16, r2: wh * .25, n: 11, a0: -Math.PI * .95, span: Math.PI * .9 }, 7.25, .35, 'var(--ink)', 9 * U, { spray: 1 }))}
   </div>`; }
 
 // ===== S4 9–12 · THIS IS LIVE OUT LOUD =====
@@ -273,8 +275,11 @@ window.renderAt = t => {
     $('s2v').src = `clips/walk_${String(clamp(1 + Math.floor((t - 3) * FPS), 1, 90)).padStart(3, '0')}.jpg`;
     const l = P(t, 4.3, .35); $('s2l').style.clipPath = `inset(0 ${100 - l * 100}% 0 0)`;
     slam('s2wm', t, 5, 1.5); const sh = t >= 5 && t < 5.25 ? Math.sin(fr * 2.1) * 10 * U : 0; $('s2').style.transform = `translate(${sh}px, ${-sh * .6}px)`; }
-  if (cur === 3) { [0, 1, 2].forEach(i => { const p = ex(P(t, 6 + i * .15, .4)); $('s3p' + i).style.translate = `0 ${(1 - p) * H}px`; });
-    slam('s3a', t, 6.4, 1.6, -6); slam('s3b', t, 6.5, 1.4); [0, 1, 2, 3].forEach(i => slam('s3t' + i, t, 7 + i * .4, 1.5, i % 2 ? 2 : -2.5)); }
+  if (cur === 3) { const st = Math.floor((t - 6) * 10), r = rnd(st * 13 + 5), jx = (r() - .5) * 10 * U, jy = (r() - .5) * 8 * U, jr = (r() - .5) * 2.4;
+    $('s3w').src = `clips/stopmo/c_${String(clamp(st + 1, 1, 30)).padStart(2, '0')}.png`;
+    $('s3w').style.transform = `translate(${jx}px, ${jy}px) rotate(${jr}deg)`;
+    $('s3cr').style.transform = `translate(${(r() - .5) * 6 * U}px, ${(r() - .5) * 4 * U}px) rotate(${-1.5 + (r() - .5) * .8}deg)`;
+    slam('s3a', t, 6.25, 1.5, -4); slam('s3b', t, 6.5, 1.4, (r() - .5) * 1.2); slam('s3c', t, 7.0, 1.4, (r() - .5) * 1.2); slam('s3d', t, 7.5, 1.6, -3); }
   if (cur === 4) { rise('s4a', t, 9); ['s4w0', 's4w1', 's4w2'].forEach((id, i) => slam(id, t, 9.25 + i * .5, 1.45));
     document.querySelectorAll('#s4 [id^=s4w]').forEach(e => e.style.backgroundPosition = `${50 + (t - 9) * 6}% ${50 - (t - 9) * 3}%`);
     slam('s4logo', t, 11, 1.6, -4); }
