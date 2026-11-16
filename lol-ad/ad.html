@@ -103,8 +103,8 @@ let html = `<svg width="0" height="0" style="position:absolute"><defs>
   const tx = cx - tw / 2 + (L ? S.w * .12 : S.w * .06), ty = wy + ws * .86 + S.h * .05;
   const ds = Math.min(ts * .72, S.w * .12);
   html += `<div class="sc" id="s1">
-    <img class="a" src="assets/page-1.png" style="left:${-W * .1}px;top:${-H * .05}px;width:${W * .75}px;opacity:.13;transform:rotate(-7deg)">
-    <img class="a" src="assets/page-4.png" style="left:${W * .45}px;top:${H * .3}px;width:${W * .7}px;opacity:.11;transform:rotate(9deg)">
+    <div class="a" style="left:${-W * .1}px;top:${-H * .05}px;width:${W * .75}px;height:${H * .5}px;opacity:.22;transform:rotate(-7deg);background:url(assets/crowd-duo.jpg) 30% 40%/220% auto;clip-path:${torn(W * .75, H * .5, 81, 10, 18)}"></div>
+    <div class="a" style="left:${W * .45}px;top:${H * .5}px;width:${W * .7}px;height:${H * .45}px;opacity:.2;transform:rotate(9deg);background:url(assets/crowd-duo.jpg) 70% 70%/220% auto;clip-path:${torn(W * .7, H * .45, 82, 10, 18)}"></div>
     ${center('s1lab', 'mont', 'SPECIAL EDITION · LIVE OUT LOUD', S.y + (L ? 0 : S.h * .03), 20 * U * (L ? 1.1 : 1.25), 'var(--ink)')}
     ${center('s1w', 'anton', 'WIZZEMBER', wy, ws, 'var(--ink)')}
     <div class="a" id="s1blk" style="left:${tx - tw * .12}px;top:${ty - th * .1}px;width:${tw * 1.24}px;height:${th * 1.2}px;background:var(--hot);transform-origin:0 50%;clip-path:${torn(tw * 1.24, th * 1.2, 11, 12, 18)}"></div>
@@ -138,25 +138,25 @@ let html = `<svg width="0" height="0" style="position:absolute"><defs>
     <img class="a" id="s2wm" src="assets/wizkid-wordmark.png" style="left:${L ? W - S.x - wmw : cx - wmw / 2}px;top:${wmy}px;width:${wmw}px;filter:drop-shadow(0 6px 0 var(--ink))">
   </div>`; }
 
-// ===== S3 6–9 · SAVE THE DATE =====
-{ const pw = L ? S.h * .74 : S.w * .74, ph = pw * 1.25;
-  const pages = L ? [[S.x + S.w * .05, S.y + S.h * .08, -9, 1], [cx - pw / 2, S.y + S.h * .02, 4, 2], [S.x + S.w - pw - S.w * .05, S.y + S.h * .1, -3, 4]]
-                  : [[S.x - S.w * .02, S.y + S.h * .12, -8, 1], [S.x + S.w * .3, S.y + S.h * .02, 6, 2], [S.x + S.w * .12, S.y + S.h * .32, -2, 4]];
-  const ss = L ? fit('SAVE', 'Anton', S.w * .32, S.h * .42) : fit('SAVE', 'Anton', S.w * .8, S.h * .25);
-  const sy = L ? S.y + S.h * .12 : S.y + S.h * .1, dsy = L ? sy : sy + ss * .86 + ss * .3;
-  const tagS = L ? S.h * .085 : S.w * .075;
-  const tg1 = L ? [cx - S.w * .1, S.y + S.h * .72] : [S.x + S.w * .08, S.y + S.h * .77], tg2 = L ? [cx + S.w * .14, S.y + S.h * .82] : [S.x + S.w * .3, S.y + S.h * .9];
-  cv.font = `${tagS}px Anton`; const t1w = cv.measureText('13 DEC 2026').width + tagS * .8;
+// ===== S3 6–9 · THE EXPERIENCE =====
+{ const ts = L ? fit('EXPERIENCE', 'Anton', S.w * .46, S.h * .3) : fit('EXPERIENCE', 'Anton', S.w * .96, S.h * .15);
+  const tx = L ? S.x : cx - ts * 2.4, ty = S.y + (L ? S.h * .1 : S.h * .03);
+  const tagS = L ? S.h * .09 : Math.min(S.h * .065, S.w * .095);
+  const tags = ['LED SCREENS', 'IMMERSIVE LIGHTING', 'CONCERT SOUND', 'FOOD & MERCH'];
+  const tagY = i => L ? S.y + S.h * .45 + i * tagS * 1.5 : S.y + S.h * .6 + i * tagS * 1.42, tagX = i => L ? S.x + (i % 2) * S.w * .05 : S.x + (i % 2 ? S.w * .2 : S.w * .02);
+  const ph = L ? [[.5, 0, .3, .55, -4, '20% 30%'], [.7, .26, .3, .5, 5, '75% 55%'], [.48, .58, .3, .42, 2, '45% 90%']]
+               : [[0, .18, .62, .25, -4, '20% 30%'], [.38, .27, .62, .23, 5, '75% 55%'], [.06, .38, .56, .2, 2, '45% 90%']];
   html += `<div class="sc" id="s3" style="background:var(--ink)">
-    ${pages.map(([x, y, r, n], i) => `<div class="a shadow" id="s3p${i}" style="left:${x}px;top:${y}px;width:${pw}px;height:${ph}px;transform:rotate(${r}deg)"><img src="assets/page-${n}.png" style="width:100%;height:100%;display:block;filter:sepia(.15)"></div>`).join('')}
-    ${tape(pages[1][0] + pw * .4, pages[1][1] - pw * .04, pw * .26, -6, 31)}
-    ${text('s3a', 'anton', 'SAVE', L ? S.x + S.w * .02 : cx - ss * 1.15, sy, ss, 'var(--hot)', 'text-shadow:0 0 0 #000,6px 6px 0 var(--ink)')}
-    ${text('s3b', '', 'the', L ? S.x + S.w * .36 : cx - ss * .55, (L ? sy : sy + ss * .62), ss * .7, 'var(--ink)', `font-family:PlayI;font-style:italic;line-height:1;transform:rotate(-6deg);text-shadow:0 0 12px rgba(236,228,214,.9)`)}
-    ${text('s3c', 'anton', 'DATE', L ? S.x + S.w * .56 : cx - ss * 1.0, dsy, ss, 'var(--hot)', 'text-shadow:6px 6px 0 var(--ink)')}
-    <div class="a anton" id="s3t1" style="left:${tg1[0]}px;top:${tg1[1]}px;font-size:${tagS}px;color:var(--cream);background:var(--hot);padding:${tagS * .18}px ${tagS * .4}px ${tagS * .1}px;transform:rotate(-5deg)">13 DEC 2026</div>
-    <div class="a anton" id="s3t2" style="left:${tg2[0]}px;top:${tg2[1]}px;font-size:${tagS * .62}px;color:var(--cream);background:var(--ink);padding:${tagS * .14}px ${tagS * .3}px ${tagS * .08}px;transform:rotate(3deg);border:2px solid var(--cream)">EAGLE SQUARE, ABUJA</div>
-    ${svg(stroke(3, 'circle', { cx: tg1[0] + t1w / 2, cy: tg1[1] + tagS * .55, rx: t1w * .65, ry: tagS * 1.05 }, 8.25, .45, 'var(--cream)', 9 * U) +
-       stroke(3, 'spark', { x: tg1[0] + t1w + 40 * U, y: tg1[1] - 30 * U, s: 32 * U }, 8.5, .2, 'var(--hot)', 8 * U))}
+    ${ph.map(([x, y, w, h, r, bp], i) => { const pw = S.w * w, pH = S.h * h;
+      return `<div class="a shadow" id="s3p${i}" style="left:${S.x + S.w * x}px;top:${S.y + S.h * y}px;width:${pw}px;height:${pH}px;transform:rotate(${r}deg)">
+        <div style="position:relative;width:100%;height:100%;clip-path:${torn(pw, pH, 90 + i, 9, 16)};background:url(assets/crowd-duo.jpg) ${bp}/180% auto"><div class="dots" style="opacity:.5"></div></div></div>`; }).join('')}
+    ${tape(S.x + S.w * ph[1][0] + S.w * ph[1][2] * .4, S.y + S.h * ph[1][1] - 14 * U, S.w * .14, -8, 33)}
+    ${text('s3a', 'mk', 'the', tx, ty - ts * .2, ts * .62, 'var(--hot)', 'transform:rotate(-6deg)')}
+    ${text('s3b', 'anton', 'EXPERIENCE', tx, ty + ts * .32, ts, 'var(--cream)')}
+    ${tags.map((w, i) => `<div class="a anton" id="s3t${i}" style="left:${tagX(i)}px;top:${tagY(i)}px;font-size:${tagS}px;color:${i % 2 ? 'var(--ink)' : 'var(--cream)'};background:${i % 2 ? 'var(--paper)' : 'var(--hot)'};padding:${tagS * .18}px ${tagS * .35}px ${tagS * .1}px;transform:rotate(${i % 2 ? 2 : -2.5}deg)">${w}</div>`).join('')}
+    ${svg(stroke(3, 'spark', { x: tx + ts * 4.9, y: ty + ts * .3, s: 30 * U }, 6.9, .2, 'var(--hot)', 8 * U) +
+       stroke(3, 'burst', { cx: S.x + S.w * (L ? .86 : .9), cy: S.y + S.h * (L ? .1 : .22), r1: 26 * U, r2: 70 * U, n: 9, a0: 0 }, 7.1, .3, 'var(--cream)', 7 * U) +
+       stroke(3, 'under', { x1: tagX(2), x2: tagX(2) + tagS * 6.6, y: tagY(2) + tagS * 1.25, amp: 7 * U }, 8.2, .3, 'var(--cream)', 7 * U))}
   </div>`; }
 
 // ===== S4 9–12 · THIS IS LIVE OUT LOUD =====
@@ -192,16 +192,16 @@ let html = `<svg width="0" height="0" style="position:absolute"><defs>
        stroke(5, 'zig', { x1: cx - stw * .32, x2: cx + stw * .32, y: sty + sts * 1.6, amp: 10 * U, n: 10 }, 14.1, .35, 'var(--ink)', 9 * U))}
   </div>`; }
 
-// ===== S6 15–17.5 · THE CHECKLIST =====
+// ===== S6 15–17.5 · THE ESSENTIALS =====
 { const cw = L ? S.h * 1.05 : S.w * .94, chh = L ? S.h : Math.min(S.h, cw * 1.25), cxl = L ? S.x + S.w * .3 : cx, cyl = S.y + S.h / 2;
-  const x0 = cxl - cw / 2, y0 = cyl - chh / 2, rowH = chh * .14, fs = rowH * .62, ts = fit('DEC 13 CHECKLIST', 'Anton', cw * .8, chh * .1);
-  const items = ['OUTFIT', 'SQUAD', 'RIDE', 'TICKET'], ry = i => y0 + chh * .26 + i * rowH * 1.18;
+  const x0 = cxl - cw / 2, y0 = cyl - chh / 2, rowH = chh * .14, fs = fit('COMFY SHOES', 'Marker', cw * .6, rowH * .62), ts = fit('DEC 13 ESSENTIALS', 'Anton', cw * .8, chh * .1);
+  const items = ['POWER BANK', 'COMFY SHOES', 'CARD ONLY', 'TICKET'], ry = i => y0 + chh * .26 + i * rowH * 1.18;
   const bx = x0 + cw * .14, bs = rowH * .62;
   html += `<div class="sc" id="s6" style="background:var(--ink)">
-    <img class="a" src="assets/page-2.png" style="left:${W * .55}px;top:${-H * .1}px;width:${W * .6}px;opacity:.22;transform:rotate(12deg)">
+    <div class="a" style="left:${W * .5}px;top:${-H * .08}px;width:${W * .65}px;height:${H * .55}px;opacity:.35;transform:rotate(12deg);background:url(assets/crowd-duo.jpg) 60% 40%/200% auto;clip-path:${torn(W * .65, H * .55, 95, 10, 18)}"></div>
     <div class="a shadow" style="left:${x0}px;top:${y0}px;width:${cw}px;height:${chh}px;background:repeating-linear-gradient(#F5F0E6 0 ${rowH * 1.18 - 2}px, #B9CFE0 ${rowH * 1.18 - 2}px ${rowH * 1.18}px);background-position:0 ${chh * .26 + rowH * .9}px;clip-path:${torn(cw, chh, 61, 10, 18)}"></div>
     <div class="a" style="left:${x0 + cw * .08}px;top:${y0}px;width:2px;height:${chh}px;background:#E58D8D"></div>
-    ${text('s6t', 'anton', 'DEC 13 CHECKLIST', x0 + cw * .1, y0 + chh * .07, ts, 'var(--ink)')}
+    ${text('s6t', 'anton', 'DEC 13 ESSENTIALS', x0 + cw * .1, y0 + chh * .07, ts, 'var(--ink)')}
     ${items.map((w, i) => `<div class="a" style="left:${bx}px;top:${ry(i)}px;width:${bs}px;height:${bs}px;border:${4 * U}px solid var(--ink);border-radius:${6 * U}px;box-sizing:border-box;transform:rotate(${(i % 2 ? 2 : -3)}deg)"></div>` +
       text('s6i' + i, 'mk', w, bx + bs * 1.6, ry(i) - fs * .2, fs, i === 3 ? 'var(--hot)' : 'var(--ink)')).join('')}
     ${text('s6q', 'mk', '?', bx + bs * .12, ry(3) - bs * .45, bs * 1.5, 'var(--hot)', 'transform:rotate(8deg)')}
@@ -233,7 +233,7 @@ let html = `<svg width="0" height="0" style="position:absolute"><defs>
   </div>`; }
 
 // ===== S8 20–25 · PARTNERS =====
-{ const SP = ['01-hennessy', '02-heineken', '03-coca-cola', '04-desperados', '05-best', '06-axe', '07-lords-gin', '08-transcorp-hotels', '09-vodi-group', '10-united-nigeria', '11-trace', '12-square-meter', '13-nova-flair', '14-beat-fm', '15-soundcity'];
+{ const SP = ['03-coca-cola', '01-hennessy', '02-heineken', '04-desperados', '05-best', '06-axe', '07-lords-gin', '08-transcorp-hotels', '09-vodi-group', '10-united-nigeria', '11-trace', '12-square-meter', '13-nova-flair', '14-beat-fm', '15-soundcity'];
   const cols = { story: 3, feed: 4, square: 5, wide: 5 }[fk], rows = Math.ceil(SP.length / cols);
   const gy = S.y + S.h * (L ? .2 : .16), gh = S.h * (L ? .74 : .78), cw = S.w / cols, chh = gh / rows;
   html += `<div class="sc" id="s8" style="background:#161514">
@@ -273,8 +273,8 @@ window.renderAt = t => {
     $('s2v').src = `clips/walk_${String(clamp(1 + Math.floor((t - 3) * FPS), 1, 90)).padStart(3, '0')}.jpg`;
     const l = P(t, 4.3, .35); $('s2l').style.clipPath = `inset(0 ${100 - l * 100}% 0 0)`;
     slam('s2wm', t, 5, 1.5); const sh = t >= 5 && t < 5.25 ? Math.sin(fr * 2.1) * 10 * U : 0; $('s2').style.transform = `translate(${sh}px, ${-sh * .6}px)`; }
-  if (cur === 3) { [0, 1, 2].forEach(i => { const p = ex(P(t, 6 + i * .15, .4)), e = $('s3p' + i); e.style.translate = `0 ${(1 - p) * H}px`; });
-    slam('s3a', t, 6.5, 1.5); slam('s3b', t, 7, 1.6); slam('s3c', t, 7.5, 1.5); slam('s3t1', t, 7.75, 1.5, -5); slam('s3t2', t, 8.0, 1.5, 3); }
+  if (cur === 3) { [0, 1, 2].forEach(i => { const p = ex(P(t, 6 + i * .15, .4)); $('s3p' + i).style.translate = `0 ${(1 - p) * H}px`; });
+    slam('s3a', t, 6.4, 1.6, -6); slam('s3b', t, 6.5, 1.4); [0, 1, 2, 3].forEach(i => slam('s3t' + i, t, 7 + i * .4, 1.5, i % 2 ? 2 : -2.5)); }
   if (cur === 4) { rise('s4a', t, 9); ['s4w0', 's4w1', 's4w2'].forEach((id, i) => slam(id, t, 9.25 + i * .5, 1.45));
     document.querySelectorAll('#s4 [id^=s4w]').forEach(e => e.style.backgroundPosition = `${50 + (t - 9) * 6}% ${50 - (t - 9) * 3}%`);
     slam('s4logo', t, 11, 1.6, -4); }

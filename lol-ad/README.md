@@ -6,10 +6,10 @@ A collage and photocopy style based on the two moodboards: torn paper, tape, hal
 |---|---|
 | 0–3 | WIZZEMBER / IN ABUJA, circled, with 13.12.2026 written in marker |
 | 3–6 | BIG WIZ: halftone artist, a polaroid of the walk-out footage, "LIVE!" |
-| 6–9 | The newspaper pages drop in. SAVE *the* DATE, 13 DEC 2026, EAGLE SQUARE, ABUJA |
+| 6–9 | *the* EXPERIENCE: duotone crowd shots, LED SCREENS / IMMERSIVE LIGHTING / CONCERT SOUND / FOOD & MERCH |
 | 9–12 | THIS IS / LIVE / OUT / LOUD, with crowd photo inside the letters and the LOL logo |
 | 12–15 | The drop: stage and pyro footage, 13 / DEC / 2026, torn Eagle Square strip |
-| 15–17.5 | DEC 13 CHECKLIST: outfit ✓, squad ✓, ride ✓, TICKET ? |
+| 15–17.5 | DEC 13 ESSENTIALS: power bank ✓, comfy shoes ✓, card only ✓, TICKET ? |
 | 17.5–20 | LOL logo, date and venue strip, "get tickets" → WIZKID.TIX.AFRICA |
 | 20–25 | In partnership with: 15 partner logos |
 

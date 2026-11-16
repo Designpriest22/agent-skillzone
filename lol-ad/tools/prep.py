@@ -20,3 +20,11 @@ c = Image.open(A + 'aerial-crowd.jpg').convert('L').filter(ImageFilter.UnsharpMa
 ca = np.asarray(c).astype(float) / 255; ca = np.clip((ca - .08) / .7, 0, 1) ** 1.1
 Image.fromarray((ca * 235 + 10).astype('uint8')).save(A + 'crowd-gray.jpg', quality=90)
 print('prep ok')
+# orange duotone crowd (moodboard photo treatment): ink shadows -> LOL orange -> cream highlights
+g = np.asarray(Image.open(A + 'aerial-crowd.jpg').convert('L')).astype(float) / 255
+g = np.clip((g - .02) / .45, 0, 1) ** .7
+stops = np.array([[20, 16, 14], [232, 86, 27], [246, 226, 200]], float)
+lo = np.clip(g * 2, 0, 1)[..., None]; hi = np.clip(g * 2 - 1, 0, 1)[..., None]
+duo = stops[0] * (1 - lo) + stops[1] * lo; duo = duo * (1 - hi) + stops[2] * hi
+Image.fromarray(duo.astype('uint8')).save(A + 'crowd-duo.jpg', quality=90)
+print('duotone ok')
