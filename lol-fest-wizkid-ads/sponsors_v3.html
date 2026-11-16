@@ -509,6 +509,47 @@ const SPONSORS_CFG = {
       cta: { shape: 'pill', bg: '#F2F2E9', fg: '#07808B', lead: '#F2F2E9' } },
     lockBg(lt) { radial('#0A8E99', '#04454C', W / 2, H * .4); },
     cues: [{ t: .15, k: 'swell', d: 1.0 }, { t: 1.0, k: 'chime' }, { t: 1.9, k: 'shimmer', g: .6 }, { t: 3.45, k: 'whoosh', g: .6 }, { t: 4, k: 'hit', g: .7 }, { t: 6.0, k: 'whoosh', g: .6 }, { t: 8.2, k: 'whoosh', g: .6 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'boom' }, { t: 11, k: 'shimmer', g: .5 }] },
+  // 15 ── THE BEAT 97.9 FM · On Air (red / black / white, from the station logo) ───────────────────────
+  'beat-fm': { noLogoFx: true, logo: '15-beat-fm', name: 'The Beat 97.9 FM', bpm: 120, music: 'sp-groove',
+    grade: [['soft-light', 'rgba(224,0,0,.24)'], ['multiply', 'rgba(20,0,0,.1)']], filter: 'contrast(1.14) saturate(1.1) brightness(1.18)',
+    type: { date: '#FFFFFF', venue: '#FF4A4A', reveal: 'pop' },
+    intro(t) {
+      beatBg(); onAir(L.cx, L.cy, t, 0, E.outCubic(prog(t, 0, .6)));
+      const w = slW(L.sw * (L.vert ? .6 : .46), U(L.vert ? 420 : 340)), p = clamp(E.outBack(prog(t, .35, .95), 1.6), 0, 1.08);
+      SL(L.cx, L.cy, w, { alpha: clamp(p * 1.8), s: mix(.6, 1, p) + t * .008 });
+      if (t > 3.35) flash(ctx, L, Math.sin(prog(t, 3.35, 3.95) * Math.PI) * .5, '#E00000');
+    },
+    clips: [() => clip(3.5, 6.0, 'stage', { from: .1, to: 1.5, fx: .5, fy: .45, z: [1.12, 1.0], mask: (g, t) => g.arc(L.cx, L.cy, Math.max(W, H) * E.inQuart(prog(t, 3.5, 4.1)) + 1, 0, 7) }),
+            () => clip(6.0, 8.2, 'walk', { from: 6.0, to: 7.6, fx: FX.walk, z: [1.1, 1.0] }),
+            () => clip(8.2, 10, 'aerial', { from: 2.6, to: 4.1, fx: .52, z: [1.12, 1.0] })],
+    beats: [{ k: 'lol', a: 4.15, b: 6.0, y: () => L.cy }, { k: 'wizkid', a: 6.3, b: 8.2, y: () => L.y0 + L.sh * .2 },
+            { k: 'date', a: 8.5, b: 10, y: () => L.y0 + L.sh * .78 }, { k: 'venue', a: 8.8, b: 10, y: () => L.y0 + L.sh * .78 + U(100) }],
+    fx(t) { for (const t0 of [6.0, 8.2]) if (t > t0 - .1 && t < t0 + .45) { ctx.save(); ctx.globalAlpha = 1 - prog(t, t0, t0 + .45); onAir(L.cx, L.cy, (t - t0) * 2.2 + 1, 0, 1); ctx.restore(); } },
+    lock: { divider: 'line', divColor: 'rgba(255,74,74,.8)', reveal: 'fade', ease: (p) => clamp(E.outBack(p, 1.5), 0, 1.1), step: .1, logoK: 1.15, vig: .2,
+      cta: { shape: 'pill', bg: '#E00000', fg: '#FFFFFF', lead: '#FFFFFF' } },
+    lockBg(lt) { beatBg(); const c = LKS; onAir(c.pair ? L.cx - c.lW : L.cx, c.ys[0] + c.rowH / 2, lt * .6 + 1.5, 0, .55); },
+    cues: [{ t: 0, k: 'riser', d: .5 }, { t: .4, k: 'impact', g: .8 }, { t: 1.2, k: 'tick' }, { t: 2.0, k: 'tick' }, { t: 3.35, k: 'whoosh' }, { t: 4, k: 'impact', g: .8 }, { t: 6.0, k: 'hit', g: .7 }, { t: 8.2, k: 'hit', g: .7 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'impact', g: .8 }] },
+
+  // 16 ── SOUNDCITY · Glow (deep plum, magenta, pink, from the S-ribbon logo) ────────────────────────────
+  soundcity: { noLogoFx: true, logo: '16-soundcity', name: 'Soundcity', bpm: 116, music: 'sp-groove',
+    grade: [['soft-light', 'rgba(200,40,120,.28)'], ['multiply', 'rgba(40,10,50,.12)']], filter: 'contrast(1.1) saturate(1.15) brightness(1.2)',
+    type: { date: '#FFFFFF', venue: '#F08BC0', reveal: 'slide' },
+    intro(t) {
+      scBg(t, E.outCubic(prog(t, 0, 1.0)));
+      const w = slW(L.sw * .5, U(L.vert ? 560 : 440)), p = E.outCubic(prog(t, .3, 1.3)); scGlow(L.cx, L.cy, U(L.vert ? 520 : 420), p);
+      SL(L.cx, L.cy + (1 - p) * U(60), w, { alpha: p, s: mix(.9, 1, p) + t * .006 });
+      if (t > 3.3) { const q = E.inOutCubic(prog(t, 3.3, 4.0)); ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = `rgba(217,40,90,${.6 * Math.sin(q * Math.PI)})`; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+    },
+    clips: [() => clip(3.5, 6.0, 'stage', { from: .3, to: 1.7, fx: .5, fy: .45, z: [1.12, 1.0], mask: (g, t) => g.arc(L.cx, L.cy, Math.max(W, H) * E.inQuart(prog(t, 3.5, 4.1)) + 1, 0, 7) }),
+            () => clip(6.0, 8.2, 'profile', { from: 7.96, to: 9.2, fx: FX.profile, fy: .42, z: [1.1, 1.0] }),
+            () => clip(8.2, 10, 'smoke', { from: 11.0, to: 12.15, fx: FX.smoke, z: [1.12, 1.0] })],
+    beats: [{ k: 'lol', a: 4.2, b: 6.0, y: () => L.y0 + L.sh * .3 }, { k: 'wizkid', a: 6.3, b: 8.2, y: () => L.y0 + L.sh * .78, dir: -140 },
+            { k: 'date', a: 8.5, b: 10, y: () => L.y0 + L.sh * .22, dir: 140 }, { k: 'venue', a: 8.8, b: 10, y: () => L.y0 + L.sh * .22 + U(100), dir: -140 }],
+    fx(t) { for (const t0 of [6.0, 8.2]) if (t > t0 - .2 && t < t0 + .3) { const q = prog(t, t0 - .2, t0 + .3); ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = `rgba(224,96,159,${.45 * Math.sin(q * Math.PI)})`; ctx.fillRect(0, 0, W, H); ctx.restore(); } },
+    lock: { divider: 'line', divColor: 'rgba(240,139,192,.7)', reveal: 'fade', ease: E.outCubic, step: .12, sweep: 1.1, sweepCol: 'rgba(255,200,230,.85)', logoK: 1.15, vig: .25,
+      cta: { shape: 'pill', bg: '#D9285A', fg: '#FFFFFF', lead: '#F7C6DF' } },
+    lockBg(lt) { scBg(lt + 4, 1); const c = LKS, gx = U(SP.lock.pairGap ?? 46), x0 = L.cx - (c.sW + gx * 2 + c.lW) / 2; scGlow(c.pair ? x0 + c.sW / 2 : L.cx, c.ys[0] + (c.pair ? c.rowH : c.sH) / 2, (c.pair ? c.rowH : c.sH) * 1.1, E.outCubic(prog(lt, 0, .5))); },
+    cues: [{ t: 0, k: 'swell', d: 1.2 }, { t: .9, k: 'chime' }, { t: 2.0, k: 'shimmer', g: .5 }, { t: 3.3, k: 'whoosh', g: .6 }, { t: 4, k: 'hit', g: .7 }, { t: 6.0, k: 'whoosh', g: .6 }, { t: 8.2, k: 'whoosh', g: .6 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'boom' }, { t: 11, k: 'shimmer', g: .5 }] },
 };
 
 // ---- sponsor-specific devices ----
@@ -527,6 +568,14 @@ function waveRed(t, t0, t1, thin) {
 function bloom(cx, cy, R, p, rot) { if (p <= 0) return; ctx.save(); ctx.translate(cx, cy); ctx.rotate(rot);
   for (let i = 0; i < 6; i++) { ctx.save(); ctx.rotate(i * Math.PI / 3); ctx.fillStyle = 'rgba(7,128,139,.78)'; ctx.beginPath(); ctx.ellipse(0, -R * .58 * p, R * .44 * p, R * .66 * p, 0, 0, 7); ctx.fill(); ctx.restore(); }
   ctx.fillStyle = '#066F79'; ctx.beginPath(); ctx.arc(0, 0, R * .9 * p, 0, 7); ctx.fill(); ctx.restore(); }
+// The Beat: black studio field with a red glow; red broadcast rings pulse out from a point
+function beatBg() { radial('#2a0606', '#060505', W / 2, H * .42); }
+function onAir(cx, cy, t, _, a) { if (a <= 0) return; ctx.save(); ctx.globalAlpha *= a; for (let i = 0; i < 4; i++) { const k = ((t * .55 + i / 4) % 1), r = U(120) + k * Math.max(W, H) * .75; ctx.strokeStyle = `rgba(230,20,20,${.55 * (1 - k)})`; ctx.lineWidth = U(10) * (1 - k) + U(2); ctx.beginPath(); ctx.arc(cx, cy, r, 0, 7); ctx.stroke(); } ctx.restore(); }
+// Soundcity: deep plum field with a few large soft glows in the logo's magenta / pink
+function scBg(t, a) { radial('#8A2F78', '#1E0828', W / 2, H * .42); ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.globalAlpha = a;
+  for (const [x, y, r, c, sp] of [[.18, .2, .55, '217,40,90', .3], [.85, .78, .6, '224,96,159', .25], [.8, .15, .35, '168,72,144', .4], [.2, .85, .4, '192,24,72', .35]]) { const cx = W * x + Math.sin(t * sp) * U(40), cy = H * y + Math.cos(t * sp) * U(40), R = Math.max(W, H) * r * .6; const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, R); g.addColorStop(0, `rgba(${c},.55)`); g.addColorStop(1, `rgba(${c},0)`); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); }
+  ctx.restore(); }
+function scGlow(cx, cy, r, a = 1) { ctx.save(); ctx.globalCompositeOperation = 'screen'; const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, `rgba(255,214,236,${.75 * a})`); g.addColorStop(.5, `rgba(240,139,192,${.35 * a})`); g.addColorStop(1, 'rgba(240,139,192,0)'); ctx.fillStyle = g; ctx.fillRect(cx - r, cy - r, r * 2, r * 2); ctx.restore(); }
 function henRed() { radial('#D9161F', '#62050e', W / 2, H * .38); }
 function silk(t, a) { if (a <= 0) return; ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.lineCap = 'round';
   for (let i = 0; i < 4; i++) { const y0 = H * (.16 + i * .08), amp = U(110 + i * 30), ph = t * .35 + i * 1.3; const g = ctx.createLinearGradient(0, 0, W, 0); g.addColorStop(0, 'rgba(255,255,255,0)'); g.addColorStop(.3, `rgba(255,232,232,${.2 * a * (1 - i * .18)})`); g.addColorStop(1, 'rgba(255,255,255,0)');

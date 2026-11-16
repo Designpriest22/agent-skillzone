@@ -31,13 +31,17 @@ One folder per sponsor brand. Each folder contains:
 Ad structure: 00:00-00:04 sponsor intro · 00:04-00:11 Wizkid footage with the LOL FEST logo, WIZKID, date and venue
               00:11-00:15 end frame (4 s): sponsor logo, LOL FEST logo, WIZKID, DECEMBER 13, 2026, EAGLE SQUARE, ABUJA, GET TICKETS AT WIZKID.TIX.AFRICA
 Brand colours: Hennessy red · Desperados red · BEST cream (black BEST logo) · Coca-Cola red and white, with POWERED BY above the Coca-Cola logo
-              Blue Poppy teal #07808B and cream #F2F2E9 · every other sponsor in its own palette, no background patterns.
+              Blue Poppy teal #07808B and cream #F2F2E9 · The Beat 97.9 FM red, black and white · Soundcity plum, magenta and pink
+              every other sponsor in its own palette, no background patterns.
 Music: "Final (Baba Nla)" as supplied. Confirm sync / usage rights before paid placement.
 
 _REPORTS & SOURCE: QC report, content audits, the music edit and the editable project source.
 """)
+NAMES = {'Coca-Cola': 'Coca-Cola', 'Lords-London-Dry-Gin': "Lord's London Dry Gin", 'TRACE-Plus': 'TRACE+', 'The-Beat-97.9-FM': 'The Beat 97.9 FM', 'Square-Meter-Spaces': 'Square Meter Spaces Limited', 'Nova-Flair': 'Nova Flair Media and Entertainment'}
+(D / '00_BRAND-LIST.txt').write_text('SPONSOR BRANDS (' + str(len(brands)) + ')\n' + '\n'.join(f'  {b[:2]}  {NAMES.get(b[3:], b[3:].replace("-", " "))}' for b in brands) + '\n\nEach brand folder: Animation (9x16, 4x5, 1x1) + Flyers Variation 01 (Signature) + Flyers Variation 02 (Brand Edition), each in 4x5, 1x1, 9x16.\n')
+shutil.copy(ROOT / 'SPONSOR-INVENTORY.md', R / 'SPONSOR-INVENTORY.md')
 Z = OUT / 'FINAL'; [z.unlink() for z in Z.glob('*.zip')]
-items = [D / '00_README.txt'] + [D / b for b in brands] + [R]
+items = [D / '00_README.txt', D / '00_BRAND-LIST.txt'] + [D / b for b in brands] + [R]
 def size(p): return p.stat().st_size if p.is_file() else sum(f.stat().st_size for f in p.rglob('*') if f.is_file())
 LIM = 380 * 2**20; parts, cur, cs = [], [], 0
 for it in items:

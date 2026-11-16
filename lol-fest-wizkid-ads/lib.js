@@ -48,7 +48,7 @@ const APPROVED = ['LIVE OUT LOUD MUSIC FESTIVAL', 'WIZKID', 'DECEMBER 13, 2026',
   'LIVE', 'ABUJA', '13 DEC', 'GET TICKETS AT', 'WIZKID.TIX.AFRICA',
   'POWERED BY'];                                                                                       // sponsor credit (client request, Coca-Cola)                                       // flyer lines
 const SPONSORS = ['01-hennessy', '02-heineken', '03-coca-cola', '04-desperados', '05-best', '06-axe', '07-lords-gin',
-  '08-transcorp-hotels', '09-vodi-group', '10-united-nigeria', '11-trace', '12-square-meter', '13-nova-flair', '14-blue-poppy'];
+  '08-transcorp-hotels', '09-vodi-group', '10-united-nigeria', '11-trace', '12-square-meter', '13-nova-flair', '14-blue-poppy', '15-beat-fm', '16-soundcity'];
 // optical size trims (1 = neutral) so heavy or very compact marks read evenly
 const SPONSOR_TRIM = { '04-desperados': .92, '07-lords-gin': 1.08, '09-vodi-group': 1.05, '02-heineken': 1.0, '10-united-nigeria': 1.02, '13-nova-flair': 1.04, '08-transcorp-hotels': 1.05, '11-trace': .97 };
 

@@ -1,6 +1,6 @@
 # LOL FEST sponsor inventory and art direction
 
-The flyer shows **13 sponsors**. Every logo file comes from the supplied `LOGOS_.zip`; `assets/logos/` holds the same files, renamed. Logo colours were sampled from those files. Brand facts come from web research, and the sources are listed at the end. Where a brand's identity could not be verified online, its art direction is based **only** on its supplied logo, and the inventory says so.
+The campaign now has **16 sponsors**: the 13 on the flyer, plus Blue Poppy, The Beat 97.9 FM and Soundcity, which the client added later. Logos 1–13 come from the supplied `LOGOS_.zip`. Logos 14–16, and Coca-Cola's two square logos, were supplied separately in the chat. `assets/logos/` holds every file, renamed. Logo colours were sampled from those files. Brand facts come from web research, and the sources are listed at the end. Where a brand's identity could not be verified online, its art direction is based **only** on its supplied logo, and the inventory says so.
 
 Every ad uses only the approved copy: LIVE OUT LOUD MUSIC FESTIVAL (official logo), WIZKID (official wordmark), DECEMBER 13, 2026 and EAGLE SQUARE, ABUJA. Sponsor names appear only as their own logos. No slogans are added, and no product imagery is used, because no official product assets were supplied.
 
@@ -19,22 +19,30 @@ Every ad uses only the approved copy: LIVE OUT LOUD MUSIC FESTIVAL (official log
 | 11 | **TRACE+** (`11-trace.png`, white wordmark) | Afro-urban music and entertainment streaming (TRACE) | Black, white | Founded 2003 as a platform devoted to Afro-urban music. Bold and music-first. | **Channels.** A geometric plus sign grows, turns, and splits into four quadrants that reveal the logo. Plus-shaped masks lead into a four-panel "channels" split of the performance footage. Black lock-up. |
 | 12 | **Square Meter Spaces Limited** (`12-square-meter.png`, M² mark) | *Not verifiable online*; the name and mark suggest spaces / property | White, charcoal, cool grey | No verified public brand material. Direction based only on the supplied mark (M², "square meter"). | **Measured.** A blueprint grid draws in and a square frame expands around the mark. Checkerboard square tiles reveal the footage, and the walk-out is framed in architectural panels. Charcoal grid lock-up. |
 | 13 | **Nova Flair Media and Entertainment** (`13-nova-flair.png`, starburst + wave) | *Not verifiable online*; media and entertainment per its logo | Logo orange, amber, pink, white | No verified public brand material. Direction based only on the supplied logo's starburst and wave. | **Starburst.** Eight colour rays burst from centre in the logo's own colours, a wave line draws, and the logo resolves. Vibrant orange-pink colour wash across the stage, profile and smoke walk-on. Plum lock-up. |
+| 14 | **Blue Poppy** (`14-blue-poppy.png` cream, `14-blue-poppy-teal.png` teal) | Skincare (Nigerian; co-owned by sisters Sei and Ebi Onitsha) | Teal #07808B, cream #F2F2E9 | A body-positive skincare brand focused on skin health and sustainability. Its teal palette blends blue and green to stand for sustainability. | **The Bloom.** A teal poppy opens on cream around the logo. The festival section has a teal tint, and the end frame is teal with a cream ticket button. On the flyers, large illustrated poppies sit at the frame edges and glow behind the portrait (no repeating pattern). |
+| 15 | **The Beat 97.9 FM** (`15-beat-fm.png`, tilted white badge with a red outline) | Radio station | Red, black, white | Music radio brand. *Station details not re-checked online in this session. Colours are taken from the supplied logo.* | **On Air.** A black studio field, red broadcast rings pulsing out from the logo, and a red flash into the footage. Ring pulses mark the cuts. The end frame is black with a red ticket button. The flyers use a black field with a red glow and faint broadcast rings around the head. The Brand Edition is red with a black panel. |
+| 16 | **Soundcity** (`16-soundcity.png`, S-ribbon of dots with a plum band) | Music TV / radio entertainment brand | Deep plum, magenta #D9285A, pink #E0609F | Nigerian music entertainment network. *Not re-checked online in this session. Colours are taken from the supplied logo.* | **Glow.** A brighter magenta-plum field with a few large soft magenta and pink glows, and a pink glow behind the logo so the dark ribbon reads. Pink washes mark the cuts. The end frame is plum with a magenta ticket button. The flyers match. |
 
-## Structure of every spot (15 s)
+## Structure of every spot (final, 15 s)
 
 | Time | Content |
 |---|---|
-| 00:00–00:04 | Sponsor introduction: the brand-specific logo animation and motif |
-| 00:04–00:10 | LOL FEST experience: sponsor-graded Wizkid footage and sponsor-specific transitions. The festival logo, WIZKID, DECEMBER 13, 2026 and EAGLE SQUARE, ABUJA are revealed in order, and the sponsor logo stays on screen. |
-| 00:10–00:15 | Co-branded lock-up: the sponsor logo (prominent), a divider, the LIVE OUT LOUD MUSIC FESTIVAL logo, WIZKID, DECEMBER 13, 2026 and EAGLE SQUARE, ABUJA, on the sponsor's own background |
+| 00:00–00:04 | Sponsor introduction: the brand-specific logo animation, on the sponsor's own background |
+| 00:04–00:11 | LOL FEST experience: Wizkid footage with the festival logo, WIZKID, DECEMBER 13, 2026 and EAGLE SQUARE, ABUJA in turn. The sponsor logo sits in the corner. |
+| 00:11–00:15 | End frame (4 s): the sponsor logo, the LIVE OUT LOUD MUSIC FESTIVAL logo, WIZKID, the date and venue, then GET TICKETS AT and a WIZKID.TIX.AFRICA button |
 
-Formats: 1080×1920 (9:16, kept clear of the Stories/Reels/TikTok interface), 1080×1350 (4:5) and 1080×1080 (1:1). Each is laid out for its own frame.
+Brand rules applied at the client's request:
+- Hennessy and Desperados use red.
+- BEST uses cream, with the BEST logo in black and nothing behind it.
+- Coca-Cola is red and white, with POWERED BY above every Coca-Cola logo. The no-border square logo appears on the intro and the white end-frame panel, and the white-border square logo in the footage corner and on both flyers. No drop shadow or other effect is applied to the Coca-Cola logo.
+- There are no repeating background patterns, and the flyers use the WIZKID text logo.
 
 ## Notes for sponsor sign-off
 - **AXE:** the supplied file is white letterforms on a black plate. The plate is keyed out, and the letterforms are unchanged.
 - **Brand colours:** Square Meter, Nova Flair and Vodi Group could not be verified online. The colours of Transcorp Hotels, BEST and AXE (white logos) are complementary choices. Each sponsor's marketing team should confirm the palette, and can supply official product imagery and brand fonts for an upgraded version.
 
 ## Research sources
+- Blue Poppy: [Native Mag](https://thenativemag.com/native-exclusive-blue-poppy/), [Contra brand identity case study](https://contra.com/p/OZUXbYNs-blue-poppy-skincare-brand-identity-rebrand)
 - BEST / Nigerbev: [ThisDay](https://www.thisdaylive.com/2025/10/11/nigerbev-unveils-new-look-for-best-portfolio/), [BellaNaija](https://www.bellanaija.com/2025/10/nigerbev-best-portfolio-launch-lagos/), [MarketingEdge](https://marketingedge.com.ng/nigerbev-limited/)
 - Vodi Group: [Wikipedia – Seyi Vodi](https://en.wikipedia.org/wiki/Seyi_Vodi)
 - United Nigeria Airlines: [Wikipedia](https://en.wikipedia.org/wiki/United_Nigeria_Airlines), [flyunitednigeria.com](https://flyunitednigeria.com/), [Airhex](https://airhex.com/airline-logos/united-nigeria-airlines/)

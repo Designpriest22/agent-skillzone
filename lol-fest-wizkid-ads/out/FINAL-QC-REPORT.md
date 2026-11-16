@@ -1,7 +1,7 @@
 # LOL FEST × WIZKID: final sponsor assets, QC report
 
-**Ads:** 42 files. Technical QC passed: 42/42. Content audit passed: 42/42.
-**Flyers:** 84 PNG (plus matching JPG). Size check passed: 84/84. Content audit passed: 84/84.
+**Ads:** 48 files. Technical QC passed: 48/48. Content audit passed: 48/48.
+**Flyers:** 96 PNG (plus matching JPG). Size check passed: 96/96. Content audit passed: 96/96.
 
 The content audit checks every 2nd frame of every ad and every flyer for:
 - approved copy only;
@@ -56,3 +56,9 @@ Audio: the supplied "Final (Baba Nla)" 15 s edit (cut on a downbeat, -14 LUFS).
 | 14-Blue-Poppy | LOLFEST_x_Blue-Poppy_15s_1080x1080_1x1_Square.mp4 | 15.000 | 1080x1080 | -13.8 | -3.2 | PASS |
 | 14-Blue-Poppy | LOLFEST_x_Blue-Poppy_15s_1080x1350_4x5_Feed.mp4 | 15.000 | 1080x1350 | -13.8 | -3.2 | PASS |
 | 14-Blue-Poppy | LOLFEST_x_Blue-Poppy_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4 | 15.000 | 1080x1920 | -13.8 | -3.2 | PASS |
+| 15-The-Beat-97.9-FM | LOLFEST_x_The-Beat-97.9-FM_15s_1080x1080_1x1_Square.mp4 | 15.000 | 1080x1080 | -13.8 | -3.2 | PASS |
+| 15-The-Beat-97.9-FM | LOLFEST_x_The-Beat-97.9-FM_15s_1080x1350_4x5_Feed.mp4 | 15.000 | 1080x1350 | -13.8 | -3.2 | PASS |
+| 15-The-Beat-97.9-FM | LOLFEST_x_The-Beat-97.9-FM_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4 | 15.000 | 1080x1920 | -13.8 | -3.2 | PASS |
+| 16-Soundcity | LOLFEST_x_Soundcity_15s_1080x1080_1x1_Square.mp4 | 15.000 | 1080x1080 | -13.8 | -3.2 | PASS |
+| 16-Soundcity | LOLFEST_x_Soundcity_15s_1080x1350_4x5_Feed.mp4 | 15.000 | 1080x1350 | -13.8 | -3.2 | PASS |
+| 16-Soundcity | LOLFEST_x_Soundcity_15s_1080x1920_9x16_Stories-Reels-TikTok.mp4 | 15.000 | 1080x1920 | -13.8 | -3.2 | PASS |
