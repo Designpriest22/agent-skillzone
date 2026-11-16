@@ -28,7 +28,7 @@ Layout is in `rem` (1rem = min(1vw, .75vh)) and `vh`, so the same scenes reflow 
 - **Stop-motion:** paper moves at 12 fps. Each chip is slapped down (one oversized, twisted frame, then it lands) and keeps a slight boil.
 - **Transitions:** torn-paper sheet wipes on four cuts, with the white paper core showing along the tear.
 - **Light grunge:** a multiply paper pass over everything, three cycling grunge plates (specks, hairs, scratches), grain, and a photocopy treatment on the portrait.
-- **Sound:** paper slaps and tears are mixed into the score.
+- **Sound:** an original score written for FOLA's sound. It's warm Afro-R&B in E♭ major, the key his live set sits in on the source clips. Highlife guitar plucks (Karplus-Strong), a Rhodes Ebmaj9–Cm9–Abmaj9–Bb7sus4 progression, swung shaker, congas, talking drum and log drum. The beat drops out under the name. The live crowd audio comes only from clips in a compatible key. Paper slaps and tears are mixed in.
 
 ## Files
 
