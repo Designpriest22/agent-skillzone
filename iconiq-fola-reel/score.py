@@ -78,6 +78,15 @@ add(fx, whoosh(.55), 21.6, .5)
 # 22-25: the card lands, groove plays out
 add(fx, hit(1.3), 22.0); add(bass, sub(55, 2.2), 22.0, .7)
 groove(22.5, 25)
+# paper: torn sheets on the wipes, a slap for every chip pasted down
+def tear(d=.42):
+    n = int(d * SR); x = f(rng.standard_normal(n), 'bandpass', [1200, 9000])
+    am = (rng.random(n // 120 + 1) ** 3).repeat(120)[:n]           # crackle: fibres giving way unevenly
+    return x * am * np.sin(np.pi * np.arange(n) / n) ** .6 * 2.2
+def slap():
+    x = noise(.12, 150, 2500, .03) * 1.4; th = kick(.05, 60)[:len(x)] * .6; x[:len(th)] += th[:len(x)]; return x
+for c in (9.5, 14, 19, 22): add(fx, tear(), c - .22, .5)
+for at in (2.3, 2.8, 3.3, 10.55, 11.5, 11.75, 12.25, 12.5, 13.0, 14.5, 15.0, 19.15, 22.1, 22.45, 22.7): add(fx, slap(), at, .6)
 music = drums * .8 + bass * .75 + fx * .75
 # crowd: the event's own audio, hi-passed so it sits behind the score
 def load(n):

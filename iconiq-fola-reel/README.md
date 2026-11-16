@@ -10,32 +10,32 @@ Layout is in `rem` (1rem = min(1vw, .75vh)) and `vh`, so the same scenes reflow 
 | Time (s) | Scene |
 |---|---|
 | 0–2 | ICONIQ / FEST / Cloud 9 badge / CLOUD lockup. One slam per beat. |
-| 2–5 | Pyro footage with the stamps THE NIGHT / ABUJA / GOES UP. |
-| 5–6 | 3-2-1-GO strobe over the portrait |
-| 6–9.5 | Hands-up footage, hand-drawn circle, "HANDS UP, ABUJA!", red ABUJA marquee |
-| 9.5–11.5 | Headliner: portrait wipe, then the FOLA wordmark scratches on in steps with misregistration |
-| 11.5–14 | ONE NIGHT. / ONE CITY. / ONE CLOUD 9. |
-| 14–16 | 16TH DEC 2026 as the flyer's folded 3D box |
-| 16–19 | Footage triptych with venue bands (Bali Recreational Park, Abuja) |
-| 19–22 | GET YOUR TICKETS AT → typed ICONIQFEST.COM, marker underline, "link in bio" |
-| 22–25 | End card: the flyer rebuilt and staggered in. It holds to the loop point. |
+| 2–5 | Pyro footage. Torn paper slips (THIS DECEMBER, / ICONIQ FEST / TAKES ABUJA.) are slapped on, then peeled off. |
+| 5–6 | F-O-L-A: one cut-paper letter per eighth note over a photocopied portrait |
+| 6–9.5 | Footage of the fist with a scribbled circle, an arrow and "FOLA", plus a torn red strip: FOLA LIVE ✦ CLOUD 9 ✦ ABUJA |
+| 9.5–11.5 | Taped photocopy portrait, the FOLA wordmark scratched on, HEADLINING CLOUD 9 |
+| 11.5–14 | LIVE AT / BALI / RECREATIONAL / PARK, / ABUJA, pasted word by word |
+| 14–16 | 16TH DEC 2026 as the flyer's folded box in torn paper |
+| 16–19 | Footage triptych with torn paper bands (date, headliner, venue) |
+| 19–22 | GET YOUR TICKETS AT → typed ICONIQFEST.COM with a marker underline |
+| 22–25 | End card: the flyer rebuilt as a paste-up. It holds to the loop point. |
 
-Humanised touches:
-- handheld drift plus decaying camera kicks on every hit
-- stepped (on-twos) wipes
-- footage stutter
-- 1-frame flash cuts
-- marker scribbles
-- slightly off-axis stamps
-- film grain
-- shaker timing jitter in the score
+## Look
+
+- **Copy:** only event facts (who, what, where, when, tickets), no filler slogans.
+- **No interface chrome:** no timecodes, labels, progress bar or glow.
+- **Paper chips:** every chip has a torn edge generated per element, paper fibre texture and a hard cut-paper shadow. Photos and stamps are held down with tape.
+- **Stop-motion:** paper moves at 12 fps. Each chip is slapped down (one oversized, twisted frame, then it lands) and keeps a slight boil.
+- **Transitions:** torn-paper sheet wipes on four cuts, with the white paper core showing along the tear.
+- **Light grunge:** a multiply paper pass over everything, three cycling grunge plates (specks, hairs, scratches), grain, and a photocopy treatment on the portrait.
+- **Sound:** paper slaps and tears are mixed into the score.
 
 ## Files
 
 - `reel.html`: the timeline (`window.renderAt(t)`)
 - `score.py`: the score and crowd mix, written to `out/mix.wav`
 - `render.mjs`: `node render.mjs story|feed` renders `out/iconiq-fola-<fmt>.mp4`. Add times to render stills instead.
-- `assets/`: flyer crops (wordmarks, badge, logos), fonts (Anton, Archivo Black, Space Mono, Permanent Marker; all OFL) and grain
+- `assets/`: flyer crops (wordmarks, badge, logos); fonts (Anton, Archivo Black, Permanent Marker, all OFL); and generated paper, tape, grunge and grain textures
 
 Footage frames and audio (`clips/`) and the renders (`out/`) are git-ignored because they contain artist footage and this repository is public.
 
