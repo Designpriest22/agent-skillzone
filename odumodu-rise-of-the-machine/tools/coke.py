@@ -394,37 +394,29 @@ del yy, xx
 
 COLL_SRC = [0.45, 11.10, 14.90, 15.70, 28.30, 29.10, 33.70, 23.20, 4.20, 10.30, 34.95, 18.70, 24.40, 15.10]
 # ================================================================ COCA-COLA x RISE OF THE MACHINE
-COKE_SCRIPT = np.array(Image.open(A + 'coke_script.png'))   # white script, alpha
-COKE_TILE = np.array(Image.open(A + 'coke_tile.png'))       # red square w/ ribbon
+COKE_LOGO = np.array(Image.open(A + 'coke_logo.jpg').convert('RGB'))  # the logo exactly as supplied
 OUTDIR = os.environ.get('COKE_OUT', D + '/../out')
 
-def lockup(w, col=WHT, label='POWERED BY'):
-    """'POWERED BY' sits above the Coca-Cola script."""
-    key = ('lock', int(w), tuple(col), label)
+def lockup(side, lcol=WHT, boxed=False):
+    """'POWERED BY' set above the supplied Coca-Cola logo (square, used as-is)."""
+    key = ('lock', int(side), tuple(lcol), boxed)
     if key in _sc:
         return _sc[key]
-    sc = asset_w('cokescript', COKE_SCRIPT, w).copy()
-    sc[:, :, :3] = col
-    lab = archivo(label, int(w * 0.42), col, track=0.32)
-    gap = int(w * 0.035)
-    out = np.zeros((lab.shape[0] + gap + sc.shape[0], int(w), 4), np.uint8)
-    out[:lab.shape[0], (out.shape[1] - lab.shape[1]) // 2:(out.shape[1] - lab.shape[1]) // 2 + lab.shape[1]] = lab
-    out[lab.shape[0] + gap:, :sc.shape[1]] = sc
-    _sc[key] = out
-    return out
-
-def tile_lockup(w, lcol=RED):
-    key = ('tlock', int(w), tuple(lcol))
-    if key in _sc:
-        return _sc[key]
-    tl = asset_w('tile', COKE_TILE, w)
-    tl = np.dstack([tl, np.full(tl.shape[:2], 255, np.uint8)])
-    lab = archivo('POWERED BY', int(w * 0.8), lcol, track=0.32)
-    gap = int(w * 0.07)
-    out = np.zeros((lab.shape[0] + gap + tl.shape[0], int(w), 4), np.uint8)
+    lg = asset_w('cokelogo', COKE_LOGO, side)
+    lg = np.dstack([lg, np.full(lg.shape[:2], 255, np.uint8)])
+    lab = archivo('POWERED BY', int(side * 0.86), lcol, track=0.32)
+    if boxed:
+        p = int(side * 0.05)
+        b = np.zeros((lab.shape[0] + 2 * p, int(side), 4), np.uint8); b[:, :, :3] = RED; b[:, :, 3] = 255
+        a = lab[:, :, 3:4].astype(np.float32) / 255
+        x = (b.shape[1] - lab.shape[1]) // 2
+        b[p:p + lab.shape[0], x:x + lab.shape[1], :3] = (b[p:p + lab.shape[0], x:x + lab.shape[1], :3] * (1 - a) + lab[:, :, :3] * a).astype(np.uint8)
+        lab = b
+    gap = int(side * (0.0 if boxed else 0.07))
+    out = np.zeros((lab.shape[0] + gap + lg.shape[0], int(side), 4), np.uint8)
     x = (out.shape[1] - lab.shape[1]) // 2
     out[:lab.shape[0], x:x + lab.shape[1]] = lab
-    out[lab.shape[0] + gap:, :tl.shape[1]] = tl
+    out[lab.shape[0] + gap:, :lg.shape[1]] = lg
     _sc[key] = out
     return out
 
@@ -533,7 +525,7 @@ def render_video_shot(cv, i, t, f):
         draw_clip(cv, (0, 0, W, H), i, t, zoom=z, f=f)
     bubbles(cv, t, n=26, seed=5, scale=0.9)
 
-LOCK_W = {'tall': 0.74, 'mid': 0.62, 'sq': 0.56, 'wide': 0.4}[LAY]
+LOCK_W = {'tall': 0.5, 'mid': 0.42, 'sq': 0.38, 'wide': 0.24}[LAY]
 
 def seg_OPEN(cv, t, f):
     cv[:] = tex(t)
@@ -543,13 +535,13 @@ def seg_OPEN(cv, t, f):
     ribbon(cv, H * (1.15 - 0.37 * e), H * 0.05, H * 0.13, t * 2.2)
     lw = W * LOCK_W
     if t >= 0.18:
-        lab = archivo('POWERED BY', int(lw * 0.42), WHT, track=0.32)
+        lab = archivo('POWERED BY', int(lw * 0.86), WHT, track=0.32)
         k = int((t - 0.18) * FPS)
         op = min(1, (k + 1) / 4)
-        blitc(cv, lab, W / 2, H * 0.43 - lw * 0.2, op)
+        blitc(cv, lab, W / 2, H * 0.44 - lw * 0.5 - lw * 0.07 - lab.shape[0] / 2, op)
     if t >= 0.42:
-        sc = asset_w('cokescript', COKE_SCRIPT, lw)
-        blitc(cv, rscale(sc, slam_scale(t, 0.42)), W / 2, H * 0.43 + lw * 0.06)
+        lg = asset_w('cokelogo', COKE_LOGO, lw)
+        blitc(cv, rscale(lg, slam_scale(t, 0.42)), W / 2, H * 0.44)
     blit(cv, mono('ODUMODUBLVCK // RISE OF THE MACHINE', int(16 * u), WHT), 40 * u, 40 * u)
 
 def seg_WIPE(cv, t, f):
@@ -560,8 +552,7 @@ def seg_WIPE(cv, t, f):
         e = (lt / 0.35) ** 2
         ribbon(cv, H * (0.78 - 1.4 * e), H * 0.05, H * (0.13 + 2.6 * e), t * 2.2)
         lw = W * LOCK_W
-        sc = asset_w('cokescript', COKE_SCRIPT, lw)
-        blitc(cv, sc, W / 2, H * 0.43 + lw * 0.06, max(0, 1 - lt / 0.2))
+        blitc(cv, asset_w('cokelogo', COKE_LOGO, lw), W / 2, H * 0.44, max(0, 1 - lt / 0.2))
         return
     cv[:] = WHT
     k = int((lt - 0.35) * FPS)
@@ -647,13 +638,13 @@ def seg_TITLE(cv, t, f):
 
 END_L = {
     'tall': dict(kal=(0.5, 0.04, 0.12), name=(0.5, 0.105, 0.86), head=(0.5, 0.335, 0.8), title=(0.5, 0.565, 0.9),
-                 date=(0.5, 0.625, 0.72), lab=(0.5, 0.665), url=(0.5, 0.695, 0.8), lock=(0.5, 0.8, 0.46), rib=0.885, al='c'),
+                 date=(0.5, 0.625, 0.72), lab=(0.5, 0.665), url=(0.5, 0.695, 0.8), lock=(0.5, 0.79, 0.22), rib=0.885, al='c'),
     'mid': dict(kal=(0.5, 0.04, 0.1), name=(0.5, 0.115, 0.74), head=(0.5, 0.365, 0.54), title=(0.5, 0.605, 0.82),
-                date=(0.5, 0.675, 0.62), lab=(0.5, 0.718), url=(0.5, 0.75, 0.7), lock=(0.5, 0.855, 0.36), rib=0.93, al='c'),
+                date=(0.5, 0.675, 0.62), lab=(0.5, 0.718), url=(0.5, 0.75, 0.7), lock=(0.5, 0.855, 0.17), rib=0.93, al='c'),
     'sq': dict(kal=(0.5, 0.045, 0.085), name=(0.5, 0.125, 0.6), head=(0.5, 0.365, 0.4), title=(0.5, 0.6, 0.72),
-               date=(0.5, 0.675, 0.54), lab=(0.5, 0.717), url=(0.5, 0.75, 0.62), lock=(0.5, 0.86, 0.3), rib=0.94, al='c'),
+               date=(0.5, 0.675, 0.54), lab=(0.5, 0.717), url=(0.5, 0.75, 0.62), lock=(0.5, 0.86, 0.14), rib=0.94, al='c'),
     'wide': dict(kal=(0.06, 0.1, 0.075), name=(0.06, 0.22, 0.42), head=(0.74, 0.46, 0.5), title=(0.06, 0.36, 0.42),
-                 date=(0.06, 0.465, 0.32), lab=(0.06, 0.535), url=(0.06, 0.585, 0.4), lock=(0.06, 0.745, 0.2), rib=0.9, al='l'),
+                 date=(0.06, 0.465, 0.32), lab=(0.06, 0.535), url=(0.06, 0.585, 0.4), lock=(0.06, 0.77, 0.11), rib=0.9, al='l'),
 }[LAY]
 
 def seg_END(cv, t, f, static=False):
@@ -705,13 +696,9 @@ def hud(cv, t, f):
         return
     m = 34 * u
     blit(cv, mono('ODUMODUBLVCK // RISE OF THE MACHINE', int(16 * u), WHT), m, m)
-    lw = W * {'tall': 0.26, 'mid': 0.22, 'sq': 0.2, 'wide': 0.13}[LAY]
-    lk = lockup(lw)
+    lw = W * {'tall': 0.17, 'mid': 0.14, 'sq': 0.12, 'wide': 0.075}[LAY]
+    lk = lockup(lw, boxed=True)
     bx = W - m - lk.shape[1]; by = m * (2.2 if LAY == 'tall' else 1)
-    pad = int(12 * u)
-    box = np.zeros((lk.shape[0] + 2 * pad, lk.shape[1] + 2 * pad, 4), np.uint8)
-    box[:, :, :3] = RED; box[:, :, 3] = 255
-    blit(cv, box, bx - pad, by - pad)
     blit(cv, lk, bx, by)
     blit(cv, mono('ABJ * 20.12', int(16 * u), RED, WHT), m, H * (0.955 if LAY != 'tall' else 0.8) - 16 * u)
 
@@ -785,9 +772,9 @@ def flyer_refresh(cv):
     a = dt[:, :, 3:4].astype(np.float32) / 255
     reg = pill[pad:pad + dt.shape[0], int(1.5 * pad):int(1.5 * pad) + dt.shape[1], :3]
     reg[:] = (reg * (1 - a) + dt[:, :, :3] * a).astype(np.uint8)
-    blitc(cv, pill, W / 2, H * {'tall': 0.81, 'mid': 0.82, 'sq': 0.815}[LAY])
-    lk = lockup(W * {'tall': 0.38, 'mid': 0.3, 'sq': 0.26}[LAY])
-    blitc(cv, lk, W / 2, H * {'tall': 0.9, 'mid': 0.915, 'sq': 0.92}[LAY])
+    blitc(cv, pill, W / 2, H * {'tall': 0.8, 'mid': 0.81, 'sq': 0.8}[LAY])
+    lk = lockup(W * {'tall': 0.2, 'mid': 0.15, 'sq': 0.13}[LAY])
+    blitc(cv, lk, W / 2, H * {'tall': 0.9, 'mid': 0.912, 'sq': 0.925}[LAY])
 
 def flyer_white(cv):
     cv[:] = WHT
@@ -826,7 +813,7 @@ def flyer_white(cv):
     a = url[:, :, 3:4].astype(np.float32) / 255
     box[pad:-pad, pad:-pad, :3] = (box[pad:-pad, pad:-pad, :3] * (1 - a) + url[:, :, :3] * a).astype(np.uint8)
     blitc(cv, box, W / 2, H * {'tall': 0.805, 'mid': 0.85, 'sq': 0.86}[LAY])
-    tl = tile_lockup(W * {'tall': 0.16, 'mid': 0.12, 'sq': 0.1}[LAY])
+    tl = lockup(W * {'tall': 0.16, 'mid': 0.12, 'sq': 0.1}[LAY], lcol=RED)
     blitc(cv, tl, W / 2, H * {'tall': 0.905, 'mid': 0.935, 'sq': 0.94}[LAY])
     kal = asset_w('kalr', np.dstack([np.full(KAL.shape[:2] + (3,), RED, np.uint8), KAL[:, :, 3]]), W * 0.08)
     blit(cv, kal, W * 0.04, H * 0.965 - kal.shape[0])
