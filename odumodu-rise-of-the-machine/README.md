@@ -30,7 +30,7 @@ The idea is **"The crowd is the machine."** It takes the poster's cyborg artwork
 | `ROTM_40s_16x9_1920x1080.mp4` | 1920×1080 | YouTube and TV (HD) |
 | `ROTM_40s_16x9_3840x2160_4K.mp4` | 3840×2160 | YouTube 4K and TV / LED screens (UHD) |
 
-All files are 30 fps, H.264 High at CRF 14 with AAC 320k, 48 kHz audio, loudness-normalised to -14 LUFS with a -1 dBTP ceiling. Each format has its own layout. In 16:9 the vertical phone footage runs as a triptych (centre panel in colour, neighbouring shots in black and white either side). The hero moments run full-bleed, and the end card uses a two-column layout.
+All files are 30 fps, H.264 High (CRF 18, capped at 20 Mbps for the social sizes, 25 Mbps for 1080p and 60 Mbps for 4K) with AAC 320k, 48 kHz audio, loudness-normalised to -14 LUFS with a -1 dBTP ceiling. Each format has its own layout. In 16:9 the vertical phone footage runs as a triptych (centre panel in colour, neighbouring shots in black and white either side). The hero moments run full-bleed, and the end card uses a two-column layout.
 
 ## Footage rules
 - The source is crowd footage from the supplied clip, cropped to the top 1080 px so the ABJ watermark never shows.
