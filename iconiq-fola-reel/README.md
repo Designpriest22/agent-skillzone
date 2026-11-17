@@ -40,3 +40,34 @@ Layout is in `rem` (1rem = min(1vw, .75vh)) and `vh`, so the same scenes reflow 
 Footage frames and audio (`clips/`) and the renders (`out/`) are git-ignored because they contain artist footage and this repository is public.
 
 To rebuild them, run `bash clips.sh <folder with the three source clips>`, then `python3 score.py`, then `node render.mjs story` and `node render.mjs feed`.
+
+---
+
+# Velvet: the second 25 s reel
+
+`velvet.html` uses the red-curtain editorial clip and the same event information. It runs at 96 bpm: ten bars of 2.5 s, cut on the bar.
+
+| Time (s) | Scene |
+|---|---|
+| 0–2.5 | Torn velvet curtain parts on the chain macro: ICONIQ FEST *presents* |
+| 2.5–5 | Close-up: HEADLINING, FOLA wordmark scratched on |
+| 5–7.5 | The dance: LIVE / *in* / ABUJA, one word per beat |
+| 7.5–10 | Four taped photocopy freeze frames, then a rubber stamp: 16.12.26 |
+| 10–12.5 | WEDNESDAY / 16 DEC / *2026* |
+| 12.5–15 | Split screen: BALI / RECREATIONAL / PARK, ABUJA |
+| 15–17.5 | Chain macro, white flash, close-up: ICONIQ FEST CLOUD 9 |
+| 17.5–20 | An "admit one" ticket slides up; the stub is torn off |
+| 20–22.5 | GET YOUR TICKETS AT / typed ICONIQFEST.COM |
+| 22.5–25 | End card paste-up over the blurred footage, with a compact layout for 4:5 |
+
+- **Safe zone:** `AUDIT=1 PAGE=velvet.html node render.mjs story|feed` measures every visible `.chk` text element at 6 fps. It fails any that leaves the safe zone:
+  - story: 4% sides, 10% top, 14% bottom (clear of the platform's top bar and reply field)
+  - feed: 4% all round
+  - Both formats pass.
+- **Score:** `velvet_score.py` writes `out/velvet-mix.wav`. It's original late-night Afro-R&B in G minor (Gm9–Ebmaj9–Cm9–D7b9):
+  - a timpani roll and string swell for the curtain
+  - finger snaps, log drum and Rhodes
+  - brass stabs on the big words
+  - vinyl crackle
+  - a scratch for the wordmark, camera shutters for the polaroids, a stamp thud and paper tears for the ticket
+- **Render:** `PAGE=velvet.html node render.mjs story|feed` writes `out/iconiq-fola-velvet-<fmt>.mp4`.

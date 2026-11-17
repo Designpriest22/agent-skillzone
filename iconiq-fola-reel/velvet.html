@@ -1,0 +1,339 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Iconiq Fest × Fola — velvet</title>
+<style>
+@font-face { font-family: Anton; src: url(assets/fonts/anton.woff2); }
+@font-face { font-family: Arch; src: url(assets/fonts/archivo-black.woff2); }
+@font-face { font-family: Marker; src: url(assets/fonts/marker.woff2); }
+@font-face { font-family: Play; src: url(assets/fonts/playfair-black-italic.woff2); }
+html { font-size: min(1vw, .75vh); }
+:root { --velvet:#5E0B12; --red:#E3322B; --gold:#D9B25A; --cream:#F3EFE6; --ink:#141416; --blue:#1F4BFF; --lime:#C6F59B; }
+html, body { margin: 0; background: #000; overflow: hidden; }
+#r { position: relative; width: 100vw; height: 100vh; overflow: hidden; background: var(--ink); }
+#stage { position: absolute; inset: -3%; }
+#stage > .sc { position: absolute; inset: 3%; overflow: hidden; display: none; }
+.a { position: absolute; }
+.fill { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
+.an { font-family: Anton, sans-serif; line-height: .9; white-space: nowrap; text-transform: uppercase; }
+.ar { font-family: Arch, sans-serif; line-height: .95; white-space: nowrap; text-transform: uppercase; }
+.pl { font-family: Play, serif; line-height: .9; white-space: nowrap; }
+.pp { isolation: isolate; filter: drop-shadow(.5rem .6rem 0 rgba(0,0,0,.45)); padding: 1.6rem 2.4rem 1.2rem; }
+.bgk { position: absolute; inset: 0; z-index: -1; background-image: url(assets/paper.png); background-blend-mode: multiply; background-size: 40rem; }
+.tape { position: absolute; width: 20rem; height: 5.5rem; z-index: 3; }
+.photo { filter: grayscale(1) contrast(1.5) brightness(1.05); }
+.velvetbg { background: radial-gradient(ellipse at 50% 40%, #7a1119, #3a060b 75%); }
+.ov { position: absolute; inset: 0; pointer-events: none; }
+#paperOv { background: url(assets/paper.png); background-size: 60rem; mix-blend-mode: multiply; opacity: .38; }
+#grain { inset: -512px; background: url(assets/grain.png); mix-blend-mode: overlay; opacity: .14; }
+#vig { background: radial-gradient(ellipse at 50% 45%, transparent 55%, rgba(0,0,0,.5)); }
+#flash { display: none; }
+#tear { position: absolute; left: -5%; width: 110%; height: 125%; top: 0; display: none; z-index: 50; }
+#tear > div { position: absolute; inset: 0; }
+.pol { position: absolute; width: 40rem; height: 50rem; filter: drop-shadow(.7rem .9rem 0 rgba(0,0,0,.5)); }
+.pol > .ph { position: absolute; inset: 0; overflow: hidden; background: var(--cream); }
+.pol img.fill { inset: 1.6rem 1.6rem 6rem; width: calc(100% - 3.2rem); height: calc(100% - 7.6rem); }
+svg { overflow: visible; }
+/* 4:5 feed: the end card is compacted so every line stays inside the frame */
+@media (min-aspect-ratio: 3/4) {
+  #emark { top: 6vh !important; }
+  #ecl { top: calc(6vh + 17rem) !important; }
+  #epW { width: 46rem !important; height: 46rem !important; margin-left: -23rem !important; top: calc(6vh + 31rem) !important; }
+  #einfo { top: calc(6vh + 74rem) !important; }
+  #edate { top: calc(6vh + 70rem) !important; }
+  #elogo { top: calc(6vh + 110rem) !important; }
+}
+</style></head>
+<body><div id="r">
+<div id="stage">
+
+<!-- 1 · curtain opens on the chain: ICONIQ FEST presents -->
+<div class="sc" id="s1">
+  <img class="fill" id="f1">
+  <div class="fill" style="background:linear-gradient(180deg,rgba(0,0,0,.35),transparent 40%,transparent 60%,rgba(0,0,0,.45))"></div>
+  <img class="a chk" id="m1" src="assets/mark.png" style="width:76rem;left:12rem;top:30vh">
+  <div class="a pl chk" id="pr1" style="font-size:13rem;color:var(--gold);left:30rem;top:calc(30vh + 19rem);text-shadow:.4rem .5rem 0 rgba(0,0,0,.5)">presents</div>
+  <div class="a pp" id="cL" data-c="#5E0B12" data-amp="16" style="left:-2%;top:-2%;width:54%;height:104%;padding:0"></div>
+  <div class="a pp" id="cR" data-c="#5E0B12" data-amp="16" style="right:-2%;top:-2%;width:54%;height:104%;padding:0"></div>
+</div>
+
+<!-- 2 · the face, the name -->
+<div class="sc" id="s2">
+  <img class="fill" id="f2">
+  <div class="a an pp chk" id="hd" data-c="#141416" style="font-size:9rem;color:var(--gold);left:10rem;top:56vh">HEADLINING</div>
+  <div class="a chk" id="fw" style="left:8rem;top:calc(56vh + 13rem);width:84rem;height:24rem;transform:rotate(-3deg)">
+    <img class="fill" id="fr" src="assets/fola.png" style="object-fit:contain;filter:hue-rotate(160deg) saturate(3);opacity:0">
+    <img class="fill" src="assets/fola.png" style="object-fit:contain;filter:drop-shadow(.5rem .6rem 0 rgba(0,0,0,.6))">
+  </div>
+</div>
+
+<!-- 3 · the dance: LIVE / in / ABUJA -->
+<div class="sc" id="s3">
+  <img class="fill" id="f3">
+  <div class="a an pp chk" id="l1" data-c="#F3EFE6" style="font-size:18rem;color:var(--ink);left:9rem;top:46vh">LIVE</div>
+  <div class="a pl chk" id="l2" style="font-size:14rem;color:var(--gold);left:38rem;top:calc(46vh + 12rem);text-shadow:.4rem .5rem 0 rgba(0,0,0,.6)">in</div>
+  <div class="a an pp chk" id="l3" data-c="#E3322B" style="font-size:22rem;color:var(--cream);left:11rem;top:calc(46vh + 26rem)">ABUJA</div>
+</div>
+
+<!-- 4 · freeze frames pasted onto velvet, then the date stamp -->
+<div class="sc velvetbg" id="s4">
+  <div class="pol" id="p1" style="left:6rem;top:13vh"><div class="ph"><img class="fill photo" src="clips/v/stills/24.3.jpg" style="object-position:50% 25%"></div><img class="tape" src="assets/tape.png" style="left:10rem;top:-2rem;transform:rotate(-6deg)"></div>
+  <div class="pol" id="p2" style="left:53rem;top:15vh"><div class="ph"><img class="fill photo" src="clips/v/stills/40.2.jpg" style="object-position:50% 20%"></div><img class="tape" src="assets/tape.png" style="left:9rem;top:-2rem;transform:rotate(5deg)"></div>
+  <div class="pol" id="p3" style="left:8rem;top:calc(13vh + 54rem)"><div class="ph"><img class="fill photo" src="clips/v/stills/49.3.jpg" style="object-position:50% 25%"></div><img class="tape" src="assets/tape.png" style="left:11rem;top:-2rem;transform:rotate(3deg)"></div>
+  <div class="pol" id="p4" style="left:51rem;top:calc(15vh + 54rem)"><div class="ph"><img class="fill photo" src="clips/v/stills/71.6.jpg" style="object-position:50% 25%"></div><img class="tape" src="assets/tape.png" style="left:8rem;top:-2rem;transform:rotate(-4deg)"></div>
+  <div class="a an chk" id="stamp" style="font-size:21rem;color:var(--red);left:50%;top:calc(13vh + 40rem);border:1.1rem solid var(--red);padding:1.5rem 3rem .4rem;-webkit-mask-image:url(assets/stampmask.png);-webkit-mask-size:100% 100%;mix-blend-mode:multiply">16.12.26</div>
+</div>
+
+<!-- 5 · gloves: the date -->
+<div class="sc" id="s5">
+  <img class="fill" id="f5">
+  <div class="a an pp chk" id="wd" data-c="#F3EFE6" style="font-size:9rem;color:var(--ink);left:8rem;top:40vh">WEDNESDAY</div>
+  <div class="a an pp chk" id="dd" data-c="#E3322B" style="font-size:24rem;color:var(--cream);left:9rem;top:calc(40vh + 13rem)">16 DEC</div>
+  <div class="a pl chk" id="yy" style="font-size:20rem;color:var(--gold);left:38rem;top:calc(40vh + 40rem);text-shadow:.5rem .6rem 0 rgba(0,0,0,.6)">2026</div>
+</div>
+
+<!-- 6 · split screen: the venue -->
+<div class="sc" id="s6" style="background:var(--ink)">
+  <div class="a" id="sA" style="left:0;top:0;width:50%;height:100%;overflow:hidden"><img class="fill" id="f6a"></div>
+  <div class="a" id="sB" style="left:50%;top:0;width:50%;height:100%;overflow:hidden;border-left:.7rem solid var(--ink)"><img class="fill" id="f6b"></div>
+  <div class="a an pp chk" id="b1" data-c="#D9B25A" style="font-size:28rem;color:var(--ink);left:10rem;top:30vh">BALI</div>
+  <div class="a an pp chk" id="b2" data-c="#F3EFE6" style="font-size:14.5rem;color:var(--ink);left:6rem;top:calc(30vh + 31rem)">RECREATIONAL</div>
+  <div class="a an pp chk" id="b3" data-c="#E3322B" style="font-size:14.5rem;color:var(--cream);left:12rem;top:calc(30vh + 49rem)">PARK, ABUJA</div>
+</div>
+
+<!-- 7 · macro flash into the close-up: ICONIQ FEST CLOUD 9 -->
+<div class="sc" id="s7">
+  <img class="fill" id="f7">
+  <img class="a chk" id="m7" src="assets/mark.png" style="width:72rem;left:14rem;top:50vh;filter:drop-shadow(.5rem .6rem 0 rgba(0,0,0,.5))">
+  <div class="a chk" id="c7" style="left:15rem;top:calc(50vh + 17rem);display:flex;align-items:center;gap:2.5rem">
+    <span class="ar" style="font-size:13rem;color:var(--cream);text-shadow:0 .7rem 0 #3a060b">CLOUD</span><img src="assets/cloud9.png" style="width:13rem">
+  </div>
+</div>
+
+<!-- 8 · the ticket -->
+<div class="sc" id="s8">
+  <img class="fill" id="f8" style="filter:brightness(.5) contrast(1.1)">
+  <div class="a" id="tkt" style="left:6rem;width:88rem;top:26vh;height:56rem">
+    <div class="a pp" id="tmain" data-c="#F3EFE6" data-amp="5" style="left:0;top:0;width:68rem;height:56rem;padding:0">
+      <div class="a pl chk" style="font-size:6.5rem;color:var(--red);left:5rem;top:4rem">admit one</div>
+      <div class="a an chk" style="font-size:14rem;color:var(--ink);left:5rem;top:12rem">ICONIQ FEST</div>
+      <div class="a an chk" style="font-size:10rem;color:var(--red);left:5rem;top:26rem">CLOUD 9 — FOLA</div>
+      <div class="a" style="left:5rem;right:5rem;top:37.5rem;height:.5rem;background:var(--ink)"></div>
+      <div class="a an chk" style="font-size:6rem;color:var(--ink);left:5rem;top:40rem">WED 16.12.2026 · ABUJA</div>
+      <div class="a an chk" style="font-size:6rem;color:var(--ink);left:5rem;top:47rem">BALI RECREATIONAL PARK</div>
+    </div>
+    <div class="a pp" id="tstub" data-c="#D9B25A" data-amp="5" style="left:68rem;top:0;width:20rem;height:56rem;padding:0;border-left:.5rem dashed rgba(20,20,22,.7);transform-origin:0 0">
+      <div class="a an chk" style="font-size:9rem;color:var(--ink);left:15.5rem;top:5rem;transform-origin:0 0;transform:rotate(90deg)">ABUJA 16.12</div>
+    </div>
+  </div>
+</div>
+
+<!-- 9 · tickets -->
+<div class="sc" id="s9">
+  <img class="fill" id="f9" style="filter:brightness(.62)">
+  <div class="a ar pp chk" id="gt" data-c="#D9B25A" style="font-size:8rem;color:var(--ink);left:10rem;top:42vh;line-height:1">GET YOUR<br>TICKETS AT<img class="tape" src="assets/tape.png" style="right:-8rem;top:-3rem;transform:rotate(22deg)"></div>
+  <div class="a pp chk" id="ub" data-c="#141416" style="left:6rem;top:calc(42vh + 26rem);padding:2rem 3rem 1.4rem">
+    <div class="an" id="url" style="font-size:12rem;color:var(--cream)"><span id="urlt"></span><span id="cur" style="display:inline-block;width:5rem;height:10rem;background:var(--gold);margin-left:.8rem;vertical-align:-.4rem"></span></div>
+  </div>
+  <svg class="a" id="ul" style="left:9rem;top:calc(42vh + 44rem)" width="1" height="1"><path id="ulP" d="M0 10 C 200 -6, 420 22, 620 4 S 760 -4, 790 12" fill="none" stroke="#E3322B" stroke-width="15" stroke-linecap="round"/></svg>
+</div>
+
+<!-- 10 · end card: the flyer as a paste-up on velvet -->
+<div class="sc" id="s10">
+  <img class="fill" id="f10bg" style="filter:blur(18px) brightness(.45) saturate(1.3);transform:scale(1.15)">
+  <div id="e10" class="fill">
+    <img class="a chk" id="emark" src="assets/mark.png" style="left:50%;width:72rem;margin-left:-36rem;top:12.5vh">
+    <div class="a chk" id="ecl" style="left:50%;top:calc(12.5vh + 17rem);transform:translateX(-50%);display:flex;align-items:center;gap:2rem">
+      <span class="ar" style="font-size:11rem;color:var(--cream);text-shadow:0 .6rem 0 #3a060b">CLOUD</span><img src="assets/cloud9.png" style="width:11rem">
+    </div>
+    <div class="a" id="epW" style="left:50%;width:60rem;height:64rem;margin-left:-30rem;top:calc(12.5vh + 31rem);filter:drop-shadow(.8rem 1rem 0 rgba(0,0,0,.5))">
+      <div class="fill" id="epC" style="overflow:hidden"><img class="fill" id="f10" style="object-position:50% 20%"></div>
+      <img class="tape" src="assets/tape.png" style="left:-5rem;top:2rem;transform:rotate(-38deg)">
+      <img class="tape" src="assets/tape.png" style="right:-5rem;top:1rem;transform:rotate(33deg)">
+    </div>
+    <div class="a pp" id="einfo" data-c="#1b1b1e" data-amp="9" style="left:25rem;right:5rem;top:calc(12.5vh + 84rem);height:33rem;padding:0">
+      <img class="a chk" src="assets/fola.png" style="left:4rem;top:1.5rem;width:50rem">
+      <div class="a ar chk" style="left:5rem;top:17rem;font-size:5rem;color:var(--red)">⌖ ABUJA</div>
+      <div class="a ar chk" style="left:5rem;top:22.5rem;font-size:2.8rem;color:var(--cream)">BALI RECREATIONAL PARK</div>
+      <div class="a ar chk" style="left:5rem;top:27rem;font-size:4.3rem;color:var(--cream)">WWW.ICONIQFEST.COM</div>
+    </div>
+    <div class="a pp" id="edate" data-c="#E3322B" data-amp="8" style="left:5rem;top:calc(12.5vh + 80rem);width:21rem;height:38rem;padding:0;transform-origin:100% 50%">
+      <div class="a an chk" style="left:2rem;top:2rem;font-size:14rem;color:var(--cream)">16</div>
+      <div class="a ar chk" style="left:15.5rem;top:2rem;font-size:2.5rem;color:var(--cream)">TH</div>
+      <div class="a an chk" style="left:2rem;top:15.5rem;font-size:10.5rem;color:var(--cream)">DEC</div>
+      <div class="a an chk" style="left:2rem;top:26rem;font-size:9.5rem;color:var(--cream)">2026</div>
+    </div>
+    <div class="a" id="elogo" style="right:5rem;top:calc(12.5vh + 121rem);width:42rem">
+      <div class="a ar chk" style="right:51.5%;bottom:calc(100% - 1rem);font-size:1.55rem;color:var(--cream)">PRODUCED BY:</div>
+      <img class="chk" src="assets/logos.png" style="width:42rem;display:block">
+    </div>
+  </div>
+</div>
+
+<div id="tear"><div id="tearW" style="background:#F3EFE6"></div><div id="tearC"></div></div>
+</div><!-- /stage -->
+
+<div class="ov" id="paperOv"></div>
+<img class="ov fill" id="grunge" src="assets/grunge0.png" style="opacity:.5">
+<div class="ov" id="vig"></div>
+<div class="ov" id="grain"></div>
+<div class="ov" id="flash"></div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, d) => cl((t - a) / d);
+const eo = x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x);
+const ebk = (x, c = 1.9) => 1 + (c + 1) * Math.pow(x - 1, 3) + c * Math.pow(x - 1, 2);
+const eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const lerp = (a, b, x) => a + (b - a) * x;
+const step = (x, n) => Math.floor(x * n) / n;
+const q = x => Math.floor(x * 12 + 1e-6) / 12;
+const h = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
+const nz = (t, k) => { const i = Math.floor(t), f = t - i, u = f * f * (3 - 2 * f); return lerp(h(i + k * 57), h(i + 1 + k * 57), u) * 2 - 1; };
+const boil = (t, k, a = .5) => (h(Math.floor(t * 6) + k * 31) * 2 - 1) * a;
+const BT = .625;                                                  // 96 bpm: a beat; a bar is 2.5 s, the reel is ten bars
+
+function tornPoly(seed, amp = 7, n = 36) {
+  let s = seed * 1000; const r = () => h(s++);
+  const pts = [], j = () => (r() * amp).toFixed(1) + 'px', m = n / 3;
+  for (let i = 0; i <= n; i++) pts.push(`${(i / n * 100).toFixed(2)}% ${j()}`);
+  for (let i = 1; i <= m; i++) pts.push(`calc(100% - ${j()}) ${(i / m * 100).toFixed(2)}%`);
+  for (let i = n - 1; i >= 0; i--) pts.push(`${(i / n * 100).toFixed(2)}% calc(100% - ${j()})`);
+  for (let i = m - 1; i >= 1; i--) pts.push(`${j()} ${(i / m * 100).toFixed(2)}%`);
+  return `polygon(${pts.join(',')})`;
+}
+let seed = 101;
+for (const el of document.querySelectorAll('.pp')) {
+  const b = document.createElement('div'); b.className = 'bgk'; b.style.backgroundColor = el.dataset.c;
+  b.style.clipPath = tornPoly(seed++, +(el.dataset.amp || 7)); el.prepend(b);
+}
+document.querySelectorAll('.pol .ph').forEach((p, i) => p.style.clipPath = tornPoly(150 + i, 9));
+$('epC').style.clipPath = tornPoly(160, 11);
+const sheet = (s, amp, n = 60) => { let k = s * 1000; const r = () => h(k++); const p = [];
+  for (let i = 0; i <= n; i++) p.push(`${i / n * 100}% ${(r() * amp + (i % 7 === 3 ? amp * .8 : 0)).toFixed(1)}px`);
+  for (let i = n; i >= 0; i--) p.push(`${i / n * 100}% calc(100% - ${(r() * amp + (i % 5 === 2 ? amp * .8 : 0)).toFixed(1)}px)`);
+  return `polygon(${p.join(',')})`; };
+$('tearW').style.clipPath = sheet(17, 46); $('tearC').style.clipPath = sheet(18, 30); $('tearC').style.inset = '14px 0';
+
+const SC = [['s1', 0, 2.5], ['s2', 2.5, 5], ['s3', 5, 7.5], ['s4', 7.5, 10], ['s5', 10, 12.5], ['s6', 12.5, 15], ['s7', 15, 17.5], ['s8', 17.5, 20], ['s9', 20, 22.5], ['s10', 22.5, 25]];
+const HITS = [[0, .6], [.625, .5], [2.5, 1], [3.125, .8], [5, .9], [5.625, .6], [6.25, 1], [7.5, .8], [8.125, .5], [8.75, .5], [9.375, 1.2], [10, 1], [10.625, .9], [11.25, .6],
+  [12.5, 1], [13.125, .6], [13.75, .7], [15, .8], [16.25, 1.2], [17.5, .8], [19.375, .9], [20, 1], [22.5, 1.2], [23.1, .4]];
+const FL = { 2.5: '#F3EFE6', 5: '#D9B25A', 12.5: '#141416', 16.25: '#ffffff', 20: '#E3322B' };
+const TEARS = [[10, '#5E0B12'], [17.5, '#F3EFE6'], [22.5, '#E3322B']];
+
+const frame = (dir, n, t) => `clips/v/${dir}/${String(Math.min(n, Math.floor(t * 30) + 1)).padStart(3, '0')}.jpg`;
+const setSrc = (el, src) => { if (el.getAttribute('src') !== src) el.setAttribute('src', src); };
+const rem = () => parseFloat(getComputedStyle(document.documentElement).fontSize);
+const T = (el, s) => { (typeof el === 'string' ? $(el) : el).style.transform = s; };
+const O = (el, o) => { (typeof el === 'string' ? $(el) : el).style.opacity = o; };
+const draw = (path, x) => { const L = path.getTotalLength(); path.style.strokeDasharray = L; path.style.strokeDashoffset = L * (1 - x); };
+const slap = (id, t, a, rot, k, base = '') => {
+  const x = t - a; O(id, x >= 0 ? 1 : 0); if (x < 0) return;
+  const f = Math.floor(x * 12); const s = f === 0 ? 1.07 : f === 1 ? .98 : 1;
+  T(id, `${base} rotate(${rot + (f === 0 ? rot * 2.5 + 3 : 0) + boil(t, k, .4)}deg) scale(${s})`);
+};
+const foot = (id, dir, n, lt, z0 = 1.08, z1 = 1.0, dur = 2.5) => { setSrc($(id), frame(dir, n, lt)); T(id, `scale(${lerp(z0, z1, cl(lt / dur))})`); };
+
+function renderAt(t) {
+  const R = rem();
+  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
+  let k = 0; for (const [ht, s] of HITS) if (t >= ht) k += s * Math.exp(-(t - ht) * 8);
+  const dx = nz(t * 1.1, 1) * 4 + nz(t * 22, 2) * k * 14, dy = nz(t * .9, 3) * 4 + nz(t * 22, 4) * k * 14, rot = nz(t * .7, 5) * .2 + nz(t * 18, 6) * k * .45;
+  T('stage', `translate(${dx}px,${dy}px) rotate(${rot}deg) scale(${1 + k * .01})`);
+  const F = Math.floor(t * 30);
+  $('grain').style.transform = `translate(${Math.floor(h(F) * 512)}px,${Math.floor(h(F + 9) * 512)}px)`;
+  setSrc($('grunge'), `assets/grunge${Math.floor(t * 8) % 3}.png`);
+  $('paperOv').style.backgroundPosition = `${Math.floor(h(Math.floor(t * 4)) * 300)}px ${Math.floor(h(Math.floor(t * 4) + 3) * 300)}px`;
+  const fk = Object.keys(FL).find(c => t >= +c && t < +c + 1 / 30 + 1e-6);
+  $('flash').style.display = fk ? 'block' : 'none'; if (fk) $('flash').style.background = FL[fk];
+  const tr = TEARS.find(([c]) => t >= c - .22 && t < c + .22);
+  $('tear').style.display = tr ? 'block' : 'none';
+  if (tr) { const x = step((t - tr[0] + .22) / .44, 11); $('tearC').style.background = tr[1]; T('tear', `translateY(${lerp(100, -125, x) + 12.5}%) rotate(${-3 + x * 2}deg)`); }
+
+  // 1 · curtain parts (stop-motion), the mark lands, "presents"
+  if (t < 2.5) {
+    foot('f1', 'chain', 82, t, 1.18, 1.04);
+    const op = step(eio(P(t, .1, .9)), 9); T('cL', `translateX(${-op * 100}%) rotate(${-op * 3}deg)`); T('cR', `translateX(${op * 100}%) rotate(${op * 3}deg)`);
+    slap('m1', t, .625, -2, 1); slap('pr1', t, 1.25, -3, 2);
+  }
+  // 2 · face, HEADLINING, FOLA scratched on
+  if (t >= 2.5 && t < 5) {
+    const lt = t - 2.5; foot('f2', 'face', 82, lt, 1.12, 1.02);
+    slap('hd', lt, .2, -2, 3);
+    const fw = step(P(lt, .625, .45), 6); $('fw').style.clipPath = `inset(-20% ${100 - fw * 100}% -20% -5%)`;
+    O('fr', lt > .625 && lt < 1.2 ? .8 : 0); T('fr', `translate(${nz(lt * 30, 1) * 2 * R}px,${nz(lt * 30, 2) * R}px)`);
+    T('fw', `rotate(${-3 + (lt < 1.2 ? nz(lt * 15, 4) : boil(t, 4, .3))}deg)`);
+  }
+  // 3 · dance: LIVE / in / ABUJA on the beat
+  if (t >= 5 && t < 7.5) {
+    const lt = t - 5; foot('f3', 'dance', 82, lt, 1.06, 1.0);
+    slap('l1', lt, 0, -3, 5); slap('l2', lt, BT, 4, 6); slap('l3', lt, 2 * BT, -2, 7);
+  }
+  // 4 · polaroids slapped on each beat, then the rubber stamp
+  if (t >= 7.5 && t < 10) {
+    const lt = t - 7.5;
+    slap('p1', lt, 0, -6, 8); slap('p2', lt, BT, 5, 9); slap('p3', lt, 2 * BT, 4, 10); slap('p4', lt, 3 * BT - .3, -4, 11);
+    const s = lt - (3 * BT); O('stamp', s >= 0 ? .92 : 0);
+    T('stamp', `translateX(-50%) rotate(-11deg) scale(${s < 1 / 12 ? 1.25 : 1})`);
+  }
+  // 5 · gloves: WEDNESDAY / 16 DEC / 2026
+  if (t >= 10 && t < 12.5) {
+    const lt = t - 10; foot('f5', 'gloves', 82, lt, 1.1, 1.0);
+    slap('wd', lt, .15, -2, 12); slap('dd', lt, BT, 2, 13); slap('yy', lt, 2 * BT, -4, 14);
+  }
+  // 6 · split screen, venue
+  if (t >= 12.5 && t < 15) {
+    const lt = t - 12.5;
+    foot('f6a', 'splitA', 82, lt, 1.1, 1.0); foot('f6b', 'splitB', 82, lt, 1.1, 1.0);
+    const a = step(P(lt, 0, .3), 4), b = step(P(lt, .15, .3), 4);
+    $('sA').style.clipPath = `inset(0 0 ${(1 - a) * 100}% 0)`; $('sB').style.clipPath = `inset(${(1 - b) * 100}% 0 0 0)`;
+    slap('b1', lt, BT, -3, 15); slap('b2', lt, 2 * BT, 1.5, 16); slap('b3', lt, 3 * BT, -2, 17);
+  }
+  // 7 · macro, flash, close-up; ICONIQ FEST CLOUD 9
+  if (t >= 15 && t < 17.5) {
+    const lt = t - 15;
+    if (lt < 1.25) foot('f7', 'macro', 36, lt, 1.2, 1.05, 1.25); else foot('f7', 'close', 48, lt - 1.25, 1.1, 1.0, 1.25);
+    slap('m7', lt, .2, -2, 18); slap('c7', lt, BT + .2, 2, 19);
+  }
+  // 8 · the ticket slides up, the stub tears off
+  if (t >= 17.5 && t < 20) {
+    const lt = t - 17.5; foot('f8', 'ticket', 82, lt, 1.08, 1.0);
+    const up = step(eo(P(lt, .25, .5)), 6); O('tkt', lt >= .25 ? 1 : 0);
+    T('tkt', `translateY(${(1 - up) * 60}vh) rotate(${-3 + (1 - up) * 8 + boil(t, 20, .3)}deg)`);
+    const off = P(q(lt), 3 * BT, .5);
+    T('tstub', `translate(${off * 14}rem, ${off * off * 60}rem) rotate(${off * 28}deg)`); O('tstub', off < 1 ? 1 : 0);
+    $('tstub').querySelector('.an').classList.toggle('chk', off === 0);
+  }
+  // 9 · GET YOUR TICKETS AT / ICONIQFEST.COM
+  if (t >= 20 && t < 22.5) {
+    const lt = t - 20; foot('f9', 'url', 82, lt, 1.1, 1.0);
+    slap('gt', lt, .1, -2, 21); slap('ub', lt, .5, 1, 22);
+    const word = 'ICONIQFEST.COM', n = Math.floor(cl((lt - .6) / .06, 0, word.length));
+    $('urlt').textContent = word.slice(0, n); O('cur', (n < word.length || Math.floor(lt * 4) % 2 === 0) ? 1 : 0);
+    draw($('ulP'), eio(P(lt, 1.6, .4))); T('ul', `scale(${R / 10.8})`);
+  }
+  // 10 · end card
+  if (t >= 22.5) {
+    const lt = t - 22.5;
+    setSrc($('f10'), frame('end', 96, lt)); setSrc($('f10bg'), frame('end', 96, lt));
+    T('e10', `scale(${1 + lt * .01})`);
+    slap('emark', lt, 0, -1.5, 30); slap('ecl', lt, .2, 1, 31, 'translateX(-50%)');
+    slap('epW', lt, .1, -1.5, 32); slap('einfo', lt, .45, .8, 33); slap('edate', lt, .7, -3, 34);
+    O('elogo', lt > 1.0 ? 1 : 0);
+  }
+}
+// safe-area audit: every visible .chk element must sit inside the frame's safe zone
+window.audit = (t, m) => {
+  const W = innerWidth, H = innerHeight, out = [];
+  for (const el of document.querySelectorAll('.chk')) {
+    let v = el, vis = true; while (v && v !== document.body) { const cs = getComputedStyle(v); if (cs.display === 'none' || +cs.opacity === 0) { vis = false; break; } v = v.parentElement; }
+    if (!vis) continue; const r = el.getBoundingClientRect();
+    if (r.left < W * m.x || r.right > W * (1 - m.x) || r.top < H * m.top || r.bottom > H * (1 - m.bot))
+      out.push(`${t.toFixed(2)} ${el.id || el.textContent.trim().slice(0, 18) || el.getAttribute('src')} [${Math.round(r.left)},${Math.round(r.top)} → ${Math.round(r.right)},${Math.round(r.bottom)}]`);
+  }
+  return out;
+};
+window.renderAt = renderAt;
+window.ready = document.fonts.ready.then(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; })))).then(() => renderAt(0));
+</script>
+</body></html>
