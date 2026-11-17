@@ -1,0 +1,216 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>LOL × Wizkid — social studio</title>
+<script src="assets/wordsearch.js"></script>
+<style>
+@font-face { font-family: "Bebas"; src: url(assets/fonts/bebas-neue-latin-400-normal.woff2); }
+@font-face { font-family: "Oswald"; src: url(assets/fonts/oswald-latin-200-normal.woff2); font-weight: 200; }
+@font-face { font-family: "Oswald"; src: url(assets/fonts/oswald-latin-300-normal.woff2); font-weight: 300; }
+@font-face { font-family: "Oswald"; src: url(assets/fonts/oswald-latin-500-normal.woff2); font-weight: 500; }
+@font-face { font-family: "Mont"; src: url(assets/fonts/montserrat-latin-500-normal.woff2); font-weight: 500; }
+@font-face { font-family: "Mont"; src: url(assets/fonts/montserrat-latin-600-normal.woff2); font-weight: 600; }
+@font-face { font-family: "Mont"; src: url(assets/fonts/montserrat-latin-700-normal.woff2); font-weight: 700; }
+@font-face { font-family: "Mont"; src: url(assets/fonts/montserrat-latin-800-normal.woff2); font-weight: 800; }
+:root { --ink: #0B0B0B; --cream: #F4ECE1; --hot: #E8561B; --gold: #F2B657; --tan: #C99E78; }
+html, body { margin: 0; background: #000; }
+#c { position: relative; overflow: hidden; background: var(--ink); color: var(--cream); font-family: "Mont", sans-serif; }
+.a { position: absolute; }
+.bebas { font-family: "Bebas"; line-height: .86; letter-spacing: .5px; }
+.thin { font-family: "Oswald"; font-weight: 200; line-height: .9; }
+.mont { font-family: "Mont"; font-weight: 600; letter-spacing: 4px; }
+.emoji { font-family: "Noto Color Emoji"; }
+.c { left: 0; right: 0; text-align: center; }
+.stage { position: absolute; inset: 0; background: radial-gradient(90% 55% at 50% 38%, #2A2522 0%, #121110 55%, #070707 100%); }
+.bokeh { position: absolute; border-radius: 50%; background: #FFE9C9; filter: blur(3px); }
+.grain { position: absolute; inset: 0; opacity: .07; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"); }
+.url { font-family: "Mont"; font-weight: 800; letter-spacing: 1px; }
+.pill { border: 3px solid var(--hot); border-radius: 60px; padding: 18px 36px 16px; display: inline-block; }
+.zig { height: 26px; background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='26'%3E%3Cpath d='M3 20 L18 6 L33 20 L48 6 L57 14' fill='none' stroke='%23E8561B' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") repeat-x 0 0 / 60px 26px; }
+</style></head>
+<body><div id="c"></div>
+<script>
+const $ = id => document.getElementById(id);
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, d) => clamp((t - a) / d);
+const eo = p => 1 - Math.pow(1 - p, 3), ex = p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p);
+const eb = p => { const s = 1.6; return 1 + (s + 1) * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2); };
+const OFF = 'assets/official/';
+const W = window.WORDSEARCH;
+const URL_ = 'WIZKID.TIX.AFRICA';
+let seed = 3; const rnd = () => (seed = seed * 16807 % 2147483647) / 2147483647;
+// stage light: two arcs of bokeh like the official flyer
+function stage(w, h, y = .3) {
+  let s = '<div class="stage"></div>';
+  for (const side of [-1, 1]) for (let i = 0; i < 9; i++) {
+    const k = i / 8, x = w / 2 + side * (w * .18 + k * w * .42), yy = h * y + Math.pow(k, 1.6) * h * .12 - 40, r = 6 + k * 10;
+    s += `<div class="bokeh" style="left:${x - r}px;top:${yy - r}px;width:${2 * r}px;height:${2 * r}px;opacity:${.25 + .5 * k}"></div>`;
+  }
+  return s;
+}
+const foot = (w, y, size = 30) => `<div class="a c mont" style="top:${y}px;font-size:${size}px;font-weight:500">GET TICKETS AT <span class="url" style="font-size:${size * 1.1}px">${URL_}</span></div>`;
+const logo = (x, y, w) => `<img class="a" src="${OFF}lol-logo@3x.png" style="left:${x}px;top:${y}px;width:${w}px">`;
+const word = (x, y, w, extra = '') => `<img class="a" src="${OFF}wizkid-wordmark.png" style="left:${x}px;top:${y}px;width:${w}px;${extra}">`;
+const SPONS = ['01-hennessy', '02-heineken', '03-coca-cola', '04-desperados', '05-best', '06-axe', '07-lords-gin', '08-transcorp-hotels', '09-vodi-group', '10-united-nigeria', '11-trace', '12-square-meter', '13-nova-flair'];
+
+// ---------- word hunt grid ----------
+function grid(size, x, y, opts = {}) {
+  const N = W.size, cell = size / N; let s = `<div class="a" style="left:${x}px;top:${y}px;width:${size}px;height:${size}px">`;
+  if (opts.answers) {
+    s += `<svg class="a" width="${size}" height="${size}" style="left:0;top:0">`;
+    for (const [w, cells] of Object.entries(W.placed)) { const a = cells[0], b = cells[cells.length - 1];
+      s += `<line x1="${(a[1] + .5) * cell}" y1="${(a[0] + .5) * cell}" x2="${(b[1] + .5) * cell}" y2="${(b[0] + .5) * cell}" stroke="#F2B657" stroke-opacity=".28" stroke-width="${cell * .74}" stroke-linecap="round"/>`; }
+    s += '</svg>';
+  } else if (opts.example) {
+    const c = W.placed[W.example], a = c[0], b = c[c.length - 1];
+    s += `<svg class="a" width="${size}" height="${size}" style="left:0;top:0"><line x1="${(a[1] + .5) * cell}" y1="${(a[0] + .5) * cell}" x2="${(b[1] + .5) * cell}" y2="${(b[0] + .5) * cell}" stroke="#E8561B" stroke-opacity=".5" stroke-width="${cell * .74}" stroke-linecap="round"/></svg>`;
+  }
+  const msg = new Set(W.messageCells.map(([r, c]) => r + ',' + c));
+  W.grid.forEach((row, r) => [...row].forEach((ch, c) => {
+    const m = opts.answers && msg.has(r + ',' + c);
+    s += `<div class="a bebas" style="left:${c * cell}px;top:${r * cell}px;width:${cell}px;height:${cell}px;display:flex;align-items:center;justify-content:center;font-size:${cell * .66}px;color:${m ? 'var(--hot)' : 'var(--cream)'}">${ch}</div>`;
+  }));
+  return s + '</div>';
+}
+const title = s => s.toLowerCase().replace(/(^|\s)\S/g, m => m.toUpperCase()).replace(' In ', ' in ');
+
+const C = {
+  // ===================== GAMES =====================
+  'g1-word-hunt': { w: 1080, h: 1350, html: () => stage(1080, 1350, .08) +
+    word(300, 52, 480) + `<div class="a c bebas" style="top:196px;font-size:112px">THE BIG WIZ WORD HUNT</div>
+    <div class="a c thin" style="top:314px;font-size:34px;font-weight:300;color:var(--tan)">${Object.values(W.categories).flat().length} HIDDEN WORDS · HITS, ALBUMS & THE NIGHT</div>` +
+    grid(720, 60, 390, { example: true }) +
+    `<div class="a" style="left:812px;top:392px;width:240px">${Object.entries(W.categories).map(([k, ws]) => `<div class="mont" style="font-size:16px;color:var(--hot);margin:0 0 6px">${k}</div>` +
+      ws.map(w => `<div style="font:500 19px/1.48 Mont;${w === W.example ? 'text-decoration:line-through;color:var(--tan)' : ''}">${title(w)}</div>`).join('') + '<div style="height:12px"></div>').join('')}</div>
+    <div class="a c mont" style="top:1140px;font-size:24px;font-weight:500;line-height:1.5">Found them all? The leftover letters spell your next move.<br><span style="color:var(--gold)">Comment the secret message ⬇</span></div>
+    <div class="a zig" style="left:420px;width:240px;top:1250px"></div>` },
+  'g1-word-hunt-answers': { w: 1080, h: 1350, html: () => stage(1080, 1350, .08) +
+    `<div class="a c bebas" style="top:70px;font-size:120px">THE ANSWERS</div>` + grid(860, 110, 220, { answers: true }) +
+    `<div class="a c bebas" style="top:1110px;font-size:62px;color:var(--hot)">${W.message}</div>` + foot(1080, 1220, 26) },
+
+  'g2-emoji-quiz': { w: 1080, h: 1350, html: () => stage(1080, 1350, .06) +
+    `<div class="a c bebas" style="top:70px;font-size:128px">NAME THE WIZKID SONG</div><div class="a c thin" style="top:200px;font-size:40px;font-weight:300;color:var(--tan)">SIX SONGS · EMOJIS ONLY · ANSWERS ON SLIDE 2</div>` +
+    [['🤒', 1], ['🫚', 2], ['😁', 3], ['🙏🏾', 4], ['🌸🧴', 5], ['📣👦🏾', 6]].map(([e, n], i) => {
+      const x = 70 + (i % 3) * 320, y = 300 + Math.floor(i / 3) * 400;
+      return `<div class="a" style="left:${x}px;top:${y}px;width:300px;height:370px;border:2px solid rgba(244,236,225,.18);border-radius:22px;background:rgba(255,255,255,.03)">
+        <div class="a bebas" style="left:22px;top:18px;font-size:44px;color:var(--hot)">0${n}</div>
+        <div class="a c emoji" style="top:120px;font-size:${e.length > 3 ? 92 : 120}px;line-height:1">${e}</div>
+        <div class="a" style="left:40px;right:40px;bottom:40px;border-bottom:3px dashed rgba(244,236,225,.35)"></div></div>`; }).join('') +
+    `<div class="a c mont" style="top:1140px;font-size:26px;font-weight:500">Comment your answers <span class="emoji">👇🏾</span></div>` + logo(470, 1200, 140) },
+  'g2-emoji-quiz-answers': { w: 1080, h: 1350, html: () => stage(1080, 1350, .06) +
+    `<div class="a c bebas" style="top:80px;font-size:128px">HOW DID YOU DO?</div>` +
+    [['🤒', 'FEVER'], ['🫚', 'GINGER'], ['😁', 'SMILE'], ['🙏🏾', 'BLESSED'], ['🌸🧴', 'ESSENCE'], ['📣👦🏾', 'HOLLA AT YOUR BOY']].map(([e, s], i) =>
+      `<div class="a" style="left:120px;right:120px;top:${270 + i * 128}px;height:108px;display:flex;align-items:center;gap:40px;border-bottom:1px solid rgba(244,236,225,.16)">
+        <span class="emoji" style="font-size:64px;width:170px;text-align:center">${e}</span><span class="bebas" style="font-size:84px">${s}</span></div>`).join('') +
+    `<div class="a c thin" style="top:1080px;font-size:40px;font-weight:300">Learn them all before</div><div class="a c bebas" style="top:1130px;font-size:72px;color:var(--hot)">13 DEC · EAGLE SQUARE</div>` + foot(1080, 1244, 24) },
+
+  ...Object.fromEntries([['SING EVERY WORD', 'RECORD EVERY SONG'], ['OUTFIT PLANNED', 'LAST-MINUTE FIT'], ['OJUELEGBA', 'ESSENCE']].map(([a, b], i) => [`g3-this-or-that-${i + 1}`, { w: 1080, h: 1920, html: () =>
+    `<div class="a" style="left:0;right:0;top:0;height:960px;background:linear-gradient(160deg,#1a1716,#0b0b0b)"></div>
+     <div class="a" style="left:0;right:0;top:960px;height:960px;background:linear-gradient(160deg,#E8561B,#B83C10)"></div>
+     <div class="a c mont" style="top:230px;font-size:30px;color:var(--gold)">THIS OR THAT · ${i + 1}/3</div>
+     <div class="a c bebas" style="top:430px;font-size:${a.length > 12 ? 140 : 190}px">${a}</div>
+     <div class="a c bebas" style="top:1270px;font-size:${b.length > 12 ? 140 : 190}px;color:var(--ink)">${b}</div>
+     <div class="a" style="left:440px;top:860px;width:200px;height:200px;border-radius:50%;background:var(--cream);display:flex;align-items:center;justify-content:center" ><span class="bebas" style="font-size:96px;color:var(--ink)">OR</span></div>
+     ${logo(440, 1660, 200)}` }])),
+
+  'g4-festival-bingo': { w: 1080, h: 1920, html: () => stage(1080, 1920, .06) +
+    word(320, 210, 440) + `<div class="a c bebas" style="top:340px;font-size:150px">FESTIVAL BINGO</div>
+    <div class="a c mont" style="top:500px;font-size:26px;font-weight:500">Screenshot · tick yours · share & tag your squad</div>` +
+    ['BOUGHT MY TICKET', 'OUTFIT SORTED', 'SQUAD CONFIRMED', 'KNOW EVERY WORD OF OJUELEGBA', 'LEARNED JOGODO', 'POWER BANK CHARGED', 'RIDE PLANNED', 'TOLD THE GROUP CHAT', 'MATCHING FITS', 'SAVED THE DATE', 'FIRST TIME AT EAGLE SQUARE', 'SEEN WIZ LIVE BEFORE', 'BOUGHT ONE FOR BAE', 'WATCHED THE HYPE REEL', 'BOUGHT ONE FOR MY BESTIE', 'COUNTING DOWN']
+      .map((s, i) => { const c = i % 4, r = Math.floor(i / 4), x = 70 + c * 240, y = 590 + r * 240, free = i === 5;
+        const lab = free ? '<span class="bebas" style="font-size:64px;color:var(--ink)">13 DEC</span><span class="mont" style="font-size:14px;color:var(--ink);letter-spacing:2px">FREE</span>' : `<span class="mont" style="font-size:19px;font-weight:700;letter-spacing:1px;line-height:1.3">${s}</span>`;
+        return `<div class="a" style="left:${x}px;top:${y}px;width:220px;height:220px;border-radius:18px;${free ? 'background:var(--gold)' : 'border:2px solid rgba(244,236,225,.3);background:rgba(255,255,255,.03)'};display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:16px;box-sizing:border-box">${lab}</div>`; }).join('') +
+    logo(470, 1580, 140) + foot(1080, 1770, 24) },
+
+  // ===================== FEED · STILL =====================
+  'f05-the-facts-1': { w: 1080, h: 1350, html: () => stage(1080, 1350) +
+    `<img class="a" src="${OFF}wizkid-cutout.png" style="left:150px;top:230px;width:780px;filter:brightness(.92)">` + word(90, 90, 900) +
+    `<div class="a" style="left:0;right:0;top:860px;bottom:0;background:linear-gradient(rgba(7,7,7,0),#070707 45%)"></div>
+     <div class="a c bebas" style="top:1010px;font-size:150px">THE FACTS</div><div class="a c thin" style="top:1150px;font-size:44px;font-weight:300;color:var(--tan)">EVERYTHING YOU NEED · SWIPE →</div>` },
+  'f05-the-facts-2': { w: 1080, h: 1350, html: () => stage(1080, 1350) +
+    [['WHAT', 'LIVE OUT LOUD MUSIC FESTIVAL'], ['WHO', 'WIZKID'], ['WHEN', 'SUNDAY 13 DECEMBER 2026'], ['WHERE', 'EAGLE SQUARE, ABUJA'], ['TICKETS', URL_]].map(([k, v], i) =>
+      `<div class="a" style="left:90px;right:90px;top:${140 + i * 210}px;border-top:1px solid rgba(244,236,225,.2);padding-top:26px">
+        <div class="mont" style="font-size:22px;color:var(--hot)">${k}</div><div class="bebas" style="font-size:${v.length > 22 ? 78 : 104}px;margin-top:10px;${k === 'TICKETS' ? 'color:var(--gold)' : ''}">${v}</div></div>`).join('') + logo(470, 1200, 140) },
+
+  'f06-wave-1-sold-out': { w: 1080, h: 1350, html: () => stage(1080, 1350) +
+    `<img class="a" src="${OFF}wizkid-cutout.png" style="left:180px;top:260px;width:720px;filter:brightness(.55) grayscale(.4)">` + word(140, 80, 800) +
+    `<div class="a c bebas" style="top:640px;font-size:190px;transform:rotate(-6deg)"><span style="border:12px solid var(--hot);color:var(--hot);padding:6px 36px 0;border-radius:18px;background:rgba(7,7,7,.6)">SOLD OUT</span></div>
+     <div class="a c bebas" style="top:930px;font-size:110px">STANDARD WAVE 1</div>
+     <div class="a c thin" style="top:1050px;font-size:48px;font-weight:300">Don't wait for the next one.</div>` + foot(1080, 1220, 28) },
+
+  'f07-tag-your-squad': { w: 1080, h: 1350, html: () => stage(1080, 1350, .1) +
+    `<div class="a c thin" style="top:150px;font-size:76px">TAG THE</div><div class="a c bebas" style="top:236px;font-size:300px;color:var(--hot)">4</div>
+     <div class="a c bebas" style="top:470px;font-size:96px;line-height:.95">PEOPLE YOU'RE<br>PULLING UP WITH</div>` +
+    [0, 1, 2, 3].map(i => `<div class="a" style="left:${110 + i * 220}px;top:760px;width:200px;height:300px;border-radius:16px;background:var(--cream);color:var(--ink);transform:rotate(${(i - 1.5) * 4}deg)">
+      <div class="a c bebas" style="top:30px;font-size:30px;color:var(--hot)">ADMIT ONE</div><div class="a c bebas" style="top:80px;font-size:86px">13</div><div class="a c bebas" style="top:160px;font-size:40px">DEC</div>
+      <div class="a" style="left:20px;right:20px;top:228px;border-top:3px dashed rgba(11,11,11,.35)"></div><div class="a c mont" style="top:246px;font-size:18px">@ __________</div></div>`).join('') +
+    logo(470, 1150, 140) },
+
+  'f08-which-era': { w: 1080, h: 1350, html: () => stage(1080, 1350, .05) +
+    `<div class="a c bebas" style="top:70px;font-size:140px">WHICH WIZKID ERA</div><div class="a c bebas" style="top:200px;font-size:140px;color:var(--hot)">ARE YOU?</div>` +
+    [['SUPERSTAR', 2011], ['AYO', 2014], ['SOUNDS FROM THE OTHER SIDE', 2017], ['MADE IN LAGOS', 2020], ['MORE LOVE, LESS EGO', 2022], ['MORAYO', 2024]].map(([a, y], i) => {
+      const x = 70 + (i % 2) * 480, top = 380 + Math.floor(i / 2) * 250;
+      return `<div class="a" style="left:${x}px;top:${top}px;width:460px;height:230px;border-radius:20px;border:2px solid rgba(244,236,225,.2);background:rgba(255,255,255,.03)">
+        <div class="a bebas" style="left:30px;top:24px;font-size:56px;color:var(--gold)">${y}</div>
+        <div class="a bebas" style="left:30px;right:30px;bottom:26px;font-size:${a.length > 14 ? 52 : 74}px">${a}</div></div>`; }).join('') +
+    `<div class="a c mont" style="top:1160px;font-size:26px;font-weight:500">Drop your era in the comments <span class="emoji">⬇️</span></div>` + logo(490, 1220, 100) },
+
+  'f09-partners': { w: 1080, h: 1350, html: () => stage(1080, 1350, .05) +
+    `<div class="a c thin" style="top:110px;font-size:64px">THANK YOU TO OUR</div><div class="a c bebas" style="top:190px;font-size:180px">PARTNERS</div>` +
+    SPONS.map((s, i) => { const cols = i < 12 ? 3 : 1, c = i % 3, r = Math.floor(i / 3), x = i < 12 ? 90 + c * 310 : 395, y = 440 + r * 150;
+      return `<div class="a" style="left:${x}px;top:${y}px;width:290px;height:130px;display:flex;align-items:center;justify-content:center"><img src="assets/sponsors/${s}.png" style="max-width:220px;max-height:96px"></div>`; }).join('') +
+    `<div class="a c bebas" style="top:1180px;font-size:58px;color:var(--hot)">13 DEC · EAGLE SQUARE, ABUJA</div>` },
+
+  'f10-save-the-date': { w: 1080, h: 1350, html: () => {
+    let days = ''; const start = 2; // 1 Dec 2026 is a Tuesday (Mon-first grid)
+    for (let d = 1; d <= 31; d++) { const idx = start - 1 + d - 1, c = idx % 7, r = Math.floor(idx / 7), hit = d === 13;
+      days += `<div class="a bebas" style="left:${110 + c * 124}px;top:${560 + r * 112}px;width:110px;height:100px;display:flex;align-items:center;justify-content:center;font-size:${hit ? 78 : 58}px;${hit ? 'color:var(--ink);background:var(--hot);border-radius:50%' : 'color:rgba(244,236,225,.55)'}">${d}</div>`; }
+    return stage(1080, 1350, .05) + `<div class="a c thin" style="top:110px;font-size:70px">SAVE THE</div><div class="a c bebas" style="top:180px;font-size:220px">DATE</div>
+      <div class="a c bebas" style="top:410px;font-size:66px;color:var(--gold)">DECEMBER 2026</div>` +
+      ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'].map((d, i) => `<div class="a mont" style="left:${110 + i * 124}px;width:110px;text-align:center;top:500px;font-size:18px;color:var(--tan)">${d}</div>`).join('') + days +
+      `<div class="a c mont" style="top:1180px;font-size:26px;font-weight:500">Tap save <span class="emoji">📌</span> so you don't forget</div>` + foot(1080, 1250, 24); } },
+
+  // ===================== FEED · MOTION (1080x1920 reels) =====================
+  'f01-countdown': { w: 1080, h: 1920, dur: 8, html: () => stage(1080, 1920, .2) + word(140, 230, 800) +
+    `<div class="a c bebas" id="n" style="top:560px;font-size:620px"></div><div class="a c bebas" id="d" style="top:1100px;font-size:170px;color:var(--hot)">DAYS TO GO</div>
+     <div class="a c thin" id="l" style="top:1290px;font-size:64px;font-weight:300">LIVE IN ABUJA · 13 DEC</div>` + logo(410, 1430, 260) + foot(1080, 1740, 30),
+    render(t) { const v = t < 2.6 ? Math.round(100 - 65 * eo(P(t, 0, 2.6))) : 35; $('n').textContent = v;
+      const hit = P(t, 2.6, .25); $('n').style.transform = `scale(${t < 2.6 ? 1 : 1 + .12 * (1 - eb(hit))})`; $('n').style.color = t >= 2.6 ? 'var(--cream)' : 'rgba(244,236,225,.55)';
+      ['d', 'l'].forEach((id, i) => { const p = eo(P(t, 2.8 + i * .25, .5)); $(id).style.opacity = p; $(id).style.transform = `translateY(${(1 - p) * 40}px)`; }); } },
+
+  'f02-artist-teaser': { w: 1080, h: 1920, dur: 9, html: () => `<img class="a" id="v" style="left:0;top:0;width:1080px;height:1920px;object-fit:cover">
+    <div class="a" style="inset:0;background:linear-gradient(rgba(0,0,0,.35),rgba(0,0,0,0) 30%,rgba(0,0,0,0) 65%,rgba(0,0,0,.6))"></div>
+    <div class="a c bebas" id="k1" style="top:300px;font-size:240px">13.12</div><div class="a c bebas" id="k2" style="top:1440px;font-size:150px">EAGLE SQUARE</div>
+    <div class="a" id="end" style="inset:0">${stage(1080, 1920, .2)}${word(140, 420, 800)}${logo(330, 740, 420)}<div class="a c bebas" style="top:1170px;font-size:150px">13 DEC 2026</div>${foot(1080, 1360, 30)}</div>`,
+    render(t) { const walk = t < 3, pyro = t >= 3 && t < 5.1;
+      if (walk) $('v').src = `assets/clips/walk/f${String(Math.min(90, 1 + Math.floor(t * 30))).padStart(3, '0')}.jpg`;
+      if (pyro) $('v').src = `assets/clips/pyro/f${String(Math.min(63, 1 + Math.floor((t - 3) * 30))).padStart(3, '0')}.jpg`;
+      $('k1').style.opacity = t >= 1.2 && t < 3 ? 1 : 0; $('k2').style.opacity = t >= 3.6 && t < 5.1 ? 1 : 0;
+      const e = $('end'); e.style.display = t >= 5.1 ? 'block' : 'none'; e.style.opacity = eo(P(t, 5.1, .2)); } },
+
+  'f03-how-to-buy': { w: 1080, h: 1920, dur: 9, html: () => stage(1080, 1920, .15) +
+    `<div class="a c thin" style="top:240px;font-size:80px">HOW TO GET YOUR</div><div class="a c bebas" style="top:330px;font-size:230px;color:var(--hot)">TICKET</div>` +
+    [['1', 'GO TO', URL_], ['2', 'PICK YOUR', 'TICKET TYPE'], ['3', 'CHECK YOUR', 'EMAIL']].map(([n, a, b], i) =>
+      `<div class="a" id="s${i}" style="left:110px;right:110px;top:${640 + i * 330}px;height:290px;display:flex;align-items:center;gap:50px;border-top:1px solid rgba(244,236,225,.2)">
+        <span class="bebas" style="font-size:240px;color:var(--gold);width:140px">${n}</span><span><span class="thin" style="font-size:56px;font-weight:300;display:block">${a}</span><span class="${i ? 'bebas' : 'url'}" style="font-size:${i ? 120 : 62}px;display:block">${b}</span></span></div>`).join('') +
+    logo(420, 1660, 240),
+    render(t) { [0, 1, 2].forEach(i => { const p = ex(P(t, .6 + i * 1.6, .45)); $('s' + i).style.opacity = p; $('s' + i).style.transform = `translateX(${(1 - p) * 140}px)`; }); } },
+
+  'f04-abuja-are-you-ready': { w: 1080, h: 1920, dur: 8, html: () =>
+    `<img class="a" id="bg" src="${OFF}aerial-crowd.jpg" style="left:-200px;top:0;width:1480px;height:1920px;object-fit:cover;filter:brightness(.55)">
+     <div class="a" style="inset:0;background:linear-gradient(rgba(7,7,7,.2),rgba(7,7,7,.75))"></div>` +
+    ['ABUJA,', 'ARE', 'YOU', 'READY?'].map((w, i) => `<div class="a c bebas" id="w${i}" style="top:${360 + i * 270}px;font-size:${i === 3 ? 330 : 300}px;${i === 3 ? 'color:var(--hot)' : ''}">${w}</div>`).join('') +
+    `<div class="a" id="end" style="inset:0">${stage(1080, 1920, .2)}${logo(330, 560, 420)}<div class="a c bebas" style="top:1010px;font-size:150px">WIZKID · 13 DEC</div><div class="a c bebas" style="top:1150px;font-size:96px;color:var(--tan)">EAGLE SQUARE</div>${foot(1080, 1360, 30)}</div>`,
+    render(t) { $('bg').style.transform = `scale(${1 + t * .02}) translateX(${t * 14}px)`;
+      [0, 1, 2, 3].forEach(i => { const at = .4 + i * .6, p = eb(P(t, at, .3)); const e = $('w' + i); e.style.opacity = t >= at ? 1 : 0; e.style.transform = `scale(${1.6 - .6 * p})`; });
+      const e = $('end'); e.style.display = t >= 4.6 ? 'block' : 'none'; e.style.opacity = eo(P(t, 4.6, .3)); } },
+};
+
+const id = new URLSearchParams(location.search).get('id') || 'g1-word-hunt';
+const comp = C[id];
+const root = $('c'); root.style.width = comp.w + 'px'; root.style.height = comp.h + 'px';
+root.innerHTML = comp.html() + '<div class="grain"></div>';
+window.COMP = { id, w: comp.w, h: comp.h, dur: comp.dur || 0, ids: Object.keys(C).map(k => [k, C[k].dur || 0]) };
+window.renderAt = t => comp.render && comp.render(t);
+window.ready = Promise.all([document.fonts.load('80px Bebas'), document.fonts.load('200 40px Oswald'), document.fonts.load('300 40px Oswald'), document.fonts.load('700 20px Mont'), document.fonts.load('800 20px Mont'), document.fonts.load('40px "Noto Color Emoji"', '🤒🫚')])
+  .then(() => document.fonts.ready).then(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))));
+renderAt(0);
+</script></body></html>

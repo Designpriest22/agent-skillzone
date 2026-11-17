@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>LOL × Wizkid — 25s ad</title>
+<style>
+@font-face { font-family: "Anton"; src: url(assets/fonts/anton-latin-400-normal.woff2); }
+@font-face { font-family: "Marker"; src: url(assets/fonts/permanent-marker-latin-400-normal.woff2); }
+@font-face { font-family: "Mont"; src: url(assets/fonts/montserrat-latin-800-normal.woff2); font-weight: 800; }
+@font-face { font-family: "Play"; src: url(assets/fonts/playfair-display-latin-900-normal.woff2); font-weight: 900; }
+@font-face { font-family: "PlayI"; src: url(assets/fonts/playfair-display-latin-700-italic.woff2); font-style: italic; }
+:root { --paper: #ECE4D6; --ink: #141210; --hot: #E8561B; --gold: #F2B657; --cream: #F4ECE1; }
+html, body { margin: 0; background: #000; }
+#v { position: relative; overflow: hidden; background: var(--paper); }
+.sc { position: absolute; inset: 0; display: none; overflow: hidden; }
+.a { position: absolute; }
+.anton { font-family: Anton; line-height: .84; white-space: nowrap; text-transform: uppercase; }
+.mk { font-family: Marker; white-space: nowrap; }
+.mont { font-family: Mont; font-weight: 800; letter-spacing: .28em; white-space: nowrap; }
+.dots { position: absolute; inset: 0; mix-blend-mode: multiply; background: radial-gradient(circle, rgba(0,0,0,.55) 1.1px, rgba(0,0,0,0) 1.8px) 0 0 / 6px 6px; }
+.tape { position: absolute; background: rgba(232,222,196,.82); box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+.shadow { filter: drop-shadow(4px 8px 10px rgba(0,0,0,.45)); }
+svg.draw { position: absolute; inset: 0; overflow: visible; pointer-events: none; }
+svg.draw path { fill: none; stroke-linecap: round; stroke-linejoin: round; }
+#grain { position: absolute; inset: -50px; pointer-events: none; opacity: .13; mix-blend-mode: multiply; z-index: 50;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)'/%3E%3C/svg%3E"); }
+#flash { position: absolute; inset: 0; background: #fff; opacity: 0; z-index: 60; }
+#wipe { position: absolute; z-index: 55; display: none; }
+</style></head>
+<body><div id="v"></div>
+<script>
+// ---------- format ----------
+const FMT = { story: [1080, 1920, { x: 60, y: 250, w: 960, h: 1370 }], feed: [1080, 1350, { x: 60, y: 70, w: 960, h: 1210 }],
+              square: [1080, 1080, { x: 60, y: 60, w: 960, h: 960 }], wide: [1920, 1080, { x: 110, y: 70, w: 1700, h: 940 }] };
+const fk = new URLSearchParams(location.search).get('f') || 'story';
+const [W, H, SB] = FMT[fk]; const L = W > H;
+const V = document.getElementById('v'); V.style.width = W + 'px'; V.style.height = H + 'px';
+const FPS = 30, BEAT = .5;
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const P = (t, a, d) => clamp((t - a) / d);
+const eo = p => 1 - Math.pow(1 - p, 3), ex = p => p >= 1 ? 1 : 1 - Math.pow(2, -10 * p);
+const eio = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+const eb = p => { const s = 1.7; return 1 + (s + 1) * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2); };
+const $ = id => document.getElementById(id);
+function rnd(seed) { let s = (seed * 2654435761) % 4294967296; return () => { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; }; }
+
+// ---------- type fitting ----------
+const cv = document.createElement('canvas').getContext('2d');
+function fit(text, font, maxW, maxH, ls = 0) { cv.font = `100px ${font}`; const w = cv.measureText(text).width / 100 + ls * (text.length - 1); return Math.min(maxW / w, maxH); }
+
+// ---------- torn paper ----------
+function torn(w, h, seed, amp = 9, step = 16) {
+  const r = rnd(seed), pts = [];
+  for (let x = 0; x <= w; x += step) pts.push([x, r() * amp]);
+  for (let y = 0; y <= h; y += step) pts.push([w - r() * amp, y]);
+  for (let x = w; x >= 0; x -= step) pts.push([x, h - r() * amp]);
+  for (let y = h; y >= 0; y -= step) pts.push([r() * amp, y]);
+  return `polygon(${pts.map(([x, y]) => `${x.toFixed(1)}px ${y.toFixed(1)}px`).join(',')})`;
+}
+const tape = (x, y, w, rot, seed) => `<div class="tape" style="left:${x}px;top:${y}px;width:${w}px;height:${w * .32}px;transform:rotate(${rot}deg);clip-path:${torn(w, w * .32, seed, 5, 7)}"></div>`;
+
+// ---------- hand-drawn strokes ----------
+function smooth(p) {
+  let d = `M${p[0][0].toFixed(1)},${p[0][1].toFixed(1)}`;
+  for (let i = 0; i < p.length - 1; i++) { const a = p[i - 1] || p[i], b = p[i], c = p[i + 1], e = p[i + 2] || c;
+    d += ` C${(b[0] + (c[0] - a[0]) / 6).toFixed(1)},${(b[1] + (c[1] - a[1]) / 6).toFixed(1)} ${(c[0] - (e[0] - b[0]) / 6).toFixed(1)},${(c[1] - (e[1] - b[1]) / 6).toFixed(1)} ${c[0].toFixed(1)},${c[1].toFixed(1)}`; }
+  return d;
+}
+const SHAPES = {
+  circle(p, r) { const pts = [], n = 44, turns = p.turns || 1.22, a0 = -2.4 + r() * .3;
+    for (let i = 0; i <= n; i++) { const k = i / n, a = a0 + k * Math.PI * 2 * turns, j = 1 + (r() - .5) * .05 + k * .07; pts.push([p.cx + Math.cos(a) * p.rx * j, p.cy + Math.sin(a) * p.ry * j]); }
+    return smooth(pts); },
+  under(p, r) { const pts = []; for (let i = 0; i <= 8; i++) { const k = i / 8; pts.push([p.x1 + (p.x2 - p.x1) * k + (r() - .5) * 4, p.y + Math.sin(k * Math.PI * 1.6) * p.amp * (.7 + r() * .5) - k * p.amp * .6]); } return smooth(pts); },
+  arrow(p, r) { const bx = (p.x1 + p.x2) / 2 + (p.bend || 0) * (p.y2 - p.y1), by = (p.y1 + p.y2) / 2 - (p.bend || 0) * (p.x2 - p.x1), pts = [];
+    for (let i = 0; i <= 12; i++) { const k = i / 12; pts.push([(1 - k) ** 2 * p.x1 + 2 * (1 - k) * k * bx + k * k * p.x2 + (r() - .5) * 3, (1 - k) ** 2 * p.y1 + 2 * (1 - k) * k * by + k * k * p.y2 + (r() - .5) * 3]); }
+    const q = pts[10], an = Math.atan2(p.y2 - q[1], p.x2 - q[0]), hl = p.head || 40;
+    return smooth(pts) + ` M${p.x2 - Math.cos(an - .55) * hl},${p.y2 - Math.sin(an - .55) * hl} L${p.x2},${p.y2} L${p.x2 - Math.cos(an + .55) * hl},${p.y2 - Math.sin(an + .55) * hl}`; },
+  check(p, r) { const s = p.s, j = () => (r() - .5) * s * .08; return `M${p.x - s * .45 + j()},${p.y + j()} L${p.x - s * .1 + j()},${p.y + s * .38 + j()} Q${p.x + s * .2},${p.y - s * .1} ${p.x + s * .6 + j()},${p.y - s * .6 + j()}`; },
+  burst(p, r) { let d = ''; for (let i = 0; i < p.n; i++) { const a = p.a0 + (i / p.n) * (p.span || Math.PI * 2) + (r() - .5) * .12, r1 = p.r1 * (.9 + r() * .2), r2 = p.r2 * (.8 + r() * .35);
+    d += `M${p.cx + Math.cos(a) * r1},${p.cy + Math.sin(a) * r1} L${p.cx + Math.cos(a) * r2},${p.cy + Math.sin(a) * r2} `; } return d; },
+  spark(p, r) { let d = ''; for (let i = 0; i < 4; i++) { const a = i * Math.PI / 4 + (r() - .5) * .2, s = p.s * (i % 2 ? .55 : 1);
+    d += `M${p.x - Math.cos(a) * s},${p.y - Math.sin(a) * s} L${p.x + Math.cos(a) * s},${p.y + Math.sin(a) * s} `; } return d; },
+  zig(p, r) { const pts = [], n = p.n || 8; for (let i = 0; i <= n; i++) pts.push([p.x1 + (p.x2 - p.x1) * i / n + (r() - .5) * 4, p.y + (i % 2 ? -p.amp : p.amp) + (r() - .5) * 4]); return 'M' + pts.map(q => q.join(',')).join(' L'); },
+  scrib(p, r) { const pts = []; for (let i = 0; i <= p.n; i++) { const k = i / p.n; pts.push([p.x + (i % 2 ? p.w : 0) + (r() - .5) * 10, p.y + k * p.h + (r() - .5) * 6]); } return smooth(pts); },
+};
+const DR = [];   // {el, shape, p, a, d, seed, scene}
+function stroke(sc, shape, p, a, d, color, w, opts = {}) { const id = 'd' + DR.length; DR.push({ id, shape, p, a, d, seed: DR.length * 7 + 3, sc, spray: opts.spray });
+  return `<path id="${id}" pathLength="1" stroke="${color}" stroke-width="${w}" ${opts.spray ? 'filter="url(#spray)"' : 'filter="url(#rough)"'} stroke-dasharray="1" stroke-dashoffset="1"/>`; }
+const svg = inner => `<svg class="draw" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${inner}</svg>`;
+
+const FONTS = Promise.all([document.fonts.load('100px Anton'), document.fonts.load('100px Marker'), document.fonts.load('800 40px Mont'), document.fonts.load('italic 40px PlayI')]).then(() => document.fonts.ready);
+function main() {
+// ---------- layout helpers ----------
+const cx = W / 2, cy = H / 2, S = SB, U = Math.min(W, H) / 1080;
+const text = (id, cls, str, x, y, size, color, extra = '') => `<div class="a ${cls}" id="${id}" style="left:${x}px;top:${y}px;font-size:${size}px;color:${color};${extra}">${str}</div>`;
+const center = (id, cls, str, y, size, color, extra = '', x0 = 0, x1 = W) => `<div class="a ${cls}" id="${id}" style="left:${x0}px;width:${x1 - x0}px;text-align:center;top:${y}px;font-size:${size}px;color:${color};${extra}">${str}</div>`;
+
+let html = `<svg width="0" height="0" style="position:absolute"><defs>
+  <filter id="rough" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><feTurbulence id="rt" type="fractalNoise" baseFrequency="0.04" numOctaves="2" seed="2"/><feDisplacementMap in="SourceGraphic" scale="${6 * U}"/></filter>
+  <filter id="spray" filterUnits="userSpaceOnUse" x="0" y="0" width="${W}" height="${H}"><feTurbulence id="st" type="fractalNoise" baseFrequency="0.7" numOctaves="1" seed="5" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="${16 * U}"/><feGaussianBlur stdDeviation="${1.3 * U}"/></filter>
+</defs></svg>`;
+
+// ===== S1 0–3 · WIZZEMBER =====
+{ const ws = fit('WIZZEMBER', 'Anton', S.w, L ? S.h * .44 : S.h * .26), wy = S.y + (L ? S.h * .06 : S.h * .14);
+  const ts = fit('IN ABUJA', 'Anton', S.w * .62, L ? S.h * .2 : S.h * .13); cv.font = `${ts}px Anton`; const tw = cv.measureText('IN ABUJA').width + ts * .5, th = ts * 1.15;
+  const tx = cx - tw / 2 + (L ? S.w * .12 : S.w * .06), ty = wy + ws * .86 + S.h * .05;
+  const ds = Math.min(ts * .72, S.w * .12);
+  html += `<div class="sc" id="s1">
+    <div class="a" style="left:${-W * .1}px;top:${-H * .05}px;width:${W * .75}px;height:${H * .5}px;opacity:.22;transform:rotate(-7deg);background:url(assets/crowd-duo.jpg) 30% 40%/220% auto;clip-path:${torn(W * .75, H * .5, 81, 10, 18)}"></div>
+    <div class="a" style="left:${W * .45}px;top:${H * .5}px;width:${W * .7}px;height:${H * .45}px;opacity:.2;transform:rotate(9deg);background:url(assets/crowd-duo.jpg) 70% 70%/220% auto;clip-path:${torn(W * .7, H * .45, 82, 10, 18)}"></div>
+    ${center('s1lab', 'mont', 'SPECIAL EDITION · LIVE OUT LOUD', S.y + (L ? 0 : S.h * .03), 20 * U * (L ? 1.1 : 1.25), 'var(--ink)')}
+    ${center('s1w', 'anton', 'WIZZEMBER', wy, ws, 'var(--ink)')}
+    <div class="a" id="s1blk" style="left:${tx - tw * .12}px;top:${ty - th * .1}px;width:${tw * 1.24}px;height:${th * 1.2}px;background:var(--hot);transform-origin:0 50%;clip-path:${torn(tw * 1.24, th * 1.2, 11, 12, 18)}"></div>
+    ${text('s1t', 'anton', 'IN ABUJA', tx, ty + th * .08, ts, 'var(--cream)', 'transform-origin:50% 50%')}
+    ${tape(tx - tw * .1, ty - th * .2, tw * .28, -18, 4)}
+    ${text('s1d', 'mk', '13.12.2026', cx - ds * 2.6, ty + th * 1.35 + S.h * .02, ds, 'var(--ink)', 'transform:rotate(-4deg)')}
+    ${svg(stroke(1, 'circle', { cx: tx + tw * .5, cy: ty + th * .55, rx: tw * .66, ry: th * .95 }, 1.1, .5, 'var(--ink)', 9 * U) +
+       stroke(1, 'under', { x1: cx - ds * 2.6, x2: cx + ds * 2.7, y: ty + th * 1.35 + S.h * .02 + ds * 1.25, amp: 10 * U }, 1.9, .35, 'var(--hot)', 10 * U) +
+       stroke(1, 'spark', { x: cx - S.w * .44, y: wy - 10 * U, s: 34 * U }, 2.0, .2, 'var(--hot)', 8 * U) +
+       stroke(1, 'spark', { x: cx + S.w * .45, y: wy + ws * .95, s: 28 * U }, 2.15, .2, 'var(--ink)', 7 * U) +
+       stroke(1, 'burst', { cx: cx + S.w * .4, cy: S.y + S.h * (L ? .92 : .86), r1: 30 * U, r2: 80 * U, n: 9, a0: 0 }, 2.25, .3, 'var(--ink)', 7 * U))}
+  </div>`; }
+
+// ===== S2 3–6 · BIG WIZ =====
+{ const ch = L ? H * 1.05 : Math.min(S.h, H * .62), cw = ch * 1594 / 2000, cxl = L ? W * .53 : cx, ctop = H - ch * .8;
+  const hx = cxl - cw / 2 + cw * .52, hy = ctop + ch * .15;
+  const bs = L ? fit('BIG WIZ', 'Anton', W * .96, H * .52) : fit('BIG', 'Anton', W * .95, S.h * .33);
+  const by = L ? H * .2 : S.y + S.h * .02;
+  const pw = L ? S.w * .2 : S.w * .38, ph = pw * 1.25, px = L ? S.x : S.x - 10 * U, py = L ? S.y + S.h * .4 : S.y + S.h * .6;
+  const wmw = L ? S.w * .4 : S.w * .86, wmy = L ? S.y + S.h * .86 : S.y + S.h - wmw * .27;
+  html += `<div class="sc" id="s2" style="background:var(--hot)">
+    ${L ? center('s2b', 'anton', 'BIG WIZ', by, bs, 'var(--cream)') : center('s2b', 'anton', 'BIG', by, bs, 'var(--cream)') + center('s2c', 'anton', 'WIZ', by + bs * .86, bs, 'var(--cream)')}
+    <img class="a" id="s2p" src="assets/wizkid-halftone.png" style="left:${cxl - cw / 2}px;top:${ctop}px;width:${cw}px">
+    ${svg(stroke(2, 'burst', { cx: hx, cy: hy, r1: ch * .16, r2: ch * .27, n: 14, a0: -Math.PI * .95, span: Math.PI * .9 }, 3.75, .4, 'var(--cream)', 10 * U, { spray: 1 }) +
+       stroke(2, 'arrow', { x1: px + pw * .9, y1: py - 20 * U, x2: hx - ch * .14, y2: hy + ch * .06, bend: .25, head: 34 * U }, 4.35, .4, 'var(--ink)', 8 * U))}
+    <div class="a shadow" id="s2f" style="left:${px}px;top:${py}px;width:${pw}px;height:${ph + pw * .2}px;background:#F2EEE6;padding:${pw * .06}px;box-sizing:border-box;transform-origin:50% 0">
+      <div style="position:relative;width:100%;height:${ph}px;overflow:hidden;background:#000"><img id="s2v" style="width:100%;height:100%;object-fit:cover;filter:grayscale(1) contrast(1.5)"><div class="dots"></div></div>
+      <div class="mk" style="font-size:${pw * .11}px;color:var(--ink);text-align:center;margin-top:${pw * .02}px">abuja, 13.12 ✶</div></div>
+    ${tape(px + pw * .3, py - pw * .08, pw * .42, 4, 21)}
+    ${text('s2l', 'mk', 'LIVE!', px + pw * .55, py - pw * .52, pw * .34, 'var(--ink)', 'transform:rotate(-8deg)')}
+    <img class="a" id="s2wm" src="assets/wizkid-wordmark.png" style="left:${L ? W - S.x - wmw : cx - wmw / 2}px;top:${wmy}px;width:${wmw}px;filter:drop-shadow(0 6px 0 var(--ink))">
+  </div>`; }
+
+// ===== S3 6–9 · PULL UP WITH THE LOUD GANG (stop motion) =====
+{ const wh = L ? H * .98 : H * ({ story: .68, feed: .74, square: .76 }[fk]), ww = wh * .7998;
+  const wx = L ? S.x + S.w * .74 - ww / 2 : cx - ww / 2 + S.w * .12, wy = H - wh;
+  const colW = L ? S.w * .5 : S.w;
+  const pS = L ? S.h * .1 : S.w * .085, gS = L ? fit('THE LOUD', 'Anton', colW, S.h * .3) : fit('THE LOUD', 'Anton', S.w * .96, S.h * ({ story: .19, feed: .15, square: .14 }[fk]));
+  const y0 = S.y + (L ? S.h * .06 : 0), yA = y0 + pS * 1.25, yB = yA + gS * .86, yT = yB + gS * .9;
+  const tS = L ? S.h * .09 : S.w * .08;
+  const crH = L ? H * .36 : H * .3, crW = W * 1.12;
+  html += `<div class="sc" id="s3" style="background:radial-gradient(90% 70% at 50% 40%, #F06A28, #C7400F)">
+    <div class="a" id="s3cr" style="left:${-W * .06}px;top:${H - crH}px;width:${crW}px;height:${crH + 40 * U}px;clip-path:${torn(crW, crH + 40 * U, 41, 16, 22)};background:url(assets/crowd-sketch.png) 50% 0/cover"></div>
+    ${tape(W * .12, H - crH - 14 * U, W * .14, -7, 42)}${tape(W * .74, H - crH - 10 * U, W * .12, 6, 43)}
+    <img class="a" id="s3w" style="left:${wx}px;top:${wy}px;width:${ww}px;height:${wh}px;filter:drop-shadow(6px 8px 0 rgba(20,16,14,.35))">
+    ${text('s3a', 'mk', 'pull up with', S.x + (L ? 0 : S.w * .02), y0, pS, 'var(--cream)', 'transform:rotate(-4deg)')}
+    ${text('s3b', 'anton', 'THE LOUD', S.x, yA, gS, 'var(--ink)')}
+    ${text('s3c', 'anton', 'GANG', S.x, yB, gS, 'var(--cream)', 'text-shadow:6px 6px 0 var(--ink)')}
+    <div class="a anton" id="s3d" style="left:${S.x + (L ? S.w * .02 : S.w * .03)}px;top:${yT}px;font-size:${tS}px;color:var(--cream);background:var(--ink);padding:${tS * .2}px ${tS * .4}px ${tS * .1}px;transform:rotate(-3deg)">&amp; THE FC</div>
+    ${svg((() => { cv.font = `${tS}px Anton`; const tw = cv.measureText('& THE FC').width + tS * .8, x1 = S.x + (L ? S.w * .02 : S.w * .03);
+      return stroke(3, 'circle', { cx: x1 + tw / 2, cy: yT + tS * .55, rx: tw * .66, ry: tS * 1.05 }, 7.9, .4, 'var(--cream)', 8 * U) +
+        stroke(3, 'arrow', { x1: x1 + tw * 1.25, y1: yT + tS * .4, x2: wx + ww * .32, y2: wy + wh * .2, bend: -.3, head: 30 * U }, 8.25, .35, 'var(--ink)', 8 * U); })() +
+      stroke(3, 'spark', { x: S.x + S.w * .93, y: y0 + pS * .6, s: 32 * U }, 6.6, .2, 'var(--cream)', 8 * U) +
+      stroke(3, 'burst', { cx: wx + ww * .48, cy: wy + wh * .14, r1: wh * .16, r2: wh * .25, n: 11, a0: -Math.PI * .95, span: Math.PI * .9 }, 7.25, .35, 'var(--ink)', 9 * U, { spray: 1 }))}
+  </div>`; }
+
+// ===== S4 9–12 · THIS IS LIVE OUT LOUD =====
+{ const words = L ? ['LIVE OUT', 'LOUD'] : ['LIVE', 'OUT', 'LOUD'];
+  const lw = L ? S.h * .32 : S.w * (fk === 'story' ? .44 : .3), top0 = S.y + (L ? S.h * .1 : S.h * .08);
+  const area = L ? S.h * .74 : S.y + S.h - top0 - lw * .924 - S.h * .03, lh = area / words.length;
+  const sizes = words.map(w => fit(w, 'Anton', S.w * (L ? .8 : 1), lh / .86 - 6 * U));
+
+
+  html += `<div class="sc" id="s4" style="background:radial-gradient(85% 70% at 50% 45%, #F2702E, #C63F10)">
+    ${center('s4a', 'mont', 'THIS IS', top0 - 60 * U, 30 * U, 'var(--cream)')}
+    ${words.map((w, i) => { let y = top0; for (let k = 0; k < i; k++) y += sizes[k] * .86 + 6 * U;
+      return center('s4w' + i, 'anton', w, y, sizes[i], 'transparent', `background:url(assets/crowd-gray.jpg) 50% 50%/${W * 1.6}px auto;-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:${2 * U}px rgba(20,18,16,.6)`); }).join('')}
+    <img class="a" id="s4logo" src="assets/lol-logo@3x.png" style="left:${L ? W - S.x - lw : cx - lw / 2}px;top:${L ? S.y + S.h - lw * .95 : S.y + S.h - lw * .92}px;width:${lw}px;filter:drop-shadow(0 10px 18px rgba(0,0,0,.45))">
+    ${svg((() => { let y = top0; for (let k = 0; k < words.length - 1; k++) y += sizes[k] * .86 + 6 * U; const last = sizes[words.length - 1]; cv.font = `${last}px Anton`; const lw2 = cv.measureText(words[words.length - 1]).width;
+      return stroke(4, 'under', { x1: cx - lw2 / 2, x2: cx + lw2 / 2, y: y + last * .9, amp: 12 * U }, 10.75, .3, 'var(--ink)', 12 * U); })() +
+      stroke(4, 'spark', { x: (L ? W - S.x - lw : cx - lw / 2) - 10 * U, y: (L ? S.y + S.h - lw * .95 : S.y + S.h - lw * .92) + 20 * U, s: 34 * U }, 11.2, .2, 'var(--cream)', 8 * U) +
+      stroke(4, 'spark', { x: (L ? W - S.x : cx + lw / 2) + 6 * U, y: (L ? S.y + S.h - lw * .5 : S.y + S.h - lw * .45), s: 26 * U }, 11.3, .2, 'var(--cream)', 7 * U))}
+  </div>`; }
+
+// ===== S5 12–15 · THE DROP =====
+{ const words = L ? ['13 DEC 2026'] : ['13', 'DEC', '2026'];
+  const nS = L ? [fit('13 DEC 2026', 'Anton', S.w * .92, S.h * .4)] : [fit('13', 'Anton', S.w * .7, S.h * .34), fit('DEC', 'Anton', S.w * .8, S.h * .22), fit('2026', 'Anton', S.w * .6, S.h * .14)];
+  let y = S.y + (L ? S.h * .14 : S.h * .04); const ys = nS.map(s => { const v = y; y += s * .86 + 8 * U; return v; });
+  const stw = L ? S.w * .5 : S.w * .9, sts = fit('EAGLE SQUARE, ABUJA', 'Anton', stw * .86, 90 * U), sty = L ? S.y + S.h * .72 : S.y + S.h * .86;
+  html += `<div class="sc" id="s5" style="background:var(--hot)">
+    <img class="a" id="s5v" style="left:0;top:0;width:${W}px;height:${H}px;object-fit:cover;filter:grayscale(1) brightness(1.9) contrast(1.35);mix-blend-mode:multiply">
+    <div class="dots" style="opacity:.6"></div>
+    ${(L ? [['13 DEC 2026', 0]] : [['13', 0], ['DEC', 1], ['2026', 2]]).map(([w, i]) => center('s5n' + i, 'anton', w, ys[i], nS[i], 'var(--cream)', 'text-shadow:0 8px 30px rgba(0,0,0,.5)')).join('')}
+    <div class="a" id="s5s" style="left:${cx - stw / 2}px;top:${sty}px;width:${stw}px;height:${sts * 1.35}px;background:var(--paper);clip-path:${torn(stw, sts * 1.35, 51, 8, 14)}">
+      <div class="anton" style="text-align:center;font-size:${sts}px;color:var(--ink);padding-top:${sts * .2}px">EAGLE SQUARE, ABUJA</div></div>
+    ${svg(stroke(5, 'circle', { cx, cy: ys[0] + nS[0] * .42, rx: L ? S.w * .2 : nS[0] * .62, ry: nS[0] * .58 }, 12.6, .4, 'var(--cream)', 12 * U, { spray: 1 }) +
+       stroke(5, 'zig', { x1: cx - stw * .32, x2: cx + stw * .32, y: sty + sts * 1.6, amp: 10 * U, n: 10 }, 14.1, .35, 'var(--ink)', 9 * U))}
+  </div>`; }
+
+// ===== S6 15–17.5 · THE ESSENTIALS =====
+{ const cw = L ? S.h * 1.05 : S.w * .94, chh = L ? S.h : Math.min(S.h, cw * 1.25), cxl = L ? S.x + S.w * .3 : cx, cyl = S.y + S.h / 2;
+  const x0 = cxl - cw / 2, y0 = cyl - chh / 2, rowH = chh * .14, fs = fit('COMFY SHOES', 'Marker', cw * .6, rowH * .62), ts = fit('DEC 13 ESSENTIALS', 'Anton', cw * .8, chh * .1);
+  const items = ['POWER BANK', 'COMFY SHOES', 'CARD ONLY', 'TICKET'], ry = i => y0 + chh * .26 + i * rowH * 1.18;
+  const bx = x0 + cw * .14, bs = rowH * .62;
+  html += `<div class="sc" id="s6" style="background:var(--ink)">
+    <div class="a" style="left:${W * .5}px;top:${-H * .08}px;width:${W * .65}px;height:${H * .55}px;opacity:.35;transform:rotate(12deg);background:url(assets/crowd-duo.jpg) 60% 40%/200% auto;clip-path:${torn(W * .65, H * .55, 95, 10, 18)}"></div>
+    <div class="a shadow" style="left:${x0}px;top:${y0}px;width:${cw}px;height:${chh}px;background:repeating-linear-gradient(#F5F0E6 0 ${rowH * 1.18 - 2}px, #B9CFE0 ${rowH * 1.18 - 2}px ${rowH * 1.18}px);background-position:0 ${chh * .26 + rowH * .9}px;clip-path:${torn(cw, chh, 61, 10, 18)}"></div>
+    <div class="a" style="left:${x0 + cw * .08}px;top:${y0}px;width:2px;height:${chh}px;background:#E58D8D"></div>
+    ${text('s6t', 'anton', 'DEC 13 ESSENTIALS', x0 + cw * .1, y0 + chh * .07, ts, 'var(--ink)')}
+    ${items.map((w, i) => `<div class="a" style="left:${bx}px;top:${ry(i)}px;width:${bs}px;height:${bs}px;border:${4 * U}px solid var(--ink);border-radius:${6 * U}px;box-sizing:border-box;transform:rotate(${(i % 2 ? 2 : -3)}deg)"></div>` +
+      text('s6i' + i, 'mk', w, bx + bs * 1.6, ry(i) - fs * .2, fs, i === 3 ? 'var(--hot)' : 'var(--ink)')).join('')}
+    ${text('s6q', 'mk', '?', bx + bs * .12, ry(3) - bs * .45, bs * 1.5, 'var(--hot)', 'transform:rotate(8deg)')}
+    ${svg(items.slice(0, 3).map((w, i) => stroke(6, 'check', { x: bx + bs * .5, y: ry(i) + bs * .45, s: bs * 1.1 }, 15.25 + i * .5, .22, 'var(--ink)', 9 * U)).join('') +
+      (() => { cv.font = `${fs}px Marker`; const tw = cv.measureText('TICKET').width; return stroke(6, 'circle', { cx: bx + bs * 1.6 + tw / 2, cy: ry(3) + fs * .4, rx: tw * .7, ry: fs * .85 }, 16.9, .4, 'var(--hot)', 9 * U) +
+        stroke(6, 'arrow', { x1: bx + bs * 1.6 + tw * 1.25, y1: ry(3) + fs * 1.6, x2: bx + bs * 1.6 + tw * 1.25, y2: ry(3) + fs * .6, bend: .3, head: 26 * U }, 17.1, .25, 'var(--hot)', 8 * U); })())}
+  </div>`; }
+
+// ===== S7 17.5–20 · END CARD =====
+{ const lw = L ? S.h * .62 : S.w * (fk === 'story' ? .72 : fk === 'feed' ? .52 : .42);
+  const lx = L ? S.x + S.w * .02 : cx - lw / 2, ly = L ? S.y + S.h * .2 : S.y + (fk === 'story' ? S.h * .12 : S.h * .1);
+  const colX = L ? S.x + S.w * .46 : S.x, colW = L ? S.w * .54 : S.w;
+  const wmw = L ? colW * .7 : S.w * .6, wmy = L ? S.y + S.h * .08 : S.y - (fk === 'story' ? 10 : 0) * U;
+  let ty = L ? S.y + S.h * .36 : ly + lw * .95 + S.h * .02;
+  const stw = colW * (L ? 1 : .96), sts = fit('SUN 13 DEC 2026 · EAGLE SQUARE, ABUJA', 'Anton', stw * .9, L ? 70 : 64 * U);
+  const pillS = fit('WIZKID.TIX.AFRICA', 'Mont', colW * .72, 64 * U) * .95;
+  cv.font = `800 ${pillS}px Mont`; const pw = cv.measureText('WIZKID.TIX.AFRICA').width + pillS * 1.6, ph = pillS * 2;
+  const pillX = colX + colW / 2 - pw / 2, pillY = ty + sts * 1.6 + (L ? S.h * .18 : S.h * .11), gtS = pillS * 1.1;
+  html += `<div class="sc" id="s7" style="background:radial-gradient(80% 60% at 50% 35%, #2A2421, #0C0B0A)">
+    ${L ? `<img class="a" id="s7wm" src="assets/wizkid-wordmark.png" style="left:${colX + colW / 2 - wmw / 2}px;top:${wmy}px;width:${wmw}px">` : ''}
+    <img class="a" id="s7logo" src="assets/lol-logo@3x.png" style="left:${lx}px;top:${ly}px;width:${lw}px">
+    <div class="a" id="s7s" style="left:${colX + colW / 2 - stw / 2}px;top:${ty}px;width:${stw}px;height:${sts * 1.45}px;background:var(--paper);transform:rotate(-1.5deg);clip-path:${torn(stw, sts * 1.45, 71, 7, 14)}">
+      <div class="anton" style="text-align:center;font-size:${sts}px;color:var(--ink);padding-top:${sts * .25}px">SUN 13 DEC 2026 · EAGLE SQUARE, ABUJA</div></div>
+    ${text('s7g', 'mk', 'get tickets', colX + colW / 2 - gtS * 4.3, pillY - gtS * 1.45, gtS, 'var(--cream)', 'transform:rotate(-5deg)')}
+    <div class="a mont" id="s7p" style="left:${pillX}px;top:${pillY}px;width:${pw}px;height:${ph}px;border-radius:${ph}px;background:var(--hot);color:var(--cream);font-size:${pillS}px;letter-spacing:.02em;display:flex;align-items:center;justify-content:center">WIZKID.TIX.AFRICA</div>
+    ${svg(stroke(7, 'arrow', { x1: colX + colW / 2 + gtS * 2.4, y1: pillY - gtS * 1.1, x2: pillX + pw * .78, y2: pillY - 8 * U, bend: -.35, head: 26 * U }, 18.75, .3, 'var(--cream)', 7 * U) +
+       stroke(7, 'circle', { cx: pillX + pw / 2, cy: pillY + ph / 2, rx: pw * .58, ry: ph * .95 }, 19.05, .45, 'var(--cream)', 7 * U) +
+       stroke(7, 'spark', { x: lx + lw * .98, y: ly + lw * .08, s: 30 * U }, 18.1, .2, 'var(--gold)', 7 * U))}
+  </div>`; }
+
+// ===== S8 20–25 · PARTNERS =====
+{ const SP = ['03-coca-cola', '01-hennessy', '02-heineken', '04-desperados', '05-best', '06-axe', '07-lords-gin', '08-transcorp-hotels', '09-vodi-group', '10-united-nigeria', '11-trace', '12-square-meter', '13-nova-flair', '14-beat-fm', '15-soundcity'];
+  const cols = { story: 3, feed: 4, square: 5, wide: 5 }[fk], rows = Math.ceil(SP.length / cols);
+  const gy = S.y + S.h * (L ? .2 : .16), gh = S.h * (L ? .74 : .78), cw = S.w / cols, chh = gh / rows;
+  html += `<div class="sc" id="s8" style="background:#161514">
+    ${center('s8h', 'mont', 'IN PARTNERSHIP WITH', S.y + S.h * (L ? .04 : .05), 26 * U, 'var(--cream)')}
+    ${SP.map((s, i) => { const r = Math.floor(i / cols), c = i % cols, inRow = Math.min(cols, SP.length - r * cols), off = (cols - inRow) * cw / 2;
+      return `<div class="a" id="s8l${i}" style="left:${S.x + off + c * cw}px;top:${gy + r * chh}px;width:${cw}px;height:${chh}px;display:flex;align-items:center;justify-content:center">
+        <img src="assets/sponsors/${s}.png" style="max-width:${cw * .72}px;max-height:${Math.min(chh * .62, cw * .5)}px"></div>`; }).join('')}
+    ${svg((() => { cv.font = `800 ${26 * U}px Mont`; const tw = cv.measureText('IN PARTNERSHIP WITH').width * 1.28; return stroke(8, 'under', { x1: cx - tw / 2, x2: cx + tw / 2, y: S.y + S.h * (L ? .04 : .05) + 44 * U, amp: 6 * U }, 20.3, .4, 'var(--hot)', 7 * U); })())}
+  </div>`; }
+
+html += `<div id="wipe"></div><div id="flash"></div><div id="grain"></div>`;
+V.innerHTML = html;
+
+// ---------- timeline ----------
+const SCN = [[1, 0, 3], [2, 3, 6], [3, 6, 9], [4, 9, 12], [5, 12, 15], [6, 15, 17.5], [7, 17.5, 20], [8, 20, 25.01]];
+const slam = (id, t, at, k = 1.35, rot = 0) => { const e = $(id); if (!e) return; const p = eb(P(t, at, .22)); e.style.visibility = t >= at ? 'visible' : 'hidden';
+  e.style.transform = `scale(${k - (k - 1) * p}) rotate(${rot}deg)`; };
+const rise = (id, t, at, dy = 60, dur = .35) => { const e = $(id); if (!e) return; const p = ex(P(t, at, dur)); e.style.opacity = p; e.style.transform = `translateY(${(1 - p) * dy * U}px)`; };
+const WIPES = [ // [start, dur, color, dir]
+  [2.72, .28, 'var(--hot)', 'up'], [8.72, .28, 'var(--hot)', 'diag'], [14.72, .28, 'var(--ink)', 'left'], [17.22, .28, '#0C0B0A', 'down']];
+const FLASH = [6, 12, 20];
+
+window.renderAt = t => {
+  const fr = Math.floor(t * FPS), boil = Math.floor(t * 8);
+  let cur = 1; for (const [n, a, b] of SCN) { const on = t >= a && t < b; $('s' + n).style.display = on ? 'block' : 'none'; if (on) cur = n; }
+  // hand-drawn strokes: progress + 8 fps line boil
+  for (const s of DR) { if (s.sc !== cur) continue; const e = $(s.id), p = eo(P(t, s.a, s.d));
+    e.setAttribute('d', SHAPES[s.shape](s.p, rnd(s.seed * 31 + boil))); e.setAttribute('stroke-dashoffset', String(1 - p)); e.style.visibility = p > 0 ? 'visible' : 'hidden'; }
+  $('rt').setAttribute('seed', String(2 + boil % 5)); $('st').setAttribute('seed', String(5 + boil % 4));
+  // scene choreography
+  if (cur === 1) { rise('s1lab', t, .1); slam('s1w', t, 0.02, 1.5); const b = ex(P(t, .5, .3)); $('s1blk').style.transform = `scaleX(${b}) rotate(-2deg)`;
+    slam('s1t', t, .75, 1.6, -2); const d = P(t, 1.7, .5); $('s1d').style.clipPath = `inset(0 ${100 - d * 100}% 0 0)`;
+    $('s1').style.transform = `scale(${1 + .05 * eio(P(t, 2.2, .8))})`; }
+  if (cur === 2) { const p = ex(P(t, 3, .45)); $('s2p').style.transform = `translateY(${(1 - p) * H * .25}px)`;
+    slam('s2b', t, 3, 1.4); if ($('s2c')) slam('s2c', t, 3.5, 1.4);
+    const f = eb(P(t, 4, .35)); $('s2f').style.visibility = t >= 4 ? 'visible' : 'hidden'; $('s2f').style.transform = `rotate(${-6 + (1 - f) * 25}deg) translateY(${(1 - f) * -80 * U}px)`;
+    $('s2v').src = `clips/walk_${String(clamp(1 + Math.floor((t - 3) * FPS), 1, 90)).padStart(3, '0')}.jpg`;
+    const l = P(t, 4.3, .35); $('s2l').style.clipPath = `inset(0 ${100 - l * 100}% 0 0)`;
+    slam('s2wm', t, 5, 1.5); const sh = t >= 5 && t < 5.25 ? Math.sin(fr * 2.1) * 10 * U : 0; $('s2').style.transform = `translate(${sh}px, ${-sh * .6}px)`; }
+  if (cur === 3) { const st = Math.floor((t - 6) * 10), r = rnd(st * 13 + 5), jx = (r() - .5) * 10 * U, jy = (r() - .5) * 8 * U, jr = (r() - .5) * 2.4;
+    $('s3w').src = `clips/stopmo/c_${String(clamp(st + 1, 1, 30)).padStart(2, '0')}.png`;
+    $('s3w').style.transform = `translate(${jx}px, ${jy}px) rotate(${jr}deg)`;
+    $('s3cr').style.transform = `translate(${(r() - .5) * 6 * U}px, ${(r() - .5) * 4 * U}px) rotate(${-1.5 + (r() - .5) * .8}deg)`;
+    slam('s3a', t, 6.25, 1.5, -4); slam('s3b', t, 6.5, 1.4, (r() - .5) * 1.2); slam('s3c', t, 7.0, 1.4, (r() - .5) * 1.2); slam('s3d', t, 7.5, 1.6, -3); }
+  if (cur === 4) { rise('s4a', t, 9); ['s4w0', 's4w1', 's4w2'].forEach((id, i) => slam(id, t, 9.25 + i * .5, 1.45));
+    document.querySelectorAll('#s4 [id^=s4w]').forEach(e => e.style.backgroundPosition = `${50 + (t - 9) * 6}% ${50 - (t - 9) * 3}%`);
+    slam('s4logo', t, 11, 1.6, -4); }
+  if (cur === 5) { $('s5v').src = `clips/pyro_${String(clamp(1 + Math.floor((t - 12) * FPS * .9), 1, 63)).padStart(3, '0')}.jpg`;
+    if (L) slam('s5n0', t, 12.5, 1.4); else ['s5n0', 's5n1', 's5n2'].forEach((id, i) => slam(id, t, 12.5 + i * .5, 1.5));
+    const s = ex(P(t, 14, .35)); $('s5s').style.clipPath = $('s5s').style.clipPath; $('s5s').style.transform = `translateX(${(1 - s) * -W}px) rotate(-2deg)`;
+    const sh = (t >= 12 && t < 12.3) || (t >= 13.5 && t < 13.7) ? Math.sin(fr * 2.3) * 14 * U : 0; $('s5').style.transform = `translate(${sh}px,${sh * .5}px) scale(${1 + .04 * P(t, 12, 3)})`; }
+  if (cur === 6) { rise('s6t', t, 15.05, 30); ['s6i0', 's6i1', 's6i2', 's6i3'].forEach((id, i) => { const p = P(t, 15.05 + i * .5, .25); $(id).style.clipPath = `inset(0 ${100 - p * 100}% 0 0)`; });
+    slam('s6q', t, 16.75, 2, 8); }
+  if (cur === 7) { slam('s7logo', t, 17.5, 1.5, -3); if (L) rise('s7wm', t, 17.6, -40);
+    const s = ex(P(t, 18, .35)); $('s7s').style.opacity = s ? 1 : 0; $('s7s').style.transform = `rotate(-1.5deg) scaleX(${s})`;
+    slam('s7p', t, 18.4, 1.4); const g = P(t, 18.5, .35); $('s7g').style.clipPath = `inset(0 ${100 - g * 100}% 0 0)`;
+    $('s7logo').style.translate = `0 ${Math.sin(t * 2.2) * 6 * U}px`; }
+  if (cur === 8) { rise('s8h', t, 20.05, 30); for (let i = 0; i < 15; i++) { const e = $('s8l' + i), p = eo(P(t, 20.15 + i * .045, .35)); e.style.opacity = p; e.style.transform = `scale(${.86 + .14 * p})`; }
+    V.style.filter = t > 24.6 ? `brightness(${1 - P(t, 24.6, .4)})` : ''; } else V.style.filter = '';
+  // wipes & flashes
+  const w = $('wipe'); w.style.display = 'none';
+  for (const [a, d, col, dir] of WIPES) if (t >= a && t < a + d) { const p = eio(P(t, a, d)), big = Math.hypot(W, H) * 1.2;
+    w.style.display = 'block'; w.style.background = col; w.style.width = big + 'px'; w.style.height = big + 'px'; w.style.clipPath = torn(big, big, 99, 30, 40);
+    const o = { up: [W / 2 - big / 2, H - p * H], down: [W / 2 - big / 2, -big + p * H], left: [W - p * W, H / 2 - big / 2],
+                diag: [W + (((W - big) / 2) - W) * p, H * .3 + (((H - big) / 2) - H * .3) * p] }[dir];
+    w.style.left = o[0] + 'px'; w.style.top = o[1] + 'px'; w.style.transform = dir === 'diag' ? 'rotate(-12deg)' : 'none'; }
+  let fl = 0; for (const a of FLASH) if (t >= a && t < a + .2) fl = Math.max(fl, 1 - (t - a) / .2); $('flash').style.opacity = fl * .85;
+  const g = rnd(fr)(); $('grain').style.backgroundPosition = `${Math.floor(g * 220)}px ${Math.floor(rnd(fr + 7)() * 220)}px`;
+};
+}
+window.ready = FONTS.then(main).then(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))));
+window.FMTINFO = { W, H };
+</script></body></html>

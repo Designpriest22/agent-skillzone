@@ -1,0 +1,238 @@
+@import "tailwindcss";
+
+/*
+ * Over Sabi design tokens — "Call & Response" identity.
+ * Colour roles are semantic so dark mode only swaps values here.
+ * Contrast (WCAG 2.2, measured): ink on sand 15.9:1, forest on sand 8.8:1, ember-deep on sand
+ * 5.0:1, ink on ember 4.9:1. Ember on sand is 3.3:1 — large display text, icons and fills only.
+ */
+:root {
+  --sand: #f4ede1;
+  --clay: #eadbc6;
+  --paper: #fbf7f0;
+  --ink: #16130f;
+  --ink-soft: #4a4238;
+  --forest: #0e4a37;
+  --forest-deep: #093326;
+  --ember: #e0552a;
+  --ember-deep: #b23f17;
+  --indigo: #27306b;
+  --spark: #c8f03c;
+  --line: #d9cbb5;
+  --success: #1f6b3a;
+  --danger: #a3261b;
+  --warning: #8a5a00;
+
+  --bg: var(--sand);
+  --surface: var(--paper);
+  --surface-2: var(--clay);
+  --text: var(--ink);
+  --text-muted: var(--ink-soft);
+  --primary: var(--forest);
+  --primary-text: var(--sand);
+  --accent: var(--ember);
+  --accent-text-safe: var(--ember-deep);
+  --border: var(--line);
+  --focus: var(--indigo);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #14110e;
+    --surface: #1d1915;
+    --surface-2: #29231d;
+    --text: #f4ede1;
+    --text-muted: #c9bba5;
+    --primary: #8fd4b2;
+    --primary-text: #0b1f17;
+    --accent: #f27a52;
+    --accent-text-safe: #f59474;
+    --border: #3a3128;
+    --focus: #c8f03c;
+    --success: #7fd19b;
+    --danger: #ff8a7a;
+    --warning: #f2c26b;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #14110e;
+  --surface: #1d1915;
+  --surface-2: #29231d;
+  --text: #f4ede1;
+  --text-muted: #c9bba5;
+  --primary: #8fd4b2;
+  --primary-text: #0b1f17;
+  --accent: #f27a52;
+  --accent-text-safe: #f59474;
+  --border: #3a3128;
+  --focus: #c8f03c;
+  --success: #7fd19b;
+  --danger: #ff8a7a;
+  --warning: #f2c26b;
+  color-scheme: dark;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-primary: var(--primary);
+  --color-on-primary: var(--primary-text);
+  --color-accent: var(--accent);
+  --color-accent-safe: var(--accent-text-safe);
+  --color-border: var(--border);
+  --color-focus: var(--focus);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+  --color-warning: var(--warning);
+  --color-ink: var(--ink);
+  --color-sand: var(--sand);
+  --color-forest: var(--forest);
+  --color-forest-deep: var(--forest-deep);
+  --color-ember: var(--ember);
+  --color-indigo: var(--indigo);
+  --color-spark: var(--spark);
+
+  --font-display: "Bricolage Grotesque Variable", "Noto Sans Variable", system-ui, sans-serif;
+  --font-sans: "Noto Sans Variable", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius-card: 1.25rem;
+  --radius-pill: 999px;
+}
+
+html {
+  background: var(--bg);
+  color: var(--text);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 1rem;
+  line-height: 1.55;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+ * Target-language text: always Noto Sans, which positions stacked tone marks and
+ * under-dots correctly. The display face mis-places combining marks, so this rule
+ * deliberately overrides font-display wherever African-language text appears.
+ */
+.lang-text {
+  font-family: "Noto Sans Variable", system-ui, sans-serif !important;
+  font-feature-settings: "kern", "mark", "mkmk";
+  letter-spacing: -0.01em;
+}
+
+h1,
+h2,
+h3,
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--primary);
+  color: var(--primary-text);
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+}
+.skip-link:focus {
+  top: 1rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Speaking-room state ring. */
+@keyframes os-pulse {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1.6);
+    opacity: 0;
+  }
+}
+.os-pulse::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 3px solid currentColor;
+  animation: os-pulse 1.4s ease-out infinite;
+}
+
+@keyframes os-draw {
+  from {
+    stroke-dashoffset: var(--len, 400);
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.os-draw {
+  stroke-dasharray: var(--len, 400);
+  animation: os-draw 1.2s cubic-bezier(0.65, 0, 0.35, 1) both;
+}
+
+@keyframes os-shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: var(--surface-2);
+  border-radius: 0.75rem;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  transform: translateX(-100%);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    color-mix(in srgb, var(--surface) 60%, transparent),
+    transparent
+  );
+  animation: os-shimmer 1.4s infinite;
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  body {
+    background: white;
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "title": "Prohub — Brand film (30s, cinematic)",
+  "objective": "Introduce Prohub Creative Solutions to Nigerian business owners and marketing leads as the one creative partner for branding, video, web and digital marketing, and drive them to start a project.",
+  "style": "cinematic",
+  "brand": { "name": "Prohub", "accent": "#FD8D18", "logo_svg_path": "../../../assets/brand/prohub/prohub-logo.svg" },
+  "beat_seconds": 0.6,
+  "beat_offset": 0.04,
+  "fps": 30,
+  "formats": ["9:16", "1:1", "16:9"],
+  "audio_path": "media/soundtrack.m4a",
+  "scenes": [
+    { "layout": "slam", "duration": 2.44, "transition": "cut", "headline": "Your brand deserves more.", "items": ["YOUR", "BRAND", "DESERVES", "MORE."] },
+    { "layout": "counter", "duration": 1.8, "eyebrow": "IDEA", "headline": "LOADING YOUR NEXT BIG IDEA", "stat": { "value": 100, "suffix": "%" } },
+    { "layout": "network", "duration": 3.0, "eyebrow": "SPREAD", "headline": "Great ideas spread fast.", "items": ["'CAUSE GREAT", "IDEAS", "SPREAD", "FAST."] },
+    { "layout": "rings", "duration": 2.4, "eyebrow": "BOLD", "headline": "GO BOLD", "subline": "BRANDING · DESIGN · MOTION" },
+    { "layout": "corridor", "duration": 3.6, "eyebrow": "BUILD", "headline": "Where brands", "subline": "get built." },
+    { "layout": "callouts", "duration": 3.6, "eyebrow": "MOMENTS", "headline": "Made for big moments.", "items": ["MADE", "FOR", "BIG", "MOMENTS."], "words": ["BRAND", "CONTENT", "VIDEO", "REACH"], "image_paths": ["media/crowd-confetti.jpg"] },
+    { "layout": "slam", "duration": 2.4, "eyebrow": "METHOD", "headline": "Strategy. Design. Motion. Growth.", "items": ["STRATEGY.", "DESIGN.", "MOTION.", "GROWTH."] },
+    { "layout": "wave", "duration": 3.6, "eyebrow": "SIGNAL", "transition": "cut", "headline": "we turn attention into growth" },
+    { "layout": "slam", "duration": 2.4, "eyebrow": "WORK", "headline": "Let's get to work.", "items": ["LET'S", "GET", "TO", "WORK."] },
+    { "layout": "logo_reveal", "duration": 5.16, "eyebrow": "PROHUB", "transition": "cut", "headline": "Creative & Digital Solutions", "button": "Start a project" }
+  ]
+}

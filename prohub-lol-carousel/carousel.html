@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>Prohub × Live Out Loud</title>
+<style>
+html, body { margin: 0; background: #000; }
+#view { position: relative; width: 1080px; height: 1350px; overflow: hidden; }
+#set { position: absolute; left: 0; top: 0; width: 8640px; height: 1350px; background: url(assets/concrete.jpg) 0 0 / 8640px 1350px; }
+.o { position: absolute; transform-origin: 50% 50%; }
+/* one light source for the whole set: up and to the left */
+.lay { filter: drop-shadow(3px 4px 3px rgba(20,18,15,.35)) drop-shadow(18px 26px 26px rgba(20,18,15,.28)); }
+.phone { width: 340px; height: 690px; border-radius: 54px; background: linear-gradient(145deg, #2b2b2d, #0e0e0f 60%); padding: 13px; box-sizing: border-box;
+  box-shadow: 3px 4px 4px rgba(20,18,15,.4), 22px 32px 34px rgba(20,18,15,.32), inset 0 0 0 1.5px rgba(255,255,255,.12); }
+.phone .scr { width: 100%; height: 100%; border-radius: 42px; overflow: hidden; background: #000; position: relative; }
+.phone img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.phone .scr::after { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255,255,255,.10), rgba(255,255,255,0) 38%); }
+.paper { box-shadow: 1px 2px 2px rgba(20,18,15,.3), 14px 20px 26px rgba(20,18,15,.26); }
+.paper img { display: block; width: 100%; }
+.tablet { width: 820px; height: 1010px; border-radius: 40px; background: linear-gradient(145deg, #2b2b2d, #0e0e0f 60%); padding: 30px; box-sizing: border-box;
+  box-shadow: 3px 4px 4px rgba(20,18,15,.4), 26px 38px 40px rgba(20,18,15,.32), inset 0 0 0 1.5px rgba(255,255,255,.12); }
+.tablet .scr { width: 100%; height: 100%; border-radius: 12px; overflow: hidden; background: #000; position: relative; }
+.tablet img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.tablet .scr::after { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, rgba(255,255,255,.08), rgba(255,255,255,0) 35%); }
+.cap { font: 400 21px/1 "JetBrains Mono", monospace; letter-spacing: .5px; color: #2B2926; }
+</style></head>
+<body><div id="view"><div id="set">
+
+  <!-- 1 · the artist, live -->
+  <img class="o" src="assets/prohub-logo-dark.svg" style="left:72px;top:74px;height:58px">
+  <div class="o tablet" style="left:180px;top:170px;transform:rotate(-2deg)"><div class="scr"><img data-clip="walk"></div></div>
+  <div class="o cap" style="left:72px;top:1262px">Live Out Loud × Wizkid — Abuja, 2026</div>
+
+  <!-- 2 -->
+  <div class="o paper" style="left:1220px;top:200px;width:700px;transform:rotate(3.5deg)"><img src="assets/posters/red-feed.jpg"></div>
+
+  <!-- 3 -->
+  <div class="o phone" style="left:2290px;top:310px;transform:rotate(-3deg)"><div class="scr"><img src="assets/posters/red-story.jpg"></div></div>
+  <div class="o phone" style="left:2720px;top:260px;transform:rotate(2deg)"><div class="scr"><img data-clip="reel"></div></div>
+
+  <!-- 4 -->
+  <div class="o paper" style="left:3320px;top:170px;width:920px;transform:rotate(-2deg)"><img src="assets/posters/landscape-qr.png"></div>
+  <div class="o paper" style="left:3560px;top:760px;width:420px;transform:rotate(4deg)"><img src="assets/posters/minimal.jpg"></div>
+
+  <!-- 5 -->
+  <div class="o paper" style="left:4400px;top:250px;width:600px;transform:rotate(-4deg)"><img src="assets/posters/sold-out.jpg"></div>
+  <div class="o phone" style="left:4960px;top:330px;transform:rotate(3deg)"><div class="scr"><img src="assets/posters/website.png" style="object-position:50% 0"></div></div>
+
+  <!-- 6 · the artist, live -->
+  <div class="o phone" style="left:5520px;top:280px;transform:rotate(-2deg)"><div class="scr"><img data-clip="pyro"></div></div>
+  <div class="o paper" style="left:5960px;top:200px;width:490px;transform:rotate(5deg)"><img src="../live-out-loud-newspaper/out/page-1.png"></div>
+
+  <!-- 7 -->
+  <div class="o paper" style="left:6570px;top:480px;width:450px;transform:rotate(-5deg)"><img src="../live-out-loud-newspaper/out/page-4.png"></div>
+  <img class="o lay" src="assets/garments/tee-onyx-back.png" style="left:6950px;top:120px;width:600px;transform:rotate(6deg)">
+
+  <!-- 8 -->
+  <img class="o lay" src="assets/garments/polo-ember-front.png" style="left:7520px;top:620px;width:540px;transform:rotate(-8deg)">
+  <img class="o lay" src="assets/garments/jersey-chalk-back.png" style="left:7900px;top:110px;width:600px;transform:rotate(4deg)">
+  <img class="o" src="assets/prohub-logo-dark.svg" style="left:8230px;top:1200px;height:66px">
+
+</div></div>
+<script>
+const n = +(new URLSearchParams(location.search).get('slide') || 1);
+document.getElementById('set').style.transform = `translateX(${-(n - 1) * 1080}px)`;
+const clips = [...document.querySelectorAll('[data-clip]')];
+window.renderAt = t => clips.forEach(i => { i.src = `assets/clips/${i.dataset.clip}/f${String(Math.min(180, 1 + Math.floor(t * 30))).padStart(3, '0')}.jpg`; });
+window.renderAt(0);
+window.ready = document.fonts.ready.then(() => Promise.all([...document.images].map(i => i.complete ? 0 : new Promise(r => { i.onload = i.onerror = r; }))));
+</script></body></html>
