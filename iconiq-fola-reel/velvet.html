@@ -95,7 +95,7 @@ svg { overflow: visible; }
   <div class="a" id="sA" style="left:0;top:0;width:50%;height:100%;overflow:hidden"><img class="fill" id="f6a"></div>
   <div class="a" id="sB" style="left:50%;top:0;width:50%;height:100%;overflow:hidden;border-left:.7rem solid var(--ink)"><img class="fill" id="f6b"></div>
   <div class="a an pp chk" id="b1" data-c="#D9B25A" style="font-size:28rem;color:var(--ink);left:10rem;top:30vh">BALI</div>
-  <div class="a an pp chk" id="b2" data-c="#F3EFE6" style="font-size:14.5rem;color:var(--ink);left:6rem;top:calc(30vh + 31rem)">RECREATIONAL</div>
+  <div class="a an pp chk" id="b2" data-c="#F3EFE6" style="font-size:14.5rem;color:var(--ink);left:8rem;top:calc(30vh + 31rem)">RECREATIONAL</div>
   <div class="a an pp chk" id="b3" data-c="#E3322B" style="font-size:14.5rem;color:var(--cream);left:12rem;top:calc(30vh + 49rem)">PARK, ABUJA</div>
 </div>
 
@@ -191,7 +191,12 @@ const q = x => Math.floor(x * 12 + 1e-6) / 12;
 const h = n => { const s = Math.sin(n * 127.1 + 311.7) * 43758.5453; return s - Math.floor(s); };
 const nz = (t, k) => { const i = Math.floor(t), f = t - i, u = f * f * (3 - 2 * f); return lerp(h(i + k * 57), h(i + 1 + k * 57), u) * 2 - 1; };
 const boil = (t, k, a = .5) => (h(Math.floor(t * 6) + k * 31) * 2 - 1) * a;
-const BT = .625;                                                  // 96 bpm: a beat; a bar is 2.5 s, the reel is ten bars
+const BT = .625;                                                  // design grid: a beat is .625 s, a scene is four beats (2.5 s)
+// played to the song (112 bpm): each scene starts on one of its downbeats; the design grid runs K times faster than real time
+const RB = 60 / 112, K = BT / RB;
+const BEATS = [4, 4, 4, 4, 4, 4, 4, 8, 4, 20 / 3];                   // scene lengths in song beats: the ticket gets two bars, the card the rest
+const START = BEATS.reduce((a, b, i) => (a.push(a[i] + b * RB), a), [0]);
+const d2r = d => { const s = Math.min(9, Math.floor(d / 2.5 + 1e-9)); return START[s] + (d - 2.5 * s) / K; };
 
 function tornPoly(seed, amp = 7, n = 36) {
   let s = seed * 1000; const r = () => h(s++);
@@ -232,91 +237,99 @@ const slap = (id, t, a, rot, k, base = '') => {
   const f = Math.floor(x * 12); const s = f === 0 ? 1.07 : f === 1 ? .98 : 1;
   T(id, `${base} rotate(${rot + (f === 0 ? rot * 2.5 + 3 : 0) + boil(t, k, .4)}deg) scale(${s})`);
 };
-const foot = (id, dir, n, lt, z0 = 1.08, z1 = 1.0, dur = 2.5) => { setSrc($(id), frame(dir, n, lt)); T(id, `scale(${lerp(z0, z1, cl(lt / dur))})`); };
+const foot = (id, dir, n, lt, z0 = 1.08, z1 = 1.0, dur = 2.5) => { setSrc($(id), frame(dir, n, lt / K)); T(id, `scale(${lerp(z0, z1, cl(lt / dur))})`); };
 
+const STUB = 6 * BT;                                              // the stub is torn off on the ticket's seventh beat
+let HITSR, FLR, TEARSR;
 function renderAt(t) {
+  if (!HITSR) {
+    HITSR = HITS.filter(([d]) => d !== 19.375).map(([d, s]) => [d2r(d), s]).concat([[START[7] + STUB / K, .9]]);
+    FLR = Object.entries(FL).map(([d, c]) => [d2r(+d), c]); TEARSR = TEARS.map(([d, c]) => [d2r(d), c]);
+  }
+  let S = 9; for (let i = 0; i < 10; i++) if (t >= START[i] && t < START[i + 1]) S = i;
+  const LD = (t - START[S]) * K;
   const R = rem();
-  for (const [id, a, b] of SC) $(id).style.display = t >= a && t < b ? 'block' : 'none';
-  let k = 0; for (const [ht, s] of HITS) if (t >= ht) k += s * Math.exp(-(t - ht) * 8);
+  SC.forEach(([id], i) => { $(id).style.display = i === S ? 'block' : 'none'; });
+  let k = 0; for (const [ht, s] of HITSR) if (t >= ht) k += s * Math.exp(-(t - ht) * 8);
   const dx = nz(t * 1.1, 1) * 4 + nz(t * 22, 2) * k * 14, dy = nz(t * .9, 3) * 4 + nz(t * 22, 4) * k * 14, rot = nz(t * .7, 5) * .2 + nz(t * 18, 6) * k * .45;
   T('stage', `translate(${dx}px,${dy}px) rotate(${rot}deg) scale(${1 + k * .01})`);
   const F = Math.floor(t * 30);
   $('grain').style.transform = `translate(${Math.floor(h(F) * 512)}px,${Math.floor(h(F + 9) * 512)}px)`;
   setSrc($('grunge'), `assets/grunge${Math.floor(t * 8) % 3}.png`);
   $('paperOv').style.backgroundPosition = `${Math.floor(h(Math.floor(t * 4)) * 300)}px ${Math.floor(h(Math.floor(t * 4) + 3) * 300)}px`;
-  const fk = Object.keys(FL).find(c => t >= +c && t < +c + 1 / 30 + 1e-6);
-  $('flash').style.display = fk ? 'block' : 'none'; if (fk) $('flash').style.background = FL[fk];
-  const tr = TEARS.find(([c]) => t >= c - .22 && t < c + .22);
+  const fk = FLR.find(([c]) => t >= c - 1e-6 && t < c + 1 / 30 - 1e-6);
+  $('flash').style.display = fk ? 'block' : 'none'; if (fk) $('flash').style.background = fk[1];
+  const tr = TEARSR.find(([c]) => t >= c - .22 && t < c + .22);
   $('tear').style.display = tr ? 'block' : 'none';
   if (tr) { const x = step((t - tr[0] + .22) / .44, 11); $('tearC').style.background = tr[1]; T('tear', `translateY(${lerp(100, -125, x) + 12.5}%) rotate(${-3 + x * 2}deg)`); }
 
   // 1 · curtain parts (stop-motion), the mark lands, "presents"
-  if (t < 2.5) {
-    foot('f1', 'chain', 82, t, 1.18, 1.04);
-    const op = step(eio(P(t, .1, .9)), 9); T('cL', `translateX(${-op * 100}%) rotate(${-op * 3}deg)`); T('cR', `translateX(${op * 100}%) rotate(${op * 3}deg)`);
-    slap('m1', t, .625, -2, 1); slap('pr1', t, 1.25, -3, 2);
+  if (S === 0) {
+    const lt = LD; foot('f1', 'chain', 82, lt, 1.18, 1.04);
+    const op = step(eio(P(lt, .1, .9)), 9); T('cL', `translateX(${-op * 100}%) rotate(${-op * 3}deg)`); T('cR', `translateX(${op * 100}%) rotate(${op * 3}deg)`);
+    slap('m1', lt, .625, -2, 1); slap('pr1', lt, 1.25, -3, 2);
   }
   // 2 · face, HEADLINING, FOLA scratched on
-  if (t >= 2.5 && t < 5) {
-    const lt = t - 2.5; foot('f2', 'face', 82, lt, 1.12, 1.02);
+  if (S === 1) {
+    const lt = LD; foot('f2', 'face', 82, lt, 1.12, 1.02);
     slap('hd', lt, .2, -2, 3);
     const fw = step(P(lt, .625, .45), 6); $('fw').style.clipPath = `inset(-20% ${100 - fw * 100}% -20% -5%)`;
     O('fr', lt > .625 && lt < 1.2 ? .8 : 0); T('fr', `translate(${nz(lt * 30, 1) * 2 * R}px,${nz(lt * 30, 2) * R}px)`);
     T('fw', `rotate(${-3 + (lt < 1.2 ? nz(lt * 15, 4) : boil(t, 4, .3))}deg)`);
   }
   // 3 · dance: LIVE / in / ABUJA on the beat
-  if (t >= 5 && t < 7.5) {
-    const lt = t - 5; foot('f3', 'dance', 82, lt, 1.06, 1.0);
+  if (S === 2) {
+    const lt = LD; foot('f3', 'dance', 82, lt, 1.06, 1.0);
     slap('l1', lt, 0, -3, 5); slap('l2', lt, BT, 4, 6); slap('l3', lt, 2 * BT, -2, 7);
   }
   // 4 · polaroids slapped on each beat, then the rubber stamp
-  if (t >= 7.5 && t < 10) {
-    const lt = t - 7.5;
+  if (S === 3) {
+    const lt = LD;
     slap('p1', lt, 0, -6, 8); slap('p2', lt, BT, 5, 9); slap('p3', lt, 2 * BT, 4, 10); slap('p4', lt, 3 * BT - .3, -4, 11);
     const s = lt - (3 * BT); O('stamp', s >= 0 ? .92 : 0);
     T('stamp', `translateX(-50%) rotate(-11deg) scale(${s < 1 / 12 ? 1.25 : 1})`);
   }
   // 5 · gloves: WEDNESDAY / 16 DEC / 2026
-  if (t >= 10 && t < 12.5) {
-    const lt = t - 10; foot('f5', 'gloves', 82, lt, 1.1, 1.0);
+  if (S === 4) {
+    const lt = LD; foot('f5', 'gloves', 82, lt, 1.1, 1.0);
     slap('wd', lt, .15, -2, 12); slap('dd', lt, BT, 2, 13); slap('yy', lt, 2 * BT, -4, 14);
   }
   // 6 · split screen, venue
-  if (t >= 12.5 && t < 15) {
-    const lt = t - 12.5;
+  if (S === 5) {
+    const lt = LD;
     foot('f6a', 'splitA', 82, lt, 1.1, 1.0); foot('f6b', 'splitB', 82, lt, 1.1, 1.0);
     const a = step(P(lt, 0, .3), 4), b = step(P(lt, .15, .3), 4);
     $('sA').style.clipPath = `inset(0 0 ${(1 - a) * 100}% 0)`; $('sB').style.clipPath = `inset(${(1 - b) * 100}% 0 0 0)`;
     slap('b1', lt, BT, -3, 15); slap('b2', lt, 2 * BT, 1.5, 16); slap('b3', lt, 3 * BT, -2, 17);
   }
   // 7 · macro, flash, close-up; ICONIQ FEST CLOUD 9
-  if (t >= 15 && t < 17.5) {
-    const lt = t - 15;
+  if (S === 6) {
+    const lt = LD;
     if (lt < 1.25) foot('f7', 'macro', 36, lt, 1.2, 1.05, 1.25); else foot('f7', 'close', 48, lt - 1.25, 1.1, 1.0, 1.25);
     slap('m7', lt, .2, -2, 18); slap('c7', lt, BT + .2, 2, 19);
   }
   // 8 · the ticket slides up, the stub tears off
-  if (t >= 17.5 && t < 20) {
-    const lt = t - 17.5; foot('f8', 'ticket', 82, lt, 1.08, 1.0);
+  if (S === 7) {
+    const lt = LD; foot('f8', 'ticket', 132, lt, 1.08, 1.0, 5);
     const up = step(eo(P(lt, .25, .5)), 6); O('tkt', lt >= .25 ? 1 : 0);
     T('tkt', `translateY(${(1 - up) * 60}vh) rotate(${-3 + (1 - up) * 8 + boil(t, 20, .3)}deg)`);
-    const off = P(q(lt), 3 * BT, .5);
+    const off = P(q(lt), STUB, .5);
     T('tstub', `translate(${off * 14}rem, ${off * off * 60}rem) rotate(${off * 28}deg)`); O('tstub', off < 1 ? 1 : 0);
     $('tstub').querySelector('.an').classList.toggle('chk', off === 0);
   }
   // 9 · GET YOUR TICKETS AT / ICONIQFEST.COM
-  if (t >= 20 && t < 22.5) {
-    const lt = t - 20; foot('f9', 'url', 82, lt, 1.1, 1.0);
+  if (S === 8) {
+    const lt = LD; foot('f9', 'url', 82, lt, 1.1, 1.0);
     slap('gt', lt, .1, -2, 21); slap('ub', lt, .5, 1, 22);
     const word = 'ICONIQFEST.COM', n = Math.floor(cl((lt - .6) / .06, 0, word.length));
     $('urlt').textContent = word.slice(0, n); O('cur', (n < word.length || Math.floor(lt * 4) % 2 === 0) ? 1 : 0);
     draw($('ulP'), eio(P(lt, 1.6, .4))); T('ul', `scale(${R / 10.8})`);
   }
   // 10 · end card
-  if (t >= 22.5) {
-    const lt = t - 22.5;
-    setSrc($('f10'), frame('end', 96, lt)); setSrc($('f10bg'), frame('end', 96, lt));
-    T('e10', `scale(${1 + lt * .01})`);
+  if (S === 9) {
+    const lt = LD;
+    setSrc($('f10'), frame('end', 114, lt / K)); setSrc($('f10bg'), frame('end', 114, lt / K));
+    T('e10', `scale(${1 + Math.min(lt, 4) * .004})`);
     slap('emark', lt, 0, -1.5, 30); slap('ecl', lt, .2, 1, 31, 'translateX(-50%)');
     slap('epW', lt, .1, -1.5, 32); slap('einfo', lt, .45, .8, 33); slap('edate', lt, .7, -3, 34);
     O('elogo', lt > 1.0 ? 1 : 0);

@@ -70,4 +70,10 @@ To rebuild them, run `bash clips.sh <folder with the three source clips>`, then 
   - brass stabs on the big words
   - vinyl crackle
   - a scratch for the wordmark, camera shutters for the polaroids, a stamp thud and paper tears for the ticket
-- **Render:** `PAGE=velvet.html node render.mjs story|feed` writes `out/iconiq-fola-velvet-<fmt>.mp4`.
+- **Song version:** `velvet_song.py` cuts 25 s from the clip's own song, starting at 24.575 s, a downbeat of bar 11 at 112 bpm. The curtain opens on the build, and the full section lands as FOLA appears. Paper foley sits underneath, and the result is normalised to −14 LUFS. In this version the timeline is locked to the song:
+  - each scene starts on a downbeat
+  - the ticket holds for two bars, and the end card takes the rest
+  - footage plays at natural speed
+  - every cut lands within a frame of a kick
+- **Render:** `PAGE=velvet.html node render.mjs story|feed` writes `out/iconiq-fola-velvet-<fmt>.mp4`. Add `AUDIO_FILE=velvet-song-mix-ln.wav` to use the song.
+- **Rights:** the song belongs to the artist and their label. Use the song version only with their clearance.

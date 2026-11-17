@@ -11,5 +11,5 @@ au pyro 1794823863 0 3; au hand 1794592114 7.4 3.6; au red 1794823851 0 2.6; au 
 V=$(ls $U/*1794831030*.mp4)
 vx(){ mkdir -p clips/v/$1; ffmpeg -v error -y -ss $2 -t $3 -i "$V" -vf "fps=30,scale=720:1280" -q:v 3 clips/v/$1/%03d.jpg; }
 vx chain 0 2.7; vx face 60.4 2.7; vx dance 47 2.7; vx gloves 13 2.7; vx splitA 4 2.7; vx splitB 52 2.7
-vx macro 16 1.2; vx close 38 1.6; vx ticket 26 2.7; vx url 72 2.7; vx end 42 3.2
+vx macro 16 1.2; vx close 38 1.6; vx ticket 26 4.4; vx url 72 2.7; vx end 42 3.8
 mkdir -p clips/v/stills; for t in 24.3 40.2 49.3 71.6; do ffmpeg -v error -y -ss $t -i "$V" -frames:v 1 -vf scale=720:1280 -q:v 2 clips/v/stills/$t.jpg; done

@@ -9,7 +9,7 @@ const dir = path.dirname(new URL(import.meta.url).pathname), out = path.join(dir
 const fmt = process.argv[2] || 'story', [W, H] = fmt === 'feed' ? [1080, 1350] : [1080, 1920];
 const stills = process.argv.slice(3).map(Number), FPS = 30, DUR = 25;
 const PAGE = process.env.PAGE || 'reel.html', NAME = PAGE === 'reel.html' ? 'iconiq-fola' : 'iconiq-fola-' + PAGE.replace('.html', '');
-const AUDIO = PAGE === 'reel.html' ? 'mix.wav' : PAGE.replace('.html', '') + '-mix.wav';
+const AUDIO = process.env.AUDIO_FILE || (PAGE === 'reel.html' ? 'mix.wav' : PAGE.replace('.html', '') + '-mix.wav');
 const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: W, height: H } });
 p.on('pageerror', e => console.error('[page error]', e.message));
 await p.goto('file://' + path.join(dir, PAGE)); await p.evaluate(() => window.ready);
