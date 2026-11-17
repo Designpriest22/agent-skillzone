@@ -7,6 +7,8 @@ It was produced through Prohub's creative workflow. See `production/`: MD brief 
 ## Outputs (`out/`)
 - `page-1.png` … `page-4.png`: carousel slides
 - `live-out-loud-times.pdf`: all four pages
+- `print/live-out-loud-times_CMYK.pdf`: CMYK PDF for print (Ghostscript, generic CMYK profile)
+- `print/page-N_CMYK_300dpi.tif`: CMYK TIFFs, 300 dpi (git-ignored, rebuild with `tools/cmyk.sh`)
 - `live-out-loud-times.pptx`: PowerPoint, one 4:5 slide per page (2× resolution images), with each page's text in the speaker notes
 - `contact-sheet.png`: overview
 
@@ -21,4 +23,5 @@ npm install
 python3 tools/wordsearch.py
 node build.mjs        # needs Playwright + Chromium
 python3 tools/make_pptx.py   # PowerPoint export (pip install python-pptx)
+tools/cmyk.sh                # CMYK print exports (needs Ghostscript)
 ```
