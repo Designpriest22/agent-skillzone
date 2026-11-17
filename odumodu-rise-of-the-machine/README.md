@@ -54,3 +54,32 @@ Needs `pip install numpy opencv-python-headless pillow scipy`. The source footag
 - The music is the recording from the supplied clip. Check that the sync licence covers paid media.
 - For broadcast TV, re-run the loudness pass at the station's spec (for example -23 LUFS for EBU R128 or -24 LKFS for ATSC A/85). The video does not need to change.
 - Partner logos are cropped from the official poster.
+
+---
+
+# Coca-Cola × Rise of the Machine: 20 s sponsor spot and flyers
+
+A "Powered by Coca-Cola" cut that applies Coca-Cola's design language to the event system. It uses the logo red (sampled at `#EA1F25`), white space, the dynamic white ribbon and rising fizz bubbles. The event system supplies Anton block type (with Coca-Cola inversion: red type in white boxes), the cyborg key art, stop-motion steps and the crowd footage. Treatments are recoloured to a red-to-white Coca-Cola duotone, the 16:9 triptych gutters are Coca-Cola red, and a "POWERED BY / Coca-Cola" bug stays on screen through the montage. Only Coca-Cola and the organiser (Kalacious) appear. No other partner logos are shown.
+
+| Time (s) | Scene |
+|---|---|
+| 0–1.6 | Coca-Cola red field, fizz, the ribbon flows in. "POWERED BY" sits above the Coca-Cola script (can-crack and fizz sting) |
+| 1.6–2.6 | Ribbon wipe to white, then the cyborg head stops in (red eye) |
+| 2.6–4.0 | REFRESH / THE / MACHINE over stop-motion crowd frames in Coca-Cola duotone with a riser |
+| **4.0** | **Drop:** ODUMODUBLVCK on red, then on white with a red ribbon |
+| 4.7–12.4 | Crowd montage cut on the kicks: ABUJA · ICE COLD. · TURN IT UP · LOUDER · 20.12 · BIG KALA · REFRESH THE MACHINE |
+| 12.4–15.3 | Chrome RISE OF THE MACHINE title over the crowd, ribbon and a ticker that includes "Powered by Coca-Cola" |
+| 15.3–20 | End card: key art, name, title, DEC. 20TH ★ ABUJA, ticket URL, POWERED BY / Coca-Cola, Kalacious |
+
+Videos (20 s, 30 fps, -14 LUFS): `COKE_ROTM_20s_9x16_1080x1920.mp4`, `_4x5_1080x1350`, `_1x1_1080x1080`, `_16x9_1920x1080`.
+The audio is source 7.877–27.877 s, so the track's drop lands at 4.0 s. It has a synthesized can-crack and fizz sting, a whoosh, a riser and booms (`tools/coke_audio.py`).
+
+Flyers (`out/coke-flyers/`, rendered at 2× and downsampled): **01 Main** (Coca-Cola red key-art poster), **02 Refresh** (Coca-Cola duotone crowd with the white-box headline) and **03 White** (white field, red-framed photo cards, the chrome title on a red band, the red Coca-Cola tile lockup). Each comes in story 1080×1920, feed 1080×1350 and square 1080×1080.
+
+```
+cd tools && python3 coke_audio.py ../src.mp4 ../out/coke_mix.wav && cd ..
+ffmpeg -i out/coke_mix.wav -af loudnorm=I=-14:TP=-1.0:LRA=11 -ar 48000 out/coke_mix_norm.wav
+python3 tools/coke.py 1080 1920 out/COKE_ROTM_20s_9x16_1080x1920.mp4 out/coke_mix_norm.wav 20
+python3 tools/coke.py 2160 3840 flyers     # also 2160 2700, 2160 2160
+```
+Get Coca-Cola's brand team to approve the logo use, the lockup and the copy ("REFRESH THE MACHINE", "ICE COLD.") before release.
