@@ -119,6 +119,7 @@ input[type=color] { width: 36px; height: 30px; border: 1px solid var(--rule); bo
 .bdoc .bd-lg { display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center; border: 1px solid var(--bd-rule); border-radius: 6px; padding: 6px; font-size: 12.5px; }
 .bdoc .bd-lg .bd-logo { width: 40px; height: 40px; border-radius: 4px; }
 .bdoc .bd-lg .bd-logo .ini { font-size: 15px; }
+.bdoc .bd-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; align-items: start; }
 </style>
 
 <div class="app">
@@ -222,7 +223,8 @@ const logoSrc = (b) => b.logoUrl || (b.logoId ? "/_blob/" + b.logoId : "");
 const initials = (n) => String(n || "?").split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase();
 const logoBox = (b, cls = "logo") => {
   const src = logoSrc(b);
-  return `<div class="${cls}">${src ? `<img src="${esc(src)}" alt="${esc(b.name)} logo">` : `<div class="ini" style="background:${esc(b.color)}">${esc(initials(b.name))}</div>`}</div>`;
+  const dk = b.logoBg === "dark" ? ' style="background:#1d1a17;border-color:#1d1a17"' : "";
+  return `<div class="${cls}"${dk}>${src ? `<img src="${esc(src)}" alt="${esc(b.name)} logo">` : `<div class="ini" style="background:${esc(b.color)}">${esc(initials(b.name))}</div>`}</div>`;
 };
 
 /* ---------- plans ---------- */
@@ -269,6 +271,7 @@ function brandCard(b) {
       <input type="text" id="ed-name" value="${esc(b.name)}" aria-label="Brand name">
       <div class="line"><select id="ed-tier" aria-label="Tier">${["Tier 1", "Tier 2", "Partner", "Vendor"].map(t => `<option${t === b.tier ? " selected" : ""}>${t}</option>`).join("")}</select>
       <input type="color" id="ed-color" value="${esc(b.color || "#e4521b")}" aria-label="Plan colour"></div>
+      <div class="line"><select id="ed-bg" aria-label="Logo background"><option value="light"${b.logoBg === "dark" ? "" : " selected"}>Logo on white</option><option value="dark"${b.logoBg === "dark" ? " selected" : ""}>Logo on dark (for white logos)</option></select></div>
       <div class="actions"><button class="btn primary" data-act="save">Save</button><button class="btn" data-act="cancel">Cancel</button></div></div></div>`;
   }
   const w = S.canWrite;
@@ -336,7 +339,8 @@ function render() {
 
 /* ---------- documents ---------- */
 function docLogo(b, src) {
-  return `<div class="bd-logo">${src ? `<img src="${esc(src)}" alt="${esc(b.name)} logo">` : `<div class="ini" style="background:${esc(b.color)}">${esc(initials(b.name))}</div>`}</div>`;
+  const dk = b.logoBg === "dark" ? ' style="background:#1d1a17;border-color:#1d1a17"' : "";
+  return `<div class="bd-logo"${dk}>${src ? `<img src="${esc(src)}" alt="${esc(b.name)} logo">` : `<div class="ini" style="background:${esc(b.color)}">${esc(initials(b.name))}</div>`}</div>`;
 }
 const DOC_NOTES = `<ul>
   <li>Sizes are width × height. Every wall is 10 ft (3.05 m) high. Supply print-ready vector artwork (PDF or AI, fonts outlined, CMYK) at the exact slot size, named with your slot code, e.g. <b>A09_Brand_40x10.pdf</b>.</li>
@@ -369,13 +373,15 @@ function brandDoc(b, src) {
 function masterDoc(logos) {
   const list = sortedBrands().filter(b => slotsOf(b.id).length);
   const legend = list.map(b => { const ss = slotsOf(b.id); return `<div class="bd-lg">${docLogo(b, logos[b.id])}<div><b>${esc(b.name)}</b><br>${ss.map(s => s.id).join(", ")} · ${ss.reduce((a, s) => a + s.w, 0)} ft</div></div>`; }).join("");
-  const rows = SLOTS.map(s => { const b = S.brands[S.alloc[s.id]]; return `<tr><td><span class="bd-code" style="border-color:${ZONES[s.zone].color}">${s.id}</span></td><td>${ZONES[s.zone].name}</td><td>${esc(s.where)}</td><td>${s.w} × 10 ft</td><td>${b ? esc(b.name) : "Unassigned"}</td></tr>`; }).join("");
+  const row = s => { const b = S.brands[S.alloc[s.id]]; return `<tr><td><span class="bd-code" style="border-color:${ZONES[s.zone].color}">${s.id}</span></td><td>${esc(s.where)}</td><td>${s.w} × 10 ft</td><td>${b ? esc(b.name) : "Unassigned"}</td></tr>`; };
+  const half = Math.ceil(SLOTS.length / 2);
+  const tbl = list => `<table class="bd-t bd-sched"><thead><tr><th>Slot</th><th>Location</th><th>Size</th><th>Brand</th></tr></thead><tbody>${list.map(row).join("")}</tbody></table>`;
   const n = SLOTS.filter(s => S.brands[S.alloc[s.id]]).length;
-  return `<div class="bdoc">
+  return `<div class="bdoc bd-master">
   <section class="bd-page"><header class="bd-head"><div><p class="bd-eyebrow">Live Out Loud Music Festival 2026 · Brand masterplan</p><h1>Brand masterplan</h1><p class="bd-sub">Eagle Square, Abuja · Sunday 13 December 2026 · ${n} of ${SLOTS.length} slots allocated · issued ${today()}</p></div></header>
     <div class="bd-plan">${planMarkup("S", "alloc")}</div><div class="bd-grid">${legend}</div></section>
   ${["A", "T", "V"].map(z => `<section class="bd-page"><h2>${ZONES[z].name}</h2><div class="bd-plan">${planMarkup(z, "alloc")}</div></section>`).join("")}
-  <section class="bd-page"><h2>Allocation schedule</h2><table class="bd-t"><thead><tr><th>Slot</th><th>Zone</th><th>Location</th><th>Size</th><th>Brand</th></tr></thead><tbody>${rows}</tbody></table></section>
+  <section class="bd-page"><h2>Allocation schedule</h2><div class="bd-2col">${tbl(SLOTS.slice(0, half))}${tbl(SLOTS.slice(half))}</div></section>
 </div>`;
 }
 function standalone(title, body) {
@@ -385,7 +391,7 @@ function standalone(title, body) {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
 <style>:root{--display:"Oswald","Arial Narrow",sans-serif;--body:"Inter",system-ui,sans-serif}body{margin:0;background:#e9e7e3;padding:24px}
 ${docCss}
-@page{size:A4 landscape;margin:10mm}@media print{body{background:#fff;padding:0}.bdoc{gap:0;min-width:0}.bdoc .bd-page{box-shadow:none;padding:0;break-after:page}.bdoc .bd-page:last-child{break-after:auto}.bdoc .bd-plan svg{max-height:165mm}}</style></head><body>${body}</body></html>`;
+@page{size:A4 landscape;margin:10mm}@media print{body{background:#fff;padding:0}.bdoc{gap:0;min-width:0}.bdoc .bd-page{box-shadow:none;padding:0;break-after:page}.bdoc .bd-page:last-child{break-after:auto}.bdoc .bd-plan svg{max-height:165mm}.bd-master .bd-page:first-child .bd-plan svg{max-height:112mm}.bd-master .bd-grid{grid-template-columns:repeat(6,1fr);gap:4px}.bd-master .bd-lg{font-size:10.5px;padding:4px}.bd-master .bd-head{padding-bottom:8px}.bd-master h1{font-size:34px}.bdoc .bd-t.bd-sched{font-size:9.5px;line-height:1.2}.bdoc .bd-t.bd-sched td{padding:1.5px 5px;white-space:nowrap}.bdoc .bd-t.bd-sched th{padding:3px 6px}.bdoc .bd-sched .bd-code{padding:0 6px;border-width:1.5px}}</style></head><body>${body}</body></html>`;
 }
 async function toDataUrl(src) {
   if (!src) return "";
@@ -458,7 +464,7 @@ function brandEvents(container) {
     if (act === "cancel") { S.editing = null; render(); return; }
     if (act === "save") {
       const name = $("#ed-name").value.trim(); if (!name) return;
-      try { await db.doc("brands/" + id).update({ name, tier: $("#ed-tier").value, color: $("#ed-color").value }); S.editing = null; }
+      try { await db.doc("brands/" + id).update({ name, tier: $("#ed-tier").value, color: $("#ed-color").value, logoBg: $("#ed-bg").value }); S.editing = null; }
       catch { status("Changes were not saved."); }
       render(); return;
     }
