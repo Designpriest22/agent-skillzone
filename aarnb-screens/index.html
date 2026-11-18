@@ -1,0 +1,154 @@
+<title>All About R&amp;B Screen Loops</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;700;800&family=VT323&family=Courier+Prime:wght@400;700&family=DM+Serif+Display:ital@0;1&display=swap">
+<style>
+/* Layout: a stage monitor up top (the live loop), the 10-screen running order below it, then the two extra ideas. One committed after-dark look. */
+:root {
+  --night: #140A11; --panel: #1F1119; --line: #3A2230; --ink: #F6EBDD; --muted: #B79FA4;
+  --red: #CB3234; --red-hot: #FF4A48; --cream: #EDD5A7; --orchid: #C666BD;
+  --display: Anton, "Arial Narrow", Impact, sans-serif; --label: "Barlow Condensed", "Arial Narrow", sans-serif; --serif: "DM Serif Display", Georgia, serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box }
+body { background: var(--night); color: var(--ink); font: 16px/1.5 var(--label); font-weight: 500 }
+.wrap { max-width: 1280px; margin: 0 auto; padding-block: 28px 64px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); display: grid; gap: 40px }
+header { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 16px 32px }
+.eyebrow { font-weight: 800; letter-spacing: .22em; text-transform: uppercase; color: var(--red-hot); font-size: 14px; margin: 0 0 6px }
+h1 { font-family: var(--display); font-weight: 400; font-size: clamp(40px, 7vw, 84px); line-height: .95; margin: 0; letter-spacing: .01em; text-wrap: balance }
+h1 em { font-family: var(--serif); font-style: italic; color: var(--cream) }
+.facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none }
+.facts li { border: 1px solid var(--line); border-radius: 999px; padding: 4px 14px; font-weight: 700; letter-spacing: .08em; font-size: 14px; color: var(--cream); font-variant-numeric: tabular-nums }
+.stage { display: grid; gap: 14px }
+.screen { position: relative; background: #000; border-radius: 6px; overflow: hidden; box-shadow: 0 0 0 1px var(--line), 0 30px 80px -30px rgba(203,50,52,.55) }
+.screen canvas { display: block; width: 100%; height: auto; max-width: 100% }
+.controls { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px }
+.now { flex: 1 1 260px; min-width: 0 }
+.now h2 { font-family: var(--display); font-weight: 400; font-size: 32px; margin: 0; line-height: 1.1 }
+.now p { margin: 2px 0 0; color: var(--muted); max-width: 68ch }
+.seg { display: inline-flex; border: 1px solid var(--line); border-radius: 999px; padding: 3px }
+.seg button, .btn { font: 800 15px var(--label); letter-spacing: .1em; color: var(--ink); background: none; border: 0; border-radius: 999px; padding: 8px 16px; cursor: pointer }
+.seg button[aria-pressed="true"] { background: var(--red); color: #fff }
+.btn { border: 1px solid var(--line); min-width: 92px }
+button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px solid var(--cream); outline-offset: 2px }
+.time { display: flex; align-items: center; gap: 12px; width: 100% }
+.time input { flex: 1; accent-color: var(--red) }
+.time output { font: 400 26px VT323, monospace; color: var(--red-hot); min-width: 70px; text-align: right; font-variant-numeric: tabular-nums }
+.sectionhead { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px; border-bottom: 1px solid var(--line); padding-bottom: 10px; margin-bottom: 18px }
+.sectionhead h3 { font-family: var(--display); font-weight: 400; font-size: 30px; margin: 0; letter-spacing: .02em }
+.sectionhead span { color: var(--muted); font-size: 15px }
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 18px }
+.card { display: grid; grid-template-rows: auto 1fr; gap: 10px; text-align: left; background: none; border: 0; padding: 0; color: inherit; cursor: pointer; font: inherit }
+.card canvas { width: 100%; height: auto; border-radius: 4px; box-shadow: 0 0 0 1px var(--line); display: block; transition: box-shadow .2s, transform .2s }
+.card:hover canvas { transform: translateY(-2px) }
+.card[aria-current="true"] canvas { box-shadow: 0 0 0 3px var(--red-hot) }
+.card .meta { display: grid; gap: 2px; min-width: 0 }
+.card .row { display: flex; justify-content: space-between; gap: 8px; align-items: baseline }
+.card b { font-family: var(--display); font-weight: 400; font-size: 21px; letter-spacing: .02em; line-height: 1.15 }
+.card .num { font: 400 20px VT323, monospace; color: var(--muted) }
+.tag { justify-self: start; font-weight: 800; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; border-radius: 3px; padding: 1px 7px; background: var(--panel); color: var(--cream) }
+.tag.hero { background: var(--red); color: #fff }
+.tag.new { background: var(--orchid); color: #1A0716 }
+.ideas { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 18px }
+.idea { background: var(--panel); border-radius: 6px; padding: 24px; display: grid; gap: 10px; align-content: start; min-width: 0 }
+.idea h4 { margin: 0; font-family: var(--serif); font-style: italic; font-weight: 400; font-size: 32px; line-height: 1.1; color: var(--cream) }
+.idea p { margin: 0; color: var(--ink); max-width: 62ch }
+.idea dl { margin: 6px 0 0; display: grid; grid-template-columns: max-content 1fr; gap: 6px 14px; font-size: 15px }
+.idea dt { font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--red-hot); font-size: 13px; padding-top: 2px }
+.idea dd { margin: 0; color: var(--muted); min-width: 0 }
+.notes { color: var(--muted); font-size: 15px; max-width: 80ch; margin: 0 }
+@media (prefers-reduced-motion: reduce) { .card canvas { transition: none } }
+</style>
+
+<div class="wrap">
+  <header>
+    <div>
+      <p class="eyebrow">Concert screen pack &middot; 10 loops</p>
+      <h1>All About R&amp;B <em>on the big screen</em></h1>
+    </div>
+    <ul class="facts" aria-label="Specs">
+      <li>15 s seamless loops</li><li>96 BPM</li><li>16:9 &middot; 1920&times;1080</li><li>2:1 &middot; 2160&times;1080</li>
+    </ul>
+  </header>
+
+  <section class="stage" aria-label="Live preview">
+    <div class="screen"><canvas id="main" width="1600" height="900" aria-label="Live loop preview"></canvas></div>
+    <div class="controls">
+      <div class="now"><h2 id="nowName">Loading&hellip;</h2><p id="nowDesc"></p></div>
+      <div class="seg" role="group" aria-label="Screen ratio">
+        <button id="r169" aria-pressed="true">16:9</button><button id="r21" aria-pressed="false">2:1</button>
+      </div>
+      <button class="btn" id="play">PAUSE</button>
+      <div class="time"><input id="scrub" type="range" min="0" max="15" step="0.01" value="0" aria-label="Loop position"><output id="tc">00.00</output></div>
+    </div>
+  </section>
+
+  <section aria-labelledby="ro">
+    <div class="sectionhead"><h3 id="ro">Running order</h3><span>Tap a screen to play it. Each one loops on its own.</span></div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section aria-labelledby="more">
+    <div class="sectionhead"><h3 id="more">Two more ideas</h3><span>Next additions, not built yet</span></div>
+    <div class="ideas">
+      <article class="idea">
+        <h4>Text From Your Ex</h4>
+        <p>The screen turns into a giant phone. A chat thread types itself out in real time, and every reply is an R&amp;B lyric the crowd sings along to. It ends on a final bubble: <strong>&ldquo;u coming to All About R&amp;B tonight?&rdquo;</strong> with the heart as the read receipt.</p>
+        <dl><dt>Crowd</dt><dd>Lyric replies are a built-in sing-along. A QR code lets the crowd send in their own &ldquo;texts&rdquo; to run as shout-outs between sets.</dd>
+            <dt>Why</dt><dd>R&amp;B lives on late-night texts. The joke lands instantly and can be swapped for every artist's catalogue.</dd></dl>
+      </article>
+      <article class="idea">
+        <h4>The Dedication Mixtape</h4>
+        <p>A cassette spins in close-up and the J-card is handwritten. As the tape spools, crowd dedications scroll on the label: <em>&ldquo;For Tolu, from Ada&rdquo;</em>, <em>&ldquo;To my 2009 self&rdquo;</em>. Then the tape flips to Side B and reveals the next artist.</p>
+        <dl><dt>Crowd</dt><dd>Dedications are collected on the ticketing page or at a booth in the venue, then batched into the loop before doors open.</dd>
+            <dt>Why</dt><dd>Nostalgia sells throwback R&amp;B nights. The Side B flip also works as a set-change interstitial.</dd></dl>
+      </article>
+    </div>
+  </section>
+
+  <p class="notes">Every loop is drawn in code from the supplied logo files and colours (red, cream, orchid, ink, white), so text, dates and artist names can be changed and the loops re-rendered at any size. Motion is timed to 96 BPM, a mid-tempo R&amp;B pocket, so cuts land on the beat if the screens are synced to the DJ.</p>
+</div>
+
+<script src="core.js"></script><script src="scenes-a.js"></script><script src="scenes-b.js"></script><script src="scenes-c.js"></script>
+<script>
+(async () => {
+  for (const [k, v] of Object.entries(ASSET_LIST)) IMG[k] = await loadImg(v);
+  try { await Promise.all(FONTS.map(f => document.fonts.load(f, 'AaR&B 0123'))); } catch (e) {}
+  const KEY_T = [3.1, 6.5, 8.2, 1.6, 7.6, 11.6, 11.0, 6.2, 6.0, 6.0];
+  const main = document.getElementById('main'), mctx = main.getContext('2d');
+  let cur = 0, ratio = 16 / 9, playing = !matchMedia('(prefers-reduced-motion: reduce)').matches, t = 0, last = performance.now();
+  const paint = (ctx, cv, scene, time) => {
+    const s = cv.height / 1080; ctx.setTransform(s, 0, 0, s, 0, 0); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
+    ctx.save(); try { scene.draw(ctx, ((time % LOOP) + LOOP) % LOOP, cv.width / s, 1080); } catch (e) { console.error(e); } ctx.restore();
+  };
+  const sizeMain = () => { const w = Math.min(1600, Math.round(main.clientWidth * (devicePixelRatio || 1))) || 1280; main.width = w; main.height = Math.round(w / ratio); };
+  const grid = document.getElementById('grid'), thumbs = [];
+  const tagClass = s => s.tag === 'Logo hero' ? 'tag hero' : s.tag === 'New idea' ? 'tag new' : 'tag';
+  SCENES.forEach((s, i) => {
+    const b = document.createElement('button'); b.className = 'card'; b.id = 'card-' + s.id; b.setAttribute('aria-current', i === 0);
+    b.innerHTML = `<canvas width="480" height="270"></canvas><div class="meta"><div class="row"><b>${s.name}</b><span class="num">${String(i + 1).padStart(2, '0')}</span></div><span class="${tagClass(s)}">${s.tag}</span></div>`;
+    b.onclick = () => select(i); grid.appendChild(b); thumbs.push(b.querySelector('canvas'));
+  });
+  const drawThumbs = () => thumbs.forEach((cv, i) => { cv.height = Math.round(480 / ratio); paint(cv.getContext('2d'), cv, SCENES[i], KEY_T[i]); });
+  const select = i => {
+    cur = i; t = 0; document.querySelectorAll('.card').forEach((c, k) => c.setAttribute('aria-current', k === i));
+    document.getElementById('nowName').textContent = String(i + 1).padStart(2, '0') + '  ' + SCENES[i].name;
+    document.getElementById('nowDesc').textContent = SCENES[i].desc;
+    if (!playing) paint(mctx, main, SCENES[cur], t);
+  };
+  const setRatio = r => { ratio = r; document.getElementById('r169').setAttribute('aria-pressed', r < 1.9); document.getElementById('r21').setAttribute('aria-pressed', r >= 1.9); sizeMain(); drawThumbs(); paint(mctx, main, SCENES[cur], t); };
+  document.getElementById('r169').onclick = () => setRatio(16 / 9);
+  document.getElementById('r21').onclick = () => setRatio(2);
+  const playBtn = document.getElementById('play'), scrub = document.getElementById('scrub'), tc = document.getElementById('tc');
+  const syncPlay = () => playBtn.textContent = playing ? 'PAUSE' : 'PLAY';
+  playBtn.onclick = () => { playing = !playing; last = performance.now(); syncPlay(); };
+  scrub.oninput = () => { t = +scrub.value; paint(mctx, main, SCENES[cur], t); tc.textContent = t.toFixed(2).padStart(5, '0'); };
+  addEventListener('resize', () => { sizeMain(); paint(mctx, main, SCENES[cur], t); });
+  sizeMain(); drawThumbs(); select(0); syncPlay();
+  const loop = now => {
+    if (playing) { t = (t + Math.min(.1, (now - last) / 1000)) % LOOP; paint(mctx, main, SCENES[cur], t); scrub.value = t; tc.textContent = t.toFixed(2).padStart(5, '0'); }
+    last = now; requestAnimationFrame(loop);
+  };
+  paint(mctx, main, SCENES[cur], KEY_T[0]); requestAnimationFrame(loop);
+})();
+</script>
