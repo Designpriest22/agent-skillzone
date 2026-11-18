@@ -64,7 +64,7 @@ button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px so
 <div class="wrap">
   <header>
     <div>
-      <p class="eyebrow">Concert screen pack &middot; 12 loops</p>
+      <p class="eyebrow">Concert screen pack &middot; 14 loops</p>
       <h1>All About R&amp;B <em>on the big screen</em></h1>
     </div>
     <ul class="facts" aria-label="Specs">
@@ -90,7 +90,7 @@ button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px so
   </section>
 
   <section aria-labelledby="more">
-    <div class="sectionhead"><h3 id="more">Two more ideas</h3><span>Next additions, not built yet</span></div>
+    <div class="sectionhead"><h3 id="more">About loops 13 and 14</h3><span>The two extra ideas, now built</span></div>
     <div class="ideas">
       <article class="idea">
         <h4>Text From Your Ex</h4>
@@ -110,12 +110,12 @@ button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px so
   <p class="notes">Every loop is drawn in code from the supplied logo files and colours (red, cream, orchid, ink, white) and set in Amidone Grotesk. The font has no numerals, so digits fall back to Barlow Condensed, and device displays (radio LCD, clocks, receipt print) keep their own faces, so text, dates and artist names can be changed and the loops re-rendered at any size. Motion is timed to 96 BPM, a mid-tempo R&amp;B pocket, so cuts land on the beat if the screens are synced to the DJ.</p>
 </div>
 
-<script src="core.js"></script><script src="scenes-a.js"></script><script src="scenes-b.js"></script><script src="scenes-c.js"></script><script src="scenes-d.js"></script>
+<script src="core.js"></script><script src="scenes-a.js"></script><script src="scenes-b.js"></script><script src="scenes-c.js"></script><script src="scenes-d.js"></script><script src="scenes-e.js"></script>
 <script>
 (async () => {
   for (const [k, v] of Object.entries(ASSET_LIST)) IMG[k] = await loadImg(v);
   try { await Promise.all(FONTS.map(f => document.fonts.load(f, 'AaR&B 0123'))); } catch (e) {}
-  const KEY_T = [3.1, 6.5, 8.2, 1.6, 7.6, 11.6, 11.0, 6.2, 6.0, 6.0, 2.6, 6.4];
+  const KEY_T = [3.1, 6.5, 8.2, 1.6, 7.6, 11.6, 11.0, 6.2, 6.0, 6.0, 2.6, 6.4, 12.0, 6.6];
   const main = document.getElementById('main'), mctx = main.getContext('2d');
   let cur = 0, ratio = 16 / 9, playing = !matchMedia('(prefers-reduced-motion: reduce)').matches, t = 0, last = performance.now();
   const paint = (ctx, cv, scene, time) => {
