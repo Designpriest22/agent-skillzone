@@ -33,7 +33,14 @@ function beatPulse(t, every = BEAT) { const p = (t % every) / every; return Math
 const IMG = {};
 const ASSET_LIST = { heart: 'assets/heart-logo.png', outline: 'assets/heart-outline.png', htext: 'assets/heart-text.png', sig: 'assets/signature-logo.png' };
 const loadImg = src => new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
-const FONTS = ['400 40px Anton', '500 40px "Barlow Condensed"', '700 40px "Barlow Condensed"', '800 40px "Barlow Condensed"', '400 40px VT323',
+// Brand typeface: Amidone Grotesk replaces the display/label faces. It has no numerals, so digits fall back to Barlow Condensed.
+// Device text (radio LCD, clocks, countdown, receipt print) keeps its VT323 / Courier faces.
+const BRAND = 'AmidoneGrotesk, "Barlow Condensed", sans-serif';
+const REMAP = { 'Anton': .82, '"Barlow Condensed"': .84, '"DM Serif Display"': .86 };
+function F(font) {
+  return font.replace(/^(italic )?(\d+) (\d+(?:\.\d+)?)px (Anton|"Barlow Condensed"|"DM Serif Display")$/, (m, it, w, sz, fam) => `400 ${Math.round(sz * REMAP[fam])}px ${BRAND}`);
+}
+const FONTS = ['400 40px AmidoneGrotesk', '400 40px Anton', '500 40px "Barlow Condensed"', '700 40px "Barlow Condensed"', '800 40px "Barlow Condensed"', '400 40px VT323',
   '400 40px "Courier Prime"', '700 40px "Courier Prime"', 'italic 400 40px "DM Serif Display"', '400 40px "DM Serif Display"'];
 const tintCache = new Map();
 function tinted(name, color) {
@@ -56,7 +63,7 @@ function logo(ctx, name, color, cx, cy, w, o = {}) {
 // ---------- drawing helpers ----------
 function txt(ctx, s, x, y, o = {}) {
   ctx.save();
-  ctx.font = o.font || '700 40px "Barlow Condensed"'; ctx.fillStyle = o.color || C.white;
+  ctx.font = F(o.font || '700 40px "Barlow Condensed"'); ctx.fillStyle = o.color || C.white;
   ctx.textAlign = o.align || 'center'; ctx.textBaseline = o.base || 'middle';
   ctx.letterSpacing = (o.ls || 0) + 'px'; ctx.globalAlpha *= o.alpha ?? 1;
   if (o.glow) { ctx.shadowColor = o.glowColor || o.color; ctx.shadowBlur = o.glow; }
@@ -64,7 +71,7 @@ function txt(ctx, s, x, y, o = {}) {
   if (!o.noFill) ctx.fillText(s, x, y);
   ctx.restore();
 }
-function measure(ctx, s, font, ls = 0) { ctx.save(); ctx.font = font; ctx.letterSpacing = ls + 'px'; const w = ctx.measureText(s).width; ctx.restore(); return w; }
+function measure(ctx, s, font, ls = 0) { ctx.save(); ctx.font = F(font); ctx.letterSpacing = ls + 'px'; const w = ctx.measureText(s).width; ctx.restore(); return w; }
 // heart path centred at (cx, cy) with width s
 function heartPath(ctx, cx, cy, s) {
   const w = s / 2, h = s * .92;

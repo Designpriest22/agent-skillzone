@@ -3,11 +3,12 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;700;800&family=VT323&family=Courier+Prime:wght@400;700&family=DM+Serif+Display:ital@0;1&display=swap">
 <style>
+@font-face { font-family: 'AmidoneGrotesk'; src: url(assets/fonts/AmidoneGrotesk.ttf) format('truetype'); font-display: swap }
 /* Layout: a stage monitor up top (the live loop), the 10-screen running order below it, then the two extra ideas. One committed after-dark look. */
 :root {
   --night: #140A11; --panel: #1F1119; --line: #3A2230; --ink: #F6EBDD; --muted: #B79FA4;
   --red: #CB3234; --red-hot: #FF4A48; --cream: #EDD5A7; --orchid: #C666BD;
-  --display: Anton, "Arial Narrow", Impact, sans-serif; --label: "Barlow Condensed", "Arial Narrow", sans-serif; --serif: "DM Serif Display", Georgia, serif;
+  --display: AmidoneGrotesk, "Barlow Condensed", sans-serif; --label: AmidoneGrotesk, "Barlow Condensed", sans-serif; --serif: AmidoneGrotesk, "Barlow Condensed", sans-serif;
   color-scheme: dark;
 }
 * { box-sizing: border-box }
@@ -63,7 +64,7 @@ button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px so
 <div class="wrap">
   <header>
     <div>
-      <p class="eyebrow">Concert screen pack &middot; 10 loops</p>
+      <p class="eyebrow">Concert screen pack &middot; 12 loops</p>
       <h1>All About R&amp;B <em>on the big screen</em></h1>
     </div>
     <ul class="facts" aria-label="Specs">
@@ -106,15 +107,15 @@ button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px so
     </div>
   </section>
 
-  <p class="notes">Every loop is drawn in code from the supplied logo files and colours (red, cream, orchid, ink, white), so text, dates and artist names can be changed and the loops re-rendered at any size. Motion is timed to 96 BPM, a mid-tempo R&amp;B pocket, so cuts land on the beat if the screens are synced to the DJ.</p>
+  <p class="notes">Every loop is drawn in code from the supplied logo files and colours (red, cream, orchid, ink, white) and set in Amidone Grotesk. The font has no numerals, so digits fall back to Barlow Condensed, and device displays (radio LCD, clocks, receipt print) keep their own faces, so text, dates and artist names can be changed and the loops re-rendered at any size. Motion is timed to 96 BPM, a mid-tempo R&amp;B pocket, so cuts land on the beat if the screens are synced to the DJ.</p>
 </div>
 
-<script src="core.js"></script><script src="scenes-a.js"></script><script src="scenes-b.js"></script><script src="scenes-c.js"></script>
+<script src="core.js"></script><script src="scenes-a.js"></script><script src="scenes-b.js"></script><script src="scenes-c.js"></script><script src="scenes-d.js"></script>
 <script>
 (async () => {
   for (const [k, v] of Object.entries(ASSET_LIST)) IMG[k] = await loadImg(v);
   try { await Promise.all(FONTS.map(f => document.fonts.load(f, 'AaR&B 0123'))); } catch (e) {}
-  const KEY_T = [3.1, 6.5, 8.2, 1.6, 7.6, 11.6, 11.0, 6.2, 6.0, 6.0];
+  const KEY_T = [3.1, 6.5, 8.2, 1.6, 7.6, 11.6, 11.0, 6.2, 6.0, 6.0, 2.6, 6.4];
   const main = document.getElementById('main'), mctx = main.getContext('2d');
   let cur = 0, ratio = 16 / 9, playing = !matchMedia('(prefers-reduced-motion: reduce)').matches, t = 0, last = performance.now();
   const paint = (ctx, cv, scene, time) => {

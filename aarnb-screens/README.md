@@ -1,6 +1,6 @@
 # All About R&B: concert screen loops
 
-There are 10 screen animations for an All About R&B concert. Each one is a 15 s seamless loop timed to 96 BPM (24 beats), rendered at 16:9 (1920×1080) and 2:1 (2160×1080).
+There are 12 screen animations for an All About R&B concert. Each one is a 15 s seamless loop timed to 96 BPM (24 beats), rendered at 16:9 (1920×1080) and 2:1 (2160×1080).
 
 | # | Loop | Source | What happens |
 |---|---|---|---|
@@ -14,12 +14,17 @@ There are 10 screen animations for an All About R&B concert. Each one is a 15 s 
 | 08 | Red Means R&B | Brief 4 | A Lagos traffic light with a danfo. The red lamp is a heart reading R&B. |
 | 09 | Neon Signature | Logo hero | The signature logo writes on in neon. The heart beats, with a wet-floor reflection. |
 | 10 | Phones Up | New idea | Crowd phone lights lift into a beating heart, a MAKE SOME NOISE meter fills, then a sing-along. |
+| 11 | Red Room | Logo hero, red | The heart logo punches on the beat over an endless zoom of heart outlines, with strobes, marquee bands and confetti drops. |
+| 12 | Signature on Red | Logo hero, red | The signature writes on over a moving type wall, its heart pops, then a white heart wipe brings in the heart logo. |
 
 The two further ideas, Text From Your Ex and The Dedication Mixtape, are described in `index.html`.
 
+## Type
+Text is set in Amidone Grotesk (`assets/fonts/AmidoneGrotesk.ttf`). It is a licensed font, so it is git-ignored and must be copied in before rendering. It has no numerals, so digits fall back to Barlow Condensed. Device text (radio LCD, clocks, countdown, receipt print) keeps VT323 and Courier Prime.
+
 ## Files
 - `index.html`: live preview with a ratio toggle and scrubber (serve the folder over HTTP).
-- `core.js`, `scenes-a.js`, `scenes-b.js`, `scenes-c.js`: the engine and scenes. Each scene is a pure function of time, drawn in a 1080-unit-tall space so it fills either ratio.
+- `core.js`, `scenes-a.js`, `scenes-b.js`, `scenes-c.js`, `scenes-d.js`: the engine and scenes. Each scene is a pure function of time, drawn in a 1080-unit-tall space so it fills either ratio.
 - `render.html`, `render.mjs`: the offline renderer (Playwright + ffmpeg).
 - `assets/`: logo masks cut from the supplied artwork (`tools_logos.py`) and the font files.
 
