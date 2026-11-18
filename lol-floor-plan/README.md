@@ -7,6 +7,7 @@ three zone plans and the 49 brand slot allocations.
 - `index.html` — web version (generated)
 - `build.py` — source of truth: slot data and plan geometry (traced from `source/*.jpg`)
 - `render_pdf.mjs` — renders the PDF with Playwright
+- `desk.html` — live brand allocation desk (claude.ai artifact; built by `build_desk.py` from `desk_template.html`). Brands live in the artifact database collection `brands`, slot assignments in `alloc/<slot id>` as `{brandId}`.
 
 Rebuild: `python3 build.py && NODE_PATH=$(npm root -g) node render_pdf.mjs`
 

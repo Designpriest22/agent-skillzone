@@ -97,18 +97,24 @@ def walkline(d, color=FLOW):
     return f'<path d="{d}" fill="none" stroke="{color}" stroke-width="4" stroke-dasharray="3 9" stroke-linecap="round"/>'
 
 
+def seg(rect, sid, cls="seg"):
+    """Tag a slot rectangle so the live allocation desk can recolour it."""
+    return rect.replace("<rect ", f'<rect class="{cls}" ', 1)
+
+
 def slots_svg(zone):
     out, c = [], ZC[zone]
     for s in (x for x in SLOTS if x["zone"] == zone):
         if s["orient"] == "v":
-            out.append(R(s["axis"] - 5, s["a"], 10, s["b"] - s["a"], c, 1))
+            r = R(s["axis"] - 5, s["a"], 10, s["b"] - s["a"], c, 1)
             px, py = s["axis"] + s["pill"], (s["a"] + s["b"]) / 2
         else:
-            out.append(R(s["a"], s["axis"] - 5, s["b"] - s["a"], 10, c, 1))
+            r = R(s["a"], s["axis"] - 5, s["b"] - s["a"], 10, c, 1)
             px, py = (s["a"] + s["b"]) / 2, s["axis"] + s["pill"]
-        out.append(R(px - 21, py - 10, 42, 20, "#ffffff", 10, c, 2.5))
-        out.append(f'<text x="{px}" y="{py + 5}" font-size="13" text-anchor="middle" fill="{INK}" '
-                   f'font-family="Inter, Arial, sans-serif" font-weight="700">{s["id"]}</text>')
+        out.append(f'<g class="slot" data-slot="{s["id"]}">{seg(r, s["id"])}'
+                   f'{seg(R(px - 21, py - 10, 42, 20, "#ffffff", 10, c, 2.5), s["id"], "pill")}'
+                   f'<text x="{px}" y="{py + 5}" font-size="13" text-anchor="middle" fill="{INK}" '
+                   f'font-family="Inter, Arial, sans-serif" font-weight="700">{s["id"]}</text></g>')
     return "".join(out)
 
 
@@ -272,9 +278,10 @@ def combined():
         for i in range(n):
             p = a + i * (L + g)
             if y is not None:
-                out.append(R(round(p, 1), y - 4, round(L, 1), 8, ZC[zone], 1))
+                r = R(round(p, 1), y - 4, round(L, 1), 8, ZC[zone], 1)
             else:
-                out.append(R(x - 4, round(p, 1), 8, round(L, 1), ZC[zone], 1))
+                r = R(x - 4, round(p, 1), 8, round(L, 1), ZC[zone], 1)
+            out.append(f'<g class="slot" data-slot="{ss[i]["id"]}">{seg(r, ss[i]["id"])}</g>')
         return "".join(out)
 
     def tag(x, y, code, size, zone, rot=None):
@@ -388,11 +395,13 @@ def combined():
         if s["orient"] == "v":
             X1, Y1 = cw(s["axis"], s["b"])
             X2, _ = cw(s["axis"], s["a"])
-            o.append(R(round(X1, 1), round(Y1 - 4, 1), round(X2 - X1, 1), 8, ORANGE, 1))
+            r = R(round(X1, 1), round(Y1 - 4, 1), round(X2 - X1, 1), 8, ORANGE, 1)
+            o.append(f'<g class="slot" data-slot="{s["id"]}">{seg(r, s["id"])}</g>')
         else:
             X1, Y1 = cw(s["a"], s["axis"])
             _, Y2 = cw(s["b"], s["axis"])
-            o.append(R(round(X1 - 4, 1), round(Y1, 1), 8, round(Y2 - Y1, 1), ORANGE, 1))
+            r = R(round(X1 - 4, 1), round(Y1, 1), 8, round(Y2 - Y1, 1), ORANGE, 1)
+            o.append(f'<g class="slot" data-slot="{s["id"]}">{seg(r, s["id"])}</g>')
     o += [tag(600, 552, "V10–V17", "39 × 10 ft", "V"), tag(537, 780, "V02–V09", "32 × 10 ft", "V"),
           tag(352, 508, "V01", "36 × 10 ft", "V"), tag(811, 813, "V18–V19", "80 × 10 ft", "V"),
           tag(936, 815, "T01–T05", "50 × 10 ft", "T"), tag(907, 668, "T06–T08", "49 × 10 ft", "T"),

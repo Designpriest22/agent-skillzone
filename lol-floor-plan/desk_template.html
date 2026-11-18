@@ -1,0 +1,544 @@
+<title>LOL Brand Allocation Desk</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: an operations desk. Brands rail on the left, the plan and its slot list on the right; three tabs (Allocate, Masterplan, Brand documents). Plans always sit on white paper, like the organiser's drawings. */
+:root {
+  --bg: #f3f2ef; --panel: #ffffff; --paper: #ffffff; --ink: #22201e; --muted: #6f6a64; --rule: #e2dfda;
+  --accent: #e4521b; --accent-ink: #ffffff; --sel: #fff1e9; --ok: #1f8a4c; --warn: #b3261e;
+  --display: "Oswald", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --bg: #171513; --panel: #22201d; --paper: #ffffff; --ink: #efece8; --muted: #a8a29a; --rule: #3a3631;
+  --accent: #f26a33; --accent-ink: #1a0d06; --sel: #3b2418; --ok: #5cc98a; --warn: #f28b82; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --bg: #171513; --panel: #22201d; --paper: #ffffff; --ink: #efece8; --muted: #a8a29a; --rule: #3a3631;
+  --accent: #f26a33; --accent-ink: #1a0d06; --sel: #3b2418; --ok: #5cc98a; --warn: #f28b82; color-scheme: dark; }
+html, body { background: var(--bg); color: var(--ink); }
+body { font-family: var(--body); font-size: 14px; line-height: 1.45; padding-block: 18px 48px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.app { max-width: 1440px; margin: 0 auto; display: grid; gap: 16px; }
+h1, h2, h3 { font-family: var(--display); text-transform: uppercase; margin: 0; line-height: 1.05; letter-spacing: .01em; text-wrap: balance; }
+h1 { font-size: clamp(26px, 3.4vw, 38px); font-weight: 700; }
+h2 { font-size: 22px; font-weight: 600; }
+h3 { font-size: 16px; font-weight: 600; }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.top { display: flex; flex-wrap: wrap; gap: 12px 24px; align-items: end; justify-content: space-between; }
+.eyebrow { font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+.stats { display: flex; flex-wrap: wrap; gap: 8px; }
+.stat { background: var(--panel); border: 1px solid var(--rule); border-radius: 8px; padding: 8px 12px; display: grid; min-width: 104px; }
+.stat b { font-family: var(--display); font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.stat span { font-size: 12px; color: var(--muted); }
+.tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--rule); overflow-x: auto; }
+.tab { background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 14px; font-weight: 600; color: var(--muted); white-space: nowrap; }
+.tab[aria-selected="true"] { color: var(--ink); border-bottom-color: var(--accent); }
+.status { font-size: 13px; padding: 8px 12px; border-radius: 6px; background: var(--sel); }
+.status:empty { display: none; }
+.view { display: grid; gap: 16px; min-width: 0; }
+.view[hidden], [hidden] { display: none !important; }
+.desk { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 1000px) { .desk { grid-template-columns: 330px minmax(0, 1fr); } }
+.panel { background: var(--panel); border: 1px solid var(--rule); border-radius: 10px; padding: 14px; display: grid; gap: 12px; min-width: 0; align-content: start; }
+.addform { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; }
+.addform .row2 { grid-column: 1 / -1; display: flex; gap: 8px; }
+input[type=text], select { background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; padding: 7px 9px; min-width: 0; }
+.btn { background: var(--bg); border: 1px solid var(--rule); border-radius: 6px; padding: 7px 11px; font-weight: 600; font-size: 13px; white-space: nowrap; }
+.btn:hover { border-color: var(--muted); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn.danger { color: var(--warn); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.brands { display: grid; gap: 6px; max-height: 70vh; overflow: auto; }
+.brand { border: 1px solid var(--rule); border-radius: 8px; padding: 8px; display: grid; gap: 8px; cursor: pointer; }
+.brand.active { border-color: var(--accent); background: var(--sel); box-shadow: inset 4px 0 0 var(--accent); }
+.brand .row { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; align-items: center; }
+.logo { width: 44px; height: 44px; border-radius: 6px; background: #ffffff; border: 1px solid var(--rule); display: grid; place-items: center; overflow: hidden; }
+.logo img { max-width: 90%; max-height: 90%; object-fit: contain; }
+.logo .ini { width: 100%; height: 100%; display: grid; place-items: center; color: #fff; font-family: var(--display); font-weight: 700; font-size: 17px; }
+.bname { font-weight: 700; overflow-wrap: anywhere; display: flex; gap: 6px; align-items: center; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.bmeta { font-size: 12px; color: var(--muted); }
+.actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.actions .btn { padding: 4px 8px; font-size: 12px; }
+.edit { display: grid; gap: 6px; }
+.edit .line { display: flex; gap: 6px; align-items: center; }
+input[type=color] { width: 36px; height: 30px; border: 1px solid var(--rule); border-radius: 6px; padding: 0; background: none; }
+.hint { font-size: 13px; color: var(--muted); margin: 0; }
+.zbar { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; justify-content: space-between; }
+.seg-btns { display: flex; flex-wrap: wrap; gap: 4px; }
+.seg-btns .btn[aria-pressed="true"] { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.paper { background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; overflow-x: auto; }
+.paper svg { display: block; width: 100%; min-width: 620px; height: auto; }
+.paper [data-slot] { cursor: pointer; }
+.paper.ro [data-slot] { cursor: default; }
+.t { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.t th { text-align: left; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); font-weight: 600; padding: 6px 8px; border-bottom: 2px solid var(--ink); white-space: nowrap; }
+.t td { padding: 6px 8px; border-bottom: 1px solid var(--rule); vertical-align: middle; }
+.t select { width: 100%; max-width: 240px; }
+.tbl { overflow-x: auto; }
+.code { font-weight: 700; padding: 2px 8px; border-radius: 99px; border: 2px solid; white-space: nowrap; font-size: 12.5px; }
+.mini { display: inline-flex; align-items: center; gap: 8px; }
+.mini .logo { width: 26px; height: 26px; border-radius: 4px; }
+.mini .logo .ini { font-size: 11px; }
+.legend { display: grid; gap: 8px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.lg { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 10px; align-items: center; border: 1px solid var(--rule); border-radius: 8px; padding: 8px; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; justify-content: space-between; }
+.docs { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); align-items: start; }
+@media (min-width: 1000px) { .docs { grid-template-columns: 280px minmax(0, 1fr); } }
+.preview { background: #e9e7e3; border-radius: 10px; padding: 16px; overflow-x: auto; }
+.empty { padding: 24px; text-align: center; color: var(--muted); border: 1px dashed var(--rule); border-radius: 8px; }
+
+/* ---- brand document (shared by preview and downloaded file) ---- */
+.bdoc { --bd-ink: #22201e; --bd-muted: #6f6a64; --bd-rule: #e3e0db; color: var(--bd-ink); font-family: var(--body); display: grid; gap: 16px; min-width: 760px; }
+.bdoc .bd-page { background: #ffffff; padding: 32px 36px; display: grid; gap: 18px; box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+.bdoc h1, .bdoc h2 { font-family: var(--display); text-transform: uppercase; margin: 0; line-height: 1.02; color: var(--bd-ink); }
+.bdoc h1 { font-size: 46px; font-weight: 700; }
+.bdoc h2 { font-size: 22px; font-weight: 600; }
+.bdoc .bd-head { display: flex; justify-content: space-between; gap: 24px; align-items: center; border-bottom: 4px solid var(--bd-brand, #22201e); padding-bottom: 16px; }
+.bdoc .bd-eyebrow { font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--bd-muted); margin: 0 0 8px; }
+.bdoc .bd-sub { margin: 8px 0 0; color: var(--bd-muted); font-size: 14px; }
+.bdoc .bd-logo { width: 150px; height: 96px; display: grid; place-items: center; border: 1px solid var(--bd-rule); border-radius: 8px; overflow: hidden; flex: none; background: #ffffff; }
+.bdoc .bd-logo img { max-width: 88%; max-height: 84%; object-fit: contain; }
+.bdoc .bd-logo .ini { width: 100%; height: 100%; display: grid; place-items: center; color: #fff; font-family: var(--display); font-size: 38px; font-weight: 700; }
+.bdoc .bd-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.bdoc .bd-kpi { border-top: 5px solid var(--bd-brand, #22201e); padding-top: 8px; display: grid; }
+.bdoc .bd-kpi b { font-family: var(--display); font-size: 30px; font-weight: 600; line-height: 1.05; }
+.bdoc .bd-kpi span { font-size: 12.5px; color: var(--bd-muted); }
+.bdoc .bd-t { width: 100%; border-collapse: collapse; font-size: 13.5px; font-variant-numeric: tabular-nums; }
+.bdoc .bd-t th { text-align: left; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--bd-muted); font-weight: 600; padding: 6px 8px; border-bottom: 2px solid var(--bd-ink); }
+.bdoc .bd-t td { padding: 7px 8px; border-bottom: 1px solid var(--bd-rule); vertical-align: middle; }
+.bdoc .bd-code { font-weight: 700; padding: 2px 8px; border-radius: 99px; border: 2px solid var(--bd-brand, #22201e); white-space: nowrap; }
+.bdoc .bd-plan svg { display: block; width: 100%; height: auto; }
+.bdoc .bd-key { display: flex; flex-wrap: wrap; gap: 8px 22px; font-size: 12.5px; color: var(--bd-muted); }
+.bdoc .bd-key i { display: inline-block; width: 24px; height: 9px; margin-right: 7px; vertical-align: middle; }
+.bdoc ul { margin: 0; padding-left: 18px; display: grid; gap: 5px; font-size: 13.5px; }
+.bdoc .bd-foot { font-size: 12px; color: var(--bd-muted); border-top: 1px solid var(--bd-rule); padding-top: 10px; margin: 0; }
+.bdoc .bd-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 8px; }
+.bdoc .bd-lg { display: grid; grid-template-columns: 40px 1fr; gap: 8px; align-items: center; border: 1px solid var(--bd-rule); border-radius: 6px; padding: 6px; font-size: 12.5px; }
+.bdoc .bd-lg .bd-logo { width: 40px; height: 40px; border-radius: 4px; }
+.bdoc .bd-lg .bd-logo .ini { font-size: 15px; }
+</style>
+
+<div class="app">
+  <header class="top">
+    <div>
+      <p class="eyebrow">Live Out Loud Music Festival 2026 · Eagle Square, Abuja · 13 Dec 2026</p>
+      <h1>Brand allocation desk</h1>
+    </div>
+    <div class="stats" id="stats"></div>
+  </header>
+  <div class="status" id="status" role="status"></div>
+  <nav class="tabs" role="tablist">
+    <button class="tab" role="tab" data-tab="allocate" aria-selected="true">Allocate</button>
+    <button class="tab" role="tab" data-tab="master" aria-selected="false">Masterplan</button>
+    <button class="tab" role="tab" data-tab="docs" aria-selected="false">Brand documents</button>
+  </nav>
+
+  <!-- ALLOCATE -->
+  <section class="view" id="v-allocate">
+    <div class="desk">
+      <div class="panel">
+        <h2>Brands</h2>
+        <form class="addform" id="addform">
+          <input type="text" id="new-name" placeholder="Brand name" aria-label="Brand name" autocomplete="off">
+          <button class="btn primary" type="submit" id="add-btn">Add</button>
+          <div class="row2">
+            <select id="new-tier" aria-label="Tier"><option>Tier 1</option><option>Tier 2</option><option>Partner</option><option>Vendor</option></select>
+          </div>
+        </form>
+        <p class="hint">Select a brand, then click its slots on the plan. Click a slot again to free it.</p>
+        <div class="brands" id="brands"></div>
+      </div>
+      <div class="panel">
+        <div class="zbar">
+          <div class="seg-btns" id="zone-btns">
+            <button class="btn" data-zone="A" aria-pressed="true">Event arena</button>
+            <button class="btn" data-zone="T" aria-pressed="false">Table parking</button>
+            <button class="btn" data-zone="V" aria-pressed="false">Validation point</button>
+            <button class="btn" data-zone="S" aria-pressed="false">Whole site</button>
+          </div>
+          <span class="hint" id="active-hint"></span>
+        </div>
+        <div class="paper" id="alloc-plan" data-plan="A"></div>
+        <div class="tbl"><table class="t" id="slot-table"><thead><tr><th>Slot</th><th>Location</th><th>Size</th><th>Brand</th></tr></thead><tbody></tbody></table></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MASTERPLAN -->
+  <section class="view" id="v-master" hidden>
+    <div class="panel">
+      <div class="toolbar">
+        <h2>Masterplan</h2>
+        <div class="actions"><button class="btn primary" id="dl-master">Download masterplan (HTML)</button><button class="btn" id="dl-csv">Download schedule (CSV)</button></div>
+      </div>
+      <div class="paper ro" id="master-site" data-plan="S"></div>
+      <div class="legend" id="master-legend"></div>
+      <div class="paper ro" id="master-A" data-plan="A"></div>
+      <div class="paper ro" id="master-T" data-plan="T"></div>
+      <div class="paper ro" id="master-V" data-plan="V"></div>
+      <div class="tbl"><table class="t" id="master-table"><thead><tr><th>Slot</th><th>Zone</th><th>Location</th><th>Size</th><th>Brand</th></tr></thead><tbody></tbody></table></div>
+    </div>
+  </section>
+
+  <!-- DOCS -->
+  <section class="view" id="v-docs" hidden>
+    <div class="docs">
+      <div class="panel">
+        <h2>Brand documents</h2>
+        <p class="hint">Pick a brand to preview its allocation document. Download it, open it in a browser and print to PDF (A4 landscape).</p>
+        <div class="brands" id="doc-brands"></div>
+      </div>
+      <div class="panel">
+        <div class="toolbar"><h2 id="doc-title">Preview</h2><button class="btn primary" id="dl-doc" disabled>Download document (HTML)</button></div>
+        <div class="preview" id="doc-preview"><div class="empty">Choose a brand on the left.</div></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<script>
+(() => {
+const SLOTS = __SLOTS__;
+const SVGS = __SVGS__;
+const ZONES = { A: { name: "Event arena", color: "#f7861d" }, T: { name: "Table parking", color: "#22e03a" }, V: { name: "Validation point", color: "#14d4f0" } };
+const PALETTE = ["#e4521b", "#2f6fde", "#0f9d58", "#8e24aa", "#c49000", "#d81b60", "#00838f", "#6d4c41", "#3949ab", "#7cb342", "#5e35b1", "#00897b", "#ef6c00", "#546e7a", "#ad1457", "#1e88e5"];
+const TIER_ORDER = { "Tier 1": 0, "Tier 2": 1, "Partner": 2, "Vendor": 3 };
+const SLOT = Object.fromEntries(SLOTS.map(s => [s.id, s]));
+const TOTAL_FT = SLOTS.reduce((a, s) => a + s.w, 0);
+
+const S = { brands: {}, alloc: {}, active: null, tab: "allocate", zone: "A", docBrand: null, editing: null, confirmDel: null,
+  canWrite: false, gotB: false, gotA: false };
+let db = null, assets = null, downloads = null;
+
+const $ = (s, r = document) => r.querySelector(s);
+const esc = (v) => String(v ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const status = (m) => { $("#status").textContent = m || ""; };
+const sortedBrands = () => Object.values(S.brands).sort((a, b) => (TIER_ORDER[a.tier] ?? 9) - (TIER_ORDER[b.tier] ?? 9) || String(a.name).localeCompare(String(b.name)));
+const slotsOf = (bid) => SLOTS.filter(s => S.alloc[s.id] === bid);
+const logoSrc = (b) => b.logoUrl || (b.logoId ? "/_blob/" + b.logoId : "");
+const initials = (n) => String(n || "?").split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join("").toUpperCase();
+const logoBox = (b, cls = "logo") => {
+  const src = logoSrc(b);
+  return `<div class="${cls}">${src ? `<img src="${esc(src)}" alt="${esc(b.name)} logo">` : `<div class="ini" style="background:${esc(b.color)}">${esc(initials(b.name))}</div>`}</div>`;
+};
+
+/* ---------- plans ---------- */
+function mountPlans() {
+  document.querySelectorAll("[data-plan]").forEach(el => { el.innerHTML = SVGS[el.dataset.plan]; });
+}
+function paint(root, mode, focus) {
+  root.querySelectorAll("g[data-slot]").forEach(g => {
+    const id = g.dataset.slot, bid = S.alloc[id], b = bid && S.brands[bid];
+    const seg = g.querySelector(".seg"), pill = g.querySelector(".pill"), zc = ZONES[id[0]].color;
+    let fill = b ? b.color : zc, op = b ? 1 : 0.35, stroke = b ? b.color : zc, gop = 1;
+    if (mode === "doc") {
+      const mine = bid === focus;
+      fill = mine ? (b.color || "#22201e") : "#cfccc6"; op = 1; stroke = mine ? fill : "#c9c6c0"; gop = mine ? 1 : 0.6;
+    }
+    if (seg) { seg.setAttribute("fill", fill); seg.setAttribute("fill-opacity", op);
+      if (mode === "doc" && bid === focus) { seg.setAttribute("stroke", "#111"); seg.setAttribute("stroke-width", "2"); } else seg.removeAttribute("stroke"); }
+    if (pill) { pill.setAttribute("stroke", stroke); pill.setAttribute("stroke-width", b ? 4 : 2.5); }
+    g.setAttribute("opacity", gop);
+    let t = g.querySelector("title");
+    if (!t) { t = document.createElementNS("http://www.w3.org/2000/svg", "title"); g.prepend(t); }
+    t.textContent = `${id} · ${SLOT[id].w} × 10 ft · ${b ? b.name : "Unassigned"}`;
+  });
+}
+function planMarkup(key, mode, focus) {
+  const d = document.createElement("div"); d.innerHTML = SVGS[key]; paint(d, mode, focus);
+  d.querySelectorAll("title").forEach(t => t.remove());
+  return d.innerHTML;
+}
+
+/* ---------- render ---------- */
+function renderStats() {
+  const n = Object.keys(S.alloc).filter(k => S.brands[S.alloc[k]]).length;
+  const ft = SLOTS.filter(s => S.brands[S.alloc[s.id]]).reduce((a, s) => a + s.w, 0);
+  $("#stats").innerHTML = `<div class="stat"><b>${n} / ${SLOTS.length}</b><span>slots allocated</span></div>
+    <div class="stat"><b>${ft.toLocaleString()} ft</b><span>of ${TOTAL_FT.toLocaleString()} ft</span></div>
+    <div class="stat"><b>${Object.keys(S.brands).length}</b><span>brands</span></div>`;
+}
+function brandCard(b) {
+  const ss = slotsOf(b.id), ft = ss.reduce((a, s) => a + s.w, 0);
+  const meta = `${esc(b.tier || "")}${b.tier ? " · " : ""}${ss.length} slot${ss.length === 1 ? "" : "s"} · ${ft} ft${ss.length ? " · " + ss.map(s => s.id).join(", ") : ""}`;
+  if (S.editing === b.id) {
+    return `<div class="brand active" data-brand="${esc(b.id)}"><div class="edit">
+      <input type="text" id="ed-name" value="${esc(b.name)}" aria-label="Brand name">
+      <div class="line"><select id="ed-tier" aria-label="Tier">${["Tier 1", "Tier 2", "Partner", "Vendor"].map(t => `<option${t === b.tier ? " selected" : ""}>${t}</option>`).join("")}</select>
+      <input type="color" id="ed-color" value="${esc(b.color || "#e4521b")}" aria-label="Plan colour"></div>
+      <div class="actions"><button class="btn primary" data-act="save">Save</button><button class="btn" data-act="cancel">Cancel</button></div></div></div>`;
+  }
+  const w = S.canWrite;
+  return `<div class="brand${S.active === b.id ? " active" : ""}" data-brand="${esc(b.id)}" tabindex="0" role="button" aria-pressed="${S.active === b.id}">
+    <div class="row">${logoBox(b)}<div><div class="bname"><i class="dot" style="background:${esc(b.color)}"></i>${esc(b.name)}</div><div class="bmeta">${meta}</div></div></div>
+    ${w ? `<div class="actions">
+      <label class="btn" for="logo-${esc(b.id)}">${logoSrc(b) ? "Replace logo" : "Upload logo"}</label>
+      <input type="file" id="logo-${esc(b.id)}" data-logo="${esc(b.id)}" accept="image/png,image/jpeg,image/webp,image/svg+xml" hidden>
+      <button class="btn" data-act="edit">Edit</button>
+      ${ss.length ? `<button class="btn" data-act="clear">Free slots</button>` : ""}
+      <button class="btn danger" data-act="del">${S.confirmDel === b.id ? "Confirm delete" : "Delete"}</button></div>` : ""}
+  </div>`;
+}
+function renderBrands() {
+  const list = sortedBrands();
+  $("#brands").innerHTML = list.length ? list.map(brandCard).join("") : `<div class="empty">No brands yet. Add the first brand above.</div>`;
+  $("#addform").hidden = !S.canWrite;
+  const a = S.brands[S.active];
+  $("#active-hint").textContent = a ? `Assigning: ${a.name}` : (S.canWrite ? "Select a brand to start assigning" : "View only");
+}
+function renderSlotTable() {
+  const opts = sortedBrands();
+  const rows = SLOTS.filter(s => S.zone === "S" || s.zone === S.zone).map(s => {
+    const bid = S.alloc[s.id] && S.brands[S.alloc[s.id]] ? S.alloc[s.id] : "";
+    return `<tr><td><span class="code" style="border-color:${ZONES[s.zone].color}">${s.id}</span></td><td>${esc(s.where)}</td><td>${s.w} × 10 ft</td>
+      <td><select data-slot-sel="${s.id}" aria-label="Brand for ${s.id}"${S.canWrite ? "" : " disabled"}><option value="">Unassigned</option>${opts.map(b => `<option value="${esc(b.id)}"${b.id === bid ? " selected" : ""}>${esc(b.name)}</option>`).join("")}</select></td></tr>`;
+  }).join("");
+  $("#slot-table tbody").innerHTML = rows;
+}
+function brandCell(bid) {
+  const b = S.brands[bid];
+  return b ? `<span class="mini">${logoBox(b)}${esc(b.name)}</span>` : `<span class="hint">Unassigned</span>`;
+}
+function renderMaster() {
+  const list = sortedBrands().filter(b => slotsOf(b.id).length);
+  const free = SLOTS.filter(s => !S.brands[S.alloc[s.id]]);
+  $("#master-legend").innerHTML = list.map(b => {
+    const ss = slotsOf(b.id);
+    return `<div class="lg">${logoBox(b)}<div><div class="bname"><i class="dot" style="background:${esc(b.color)}"></i>${esc(b.name)}</div><div class="bmeta">${ss.map(s => s.id).join(", ")} · ${ss.reduce((a, s) => a + s.w, 0)} ft</div></div></div>`;
+  }).join("") + `<div class="lg"><div class="logo"></div><div><div class="bname">Unassigned</div><div class="bmeta">${free.length} slot${free.length === 1 ? "" : "s"}${free.length ? " · " + free.map(s => s.id).join(", ") : ""}</div></div></div>`;
+  $("#master-table tbody").innerHTML = SLOTS.map(s => `<tr><td><span class="code" style="border-color:${ZONES[s.zone].color}">${s.id}</span></td><td>${ZONES[s.zone].name}</td><td>${esc(s.where)}</td><td>${s.w} × 10 ft</td><td>${brandCell(S.alloc[s.id])}</td></tr>`).join("");
+}
+function renderDocs() {
+  const list = sortedBrands();
+  $("#doc-brands").innerHTML = list.length ? list.map(b => {
+    const n = slotsOf(b.id).length;
+    return `<div class="brand${S.docBrand === b.id ? " active" : ""}" data-doc="${esc(b.id)}" tabindex="0" role="button"><div class="row">${logoBox(b)}<div><div class="bname">${esc(b.name)}</div><div class="bmeta">${n ? n + " slot" + (n === 1 ? "" : "s") : "No slots yet"}</div></div></div></div>`;
+  }).join("") : `<div class="empty">Add brands on the Allocate tab.</div>`;
+  const b = S.brands[S.docBrand];
+  $("#dl-doc").disabled = !b || !slotsOf(b.id).length || !downloads;
+  $("#doc-title").textContent = b ? b.name : "Preview";
+  if (!b) { $("#doc-preview").innerHTML = `<div class="empty">Choose a brand on the left.</div>`; return; }
+  $("#doc-preview").innerHTML = slotsOf(b.id).length ? brandDoc(b, logoSrc(b)) : `<div class="empty">${esc(b.name)} has no slots yet. Assign slots on the Allocate tab.</div>`;
+}
+function render() {
+  renderStats(); renderBrands();
+  document.querySelectorAll(".tab").forEach(t => t.setAttribute("aria-selected", String(t.dataset.tab === S.tab)));
+  ["allocate", "master", "docs"].forEach(v => { $("#v-" + v).hidden = S.tab !== v; });
+  document.querySelectorAll("#zone-btns .btn").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.zone === S.zone)));
+  if (S.tab === "allocate") { paint($("#alloc-plan"), "alloc"); renderSlotTable(); $("#alloc-plan").classList.toggle("ro", !S.canWrite); }
+  if (S.tab === "master") { ["#master-site", "#master-A", "#master-T", "#master-V"].forEach(k => paint($(k), "alloc")); renderMaster(); }
+  if (S.tab === "docs") renderDocs();
+  $("#dl-master").disabled = !downloads; $("#dl-csv").disabled = !downloads;
+}
+
+/* ---------- documents ---------- */
+function docLogo(b, src) {
+  return `<div class="bd-logo">${src ? `<img src="${esc(src)}" alt="${esc(b.name)} logo">` : `<div class="ini" style="background:${esc(b.color)}">${esc(initials(b.name))}</div>`}</div>`;
+}
+const DOC_NOTES = `<ul>
+  <li>Sizes are width × height. Every wall is 10 ft (3.05 m) high. Supply print-ready vector artwork (PDF or AI, fonts outlined, CMYK) at the exact slot size, named with your slot code, e.g. <b>A09_Brand_40x10.pdf</b>.</li>
+  <li>Keep logos and copy inside a 6 in (150 mm) safe margin, with 2 in (50 mm) bleed. Keep key messages above 3 ft from the ground.</li>
+  <li>Eagle Square is a concrete parade ground. Nothing can be staked, so all frames stand on weighted bases.</li>
+  <li>December is Harmattan season: dry, dusty and gusty. Long walls use wind-permeable mesh. The show runs after dark, so light your wall if you want it seen at night.</li>
+  <li>Pink lines on the plans are barricades. Do not fix branding to them without production approval. Build and strike times are issued by production.</li>
+</ul>`;
+const today = () => new Date().toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+function brandDoc(b, src) {
+  const ss = slotsOf(b.id), ft = ss.reduce((a, s) => a + s.w, 0), area = ft * 10;
+  const zones = [...new Set(ss.map(s => s.zone))];
+  const rows = ss.map(s => `<tr><td><span class="bd-code">${s.id}</span></td><td>${ZONES[s.zone].name}</td><td>${esc(s.wall)} · ${esc(s.where)}</td><td><b>${s.w} × 10 ft</b><br><span style="color:#6f6a64">${(s.w * 0.3048).toFixed(2)} × 3.05 m</span></td><td>${s.w * 10} ft²</td></tr>`).join("");
+  const key = `<div class="bd-key"><span><i style="background:${esc(b.color)}"></i>Your space</span><span><i style="background:#cfccc6"></i>Other brand space</span><span><i style="background:#ec1e79"></i>Barricades</span><span><i style="background:#6b3fd6"></i>Regular guest flow</span></div>`;
+  return `<div class="bdoc" style="--bd-brand:${esc(b.color)}">
+  <section class="bd-page">
+    <header class="bd-head"><div><p class="bd-eyebrow">Live Out Loud Music Festival 2026 · Brand allocation</p><h1>${esc(b.name)}</h1>
+      <p class="bd-sub">Eagle Square, Abuja · Sunday 13 December 2026${b.tier ? " · " + esc(b.tier) : ""}</p></div>${docLogo(b, src)}</header>
+    <div class="bd-kpis"><div class="bd-kpi"><b>${ss.length}</b><span>brand slot${ss.length === 1 ? "" : "s"}</span></div>
+      <div class="bd-kpi"><b>${ft} ft</b><span>total wall length</span></div>
+      <div class="bd-kpi"><b>${area.toLocaleString()} ft²</b><span>${(area * 0.0929).toFixed(1)} m² of branding face</span></div>
+      <div class="bd-kpi"><b>${zones.length}</b><span>${zones.map(z => ZONES[z].name).join(", ")}</span></div></div>
+    <table class="bd-t"><thead><tr><th>Slot</th><th>Zone</th><th>Wall &amp; position</th><th>Size (W × H)</th><th>Face</th></tr></thead><tbody>${rows}</tbody></table>
+  </section>
+  <section class="bd-page"><h2>Where you are on site</h2>${key}<div class="bd-plan">${planMarkup("S", "doc", b.id)}</div></section>
+  ${zones.map(z => `<section class="bd-page"><h2>${ZONES[z].name} · your slot${ss.filter(s => s.zone === z).length > 1 ? "s" : ""} ${ss.filter(s => s.zone === z).map(s => s.id).join(", ")}</h2>${key}<div class="bd-plan">${planMarkup(z, "doc", b.id)}</div></section>`).join("")}
+  <section class="bd-page"><h2>Artwork &amp; build</h2>${DOC_NOTES}<p class="bd-foot">Issued ${today()} by LOL Festival production. Allocation is subject to contract. Plans are not to scale; production confirms final dimensions on site.</p></section>
+</div>`;
+}
+function masterDoc(logos) {
+  const list = sortedBrands().filter(b => slotsOf(b.id).length);
+  const legend = list.map(b => { const ss = slotsOf(b.id); return `<div class="bd-lg">${docLogo(b, logos[b.id])}<div><b>${esc(b.name)}</b><br>${ss.map(s => s.id).join(", ")} · ${ss.reduce((a, s) => a + s.w, 0)} ft</div></div>`; }).join("");
+  const rows = SLOTS.map(s => { const b = S.brands[S.alloc[s.id]]; return `<tr><td><span class="bd-code" style="border-color:${ZONES[s.zone].color}">${s.id}</span></td><td>${ZONES[s.zone].name}</td><td>${esc(s.where)}</td><td>${s.w} × 10 ft</td><td>${b ? esc(b.name) : "Unassigned"}</td></tr>`; }).join("");
+  const n = SLOTS.filter(s => S.brands[S.alloc[s.id]]).length;
+  return `<div class="bdoc">
+  <section class="bd-page"><header class="bd-head"><div><p class="bd-eyebrow">Live Out Loud Music Festival 2026 · Brand masterplan</p><h1>Brand masterplan</h1><p class="bd-sub">Eagle Square, Abuja · Sunday 13 December 2026 · ${n} of ${SLOTS.length} slots allocated · issued ${today()}</p></div></header>
+    <div class="bd-plan">${planMarkup("S", "alloc")}</div><div class="bd-grid">${legend}</div></section>
+  ${["A", "T", "V"].map(z => `<section class="bd-page"><h2>${ZONES[z].name}</h2><div class="bd-plan">${planMarkup(z, "alloc")}</div></section>`).join("")}
+  <section class="bd-page"><h2>Allocation schedule</h2><table class="bd-t"><thead><tr><th>Slot</th><th>Zone</th><th>Location</th><th>Size</th><th>Brand</th></tr></thead><tbody>${rows}</tbody></table></section>
+</div>`;
+}
+function standalone(title, body) {
+  const css = [...document.querySelectorAll("style")].map(s => s.textContent).join("\n");
+  const docCss = css.slice(css.indexOf("/* ---- brand document"));
+  return `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${esc(title)}</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+<style>:root{--display:"Oswald","Arial Narrow",sans-serif;--body:"Inter",system-ui,sans-serif}body{margin:0;background:#e9e7e3;padding:24px}
+${docCss}
+@page{size:A4 landscape;margin:10mm}@media print{body{background:#fff;padding:0}.bdoc{gap:0;min-width:0}.bdoc .bd-page{box-shadow:none;padding:0;break-after:page}.bdoc .bd-page:last-child{break-after:auto}.bdoc .bd-plan svg{max-height:165mm}}</style></head><body>${body}</body></html>`;
+}
+async function toDataUrl(src) {
+  if (!src) return "";
+  try {
+    const r = await fetch(src); if (!r.ok) return "";
+    const blob = await r.blob();
+    return await new Promise(res => { const fr = new FileReader(); fr.onload = () => res(fr.result); fr.onerror = () => res(""); fr.readAsDataURL(blob); });
+  } catch { return ""; }
+}
+const slug = (n) => String(n).replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "") || "brand";
+async function save(filename, data) {
+  if (!downloads) { status("Downloads are not available in this view."); return; }
+  try { await downloads.save({ filename, data }); status(`Saved ${filename}.`); }
+  catch (e) {
+    const c = e && e.code;
+    status(c === "declined" ? "Download cancelled." : c === "rate_limited" ? "A download prompt is already open. Try again in a moment." : "This view cannot save files.");
+  }
+}
+
+/* ---------- writes ---------- */
+async function setAlloc(id, bid) {
+  if (!S.canWrite || !db) return;
+  const prev = S.alloc[id];
+  if (bid) S.alloc[id] = bid; else delete S.alloc[id];
+  render();
+  try {
+    if (bid) await db.doc("alloc/" + id).set({ brandId: bid, updatedAt: Date.now() });
+    else await db.doc("alloc/" + id).delete();
+  } catch (e) {
+    if (prev) S.alloc[id] = prev; else delete S.alloc[id];
+    render(); status("That change was not saved. You may not have edit access to this page.");
+  }
+}
+function nextColor() {
+  const used = new Set(Object.values(S.brands).map(b => b.color));
+  return PALETTE.find(c => !used.has(c)) || PALETTE[Object.keys(S.brands).length % PALETTE.length];
+}
+
+/* ---------- events ---------- */
+document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => { S.tab = t.dataset.tab; render(); }));
+$("#zone-btns").addEventListener("click", e => {
+  const b = e.target.closest("[data-zone]"); if (!b) return;
+  S.zone = b.dataset.zone; const p = $("#alloc-plan"); p.dataset.plan = S.zone; p.innerHTML = SVGS[S.zone]; render();
+});
+$("#alloc-plan").addEventListener("click", e => {
+  const g = e.target.closest("g[data-slot]"); if (!g || !S.canWrite) return;
+  if (!S.active || !S.brands[S.active]) { status("Select a brand on the left first, then click its slots."); return; }
+  const id = g.dataset.slot;
+  status("");
+  setAlloc(id, S.alloc[id] === S.active ? null : S.active);
+});
+$("#slot-table").addEventListener("change", e => { const s = e.target.closest("[data-slot-sel]"); if (s) setAlloc(s.dataset.slotSel, s.value || null); });
+$("#addform").addEventListener("submit", async e => {
+  e.preventDefault();
+  const name = $("#new-name").value.trim(); if (!name || !db) return;
+  if (Object.values(S.brands).some(b => String(b.name).toLowerCase() === name.toLowerCase())) { status(`${name} is already in the list.`); return; }
+  $("#add-btn").disabled = true;
+  try { const ref = await db.collection("brands").add({ name, tier: $("#new-tier").value, color: nextColor(), createdAt: Date.now() });
+    $("#new-name").value = ""; S.active = ref.id; status(`Added ${name}. Now click its slots on the plan.`); }
+  catch { status("The brand was not saved. You may not have edit access to this page."); }
+  $("#add-btn").disabled = false;
+});
+function brandEvents(container) {
+  container.addEventListener("click", async e => {
+    const card = e.target.closest("[data-brand]"); if (!card) return;
+    const id = card.dataset.brand, b = S.brands[id], act = e.target.closest("[data-act]")?.dataset.act;
+    if (e.target.closest("label, input")) return;
+    if (!act) { S.active = S.active === id ? null : id; S.confirmDel = null; render(); return; }
+    if (act === "edit") { S.editing = id; render(); $("#ed-name")?.focus(); return; }
+    if (act === "cancel") { S.editing = null; render(); return; }
+    if (act === "save") {
+      const name = $("#ed-name").value.trim(); if (!name) return;
+      try { await db.doc("brands/" + id).update({ name, tier: $("#ed-tier").value, color: $("#ed-color").value }); S.editing = null; }
+      catch { status("Changes were not saved."); }
+      render(); return;
+    }
+    if (act === "clear") { for (const s of slotsOf(id)) await setAlloc(s.id, null); return; }
+    if (act === "del") {
+      if (S.confirmDel !== id) { S.confirmDel = id; render(); return; }
+      S.confirmDel = null;
+      try {
+        for (const s of slotsOf(id)) await db.doc("alloc/" + s.id).delete();
+        await db.doc("brands/" + id).delete();
+        if (b.logoId && assets) { try { await assets.delete(b.logoId); } catch {} }
+        if (S.active === id) S.active = null;
+        status(`Deleted ${b.name} and freed its slots.`);
+      } catch { status("The brand was not deleted."); }
+      return;
+    }
+  });
+  container.addEventListener("keydown", e => {
+    if ((e.key === "Enter" || e.key === " ") && e.target.matches("[data-brand][role=button]")) { e.preventDefault(); e.target.click(); }
+  });
+  container.addEventListener("change", async e => {
+    const inp = e.target.closest("[data-logo]"); if (!inp || !inp.files[0]) return;
+    const id = inp.dataset.logo, b = S.brands[id];
+    if (!assets) { status("Logo uploads need edit access to this page."); return; }
+    status(`Uploading ${b.name} logo…`);
+    try {
+      const r = await assets.upload(inp.files[0]);
+      await db.doc("brands/" + id).update({ logoId: r.id, logoUrl: r.url });
+      if (b.logoId && b.logoId !== r.id) { try { await assets.delete(b.logoId); } catch {} }
+      status(`${b.name} logo uploaded.`);
+    } catch (err) {
+      status(err && err.code === "too_large" ? "That file is too large. Use a logo under 20 MB (SVG under 2 MB)." : err && err.code === "unsupported_type" ? "Use a PNG, JPG, WebP or SVG logo." : "The logo was not uploaded.");
+    }
+  });
+}
+brandEvents($("#brands"));
+$("#doc-brands").addEventListener("click", e => { const c = e.target.closest("[data-doc]"); if (!c) return; S.docBrand = c.dataset.doc; render(); });
+$("#doc-brands").addEventListener("keydown", e => { if ((e.key === "Enter" || e.key === " ") && e.target.matches("[data-doc]")) { e.preventDefault(); e.target.click(); } });
+$("#dl-doc").addEventListener("click", async () => {
+  const b = S.brands[S.docBrand]; if (!b) return;
+  const src = await toDataUrl(logoSrc(b));
+  await save(`LOL2026_${slug(b.name)}_brand-allocation.html`, standalone(`${b.name} · LOL Festival 2026 brand allocation`, brandDoc(b, src)));
+});
+$("#dl-master").addEventListener("click", async () => {
+  const logos = {};
+  for (const b of Object.values(S.brands)) logos[b.id] = await toDataUrl(logoSrc(b));
+  await save("LOL2026_brand-masterplan.html", standalone("LOL Festival 2026 · Brand masterplan", masterDoc(logos)));
+});
+$("#dl-csv").addEventListener("click", async () => {
+  const q = (v) => `"${String(v ?? "").replace(/"/g, '""')}"`;
+  const lines = [["Slot", "Zone", "Location", "Width (ft)", "Height (ft)", "Brand", "Tier"].map(q).join(",")]
+    .concat(SLOTS.map(s => { const b = S.brands[S.alloc[s.id]]; return [s.id, ZONES[s.zone].name, s.where, s.w, 10, b ? b.name : "", b ? b.tier : ""].map(q).join(","); }));
+  await save("LOL2026_brand-allocation-schedule.csv", lines.join("\n"));
+});
+
+/* ---------- boot ---------- */
+mountPlans();
+render();
+status("Connecting to the shared allocation list…");
+(async () => {
+  const use = (n) => (window.claude && window.claude.use ? window.claude.use(n) : Promise.resolve(null));
+  const timer = setTimeout(() => { if (!(S.gotA && S.gotB)) status("Still connecting. The plans work, but allocations cannot load yet. Check you are signed in to claude.ai."); }, 10000);
+  db = await use("db");
+  if (!db) { clearTimeout(timer); status("Open this page signed in to claude.ai to load and save allocations."); render(); return; }
+  const user = await use("user");
+  assets = await use("assets");
+  downloads = await use("downloads");
+  let can = true;
+  if (user && user.can) { try { const c = await user.can("data.write"); if (c === false) can = false; } catch {} }
+  S.canWrite = can;
+  const done = () => { if (S.gotA && S.gotB) { clearTimeout(timer); if (/^Connecting|^Still/.test($("#status").textContent)) status(S.canWrite ? "" : "You can view allocations. Ask the owner for edit access to change them."); } };
+  db.collection("brands").onSnapshot(snap => {
+    S.brands = {}; snap.docs.forEach(d => { const v = d.data() || {}; if (v.name) S.brands[d.id] = { id: d.id, ...v }; });
+    S.gotB = true; done(); render();
+  }, () => { clearTimeout(timer); status("Could not load brands. Reload the page to try again."); });
+  db.collection("alloc").onSnapshot(snap => {
+    S.alloc = {}; snap.docs.forEach(d => { const v = d.data() || {}; if (v.brandId && SLOT[d.id]) S.alloc[d.id] = v.brandId; });
+    S.gotA = true; done(); render();
+  }, () => { clearTimeout(timer); status("Could not load allocations. Reload the page to try again."); });
+  render();
+})();
+})();
+</script>
