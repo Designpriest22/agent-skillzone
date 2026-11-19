@@ -381,7 +381,7 @@ addTalent('t6-dj-ehiz', 'DJ EHIZ', 'An audio-reactive spectrum ring pumps on the
     for (let k = 0; k < 7; k++) {
       const z = frac(k / 7 + ph), d = 1.08 - z, R = 150 / d; if (R > W * 1.3) continue;
       const fs = 70 / d * .55, n = Math.max(3, Math.floor(TAU * R / (measure(ctx, 'GOODY', NF(fs)) * 1.6))), hold = smooth(2.8, 3.3, t) * (1 - smooth(12.0, 12.6, t)), a = clamp(z * 2) * (1 - smooth(.85, 1, z)) * .85 * (1 - .6 * hold);
-      ctx.save(); ctx.translate(cx, cy); ctx.rotate(k * .5 + ph * (k % 2 ? 1.5 : -1.5));
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(k * .5 + ph * TAU / 5 * (k % 2 ? 1 : -1)); // phase travels 5 per loop, so this is one full turn: seamless
       for (let i = 0; i < n; i++) { ctx.save(); ctx.rotate(i * TAU / n); txt(ctx, 'GOODY', 0, -R, { font: NF(fs), color: k % 2 ? C.redHot : C.orchid, alpha: a }); ctx.restore(); }
       ctx.restore();
     }
