@@ -101,6 +101,7 @@ function lockLayout() {
   }
 }
 function lockup(lt) {
+  if (SP.lock.custom) return;   // the sponsor draws its own end frame (lockBg / lockFg)
   const c = LKS, st = SP.lock, ty = { ...SP.type, ...(SP.lock.colors || {}) };
   const dk = st.dark, sImg = dk ? tinted(IMG.sponsor, dk) : IMG.sponsor, wImg = dk ? tinted(IMG.wizkid, dk) : IMG.wizkid;
   const SLk = (cx, cy, w) => drawImg(ctx, sImg, cx, cy, w); const LOLk = (cx, cy, w) => lolLogo(ctx, cx, cy, w, (st.lolDark || dk) ? { dark: st.lolDark || dk } : {});
@@ -131,6 +132,18 @@ function lockup(lt) {
   }
 }
 // sponsor credit line (client request): POWERED BY, set above the sponsor logo
+function cokeEnd() {
+  const sq = Math.min(U(L.vert ? 240 : 150), L.sh * .2), pbS = U(L.vert ? 28 : 20), padT = U(L.vert ? 46 : 34);
+  const sqY = L.y1 - sq, pbY = sqY - U(L.vert ? 14 : 12), bandTop = pbY - pbS - padT;
+  let k = 1, out;
+  for (let it = 0; it < 8; it++) {
+    const lW = L.sw * (L.vert ? .5 : L.sq && L.ar > .95 ? .26 : .34) * k, lH = lolH(lW), wW = L.sw * (L.vert ? .8 : .58) * k, wH = wzH(wW);
+    const ds = U(L.vert ? 96 : 76) * k, vs = U(L.vert ? 40 : 34) * k, cH = U(L.vert ? 108 : 92) * k, ctaH = U(L.vert ? 40 : 34) * k + cH, gap = U(L.vert ? 40 : 24) * k;
+    const blocks = [lH, wH, ds * .9 + vs * 1.7, ctaH], total = blocks.reduce((a, b) => a + b, 0) + gap * 3, room = bandTop - U(L.vert ? 40 : 26) - L.y0;
+    if (total <= room || it === 7) { let y = L.y0 + Math.max(0, (room - total) / 2); const ys = blocks.map(h => { const c = y; y += h + gap; return c; }); out = { y: ys, lW, lH, wW, wH, ds, vs, sq, sqY, pbY, pbS, bandTop }; LKS = { ...(LKS || {}), k, cH, ctaH }; break; }
+    k *= room / total;
+  }
+  return out; }
 function poweredBy(cx, base, size, color, a = 1) { if (a <= 0) return; text(ctx, 'POWERED BY', cx, base, { fam: 'Montserrat', w: 700, size, track: .28, color, alpha: a }); }
 // the ticket call to action on the end frame: GET TICKETS AT + a brand-styled button carrying WIZKID.TIX.AFRICA
 function ticketCTA(y, p, ty) {
@@ -210,16 +223,14 @@ const SPONSORS_CFG = {
     cues: [{ t: .1, k: 'riser', d: .8 }, { t: .95, k: 'hit' }, { t: 1.8, k: 'shimmer', g: .5 }, { t: 3.55, k: 'whoosh' }, { t: 4.1, k: 'impact', g: .7 }, { t: 6.1, k: 'whoosh', g: .7 }, { t: 6.3, k: 'hit', g: .7 }, { t: 8.2, k: 'whoosh', g: .7 }, { t: 8.4, k: 'hit', g: .7 }, { t: 9.75, k: 'reverse', d: .25 }, { t: 10, k: 'impact', g: .8 }] },
 
   // 3 ── COCA-COLA · Red Wave ──────────────────────────────────────────────────────────────────────
-  'coca-cola': { noLogoFx: true, logo: '03-coca-cola', mainLogo: '03-coca-cola-noborder', bugLogo: '03-coca-cola-whiteborder', name: 'Coca-Cola', bpm: 112, music: 'sp-bright',
+  'coca-cola': { noLogoFx: true, noIntroLogo: true, logo: '03-coca-cola', mainLogo: '03-coca-cola-noborder', bugLogo: '03-coca-cola-whiteborder', name: 'Coca-Cola', bpm: 112, music: 'sp-bright',
     grade: [['soft-light', 'rgba(244,0,9,.22)'], ['screen', 'rgba(255,80,60,.05)']], filter: 'contrast(1.12) saturate(1.3) brightness(1.2)',
     type: { date: '#FFFFFF', venue: '#FFFFFF', reveal: 'slide' },
     intro(t) {
       ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, W, H);
-      // client-supplied square logo (no white border) opens the spot
-      const w = Math.min(L.sw * (L.vert ? .62 : .5), U(560)), lh = w, cy = L.cy - U(20);
-      const p = clamp(E.outBack(prog(t, .1, .8), 1.4), 0, 1.04);
-      drawImg(ctx, IMG['03-coca-cola-noborder'], L.cx, cy, w, { s: mix(.82, 1, p) + t * .008, alpha: clamp(p * 1.6) });   // no shadow, no sheen: Coca-Cola brand rules
-      poweredBy(L.cx, cy - lh / 2 - U(L.vert ? 34 : 28), U(L.vert ? 30 : 26), '#E41E2B', E.outCubic(prog(t, .7, 1.2)));
+      // client request: Coca-Cola does not open the spot. The festival logo opens it on white (dark details so MUSIC FESTIVAL reads on white).
+      const w = L.sw * (L.vert ? .66 : .48), p = clamp(E.outBack(prog(t, .1, .8), 1.5), 0, 1.06);
+      ctx.save(); ctx.globalAlpha = clamp(p * 1.6); ctx.translate(L.cx, L.cy - U(20)); ctx.scale(mix(.8, 1, p) + t * .01, mix(.8, 1, p) + t * .01); lolLogo(ctx, 0, 0, w, { dark: '#8E0006' }); ctx.restore();
       // the red wave rises from the bottom, bubbles inside, and keeps rising into the footage
       waveRed(t, 2.4, 4.1);
     },
@@ -229,15 +240,18 @@ const SPONSORS_CFG = {
     beats: [{ k: 'lol', a: 4.3, b: 6.2, y: () => L.y0 + L.sh * .28, style: 'pop' }, { k: 'wizkid', a: 6.6, b: 8.2, y: () => L.y0 + L.sh * .78, dir: -140 },
             { k: 'date', a: 8.6, b: 10, y: () => L.y0 + L.sh * .3, dir: 140 }, { k: 'venue', a: 8.85, b: 10, y: () => L.y0 + L.sh * .3 + U(100), dir: -140 }],
     fx(t) { for (const t0 of [6.2, 8.2]) waveRed(t, t0 - .45, t0 + .02, true); },
-    lock: { divider: 'none', reveal: 'fade', ease: E.outCubic, step: .1, rise: 34, pair: true, pairGap: 40, sweep: 1.3, powered: '#E41E2B', lolDark: '#8E0006', cta: { shape: 'pill', bg: '#FFFFFF', fg: '#E41E2B', lead: '#FFFFFF' } },
-    lockBg(lt) {
-      ctx.fillStyle = '#E41E2B'; ctx.fillRect(0, 0, W, H);
-      // white panel behind the red script: the logo stays in its own colours
-      const c = LKS; const top = c.ys[0] - U(36), ph = c.rowH + U(72);
-      const p = E.inOutCubic(prog(lt, 0, .45));
-      ctx.save(); ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.moveTo(0, top); ctx.lineTo(W * p, top);
-      for (let x = W * p; x >= 0; x -= U(20)) ctx.lineTo(x, top + ph + Math.sin(x / U(120) + lt * 2) * U(16)); ctx.closePath(); ctx.fill(); ctx.restore();
-    },
+    lock: { custom: true, divider: 'none', reveal: 'fade', ease: E.outCubic, step: .1, rise: 34, pair: true, pairGap: 40, sweep: 1.3, powered: '#E41E2B', lolDark: '#8E0006', vig: .12, cta: { shape: 'pill', bg: '#FFFFFF', fg: '#E41E2B', lead: '#FFFFFF' } },
+    lockBg(lt) { radial('#F0141E', '#B5000A', W / 2, H * .4); const B = cokeEnd(); const p = E.inOutCubic(prog(lt, .35, .85));
+      // white wave band rises at the bottom; the no-border logo sits on white as instructed
+      const top = mix(H + U(40), B.bandTop, p); ctx.save(); ctx.fillStyle = '#FFFFFF'; ctx.beginPath(); ctx.moveTo(0, H); for (let x = 0; x <= W; x += U(20)) ctx.lineTo(x, top + Math.sin(x / U(160) + lt * 1.5) * U(18)); ctx.lineTo(W, H); ctx.closePath(); ctx.fill(); ctx.restore(); },
+    lockFg(lt) { const B = cokeEnd(), ap = i => E.outCubic(prog(lt, .05 + i * .12, .6 + i * .12)), ty = SP.type;
+      const rise = (i, fn) => { const q = ap(i); if (q <= 0) return; ctx.save(); ctx.globalAlpha *= q; ctx.translate(0, (1 - q) * U(30)); fn(); ctx.restore(); };
+      rise(0, () => lolLogo(ctx, L.cx, B.y[0] + B.lH / 2, B.lW));
+      rise(1, () => drawImg(ctx, IMG.wizkid, L.cx, B.y[1] + B.wH / 2, B.wW)); if (lt > 1.2) sweepImg(ctx, IMG.wizkid, L.cx, B.y[1] + B.wH / 2, B.wW, prog(lt, 1.2, 2.3));
+      rise(2, () => { text(ctx, BRAND.event.dateLong, L.cx, B.y[2] + B.ds * .86, { fam: 'Anton', size: B.ds, track: .02, color: ty.date }); text(ctx, BRAND.event.venue, L.cx, B.y[2] + B.ds * .86 + B.vs * 1.55, { fam: 'Oswald', w: 700, size: B.vs, track: .3, color: ty.venue }); });
+      ticketCTA(B.y[3], ap(3), ty);
+      // POWERED BY + the no-border square logo, under the ticket line (flat: no shadow, no sheen)
+      const q = E.outCubic(prog(lt, .75, 1.25)); if (q > 0) { ctx.save(); ctx.globalAlpha = q; poweredBy(L.cx, B.pbY, B.pbS, '#E41E2B'); drawImg(ctx, IMG['03-coca-cola-noborder'], L.cx, B.sqY + B.sq / 2, B.sq); ctx.restore(); } },
     cues: [{ t: .15, k: 'whoosh', g: .5 }, { t: 1.3, k: 'chime' }, { t: 2.4, k: 'riser', d: 1.6 }, { t: 4, k: 'impact', g: .8 }, { t: 5.8, k: 'whoosh' }, { t: 6.2, k: 'hit', g: .7 }, { t: 7.8, k: 'whoosh' }, { t: 8.2, k: 'hit', g: .7 }, { t: 9.7, k: 'whoosh', g: .6 }, { t: 10, k: 'impact', g: .8 }, { t: 10.6, k: 'shimmer', g: .5 }] },
 
   // 4 ── DESPERADOS · Party Poster ─────────────────────────────────────────────────────────────────
@@ -642,7 +656,7 @@ async function renderAt(frame) {
 window.cues = () => ({ bpm: SP.bpm, dur: DUR, cues: SP.cues.map(c => ({ ...c, t: c.t >= T1 ? (c.t >= T2 ? c.t + (TEND - T2) : T1 + (c.t - T1) * (TEND - T1) / (T2 - T1)) : c.t })), name: SP.music, sponsor: SID });
 window.grab = async (frame) => { await renderAt(frame); return cv.toDataURL('image/jpeg', .93).slice(23); };
 window.audit = async (frame) => { await renderAt(frame); return window.__log; };
-window.meta = { FPS, DUR, END: DUR, ENDFRAME: TEND, W: L.W * L.dpr, H: L.H * L.dpr, sponsorLogo: SP.logo + '.png' };
+window.meta = { noIntroLogo: !!SP.noIntroLogo, FPS, DUR, END: DUR, ENDFRAME: TEND, W: L.W * L.dpr, H: L.H * L.dpr, sponsorLogo: SP.logo + '.png' };
 window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), loadFootageMeta()]); IMG.sponsor = IMG[SP.mainLogo || SP.logo]; makeGrain(); lockLayout(); })();
 if (!Q.has('render')) window.ready.then(() => { const ui = document.getElementById('ui'); let f = Number(Q.get('t') || 0) * FPS; const loop = async () => { await renderAt(Math.floor(f)); ui.textContent = SID + ' ' + (f / FPS).toFixed(2) + 's'; f = (f + 1) % (DUR * FPS); requestAnimationFrame(loop); }; loop(); });
 </script></body></html>

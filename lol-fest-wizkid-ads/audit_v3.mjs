@@ -11,7 +11,7 @@ const jobs = jobs3.filter(j => !process.argv[2] || j.id.includes(process.argv[2]
 const srv = await serve(dir); const browser = await chromium.launch(); const report = []; let fails = 0; const q = [...jobs];
 await Promise.all([0, 1, 2].map(async () => { while (q.length) { const j = q.shift();
   const page = await browser.newPage(); await page.goto(`${srv.url}/sponsors_v3.html?render=1&s=${j.s}&f=${j.f}`); await page.evaluate(() => window.ready);
-  const { FPS, DUR, ENDFRAME, sponsorLogo } = await page.evaluate(() => window.meta); const APPROVED = await page.evaluate(() => window.APPROVED);
+  const { FPS, DUR, ENDFRAME, sponsorLogo, noIntroLogo } = await page.evaluate(() => window.meta); const APPROVED = await page.evaluate(() => window.APPROVED);
   const own = x => x === sponsorLogo || x.startsWith(sponsorLogo.replace('.png', '-'));   // the brand's own logo files (e.g. Coca-Cola square variants)
   const P = [], texts = new Set(), intro = new Set(), fest = new Set(), festT = new Set(); let endMiss = 0, endN = 0;
   for (let f = 0; f < FPS * DUR; f += 2) { const t = f / FPS; const log = await page.evaluate(f => window.audit(f), f); const tx = log.texts.map(s => s.trim());
@@ -21,7 +21,7 @@ await Promise.all([0, 1, 2].map(async () => { while (q.length) { const j = q.shi
     else if (t < ENDFRAME) { log.imgs.forEach(x => fest.add(x)); tx.forEach(x => festT.add(x)); }
     else if (t >= ENDFRAME + 1.2) { endN++; const need = [tx.includes('WIZKID.TIX.AFRICA'), tx.includes('DECEMBER 13, 2026'), tx.includes('EAGLE SQUARE, ABUJA'), log.imgs.some(own), log.imgs.includes('lol-logo'), log.imgs.includes('wizkid-wordmark.png')]; if (need.includes(false)) endMiss++; }
   }
-  if (![...intro].some(own)) P.push('sponsor logo missing from 0-4 s');
+  if (!noIntroLogo && ![...intro].some(own)) P.push('sponsor logo missing from 0-4 s');   // Coca-Cola: client asked that the brand does not open the spot
   if (![...fest].some(x => /^(rt|slo)\//.test(x))) P.push('no footage in 4-11 s');
   for (const n of ['lol-logo', 'wizkid-wordmark.png']) if (!fest.has(n)) P.push(`festival section missing ${n}`);
   for (const s of ['DECEMBER 13, 2026', 'EAGLE SQUARE, ABUJA']) if (!festT.has(s)) P.push(`${s} missing in 4-11 s`);
