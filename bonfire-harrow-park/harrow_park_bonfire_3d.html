@@ -295,7 +295,7 @@ function gazebo(p,size,ry,h=2.6,col){tentRoofB.add(new THREE.Matrix4().compose(p
 rowAlong(...SITE.vendors,6.2,(p,i)=>{gazebo(p,5,Math.atan2(552-482,900-817),2.7,i%3==1?'#d6402b':'#f2f2f0');});
 // vendor counters
 rowAlong(...SITE.vendors,6.2,(p)=>{const m=new THREE.Mesh(unitBox,MAT.white);m.scale.set(3.6,1,.8);m.position.copy(p).setY(.5);m.rotation.y=-Math.atan2(552-482,900-817);m.castShadow=true;site.add(m)});
-// validation points (ticket check tents over entry road)
+// validation points (entry check tents over entry road)
 [[352,307],[402,377]].forEach(([x,y])=>gazebo(W(x,y),7,Math.atan2(370,288),3.2,'#f2f2f0'));
 // road barriers
 [[310,272],[477,495]].forEach(([x,y])=>{const m=new THREE.Mesh(unitBox,new THREE.MeshStandardMaterial({color:0xff6a1a,roughness:.5}));m.scale.set(11,1,.5);m.position.copy(W(x,y,.5));m.rotation.y=-Math.atan2(-288,370);m.castShadow=true;site.add(m)});
@@ -613,7 +613,7 @@ function cue(t){ // timeline of the 30 s show loop
 function updateShow(t){
   const c=cue(t);showState.strobe=c.strobe;
   const energy=.6+.4*smooth(4,8,t);
-  const dusk=t<60?(1-smooth(4.5,8,t)):0;hemi.intensity=.42+1.1*dusk;moon.intensity=.6+1.6*dusk;skyMat.uniforms.top.value.setRGB(.008+.05*dusk,.012+.08*dusk,.04+.2*dusk);skyMat.uniforms.hor.value.setRGB(.03+.25*dusk,.025+.16*dusk,.035+.2*dusk);scene.fog.color.copy(skyMat.uniforms.hor.value);skyMat.uniforms.top.value.setRGB(.004+.05*dusk,.006+.08*dusk,.018+.2*dusk);
+  const dusk=t<60?(1-smooth(4.5,8,t)):0;hemi.intensity=.42+1.1*dusk;moon.intensity=.6+1.6*dusk;skyMat.uniforms.top.value.setRGB(.008+.05*dusk,.012+.08*dusk,.04+.2*dusk);skyMat.uniforms.hor.value.setRGB(.03+.11*dusk,.025+.13*dusk,.035+.2*dusk);scene.fog.color.copy(skyMat.uniforms.hor.value);scene.fog.density=.0065*(1-dusk)+.0011*dusk;skyMat.uniforms.top.value.setRGB(.004+.05*dusk,.006+.08*dusk,.018+.2*dusk);
   // beams
   beams.forEach(({h,m,gs},i)=>{
     const k=h.kind;let pan,tilt,len=k==='floor'||k==='run'?70:85,rad=k==='mid'?1.3:2.2,int=1;
@@ -768,7 +768,7 @@ window.frameComposite=(t,q=.92)=>{camAt(t);updateShow(t);render();const w=W0,h=H
     if(poster.naturalWidth){const [sx,sy,sw,sh]=PC.title;const tw=1100*u;cg.drawImage(poster,sx,sy,sw,sh,w/2-tw/2,h/2-190*u,tw,tw*sh/sw)}
     if(poster.naturalWidth){const [sx,sy,sw,sh]=PC.date;const tw=330*u;cg.drawImage(poster,sx,sy,sw,sh,w/2-tw/2,h/2-30*u,tw,tw*sh/sw)}
     cg.fillStyle='#fff';cg.font=`600 ${22*u}px Inter`;cg.fillText('HARROW PARK  ·  AHMADU BELLO WAY  ·  ABUJA',w/2,h/2+140*u);
-    cg.fillStyle='#ff5a2a';cg.font=`800 ${20*u}px Inter`;cg.fillText('TICKETS AT WWW.OUTLAWVILLE.WORLD  |  MAINLANDBLOCKPARTY.COM',w/2,h/2+182*u);
+    cg.fillStyle='#ff5a2a';cg.font=`800 ${20*u}px Inter`;cg.fillText('EVENT SPACE & STAGE PREVIS',w/2,h/2+182*u);
     cg.fillStyle='rgba(255,255,255,.7)';cg.font=`600 ${15*u}px Inter`;cg.fillText('POWERED BY CAPITAL BLOCK PARTY  ·  THE PLUG',w/2,h/2+216*u);cg.textAlign='left'}
   cg.globalAlpha=1;return comp.toDataURL('image/jpeg',q)};
 
