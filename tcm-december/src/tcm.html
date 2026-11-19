@@ -68,7 +68,7 @@ h1 .mask{display:inline-block;overflow:hidden;vertical-align:top;padding-top:.04
 .f-story .hlogo{width:250px;font-size:14px}
 .f-story h1{font-size:250px;margin-top:22px}
 .f-story .sub{justify-content:center;font-size:56px;margin-top:6px}
-.f-story .list{position:absolute;top:578px;left:64px;right:64px;--tw:84px;--th:50px;--td:33px;--rh:52px;--ts:40px;--ss:16px;--gap:26px;--gpad:5px}
+.f-story .list{position:absolute;top:572px;left:64px;right:64px;--tw:84px;--th:48px;--td:32px;--rh:50px;--ts:39px;--ss:16px;--gap:26px;--gpad:4px}
 .f-story .group{grid-template-columns:84px 1fr}
 .f-story .res{position:absolute;left:64px;right:64px;top:1654px}
 .f-story .card{padding:16px 24px 14px}.f-story .card .k{font-size:14px}.f-story .card .n{font-size:48px;margin-top:4px}.f-story .card .r{font-size:14px;margin-top:2px}
@@ -217,19 +217,20 @@ if(FMT==='wide'){ $('cal').querySelector('header').appendChild($('sub')); }
 if(FMT==='feed'){ $('cal').querySelector('.htop').appendChild($('sub')); }
 
 const data=[
- [4,'FRI',[['VICTONY','The Bonfire Experience']]],
+ [4,'FRI',[['VICTONY','The Bonfire Experience',true]]],
  [5,'SAT',[['CAPITAL FOOD FEST','']]],
  [6,'SUN',[['JOHNNY DRILLE',"Johnny's Room"]]],
  [10,'THU',[['THE IRON CONVENTION','with 6uff']]],
  [12,'SAT',[['DJ TUNEZ','Blackout']]],
- [13,'SUN',[['WIZKID','Live Out Loud Fest']]],
- [16,'WED',[['FOLA','Iconiq Fest']]],
+ [13,'SUN',[['WIZKID','Live Out Loud Fest',true]]],
+ [16,'WED',[['FOLA','Iconiq Fest',true]]],
  [17,'THU',[['EF MOON','']]],
  [18,'FRI',[['ODUMODUBLVCK','Rise of the Machine']]],
  [19,'SAT',[['SEYI VIBEZ','Apitainment'],['ALL WHITE PARTY','with Ricco Ross']]],
  [22,'TUE',[['CAVEMEN','Cavy Fest']]],
  [23,'WED',[['CANDLES & STRINGS','']]],
- [24,'THU',[['TCM HANGOUT','Hosted by TCM',true],['GREATMANTAKIT','Gospel After Hours']]],
+ [24,'THU',[['TCM HANGOUT','Hosted by TCM','tcm'],['GREATMANTAKIT','Gospel After Hours']]],
+ [26,'SAT',[['ALL ABOUT RNB','']]],
  [29,'TUE',[['ON THE ROAD','with Llona']]],
  [31,'THU',[['CTM AUTO COUNTDOWN','Festival · NYE']]],
 ];
@@ -241,7 +242,7 @@ for(const c of cols){
     const g=document.createElement('div');
     g.className='group'+(evs.some(e=>e[2])?' feat':'');
     g.innerHTML=`<div class="tile${evs.length>1?' tall':''}"><div class="d">${String(d).padStart(2,'0')}</div><div class="w">${w}</div></div>`+
-      evs.map(([t,s,f])=>`<div class="ev${f?' hi':''}">${f?'<div class="hl"></div>':''}<div class="t">${t}${f?'<span class="badge">OUR NIGHT</span>':''}</div>${s?`<div class="s">${s}</div>`:''}</div>`).join('');
+      evs.map(([t,s,f])=>`<div class="ev${f?' hi':''}">${f?'<div class="hl"></div>':''}<div class="t">${t}${f==='tcm'?'<span class="badge">OUR NIGHT</span>':''}</div>${s?`<div class="s">${s}</div>`:''}</div>`).join('');
     col.appendChild(g);
   }
 }
@@ -286,7 +287,7 @@ const groups=[...document.querySelectorAll('.group')];
 const h1ch=[...document.querySelectorAll('h1 .ch')];
 const abch=[...document.querySelectorAll('.abuja .c')];
 const cards=[...document.querySelectorAll('.card')];
-let flip=null;const FG=document.querySelector('.feat');
+let flip=null;const FGS=[...document.querySelectorAll('.feat')];
 function measureFlip(){ // big logo -> header logo transform
   const a=$('biglogo').getBoundingClientRect(),b=$('hlogo').getBoundingClientRect(),p=P.getBoundingClientRect();
   flip={dx:(b.left+b.width/2)-(a.left+a.width/2),dy:(b.top+b.height/2)-(a.top+a.height/2),s:b.width/a.width};
@@ -335,13 +336,13 @@ function seek(t){
     const tile=g.querySelector('.tile'),tk=prog(t,7.45+i*.2,.6,E.outBack);
     tile.style.transform=`scale(${lerp(.4,1,tk)}) rotate(${(1-tk)*-8}deg)`;});
   // feature highlight
-  const fg=FG,hl=fg.querySelector('.hl'),hk=prog(t,11.0,.7,E.inOut3);
-  hl.style.clipPath=`inset(0 ${100-hk*100}% 0 0 round 12px)`;
-  const pulse=t>11.6?.5+.5*Math.sin((t-11.6)*3):0;
-  hl.style.boxShadow=`0 14px ${40+pulse*30}px -12px rgba(242,52,60,${.55+pulse*.3})`;
-  fg.classList.toggle('feat',hk>.35);fg.querySelector('.ev').classList.toggle('hi',hk>.35);
-  cards.forEach((c,i)=>{const k=prog(t,11.9+i*.18,.8,E.out4);set(c,{opacity:k,transform:`translateY(${(1-k)*50}px)`})});
-  const fo=prog(t,12.8,.8);set($('foot'),{opacity:fo});
+  FGS.forEach((fg,i)=>{const t0=10.8+i*.22,hl=fg.querySelector('.hl'),hk=prog(t,t0,.6,E.inOut3);
+    hl.style.clipPath=`inset(0 ${100-hk*100}% 0 0 round 12px)`;
+    const pulse=t>t0+.6?.5+.5*Math.sin((t-t0-.6)*3+i):0;
+    hl.style.boxShadow=`0 14px ${40+pulse*30}px -12px rgba(242,52,60,${.55+pulse*.3})`;
+    fg.classList.toggle('feat',hk>.35);fg.querySelector('.ev').classList.toggle('hi',hk>.35);});
+  cards.forEach((c,i)=>{const k=prog(t,12.2+i*.18,.8,E.out4);set(c,{opacity:k,transform:`translateY(${(1-k)*50}px)`})});
+  const fo=prog(t,13.0,.8);set($('foot'),{opacity:fo});
   // shimmer across DECEMBER
   const sh=lerp(-30,130,prog(t,13.6,1.6,E.inOut3));
   h1ch.forEach(c=>c.style.backgroundImage=`linear-gradient(100deg,transparent ${sh-14}%,rgba(255,120,104,.95) ${sh}%,transparent ${sh+14}%),linear-gradient(180deg,#FFFFFF 0%,#F7E4DC 58%,#DDAAA2 100%)`);
