@@ -1,0 +1,793 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bonfire Stage · 3D Explorer</title><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+body.embed #title{display:none}body.embed #northw{top:16px;right:16px}body.embed #legend{right:16px}body.embed #note{left:16px}
+:root{--ink:#16171a;--muted:#5d6068;--paper:rgba(250,249,246,.94);--accent:#e8401c;--lift:34}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0b0b0d;overflow:hidden;font-family:Inter,system-ui,sans-serif}
+#c{position:absolute;inset:0;width:100%;height:100%;display:block}
+#leaders{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#leaders line{stroke:rgba(20,20,22,.75);stroke-width:1.2}
+#labels{position:absolute;inset:0;pointer-events:none}
+.lbl{position:absolute;left:0;top:0;white-space:nowrap;font:600 11.5px/1 Inter,sans-serif;letter-spacing:.06em;color:#16171a;background:rgba(255,255,255,.94);padding:6px 9px 6px 7px;border-radius:3px;box-shadow:0 1px 3px rgba(0,0,0,.25);display:flex;align-items:center;gap:6px}
+.lbl i{width:8px;height:8px;border-radius:2px;display:inline-block}
+.lbl-stage{background:#16171a;color:#fff;font-size:13px}
+.lbl-prod{background:#16171a;color:#f3d9a8}
+.lbl-acc,.lbl-svc{font-size:10px;padding:4px 7px 4px 6px}
+.panel{position:absolute;background:var(--paper);color:var(--ink);box-shadow:0 2px 14px rgba(0,0,0,.18)}
+#title{left:28px;top:26px;padding:18px 22px 16px;border-left:5px solid var(--accent);max-width:440px}
+#title .k{font:600 10.5px Inter;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+#title h1{font:400 40px/1 Anton,Impact,sans-serif;margin:6px 0 4px;letter-spacing:.01em;color:#c3290f}
+#title .s{font:600 13.5px Inter;letter-spacing:.04em}
+#title .m{font:400 11.5px/1.5 Inter;color:var(--muted);margin-top:8px}
+#legend{right:28px;bottom:26px;padding:14px 18px;font:500 11px/1.25 Inter;min-width:260px}
+#legend h3{margin:0 0 8px;font:700 10px Inter;letter-spacing:.18em;color:var(--muted)}
+#legend .r{display:flex;align-items:center;gap:9px;margin:5px 0}
+#legend .r b{width:16px;height:10px;border-radius:2px;display:inline-block;flex:none}
+#legend .cols{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+#northw{position:absolute;right:34px;top:30px;width:64px;height:64px;border-radius:50%;background:var(--paper);box-shadow:0 2px 10px rgba(0,0,0,.18);display:grid;place-items:center}
+#north{width:40px;height:40px;transform-origin:50% 50%}
+#note{left:28px;bottom:26px;padding:10px 14px;font:500 10.5px/1.45 Inter;color:var(--muted);max-width:420px}
+#note b{color:var(--accent)}
+body:not([data-mode=map]) .panel, body:not([data-mode=map]) #northw{display:none}
+body[data-ls=overview] .lbl-prod,body[data-ls=overview] .lbl-aud,body[data-ls=overview] .ln-prod,body[data-ls=overview] .ln-aud{display:none!important}
+body[data-ls=stagezone] .lbl-aud,body[data-ls=stagezone] .ln-aud,body[data-ls=stagezone] .lbl-acc,body[data-ls=stagezone] .lbl-svc,body[data-ls=stagezone] .ln-acc,body[data-ls=stagezone] .ln-svc{display:none!important}
+.lbl-aud{background:#16171a;color:#c9f0b4}
+#ui{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:none;gap:6px;background:rgba(15,15,17,.82);padding:6px;border-radius:999px;backdrop-filter:blur(6px)}
+#ui button{font:600 12px Inter;color:#eee;background:transparent;border:0;padding:9px 14px;border-radius:999px;cursor:pointer;min-height:36px}
+#ui button.on{background:#e8401c;color:#fff}
+body.interactive #ui{display:flex}
+body.interactive #legend,body.interactive #note{bottom:84px}
+@media (max-width:1100px){body.interactive #note{display:none}}
+@media (max-width:700px){#title{left:16px;top:16px;padding:12px 14px;max-width:calc(100% - 100px)}#title h1{font-size:26px}#legend,#note{display:none}#northw{right:16px;top:16px;width:52px;height:52px}#ui{bottom:12px;flex-wrap:wrap;justify-content:center;border-radius:14px;width:calc(100% - 32px)}#ui button{padding:8px 10px}}
+</style>
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+</head><body data-mode="map">
+<canvas id="c"></canvas>
+<svg id="leaders"></svg>
+<div id="labels"></div>
+<div id="title" class="panel"><div class="k">3D Site &amp; Stage Layout · Rev A</div><h1>THE BONFIRE EXPERIENCE</h1><div class="s">Harrow Park, Abuja · Thursday 4 December 2026</div><div class="m">Stage per GCA drawings ABJ-A-01…04 — 56×40 ft deck @ +1.8 m, 60×40×40 ft ground support, 16×7 m main LED, 2× 5.5×7.5 m live-feed LED, 12+8 YME GT13 per side, 20 subs, delays @ 40 m, FOH @ ~30 m.</div></div>
+<div id="northw"><svg id="north" viewBox="0 0 40 40"><path d="M20 3 L27 30 L20 25 L13 30 Z" fill="#16171a"/><text x="20" y="39" font-size="8" font-weight="700" text-anchor="middle" font-family="Inter" fill="#16171a">N</text></svg></div>
+<div id="legend" class="panel"><h3>LEGEND</h3><div class="cols">
+<div class="r"><b style="background:#16171a"></b>Stage, PA &amp; LED</div>
+<div class="r"><b style="background:#ff5a1a"></b>Fire FX / deck edge</div>
+<div class="r"><b style="background:#9ea4aa"></b>Scaffold structures</div>
+<div class="r"><b style="background:#2e3135"></b>Crowd barrier (3 m pit)</div>
+<div class="r"><b style="background:#c8ccd0;outline:1px solid #888"></b>Perimeter / tech. barricade</div>
+<div class="r"><b style="background:#e8ecee;outline:1px solid #aaa"></b>Water ballast (IBC)</div>
+<div class="r"><b style="background:#4a7d34"></b>Lawn / event space</div>
+<div class="r"><b style="background:#d9c48e"></b>Bunkers (keep clear)</div>
+<div class="r"><b style="background:#5b5d63"></b>Roads &amp; parking</div>
+<div class="r"><b style="background:#36c2c9"></b>VIP table zones</div>
+</div></div>
+<div id="note" class="panel"><b>Indicative layout.</b> Site geometry follows the client venue map; stage placed per that map (south end of the General Space, facing north towards the main building). Dimensions per GCA drawings — site survey, structural sign-off and lighting plot still to be confirmed.</div>
+<div id="ui"><button data-m="map" class="on">Floor map</button><button data-m="day">Daylight</button><button data-m="show">Show (night)</button><button data-c="overview">Overview</button><button data-c="stagezone">Stage zone</button><button data-c="hero">Crowd view</button><button id="play">▶ Play show</button></div>
+<script>window.FORCE_I=true;document.body.classList.add('interactive');try{if(window.self!==window.top||new URLSearchParams(location.search).get('embed')==='1')document.body.classList.add('embed')}catch(e){document.body.classList.add('embed')}
+if(new URLSearchParams(location.search).get('i')==='1')document.body.classList.add('interactive');
+</script>
+<script>window.POSTER_SRC='assets/poster.jpg'</script>
+<script type="module">// The Bonfire Experience — Harrow Park, Abuja — 3D site + stage model
+// Site geometry traced from the client venue map (map px), stage per GCA drawings ABJ-A-01..04.
+import * as THREE from 'three';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
+import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+
+const Q = new URLSearchParams(location.search);
+const MODE0 = Q.get('mode') || 'map';
+const W0 = +Q.get('w') || innerWidth, H0 = +Q.get('h') || innerHeight;
+const INTERACTIVE = Q.get('i') === '1' || window.FORCE_I === true;
+const POSTER_SRC = window.POSTER_SRC || 'poster.jpg';
+
+// ---------------------------------------------------------------- utilities
+function mulberry32(a){return function(){a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const rnd = mulberry32(20261204);
+const R = (a,b)=>a+(b-a)*rnd();
+const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
+const smooth=(e0,e1,x)=>{const t=clamp((x-e0)/(e1-e0),0,1);return t*t*(3-2*t)};
+
+// map px -> world metres. Origin = stage downstage centre (front edge of 56x40 deck).
+const S = 0.5, O = [688, 713];
+const wx = px => (px - O[0]) * S, wz = py => (py - O[1]) * S;
+const W = (px,py,y=0)=> new THREE.Vector3(wx(px), y, wz(py));
+// stage axis: local +z = towards audience (NE on the map)
+const DIR = new THREE.Vector2(0.559,-0.829).normalize();
+const THETA = Math.atan2(DIR.x, DIR.y);
+// true north (derived: GCA aerial puts Ahmadu Bello Way south & restaurant west => map up-right is north)
+const NORTH = new THREE.Vector3(0.5,0,-0.866).normalize();
+const L = (x,y,z)=> new THREE.Vector3(x*Math.cos(THETA)+z*Math.sin(THETA), y, -x*Math.sin(THETA)+z*Math.cos(THETA));
+
+function pip(pt, poly){let c=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const [xi,yi]=poly[i],[xj,yj]=poly[j];if(((yi>pt[1])!==(yj>pt[1]))&&(pt[0]<(xj-xi)*(pt[1]-yi)/(yj-yi)+xi))c=!c}return c}
+
+// ---------------------------------------------------------------- site data (map px)
+const SITE = {
+  ahmadu: [[-60,-280],[168,120],[558,804],[690,1035]],
+  topRoad: [[236,250],[650,229],[692,190],[735,148]],
+  loop: [[650,229],[712,300],[714,322],[660,400],[640,410],[622,398],[575,320],[540,250]],
+  entryRoad: [[290,252],[582,624]],
+  vip: [[377,327],[500,258],[502,250],[530,249],[572,327],[500,400],[480,410],[485,430],[510,450],[467,475],[460,455]],
+  lot: [[556,618],[828,296],[846,289],[872,322],[786,470],[760,472],[746,450],[604,620],[578,648]],
+  islands: [[[768,424],[797,389]],[[804,382],[852,326]]],
+  green: [[560,632],[604,620],[746,452],[786,470],[872,374],[884,480],[912,560],[944,590],[936,618],[896,656],[826,716],[806,752],[762,804],[745,830],[528,830],[516,705],[528,660]],
+  bldgA: [[560,392],[625,460],[587,495],[522,425]],
+  bldgB: [[645,585],[720,497],[742,505],[742,530],[700,570],[690,605],[665,615],[642,598]],
+  patio: [[733,470],[757,470],[757,492],[733,492]],
+  pool: [[768,502],[782,502],[782,513],[768,513]],
+  path: [[745,486],[776,500],[764,520],[706,592]],
+  bunkers: [[597,682,22,17,0.3],[650,645,9,6,0.4],[850,657,6,11,0.2],[725,766,6,13,-0.4],[905,610,5,8,0.1],[790,600,5,4,0]],
+  trees: [[660,470,16],[688,436,15],[724,388,15],[752,352,13],[868,280,19],[896,338,18],[902,396,17],[922,432,17],[884,458,15],[728,570,10],[742,546,9],[800,636,8],[812,712,8],[556,640,10],[531,668,12],[530,706,14],[586,768,14],[628,790,15],[688,800,13],[716,806,12],[548,744,12],[606,800,12],[900,300,14],[930,470,14]],
+  hedges: [[[588,592],[835,300]],[[600,617],[745,447]]],
+  shrubRow: [[796,447],[862,367]],
+  vendors: [[817,482],[900,552]],
+  toilets: [[818,440],[842,412]],
+};
+
+// ---------------------------------------------------------------- renderer / scene
+const canvas = document.getElementById('c');
+const renderer = new THREE.WebGLRenderer({canvas, antialias:true, preserveDrawingBuffer:true, powerPreference:'high-performance'});
+renderer.setPixelRatio(+Q.get('dpr') || Math.min(devicePixelRatio,2));
+renderer.setSize(W0,H0,false);
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+const scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(32, W0/H0, 0.5, 4000);
+const stage = new THREE.Group(); stage.rotation.y = THETA; scene.add(stage);
+const site = new THREE.Group(); scene.add(site);
+const showOnly = new THREE.Group(); scene.add(showOnly);   // crowd, beams, fx
+const anim = [];   // per-frame updaters fn(t)
+
+// ---------------------------------------------------------------- batches (instancing)
+class Batch{
+  constructor(geo,mat,parent,shadow=true){this.geo=geo;this.mat=mat;this.parent=parent;this.ms=[];this.cs=[];this.shadow=shadow}
+  add(m,c){this.ms.push(m.clone());if(c)this.cs.push(new THREE.Color(c));return this}
+  build(){if(!this.ms.length)return null;const im=new THREE.InstancedMesh(this.geo,this.mat,this.ms.length);this.ms.forEach((m,i)=>{im.setMatrixAt(i,m);if(this.cs.length)im.setColorAt(i,this.cs[i]||this.cs[0])});im.castShadow=this.shadow;im.receiveShadow=true;this.parent.add(im);this.mesh=im;return im}
+}
+const _m=new THREE.Matrix4(),_q=new THREE.Quaternion(),_s=new THREE.Vector3(),_up=new THREE.Vector3(0,1,0);
+function tubeM(a,b,r){const d=new THREE.Vector3().subVectors(b,a);const len=d.length();_q.setFromUnitVectors(_up,d.normalize());return new THREE.Matrix4().compose(new THREE.Vector3().addVectors(a,b).multiplyScalar(.5),_q,new THREE.Vector3(r,len,r))}
+function boxM(x,y,z,sx,sy,sz,ry=0){return new THREE.Matrix4().compose(new THREE.Vector3(x,y,z),new THREE.Quaternion().setFromAxisAngle(_up,ry),new THREE.Vector3(sx,sy,sz))}
+
+const unitCyl = new THREE.CylinderGeometry(1,1,1,6,1);
+const unitBox = new THREE.BoxGeometry(1,1,1);
+const MAT = {
+  scaffold: new THREE.MeshStandardMaterial({color:0x9ea4aa,metalness:.7,roughness:.35}),
+  truss: new THREE.MeshStandardMaterial({color:0x3a3d42,metalness:.75,roughness:.35}),
+  deck: new THREE.MeshStandardMaterial({color:0x121214,roughness:.55,metalness:.1}),
+  skirt: new THREE.MeshStandardMaterial({color:0x08080a,roughness:.95}),
+  speaker: new THREE.MeshStandardMaterial({color:0x17181b,roughness:.6,metalness:.3}),
+  grille: new THREE.MeshStandardMaterial({color:0x26282c,roughness:.8,metalness:.4}),
+  roof: new THREE.MeshStandardMaterial({color:0x101113,roughness:.7,side:THREE.DoubleSide}),
+  scrim: new THREE.MeshStandardMaterial({color:0x0a0a0c,roughness:1,transparent:true,opacity:.85,side:THREE.DoubleSide}),
+  barrier: new THREE.MeshStandardMaterial({color:0x2e3135,metalness:.6,roughness:.45}),
+  fence: new THREE.MeshStandardMaterial({color:0xb8bcc0,metalness:.6,roughness:.4}),
+  white: new THREE.MeshStandardMaterial({color:0xf2f2ef,roughness:.6}),
+  ibc: new THREE.MeshStandardMaterial({color:0xe8ecee,roughness:.35,transparent:true,opacity:.92}),
+  black: new THREE.MeshStandardMaterial({color:0x0e0e10,roughness:.8}),
+  riser: new THREE.MeshStandardMaterial({color:0x1b1b1e,roughness:.6}),
+};
+const tubes = new Batch(unitCyl, MAT.scaffold, stage);
+const truss = new Batch(unitCyl, MAT.truss, stage);
+const siteTubes = new Batch(unitCyl, MAT.scaffold, site);
+
+// ---------------------------------------------------------------- textures
+function canvasTex(w,h,draw,srgb=true){const c=document.createElement('canvas');c.width=w;c.height=h;const g=c.getContext('2d');draw(g,w,h);const t=new THREE.CanvasTexture(c);if(srgb)t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;t.userData.ctx=g;return t}
+function radialTex(stops){return canvasTex(128,128,(g)=>{const gr=g.createRadialGradient(64,64,0,64,64,64);stops.forEach(([o,c])=>gr.addColorStop(o,c));g.fillStyle=gr;g.fillRect(0,0,128,128)})}
+const TEX = {
+  glow: radialTex([[0,'rgba(255,255,255,1)'],[.25,'rgba(255,255,255,.55)'],[1,'rgba(255,255,255,0)']]),
+  flame: radialTex([[0,'rgba(255,250,220,1)'],[.18,'rgba(255,200,90,.95)'],[.45,'rgba(255,90,20,.55)'],[.75,'rgba(180,20,0,.18)'],[1,'rgba(0,0,0,0)']]),
+  smoke: radialTex([[0,'rgba(255,255,255,.8)'],[.5,'rgba(255,255,255,.3)'],[1,'rgba(255,255,255,0)']]),
+  spark: radialTex([[0,'rgba(255,255,240,1)'],[.3,'rgba(255,210,120,.8)'],[1,'rgba(255,120,0,0)']]),
+};
+
+// ---------------------------------------------------------------- ground (painted from map data)
+const GX0=-260, GY0=-220, GX1=1500, GY1=1060;  // map px extent of ground texture
+function groundTexture(){
+  const k=2.4, w=Math.round((GX1-GX0)*k), h=Math.round((GY1-GY0)*k);
+  return canvasTex(w,h,(g)=>{
+    const P=(x,y)=>[(x-GX0)*k,(y-GY0)*k];
+    const poly=(pts,fill)=>{g.beginPath();pts.forEach(([x,y],i)=>{const [a,b]=P(x,y);i?g.lineTo(a,b):g.moveTo(a,b)});g.closePath();g.fillStyle=fill;g.fill()};
+    const line=(pts,wd,col,dash)=>{g.beginPath();pts.forEach(([x,y],i)=>{const [a,b]=P(x,y);i?g.lineTo(a,b):g.moveTo(a,b)});g.lineWidth=wd*k;g.strokeStyle=col;g.lineJoin='round';g.lineCap='round';g.setLineDash(dash?dash.map(d=>d*k):[]);g.stroke();g.setLineDash([])};
+    // base: dry Abuja ground / paving
+    g.fillStyle='#cfccc2';g.fillRect(0,0,w,h);
+    const nr=mulberry32(7);for(let i=0;i<60000;i++){g.fillStyle=`rgba(${nr()<.5?'90,80,60':'255,255,250'},${nr()*.06})`;g.fillRect(nr()*w,nr()*h,2+nr()*5,2+nr()*5)}
+    // surrounding scrub patches
+    for(let i=0;i<220;i++){const x=nr()*w,y=nr()*h;const gr=g.createRadialGradient(x,y,0,x,y,30+nr()*90);gr.addColorStop(0,'rgba(120,130,80,.18)');gr.addColorStop(1,'rgba(120,130,80,0)');g.fillStyle=gr;g.fillRect(x-130,y-130,260,260)}
+    // HARROW PARK lettering (as on the venue map)
+    g.save();g.fillStyle='rgba(120,118,112,.35)';g.font=`800 ${70*k}px Inter, sans-serif`;g.textBaseline='top';const [hx,hy]=P(222,62);g.fillText('HARROW',hx,hy);g.fillText('PARK',hx,hy+68*k);g.restore();
+    // Ahmadu Bello Way — dual carriageway
+    line(SITE.ahmadu,40,'#4a4c52');line(SITE.ahmadu,40.5,'rgba(0,0,0,.0)');
+    line(SITE.ahmadu,1.2,'#e8c547');
+    [[-10],[10]].forEach(([o])=>{const pts=SITE.ahmadu.map(([x,y])=>[x+o*0.82,y-o*0.57]);line(pts,.6,'rgba(255,255,255,.75)',[6,8])});
+    // road edge kerbs
+    const kerb=(pts,wd)=>{line(pts,wd+2.2,'#9b9890');};
+    kerb(SITE.topRoad,16);kerb(SITE.loop,14);kerb(SITE.entryRoad,19);
+    line(SITE.topRoad,16,'#5b5d63');line(SITE.loop,14,'#5b5d63');line(SITE.entryRoad,19,'#5b5d63');
+    line(SITE.topRoad,.5,'rgba(255,255,255,.55)',[5,6]);line(SITE.entryRoad,.5,'rgba(255,255,255,.55)',[5,6]);
+    // grass areas
+    const lawn=(pts,base)=>{g.save();poly(pts,base);g.clip();
+      // golf-style mowing stripes, aligned to the stage axis
+      g.translate(...P(O[0],O[1]));g.rotate(Math.atan2(-0.829,0.559));
+      for(let i=-80;i<80;i++){g.fillStyle=i%2?'rgba(255,255,255,.045)':'rgba(0,0,0,.05)';g.fillRect(-2000*k,i*9*k,4000*k,9*k)}
+      g.restore();g.save();poly(pts,'rgba(0,0,0,0)');g.clip();for(let i=0;i<9000;i++){g.fillStyle=`rgba(${nr()<.5?'20,60,10':'170,200,110'},${nr()*.08})`;const [a,b]=[nr()*w,nr()*h];g.fillRect(a,b,3,3)}g.restore()};
+    lawn(SITE.green,'#4a7d34');
+    lawn(SITE.vip,'#3f6d2c');
+    // VIP parking bays
+    g.save();poly(SITE.vip,'rgba(0,0,0,0)');g.clip();g.translate(...P(470,360));g.rotate(Math.atan2(370,288));
+    for(let r=-6;r<7;r++)for(let c=-12;c<12;c++){g.strokeStyle='rgba(255,255,255,.35)';g.lineWidth=.35*k;g.strokeRect(c*5.4*k,r*12*k,5.4*k,11*k)}g.restore();
+    // parking lot
+    poly(SITE.lot,'#5b5d63');
+    g.save();poly(SITE.lot,'rgba(0,0,0,0)');g.clip();g.translate(...P(760,400));g.rotate(Math.atan2(-325,275));
+    for(let r=-3;r<4;r++)for(let c=-40;c<40;c++){g.strokeStyle='rgba(255,255,255,.55)';g.lineWidth=.3*k;g.beginPath();g.moveTo(c*5*k,(r*24+4)*k);g.lineTo(c*5*k,(r*24+14)*k);g.stroke()}g.restore();
+    SITE.islands.forEach(s=>line(s,9,'#3f6d2c'));
+    // bunkers (sand traps — Harrow Park is a golf park)
+    SITE.bunkers.forEach(([x,y,rx,ry,a])=>{const [cx,cy]=P(x,y);g.save();g.translate(cx,cy);g.rotate(a);g.beginPath();g.ellipse(0,0,rx*k,ry*k,0,0,7);const gr=g.createRadialGradient(0,0,0,0,0,rx*k);gr.addColorStop(0,'#e3cf9a');gr.addColorStop(1,'#c9ae72');g.fillStyle=gr;g.fill();g.lineWidth=1.2*k;g.strokeStyle='rgba(60,90,40,.6)';g.stroke();g.restore()});
+    // patio, path, pool
+    line(SITE.path,6,'#b9b6ad');poly(SITE.patio,'#bdbab2');
+    poly(SITE.pool,'#2f8fd8');g.lineWidth=1*k;g.strokeStyle='#e9e6dc';g.stroke();
+    // entrance hatch
+    line([[586,628],[600,640]],3,'#e0b23a',[1.5,1.5]);
+    // site boundary (white line as on map) on the east edge
+    line(SITE.green.slice(4,13),1.4,'rgba(255,255,255,.9)');
+    // Road name
+    g.save();const [rx,ry]=P(330,470);g.translate(rx,ry);g.rotate(Math.atan2(684,390));g.fillStyle='rgba(235,235,230,.55)';g.font=`800 ${14*k}px Inter, sans-serif`;g.textAlign='center';g.fillText('AHMADU BELLO WAY',0,5*k);g.restore();
+    // arrows on roads
+    const arrows=(a,b,n)=>{for(let i=1;i<n;i++){const t=i/n;const x=a[0]+(b[0]-a[0])*t,y=a[1]+(b[1]-a[1])*t;const [cx,cy]=P(x,y);g.save();g.translate(cx,cy);g.rotate(Math.atan2(b[1]-a[1],b[0]-a[0]));g.fillStyle='rgba(255,255,255,.7)';g.font=`800 ${5*k}px Inter`;g.fillText('›››',-4*k,2*k);g.restore()}};
+    arrows([240,250],[640,230],5);arrows([292,252],[582,624],5);arrows([590,615],[830,320],5);
+  });
+}
+const groundTex = groundTexture();
+const groundMat = new THREE.MeshStandardMaterial({map:groundTex,roughness:.95});
+{
+  const gw=(GX1-GX0)*S, gh=(GY1-GY0)*S;
+  const g=new THREE.Mesh(new THREE.PlaneGeometry(gw,gh),groundMat);g.rotation.x=-Math.PI/2;
+  g.position.set(wx((GX0+GX1)/2),0,wz((GY0+GY1)/2));g.receiveShadow=true;site.add(g);
+  const far=new THREE.Mesh(new THREE.PlaneGeometry(6000,6000),new THREE.MeshStandardMaterial({color:0xc9c6bc,roughness:1}));far.rotation.x=-Math.PI/2;far.position.y=-.05;far.receiveShadow=true;site.add(far);
+}
+
+// ---------------------------------------------------------------- buildings
+function extrude(pts,h,mat,y0=0){const sh=new THREE.Shape(pts.map(([x,y])=>new THREE.Vector2(wx(x),-wz(y))));const g=new THREE.ExtrudeGeometry(sh,{depth:h,bevelEnabled:false});g.rotateX(-Math.PI/2);const m=new THREE.Mesh(g,mat);m.position.y=y0;m.castShadow=m.receiveShadow=true;site.add(m);return m}
+const wallMat=new THREE.MeshStandardMaterial({color:0xe7e1d4,roughness:.85});
+const roofMat=new THREE.MeshStandardMaterial({color:0x2a2c30,roughness:.7});
+const glassMat=new THREE.MeshStandardMaterial({color:0x1d2a33,roughness:.15,metalness:.6,emissive:0x000000});
+function building(pts,h){extrude(pts,h,wallMat);const r=extrude(pts,.6,roofMat,h);
+  // window band
+  const sh=new THREE.Shape(pts.map(([x,y])=>new THREE.Vector2(wx(x),-wz(y))));const gg=new THREE.ExtrudeGeometry(sh,{depth:1.6,bevelEnabled:false});gg.rotateX(-Math.PI/2);gg.scale(1.006,1,1.006);
+  const c=new THREE.Vector3();pts.forEach(([x,y])=>c.add(W(x,y)));c.divideScalar(pts.length);gg.translate(-c.x*.006,0,-c.z*.006);
+  const wm=new THREE.Mesh(gg,glassMat);wm.position.y=h*.45;site.add(wm);return wm}
+const winA=building(SITE.bldgA,9), winB=building(SITE.bldgB,7.5);
+
+// ---------------------------------------------------------------- trees / hedges
+const leafGeo = new THREE.IcosahedronGeometry(1,1);
+const trunkB = new Batch(unitCyl,new THREE.MeshStandardMaterial({color:0x4a3a2a,roughness:1}),site);
+const leafB = new Batch(leafGeo,new THREE.MeshStandardMaterial({color:0xffffff,roughness:.9,flatShading:true}),site);
+const greens=['#3d6b2a','#4f7f31','#5d8c38','#35612a','#6a9a3f'];
+function tree(x,z,r){const h=r*.9;trunkB.add(tubeM(new THREE.Vector3(x,0,z),new THREE.Vector3(x,h,z),r*.07));
+  const n=5+Math.floor(r/3);for(let i=0;i<n;i++){const a=rnd()*6.28,d=rnd()*r*.55;const s=r*R(.42,.62);leafB.add(new THREE.Matrix4().compose(new THREE.Vector3(x+Math.cos(a)*d,h+r*R(.05,.6),z+Math.sin(a)*d),new THREE.Quaternion().setFromEuler(new THREE.Euler(rnd()*3,rnd()*3,0)),new THREE.Vector3(s,s*R(.8,1),s)),greens[Math.floor(rnd()*greens.length)])}}
+SITE.trees.forEach(([x,y,r])=>tree(wx(x),wz(y),r*S*1.05));
+function rowAlong(a,b,step,fn){const A=W(...a),B=W(...b);const n=Math.floor(A.distanceTo(B)/step);for(let i=0;i<=n;i++){const p=A.clone().lerp(B,i/n);fn(p,i)}}
+SITE.hedges.forEach(([a,b])=>rowAlong(a,b,1.6,(p)=>leafB.add(new THREE.Matrix4().compose(p.clone().setY(.9),new THREE.Quaternion(),new THREE.Vector3(1.1,1.1,1.1)),'#2f5a22')));
+rowAlong(...SITE.shrubRow,5,(p)=>tree(p.x,p.z,3.4));
+SITE.islands.forEach(([a,b])=>rowAlong(a,b,4.5,(p)=>tree(p.x,p.z,2.6)));
+// scattered trees around outside of map for context
+for(let i=0;i<70;i++){const px=R(-200,1450),py=R(-200,1050);const p=[px,py];if(pip(p,SITE.green)||pip(p,SITE.vip)||pip(p,SITE.lot))continue;
+  const ax=168+(py-120)*0.57;if(Math.abs(px-ax)<45)continue;if(px>480&&px<760&&py>140&&py<520)continue;if(px>260&&px<620&&py>200&&py<660&&Math.abs((px-290)*0.789-(py-252)*0.614)<30)continue;
+  tree(wx(px),wz(py),R(5,10))}
+
+// ---------------------------------------------------------------- site furniture (cars, tents, kiosks)
+const carGeo = (()=>{const b=new THREE.BoxGeometry(1.85,0.75,4.5);b.translate(0,.55,0);const t=new THREE.BoxGeometry(1.6,.55,2.4);t.translate(0,1.2,-.2);return mergeGeometries([b,t])})();
+const carB=new Batch(carGeo,new THREE.MeshStandardMaterial({color:0xffffff,roughness:.35,metalness:.5}),site);
+const carCols=['#e9e9e9','#1c1c1e','#9aa0a6','#2b3e5c','#7a1e1e','#d7d2c8','#3a3a3c','#0f2a1e'];
+function carsIn(poly,cx,cy,ang,rows,cols,dx,dy,skip=.25){const ca=Math.cos(ang),sa=Math.sin(ang);for(let r=0;r<rows;r++)for(let c=0;c<cols;c++){const u=(c-cols/2)*dx,v=(r-rows/2)*dy;const px=cx+(u*ca-v*sa)/S,py=cy+(u*sa+v*ca)/S;if(!pip([px,py],poly)||rnd()<skip)continue;carB.add(new THREE.Matrix4().compose(W(px,py),new THREE.Quaternion().setFromAxisAngle(_up,-ang+(rnd()<.5?0:Math.PI)),new THREE.Vector3(1,1,1)),carCols[Math.floor(rnd()*carCols.length)])}}
+carsIn(SITE.vip,468,362,Math.atan2(370,288),7,14,2.7,6,.3);
+carsIn(SITE.lot,790,385,Math.atan2(-325,275)+Math.PI/2,6,30,2.7,5.6,.35);
+
+// gazebo / marquee tents
+const tentRoof=(()=>{const g=new THREE.ConeGeometry(0.72,0.35,4,1);g.rotateY(Math.PI/4);g.translate(0,.175,0);return g})();
+const tentRoofB=new Batch(tentRoof,new THREE.MeshStandardMaterial({color:0xf4f4f2,roughness:.7,side:THREE.DoubleSide}),site);
+const legB=new Batch(unitCyl,MAT.fence,site);
+function gazebo(p,size,ry,h=2.6,col){tentRoofB.add(new THREE.Matrix4().compose(p.clone().setY(h),new THREE.Quaternion().setFromAxisAngle(_up,ry),new THREE.Vector3(size,size*1.6,size)),col);
+  for(const [a,b] of [[1,1],[1,-1],[-1,1],[-1,-1]]){const o=new THREE.Vector3(a*size/2,0,b*size/2).applyAxisAngle(_up,ry);legB.add(tubeM(p.clone().add(o),p.clone().add(o).setY(h),.04))}}
+rowAlong(...SITE.vendors,6.2,(p,i)=>{gazebo(p,5,Math.atan2(552-482,900-817),2.7,i%3==1?'#d6402b':'#f2f2f0');});
+// vendor counters
+rowAlong(...SITE.vendors,6.2,(p)=>{const m=new THREE.Mesh(unitBox,MAT.white);m.scale.set(3.6,1,.8);m.position.copy(p).setY(.5);m.rotation.y=-Math.atan2(552-482,900-817);m.castShadow=true;site.add(m)});
+// validation points (ticket check tents over entry road)
+[[352,307],[402,377]].forEach(([x,y])=>gazebo(W(x,y),7,Math.atan2(370,288),3.2,'#f2f2f0'));
+// road barriers
+[[310,272],[477,495]].forEach(([x,y])=>{const m=new THREE.Mesh(unitBox,new THREE.MeshStandardMaterial({color:0xff6a1a,roughness:.5}));m.scale.set(11,1,.5);m.position.copy(W(x,y,.5));m.rotation.y=-Math.atan2(-288,370);m.castShadow=true;site.add(m)});
+// portable toilets
+rowAlong(...SITE.toilets,1.6,(p)=>{const m=new THREE.Mesh(unitBox,new THREE.MeshStandardMaterial({color:0x2c62b8,roughness:.6}));m.scale.set(1.2,2.3,1.2);m.position.copy(p).setY(1.15);m.castShadow=true;site.add(m)});
+// sales point, POS
+[[690,605,'#e3a33a',3],[755,631,'#ffffff',2]].forEach(([x,y,c,s])=>{const m=new THREE.Mesh(unitBox,new THREE.MeshStandardMaterial({color:c,roughness:.6}));m.scale.set(s,2.4,s);m.position.copy(W(x,y,1.2));m.castShadow=true;site.add(m)});
+// entrance arch (truss goal-post with event banner)
+const bannerTex = canvasTex(1024,160,(g,w,h)=>{g.fillStyle='#0b0b0b';g.fillRect(0,0,w,h);g.fillStyle='#ff4a1c';g.font='72px Anton, Impact, sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('THE BONFIRE EXPERIENCE',w/2,h/2-4);g.fillStyle='#fff';g.font='600 22px Inter';g.fillText('HARROW PARK · ABUJA · 4 DEC',w/2,h-22)});
+{const p=W(583,627);const ang=Math.atan2(-325,275);const ax=new THREE.Vector3(Math.cos(ang),0,Math.sin(ang));
+ const A=p.clone().addScaledVector(ax,-9),B=p.clone().addScaledVector(ax,9);
+ [A,B].forEach(q=>siteTubes.add(tubeM(q,q.clone().setY(6),.22)));siteTubes.add(tubeM(A.clone().setY(6),B.clone().setY(6),.22));
+ const ban=new THREE.Mesh(new THREE.PlaneGeometry(16,2.5),new THREE.MeshBasicMaterial({map:bannerTex,side:THREE.DoubleSide,toneMapped:false}));ban.position.copy(p).setY(4.9);ban.rotation.y=-ang;site.add(ban)}
+
+// VIP tables zones (high tables + umbrellas), aligned with stage axes
+const tableTop=new Batch(new THREE.CylinderGeometry(.45,.45,.05,14),MAT.white,site);
+const umb=new Batch((()=>{const g=new THREE.ConeGeometry(1.4,.5,8,1,true);g.translate(0,2.5,0);return g})(),new THREE.MeshStandardMaterial({color:0xffffff,roughness:.7,side:THREE.DoubleSide}),site);
+function tableZone(lx,lz,wd,dp){
+  for(let i=0;i<5;i++)for(let j=0;j<4;j++){const p=L(lx+(i-2)*wd/5,0,lz+(j-1.5)*dp/4);tableTop.add(new THREE.Matrix4().makeTranslation(p.x,1.1,p.z));legB.add(tubeM(p,p.clone().setY(1.1),.04));if((i+j)%2==0){umb.add(new THREE.Matrix4().makeTranslation(p.x,0,p.z),j%2?'#1b1b1b':'#c8321e');legB.add(tubeM(p,p.clone().setY(2.6),.03))}}
+  // perimeter fence
+  const c=[[-1,-1],[1,-1],[1,1],[-1,1],[-1,-1]].map(([a,b])=>L(lx+a*wd/2,0,lz+b*dp/2));for(let i=0;i<4;i++)fenceRun(c[i],c[i+1],1.1,siteTubes);
+}
+function fenceRun(a,b,h,batch){batch.add(tubeM(a.clone().setY(h),b.clone().setY(h),.03));batch.add(tubeM(a.clone().setY(.15),b.clone().setY(.15),.03));const n=Math.max(1,Math.round(a.distanceTo(b)/2.3));for(let i=0;i<=n;i++){const p=a.clone().lerp(b,i/n);batch.add(tubeM(p,p.clone().setY(h),.03))}}
+tableZone(26.5,22,15,11);   // map "TABLES" 1 (house left of stage, from audience view)
+tableZone(-27,27,15,11);    // map "TABLES" 2
+
+// Fun experience area activations
+{const c=W(850,600);
+ // communal bonfire pit (theme)
+ const ring=new THREE.Mesh(new THREE.TorusGeometry(3,.45,8,24),new THREE.MeshStandardMaterial({color:0x6b6660,roughness:1}));ring.rotation.x=-Math.PI/2;ring.position.copy(c).setY(.3);site.add(ring);
+ for(let i=0;i<10;i++){const a=i/10*6.28;const b=new THREE.Mesh(unitBox,new THREE.MeshStandardMaterial({color:0x6b4a2a}));b.scale.set(3.4,.4,.4);b.position.set(c.x+Math.cos(a)*6.5,.35,c.z+Math.sin(a)*6.5);b.rotation.y=-a+Math.PI/2;site.add(b)}
+ c.userData={};window.__pit=c;
+ [[-16,8],[14,-10],[16,12]].forEach(([dx,dz],i)=>gazebo(c.clone().add(new THREE.Vector3(dx,0,dz)),6,.6,3,i==1?'#d6402b':'#f2f2f0'));
+ // photo frame
+ const f=new THREE.Mesh(new THREE.TorusGeometry(2.4,.25,8,4,Math.PI),new THREE.MeshStandardMaterial({color:0xd6402b}));f.position.copy(c).add(new THREE.Vector3(-6,0,-14));f.rotation.z=0;site.add(f);
+}
+
+// ---------------------------------------------------------------- STAGE (local coords, metres) — per ABJ-A-02/03/04
+const GS=18.29, GSH=12.19, DW=17.07, DD=12.19, DH=1.8;
+function box(parent,mat,x,y,z,sx,sy,sz){const m=new THREE.Mesh(unitBox,mat);m.position.set(x,y,z);m.scale.set(sx,sy,sz);m.castShadow=m.receiveShadow=true;parent.add(m);return m}
+// deck 56x40ft @1.8m, front extension 8ft, side wings 4ft, runway 32x16ft
+box(stage,MAT.deck,0,DH/2,-DD/2,DW,DH,DD);
+box(stage,MAT.deck,0,DH/2,1.22,DW,DH,2.44);
+[-1,1].forEach(s=>box(stage,MAT.deck,s*14.145,DH/2,.61,10,DH,1.22));
+box(stage,MAT.deck,0,DH/2,2.44+9.75/2,4.88,DH,9.75);
+// LED edge strips (emissive)
+const stripMat=new THREE.MeshBasicMaterial({color:0xff5a1a,toneMapped:false});
+const strips=[];function strip(x,y,z,sx,sz){const m=box(stage,stripMat,x,y,z,sx,.06,sz);m.castShadow=false;strips.push(m)}
+strip(0,DH+.01,2.44,DW,.08);[-1,1].forEach(s=>{strip(s*2.44,DH+.01,2.44+9.75/2,.08,9.75);strip(s*14.145,DH+.01,1.22,10,.08)});strip(0,DH+.01,12.19,4.88,.08);
+// band risers 4.2x3.0 +0.8
+[-1,1].forEach(s=>box(stage,MAT.riser,s*5.6,DH+.4,-9.6,4.2,.8,3.0));
+// stairs (stage L/R, backstage to deck)
+[-1,1].forEach(s=>{for(let i=0;i<9;i++)box(stage,MAT.truss,s*(DW/2+1.4),.1+i*.2,-11.2+i*.28,1.2,.2+i*.0,.3)});
+
+// ground support 60x40x40ft: 4 towers + roof grid (box truss)
+function boxTruss(batch,a,b,s=.52,r=.025,lace=true){const d=new THREE.Vector3().subVectors(b,a);const len=d.length();const dn=d.clone().normalize();let u=new THREE.Vector3(0,1,0);if(Math.abs(dn.y)>.9)u.set(1,0,0);u=u.cross(dn).normalize();const v=dn.clone().cross(u).normalize();
+  const corners=[[1,1],[1,-1],[-1,-1],[-1,1]].map(([i,j])=>u.clone().multiplyScalar(i*s/2).add(v.clone().multiplyScalar(j*s/2)));
+  corners.forEach(c=>batch.add(tubeM(a.clone().add(c),b.clone().add(c),r*1.6)));
+  if(!lace)return;const n=Math.max(1,Math.round(len/s));for(let k=0;k<n;k++){const p0=a.clone().addScaledVector(dn,len*k/n),p1=a.clone().addScaledVector(dn,len*(k+1)/n);for(let f=0;f<4;f++){const c0=corners[f],c1=corners[(f+1)%4];batch.add(tubeM(p0.clone().add(k%2?c0:c1),p1.clone().add(k%2?c1:c0),r))}}}
+const gx=GS/2, gzF=0.3, gzB=-DD+.1;
+[[-gx,gzF],[gx,gzF],[-gx,gzB],[gx,gzB]].forEach(([x,z])=>boxTruss(truss,new THREE.Vector3(x,0,z),new THREE.Vector3(x,GSH,z),.6));
+boxTruss(truss,new THREE.Vector3(-gx-.4,GSH,gzF),new THREE.Vector3(gx+.4,GSH,gzF));
+boxTruss(truss,new THREE.Vector3(-gx-.4,GSH,gzB),new THREE.Vector3(gx+.4,GSH,gzB));
+[-gx,gx,-gx/3,gx/3].forEach(x=>boxTruss(truss,new THREE.Vector3(x,GSH,gzF),new THREE.Vector3(x,GSH,gzB)));
+const midTrussZ=-5.8; boxTruss(truss,new THREE.Vector3(-gx,9.9,midTrussZ),new THREE.Vector3(gx,9.9,midTrussZ),.4);
+// pitched roof
+{const rw=GS+2.4, rd=DD+2.4, rh=2.6, y0=GSH+.4, zc=(gzF+gzB)/2;
+ const g=new THREE.BufferGeometry();const hw=rw/2,hd=rd/2;
+ const v=[-hw,0,-hd, hw,0,-hd, hw,rh,0, -hw,rh,0,  -hw,0,hd, hw,0,hd, hw,rh,0, -hw,rh,0];
+ g.setAttribute('position',new THREE.Float32BufferAttribute(v,3));g.setIndex([0,1,2,0,2,3, 4,6,5,4,7,6, 0,3,4, 1,5,2]);g.computeVertexNormals();
+ const roof=new THREE.Mesh(g,MAT.roof);roof.position.set(0,y0,zc);roof.castShadow=true;stage.add(roof);
+ // roof valance (branded header)
+ const hdr=canvasTex(1024,96,(c,w,h)=>{c.fillStyle='#0a0a0a';c.fillRect(0,0,w,h);c.fillStyle='#ff4a1c';c.font='64px Anton, Impact';c.textAlign='center';c.textBaseline='middle';c.fillText('THE BONFIRE EXPERIENCE',w/2,h/2+2)});
+ const val=new THREE.Mesh(new THREE.PlaneGeometry(rw,1.1),new THREE.MeshBasicMaterial({map:hdr,toneMapped:false}));val.position.set(0,y0-.2,zc+hd+.02);stage.add(val);
+}
+
+// scaffold helper (2 m bays, 2 m lifts)
+function scaffold(batch,x0,x1,y0,y1,z0,z1,bay=2,lift=2,brace=true){
+  const nx=Math.max(1,Math.round((x1-x0)/bay)),nz=Math.max(1,Math.round((z1-z0)/bay)),ny=Math.max(1,Math.round((y1-y0)/lift));
+  const X=i=>x0+(x1-x0)*i/nx,Y=j=>y0+(y1-y0)*j/ny,Z=k=>z0+(z1-z0)*k/nz;const r=.024;
+  for(let i=0;i<=nx;i++)for(let k=0;k<=nz;k++)batch.add(tubeM(new THREE.Vector3(X(i),y0,Z(k)),new THREE.Vector3(X(i),y1,Z(k)),r));
+  for(let j=1;j<=ny;j++){for(let k=0;k<=nz;k++)batch.add(tubeM(new THREE.Vector3(x0,Y(j),Z(k)),new THREE.Vector3(x1,Y(j),Z(k)),r));for(let i=0;i<=nx;i++)batch.add(tubeM(new THREE.Vector3(X(i),Y(j),z0),new THREE.Vector3(X(i),Y(j),z1),r))}
+  if(brace)for(let j=0;j<ny;j++)for(const k of [0,nz]){for(let i=0;i<nx;i+=2){const a=j%2?new THREE.Vector3(X(i),Y(j),Z(k)):new THREE.Vector3(X(i),Y(j+1),Z(k));const b=j%2?new THREE.Vector3(X(i+1),Y(j+1),Z(k)):new THREE.Vector3(X(i+1),Y(j),Z(k));batch.add(tubeM(a,b,r))}}
+  for(let k=0;k<nz;k++)batch.add(tubeM(new THREE.Vector3(x0,y0,Z(k)),new THREE.Vector3(x0,y1,Z(k+1)),r));
+}
+// background scaffold 18x12 carrying main LED; live feed 6x12 x2; PA 3x12 x2; flank 3x12 x2 (depth 2 m)
+scaffold(tubes,-9,9,0,12,-DD-2.4,-DD-.4);
+const xs={pa:[9.645,12.645],lf:[13.145,19.145],fl:[19.645,22.645]};
+for(const s of [-1,1])for(const k in xs){const [a,b]=xs[k];const x0=s>0?a:-b,x1=s>0?b:-a;scaffold(tubes,x0,x1,0,12,-2.2,-.2,k==='lf'?2:1.5)}
+// black scrim behind/sides of background scaffold
+box(stage,MAT.scrim,0,6,-DD-2.5,18.2,12,.05);
+// IBC water ballast (20 total)
+const ibcB=new Batch(unitBox,MAT.ibc,stage);
+[[-7,-DD-3.2],[-2.5,-DD-3.2],[2.5,-DD-3.2],[7,-DD-3.2]].forEach(([x,z])=>ibcB.add(boxM(x,.58,z,1.2,1.15,1.0)));
+for(const s of [-1,1]){[[14.1],[18.2]].forEach(([x])=>ibcB.add(boxM(s*x,.58,-2.9,1.2,1.15,1.0)));ibcB.add(boxM(s*11.15,.58,-2.9,1.2,1.15,1));ibcB.add(boxM(s*21.15,.58,-2.9,1.2,1.15,1))}
+
+// ---- LED screens (dynamic canvas textures)
+const poster = new Image(); poster.src = POSTER_SRC;
+function ledTex(w,h){const t=canvasTex(w,h,(g)=>{g.fillStyle='#000';g.fillRect(0,0,w,h)});t.minFilter=THREE.LinearFilter;t.generateMipmaps=false;return t}
+const LED={main:ledTex(1024,448),feed:ledTex(352,480),delay:ledTex(240,400)};
+function ledPanel(parent,tex,w,h,x,y,z,depth=.25){const grp=new THREE.Group();grp.position.set(x,y,z);
+  const mat=new THREE.MeshBasicMaterial({map:tex,toneMapped:false});const f=new THREE.Mesh(new THREE.PlaneGeometry(w,h),mat);f.position.z=depth/2+.001;grp.add(f);
+  const b=new THREE.Mesh(unitBox,MAT.black);b.scale.set(w+.1,h+.1,depth);grp.add(b);parent.add(grp);return mat}
+const ledMats=[];
+ledMats.push(ledPanel(stage,LED.main,16,7,0,3+3.5,-DD+.05));
+[-1,1].forEach(s=>ledMats.push(ledPanel(stage,LED.feed,5.5,7.5,s*16.145,3.5+3.75,0.05)));
+
+// ---- PA: YME GT13 (1130 x 432 x 622) — 12/side main from PA scaffolds, 8/side flank; 20 subs
+const gtGeo=new THREE.BoxGeometry(1.13,.432,.622);
+const gtB=new Batch(gtGeo,MAT.speaker,stage);
+const SPLAY=[1,1,1.5,2.5,3.5,5,7,9,12,16,21,27];
+function lineArray(batch,x,top,z,n,splays,ry=0){let p=new THREE.Vector3(0,top,0);const grp=[];for(let i=0;i<n;i++){const a=THREE.MathUtils.degToRad(splays[i]);const down=new THREE.Vector3(0,-Math.cos(a),-Math.sin(a));const c=p.clone().addScaledVector(down,.216);
+  const m=new THREE.Matrix4().compose(c,new THREE.Quaternion().setFromEuler(new THREE.Euler(a,0,0)),new THREE.Vector3(1,1,1));m.premultiply(new THREE.Matrix4().makeRotationY(ry)).premultiply(new THREE.Matrix4().makeTranslation(x,0,z));batch.add(m);p.addScaledVector(down,.432)}
+  // bumper
+  batch.add(new THREE.Matrix4().compose(new THREE.Vector3(x,top+.08,z),new THREE.Quaternion(),new THREE.Vector3(1.05,.25,1.4)))}
+[-1,1].forEach(s=>{lineArray(gtB,s*11.145,11.55,.25,12,SPLAY,-s*.06);lineArray(gtB,s*21.145,11.4,.25,8,[1,1.5,2.5,4,6,9,12,16],-s*.2)});
+// pickup points
+[-1,1].forEach(s=>[11.145,21.145].forEach(x=>tubes.add(tubeM(new THREE.Vector3(s*x,11.7,.25),new THREE.Vector3(s*x,12.1,-.6),.03))));
+const subB=new Batch(new THREE.BoxGeometry(1.25,.62,.95),MAT.speaker,stage);
+[-1,1].forEach(s=>{for(let i=0;i<5;i++){const x=s*(3.4+i*1.25)+(s>0?0:0);for(let k=0;k<2;k++)subB.add(new THREE.Matrix4().makeTranslation(x,.31+k*.62,3.0))}});
+
+// ---- crowd barrier (3 m pit), stage perimeter barricade, backstage
+const barrB=new Batch(unitBox,MAT.barrier,stage);
+function barrierRun(a,b){const d=new THREE.Vector3().subVectors(b,a);const len=d.length();const ang=Math.atan2(d.x,d.z);const n=Math.round(len/1.0);for(let i=0;i<n;i++){const p=a.clone().lerp(b,(i+.5)/n);
+  barrB.add(new THREE.Matrix4().compose(p.clone().setY(.62),new THREE.Quaternion().setFromAxisAngle(_up,ang),new THREE.Vector3(.08,1.25,1.0)));
+  barrB.add(new THREE.Matrix4().compose(p.clone().setY(.03).addScaledVector(new THREE.Vector3(Math.sin(ang+Math.PI/2),0,Math.cos(ang+Math.PI/2)),-.45),new THREE.Quaternion().setFromAxisAngle(_up,ang),new THREE.Vector3(1.1,.06,1.0)))}}
+const V=(x,z)=>new THREE.Vector3(x,0,z);
+const FB=[V(-22.65,1.6),V(-22.65,5.44),V(-5.44,5.44),V(-5.44,15.19),V(5.44,15.19),V(5.44,5.44),V(22.65,5.44),V(22.65,1.6)];
+for(let i=0;i<FB.length-1;i++)barrierRun(FB[i],FB[i+1]);
+const PB=[V(-23.2,1.6),V(-23.2,-3.2),V(-15.5,-3.2),V(-15.5,-22.5),V(-3,-22.5),V(3,-22.5),V(15.5,-22.5),V(15.5,-3.2),V(23.2,-3.2),V(23.2,1.6)];
+for(let i=0;i<PB.length-1;i++){if(i===4)continue;fenceRun(PB[i],PB[i+1],2.0,tubes)}
+// technical barricade: 2 m corridor runway -> FOH
+[-1,1].forEach(s=>fenceRun(V(s*1,15.19),V(s*1,27.6),1.1,tubes));
+// backstage: green rooms, production office, catering marquee, generators
+const cabin=(x,z,w,d,col,ry=0)=>{const m=box(stage,new THREE.MeshStandardMaterial({color:col,roughness:.6}),x,1.3,z,w,2.6,d);m.rotation.y=ry;return m};
+cabin(-10,-17,6.1,2.44,0xf0f0ee);cabin(-10,-20.3,6.1,2.44,0xf0f0ee);cabin(10,-17,6.1,2.44,0x1f1f22);cabin(10,-20.3,6.1,2.44,0xf0f0ee);
+{const m=new THREE.Mesh(new THREE.BoxGeometry(10,3,6),MAT.white);m.position.set(0,1.5,-18.5);m.castShadow=true;stage.add(m);const r=new THREE.Mesh(new THREE.ConeGeometry(6.2,1.6,4),MAT.white);r.rotation.y=Math.PI/4;r.scale.set(1.1,1,.66);r.position.set(0,3.8,-18.5);stage.add(r)}
+[-4,4].forEach(x=>{box(stage,new THREE.MeshStandardMaterial({color:0x5a6b3c,roughness:.6}),x,1.1,-26,4.5,2.2,1.6)});
+// GENERATOR enclosure fence
+[[V(-8,-24),V(8,-24)],[V(8,-24),V(8,-28)],[V(8,-28),V(-8,-28)],[V(-8,-28),V(-8,-24)]].forEach(([a,b])=>fenceRun(a,b,1.8,tubes));
+
+// ---- FOH tower 6x6, ground + 2 levels (2.6 m), ~30 m from main PA
+const FOHZ=31;
+scaffold(tubes,-3,3,0,7.8,FOHZ-3,FOHZ+3,2,2.6,false);
+[2.6,5.2].forEach(y=>box(stage,MAT.deck,0,y,FOHZ,6.1,.12,6.1));
+box(stage,MAT.scrim,0,3.9,FOHZ+3.02,6.1,7.8,.05);[-1,1].forEach(s=>box(stage,MAT.scrim,s*3.02,3.9,FOHZ,.05,7.8,6.1));
+{const r=new THREE.Mesh(new THREE.ConeGeometry(4.6,1.4,4),MAT.roof);r.rotation.y=Math.PI/4;r.position.set(0,8.5,FOHZ);stage.add(r)}
+box(stage,MAT.black,0,1.0,FOHZ-1.4,3.2,.9,1.2);box(stage,MAT.black,0,3.6,FOHZ-1.4,3.2,.9,1.2);
+[-1,1].forEach(s=>box(stage,MAT.truss,s*1.4,6.0,FOHZ-2.2,.4,.6,1.0)); // follow spots
+[[V(-4.5,FOHZ-4.5),V(4.5,FOHZ-4.5)],[V(4.5,FOHZ-4.5),V(4.5,FOHZ+4.5)],[V(4.5,FOHZ+4.5),V(-4.5,FOHZ+4.5)],[V(-4.5,FOHZ+4.5),V(-4.5,FOHZ-4.5)]].forEach(([a,b])=>fenceRun(a,b,1.1,tubes));
+// ---- delay towers (40 m) + delay screens 3x5 on 4x7 scaffold
+const DELZ=40;
+[-1,1].forEach(s=>{scaffold(tubes,s*18-1.5,s*18+1.5,0,9,DELZ-1.5,DELZ+1.5,1.5,1.5);lineArray(gtB,s*18,8.9,DELZ+1.6,8,[1,1.5,2.5,4,6,9,12,16],0);
+  scaffold(tubes,s*13.6-2,s*13.6+2,0,7,DELZ-1,DELZ+.6,2,1.75);ledMats.push(ledPanel(stage,LED.delay,3,5,s*13.6,2+2.5,DELZ+.75,.2));
+  ibcB.add(boxM(s*18,.58,DELZ-2.4,1.2,1.15,1));ibcB.add(boxM(s*13.6,.58,DELZ-1.9,1.2,1.15,1));
+  [[V(s*11,DELZ-3),V(s*20.5,DELZ-3)],[V(s*20.5,DELZ-3),V(s*20.5,DELZ+3)],[V(s*20.5,DELZ+3),V(s*11,DELZ+3)],[V(s*11,DELZ+3),V(s*11,DELZ-3)]].forEach(([a,b])=>fenceRun(a,b,1.1,tubes))});
+
+// ---- moving-head fixtures (indicative — lighting plot TBC per drawings)
+const headGeo=(()=>{const y=new THREE.BoxGeometry(.38,.3,.3);const h=new THREE.CylinderGeometry(.16,.2,.42,10);h.translate(0,-.28,0);return mergeGeometries([y,h])})();
+const heads=[];
+function head(x,y,z,kind){heads.push({p:new THREE.Vector3(x,y,z),kind,i:heads.length})}
+for(let i=0;i<9;i++)head(-8+i*2,GSH-.5,gzF,'roof');
+for(let i=0;i<7;i++)head(-6+i*2,GSH-.5,gzB+1,'back');
+for(let i=0;i<6;i++)head(-7.5+i*3,9.6,midTrussZ,'mid');
+[-1,1].forEach(s=>{head(s*7.8,DH+.15,2.3,'floor');head(s*4.2,DH+.15,2.3,'floor');head(s*2.2,DH+.15,8,'run');head(s*2.2,DH+.15,11.8,'run');head(s*11.1,12.3,-1.2,'tower');head(s*16.1,12.3,-1.2,'tower');head(s*21.1,12.3,-1.2,'tower')});
+const headB=new Batch(headGeo,MAT.black,stage,false);heads.forEach(h=>headB.add(new THREE.Matrix4().makeTranslation(h.p.x,h.p.y+(h.kind==='floor'||h.kind==='run'?.3:0),h.p.z)));
+
+// ---- performers (silhouettes)
+const personGeo=(()=>{const body=new THREE.CapsuleGeometry(.2,.75,3,8);body.translate(0,.75,0);const head=new THREE.SphereGeometry(.13,10,8);head.translate(0,1.58,0);const legs=new THREE.CylinderGeometry(.16,.12,.7,8);legs.translate(0,.35,0);return mergeGeometries([body,head,legs])})();
+const armsUpGeo=(()=>{const a=new THREE.CapsuleGeometry(.055,.6,2,6);const l=a.clone();l.rotateZ(.35);l.translate(-.3,1.75,0);const r=a.clone();r.rotateZ(-.35);r.translate(.3,1.75,0);return mergeGeometries([personGeo,l,r])})();
+const perfMat=new THREE.MeshStandardMaterial({color:0x26221f,roughness:.8});
+const performers=[];
+function performer(x,z,y=DH,scale=1,up=false){const m=new THREE.Mesh(up?armsUpGeo:personGeo,perfMat);m.position.set(x,y,z);m.scale.setScalar(scale);m.castShadow=true;stage.add(m);performers.push(m);return m}
+const star=performer(0,9.5,DH,1.05,true);
+performer(-5.6,-9.6,DH+.8);performer(5.6,-9.6,DH+.8);performer(-3,-4);performer(3,-4.5);performer(-7,-2,DH,1,true);performer(7,-2.5,DH,1,true);
+// drum kit hint
+[-1,1].forEach(s=>{const k=new THREE.Mesh(new THREE.CylinderGeometry(.3,.3,.5,14),new THREE.MeshStandardMaterial({color:0x8a1d12,metalness:.4,roughness:.4}));k.position.set(s*5.6+.7,DH+1.05,-10);k.rotation.z=Math.PI/2;stage.add(k)});
+
+// ---------------------------------------------------------------- SHOW FX
+// beams
+const beamGeo=(()=>{const g=new THREE.CylinderGeometry(.06,1,1,28,1,true);g.translate(0,-.5,0);return g})();
+const beamMat=()=>new THREE.ShaderMaterial({transparent:true,depthWrite:false,blending:THREE.AdditiveBlending,side:THREE.DoubleSide,
+  uniforms:{color:{value:new THREE.Color(1,.5,.2)},intensity:{value:1}},
+  vertexShader:`varying float vV;varying vec3 vN;varying vec3 vW;void main(){vV=uv.y;vec4 w=modelMatrix*vec4(position,1.);vW=w.xyz;vN=normalize(mat3(modelMatrix)*normal);gl_Position=projectionMatrix*viewMatrix*w;}`,
+  fragmentShader:`uniform vec3 color;uniform float intensity;varying float vV;varying vec3 vN;varying vec3 vW;void main(){float d=1.-vV;vec3 V=normalize(cameraPosition-vW);float f=abs(dot(normalize(vN),V));float a=intensity*pow(f,1.6)*pow(1.-d,1.7)*(.35+.65*smoothstep(0.,.04,d));gl_FragColor=vec4(color*a*.55,1.);}`});
+const beams=[];
+const glowMatBase=new THREE.SpriteMaterial({map:TEX.glow,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,toneMapped:false});
+heads.forEach(h=>{const m=new THREE.Mesh(beamGeo,beamMat());m.position.copy(h.p);m.frustumCulled=false;showOnly.add(m);const gs=new THREE.Sprite(glowMatBase.clone());gs.scale.setScalar(1.6);gs.position.copy(h.p);showOnly.add(gs);beams.push({h,m,gs})});
+// beams live in stage space
+beams.forEach(b=>{stage.add(b.m);stage.add(b.gs)});
+// follow-spots from FOH
+const follow=[-1,1].map(s=>{const m=new THREE.Mesh(beamGeo,beamMat());m.position.set(s*1.4,6.1,FOHZ-2.6);stage.add(m);m.frustumCulled=false;return m});
+
+// flames: 8 projectors
+const FLAMES=[[-14.2,.6],[-18.0,.6],[14.2,.6],[18.0,.6],[-8.2,2.2],[8.2,2.2],[-1.9,11.9],[1.9,11.9]].map(([x,z])=>({x,z}));
+const flameMat=new THREE.SpriteMaterial({map:TEX.flame,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,toneMapped:false,color:0xffffff});
+FLAMES.forEach((f,i)=>{f.sprites=[];for(let k=0;k<30;k++){const s=new THREE.Sprite(flameMat.clone());stage.add(s);f.sprites.push({s,ph:rnd(),dx:R(-.3,.3),dz:R(-.3,.3)})}
+  box(stage,MAT.black,f.x,DH+.2,f.z,.5,.4,.5)});
+// fire lights
+const fireL=[new THREE.PointLight(0xff6a1a,0,70,1.6),new THREE.PointLight(0xff6a1a,0,70,1.6),new THREE.PointLight(0xff7a2a,0,50,1.6)];
+fireL[0].position.copy(new THREE.Vector3(-16,5,2));fireL[1].position.copy(new THREE.Vector3(16,5,2));fireL[2].position.set(0,5,12);fireL.forEach(l=>stage.add(l));
+
+// sparks: fountains (6) + falls (6)
+const FOUNT=[[-6.6,2.3],[-3.7,2.3],[3.7,2.3],[6.6,2.3],[-2.0,4.5],[2.0,4.5]];
+const FALLS=[-7.5,-4.5,-1.5,1.5,4.5,7.5];
+const NSP=180;
+const sparkGeo=new THREE.BufferGeometry();const nTot=(FOUNT.length+FALLS.length)*NSP;
+sparkGeo.setAttribute('position',new THREE.Float32BufferAttribute(new Float32Array(nTot*3),3));
+const sparkSeed=Array.from({length:nTot},()=>[rnd(),rnd(),rnd(),rnd()]);
+const sparkMat=new THREE.PointsMaterial({map:TEX.spark,size:.16,color:0xffd28a,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,toneMapped:false,sizeAttenuation:true});
+const sparks=new THREE.Points(sparkGeo,sparkMat);sparks.frustumCulled=false;stage.add(sparks);
+// CO2 jets
+const CO2=[[-11.2,.6],[11.2,.6],[-5.2,2.2],[5.2,2.2],[-2.2,6.5],[2.2,6.5]];
+const co2Mat=new THREE.SpriteMaterial({map:TEX.smoke,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,color:0xdfe6f0});
+const co2=CO2.map(([x,z])=>({x,z,sp:Array.from({length:22},()=>{const s=new THREE.Sprite(co2Mat.clone());stage.add(s);return {s,ph:rnd(),dx:R(-.2,.2)}})}));
+// confetti-like embers drifting over crowd
+const EMB=900;const embGeo=new THREE.BufferGeometry();embGeo.setAttribute('position',new THREE.Float32BufferAttribute(new Float32Array(EMB*3),3));
+const embSeed=Array.from({length:EMB},()=>[R(-30,30),R(0,80),R(0,1),R(0,6.28)]);
+const emb=new THREE.Points(embGeo,new THREE.PointsMaterial({map:TEX.spark,size:.22,color:0xff8a3a,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,toneMapped:false}));emb.frustumCulled=false;stage.add(emb);
+
+// crowd
+const crowdA=[],crowdB=[];
+{const poly=SITE.green;const inv=(p)=>{// world -> map px
+  return [p.x/S+O[0],p.z/S+O[1]]};
+ const blocked=(x,z)=>{if(z<6.2&&Math.abs(x)<23.5)return true;if(Math.abs(x)<6.2&&z<16)return true;if(Math.abs(x)<1.6&&z<28)return true;if(Math.abs(x)<5.2&&Math.abs(z-FOHZ)<5.2)return true;if(Math.abs(Math.abs(x)-15.75)<5.3&&Math.abs(z-DELZ)<3.6)return true;
+   if(Math.abs(x-26.5)<8.5&&Math.abs(z-22)<6.5)return true;if(Math.abs(x+27)<8.5&&Math.abs(z-27)<6.5)return true;return false};
+ const N=+Q.get('crowd')||7600;let tries=0;
+ while(crowdA.length+crowdB.length<N&&tries<N*12){tries++;const z=6.2+Math.pow(rnd(),1.35)*78;const spread=24+z*.32;const x=R(-spread,spread);
+   if(blocked(x,z))continue;const wp=L(x,0,z);if(!pip(inv(wp),poly))continue;
+   // density falls off with distance & lateral offset
+   if(rnd()>1.15-z/95-Math.abs(x)/90)continue;
+   const p={x,z,ph:rnd(),h:R(.92,1.08),c:rnd(),ry:R(-.5,.5)+Math.atan2(-x,-(z-5))*.0};
+   (rnd()<.3?crowdB:crowdA).push(p)}
+}
+const crowdMat=new THREE.MeshStandardMaterial({color:0xffffff,roughness:.85});
+const crowdCols=['#1c1816','#2a221e','#151517','#33281f','#201d1d','#3a1a16','#16191e','#2a2826','#4a3e34','#121212'];
+const crowdMeshA=new THREE.InstancedMesh(personGeo,crowdMat,crowdA.length),crowdMeshB=new THREE.InstancedMesh(armsUpGeo,crowdMat,crowdB.length);
+[[crowdMeshA,crowdA],[crowdMeshB,crowdB]].forEach(([m,arr])=>{arr.forEach((p,i)=>m.setColorAt(i,new THREE.Color(crowdCols[Math.floor(p.c*crowdCols.length)])));m.frustumCulled=false;stage.add(m);showOnly.userData[m.uuid]=1});
+// phone lights
+const phones=[...crowdB.filter((p,i)=>i%4==0)];
+const phGeo=new THREE.BufferGeometry();phGeo.setAttribute('position',new THREE.Float32BufferAttribute(new Float32Array(phones.length*3),3));
+const phPts=new THREE.Points(phGeo,new THREE.PointsMaterial({map:TEX.glow,size:.22,color:0xdfeaff,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,toneMapped:false}));phPts.frustumCulled=false;stage.add(phPts);
+function updateCrowd(t,energy){const beat=t*126/60;const M=new THREE.Matrix4(),q=new THREE.Quaternion(),sc=new THREE.Vector3();
+  [[crowdMeshA,crowdA],[crowdMeshB,crowdB]].forEach(([m,arr])=>{arr.forEach((p,i)=>{const near=Math.max(0,1-p.z/60);const j=Math.max(0,Math.sin((beat+p.ph*.35)*Math.PI))*(.05+.22*near)*energy;q.setFromAxisAngle(_up,p.ry+Math.sin(t*.7+p.ph*6)*.15);sc.set(p.h,p.h,p.h);M.compose(new THREE.Vector3(p.x,j,p.z),q,sc);m.setMatrixAt(i,M)});m.instanceMatrix.needsUpdate=true});
+  const pa=phGeo.attributes.position.array;phones.forEach((p,i)=>{const near=Math.max(0,1-p.z/60);const j=Math.max(0,Math.sin((beat+p.ph*.35)*Math.PI))*(.05+.22*near)*energy;pa[i*3]=p.x+.28;pa[i*3+1]=2.35*p.h+j;pa[i*3+2]=p.z});phGeo.attributes.position.needsUpdate=true}
+
+// streetlights (poles always, glow at night)
+const lampGlow=new THREE.Group();scene.add(lampGlow);
+const lampMat=new THREE.SpriteMaterial({map:TEX.glow,color:0xffc27a,blending:THREE.AdditiveBlending,depthWrite:false,transparent:true,toneMapped:false});
+function lamps(a,b,step,off){const A=W(...a),B=W(...b);const d=B.clone().sub(A).normalize();const n=new THREE.Vector3(-d.z,0,d.x);const N=Math.floor(A.distanceTo(B)/step);for(let i=0;i<=N;i++){for(const o of off){const p=A.clone().lerp(B,i/N).addScaledVector(n,o);siteTubes.add(tubeM(p,p.clone().setY(8),.09));const g=new THREE.Sprite(lampMat);g.position.copy(p).setY(8);g.scale.setScalar(5);lampGlow.add(g)}}}
+lamps([100,0],[600,880],32,[13,-13]);lamps([300,262],[575,612],30,[6.5]);lamps([600,612],[830,312],28,[-12]);lamps([240,252],[640,232],34,[-9]);
+// ---------------------------------------------------------------- build batches
+[tubes,truss,siteTubes,trunkB,leafB,carB,tentRoofB,legB,tableTop,umb,ibcB,gtB,subB,barrB,headB].forEach(b=>b.build());
+
+// ---------------------------------------------------------------- sky
+const skyMat=new THREE.ShaderMaterial({side:THREE.BackSide,depthWrite:false,fog:false,uniforms:{top:{value:new THREE.Color(0x9cc4e8)},hor:{value:new THREE.Color(0xeef2f4)},glow:{value:new THREE.Color(0)}},
+  vertexShader:`varying vec3 vP;void main(){vP=normalize(position);gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,
+  fragmentShader:`uniform vec3 top;uniform vec3 hor;uniform vec3 glow;varying vec3 vP;void main(){float h=clamp(vP.y,0.,1.);vec3 c=mix(hor,top,pow(h,.55));c+=glow*pow(1.-h,8.);gl_FragColor=vec4(c,1.);}`});
+const sky=new THREE.Mesh(new THREE.SphereGeometry(2500,32,16),skyMat);scene.add(sky);
+const stars=(()=>{const n=1500,a=new Float32Array(n*3);const r=mulberry32(3);for(let i=0;i<n;i++){const th=r()*6.28,ph=Math.acos(r()*.9+.1*0);const y=Math.cos(ph);if(y<.12){i--;continue}a[i*3]=Math.sin(ph)*Math.cos(th)*2000;a[i*3+1]=y*2000;a[i*3+2]=Math.sin(ph)*Math.sin(th)*2000}const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(a,3));return new THREE.Points(g,new THREE.PointsMaterial({color:0xffffff,size:1.6,sizeAttenuation:false,transparent:true,opacity:.5,fog:false}))})();scene.add(stars);
+
+// ---------------------------------------------------------------- lighting rigs
+const hemi=new THREE.HemisphereLight(0xdfeaf6,0x6b6450,1.3);scene.add(hemi);
+const sun=new THREE.DirectionalLight(0xfff1dc,2.6);sun.position.set(-180,260,170);sun.target.position.set(-10,0,-60);scene.add(sun,sun.target);
+sun.castShadow=true;sun.shadow.mapSize.set(4096,4096);Object.assign(sun.shadow.camera,{left:-260,right:260,top:260,bottom:-260,near:10,far:900});sun.shadow.bias=-.0012;sun.shadow.normalBias=.9;
+// show lights
+const showLights=new THREE.Group();scene.add(showLights);
+const washL=new THREE.PointLight(0xff5a20,0,90,1.3);washL.position.copy(L(0,14,8));showLights.add(washL);
+const ledL=new THREE.PointLight(0xff4a14,0,60,1.4);ledL.position.copy(L(0,7,-4));showLights.add(ledL);
+const crowdL=new THREE.SpotLight(0xffb070,0,160,.75,.6,1.1);crowdL.position.copy(L(0,13,1));crowdL.target.position.copy(L(0,0,40));showLights.add(crowdL,crowdL.target);
+const deckSpot=new THREE.SpotLight(0xffe0c0,0,60,.6,.5,1.2);deckSpot.position.copy(L(0,10,31));deckSpot.target.position.copy(L(0,1.8,8));showLights.add(deckSpot,deckSpot.target);
+const moon=new THREE.DirectionalLight(0x6b84b8,.0);moon.position.set(200,300,-100);showLights.add(moon);
+
+// ---------------------------------------------------------------- post
+const composer=new EffectComposer(renderer);composer.addPass(new RenderPass(scene,camera));
+const bloom=new UnrealBloomPass(new THREE.Vector2(W0,H0),.7,.5,.82);composer.addPass(bloom);composer.addPass(new OutputPass());
+composer.setPixelRatio(renderer.getPixelRatio());composer.setSize(W0,H0);
+
+// ---------------------------------------------------------------- LED content
+const PC={title:[25,30,1005,125],date:[320,235,380,105],fig:[170,300,740,940],logo:[430,1085,220,100],cbp:[815,780,180,130]};
+function dimg(g,key,x,y,w,h,alpha=1,comp){if(!poster.complete||!poster.naturalWidth)return;const [sx,sy,sw,sh]=PC[key];g.save();g.globalAlpha=alpha;if(comp)g.globalCompositeOperation=comp;g.drawImage(poster,sx,sy,sw,sh,x,y,w,h);g.restore()}
+function fire(g,w,h,t,amp=1,seed=1){const r=mulberry32(seed);g.save();g.globalCompositeOperation='lighter';for(let i=0;i<70;i++){const x=r()*w,sp=.25+r()*.6,ph=r();const life=((t*sp+ph)%1);const y=h-life*h*1.05*amp;const rad=(1-life)*h*.32*(.5+r());const gr=g.createRadialGradient(x,y,0,x,y,rad);const a=(1-life)*.55;gr.addColorStop(0,`rgba(255,${180+60*(1-life)|0},80,${a})`);gr.addColorStop(.5,`rgba(255,70,10,${a*.6})`);gr.addColorStop(1,'rgba(120,0,0,0)');g.fillStyle=gr;g.fillRect(x-rad,y-rad,rad*2,rad*2)}g.restore()}
+let showState={energy:1,strobe:0,scene:0};
+function drawLED(t,mode){
+  const day=mode!=='show';
+  {const g=LED.main.userData.ctx,w=1024,h=448;g.globalCompositeOperation='source-over';
+    const gr=g.createLinearGradient(0,0,0,h);gr.addColorStop(0,'#090202');gr.addColorStop(1,'#3a0703');g.fillStyle=gr;g.fillRect(0,0,w,h);
+    const seg=day?0:Math.floor(t/4.2)%3;
+    fire(g,w,h,t*.9,seg===1?.7:1,11);
+    if(seg===0){dimg(g,'title',40,120,944,118,1);dimg(g,'date',372,262,280,78,1);}
+    else if(seg===1){dimg(g,'fig',312,-20,400,450,.95,'lighten');dimg(g,'logo',60,300,240,110,1);dimg(g,'logo',724,300,240,110,1);}
+    else {const z=1+.05*Math.sin(t*3);dimg(g,'logo',512-300*z,224-136*z,600*z,272*z,1);}
+    if(showState.strobe>0){g.fillStyle=`rgba(255,240,220,${showState.strobe})`;g.fillRect(0,0,w,h)}
+    // pixel grid
+    g.fillStyle='rgba(0,0,0,.18)';for(let x=0;x<w;x+=4)g.fillRect(x,0,1,h);for(let y=0;y<h;y+=4)g.fillRect(0,y,w,1);
+    LED.main.needsUpdate=true}
+  for(const [tex,w,h] of [[LED.feed,352,480],[LED.delay,240,400]]){const g=tex.userData.ctx;g.fillStyle='#050202';g.fillRect(0,0,w,h);
+    if(day){dimg(g,'fig',0,h*.08,w,w*940/740*.9,1);dimg(g,'title',w*.04,h*.0+6,w*.92,w*.92*125/1005)}
+    else{const z=1.15+.06*Math.sin(t*.8),sx=Math.sin(t*1.7)*6,sy=Math.cos(t*1.3)*5;const fw=w*z,fh=fw*940/740;dimg(g,'fig',(w-fw)/2+sx,(h-fh)/2+sy+h*.05,fw,fh,1);
+      g.fillStyle='rgba(255,60,20,.12)';g.fillRect(0,0,w,h);g.fillStyle='#e21b1b';g.fillRect(10,10,44,18);g.fillStyle='#fff';g.font='700 12px Inter';g.fillText('LIVE',18,24);
+      dimg(g,'logo',w-110,h-56,100,46,.9)}
+    g.fillStyle='rgba(0,0,0,.2)';for(let y=0;y<h;y+=3)g.fillRect(0,y,w,1);tex.needsUpdate=true}
+}
+
+// ---------------------------------------------------------------- show animation
+const PAL=[new THREE.Color(1,.28,.05),new THREE.Color(1,.55,.12),new THREE.Color(1,.08,.02),new THREE.Color(1,.85,.6),new THREE.Color(1,.4,.1)];
+function cue(t){ // timeline of the 30 s show loop
+  const beat=t*126/60; const bar=Math.floor(beat/4);
+  const flameHit=(t>7.6&&t<9.4)||(t>14.2&&t<15.4)||(t>21&&t<22.6)||(t>25.6&&t<29)||(t>=100);
+  const sparkOn=(t>11&&t<20)||t>24.5;
+  const co2On=(t>17.2&&t<18.6)||(t>24.6&&t<25.6);
+  const strobe=(t>23.8&&t<24.6)?(Math.floor(t*16)%2?0.75:0):0;
+  return {beat,bar,flameHit,sparkOn,co2On,strobe}
+}
+function updateShow(t){
+  const c=cue(t);showState.strobe=c.strobe;
+  const energy=.6+.4*smooth(4,8,t);
+  const dusk=t<60?(1-smooth(4.5,8,t)):0;hemi.intensity=.42+1.1*dusk;moon.intensity=.6+1.6*dusk;skyMat.uniforms.top.value.setRGB(.008+.05*dusk,.012+.08*dusk,.04+.2*dusk);skyMat.uniforms.hor.value.setRGB(.03+.11*dusk,.025+.13*dusk,.035+.2*dusk);scene.fog.color.copy(skyMat.uniforms.hor.value);scene.fog.density=.0065*(1-dusk)+.0011*dusk;skyMat.uniforms.top.value.setRGB(.004+.05*dusk,.006+.08*dusk,.018+.2*dusk);
+  // beams
+  beams.forEach(({h,m,gs},i)=>{
+    const k=h.kind;let pan,tilt,len=k==='floor'||k==='run'?70:85,rad=k==='mid'?1.3:2.2,int=1;
+    const ph=i*.7;const swing=Math.sin(c.beat*Math.PI/4+ph);
+    if(k==='roof'||k==='back'||k==='tower'){pan=swing*.55*(k==='tower'?Math.sign(h.p.x)||1:1)+(h.p.x/40);tilt=.55+.35*Math.sin(c.beat*Math.PI/8+i);}
+    else if(k==='mid'){pan=Math.sin(t*.9+i)*.4;tilt=.15+.1*Math.sin(t+i);len=40}
+    else {pan=Math.sin(c.beat*Math.PI/2+ph)*.5;tilt=.15+.12*Math.cos(c.beat*Math.PI/4+i)}
+    // fan section
+    if(c.bar%4===2&&(k==='roof'||k==='floor')){pan=(i%9-4)*.13;tilt=.35}
+    let dir;
+    if(k==='floor'||k==='run'||k==='tower'&&false){dir=new THREE.Vector3(Math.sin(pan),Math.cos(tilt*2.2),Math.cos(pan)*.6).normalize()}
+    else dir=new THREE.Vector3(Math.sin(pan)*.8,-Math.cos(tilt*1.6),Math.cos(pan)*Math.sin(tilt*1.6)+.25).normalize();
+    if(k==='back'){dir=new THREE.Vector3(Math.sin(pan)*.7,Math.abs(Math.cos(tilt))*.9+.2,.35+.2*Math.sin(t+i)).normalize();len=90}
+    if(k==='tower'){dir=new THREE.Vector3(Math.sin(pan)*.6,.8+.2*Math.sin(t*.5+i),.5).normalize();len=75;rad=1.6}
+    m.quaternion.setFromUnitVectors(new THREE.Vector3(0,-1,0),dir);m.scale.set(rad,len,rad);
+    const col=PAL[(Math.floor(c.bar/2)+(k==='back'?1:0)+(i%2))%PAL.length].clone();if(c.strobe>0)col.setRGB(1,.95,.9);
+    const flick=(k==='mid'?(Math.floor(c.beat*2+i)%2?.4:1):1);
+    m.material.uniforms.color.value.copy(col);m.material.uniforms.intensity.value=int*flick*(.65+.35*energy)*(c.strobe>0?1.6:1);
+    gs.material.color.copy(col).multiplyScalar(1.4*flick);gs.scale.setScalar(1.4+.3*Math.sin(t*9+i))});
+  follow.forEach((m,i)=>{const tgt=new THREE.Vector3(star.position.x,DH+1.4,star.position.z);const d=tgt.clone().sub(m.position);const len=d.length();m.quaternion.setFromUnitVectors(new THREE.Vector3(0,-1,0),d.normalize());m.scale.set(.9,len+.5,.9);m.material.uniforms.color.value.setRGB(1,.95,.88);m.material.uniforms.intensity.value=.55});
+  // performer movement on runway
+  star.position.x=Math.sin(t*.6)*1.2;star.position.z=8.5+Math.sin(t*.35)*2.6;star.position.y=DH+Math.max(0,Math.sin(c.beat*Math.PI))*.12*energy;star.rotation.y=Math.sin(t*.8)*.4;
+  performers.slice(3).forEach((p,i)=>{p.position.y=DH+Math.max(0,Math.sin((c.beat+i*.25)*Math.PI))*.15;p.rotation.y=Math.sin(t+i)*.6});
+  // flames
+  let fireI=0;
+  FLAMES.forEach((f,fi)=>{const active=c.flameHit&&((Math.floor(c.beat*2)+fi)%2===0||t>25.6||t>=100);const env=active?1:0;
+    f.sprites.forEach((sp,k)=>{const life=((t*2.6+sp.ph)%1);const hgt=env*(.2+Math.pow(life,.8)*7.2);sp.s.visible=env>0;sp.s.position.set(f.x+sp.dx*(1+life*3)+Math.sin(t*9+k)*.15*life,DH+.5+hgt,f.z+sp.dz*(1+life*3));const w=env*(1.0+life*1.9)*(1-life*.35),hh=w*(2.4-life*.9);sp.s.scale.set(w,hh,1);sp.s.material.color.setRGB(1,.95-life*.55,.75-life*.7);sp.s.material.opacity=Math.min(1,(1-life)*1.25);sp.s.material.rotation=(sp.ph-.5)*.5});fireI+=env});
+  fireL[0].intensity=fireL[1].intensity=c.flameHit?260*(.8+.2*Math.sin(t*40)):0;fireL[2].intensity=c.flameHit?160:0;
+  // sparks
+  const pa=sparkGeo.attributes.position.array;let n=0;
+  FOUNT.forEach(([x,z])=>{for(let k=0;k<NSP;k++,n++){const s=sparkSeed[n];const life=(t*.9+s[0])%1;const T=life*1.6;const v0=8+s[1]*2.5,a=s[2]*6.28,sp=.6*s[3];
+    const on=c.sparkOn;pa[n*3]=on?x+Math.cos(a)*sp*T:0;pa[n*3+1]=on?Math.max(DH,DH+.2+v0*T-4.9*T*T):-50;pa[n*3+2]=on?z+Math.sin(a)*sp*T:0}});
+  FALLS.forEach((x)=>{for(let k=0;k<NSP;k++,n++){const s=sparkSeed[n];const life=(t*.7+s[0])%1;const T=life*1.42;const on=c.sparkOn&&t>12.5;pa[n*3]=on?x+(s[1]-.5)*.5:0;pa[n*3+1]=on?Math.max(DH,9.7-4.9*T*T):-50;pa[n*3+2]=on?midTrussZ+(s[2]-.5)*.4:0}});
+  sparkGeo.attributes.position.needsUpdate=true;
+  // CO2
+  co2.forEach((j,ji)=>j.sp.forEach(sp=>{const life=((t*1.6+sp.ph)%1);const on=c.co2On;sp.s.visible=on;sp.s.position.set(j.x+sp.dx*life*4,DH+.3+life*8,j.z+sp.dx*life*2);const s=.6+life*3.2;sp.s.scale.set(s,s*1.3,1);sp.s.material.opacity=(1-life)*.45}));
+  // embers
+  const ea=embGeo.attributes.position.array;embSeed.forEach(([x,z,ph,a],i)=>{const life=(t*.05+ph)%1;ea[i*3]=x+Math.sin(t*.5+a)*2;ea[i*3+1]=2+life*28;ea[i*3+2]=z*.5+Math.cos(t*.4+a)*2});embGeo.attributes.position.needsUpdate=true;emb.material.opacity=.7;
+  // stage lights
+  const pulse=.75+.25*Math.max(0,Math.sin(c.beat*Math.PI*2));
+  washL.intensity=260*pulse*energy+(c.strobe?600:0);ledL.intensity=220*(.8+.2*Math.sin(t*3));crowdL.intensity=150*energy*(c.strobe?2.2:1);deckSpot.intensity=420;
+  strips.forEach(s=>s.material.color.setRGB(1,.35+.2*Math.sin(t*2),.1));
+  bloom.strength=.7+(c.flameHit?.18:0);
+  updateCrowd(t,energy);
+  drawLED(t,'show');
+}
+
+// ---------------------------------------------------------------- modes
+let MODE=MODE0;
+function setMode(mode){MODE=mode;const show=mode==='show';
+  hemi.intensity=show?.42:1.3;hemi.color.set(show?0x3a4a72:0xdfeaf6);hemi.groundColor.set(show?0x0a0604:0x6b6450);
+  sun.visible=!show;showLights.visible=show;moon.intensity=show?.6:0;lampGlow.visible=show;
+  renderer.shadowMap.enabled=!show;
+  scene.fog=show?new THREE.FogExp2(0x0d0706,.0065):new THREE.Fog(0xe8edf0,700,2200);
+  skyMat.uniforms.top.value.set(show?0x02030a:0x8dbbe6);skyMat.uniforms.hor.value.set(show?0x0b0d18:0xeef2f4);skyMat.uniforms.glow.value.set(0x000000);
+  stars.visible=show;
+  renderer.toneMappingExposure=show?1.05:1.0;
+  bloom.enabled=show;
+  [crowdMeshA,crowdMeshB,phPts,emb,sparks].forEach(m=>m.visible=show&&!!(m!==crowdMeshA&&m!==crowdMeshB||true));
+  beams.forEach(b=>{b.m.visible=show;b.gs.visible=show});follow.forEach(m=>m.visible=show);
+  co2.forEach(j=>j.sp.forEach(s=>s.s.visible=false));FLAMES.forEach(f=>f.sprites.forEach(s=>s.s.visible=false));
+  fireL.forEach(l=>l.visible=show);
+  strips.forEach(s=>s.material.color.set(show?0xff5a1a:0x8a3a1a));
+  glassMat.emissive.set(show?0x3a2a12:0x000000);
+  performers.forEach(p=>p.visible=show||mode==='day');
+  if(!show){crowdMeshA.visible=crowdMeshB.visible=mode==='crowdday';drawLED(0,'day')}
+  document.body.dataset.mode=mode;
+}
+
+// ---------------------------------------------------------------- labels (HTML overlay, map mode)
+const LABELS=[
+  ['MAIN STAGE','stage',L(0,17,-5),'#ff4a1c'],
+  ['RUNWAY 32×16 ft','stage',L(0,3,11),'#ff4a1c'],
+  ['BACKSTAGE · GREEN ROOMS','prod',L(13,5,-18),'#c08a2a'],
+  ['GENERATORS 2×250 kVA','prod',L(-6,2.5,-26),'#c08a2a'],
+  ['FOH TOWER','prod',L(0,10,31),'#c08a2a'],
+  ['DELAY TOWER + SCREEN','prod',L(16,12,40),'#5b8fd6'],['DELAY TOWER + SCREEN','prod',L(-16,12,40),'#5b8fd6'],
+  ['AUDIENCE · GENERAL SPACE','aud',L(0,1,62),'#62a744'],
+  ['VIP TABLES','zone',L(33,0,18),'#36c2c9'],['VIP TABLES','zone',L(-34,0,22),'#36c2c9'],
+  ['FUN EXPERIENCE AREA','zone',W(860,585,4),'#62a744'],
+  ['VENDORS','zone',W(860,516,4),'#d6402b'],
+  ['TOILETS','svc',W(830,426,4),'#2c62b8'],
+  ['POOL','svc',W(775,507,2),'#2f8fd8'],
+  ['SALES POINT','svc',W(690,605,4),'#e3a33a'],['POS','svc',W(755,631,3.5),'#e3a33a'],
+  ['MAIN BUILDING','svc',W(690,555,10),'#777'],['BUILDING','svc',W(574,444,11),'#777'],
+  ['PARKING LOT','acc',W(800,370,2),'#888'],['EXPERIENCE AREA','zone',W(770,446,3),'#62a744'],
+  ['ENTRANCE','acc',W(583,627,8),'#e0b23a'],
+  ['VIP PARKING','acc',W(470,350,2),'#3f6d2c'],
+  ['VALIDATION POINT','acc',W(352,307,4.5),'#e0b23a'],['VALIDATION POINT','acc',W(402,377,4.5),'#e0b23a'],
+  ['BARRICADE','acc',W(310,272,2),'#ff6a1a'],['BARRICADE','acc',W(477,495,2),'#ff6a1a'],
+  ['AHMADU BELLO WAY','acc',W(390,560,1),'#666'],
+];
+const labelLayer=document.getElementById('labels');const svg=document.getElementById('leaders');
+const labelEls=LABELS.map(([t,cat,p,col])=>{const d=document.createElement('div');d.className='lbl lbl-'+cat;d.innerHTML=`<i style="background:${col}"></i>${t}`;labelLayer.appendChild(d);const ln=document.createElementNS('http://www.w3.org/2000/svg','line');ln.setAttribute('class','ln-'+cat);svg.appendChild(ln);const dot=document.createElementNS('http://www.w3.org/2000/svg','circle');dot.setAttribute('r','3');dot.setAttribute('fill',col);dot.setAttribute('class','ln-'+cat);svg.appendChild(dot);return {d,p,ln,dot,cat}});
+function updateLabels(){const show=document.body.dataset.labels!=='off'&&MODE==='map';labelLayer.style.display=svg.style.display=show?'':'none';if(!show)return;
+  const rect=canvas.getBoundingClientRect();const lift=+getComputedStyle(document.body).getPropertyValue('--lift')||34;
+  labelEls.forEach(({d,p,ln,dot,cat})=>{const v=p.clone().project(camera);const g=p.clone().setY(0).project(camera);if(v.z>1||Math.abs(v.x)>1.1||Math.abs(v.y)>1.1){d.style.display='none';ln.style.display=dot.style.display='none';return}
+    d.style.display=ln.style.display=dot.style.display='';
+    const x=(v.x+1)/2*rect.width,y=(1-v.y)/2*rect.height,gxp=(g.x+1)/2*rect.width,gyp=(1-g.y)/2*rect.height;const up=cat==='acc'||cat==='svc'?lift*.6:lift;
+    d.style.transform=`translate(${x}px,${y-up}px) translate(-50%,-100%)`;ln.setAttribute('x1',gxp);ln.setAttribute('y1',gyp);ln.setAttribute('x2',x);ln.setAttribute('y2',y-up);dot.setAttribute('cx',gxp);dot.setAttribute('cy',gyp)});
+  const n=document.getElementById('north');if(n){const a=new THREE.Vector3(0,0,0).project(camera),b=NORTH.clone().multiplyScalar(50).project(camera);const ang=Math.atan2(-(b.y-a.y)*rect.height,(b.x-a.x)*rect.width);n.style.transform=`rotate(${ang*180/Math.PI+90}deg)`}
+}
+
+// ---------------------------------------------------------------- cameras
+const CAMS={
+  overview:{p:W(575,1090,420),t:W(650,560,0),fov:30},
+  site:{p:L(-150,200,330),t:L(-40,0,40),fov:32},
+  stagezone:{p:L(48,52,92),t:L(0,1,12),fov:33},
+  design:{p:L(-30,13,46),t:L(0,6.5,-3),fov:40},
+  designfront:{p:L(0,7,52),t:L(0,6.5,0),fov:38},
+  hero:{p:L(-8,3.4,25),t:L(0,7.4,-3),fov:44},
+  wide:{p:L(10,24,85),t:L(0,6,4),fov:38},
+  side:{p:L(-32,6,18),t:L(2,6,-2),fov:40},
+  front:{p:L(0,6,46),t:L(0,7,0),fov:40},
+};
+function setCam(c,name){if(name)document.body.dataset.ls=name;camera.position.copy(c.p);camera.fov=c.fov;camera.updateProjectionMatrix();camera.lookAt(c.t);if(controls){controls.target.copy(c.t);controls.update()}}
+let controls=null;
+if(INTERACTIVE){controls=new OrbitControls(camera,canvas);controls.enableDamping=true;controls.maxPolarAngle=Math.PI/2.05;controls.minDistance=5;controls.maxDistance=900}
+
+// video camera path (seconds -> pose)
+const SHOTS=[
+  {t0:0,t1:6,from:{p:L(-150,120,200),t:L(0,2,20)},to:{p:L(-45,34,105),t:L(0,5,8)},fov:[36,38]},
+  {t0:6,t1:11.5,from:{p:L(-13,5.5,29),t:L(0,6.5,0)},to:{p:L(-6,3.6,16),t:L(0,7.4,-2)},fov:[42,46]},
+  {t0:11.5,t1:17,from:{p:L(-36,5,22),t:L(0,7,-3)},to:{p:L(-26,8,6),t:L(4,7,-6)},fov:[40,40]},
+  {t0:17,t1:23.5,from:{p:L(-16,15,30),t:L(0,6,0)},to:{p:L(15,11,25),t:L(0,6.5,0)},fov:[42,42]},
+  {t0:23.5,t1:30,from:{p:L(-9,11,52),t:L(0,7,0)},to:{p:L(22,40,128),t:L(0,6,8)},fov:[40,38]},
+];
+function camAt(t){const s=SHOTS.find(s=>t>=s.t0&&t<s.t1)||SHOTS[SHOTS.length-1];const u=smooth(0,1,(t-s.t0)/(s.t1-s.t0));const e=u;camera.position.lerpVectors(s.from.p,s.to.p,e);const tg=new THREE.Vector3().lerpVectors(s.from.t,s.to.t,e);camera.fov=s.fov[0]+(s.fov[1]-s.fov[0])*e;camera.updateProjectionMatrix();camera.lookAt(tg);
+  // subtle handheld
+  camera.rotation.z+=Math.sin(t*1.3)*.002;camera.position.y+=Math.sin(t*2.1)*.04}
+
+// ---------------------------------------------------------------- public API
+function render(){if(MODE==='show')composer.render();else renderer.render(scene,camera);updateLabels()}
+window.setMode=(m)=>{setMode(m);render()};
+window.setCam=(n)=>{setCam(CAMS[n],n);render()};
+window.renderAt=(t,camName)=>{if(camName==='path')camAt(t);else if(camName)setCam(CAMS[camName]);updateShow(t);render()};
+window.renderStill=()=>render();
+window.frame=(t,q=.9)=>{camAt(t);updateShow(t);render();return canvas.toDataURL('image/jpeg',q)};
+window.CAMS=CAMS;
+const comp=document.createElement('canvas');comp.width=W0;comp.height=H0;const cg=comp.getContext('2d');
+const fade=(t,a,b,f=.6)=>Math.min(smooth(a,a+f,t),1-smooth(b-f,b,t));
+window.frameComposite=(t,q=.92)=>{camAt(t);updateShow(t);render();const w=W0,h=H0,u=h/1080;cg.globalAlpha=1;cg.drawImage(canvas,0,0,w,h);
+  // cinematic vignette
+  const vg=cg.createRadialGradient(w/2,h/2,h*.35,w/2,h/2,h*.95);vg.addColorStop(0,'rgba(0,0,0,0)');vg.addColorStop(1,'rgba(0,0,0,.45)');cg.fillStyle=vg;cg.fillRect(0,0,w,h);
+  // opening title
+  let a=fade(t,.6,5.6,.7);if(a>0){cg.globalAlpha=a;cg.fillStyle='#e8401c';cg.fillRect(80*u,h-262*u,6*u,170*u);cg.fillStyle='rgba(255,255,255,.85)';cg.font=`600 ${20*u}px Inter`;cg.fillText('HARROW PARK  ·  ABUJA',108*u,h-232*u);
+    cg.fillStyle='#ff5a2a';cg.font=`${92*u}px Anton`;cg.fillText('THE BONFIRE EXPERIENCE',104*u,h-138*u);cg.fillStyle='#fff';cg.font=`600 ${24*u}px Inter`;cg.fillText('THURSDAY 4 DECEMBER 2026',108*u,h-98*u)}
+  // running bug
+  a=fade(t,6.4,24.8,.5);if(a>0){cg.globalAlpha=a*.85;cg.fillStyle='#fff';cg.font=`600 ${15*u}px Inter`;cg.textAlign='right';cg.fillText('THE BONFIRE EXPERIENCE  ·  HARROW PARK ABUJA  ·  STAGE PREVIS',w-56*u,58*u);cg.textAlign='left'}
+  // end card
+  a=smooth(25.6,26.8,t);if(a>0){cg.globalAlpha=a*.55;cg.fillStyle='#000';cg.fillRect(0,0,w,h);cg.globalAlpha=a;cg.textAlign='center';
+    if(poster.naturalWidth){const [sx,sy,sw,sh]=PC.title;const tw=1100*u;cg.drawImage(poster,sx,sy,sw,sh,w/2-tw/2,h/2-190*u,tw,tw*sh/sw)}
+    if(poster.naturalWidth){const [sx,sy,sw,sh]=PC.date;const tw=330*u;cg.drawImage(poster,sx,sy,sw,sh,w/2-tw/2,h/2-30*u,tw,tw*sh/sw)}
+    cg.fillStyle='#fff';cg.font=`600 ${22*u}px Inter`;cg.fillText('HARROW PARK  ·  AHMADU BELLO WAY  ·  ABUJA',w/2,h/2+140*u);
+    cg.fillStyle='#ff5a2a';cg.font=`800 ${20*u}px Inter`;cg.fillText('TICKETS AT WWW.OUTLAWVILLE.WORLD  |  MAINLANDBLOCKPARTY.COM',w/2,h/2+182*u);
+    cg.fillStyle='rgba(255,255,255,.7)';cg.font=`600 ${15*u}px Inter`;cg.fillText('POWERED BY CAPITAL BLOCK PARTY  ·  THE PLUG',w/2,h/2+216*u);cg.textAlign='left'}
+  cg.globalAlpha=1;return comp.toDataURL('image/jpeg',q)};
+
+// boot
+await document.fonts.ready;
+await new Promise(r=>{if(poster.complete)r();else{poster.onload=r;poster.onerror=r}});
+setMode(MODE);
+{const cn=Q.get('cam')||(MODE==='show'?'hero':'overview');setCam(CAMS[cn],cn)}
+if(MODE==='show')updateShow(+Q.get('t')||26);else drawLED(0,'day');
+render();
+window.READY=true;
+if(INTERACTIVE){let playing=false,t0=performance.now();window.__play=v=>{playing=v;t0=performance.now()};
+  const loop=()=>{requestAnimationFrame(loop);controls.update();if(MODE==='show'){updateShow(playing?((performance.now()-t0)/1000)%30:(+Q.get('t')||26)+0*performance.now())}render()};loop();
+  addEventListener('resize',()=>{renderer.setSize(innerWidth,innerHeight,false);camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();composer.setSize(innerWidth,innerHeight)})}
+</script>
+<script>
+document.querySelectorAll('#ui [data-m]').forEach(b=>b.onclick=()=>{document.querySelectorAll('#ui [data-m]').forEach(x=>x.classList.toggle('on',x===b));window.setMode(b.dataset.m);if(b.dataset.m==='show'){window.setCam('hero')}else window.setCam('overview')});
+document.querySelectorAll('#ui [data-c]').forEach(b=>b.onclick=()=>window.setCam(b.dataset.c));
+document.getElementById('play').onclick=function(){const on=this.textContent.includes('▶');if(on&&document.body.dataset.mode!=='show'){document.querySelector('#ui [data-m=show]').click()}window.__play&&window.__play(on);this.textContent=on?'❚❚ Pause':'▶ Play show'};
+</script>
+</body></html>
