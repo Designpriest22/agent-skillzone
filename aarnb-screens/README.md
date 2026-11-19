@@ -21,6 +21,18 @@ There are 14 screen animations for an All About R&B concert. Each one is a 15 s 
 
 Loop 14 has placeholder text to swap before the show: the Side B ARTIST NAME and the dedications in `scenes-e.js`.
 
+## Talent idents (`talent.js`)
+| Act | Effect |
+|---|---|
+| DJ BOBJAY | Turntable scratch glitch: sliced strips, colour split, platter, waveform |
+| DJ CHIPSY | Particle chips build the name, explode on the drop, re-form |
+| T1K | Extruded chrome type, light sweep, anamorphic flare, mirror floor |
+| WINZUTHEDJ | Laser fans in haze, laser-written outline, scanning sheet |
+| LEEYAH | Silk ribbons, letters drift into focus, petals |
+| DJ EHIZ | Audio-reactive spectrum ring, bass shockwaves warp the name |
+| PARTYBOY KERRY | Disco ball, elastic letters on the beat, confetti cannons |
+| GOODY | Warp tunnel of type, slam-in with shockwave, fly-past exit |
+
 ## Type
 Text is set in Amidone Grotesk (`assets/fonts/AmidoneGrotesk.ttf`). It is a licensed font, so it is git-ignored and must be copied in before rendering. It has no numerals, so digits fall back to Barlow Condensed. Device text (radio LCD, clocks, countdown, receipt print) keeps VT323 and Courier Prime.
 
