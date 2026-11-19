@@ -1,0 +1,367 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>TCM December</title>
+<style>
+@font-face{font-family:Bebas;src:url(../fonts/bebas.woff2) format('woff2')}
+@font-face{font-family:Mont;src:url(../fonts/mont.woff2) format('woff2');font-weight:100 900}
+:root{--cream:#F8EEE8;--muted:#A57E7E;--gold:#FF6B5E;--gold-soft:#E9A196;--ink:#2A0508;--line:rgba(248,238,232,.10);--tile-b:rgba(255,107,94,.22)}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0D0204;overflow:hidden}
+.poster{position:relative;overflow:hidden;color:var(--cream);font-family:Mont,sans-serif;
+  background:radial-gradient(75% 36% at 50% -4%, rgba(190,26,38,.45), transparent 70%),
+             radial-gradient(55% 30% at -5% 62%, rgba(140,14,24,.28), transparent 70%),
+             radial-gradient(60% 26% at 50% 104%, rgba(150,16,28,.35), transparent 70%),
+             linear-gradient(#2A060A,#0D0204)}
+.grain{position:absolute;inset:0;opacity:.09;mix-blend-mode:overlay;pointer-events:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='240' height='240'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>")}
+.lights{position:absolute;inset:0;pointer-events:none}
+.bulb{position:absolute;border-radius:50%;background:radial-gradient(circle,#FFF4EE 0%,#FFBCA8 35%,rgba(255,107,94,0) 72%)}
+.scene{position:absolute;inset:0}
+
+/* ---------- logo ---------- */
+.logo{display:inline-flex;flex-direction:column;align-items:center}
+.logo svg{display:block;width:100%;height:auto;overflow:visible}
+.logo .tl{display:flex;align-items:center;gap:.7em;margin-top:.55em;font-weight:800;letter-spacing:.32em;white-space:nowrap;color:var(--gold);margin-right:-.32em}
+.logo .tl i{display:block;width:.9em;height:.16em;background:currentColor}
+
+/* ---------- calendar ---------- */
+.cal{position:absolute;inset:0}
+h1{font-family:Bebas;font-weight:400;line-height:.84;white-space:nowrap}
+h1 .ch{display:inline-block;background:linear-gradient(180deg,#FFFFFF 0%,#F7E4DC 58%,#DDAAA2 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 .mask{display:inline-block;overflow:hidden;vertical-align:top;padding-top:.04em}
+.sub{display:flex;align-items:center;gap:.3em;font-family:Bebas;letter-spacing:.06em}
+.sub .dot{width:.17em;height:.17em;border-radius:50%;background:var(--gold);box-shadow:0 0 .3em var(--gold)}
+.sub em{font-style:normal;color:var(--gold)}
+
+.group{display:grid;column-gap:var(--gap);border-bottom:1px solid var(--line);padding:var(--gpad) 0}
+.col>.group:first-child{border-top:1px solid var(--line)}
+.tile{grid-row:1/span 4;align-self:center;width:var(--tw);height:var(--th);border-radius:calc(var(--th)*.25);border:1.5px solid var(--tile-b);
+  background:linear-gradient(160deg,#41101A,#2A070D);display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:inset 0 1px 0 rgba(255,255,255,.05)}
+.tile.tall{height:calc(var(--th)*2 - 4px)}
+.tile .d{font-family:Bebas;font-size:var(--td);line-height:.9}
+.tile .w{font-size:calc(var(--td)*.32);font-weight:700;letter-spacing:.24em;color:var(--muted);margin-top:1px;margin-right:-.24em}
+.ev{display:flex;align-items:center;justify-content:space-between;gap:20px;min-height:var(--rh);position:relative}
+.ev+.ev{border-top:1px dashed rgba(248,238,232,.09)}
+.ev .t{font-family:Bebas;font-size:var(--ts);line-height:1;letter-spacing:.02em;white-space:nowrap;padding-top:.08em;position:relative}
+.ev .s{font-size:var(--ss);font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold-soft);white-space:nowrap;position:relative}
+.stacked .ev{flex-direction:column;align-items:flex-start;justify-content:center;gap:2px}
+.stacked .ev .s{letter-spacing:.14em}
+.ev .hl{position:absolute;inset:3px -10px 3px -14px;border-radius:12px;background:linear-gradient(100deg,#F2343C,#B5101E);box-shadow:0 14px 40px -12px rgba(242,52,60,.6)}
+.ev.hi .t{color:#FFF6F2}.ev.hi .s{color:#FFD3CB;font-weight:700}
+.ev.hi+.ev{border-top:none}
+.feat .tile{background:linear-gradient(160deg,#F7EDE6,#E8CFC6);border-color:transparent;box-shadow:0 10px 30px -8px rgba(242,52,60,.55)}
+.feat .tile .d{color:#9E0F1B}.feat .tile .w{color:#7A3A3A}
+.badge{display:inline-block;font-family:Mont;font-size:.26em;font-weight:800;letter-spacing:.2em;padding:.5em .8em .42em 1em;border-radius:999px;background:#F8EEE8;color:#A3101C;vertical-align:middle;margin-left:.6em;position:relative;top:-.15em}
+
+.res{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{border-radius:22px;border:1.5px solid var(--tile-b);background:linear-gradient(160deg,#3D0E16,#24060B);position:relative;overflow:hidden}
+.card:after{content:"";position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;background:radial-gradient(circle,rgba(255,107,94,.24),transparent 70%)}
+.card .k{font-weight:700;letter-spacing:.3em;color:var(--gold)}
+.card .n{font-family:Bebas;line-height:1}
+.card .r{font-weight:600;letter-spacing:.16em;color:var(--muted)}
+.cta{font-weight:600;letter-spacing:.34em;opacity:.9;white-space:nowrap}
+.cta b{color:var(--gold);font-weight:800}
+.sign{display:flex;align-items:center;gap:14px;font-weight:600;letter-spacing:.3em;color:var(--muted);white-space:nowrap}
+.sign i{width:5px;height:5px;border-radius:50%;background:var(--muted)}
+
+/* ---- STORY 1080x1920 ---- */
+.f-story header{position:absolute;top:96px;left:0;right:0;text-align:center}
+.f-story .hlogo{width:250px;font-size:14px}
+.f-story h1{font-size:250px;margin-top:22px}
+.f-story .sub{justify-content:center;font-size:56px;margin-top:6px}
+.f-story .list{position:absolute;top:578px;left:64px;right:64px;--tw:84px;--th:50px;--td:33px;--rh:52px;--ts:40px;--ss:16px;--gap:26px;--gpad:5px}
+.f-story .group{grid-template-columns:84px 1fr}
+.f-story .res{position:absolute;left:64px;right:64px;top:1654px}
+.f-story .card{padding:16px 24px 14px}.f-story .card .k{font-size:14px}.f-story .card .n{font-size:48px;margin-top:4px}.f-story .card .r{font-size:14px;margin-top:2px}
+.f-story footer{position:absolute;left:0;right:0;bottom:40px;display:flex;flex-direction:column;align-items:center;gap:14px}
+.f-story .cta{font-size:20px}.f-story .sign{font-size:14px}
+
+/* ---- FEED 1080x1350 ---- */
+.f-feed header{position:absolute;top:58px;left:60px;right:60px}
+.f-feed .htop{display:flex;justify-content:space-between;align-items:flex-end}
+.f-feed .hlogo{width:170px;font-size:9.5px}
+.f-feed h1{font-size:236px;margin-top:22px;text-align:center}
+.f-feed .sub{font-size:44px}
+.f-feed .list{position:absolute;top:396px;left:60px;right:60px;display:grid;grid-template-columns:1fr 1fr;column-gap:40px;--tw:70px;--th:58px;--td:30px;--rh:69px;--ts:31px;--ss:12px;--gap:18px;--gpad:4px}
+.f-feed .group{grid-template-columns:70px 1fr}
+.f-feed .res{position:absolute;left:60px;right:60px;top:1132px}
+.f-feed .card{padding:14px 22px 12px}.f-feed .card .k{font-size:12px}.f-feed .card .n{font-size:40px;margin-top:3px}.f-feed .card .r{font-size:12px;margin-top:1px}
+.f-feed footer{position:absolute;left:60px;right:60px;bottom:40px;display:flex;justify-content:space-between;align-items:center}
+.f-feed .cta{font-size:15px}.f-feed .sign{font-size:12px}
+
+/* ---- SQUARE 1080x1080 ---- */
+.f-square header{position:absolute;top:50px;left:56px;right:56px;display:flex;justify-content:space-between;align-items:flex-end}
+.f-square .hl-left{display:flex;flex-direction:column}
+.f-square .hlogo{width:150px;font-size:8.4px;align-self:flex-start;margin-bottom:8px}
+.f-square h1{font-size:180px}
+.f-square .sub{font-size:44px;margin-bottom:14px}
+.f-square .list{position:absolute;top:300px;left:56px;right:56px;display:grid;grid-template-columns:1fr 1fr;column-gap:36px;--tw:62px;--th:48px;--td:26px;--rh:54px;--ts:27px;--ss:11px;--gap:16px;--gpad:3px}
+.f-square .group{grid-template-columns:62px 1fr}
+.f-square .res{position:absolute;left:56px;right:56px;top:892px}
+.f-square .card{padding:10px 20px 9px;border-radius:16px}.f-square .card .k{font-size:11px}.f-square .card .n{font-size:34px;margin-top:2px}.f-square .card .r{display:none}
+.f-square footer{position:absolute;left:56px;right:56px;bottom:30px;display:flex;justify-content:space-between;align-items:center}
+.f-square .cta{font-size:13px}.f-square .sign{font-size:11px}
+
+/* ---- WIDE 1920x1080 ---- */
+.f-wide header{position:absolute;top:150px;left:96px;width:600px}
+.f-wide .hlogo{width:230px;font-size:12.8px}
+.f-wide h1{font-size:178px;margin-top:44px}
+.f-wide .sub{font-size:58px;margin-top:6px}
+.f-wide .list{position:absolute;top:150px;left:770px;right:96px;display:grid;grid-template-columns:1fr 1fr;column-gap:48px;--tw:76px;--th:60px;--td:32px;--rh:74px;--ts:36px;--ss:13px;--gap:20px;--gpad:4px}
+.f-wide .group{grid-template-columns:76px 1fr}
+.f-wide .res{position:absolute;left:96px;width:600px;top:612px;grid-template-columns:1fr;gap:16px}
+.f-wide .card{padding:16px 24px 14px}.f-wide .card .k{font-size:13px}.f-wide .card .n{font-size:46px;margin-top:3px}.f-wide .card .r{font-size:13px;margin-top:2px}
+.f-wide footer{position:absolute;left:96px;width:600px;bottom:80px;display:flex;flex-direction:column;gap:16px}
+.f-wide .cta{font-size:17px}.f-wide .sign{font-size:13px}
+
+/* ---------- intro / logo / end scenes ---------- */
+.intro{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.abuja{font-family:Bebas;line-height:.8;display:flex;white-space:nowrap}
+.abuja .m{display:inline-block;overflow:hidden;padding-top:.06em}
+.abuja .c{display:inline-block;background:linear-gradient(180deg,#FFFFFF 0%,#FADAD2 50%,#FF5A4E 100%);-webkit-background-clip:text;background-clip:text;color:transparent}
+.uline{height:3px;background:linear-gradient(90deg,transparent,var(--gold),transparent);transform-origin:center}
+.thisdec{font-weight:700;color:var(--cream);white-space:nowrap}
+.coords{font-weight:600;color:var(--gold-soft);letter-spacing:.28em;white-space:nowrap;font-variant-numeric:tabular-nums}
+.flash{position:absolute;inset:0;background:radial-gradient(circle at 50% 50%,rgba(255,214,204,.9),rgba(242,52,60,.3) 40%,transparent 70%);pointer-events:none;opacity:0}
+.lscene,.endscene{display:flex;flex-direction:column;align-items:center;justify-content:center}
+.presents{font-weight:600;letter-spacing:.6em;color:var(--muted);margin-right:-.6em}
+.endline{font-family:Bebas;color:var(--cream);letter-spacing:.04em;text-align:center;line-height:1}
+.endline em{font-style:normal;color:var(--gold)}
+.endsmall{font-weight:600;letter-spacing:.34em;color:var(--muted);white-space:nowrap;margin-right:-.34em}
+</style></head>
+<body>
+<div class="poster" id="P">
+  <div class="lights" id="lights"></div>
+
+  <div class="cal scene" id="cal">
+    <header>
+      <div class="htop"><div class="hl-left">
+        <div class="logo hlogo" id="hlogo"></div>
+        <div class="sub-wrap"></div>
+      </div></div>
+      <h1 id="h1"></h1>
+      <div class="sub" id="sub">ABUJA <span class="dot"></span> <em>2026</em></div>
+    </header>
+    <section class="list" id="list"></section>
+    <section class="res" id="res">
+      <div class="card"><div class="k">EVERY MONDAY</div><div class="n">ROMIE'S BLOCK</div><div class="r">7 · 14 · 21 · 28 DEC</div></div>
+      <div class="card"><div class="k">EVERY FRIDAY</div><div class="n">OBI'S HOUSE</div><div class="r">4 · 11 · 18 · 25 DEC</div></div>
+    </section>
+    <footer id="foot">
+      <div class="cta">SCREENSHOT · SAVE · <b>TAG YOUR SQUAD</b></div>
+      <div class="sign">THE CAPITAL MOVEMENT<i></i>ABUJA<i></i>DEC '26</div>
+    </footer>
+  </div>
+
+  <div class="scene intro" id="intro">
+    <div class="abuja" id="abuja"></div>
+    <div class="uline" id="uline"></div>
+    <div class="thisdec" id="thisdec">THIS DECEMBER</div>
+    <div class="coords" id="coords"></div>
+  </div>
+  <div class="flash" id="flash"></div>
+
+  <div class="scene lscene" id="lscene">
+    <div class="logo" id="biglogo"></div>
+    <div class="presents" id="presents">PRESENTS</div>
+  </div>
+
+  <div class="scene endscene" id="end">
+    <div class="logo" id="endlogo"></div>
+    <div class="endline" id="endline">SEE YOU OUT THERE, <em>ABUJA</em></div>
+    <div class="endsmall" id="endsmall">SAVE THE DATES · DECEMBER 2026</div>
+  </div>
+
+  <div class="grain"></div>
+</div>
+
+<script>
+const MARK='M230.4,626.1C227.3,624.7 225.7,623.1 224.1,619.7L221.9,615.1L221.9,527.3C222.0,479.0 222.3,379.9 222.6,307.0C223.3,168.4 223.3,169.2 219.0,163.8C213.9,157.3 216.3,157.5 144.0,157.7C72.3,158.0 72.8,158.0 66.9,152.1C60.9,146.1 60.5,143.6 60.9,108.0C61.2,70.3 61.7,68.4 71.5,63.9C76.3,61.7 788.7,60.9 799.0,63.1C812.6,66.0 813.5,68.9 813.5,107.0C813.4,141.5 813.0,144.6 807.9,150.5C801.7,157.5 817.9,157.0 582.0,157.6C366.1,158.2 364.6,158.2 359.6,162.1C352.6,167.6 353.2,141.6 352.7,438.5C352.5,604.4 353.0,592.3 345.8,599.7C341.7,603.9 337.7,605.3 319.8,609.0C311.7,610.7 299.5,613.6 292.8,615.6C280.4,619.2 247.3,626.5 239.0,627.5C235.8,627.9 233.3,627.5 230.4,626.1ZM1299.0,621.1C1292.7,619.0 1284.5,616.1 1280.8,614.7C1277.1,613.2 1267.2,610.2 1258.8,608.0C1238.4,602.6 1212.8,593.3 1208.4,589.7C1200.9,583.5 1201.6,598.3 1201.0,426.0C1200.5,280.7 1200.4,271.3 1198.7,268.3C1193.4,258.4 1185.1,267.0 1169.7,298.5C1167.0,304.0 1162.6,312.2 1159.9,316.8C1157.2,321.4 1153.2,328.7 1151.0,333.1C1148.8,337.4 1145.5,343.3 1143.6,346.2C1141.8,349.1 1138.3,355.3 1136.0,360.0C1133.7,364.7 1130.3,370.8 1128.5,373.5C1126.8,376.3 1122.8,383.6 1119.6,389.7C1109.2,410.0 1099.7,417.2 1091.8,410.7C1088.8,408.3 1077.1,387.5 1071.4,374.5C1069.4,370.1 1066.4,364.2 1064.7,361.5C1063.0,358.8 1058.8,351.1 1055.4,344.5C1052.0,337.9 1045.7,325.5 1041.3,317.0C1036.9,308.5 1032.0,299.2 1030.3,296.4C1028.6,293.6 1025.5,287.5 1023.3,282.8C1015.4,266.0 1004.3,251.5 999.9,252.2C993.1,253.1 993.6,243.9 993.0,398.5C992.5,551.4 992.9,541.8 986.5,546.8C981.7,550.6 976.8,551.3 964.5,550.1C947.4,548.3 909.6,546.0 898.0,546.0C876.9,545.9 868.9,543.4 864.7,535.6L862.5,531.5L862.8,303.5L863.0,75.5L865.3,71.1C869.7,62.3 868.1,62.5 926.4,62.2C987.3,61.9 984.9,61.5 995.1,72.0C998.8,75.7 1003.7,82.1 1006.1,86.1C1008.4,90.2 1013.4,98.2 1017.1,104.0C1020.7,109.8 1025.6,117.7 1027.9,121.5C1030.1,125.3 1035.8,134.3 1040.4,141.5C1045.1,148.7 1050.8,157.7 1053.1,161.5C1055.4,165.3 1059.5,172.1 1062.3,176.5C1065.1,180.9 1069.6,188.6 1072.4,193.5C1085.9,217.0 1092.4,225.0 1098.1,225.0C1103.6,225.0 1111.5,217.4 1117.5,206.4C1119.6,202.6 1123.6,195.9 1126.5,191.4C1129.4,186.9 1133.0,180.9 1134.5,177.9C1136.1,174.9 1139.9,168.4 1143.0,163.5C1146.1,158.6 1150.1,151.7 1151.8,148.3C1153.6,144.9 1157.4,138.4 1160.4,133.8C1163.3,129.2 1167.2,122.6 1169.0,119.0C1170.8,115.4 1173.5,110.7 1175.0,108.5C1176.5,106.3 1179.9,100.5 1182.5,95.5C1200.9,61.2 1197.5,62.6 1263.2,62.2C1325.5,61.9 1327.5,62.2 1330.9,74.5C1332.7,81.0 1332.4,612.0 1330.6,616.3C1326.6,626.1 1318.0,627.4 1299.0,621.1ZM406.5,587.1C402.4,584.6 400.5,582.2 399.2,578.0C397.8,573.3 396.8,222.2 398.1,213.5C400.0,201.7 405.5,196.3 416.3,195.4C419.2,195.2 468.8,194.6 526.5,194.0C584.2,193.4 667.1,192.5 710.6,192.0C793.6,191.0 799.4,191.2 805.9,195.2C813.5,199.9 813.4,199.6 813.2,260.4L813.1,314.4L810.3,319.9C804.7,331.0 802.3,331.6 754.0,332.7C697.4,333.9 697.3,333.9 692.0,331.0C684.5,326.8 682.8,322.1 682.0,302.6C680.8,274.4 678.5,273.0 638.1,274.9C541.8,279.6 537.9,280.2 532.2,289.8L529.5,294.5L529.0,371.5C528.5,450.8 528.7,456.7 531.8,460.9C537.6,468.8 539.2,468.8 588.5,464.3C607.2,462.6 626.8,460.9 632.0,460.5C676.0,457.7 681.3,454.1 681.7,427.1C682.0,398.3 685.7,395.4 724.5,394.0C803.7,391.0 804.8,391.1 810.8,403.0L813.0,407.4L813.0,467.5C813.0,530.5 812.8,532.7 808.4,537.9C803.8,543.4 799.8,544.1 762.5,545.5C707.2,547.7 678.4,549.7 646.0,553.5C639.1,554.3 618.4,556.6 600.0,558.5C563.1,562.4 542.7,565.4 521.5,569.9C513.8,571.5 500.3,573.8 491.5,575.0C470.0,577.8 450.5,581.3 433.0,585.5C416.5,589.5 410.8,589.8 406.5,587.1Z';
+const Q=new URLSearchParams(location.search);
+const FMT=Q.get('fmt')||'story', MODE=Q.get('mode')||'static';
+const SIZES={story:[1080,1920],feed:[1080,1350],square:[1080,1080],wide:[1920,1080]};
+const [W,H]=SIZES[FMT];
+const P=document.getElementById('P');
+P.style.width=W+'px';P.style.height=H+'px';P.classList.add('f-'+FMT);
+document.getElementById('cal').classList.toggle('stacked',FMT!=='story');
+const $=id=>document.getElementById(id);
+
+let gid=0;
+function logo(el,{fill='#F3EBDD',glint=false}={}){
+  const id='g'+(gid++);
+  el.innerHTML=`<svg viewBox="0 0 1392 656"><defs>
+    <linearGradient id="${id}" x1="0" y1="0" x2="1392" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="${fill}"/><stop class="g1" offset="0" stop-color="${fill}"/>
+      <stop class="g2" offset="0" stop-color="#FF9A8C"/><stop class="g3" offset="0" stop-color="${fill}"/><stop offset="1" stop-color="${fill}"/>
+    </linearGradient></defs><path fill-rule="evenodd" fill="url(#${id})" d="${MARK}"/></svg>
+    <div class="tl"><i></i>THE CAPITAL MOVEMENT<i></i></div>`;
+  const svg=el.querySelector('svg'),p=el.querySelector('path');
+  requestAnimationFrame(()=>{});
+  const b=p.getBBox();svg.setAttribute('viewBox',`${b.x} ${b.y} ${b.width} ${b.height}`);
+  el._glint=x=>{ // x in 0..1 position of shine band
+    const set=(c,o)=>el.querySelector(c).setAttribute('offset',Math.min(1,Math.max(0,o)));
+    set('.g1',x-.12);set('.g2',x);set('.g3',x+.12);
+  };
+  el._glint(-1);
+}
+document.body.style.margin=0;
+// build logos (in DOM so getBBox works)
+logo($('hlogo'));logo($('biglogo'),{fill:'#F3EBDD'});logo($('endlogo'));
+
+// headline
+$('h1').innerHTML=[...'DECEMBER'].map(c=>`<span class="mask"><span class="ch">${c}</span></span>`).join('');
+if(FMT==='square'){ // square: title row inline with logo
+  $('cal').querySelector('.hl-left').appendChild($('h1'));
+  $('cal').querySelector('header').appendChild($('sub'));
+}
+if(FMT==='wide'){ $('cal').querySelector('header').appendChild($('sub')); }
+if(FMT==='feed'){ $('cal').querySelector('.htop').appendChild($('sub')); }
+
+const data=[
+ [4,'FRI',[['VICTONY','The Bonfire Experience']]],
+ [5,'SAT',[['CAPITAL FOOD FEST','']]],
+ [6,'SUN',[['JOHNNY DRILLE',"Johnny's Room"]]],
+ [10,'THU',[['THE IRON CONVENTION','with 6uff']]],
+ [12,'SAT',[['DJ TUNEZ','Blackout']]],
+ [13,'SUN',[['WIZKID','Live Out Loud Fest']]],
+ [16,'WED',[['FOLA','Iconiq Fest']]],
+ [17,'THU',[['EF MOON','']]],
+ [18,'FRI',[['ODUMODUBLVCK','Rise of the Machine']]],
+ [19,'SAT',[['SEYI VIBEZ','Apitainment'],['ALL WHITE PARTY','with Ricco Ross']]],
+ [22,'TUE',[['CAVEMEN','Cavy Fest']]],
+ [23,'WED',[['CANDLES & STRINGS','']]],
+ [24,'THU',[['TCM HANGOUT','Hosted by TCM',true],['GREATMANTAKIT','Gospel After Hours']]],
+ [29,'TUE',[['ON THE ROAD','with Llona']]],
+ [31,'THU',[['CTM AUTO COUNTDOWN','Festival · NYE']]],
+];
+const list=$('list');
+const cols=FMT==='story'?[data]:[data.slice(0,9),data.slice(9)];
+for(const c of cols){
+  const col=document.createElement('div');col.className='col';list.appendChild(col);
+  for(const [d,w,evs] of c){
+    const g=document.createElement('div');
+    g.className='group'+(evs.some(e=>e[2])?' feat':'');
+    g.innerHTML=`<div class="tile${evs.length>1?' tall':''}"><div class="d">${String(d).padStart(2,'0')}</div><div class="w">${w}</div></div>`+
+      evs.map(([t,s,f])=>`<div class="ev${f?' hi':''}">${f?'<div class="hl"></div>':''}<div class="t">${t}${f?'<span class="badge">OUR NIGHT</span>':''}</div>${s?`<div class="s">${s}</div>`:''}</div>`).join('');
+    col.appendChild(g);
+  }
+}
+
+// lights arc
+const L=$('lights'),bulbs=[];const N=Math.round(W/42);
+for(let i=0;i<N;i++){
+  const t=i/(N-1),x=-40+t*(W+80),y=40+Math.pow((t-.5)*2,2)*(FMT==='story'?H*.12:50)-10*Math.sin(t*Math.PI*3);
+  const near=Math.abs(t-.5)>.32,s=(near?34:20)+((i*37)%11);
+  const b=document.createElement('div');b.className='bulb';
+  const base=(near?.75:.5)+((i*13)%5)/20;
+  Object.assign(b.style,{left:(x-s/2)+'px',top:(y-s/2)+'px',width:s+'px',height:s+'px',opacity:base,filter:`blur(${near?1.5:.6}px)`});
+  L.appendChild(b);bulbs.push([b,base,i]);
+}
+
+// ---------- intro scene sizing ----------
+const AB=Math.min(W*.36,H*.42);
+$('abuja').style.fontSize=AB+'px';
+$('abuja').innerHTML=[...'ABUJA'].map(c=>`<span class="m"><span class="c">${c}</span></span>`).join('');
+$('uline').style.cssText+=`width:${AB*1.9}px;margin-top:${AB*.08}px`;
+const sm=Math.max(16,Math.min(W,H)*.024);
+$('thisdec').style.cssText+=`font-size:${sm*1.35}px;margin-top:${AB*.1}px`;
+$('coords').style.cssText+=`font-size:${sm*.85}px;margin-top:${sm*.9}px`;
+const BL=Math.min(W*.6,H*.5*1392/656*.8);
+$('biglogo').style.cssText+=`width:${BL}px;font-size:${BL*.056}px`;
+$('presents').style.cssText+=`font-size:${sm}px;margin-top:${BL*.12}px`;
+$('endlogo').style.cssText+=`width:${BL*.62}px;font-size:${BL*.62*.056}px`;
+$('endline').style.cssText+=`font-size:${Math.min(W,H)*.075}px;margin-top:${BL*.12}px`;
+$('endsmall').style.cssText+=`font-size:${sm*.8}px;margin-top:${sm}px`;
+
+// ---------- animation ----------
+const clamp=x=>Math.max(0,Math.min(1,x));
+const E={out3:x=>1-Math.pow(1-x,3),out4:x=>1-Math.pow(1-x,4),outExpo:x=>x>=1?1:1-Math.pow(2,-10*x),
+  inOut3:x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2,in3:x=>x*x*x,
+  outBack:x=>{const c1=1.5,c3=c1+1;return 1+c3*Math.pow(x-1,3)+c1*Math.pow(x-1,2)}};
+const prog=(t,a,d,e=E.out3)=>e(clamp((t-a)/d));
+const lerp=(a,b,k)=>a+(b-a)*k;
+const set=(el,o)=>{for(const k in o)el.style[k]=o[k]};
+
+const cal=$('cal'),intro=$('intro'),lsc=$('lscene'),end=$('end');
+const groups=[...document.querySelectorAll('.group')];
+const h1ch=[...document.querySelectorAll('h1 .ch')];
+const abch=[...document.querySelectorAll('.abuja .c')];
+const cards=[...document.querySelectorAll('.card')];
+let flip=null;const FG=document.querySelector('.feat');
+function measureFlip(){ // big logo -> header logo transform
+  const a=$('biglogo').getBoundingClientRect(),b=$('hlogo').getBoundingClientRect(),p=P.getBoundingClientRect();
+  flip={dx:(b.left+b.width/2)-(a.left+a.width/2),dy:(b.top+b.height/2)-(a.top+a.height/2),s:b.width/a.width};
+}
+
+function seek(t){
+  // lights: fade in + twinkle
+  const lIn=prog(t,0,1.2);
+  for(const [b,base,i] of bulbs) b.style.opacity=base*lIn*(.78+.22*Math.sin(t*2.2+i*1.7));
+
+  // ---- intro: ABUJA ----
+  const introOut=prog(t,3.05,.75,E.in3);
+  set(intro,{opacity:1-prog(t,3.3,.45),transform:`scale(${1+introOut*2.4})`,filter:`blur(${introOut*14}px)`});
+  abch.forEach((c,i)=>{const k=prog(t,.3+i*.11,.85,E.outExpo);
+    set(c,{transform:`translateY(${(1-k)*105}%) scale(${1+(1-k)*.25})`,filter:`blur(${(1-k)*10}px)`});});
+  set($('uline'),{transform:`scaleX(${prog(t,1.05,.9,E.inOut3)})`});
+  const td=prog(t,1.3,1.1,E.out4);
+  set($('thisdec'),{opacity:td,letterSpacing:lerp(1.1,.5,td)+'em',marginRight:-lerp(1.1,.5,td)+'em'});
+  const ck=prog(t,1.55,1.2,E.out3);
+  const lat=(9.0765*ck).toFixed(4).padStart(7,'0'),lon=(7.3986*ck).toFixed(4).padStart(7,'0');
+  $('coords').textContent=`${lat}° N  ·  ${lon}° E  ·  FCT`;
+  $('coords').style.opacity=prog(t,1.55,.5);
+  $('flash').style.opacity=Math.max(0,Math.sin(Math.PI*clamp((t-3.35)/.7)))*.85;
+
+  // ---- logo scene ----
+  const wipe=prog(t,3.75,.9,E.inOut3);
+  const bl=$('biglogo'),svg=bl.querySelector('svg');
+  set(svg,{clipPath:`inset(0 ${100-wipe*100}% 0 0)`});
+  const tlK=prog(t,4.45,.9,E.out4);
+  set(bl.querySelector('.tl'),{opacity:tlK,letterSpacing:lerp(.9,.32,tlK)+'em'});
+  bl._glint(lerp(-.2,1.25,prog(t,4.7,.9,E.inOut3)));
+  set($('presents'),{opacity:prog(t,4.9,.5)*(1-prog(t,5.4,.3))});
+  const fk=prog(t,5.5,.95,E.inOut3);
+  if(!flip) measureFlip();
+  const s0=lerp(1.06,1,prog(t,3.75,1.6,E.out3));
+  set(bl,{transform:`translate(${flip.dx*fk}px,${flip.dy*fk}px) scale(${lerp(s0,flip.s,fk)})`});
+  lsc.style.opacity=(t>=3.6&&t<6.45)?1:0;
+  $('hlogo').style.opacity=t>=6.45?1:0;
+
+  // ---- calendar ----
+  cal.style.opacity=t<5.5?0:1;
+  h1ch.forEach((c,i)=>{const k=prog(t,6.4+i*.055,.75,E.outExpo);c.style.transform=`translateY(${(1-k)*110}%)`});
+  const sk=prog(t,7.0,.7);set($('sub'),{opacity:sk,transform:`translateY(${(1-sk)*20}px)`});
+  groups.forEach((g,i)=>{const k=prog(t,7.4+i*.2,.7,E.out4);
+    set(g,{opacity:k,transform:`translateX(${(1-k)*60}px)`,borderColor:`rgba(243,235,221,${.09*k})`});
+    const tile=g.querySelector('.tile'),tk=prog(t,7.45+i*.2,.6,E.outBack);
+    tile.style.transform=`scale(${lerp(.4,1,tk)}) rotate(${(1-tk)*-8}deg)`;});
+  // feature highlight
+  const fg=FG,hl=fg.querySelector('.hl'),hk=prog(t,11.0,.7,E.inOut3);
+  hl.style.clipPath=`inset(0 ${100-hk*100}% 0 0 round 12px)`;
+  const pulse=t>11.6?.5+.5*Math.sin((t-11.6)*3):0;
+  hl.style.boxShadow=`0 14px ${40+pulse*30}px -12px rgba(242,52,60,${.55+pulse*.3})`;
+  fg.classList.toggle('feat',hk>.35);fg.querySelector('.ev').classList.toggle('hi',hk>.35);
+  cards.forEach((c,i)=>{const k=prog(t,11.9+i*.18,.8,E.out4);set(c,{opacity:k,transform:`translateY(${(1-k)*50}px)`})});
+  const fo=prog(t,12.8,.8);set($('foot'),{opacity:fo});
+  // shimmer across DECEMBER
+  const sh=lerp(-30,130,prog(t,13.6,1.6,E.inOut3));
+  h1ch.forEach(c=>c.style.backgroundImage=`linear-gradient(100deg,transparent ${sh-14}%,rgba(255,120,104,.95) ${sh}%,transparent ${sh+14}%),linear-gradient(180deg,#FFFFFF 0%,#F7E4DC 58%,#DDAAA2 100%)`);
+  $('hlogo')._glint(lerp(-.2,1.25,prog(t,13.9,1.2,E.inOut3)));
+  // slow push + outro
+  const ok=prog(t,18.0,.8,E.in3);
+  set(cal,{transform:`scale(${1+prog(t,7,11,x=>x)*.02-ok*.04})`,filter:`blur(${ok*12}px)`,opacity:t<5.5?0:1-ok*.85});
+  // end card
+  const ek=prog(t,18.35,.9,E.out4);
+  end.style.opacity=ek;
+  $('endlogo').style.transform=`scale(${lerp(.9,1,ek)})`;
+  $('endlogo')._glint(lerp(-.2,1.25,prog(t,18.8,.9,E.inOut3)));
+  const el=prog(t,18.6,.8,E.out4);set($('endline'),{opacity:el,transform:`translateY(${(1-el)*24}px)`});
+  $('endsmall').style.opacity=prog(t,18.9,.7);
+}
+function fitLogos(){document.querySelectorAll('.logo').forEach(l=>{const tl=l.querySelector('.tl');let fs=l.offsetWidth/20;l.style.fontSize=fs+'px';
+  for(let k=0;k<3;k++){const w=tl.scrollWidth;fs*=l.offsetWidth/w;l.style.fontSize=fs+'px';}});}
+fitLogos();
+window.seek=seek;
+if(MODE==='static'){ for(const id of ['intro','lscene','end']) $(id).style.display='none'; $('flash').style.display='none'; }
+else { seek(0); }
+</script>
+</body></html>
