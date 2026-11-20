@@ -138,6 +138,13 @@ if TITLE:
     # -- city + date, top right, level with "THE"
     cd=worn(textmask('ABUJA  4TH DEC',165,(1951-967,150-190*165/600)),44,0.05)
     comp('Info - ABUJA 4TH DEC',RED,cd*0.97)
+    # -- Outlawville logo (his label), top centre between THE and the date
+    ol=Image.open(LOGO+'outlawville.png').convert('RGBA'); ol=ol.resize((470,int(470*ol.height/ol.width)),Image.LANCZOS)
+    oxl,oyl=708-235,178-ol.height//2
+    osh=Image.new('RGBA',(W,H),(0,0,0,0)); osh.paste(ol,(oxl,oyl),ol)
+    osa=np.asarray(osh.split()[3].filter(ImageFilter.GaussianBlur(6))).astype(np.float32)/255
+    comp('Logo - Outlawville shadow',[0,0,0],np.roll(np.roll(osa,8,0),6,1)*0.35)
+    c_,a_=place(ol,oxl,oyl); comp('Logo - Outlawville',c_,a_)
     # -- POWERED BY + Capital Block Party (inked black with a red offset shadow)
     pw=Image.new('RGBA',(460,70),(0,0,0,0)); ImageDraw.Draw(pw).text((230,35),'P O W E R E D   B Y',font=ImageFont.truetype(OSW,38),fill=(214,28,30,255),anchor='mm')
     c_,a_=place(pw,1765-230,1150); comp('Info - POWERED BY',c_,a_)
