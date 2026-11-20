@@ -1,0 +1,505 @@
+<title>LOL Festival 3D Brand Map</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Inter:wght@400;500;600;700;800&display=swap">
+<style>
+/* Layout: a full-screen 3D site model. A brand finder floats on the left (a bottom sheet on phones), view buttons on the top right, and a brand card rises from the bottom when a brand is chosen. One light, daylight look on purpose. */
+:root {
+  --sky: #d7e3ea; --panel: #ffffff; --ink: #1f1d1b; --muted: #6c6862; --rule: #e4e1dc;
+  --ember: #e4521b; --route: #6b3fd6; --shadow: 0 6px 24px rgba(31, 29, 27, .16);
+  --display: "Oswald", "Arial Narrow", "Roboto Condensed", sans-serif;
+  --body: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color-scheme: light;
+}
+html, body { height: 100%; margin: 0; background: var(--sky); color: var(--ink); font-family: var(--body); font-size: 14px; overflow: hidden; }
+#stage { position: fixed; inset: 0; }
+#stage canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 2px solid var(--ember); outline-offset: 2px; }
+.hud { position: fixed; z-index: 5; }
+.brandbar { top: calc(env(safe-area-inset-top, 0px) + 14px); left: max(16px, env(safe-area-inset-left, 0px)); display: grid; gap: 2px; pointer-events: none; }
+.brandbar p { margin: 0; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+.brandbar h1 { margin: 0; font-family: var(--display); font-weight: 700; font-size: 26px; text-transform: uppercase; line-height: 1; }
+.views { top: calc(env(safe-area-inset-top, 0px) + 14px); right: max(16px, env(safe-area-inset-right, 0px)); display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; max-width: 60vw; }
+.chip { background: var(--panel); border: 1px solid var(--rule); border-radius: 999px; padding: 7px 13px; font-weight: 600; font-size: 13px; box-shadow: var(--shadow); white-space: nowrap; }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--panel); border-color: var(--ink); }
+.chip.walk { background: var(--route); color: #fff; border-color: var(--route); }
+.panel { top: calc(env(safe-area-inset-top, 0px) + 74px); left: max(16px, env(safe-area-inset-left, 0px)); width: 290px; max-height: calc(100% - 200px); background: var(--panel); border-radius: 14px; box-shadow: var(--shadow); display: grid; grid-template-rows: auto auto 1fr; overflow: hidden; }
+.panel header { display: flex; justify-content: space-between; align-items: center; padding: 12px 14px 6px; }
+.panel h2 { margin: 0; font-family: var(--display); font-size: 18px; text-transform: uppercase; font-weight: 600; }
+#toggle-panel { display: none; background: none; border: 0; font-weight: 600; color: var(--muted); }
+.search { padding: 4px 14px 10px; }
+.search input { width: 100%; box-sizing: border-box; border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px; font: inherit; background: #f7f6f4; }
+.list { overflow: auto; padding: 0 8px 10px; display: grid; gap: 4px; align-content: start; }
+.item { display: grid; grid-template-columns: 6px 54px 1fr; gap: 10px; align-items: center; text-align: left; background: none; border: 1px solid transparent; border-radius: 10px; padding: 6px 8px 6px 6px; }
+.item:hover { background: #f5f3f0; }
+.item[aria-pressed="true"] { border-color: var(--ink); background: #f5f3f0; }
+.item .bar { width: 6px; height: 34px; border-radius: 3px; }
+.logo { width: 54px; height: 34px; border-radius: 6px; background: #fff; border: 1px solid var(--rule); display: grid; place-items: center; overflow: hidden; }
+.logo.dark { background: #1d1a17; border-color: #1d1a17; }
+.logo img { max-width: 88%; max-height: 80%; object-fit: contain; }
+.item b { display: block; font-size: 14px; }
+.item span { font-size: 12px; color: var(--muted); }
+.card { left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); width: min(760px, calc(100% - 340px)); background: var(--panel); border-radius: 14px; box-shadow: var(--shadow); padding: 14px 16px; display: grid; gap: 10px; border-top: 6px solid var(--c, var(--ink)); }
+.card .top { display: grid; grid-template-columns: 96px 1fr auto; gap: 14px; align-items: center; }
+.card .logo { width: 96px; height: 58px; }
+.card h3 { margin: 0; font-family: var(--display); font-size: 26px; text-transform: uppercase; line-height: 1; }
+.card .sub { font-size: 13px; color: var(--muted); margin-top: 4px; }
+.card .sub i { display: inline-block; width: 12px; height: 12px; border-radius: 3px; background: var(--c); vertical-align: -1px; margin-right: 5px; }
+.slots { display: flex; flex-wrap: wrap; gap: 6px; }
+.slot { border: 2px solid var(--c); background: #fff; border-radius: 8px; padding: 5px 9px; font-size: 12.5px; text-align: left; }
+.slot b { font-weight: 800; margin-right: 6px; }
+.slot[aria-pressed="true"] { background: var(--c); color: #fff; }
+.slot small { color: inherit; opacity: .75; }
+.close { background: none; border: 1px solid var(--rule); border-radius: 8px; padding: 6px 10px; font-weight: 600; }
+.detail { font-size: 13px; color: var(--muted); margin: 0; min-height: 1em; }
+.hint { left: 50%; transform: translateX(-50%); bottom: calc(env(safe-area-inset-bottom, 0px) + 14px); background: rgba(31,29,27,.78); color: #fff; border-radius: 999px; padding: 8px 14px; font-size: 12.5px; pointer-events: none; white-space: nowrap; }
+.walkbar { left: 50%; transform: translateX(-50%); top: calc(env(safe-area-inset-top, 0px) + 70px); background: var(--panel); border-radius: 12px; box-shadow: var(--shadow); padding: 10px 14px; display: grid; gap: 8px; width: min(460px, calc(100% - 32px)); box-sizing: border-box; }
+.walkbar .row { display: flex; gap: 8px; align-items: center; justify-content: space-between; }
+.walkbar b { font-family: var(--display); text-transform: uppercase; font-size: 16px; font-weight: 600; }
+.progress { height: 6px; background: var(--rule); border-radius: 3px; overflow: hidden; }
+.progress i { display: block; height: 100%; width: 0; background: var(--route); }
+#tip { position: fixed; z-index: 6; pointer-events: none; background: var(--ink); color: #fff; padding: 6px 10px; border-radius: 8px; font-size: 12.5px; transform: translate(12px, 12px); white-space: nowrap; }
+#tip b { color: #fff; }
+#loader { position: fixed; inset: 0; z-index: 20; display: grid; place-items: center; background: var(--sky); }
+#loader div { display: grid; gap: 10px; justify-items: center; text-align: center; padding: 0 24px; }
+#loader h2 { margin: 0; font-family: var(--display); text-transform: uppercase; font-size: 28px; }
+#loader p { margin: 0; color: var(--muted); max-width: 46ch; }
+.spin { width: 34px; height: 34px; border: 4px solid var(--rule); border-top-color: var(--ember); border-radius: 50%; animation: s 0.9s linear infinite; }
+@keyframes s { to { transform: rotate(360deg); } }
+#fallback { position: fixed; inset: 0; z-index: 19; overflow: auto; background: var(--sky); padding-block: 20px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+#fallback img { width: 100%; max-width: 1400px; display: block; margin: 12px auto 0; border-radius: 8px; }
+@media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+@media (max-width: 760px) {
+  .brandbar h1 { font-size: 20px; }
+  .views { top: calc(env(safe-area-inset-top, 0px) + 62px); left: max(16px, env(safe-area-inset-left, 0px)); right: auto; max-width: none; justify-content: flex-start; }
+  .chip { padding: 6px 10px; font-size: 12px; }
+  .panel { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 10px); left: max(10px, env(safe-area-inset-left, 0px)); right: max(10px, env(safe-area-inset-right, 0px)); width: auto; max-height: 46%; }
+  .panel.collapsed { grid-template-rows: auto; }
+  .panel.collapsed .search, .panel.collapsed .list { display: none; }
+  #toggle-panel { display: block; }
+  .card { width: auto; left: max(10px, env(safe-area-inset-left, 0px)); right: max(10px, env(safe-area-inset-right, 0px)); transform: none; bottom: calc(env(safe-area-inset-bottom, 0px) + 64px); max-height: 46%; overflow: auto; }
+  .card .top { grid-template-columns: 72px 1fr auto; }
+  .card .logo { width: 72px; height: 46px; }
+  .card h3 { font-size: 20px; }
+  .hint { display: none; }
+  .walkbar { top: auto; bottom: calc(env(safe-area-inset-bottom, 0px) + 70px); }
+}
+</style>
+
+<div id="stage"></div>
+<div class="hud brandbar"><p>Live Out Loud Music Festival 2026 · Eagle Square, Abuja · 13 Dec</p><h1>Brand placement in 3D</h1></div>
+<nav class="hud views" aria-label="Views">
+  <button class="chip" data-view="all" aria-pressed="true">Whole site</button>
+  <button class="chip" data-view="V" aria-pressed="false">Validation</button>
+  <button class="chip" data-view="T" aria-pressed="false">Table parking</button>
+  <button class="chip" data-view="A" aria-pressed="false">Arena</button>
+  <button class="chip" id="labels-btn" aria-pressed="false">Show all labels</button>
+  <button class="chip walk" id="walk-btn">▶ Walk the guest route</button>
+</nav>
+<aside class="hud panel" id="panel" aria-label="Find your brand">
+  <header><h2>Find your brand</h2><button id="toggle-panel" aria-expanded="true">Hide</button></header>
+  <div class="search"><input id="q" type="search" placeholder="Search brands" aria-label="Search brands" autocomplete="off"></div>
+  <div class="list" id="list"></div>
+</aside>
+<section class="hud card" id="card" hidden aria-live="polite"></section>
+<div class="hud walkbar" id="walkbar" hidden>
+  <div class="row"><b id="walk-step">Car park</b><span><button class="close" id="walk-pause">Pause</button> <button class="close" id="walk-stop">Exit walk</button></span></div>
+  <div class="progress"><i id="walk-prog"></i></div>
+</div>
+<div class="hud hint" id="hint">Drag to turn · Scroll or pinch to zoom · Right-drag or two fingers to move · Tap a banner</div>
+<div id="tip" hidden></div>
+<div id="loader"><div><div class="spin" aria-hidden="true"></div><h2>Building the venue</h2><p id="load-msg">Placing 49 brand banners at Eagle Square…</p></div></div>
+<div id="fallback" hidden>
+  <h2 style="font-family:var(--display);text-transform:uppercase;margin:0">Site plan</h2>
+  <p id="fallback-msg" style="margin:6px 0 0;color:var(--muted)">This browser could not start the 3D view, so here is the flat site plan.</p>
+  <img id="fallback-img" alt="Eagle Square site plan with brand walls">
+</div>
+
+__SCRIPTS__
+<script>
+(() => {
+const D = __DATA__;
+const GROUND = "__GROUND__";
+const $ = (s) => document.querySelector(s);
+const esc = (v) => String(v).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const ZN = { A: "Event arena", T: "Table parking", V: "Validation point" };
+const ZBOX = { all: [-790, 790, -480, 480], V: [-710, -110, -350, 290], T: [-140, 240, -350, 290], A: [225, 690, -350, 290] };
+const reduceMotion = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function fallback(msg) {
+  $("#loader").hidden = true;
+  $("#fallback-img").src = GROUND;
+  if (msg) $("#fallback-msg").textContent = msg;
+  $("#fallback").hidden = false;
+  ["#panel", ".views", ".brandbar", "#hint"].forEach(s => { const e = $(s); if (e) e.hidden = true; });
+}
+if (!window.THREE || !THREE.OrbitControls) { fallback("The 3D library did not load, so here is the flat site plan. Check your connection and reload to try the 3D view."); return; }
+
+/* ---------------- renderer ---------------- */
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: "high-performance" });
+} catch (e) { fallback(); return; }
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.outputEncoding = THREE.sRGBEncoding;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+$("#stage").appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color("#d7e3ea");
+scene.fog = new THREE.Fog("#d7e3ea", 2200, 5200);
+const camera = new THREE.PerspectiveCamera(42, 1, 1, 9000);
+const controls = new THREE.OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true; controls.dampingFactor = 0.08;
+controls.maxPolarAngle = Math.PI * 0.47; controls.minDistance = 25; controls.maxDistance = 2600;
+controls.screenSpacePanning = false;
+
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb5ad9c, 0.9));
+const sun = new THREE.DirectionalLight(0xffffff, 0.75);
+sun.position.set(-500, 900, 420); sun.castShadow = true;
+Object.assign(sun.shadow.camera, { left: -900, right: 900, top: 600, bottom: -600, near: 100, far: 2600 });
+sun.shadow.mapSize.set(2048, 2048); sun.shadow.bias = -0.0005;
+scene.add(sun);
+
+/* ---------------- ground ---------------- */
+const outer = new THREE.Mesh(new THREE.PlaneGeometry(9000, 9000), new THREE.MeshLambertMaterial({ color: "#cdc7b8" }));
+outer.rotation.x = -Math.PI / 2; outer.position.y = -0.3; outer.receiveShadow = true; scene.add(outer);
+const groundTex = new THREE.TextureLoader().load(GROUND, () => { groundReady = true; maybeReady(); }, undefined, () => { groundReady = true; maybeReady(); });
+groundTex.encoding = THREE.sRGBEncoding;
+groundTex.anisotropy = renderer.capabilities.getMaxAnisotropy();
+const groundMesh = new THREE.Mesh(new THREE.PlaneGeometry(D.site[0], D.site[1]), new THREE.MeshLambertMaterial({ map: groundTex }));
+groundMesh.rotation.x = -Math.PI / 2; groundMesh.receiveShadow = true; scene.add(groundMesh);
+let groundReady = false;
+
+/* ---------------- venue structures ---------------- */
+const matCache = {};
+const mat = (c) => matCache[c] || (matCache[c] = new THREE.MeshLambertMaterial({ color: c }));
+const tone = { "#bfe6ef": "#a9d9e6", "#efe7de": "#e7dccf", "#3a3532": "#3a3532" };
+D.blocks.forEach(([x, z, w, d, h, c]) => {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(w, h, d), mat(tone[c] || c));
+  m.position.set(x + w / 2, h / 2, z + d / 2); m.castShadow = true; m.receiveShadow = true; scene.add(m);
+});
+D.lines.forEach(l => {
+  const h = l.k === "pink" ? 3.5 : 8, t = l.k === "pink" ? 1.6 : 2.2, c = l.k === "pink" ? "#ec1e79" : "#2b2b2b";
+  for (let i = 1; i < l.p.length; i++) {
+    const [x1, z1] = l.p[i - 1], [x2, z2] = l.p[i];
+    const len = Math.hypot(x2 - x1, z2 - z1); if (len < 0.5) continue;
+    const m = new THREE.Mesh(new THREE.BoxGeometry(len + t, h, t), mat(c));
+    m.position.set((x1 + x2) / 2, h / 2, (z1 + z2) / 2); m.rotation.y = -Math.atan2(z2 - z1, x2 - x1);
+    m.castShadow = true; scene.add(m);
+  }
+});
+// LED screens and stage roof
+D.extras.screens.forEach(([x, z1, z2]) => {
+  const m = new THREE.Mesh(new THREE.BoxGeometry(2.2, 24, Math.abs(z2 - z1)), mat("#141414"));
+  m.position.set(x + 1, 12 + 3, (z1 + z2) / 2); m.castShadow = true; scene.add(m);
+});
+(() => {
+  const [xa, za, xb, zb] = D.extras.stage;
+  const x0 = Math.min(xa, xb), x1 = Math.max(xa, xb), z0 = Math.min(za, zb), z1 = Math.max(za, zb);
+  const roof = new THREE.Mesh(new THREE.BoxGeometry(x1 - x0 + 6, 2.5, z1 - z0 + 6), mat("#2a2a2a"));
+  roof.position.set((x0 + x1) / 2, 34, (z0 + z1) / 2); roof.castShadow = true; scene.add(roof);
+  [[x0, z0], [x1, z0], [x0, z1], [x1, z1]].forEach(([x, z]) => {
+    const p = new THREE.Mesh(new THREE.BoxGeometry(2, 34, 2), mat("#3b3b3b")); p.position.set(x, 17, z); scene.add(p);
+  });
+})();
+
+/* ---------------- brand banners ---------------- */
+const logos = {};
+const loadImg = (src) => new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
+function fit(img, bw, bh) { const r = Math.min(bw / img.width, bh / img.height); return [img.width * r, img.height * r]; }
+function roundRect(g, x, y, w, h, r) { g.beginPath(); g.moveTo(x + r, y); g.arcTo(x + w, y, x + w, y + h, r); g.arcTo(x + w, y + h, x, y + h, r); g.arcTo(x, y + h, x, y, r); g.arcTo(x, y, x + w, y, r); g.closePath(); }
+function bannerTexture(slot) {
+  const b = D.brands[slot.brand], img = logos[slot.brand];
+  const H = 256, W = Math.max(256, Math.min(1280, Math.round(slot.len / 10 * H)));
+  const c = document.createElement("canvas"); c.width = W; c.height = H;
+  const g = c.getContext("2d");
+  g.fillStyle = b.color; g.fillRect(0, 0, W, H);
+  const pad = 14, strip = 50;
+  g.fillStyle = b.dark ? "#1d1a17" : "#ffffff"; g.fillRect(pad, pad, W - pad * 2, H - pad * 2 - strip);
+  if (img) { const [w, h] = fit(img, W - pad * 2 - 24, H - pad * 2 - strip - 18); g.drawImage(img, (W - w) / 2, pad + (H - pad * 2 - strip - h) / 2, w, h); }
+  g.fillStyle = "#ffffff"; g.font = "800 30px Inter, Arial, sans-serif"; g.textBaseline = "middle"; g.textAlign = "center";
+  g.fillText(`${slot.id}  ·  ${slot.ft} × 10 FT`, W / 2, H - pad - strip / 2 + 2);
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = renderer.capabilities.getMaxAnisotropy();
+  return t;
+}
+function pinTexture(slot) {
+  const b = D.brands[slot.brand], img = logos[slot.brand];
+  const W = 240, H = 190, c = document.createElement("canvas"); c.width = W; c.height = H;
+  const g = c.getContext("2d");
+  g.fillStyle = b.color; roundRect(g, 4, 4, W - 8, H - 30, 16); g.fill();
+  g.beginPath(); g.moveTo(W / 2 - 16, H - 27); g.lineTo(W / 2 + 16, H - 27); g.lineTo(W / 2, H - 4); g.closePath(); g.fill();
+  g.fillStyle = b.dark ? "#1d1a17" : "#ffffff"; roundRect(g, 14, 14, W - 28, 100, 10); g.fill();
+  if (img) { const [w, h] = fit(img, W - 48, 84); g.drawImage(img, (W - w) / 2, 14 + (100 - h) / 2, w, h); }
+  g.fillStyle = "#ffffff"; g.font = "800 34px Inter, Arial, sans-serif"; g.textAlign = "center"; g.textBaseline = "middle";
+  g.fillText(slot.id, W / 2, 138);
+  const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; return t;
+}
+
+const banners = [];      // {slot, group, panel, mats, pin, beacon}
+const pick = [];
+const grey = new THREE.Color("#9a9690");
+function buildBanners() {
+  D.slots.forEach(slot => {
+    const b = D.brands[slot.brand];
+    const grp = new THREE.Group();
+    const face = new THREE.MeshLambertMaterial({ map: bannerTexture(slot), transparent: true });
+    const side = new THREE.MeshLambertMaterial({ color: b.color, transparent: true });
+    const panel = new THREE.Mesh(new THREE.BoxGeometry(slot.len - 0.6, 10, 0.9), [side, side, side, side, face, face]);
+    panel.position.y = 6.2; panel.castShadow = true; panel.userData.slot = slot;
+    const base = new THREE.Mesh(new THREE.BoxGeometry(slot.len - 0.6, 1.2, 2.2), mat("#2a2724"));
+    base.position.y = 0.6;
+    grp.add(panel, base);
+    const beacon = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 26, 8), new THREE.MeshBasicMaterial({ color: b.color, transparent: true, opacity: 0.8 }));
+    beacon.position.y = 11.2 + 13; beacon.visible = false; grp.add(beacon);
+    const pin = new THREE.Sprite(new THREE.SpriteMaterial({ map: pinTexture(slot), depthTest: false, sizeAttenuation: false, transparent: true }));
+    pin.center.set(0.5, 0); pin.position.y = 13; pin.renderOrder = 10; pin.visible = false; pin.userData.slot = slot;
+    grp.add(pin);
+    grp.position.set(slot.cx, 0, slot.cz);
+    if (slot.o === "v") grp.rotation.y = Math.PI / 2;
+    scene.add(grp);
+    banners.push({ slot, grp, panel, face, side, pin, beacon });
+    pick.push(panel, pin);
+  });
+}
+
+/* ---------------- guest route line ---------------- */
+const routePts = D.route.map(([x, z]) => new THREE.Vector3(x, 0.6, z));
+(() => {
+  const g = new THREE.BufferGeometry().setFromPoints(routePts);
+  const l = new THREE.Line(g, new THREE.LineDashedMaterial({ color: "#6b3fd6", dashSize: 8, gapSize: 6 }));
+  l.computeLineDistances(); scene.add(l);
+})();
+
+/* ---------------- camera moves ---------------- */
+let tween = null;
+function flyTo(pos, target, ms = 1100) {
+  if (reduceMotion) ms = 0;
+  tween = { p0: camera.position.clone(), t0: controls.target.clone(), p1: pos, t1: target, start: performance.now(), ms };
+}
+function fitBox([x0, x1, z0, z1], tilt = 0.9, tight = 0.82) {
+  const cx = (x0 + x1) / 2, cz = (z0 + z1) / 2, w = x1 - x0, d = z1 - z0;
+  const vfov = camera.fov * Math.PI / 180, hfov = 2 * Math.atan(Math.tan(vfov / 2) * camera.aspect);
+  const dist = Math.max((d * 0.9) / Math.tan(vfov / 2), (w * 0.62) / Math.tan(hfov / 2)) * tight + 40;
+  const dir = new THREE.Vector3(0, tilt, 0.78).normalize();
+  return [new THREE.Vector3(cx, 0, cz).addScaledVector(dir, dist), new THREE.Vector3(cx, 0, cz)];
+}
+function view(name) {
+  stopWalk();
+  document.querySelectorAll("[data-view]").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.view === name)));
+  const [p, t] = fitBox(ZBOX[name], name === "all" ? 1.05 : 0.8, name === "all" ? 0.66 : 0.82);
+  flyTo(p, t);
+}
+function frameBanners(list) {
+  const box = new THREE.Box3();
+  list.forEach(b => box.expandByObject(b.panel));
+  const c = box.getCenter(new THREE.Vector3()), s = box.getSize(new THREE.Vector3());
+  const [p, t] = fitBox([c.x - s.x / 2 - 30, c.x + s.x / 2 + 30, c.z - s.z / 2 - 30, c.z + s.z / 2 + 30], 0.75);
+  if (p.distanceTo(t) < 160) p.copy(t.clone().add(new THREE.Vector3(0, 0.75, 0.78).normalize().multiplyScalar(160)));
+  flyTo(p, t);
+}
+function focusSlot(b) {
+  const n = b.slot.o === "h" ? new THREE.Vector3(0, 0, 1) : new THREE.Vector3(1, 0, 0);
+  const c = new THREE.Vector3(b.slot.cx, 6, b.slot.cz);
+  if (n.dot(camera.position.clone().sub(c)) < 0) n.negate();
+  const dist = Math.max(62, b.slot.len * 1.7);
+  flyTo(c.clone().addScaledVector(n, dist).add(new THREE.Vector3(0, 22, 0)), c);
+}
+
+/* ---------------- selection ---------------- */
+let selected = null, selSlot = null, allLabels = false;
+function applyState() {
+  banners.forEach(b => {
+    const mine = selected && b.slot.brand === selected;
+    const dim = selected && !mine;
+    b.face.color.copy(dim ? grey : new THREE.Color("#ffffff")); b.face.opacity = dim ? 0.55 : 1;
+    b.side.color.set(dim ? "#9a9690" : D.brands[b.slot.brand].color); b.side.opacity = dim ? 0.55 : 1;
+    b.beacon.visible = !!mine;
+    b.pin.visible = !!mine || (allLabels && !selected);
+    const s = mine ? 0.085 : 0.055;
+    b.pin.scale.set(s, s * 190 / 240, 1);
+  });
+}
+function selectBrand(id, opts = {}) {
+  stopWalk();
+  selected = id; selSlot = opts.slot || null;
+  document.querySelectorAll(".item").forEach(e => e.setAttribute("aria-pressed", String(e.dataset.brand === id)));
+  applyState(); renderCard();
+  const mine = banners.filter(b => b.slot.brand === id);
+  if (opts.slot) focusSlot(banners.find(b => b.slot.id === opts.slot)); else if (opts.fly !== false) frameBanners(mine);
+  try { history.replaceState(null, "", "#" + D.brands[id].slug); } catch (e) { location.hash = D.brands[id].slug; }
+  $("#hint").hidden = true;
+  if (window.innerWidth <= 760) setPanel(false);
+}
+function clearBrand() {
+  selected = null; selSlot = null; applyState(); renderCard();
+  document.querySelectorAll(".item").forEach(e => e.setAttribute("aria-pressed", "false"));
+  try { history.replaceState(null, "", location.pathname + location.search); } catch (e) {}
+  view("all");
+}
+function logoTile(id) {
+  const b = D.brands[id];
+  return `<span class="logo${b.dark ? " dark" : ""}"><img src="${b.logo}" alt="${esc(b.name)} logo"></span>`;
+}
+function renderList() {
+  const q = $("#q").value.trim().toLowerCase();
+  const ids = Object.keys(D.brands).filter(id => D.brands[id].name.toLowerCase().includes(q))
+    .sort((a, b) => D.brands[a].name.localeCompare(D.brands[b].name));
+  $("#list").innerHTML = ids.length ? ids.map(id => {
+    const b = D.brands[id], n = D.slots.filter(s => s.brand === id).length;
+    return `<button class="item" data-brand="${id}" aria-pressed="${id === selected}"><i class="bar" style="background:${b.color}"></i>${logoTile(id)}<span><b>${esc(b.name)}</b><span>${n} placement${n === 1 ? "" : "s"}</span></span></button>`;
+  }).join("") : `<p style="padding:8px;color:var(--muted)">No brand matches “${esc(q)}”.</p>`;
+}
+function renderCard() {
+  const card = $("#card");
+  if (!selected) { card.hidden = true; return; }
+  const b = D.brands[selected];
+  const ss = D.slots.filter(s => s.brand === selected).sort((a, c) => a.id.localeCompare(c.id));
+  const ft = ss.reduce((a, s) => a + s.ft, 0);
+  const cur = ss.find(s => s.id === selSlot);
+  card.style.setProperty("--c", b.color);
+  card.innerHTML = `<div class="top">${logoTile(selected)}<div><h3>${esc(b.name)}</h3>
+      <div class="sub"><i></i>Brand colour ${b.color.toUpperCase()} · ${ss.length} placements · ${ft} ft of banners · all 10 ft high</div></div>
+      <button class="close" id="clear">Close</button></div>
+    <div class="slots">${ss.map(s => `<button class="slot" data-slot="${s.id}" aria-pressed="${s.id === selSlot}"><b>${s.id}</b>${s.ft} × 10 ft <small>· ${ZN[s.zone]}</small></button>`).join("")}</div>
+    <p class="detail">${cur ? `<b>${cur.id}</b> · ${esc(cur.where)} · ${ZN[cur.zone]}` : "Tap a placement to fly to it. The coloured beacons mark every banner on the map."}</p>`;
+  card.hidden = false;
+}
+
+/* ---------------- guest walk-through ---------------- */
+const CAPS = [[0, "Leave the car park"], [0.08, "Along Unity Road"], [0.27, "Pedestrian entrance"], [0.36, "Ticket purchase & validation"], [0.5, "Regular walk-in corridor"], [0.82, "Regular entry point"], [0.92, "Brands experience zone → WIZKID FC"]];
+const segLen = []; let total = 0;
+for (let i = 1; i < routePts.length; i++) { const l = routePts[i].distanceTo(routePts[i - 1]); segLen.push(l); total += l; }
+function along(d) {
+  d = Math.max(0, Math.min(total, d));
+  for (let i = 0; i < segLen.length; i++) { if (d <= segLen[i]) return routePts[i].clone().lerp(routePts[i + 1], d / segLen[i]); d -= segLen[i]; }
+  return routePts[routePts.length - 1].clone();
+}
+let walk = null;
+function startWalk() {
+  tween = null; controls.enabled = false;
+  walk = { d: 25, paused: false, last: performance.now(), look: null };
+  $("#walkbar").hidden = false; $("#walk-pause").textContent = "Pause"; $("#hint").hidden = true;
+}
+function stopWalk(goHome) {
+  if (!walk) return;
+  walk = null; controls.enabled = true; $("#walkbar").hidden = true;
+  if (goHome) view("all");
+}
+function stepWalk(now) {
+  const dt = Math.min(0.1, (now - walk.last) / 1000); walk.last = now;
+  if (!walk.paused) walk.d += dt * 48;
+  const p = along(walk.d - 25), ahead = along(walk.d + 95);
+  p.y = 30; ahead.y = 3;
+  walk.look = walk.look ? walk.look.lerp(ahead, 0.06) : ahead.clone();
+  camera.position.copy(p); camera.lookAt(walk.look); controls.target.copy(walk.look);
+  const f = walk.d / total;
+  $("#walk-prog").style.width = (f * 100).toFixed(1) + "%";
+  $("#walk-step").textContent = CAPS.filter(c => c[0] <= f).pop()[1];
+  if (walk.d >= total) { walk.paused = true; $("#walk-pause").textContent = "Replay"; }
+}
+
+/* ---------------- picking ---------------- */
+const ray = new THREE.Raycaster(), ptr = new THREE.Vector2();
+function hit(ev) {
+  const r = renderer.domElement.getBoundingClientRect();
+  ptr.set(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+  ray.setFromCamera(ptr, camera);
+  const h = ray.intersectObjects(pick.filter(o => o.visible), false)[0];
+  return h ? h.object.userData.slot : null;
+}
+let down = null;
+renderer.domElement.addEventListener("pointerdown", e => { down = [e.clientX, e.clientY]; tween = null; });
+renderer.domElement.addEventListener("pointerup", e => {
+  if (!down || Math.hypot(e.clientX - down[0], e.clientY - down[1]) > 6) return;
+  const s = hit(e); if (s) selectBrand(s.brand, { slot: s.id });
+});
+let hoverT = 0;
+renderer.domElement.addEventListener("pointermove", e => {
+  if (e.pointerType !== "mouse" || walk) return;
+  const now = performance.now(); if (now - hoverT < 50) return; hoverT = now;
+  const s = hit(e), tip = $("#tip");
+  if (!s) { tip.hidden = true; renderer.domElement.style.cursor = ""; return; }
+  const b = D.brands[s.brand];
+  tip.innerHTML = `<b>${esc(b.name)}</b> · ${s.id} · ${s.ft} × 10 ft · ${ZN[s.zone]}`;
+  tip.style.left = e.clientX + "px"; tip.style.top = e.clientY + "px"; tip.hidden = false;
+  renderer.domElement.style.cursor = "pointer";
+});
+renderer.domElement.addEventListener("pointerleave", () => { $("#tip").hidden = true; });
+
+/* ---------------- UI wiring ---------------- */
+document.querySelectorAll("[data-view]").forEach(b => b.addEventListener("click", () => view(b.dataset.view)));
+$("#labels-btn").addEventListener("click", e => { allLabels = !allLabels; e.currentTarget.setAttribute("aria-pressed", String(allLabels)); e.currentTarget.textContent = allLabels ? "Hide labels" : "Show all labels"; applyState(); });
+$("#walk-btn").addEventListener("click", () => { selected = null; applyState(); renderCard(); startWalk(); });
+$("#walk-pause").addEventListener("click", () => {
+  if (!walk) return;
+  if (walk.d >= total) { walk.d = 25; walk.paused = false; $("#walk-pause").textContent = "Pause"; return; }
+  walk.paused = !walk.paused; $("#walk-pause").textContent = walk.paused ? "Resume" : "Pause";
+});
+$("#walk-stop").addEventListener("click", () => stopWalk(true));
+$("#list").addEventListener("click", e => { const it = e.target.closest(".item"); if (it) selectBrand(it.dataset.brand); });
+$("#q").addEventListener("input", renderList);
+$("#card").addEventListener("click", e => {
+  if (e.target.closest("#clear")) { clearBrand(); return; }
+  const s = e.target.closest(".slot"); if (s) { selSlot = s.dataset.slot; renderCard(); focusSlot(banners.find(b => b.slot.id === selSlot)); }
+});
+function setPanel(open) { $("#panel").classList.toggle("collapsed", !open); $("#toggle-panel").textContent = open ? "Hide" : "Show"; $("#toggle-panel").setAttribute("aria-expanded", String(open)); }
+$("#toggle-panel").addEventListener("click", () => setPanel($("#panel").classList.contains("collapsed")));
+addEventListener("keydown", e => { if (e.key === "Escape") { if (walk) stopWalk(true); else if (selected) clearBrand(); } });
+function fromHash() {
+  const h = decodeURIComponent(location.hash.slice(1));
+  const id = Object.keys(D.brands).find(k => D.brands[k].slug === h);
+  if (id) selectBrand(id);
+}
+addEventListener("hashchange", fromHash);
+
+/* ---------------- resize + loop ---------------- */
+function resize() {
+  const w = window.innerWidth, h = window.innerHeight;
+  renderer.setSize(w, h, false); camera.aspect = w / h;
+  // keep the venue clear of the brand panel (left on desktop, bottom sheet on phones)
+  if (w > 760) camera.setViewOffset(w, h, -165, 0, w, h); else camera.setViewOffset(w, h, 0, Math.round(h * 0.14), w, h);
+  camera.updateProjectionMatrix();
+}
+addEventListener("resize", resize); resize();
+const ease = t => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+let t0 = performance.now();
+function loop(now) {
+  requestAnimationFrame(loop);
+  if (walk) stepWalk(now);
+  else if (tween) {
+    const k = tween.ms ? Math.min(1, (now - tween.start) / tween.ms) : 1, e = ease(k);
+    camera.position.lerpVectors(tween.p0, tween.p1, e); controls.target.lerpVectors(tween.t0, tween.t1, e);
+    if (k >= 1) tween = null;
+    controls.update();
+  } else controls.update();
+  const pulse = 0.55 + 0.35 * Math.sin((now - t0) / 260);
+  banners.forEach(b => { if (b.beacon.visible) b.beacon.material.opacity = reduceMotion ? 0.8 : pulse; });
+  renderer.render(scene, camera);
+}
+
+/* ---------------- boot ---------------- */
+let assetsReady = false;
+function maybeReady() {
+  if (!(groundReady && assetsReady)) return;
+  $("#loader").hidden = true;
+}
+(async () => {
+  const fonts = document.fonts ? Promise.race([document.fonts.load("800 30px Inter"), new Promise(r => setTimeout(r, 2500))]) : Promise.resolve();
+  const ids = Object.keys(D.brands);
+  const imgs = await Promise.all(ids.map(id => loadImg(D.brands[id].logo)));
+  ids.forEach((id, i) => { logos[id] = imgs[i]; });
+  await fonts;
+  buildBanners();
+  renderList(); applyState();
+  const [p, t] = fitBox(ZBOX.all, 1.05, 0.66);
+  camera.position.copy(p); controls.target.copy(t); controls.update();
+  requestAnimationFrame(loop);
+  assetsReady = true; maybeReady();
+  fromHash();
+  if (window.innerWidth <= 760 && !selected) setPanel(false);
+})();
+setTimeout(() => { if (!$("#loader").hidden) $("#load-msg").textContent = "Still loading. A slow connection can take a few seconds."; }, 6000);
+})();
+</script>
