@@ -3,7 +3,16 @@ import numpy as np
 from PIL import Image, ImageFilter, ImageDraw, ImageOps
 from scipy import ndimage
 rng=np.random.default_rng(21)
-bg=Image.open('abuja_bg.png').convert('RGBA'); W,H=bg.size
+W,H=2160,2700
+_y,_x=np.mgrid[0:H,0:W].astype(np.float32)
+# plain charcoal black (not pure black) + soft red glow behind the head + film grain
+base=np.array([28,26,27],np.float32)
+r=np.hypot((_x-W/2)/(W*0.55),(_y-1150)/(H*0.42))
+glow=np.exp(-r**2*1.6)
+bga=base+glow[...,None]*np.array([150,14,18])*0.9
+bga*=np.clip(1.08-0.35*np.hypot((_x-W/2)/W,(_y-H/2)/H)**2*2,0.6,1)[...,None]   # gentle vignette
+bga+=rng.normal(0,11,(H,W,1))                                                   # heavy film grain
+bg=Image.fromarray(np.clip(bga,0,255).astype(np.uint8)).convert('RGBA')
 cut=Image.open('../victony_cutout.png').convert('RGBA')
 SC=1.95; TOP=520; HEADTOP=463
 cut=cut.resize((int(cut.width*SC),int(cut.height*SC)),Image.LANCZOS)
@@ -68,38 +77,37 @@ outI=Image.fromarray(out.astype(np.uint8),'RGBA')
 sh=Image.fromarray((shadow*200).astype(np.uint8)).filter(ImageFilter.GaussianBlur(10))
 shI=Image.new('RGBA',(W,H),(0,0,0,0)); shI.putalpha(sh)
 
+
 # ---------- glow behind figure (keeps the bonfire link)
 hl=Image.fromarray((alpha*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(70)).point(lambda v:int(v*0.6))
-halo=Image.new('RGBA',(W,H),(255,90,30,0)); halo.putalpha(hl)
+halo=Image.new('RGBA',(W,H),(225,20,26,0)); halo.putalpha(hl)
 
 canvas=bg.copy()
 canvas.alpha_composite(halo); canvas.alpha_composite(shI); canvas.alpha_composite(outI)
 
 # ---------- paper-cut sticker: the eyes, pulled out with a torn white border
-ex0,ey0,ex1,ey1=int(ox+330*SC),int(oy+840*SC),int(ox+960*SC),int(oy+1040*SC)
-eye=Image.fromarray(np.dstack([col,np.full((H,W),255)]).astype(np.uint8),'RGBA').crop((ex0,ey0,ex1,ey1))
-eye=eye.resize((int(eye.width*1.12),int(eye.height*1.12)),Image.LANCZOS)
-ew,eh=eye.size
 def torn_rect(w,h,pad,amp):
-    m=Image.new('L',(w+2*pad,h+2*pad),0); dd=ImageDraw.Draw(m)
-    pts=[]
+    m=Image.new('L',(w+2*pad,h+2*pad),0); dd=ImageDraw.Draw(m); pts=[]
     for x in np.linspace(0,w,40): pts.append((pad+x,pad+rng.normal(0,amp)))
     for y in np.linspace(0,h,12): pts.append((pad+w+rng.normal(0,amp),pad+y))
     for x in np.linspace(w,0,40): pts.append((pad+x,pad+h+rng.normal(0,amp)))
     for y in np.linspace(h,0,12): pts.append((pad+rng.normal(0,amp),pad+y))
     dd.polygon(pts,fill=255); return m
-P=40
-border=torn_rect(ew+44,eh+44,P,6)
-inner=torn_rect(ew,eh,P+22,3)
-st=Image.new('RGBA',border.size,(0,0,0,0))
-paperI=Image.new('RGBA',border.size,(244,240,232,255)); st.paste(paperI,(0,0),border)
-eyeL=Image.new('RGBA',border.size,(0,0,0,0)); eyeL.paste(eye,(P+22,P+22))
-eyeL.putalpha(Image.fromarray(np.minimum(np.asarray(inner),np.asarray(eyeL.split()[3]))))
-st.alpha_composite(eyeL)
-st=st.rotate(-3,resample=Image.BICUBIC,expand=True)
-ssh=Image.new('RGBA',st.size,(0,0,0,0)); ssh.putalpha(st.split()[3].filter(ImageFilter.GaussianBlur(14)).point(lambda v:int(v*0.75)))
-cx=(ex0+ex1)//2-st.width//2+10; cy=(ey0+ey1)//2-st.height//2-6
-canvas.alpha_composite(ssh,(cx+14,cy+18)); canvas.alpha_composite(st,(cx,cy))
+full=Image.fromarray(np.dstack([col,np.full((H,W),255)]).astype(np.uint8),'RGBA')
+def sticker(box,scale,rot,nudge):
+    x0,y0,x1,y1=[int(v) for v in (ox+box[0]*SC,oy+box[1]*SC,ox+box[2]*SC,oy+box[3]*SC)]
+    im=full.crop((x0,y0,x1,y1)); im=im.resize((int(im.width*scale),int(im.height*scale)),Image.LANCZOS)
+    ew,eh=im.size; P=40
+    border=torn_rect(ew+44,eh+44,P,6); inner=torn_rect(ew,eh,P+22,3)
+    st=Image.new('RGBA',border.size,(0,0,0,0)); st.paste(Image.new('RGBA',border.size,(244,240,232,255)),(0,0),border)
+    l=Image.new('RGBA',border.size,(0,0,0,0)); l.paste(im,(P+22,P+22))
+    l.putalpha(Image.fromarray(np.minimum(np.asarray(inner),np.asarray(l.split()[3])))); st.alpha_composite(l)
+    st=st.rotate(rot,resample=Image.BICUBIC,expand=True)
+    sh_=Image.new('RGBA',st.size,(0,0,0,0)); sh_.putalpha(st.split()[3].filter(ImageFilter.GaussianBlur(14)).point(lambda v:int(v*0.75)))
+    cx=(x0+x1)//2-st.width//2+nudge[0]; cy=(y0+y1)//2-st.height//2+nudge[1]
+    canvas.alpha_composite(sh_,(cx+14,cy+18)); canvas.alpha_composite(st,(cx,cy))
+sticker((330,840,960,1040),1.12,-3,(10,-6))      # eyes
+sticker((440,1130,790,1300),1.30,4,(-20,10))     # mouth
 
 # ---------- unify grain
 arr=np.asarray(canvas.convert('RGB')).astype(np.float32)+rng.normal(0,6,(H,W,1))
