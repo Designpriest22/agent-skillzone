@@ -130,6 +130,54 @@ if TITLE:
     comp('Title - EXPERIENCE shadow',[0,0,0],shadow*0.45)
     comp('Title - EXPERIENCE paint + drips',PAINT,em*0.95)
 if TITLE:
+    # ================= event info + logos (mirrors the main event flyer) =================
+    LOGO='../../logos/'; OSW='../../fonts/Oswald-SemiBold.ttf'
+    def place(im,x,y):                                   # RGBA image -> full-canvas colour + alpha
+        L_=Image.new('RGBA',(W,H),(0,0,0,0)); L_.paste(im,(int(x),int(y)),im)
+        a_=np.asarray(L_).astype(np.float32); return a_[...,:3],a_[...,3]/255
+    # -- city + date, top right, level with "THE"
+    cd=worn(textmask('ABUJA  4TH DEC',165,(1951-967,150-190*165/600)),44,0.05)
+    comp('Info - ABUJA 4TH DEC',RED,cd*0.97)
+    # -- POWERED BY + Capital Block Party (inked black with a red offset shadow)
+    pw=Image.new('RGBA',(460,70),(0,0,0,0)); ImageDraw.Draw(pw).text((230,35),'P O W E R E D   B Y',font=ImageFont.truetype(OSW,38),fill=(214,28,30,255),anchor='mm')
+    c_,a_=place(pw,1765-230,1150); comp('Info - POWERED BY',c_,a_)
+    cbp=Image.open(LOGO+'capital_block_party.png').convert('RGBA'); cbp=cbp.resize((400,int(400*cbp.height/cbp.width)),Image.LANCZOS)
+    ca=np.asarray(cbp).astype(np.float32); lum=ca[...,:3].mean(2)
+    fill_=np.where(lum>150,1.0,0.0)*ca[...,3]/255; shad=np.where(lum<=150,1.0,0.0)*ca[...,3]/255
+    sh_im=Image.fromarray(np.dstack([np.full(lum.shape+(3,),[214,28,30]),shad*255]).astype(np.uint8),'RGBA')
+    fl_im=Image.fromarray(np.dstack([np.full(lum.shape+(3,),[20,17,16]),fill_*255]).astype(np.uint8),'RGBA')
+    c_,a_=place(sh_im,1765-200,1215); comp('Logo - Capital Block Party shadow',c_,a_*worn(np.ones((H,W),np.float32),45,0.06))
+    c_,a_=place(fl_im,1765-200,1215); comp('Logo - Capital Block Party',c_,a_*worn(np.ones((H,W),np.float32),46,0.06))
+    # -- Victony wordmark on his chest, white with a dark halo so it reads on the ink
+    vw=Image.open(LOGO+'victony_wordmark.png').convert('RGBA'); vw=vw.resize((440,int(440*vw.height/vw.width)),Image.LANCZOS)
+    vx,vy=P(615,0)[0]-220,2140
+    halo=Image.new('RGBA',(W,H),(0,0,0,0)); halo.paste(vw,(int(vx),int(vy)),vw)
+    ha=np.asarray(halo.split()[3].filter(ImageFilter.MaxFilter(9)).filter(ImageFilter.GaussianBlur(18))).astype(np.float32)/255
+    comp('Logo - Victony glow',[12,8,8],ha*0.8)
+    c_,a_=place(vw,vx,vy); comp('Logo - Victony',c_,a_)
+    # -- ticket strip: torn black paper across the bottom
+    sx0,sy0,sx1,sy1=110,2410,2050,2590
+    sm_=Image.new('L',(W,H),0); sdr=ImageDraw.Draw(sm_); pts=[]
+    for xv in np.linspace(sx0,sx1,60): pts.append((xv,sy0+abs(rng.normal(0,7))))
+    for yv in np.linspace(sy0,sy1,8): pts.append((sx1-abs(rng.normal(0,7)),yv))
+    for xv in np.linspace(sx1,sx0,60): pts.append((xv,sy1-abs(rng.normal(0,7))))
+    for yv in np.linspace(sy1,sy0,8): pts.append((sx0+abs(rng.normal(0,7)),yv))
+    sdr.polygon(pts,fill=255); sm_=sm_.rotate(-1,center=(W/2,(sy0+sy1)/2),resample=Image.BICUBIC)
+    sa=np.asarray(sm_).astype(np.float32)/255
+    comp('Ticket strip - shadow',[0,0,0],np.roll(np.roll(sa,12,0),8,1)*(1-sa)*0.5)
+    comp('Ticket strip - black paper',[16,13,12],sa*(0.93+0.07*(rng.random((H,W))>0.5)))
+    tl=Image.new('RGBA',(W,H),(0,0,0,0)); td=ImageDraw.Draw(tl); f_=ImageFont.truetype(OSW,48)
+    parts=[('TICKETS AT ',(244,112,28)),('WWW.OUTLAWVILLE.WORLD',(238,230,214)),('   |   ',(214,28,30)),('MAINLANDBLOCKPARTY.COM',(238,230,214))]
+    tw=sum(td.textlength(t,font=f_) for t,_ in parts); x_=W/2-tw/2+5; ym=(sy0+sy1)/2
+    for t,cl in parts:
+        td.text((x_,ym),t,font=f_,fill=cl+(255,),anchor='lm'); x_+=td.textlength(t,font=f_)
+    tl=tl.rotate(-1,center=(W/2,ym),resample=Image.BICUBIC)
+    c_,a_=place(tl,0,0); comp('Ticket strip - text',c_,a_)
+    plug=Image.open(LOGO+'the_plug.png').convert('RGBA'); plug=plug.resize((int(118*plug.width/plug.height),118),Image.LANCZOS)
+    c_,a_=place(plug,sx0+45,ym-59+4); comp('Logo - The Plug',c_,a_)
+    cb2=Image.open(LOGO+'capital_block_party.png').convert('RGBA'); cb2=cb2.resize((int(120*cb2.width/cb2.height),120),Image.LANCZOS)
+    c_,a_=place(cb2,sx1-45-cb2.width,ym-60-6); comp('Logo - Capital Block Party (strip)',c_,a_)
+if TITLE:
     gr=np.random.default_rng(77)
     smudge=np.clip(noise(9,78)-0.9,0,1)*0.22+np.clip(noise(25,79)-1.4,0,1)*0.3
     comp('Grunge - smudges',[40,30,26],smudge)
