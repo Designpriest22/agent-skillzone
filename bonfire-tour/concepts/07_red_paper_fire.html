@@ -1,0 +1,99 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><style>
+.p{background:#d5161d}
+.L{position:absolute;inset:0}.hidden{visibility:hidden}
+.mottle{background:radial-gradient(ellipse at 50% 28%,rgba(255,70,55,.35),transparent 60%),radial-gradient(ellipse at 50% 100%,rgba(80,0,0,.5),transparent 55%)}
+.cross{position:absolute;left:150px;top:-190px;width:780px;opacity:.6}
+.vic{position:absolute;left:40px;top:-250px;width:1000px}
+.chest{position:absolute;left:0;right:0;top:1180px;bottom:0;background:linear-gradient(#0d0b0c00,#0d0b0c 70px)}
+.strip{position:absolute;background:#f1ebe0;padding:9px;box-shadow:10px 12px 0 rgba(0,0,0,.42)}
+.win{position:relative;overflow:hidden}.win img{position:absolute;width:1000px}
+.t3{position:absolute;left:0;right:0;text-align:center;font-family:Anton;color:#e5161e}
+.pres{position:absolute;left:0;right:0;top:826px;text-align:center;font:700 24px Oswald;letter-spacing:.06em;color:#f1ebe0}
+.sc{position:absolute;left:0;right:0;top:1076px;text-align:center;font:400 140px/1 'Mrs Saint Delafield';color:#f1ebe0;transform:rotate(-6deg)}
+.dt,.ct{position:absolute;top:1214px;font:400 42px Anton;color:#e5161e}
+.ft{position:absolute;left:0;right:0;top:1274px;text-align:center;font:600 15px Oswald;letter-spacing:.36em;color:#f1ebe0}
+.lg{position:absolute;left:0;right:0;top:1302px;display:flex;justify-content:center;gap:26px;align-items:center}
+.lg img{height:30px}
+</style></head><body><div class="p">
+<div class="L mottle" data-layer="Background - red"></div>
+<svg class="L" data-layer="Sketch - Abuja City Gate" viewBox="0 0 1080 1350" id="gate"></svg>
+<svg class="L" data-layer="Victony cross stamp" viewBox="0 0 1080 1350" id="crossv"></svg>
+<svg class="L" data-layer="Sketch - retro astronauts" viewBox="0 0 1080 1350" id="astros"></svg>
+<div class="L" data-layer="Grunge fire"><img src="assets/fire_grunge.png" style="width:1080px;height:1350px"></div>
+<div class="L" data-layer="Victony - threshold photo"><img class="vic" src="assets/t1b_threshold_dark.png"><div class="chest"></div></div>
+<div class="L" data-layer="Paper cut - eyes + mouth" id="cuts"></div>
+<div class="L" data-layer="Title - red 3D">
+ <div class="pres">CAPITAL BLOCK PARTY PRESENTS:</div>
+ <div class="t3" id="t1" style="top:858px;font-size:150px;line-height:.86">THE BONFIRE</div>
+ <div class="t3" id="t2" style="top:990px;font-size:62px;letter-spacing:.14em">EXPERIENCE</div></div>
+<div class="L" data-layer="Script - Victony + sparkles"><div class="sc">Victony</div><svg class="L" viewBox="0 0 1080 1350" id="spk"></svg></div>
+<div class="L" data-layer="Info - date, city, tickets, logos">
+ <div class="dt" style="left:84px" id="dt">FRI 04.12</div><div class="ct" style="right:84px" id="ct">ABUJA</div>
+ <div class="ft">TICKETS · WWW.OUTLAWVILLE.WORLD · MAINLANDBLOCKPARTY.COM</div>
+ <div class="lg"><img src="../logos/the_plug.png" style="filter:brightness(0) invert(.95)"><img src="../logos/capital_block_party.png"><img src="../logos/outlawville.png" style="filter:invert(1)"></div></div>
+<div class="L" data-layer="Texture - grain + dust"><div class="grain" style="opacity:.16"></div><img src="../design-c/assets/grunge.png" style="width:1080px;height:1350px;opacity:.35;mix-blend-mode:multiply"></div>
+</div>
+<svg width="0" height="0" style="position:absolute"><filter id="sk"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter></svg>
+<script>
+const P=new URLSearchParams(location.search);const $=id=>document.getElementById(id);
+if(P.get('city'))$('ct').textContent=P.get('city'); if(P.get('date'))$('dt').textContent=P.get('date');
+let seed=17;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+const INK='#170a0c';
+// sketchy line: draw a path twice with jitter
+const sk=(d,w=3,op=1)=>`<path d="${d}" stroke="${INK}" stroke-width="${w}" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="${op}"/><path d="${d}" stroke="${INK}" stroke-width="${w*.6}" fill="none" transform="translate(${(rnd()-.5)*4} ${(rnd()-.5)*4})" opacity="${op*.7}"/>`;
+const hatch=(x0,y0,x1,y1,step,ang=1)=>{let s='';for(let x=x0;x<x1;x+=step){s+=`M${x} ${y0}L${Math.min(x+(y1-y0)*.25*ang,x1)} ${y1}`};return s};
+// ---- Abuja City Gate (ink sketch)
+(()=>{let s='';
+ // towers
+ [[110,270],[810,970]].forEach(([a,b],i)=>{s+=sk(`M${a} 980L${a+12} 520L${b-12} 520L${b} 980`)+sk(`M${a-14} 520L${a+8} 470L${b-8} 470L${b+14} 520Z`)+sk(`M${a+40} 980L${a+46} 560M${b-40} 980L${b-46} 560`,2,.8);
+   s+=`<path d="${hatch(i?b-60:a+14,560,i?b-14:a+60,975,9)}" stroke="${INK}" stroke-width="1.6" opacity=".75"/>`;});
+ // top beam across
+ s+=sk('M96 470L984 470L984 420L96 420Z')+sk('M96 440L984 440',2,.7);
+ s+=`<path d="${hatch(100,422,980,468,14)}" stroke="${INK}" stroke-width="1.3" opacity=".55"/>`;
+ // inner arch + coat-of-arms medallion
+ s+=sk('M270 980L270 760C270 600 420 545 540 545C660 545 810 600 810 760L810 980');
+ s+=sk('M300 980L300 770C300 630 430 578 540 578C650 578 780 630 780 770L780 980',2,.7);
+ s+=sk('M540 455m-26 0a26 26 0 1 0 52 0a26 26 0 1 0 -52 0');
+ // wing walls + road perspective
+ s+=sk('M110 900C70 905 30 915 0 930M970 900C1010 905 1050 915 1080 930',3,.9);
+ s+=sk('M300 1350L480 980M780 1350L600 980M540 1350L540 1000',2,.6);
+ $('gate').innerHTML=`<g filter="url(#sk)" opacity=".8">${s}</g>`})();
+// ---- Victony crusader cross: flared spiked tips (after his logo), worn ink stamp
+(()=>{const cx=540,cy=250,arm=430,th=74,top=-60,bot=1240;
+ const tip=(x,y,dir)=>{// spiked flare: dir = 'l','r','u'
+  if(dir==='l')return `M${x+40} ${y-th/2}L${x} ${y-th}L${x-46} ${y}L${x} ${y+th}L${x+40} ${y+th/2}Z`;
+  if(dir==='r')return `M${x-40} ${y-th/2}L${x} ${y-th}L${x+46} ${y}L${x} ${y+th}L${x-40} ${y+th/2}Z`;
+  return `M${x-th/2} ${y+40}L${x-th} ${y}L${x} ${y-46}L${x+th} ${y}L${x+th/2} ${y+40}Z`};
+ const d=`M${cx-th/2} ${top+40}L${cx+th/2} ${top+40}L${cx+th/2} ${cy-th/2}L${cx+arm-40} ${cy-th/2}L${cx+arm-40} ${cy+th/2}L${cx+th/2} ${cy+th/2}L${cx+th/2} ${bot}L${cx-th/2} ${bot}L${cx-th/2} ${cy+th/2}L${cx-arm+40} ${cy+th/2}L${cx-arm+40} ${cy-th/2}L${cx-th/2} ${cy-th/2}Z`;
+ $('crossv').innerHTML=`<defs><filter id="worn"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.2 1.75" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in" result="g"/><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="2" result="t"/><feDisplacementMap in="g" in2="t" scale="7"/></filter></defs>
+  <g filter="url(#worn)" fill="#14060a" opacity=".85"><path d="${d}"/><path d="${tip(cx-arm+40,cy,'l')}"/><path d="${tip(cx+arm-40,cy,'r')}"/><path d="${tip(cx,top+40,'u')}"/>
+  <circle cx="${cx}" cy="${cy}" r="${th*1.05}"/></g>
+  <g fill="none" stroke="#1a080b" stroke-width="5" opacity=".5" filter="url(#sk)"><circle cx="${cx}" cy="${cy}" r="${th*1.6}"/></g>`})();
+// ---- sketched retro astronauts (line art only)
+function astro({x,y,s=1,rot=0,armL=20,armR=-20,legL=8,legR=-8}){
+ const st=`stroke="${INK}" stroke-width="${3/s}" fill="none" stroke-linecap="round"`;
+ const limb=(len,wid,ang,px,py,end)=>`<g transform="translate(${px} ${py}) rotate(${ang})"><rect x="${-wid/2}" y="0" width="${wid}" height="${len}" rx="${wid/2}" ${st}/><path d="M${-wid/2+3} ${len*.45}L${wid/2-3} ${len*.45}M${-wid/2+3} ${len*.55}L${wid/2-3} ${len*.55}" ${st} opacity=".6"/>${end||''}</g>`;
+ let g=`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})">`;
+ g+=limb(92,32,legL,-20,0,`<path d="M-20 80h40v24h-40z" ${st}/>`)+limb(92,32,legR,20,0,`<path d="M-20 80h40v24h-40z" ${st}/>`);
+ g+=`<rect x="-58" y="-150" width="116" height="118" rx="18" ${st}/><rect x="-48" y="-140" width="96" height="150" rx="34" ${st}/>`;
+ g+=`<rect x="-28" y="-104" width="56" height="40" rx="8" ${st}/><circle cx="-12" cy="-84" r="6" ${st}/><circle cx="8" cy="-84" r="6" ${st}/><path d="M-48 -20h96M-48 -8h96" ${st}/>`;
+ g+=limb(66,28,armL,-46,-122,`<circle cx="0" cy="62" r="14" ${st}/>`)+limb(66,28,armR,46,-122,`<circle cx="0" cy="62" r="14" ${st}/>`);
+ g+=`<circle cx="0" cy="-182" r="56" ${st}/><rect x="-40" y="-212" width="80" height="58" rx="26" ${st}/>`;
+ let h='';for(let i=-36;i<40;i+=7)h+=`M${i} -208L${i+14} -158`;g+=`<path d="${h}" stroke="${INK}" stroke-width="${1.6/s}" opacity=".7" clip-path="url(#visor)"/>`;
+ g+=`<path d="M-26 -200Q-12 -208 4 -204" ${st}/><path d="M60 -230 L90 -300" ${st}/><circle cx="92" cy="-306" r="7" ${st}/>`;
+ return g+'</g>'}
+$('astros').innerHTML=`<defs><clipPath id="visor"><rect x="-40" y="-212" width="80" height="58" rx="26"/></clipPath></defs><g filter="url(#sk)" opacity=".85">`+
+ astro({x:140,y:420,s:.82,rot:-24,armL:-150,armR:110,legL:24,legR:-20})+astro({x:960,y:330,s:.62,rot:22,armL:-120,armR:150,legL:-14,legR:26})+
+ `<path d="M230 250 C330 150 420 240 520 140" stroke="${INK}" stroke-width="2" stroke-dasharray="8 8" fill="none"/></g>`;
+// ---- two paper cuts: eyes + mouth (lifted strips with cream border)
+(()=>{const X0=40,Y0=-250;let h='';
+ [[220,402,540,118,-3,-14,-10],[355,606,300,104,2.5,16,8]].forEach(([x,y,w,hh,rot,dx,dy])=>{
+  h+=`<div class="strip" style="left:${x-9+dx}px;top:${y-9+dy}px;transform:rotate(${rot}deg)"><div class="win" style="width:${w}px;height:${hh}px"><img src="assets/t1b_threshold_dark.png" style="left:${X0-x}px;top:${Y0-y}px"></div></div>`});
+ $('cuts').innerHTML=h})();
+// ---- red 3D extrusion
+['t1','t2'].forEach((id,k)=>{const D=k?8:16;let sh=[];for(let i=1;i<=D;i++){const t=i/D;sh.push(`${i*.55}px ${i}px 0 rgb(${Math.round(150-95*t)},${Math.round(14-10*t)},${Math.round(20-12*t)})`)}
+ sh.push(`${D*.55+2}px ${D+3}px 0 #000`,`${D*.55+4}px ${D+8}px 16px rgba(0,0,0,.6)`);$(id).style.textShadow=sh.join(',')});
+// ---- sparkles
+(()=>{const st=(x,y,r)=>`<path d="M${x} ${y-r}C${x+r*.08} ${y-r*.16} ${x+r*.16} ${y-r*.08} ${x+r} ${y}C${x+r*.16} ${y+r*.08} ${x+r*.08} ${y+r*.16} ${x} ${y+r}C${x-r*.08} ${y+r*.16} ${x-r*.16} ${y+r*.08} ${x-r} ${y}C${x-r*.16} ${y-r*.08} ${x-r*.08} ${y-r*.16} ${x} ${y-r}Z" fill="#f1ebe0"/>`;
+ $('spk').innerHTML=st(110,1130,34)+st(165,1186,13)+st(970,1120,34)+st(915,1188,12)})();
+</script></body></html>
