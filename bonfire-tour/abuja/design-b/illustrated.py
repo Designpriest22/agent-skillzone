@@ -79,10 +79,12 @@ if TITLE:
     def worn(m,seed,holes=0.10):
         r=np.random.default_rng(seed)
         rough=np.asarray(Image.fromarray((m*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2.5))).astype(np.float32)/255
-        m=(rough+(r.random((H,W))-0.5)*0.5>0.5).astype(np.float32)          # chewed print edges
-        blot=noise(70,seed+1)
-        return m*((r.random((H,W))>holes)&(blot<2.6))                        # ink dropouts
-    big=worn(textmask('BONFIRE',585,(210,330-185*585/600)),41)
+        m=(rough+(r.random((H,W))-0.5)*0.8+noise(120,seed+3)*0.08>0.5).astype(np.float32)   # chewed print edges
+        roller=np.asarray(Image.fromarray((r.random((H//6,W//200+2))*255).astype(np.uint8)).resize((W,H),Image.BICUBIC)).astype(np.float32)/255
+        scuff=noise(30,seed+1)
+        keep=(r.random((H,W))>holes+np.clip(0.55-roller,0,1)*0.9)&(scuff<1.9)          # ink starved streaks + worn patches
+        return m*keep
+    big=worn(textmask('BONFIRE',585,(210,330-185*585/600)),41,0.12)
     the=worn(textmask('THE',165,(216,150-190*165/600)),42)
     behind=(big+the).clip(0,1)*(1-np.clip(al*1.4,0,1))                      # his head sits in front of the letters
     INK=np.array([20,17,16],np.float32)
@@ -96,16 +98,41 @@ if TITLE:
     sz=345; ex=textmask('EXPERIENCE',sz,(0,0))
     ys,xs=np.nonzero(ex); ex=ex[ys.min():ys.max()+1,xs.min():xs.max()+1]
     exI=Image.fromarray((ex*255).astype(np.uint8)).rotate(3,expand=True,resample=Image.BICUBIC)
-    lay2=Image.new('L',(W,H),0); px=(W-exI.width)//2; py=905
+    lay2=Image.new('L',(W,H),0); px=(W-exI.width)//2; py=690
     lay2.paste(exI,(px,py)); em=np.asarray(lay2).astype(np.float32)/255
+    em0=em.copy()
     brush=np.asarray(Image.fromarray((rng.random((H//40,W//2))*255).astype(np.uint8)).resize((W,H),Image.BICUBIC)).astype(np.float32)/255
-    em=em*((brush*0.6+rng.random((H,W))*0.6)>0.32)                         # horizontal dry-brush drag
-    em=worn(em,43,0.04)
+    em=em*((brush*0.6+rng.random((H,W))*0.6)>0.16)                         # horizontal dry-brush drag
+    em=np.maximum(worn(em,43,0.02),em*0.0)
     grad=np.clip((xx-px)/exI.width,0,1)[...,None]
     PAINT=ORANGE*(1-grad)+RED*grad
+    # drips running down from the letters
+    dr=Image.new('L',(W,H),0); dd=ImageDraw.Draw(dr)
+    ys_,xs_=np.nonzero(em0>0.5); bot={}
+    for xv,yv in zip(xs_[::7],ys_[::7]): bot[xv]=max(bot.get(xv,0),yv)
+    keys=list(bot.keys())
+    for k in rng.choice(keys,size=16,replace=False):
+        L_=rng.uniform(30,220)*rng.random()**0.5; wd=rng.uniform(5,13); y0_=bot[k]-6
+        dd.line((k,y0_,k,y0_+L_),fill=255,width=int(wd)); dd.ellipse((k-wd*0.7,y0_+L_-wd*0.7,k+wd*0.7,y0_+L_+wd*0.7),fill=255)
+    em=np.clip(em+np.asarray(dr).astype(np.float32)/255*(rng.random((H,W))>0.15),0,1)
+    # off-register ghost print in dark red
+    ghost=np.roll(np.roll(em0,-12,0),-14,1)*(rng.random((H,W))>0.35)
+    img=img*(1-ghost[...,None]*0.55)+np.array([120,16,14])*ghost[...,None]*0.55
     shadow=np.roll(np.roll(em,9,0),7,1)*(1-em)
     img=img*(1-shadow[...,None]*0.45)
     img=img*(1-em[...,None]*0.95)+PAINT*em[...,None]*0.95
+if TITLE:
+    gr=np.random.default_rng(77)
+    smudge=np.clip(noise(9,78)-0.9,0,1)*0.22+np.clip(noise(25,79)-1.4,0,1)*0.3
+    img=img*(1-smudge[...,None])+np.array([40,30,26])*smudge[...,None]
+    dust=gr.random((H,W)); img[dust<0.0025]*=0.35; img[dust>0.9985]=np.minimum(img[dust>0.9985]*1.25,255)
+    tone=np.clip(noise(200,80)-2.1,0,1)*(gr.random((H,W))>0.6)          # photocopy toner speckle
+    img=img*(1-tone[...,None]*0.5)
+    for (x0,y0,x1,y1) in [(0,1180,W,1050),(1300,0,1180,H),(0,420,W,560)]:   # paper creases
+        cr=Image.new('L',(W,H),0); cd=ImageDraw.Draw(cr); cd.line((x0,y0,x1,y1),fill=255,width=3)
+        c=np.asarray(cr.filter(ImageFilter.GaussianBlur(1.5))).astype(np.float32)/255
+        c2=np.roll(np.roll(c,4,0),3,1)
+        img=img*(1-c[...,None]*0.18)+255*c2[...,None]*0.10
 canvas=Image.fromarray(np.clip(img,0,255).astype(np.uint8)).convert('RGBA')
 d=ImageDraw.Draw(canvas)
 
