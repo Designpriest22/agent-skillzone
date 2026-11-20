@@ -1,0 +1,110 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><link href="https://fonts.googleapis.com/css2?family=Bowlby+One&display=block" rel="stylesheet"><style>
+.p{background:#d5161d}
+.L{position:absolute;inset:0}.hidden{visibility:hidden}
+.mottle{background:radial-gradient(ellipse at 50% 28%,rgba(255,70,55,.35),transparent 60%),radial-gradient(ellipse at 50% 100%,rgba(80,0,0,.5),transparent 55%)}
+.cross{position:absolute;left:150px;top:-190px;width:780px;opacity:.6}
+.vic{position:absolute;left:40px;top:-250px;width:1000px}
+.chest{position:absolute;left:0;right:0;top:1180px;bottom:0;background:linear-gradient(#0d0b0c00,#0d0b0c 70px)}
+.strip{position:absolute;background:#f1ebe0;padding:9px;box-shadow:10px 12px 0 rgba(0,0,0,.42)}
+.win{position:relative;overflow:hidden}.win img{position:absolute;width:1000px}
+.t3{position:absolute;left:0;right:0;text-align:center;font-family:Anton;color:#e5161e}
+.pres{position:absolute;left:0;right:0;top:786px;text-align:center;font:700 24px Oswald;letter-spacing:.06em;color:#f1ebe0}
+.sc{position:absolute;left:0;right:0;top:1076px;text-align:center;font:400 140px/1 'Mrs Saint Delafield';color:#f1ebe0;transform:rotate(-6deg)}
+.dt,.ct{position:absolute;top:1214px;font:400 42px Anton;color:#e5161e}
+.ft{position:absolute;left:0;right:0;top:1274px;text-align:center;font:600 15px Oswald;letter-spacing:.36em;color:#f1ebe0}
+.lg{position:absolute;left:0;right:0;top:1302px;display:flex;justify-content:center;gap:26px;align-items:center}
+.lg img{height:30px}
+</style></head><body><div class="p">
+<div class="L mottle" data-layer="Background - red"></div>
+<svg class="L" data-layer="Sketch - Abuja City Gate" viewBox="0 0 1080 1350" id="gate"></svg>
+<svg class="L" data-layer="Victony cross stamp" viewBox="0 0 1080 1350" id="crossv"></svg>
+<div class="L" data-layer="Grunge fire"><img src="assets/fire_grunge.png" style="width:1080px;height:1350px"></div>
+<div class="L" data-layer="Victony - threshold photo"><img class="vic" src="assets/t1b_threshold_dark.png"><div class="chest"></div></div>
+<div class="L" data-layer="Paper cut - eyes + mouth" id="cuts"></div>
+<div class="L" data-layer="Title - red 3D">
+ <div class="pres">CAPITAL BLOCK PARTY PRESENTS:</div>
+ <svg class="L" viewBox="0 0 1080 1350" id="title"></svg></div>
+<div class="L" data-layer="Victony logos"><img src="../logos/victony_wordmark.png" style="position:absolute;left:50%;top:1090px;width:270px;transform:translateX(-50%);filter:drop-shadow(0 0 14px rgba(229,22,30,.75)) drop-shadow(3px 4px 0 #000)"><img src="../logos/victony_cross.png" style="position:absolute;left:62px;top:1060px;width:140px;filter:drop-shadow(0 0 12px rgba(229,22,30,.7))"><img src="../logos/victony_cross.png" style="position:absolute;right:62px;top:1060px;width:140px;filter:drop-shadow(0 0 12px rgba(229,22,30,.7))"></div>
+<div class="L" data-layer="Info - date, city, tickets, logos">
+ <div class="dt" style="left:84px" id="dt">FRI 04.12</div><div class="ct" style="right:84px" id="ct">ABUJA</div>
+ <div class="ft">TICKETS · WWW.OUTLAWVILLE.WORLD · MAINLANDBLOCKPARTY.COM</div>
+ <div class="lg"><img src="../logos/the_plug.png" style="filter:brightness(0) invert(.95)"><img src="../logos/capital_block_party.png"><img src="../logos/outlawville.png" style="filter:invert(1)"></div></div>
+<div class="L" data-layer="Texture - grain + dust"><div class="grain" style="opacity:.16"></div><img src="../design-c/assets/grunge.png" style="width:1080px;height:1350px;opacity:.35;mix-blend-mode:multiply"></div>
+</div>
+<svg width="0" height="0" style="position:absolute"><filter id="sk"><feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="5"/></filter></svg>
+<script>
+const P=new URLSearchParams(location.search);const $=id=>document.getElementById(id);
+if(P.get('city'))$('ct').textContent=P.get('city'); if(P.get('date'))$('dt').textContent=P.get('date');
+let seed=17;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+const INK='#170a0c';
+// sketchy line: draw a path twice with jitter
+const sk=(d,w=3,op=1)=>`<path d="${d}" stroke="${INK}" stroke-width="${w}" fill="none" stroke-linecap="round" stroke-linejoin="round" opacity="${op}"/><path d="${d}" stroke="${INK}" stroke-width="${w*.6}" fill="none" transform="translate(${(rnd()-.5)*4} ${(rnd()-.5)*4})" opacity="${op*.7}"/>`;
+const hatch=(x0,y0,x1,y1,step,ang=1)=>{let s='';for(let x=x0;x<x1;x+=step){s+=`M${x} ${y0}L${Math.min(x+(y1-y0)*.25*ang,x1)} ${y1}`};return s};
+// ---- Abuja City Gate (ink sketch)
+(()=>{let s='';
+ // towers
+ [[110,270],[810,970]].forEach(([a,b],i)=>{s+=sk(`M${a} 980L${a+12} 520L${b-12} 520L${b} 980`)+sk(`M${a-14} 520L${a+8} 470L${b-8} 470L${b+14} 520Z`)+sk(`M${a+40} 980L${a+46} 560M${b-40} 980L${b-46} 560`,2,.8);
+   s+=`<path d="${hatch(i?b-60:a+14,560,i?b-14:a+60,975,9)}" stroke="${INK}" stroke-width="1.6" opacity=".75"/>`;});
+ // top beam across
+ s+=sk('M96 470L984 470L984 420L96 420Z')+sk('M96 440L984 440',2,.7);
+ s+=`<path d="${hatch(100,422,980,468,14)}" stroke="${INK}" stroke-width="1.3" opacity=".55"/>`;
+ // inner arch + coat-of-arms medallion
+ s+=sk('M270 980L270 760C270 600 420 545 540 545C660 545 810 600 810 760L810 980');
+ s+=sk('M300 980L300 770C300 630 430 578 540 578C650 578 780 630 780 770L780 980',2,.7);
+ s+=sk('M540 455m-26 0a26 26 0 1 0 52 0a26 26 0 1 0 -52 0');
+ // wing walls + road perspective
+ s+=sk('M110 900C70 905 30 915 0 930M970 900C1010 905 1050 915 1080 930',3,.9);
+ s+=sk('M300 1350L480 980M780 1350L600 980M540 1350L540 1000',2,.6);
+ $('gate').innerHTML=`<g filter="url(#sk)" opacity=".8">${s}</g>`})();
+// ---- Victony crusader cross: flared spiked tips (after his logo), worn ink stamp
+(()=>{const cx=540,cy=250,arm=430,th=74,top=-60,bot=1240;
+ const tip=(x,y,dir)=>{// spiked flare: dir = 'l','r','u'
+  if(dir==='l')return `M${x+40} ${y-th/2}L${x} ${y-th}L${x-46} ${y}L${x} ${y+th}L${x+40} ${y+th/2}Z`;
+  if(dir==='r')return `M${x-40} ${y-th/2}L${x} ${y-th}L${x+46} ${y}L${x} ${y+th}L${x-40} ${y+th/2}Z`;
+  return `M${x-th/2} ${y+40}L${x-th} ${y}L${x} ${y-46}L${x+th} ${y}L${x+th/2} ${y+40}Z`};
+ const d=`M${cx-th/2} ${top+40}L${cx+th/2} ${top+40}L${cx+th/2} ${cy-th/2}L${cx+arm-40} ${cy-th/2}L${cx+arm-40} ${cy+th/2}L${cx+th/2} ${cy+th/2}L${cx+th/2} ${bot}L${cx-th/2} ${bot}L${cx-th/2} ${cy+th/2}L${cx-arm+40} ${cy+th/2}L${cx-arm+40} ${cy-th/2}L${cx-th/2} ${cy-th/2}Z`;
+ $('crossv').innerHTML=`<defs><filter id="worn"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="7" result="n"/><feColorMatrix in="n" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -2.2 1.75" result="m"/><feComposite in="SourceGraphic" in2="m" operator="in" result="g"/><feTurbulence type="fractalNoise" baseFrequency=".04" numOctaves="2" seed="2" result="t"/><feDisplacementMap in="g" in2="t" scale="7"/></filter></defs>
+  <g filter="url(#worn)" fill="#14060a" opacity=".85"><path d="${d}"/><path d="${tip(cx-arm+40,cy,'l')}"/><path d="${tip(cx+arm-40,cy,'r')}"/><path d="${tip(cx,top+40,'u')}"/>
+  <circle cx="${cx}" cy="${cy}" r="${th*1.05}"/></g>
+  <g fill="none" stroke="#1a080b" stroke-width="5" opacity=".5" filter="url(#sk)"><circle cx="${cx}" cy="${cy}" r="${th*1.6}"/></g>`})();
+// ---- two paper cuts: eyes + mouth (lifted strips with cream border)
+(()=>{const X0=40,Y0=-250;let h='';
+ [[220,402,540,118,-3,-14,-10],[355,606,300,104,2.5,16,8]].forEach(([x,y,w,hh,rot,dx,dy])=>{
+  h+=`<div class="strip" style="left:${x-9+dx}px;top:${y-9+dy}px;transform:rotate(${rot}deg)"><div class="win" style="width:${w}px;height:${hh}px"><img src="assets/t1b_threshold_dark.png" style="left:${X0-x}px;top:${Y0-y}px"></div></div>`});
+ $('cuts').innerHTML=h})();
+// ---- Loadout-style 3D title: chunky chiseled letters, jittered, cracked, burn hole, cream outline
+(()=>{const T=$('title');
+ const word=(txt,cx,cy,fs,depth,rotW,seedOff)=>{
+  const n=txt.length;const rots=[],dys=[];for(let i=0;i<n;i++){rots.push(((rnd()-.5)*10).toFixed(1));dys.push(((rnd()-.5)*fs*.08).toFixed(1))}
+  const ga=`text-anchor="middle" font-family="Bowlby One" font-size="${fs}" rotate="${rots.join(' ')}" letter-spacing="${-fs*.02}"`;
+  // dy per glyph needs relative offsets
+  let rel=[],prev=0;dys.forEach(d=>{rel.push((d-prev).toFixed(1));prev=d});
+  const t=(attrs,inner='')=>`<text x="0" y="0" dy="${rel.join(' ')}" ${ga} ${attrs}>${txt}</text>`;
+  let ext='';for(let i=depth;i>=1;i--){const k=i/depth;ext+=t(`transform="translate(${i*.7} ${i*1.15})" fill="rgb(${Math.round(150-100*k)},${Math.round(14-10*k)},${Math.round(18-10*k)})"`)}
+  const id='w'+seedOff;
+  return `<g transform="translate(${cx} ${cy}) rotate(${rotW})"><defs><linearGradient id="f${id}" x1="0" y1="${-fs*.75}" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff8a3a"/><stop offset=".5" stop-color="#f2401f"/><stop offset="1" stop-color="#c8141a"/></linearGradient>
+   <clipPath id="c${id}">${t('')}</clipPath></defs>
+   <g filter="url(#loadout)">${ext}${t(`fill="url(#f${id})" stroke="#2a0507" stroke-width="${fs*.025}" paint-order="stroke"`)}
+   <g clip-path="url(#c${id})" id="k${id}"></g></g></g>`};
+ T.innerHTML=`<defs><filter id="loadout" x="-15%" y="-40%" width="130%" height="180%">
+  <feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="5" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="8" result="r"/>
+  <feMorphology in="r" operator="dilate" radius="7" result="d1"/><feMorphology in="r" operator="dilate" radius="10" result="d2"/>
+  <feFlood flood-color="#2a0507"/><feComposite in2="d2" operator="in" result="line"/>
+  <feFlood flood-color="#f6e3c0"/><feComposite in2="d1" operator="in" result="cream"/>
+  <feOffset in="d2" dx="8" dy="12" result="so"/><feGaussianBlur in="so" stdDeviation="6" result="sb"/><feFlood flood-color="#000" flood-opacity=".7"/><feComposite in2="sb" operator="in" result="sh"/>
+  <feMerge><feMergeNode in="sh"/><feMergeNode in="line"/><feMergeNode in="cream"/><feMergeNode in="r"/></feMerge></filter>
+  <radialGradient id="hole"><stop offset="0" stop-color="#0a0405"/><stop offset=".55" stop-color="#2a0806"/><stop offset=".8" stop-color="#ff7a1a"/><stop offset="1" stop-color="#ffc23a" stop-opacity="0"/></radialGradient></defs>`+
+  word('THE',150,868,62,8,-8,1)+word('BONFIRE',546,1000,186,22,-4,2)+word('EXPERIENCE',556,1072,72,10,-3,3);
+ // cracks + chisel highlights on BONFIRE and EXPERIENCE
+ [['kw2',186,1000],['kw3',72,640]].forEach(([id,fs,wid])=>{let cr='';for(let i=0;i<(fs>100?16:7);i++){let x=(rnd()-.5)*wid*1.9,y=-rnd()*fs*.72;let d=`M${x} ${y}`;const a=rnd()*6.28;
+   for(let k=0;k<5;k++){x+=Math.cos(a+(rnd()-.5)*1.4)*(fs*.06+rnd()*fs*.1);y+=Math.sin(a+(rnd()-.5)*1.4)*(fs*.06+rnd()*fs*.1);d+=`L${x} ${y}`}
+   cr+=`<path d="${d}" stroke="#ffc78a" stroke-width="${fs*.018}" fill="none" transform="translate(-2 -2)" opacity=".7"/><path d="${d}" stroke="#2a0507" stroke-width="${fs*.022}" fill="none"/>`}
+  cr+=`<rect x="${-wid}" y="${-fs*.76}" width="${wid*2}" height="${fs*.14}" fill="#fff" opacity=".14"/>`;$(id).innerHTML=cr});
+ // burn hole in the O of BONFIRE
+ const tx=document.querySelector('#title g g text:last-of-type');
+ let o=null;document.querySelectorAll('#title text').forEach(t=>{if(t.textContent==='BONFIRE'&&t.getAttribute('fill')&&t.getAttribute('fill').startsWith('url'))o=t});
+ if(o){const e=o.getExtentOfChar(1);const hx=e.x+e.width*.6,hy=e.y+e.height*.45;let h=`<circle cx="${hx}" cy="${hy}" r="20" fill="url(#hole)"/>`;
+  for(let i=0;i<7;i++){const a=rnd()*6.28;let x=hx+Math.cos(a)*11,y=hy+Math.sin(a)*11,d=`M${x} ${y}`;for(let k=0;k<3;k++){x+=Math.cos(a+(rnd()-.5))*10;y+=Math.sin(a+(rnd()-.5))*10;d+=`L${x} ${y}`}h+=`<path d="${d}" stroke="#2a0507" stroke-width="3" fill="none"/>`}
+  $('kw2').innerHTML+=h}
+})();
+</script></body></html>
