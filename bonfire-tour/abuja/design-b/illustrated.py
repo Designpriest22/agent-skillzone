@@ -1,7 +1,8 @@
 # Abuja Design B: illustrated ink sketch + painted colour blocks on light paper (Toronto-flyer direction)
 import numpy as np, sys
 import backgrounds
-STYLE=sys.argv[1] if len(sys.argv)>1 else 'paper'
+STYLE=sys.argv[1] if len(sys.argv)>1 else 'burnt'
+TITLE=STYLE=='burnt'
 from PIL import Image, ImageFilter, ImageDraw
 rng=np.random.default_rng(5)
 W,H=2160,2700
@@ -69,11 +70,42 @@ fl*=np.clip(1-(yy-2560)/140,0,1)
 seam=cx+noise(20,9)*50
 orange=fl*(xx<seam); red=fl*(xx>=seam)
 img=bg.copy()
+if TITLE:
+    from PIL import ImageFont
+    FONT='../../fonts/Anton-Regular.ttf'
+    def textmask(txt,size,xy):
+        t=Image.new('L',(W,H),0); ImageDraw.Draw(t).text(xy,txt,font=ImageFont.truetype(FONT,size),fill=255)
+        return np.asarray(t).astype(np.float32)/255
+    def worn(m,seed,holes=0.10):
+        r=np.random.default_rng(seed)
+        rough=np.asarray(Image.fromarray((m*255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2.5))).astype(np.float32)/255
+        m=(rough+(r.random((H,W))-0.5)*0.5>0.5).astype(np.float32)          # chewed print edges
+        blot=noise(70,seed+1)
+        return m*((r.random((H,W))>holes)&(blot<2.6))                        # ink dropouts
+    big=worn(textmask('BONFIRE',585,(210,330-185*585/600)),41)
+    the=worn(textmask('THE',165,(216,150-190*165/600)),42)
+    behind=(big+the).clip(0,1)*(1-np.clip(al*1.4,0,1))                      # his head sits in front of the letters
+    INK=np.array([20,17,16],np.float32)
+    img=img*(1-behind[...,None]*0.96)+INK*behind[...,None]*0.96
 img=img*(1-orange[...,None]*0.95)+ORANGE*orange[...,None]*0.95
 img=img*(1-red[...,None]*0.95)+RED*red[...,None]*0.95
 inkcol=np.array([18,16,18],np.float32)
 img=img*(1-inkA[...,None])+inkcol*inkA[...,None]
 
+if TITLE:
+    sz=345; ex=textmask('EXPERIENCE',sz,(0,0))
+    ys,xs=np.nonzero(ex); ex=ex[ys.min():ys.max()+1,xs.min():xs.max()+1]
+    exI=Image.fromarray((ex*255).astype(np.uint8)).rotate(3,expand=True,resample=Image.BICUBIC)
+    lay2=Image.new('L',(W,H),0); px=(W-exI.width)//2; py=905
+    lay2.paste(exI,(px,py)); em=np.asarray(lay2).astype(np.float32)/255
+    brush=np.asarray(Image.fromarray((rng.random((H//40,W//2))*255).astype(np.uint8)).resize((W,H),Image.BICUBIC)).astype(np.float32)/255
+    em=em*((brush*0.6+rng.random((H,W))*0.6)>0.32)                         # horizontal dry-brush drag
+    em=worn(em,43,0.04)
+    grad=np.clip((xx-px)/exI.width,0,1)[...,None]
+    PAINT=ORANGE*(1-grad)+RED*grad
+    shadow=np.roll(np.roll(em,9,0),7,1)*(1-em)
+    img=img*(1-shadow[...,None]*0.45)
+    img=img*(1-em[...,None]*0.95)+PAINT*em[...,None]*0.95
 canvas=Image.fromarray(np.clip(img,0,255).astype(np.uint8)).convert('RGBA')
 d=ImageDraw.Draw(canvas)
 
