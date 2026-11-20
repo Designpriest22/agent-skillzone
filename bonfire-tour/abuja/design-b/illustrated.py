@@ -1,5 +1,7 @@
 # Abuja Design B: illustrated ink sketch + painted colour blocks on light paper (Toronto-flyer direction)
-import numpy as np
+import numpy as np, sys
+import backgrounds
+STYLE=sys.argv[1] if len(sys.argv)>1 else 'paper'
 from PIL import Image, ImageFilter, ImageDraw
 rng=np.random.default_rng(5)
 W,H=2160,2700
@@ -12,9 +14,8 @@ def noise(f,seed,blur=None):
 RED=np.array([214,28,30],np.float32); ORANGE=np.array([244,112,28],np.float32)
 
 # ---------- paper background
-paper=np.array([224,223,219],np.float32)
-bg=paper+noise(6,1)[...,None]*5+noise(40,2)[...,None]*3+rng.normal(0,5,(H,W,1))
-bg*=np.clip(1.03-0.12*np.hypot((xx-W/2)/W,(yy-H/2)/H)**2*3,0.85,1)[...,None]
+_=rng.normal(0,5,(H,W,1))   # keep the portrait's random stream unchanged
+bg=backgrounds.make(STYLE)
 
 # ---------- place portrait
 cut=Image.open('../../victony_cutout.png').convert('RGBA')
@@ -93,5 +94,5 @@ canvas.alpha_composite(Image.fromarray(smL))
 
 # ---------- final grain
 arr=np.asarray(canvas.convert('RGB')).astype(np.float32)+rng.normal(0,5,(H,W,1))
-Image.fromarray(np.clip(arr,0,255).astype(np.uint8)).save('abuja_b_stage2.png')
-Image.open('abuja_b_stage2.png').resize((540,675)).save('/tmp/claude-0/-home-user-agent-skillzone/d0ba4cc2-415a-503a-8bdc-a3ac578a1168/scratchpad/b.jpg')
+out='abuja_b_stage2.png' if STYLE=='paper' else f'bg-options/abuja_b_{STYLE}.png'
+Image.fromarray(np.clip(arr,0,255).astype(np.uint8)).save(out)
