@@ -1,0 +1,23 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="base.css"><style>
+.p{background:#070507}
+.glow{position:absolute;left:140px;top:380px;width:800px;height:800px;background:radial-gradient(circle,rgba(255,110,30,.28),transparent 62%)}
+.vic{left:20px;top:180px;width:1040px}
+.tag{left:0;right:0;top:64px;text-align:center;font:300 20px Oswald;letter-spacing:.7em;color:#d9cbb6}
+.the{left:0;right:0;top:868px;text-align:center;font:500 26px Oswald;letter-spacing:1.1em;color:#ffb36a;padding-left:1.1em}
+.big{left:0;right:0;top:896px;text-align:center;font:400 236px/0.9 'Bebas Neue';letter-spacing:.06em;color:#f6ead8;text-shadow:0 0 30px rgba(255,120,40,.55),0 0 90px rgba(255,90,20,.35)}
+.exp{left:0;right:0;top:1100px;text-align:center;font:500 30px Oswald;letter-spacing:1.05em;color:#ffb36a;padding-left:1.05em}
+.credits{left:80px;right:80px;top:1170px;text-align:center;font:300 17px/1.35 Oswald;letter-spacing:.14em;color:#a89c8c;text-transform:uppercase}
+.credits b{font-weight:600;color:#e9dccb}
+.date{left:0;right:0;top:1262px;text-align:center;font:500 22px Oswald;letter-spacing:.5em;color:#f6ead8}
+.lg{left:0;right:0;bottom:22px;display:flex;justify-content:center;gap:30px;align-items:center;opacity:.85}
+</style></head><body><div class="p"><div class="glow"></div>
+<img class="a vic" src="assets/t2_rim.png">
+<canvas id="em" width="1080" height="1350" class="a" style="left:0;top:0"></canvas>
+<div class="a tag">EVERY FIRE STARTS WITH A SPARK</div>
+<div class="a the">THE</div><div class="a big">BONFIRE</div><div class="a exp">EXPERIENCE</div>
+<div class="a credits"><b>CAPITAL BLOCK PARTY</b> PRESENTS A NIGHT AROUND THE FIRE · STARRING <b>VICTONY</b> · IN ASSOCIATION WITH <b>THE PLUG</b> &amp; <b>OUTLAWVILLE</b> · TICKETS AT WWW.OUTLAWVILLE.WORLD &amp; MAINLANDBLOCKPARTY.COM</div>
+<div class="a date">ABUJA · FRIDAY 4TH DECEMBER</div>
+<div class="grain" style="opacity:.16"></div></div>
+<script>const c=document.getElementById('em').getContext('2d');let s=3;const r=()=>{s=(s*16807)%2147483647;return s/2147483647};
+for(let i=0;i<260;i++){let x=540+(r()-.5)*1060,y=1350-r()**.8*1320;if(Math.abs(x-540)<240&&y>250&&y<820)continue;const R=r()**4*2.2+.5;const g=c.createRadialGradient(x,y,0,x,y,R*4);
+g.addColorStop(0,'rgba(255,200,120,'+(.5+r()*.5)+')');g.addColorStop(.25,'rgba(255,110,30,.6)');g.addColorStop(1,'rgba(255,80,20,0)');c.fillStyle=g;c.beginPath();c.arc(x,y,R*4,0,7);c.fill()}</script></body></html>

@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Oswald:wght@300;400;500;600;700&family=Inter:wght@400;500;700;800;900&family=Archivo+Black&family=Mrs+Saint+Delafield&family=Yellowtail&family=Space+Grotesk:wght@500;700&family=Space+Mono:wght@400;700&family=Fraunces:ital,opsz,wght@1,9..144,900&display=block');
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1350px;overflow:hidden}
+.p{position:relative;width:1080px;height:1350px;overflow:hidden}
+.a{position:absolute}
+.grain{position:absolute;inset:0;background:url(assets/grain.png) 0 0/1080px 1350px;opacity:.13;mix-blend-mode:overlay;pointer-events:none}
+.spark{display:inline-block}
