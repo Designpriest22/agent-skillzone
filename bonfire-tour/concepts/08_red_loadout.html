@@ -3,14 +3,14 @@
 .L{position:absolute;inset:0}.hidden{visibility:hidden}
 .mottle{background:radial-gradient(ellipse at 50% 28%,rgba(255,70,55,.35),transparent 60%),radial-gradient(ellipse at 50% 100%,rgba(80,0,0,.5),transparent 55%)}
 .cross{position:absolute;left:150px;top:-190px;width:780px;opacity:.6}
-.vic{position:absolute;left:40px;top:-250px;width:1000px}
+.vic{position:absolute;left:-35px;top:-360px;width:1150px}
 .chest{position:absolute;left:0;right:0;top:1180px;bottom:0;background:linear-gradient(#0d0b0c00,#0d0b0c 70px)}
 .strip{position:absolute;background:#f1ebe0;padding:9px;box-shadow:10px 12px 0 rgba(0,0,0,.42)}
-.win{position:relative;overflow:hidden}.win img{position:absolute;width:1000px}
+.win{position:relative;overflow:hidden}.win img{position:absolute;width:1150px}
 .t3{position:absolute;left:0;right:0;text-align:center;font-family:Anton;color:#e5161e}
-.pres{position:absolute;left:0;right:0;top:786px;text-align:center;font:700 24px Oswald;letter-spacing:.06em;color:#f1ebe0}
+.pres{position:absolute;left:0;right:0;top:22px;text-align:center;font:700 24px Oswald;letter-spacing:.06em;color:#f1ebe0}
 .sc{position:absolute;left:0;right:0;top:1076px;text-align:center;font:400 140px/1 'Mrs Saint Delafield';color:#f1ebe0;transform:rotate(-6deg)}
-.dt,.ct{position:absolute;top:1214px;font:400 42px Anton;color:#e5161e}
+.dt,.ct{position:absolute;top:1196px;font:400 42px Anton;color:#e5161e}
 .ft{position:absolute;left:0;right:0;top:1274px;text-align:center;font:600 15px Oswald;letter-spacing:.36em;color:#f1ebe0}
 .lg{position:absolute;left:0;right:0;top:1302px;display:flex;justify-content:center;gap:26px;align-items:center}
 .lg img{height:30px}
@@ -24,9 +24,9 @@
 <div class="L" data-layer="Title - red 3D">
  <div class="pres">CAPITAL BLOCK PARTY PRESENTS:</div>
  <svg class="L" viewBox="0 0 1080 1350" id="title"></svg></div>
-<div class="L" data-layer="Victony logos"><img src="../logos/victony_wordmark.png" style="position:absolute;left:50%;top:1090px;width:270px;transform:translateX(-50%);filter:drop-shadow(0 0 14px rgba(229,22,30,.75)) drop-shadow(3px 4px 0 #000)"><img src="../logos/victony_cross.png" style="position:absolute;left:62px;top:1060px;width:140px;filter:drop-shadow(0 0 12px rgba(229,22,30,.7))"><img src="../logos/victony_cross.png" style="position:absolute;right:62px;top:1060px;width:140px;filter:drop-shadow(0 0 12px rgba(229,22,30,.7))"></div>
+<div class="L" data-layer="Victony logos"><img src="../logos/victony_wordmark.png" style="position:absolute;left:50%;top:1140px;width:200px;transform:translateX(-50%);filter:drop-shadow(0 0 14px rgba(229,22,30,.75)) drop-shadow(3px 4px 0 #000)"><img src="../logos/victony_cross.png" style="position:absolute;left:70px;top:1128px;width:90px;filter:drop-shadow(0 0 12px rgba(229,22,30,.7))"><img src="../logos/victony_cross.png" style="position:absolute;right:70px;top:1128px;width:90px;filter:drop-shadow(0 0 12px rgba(229,22,30,.7))"></div>
 <div class="L" data-layer="Info - date, city, tickets, logos">
- <div class="dt" style="left:84px" id="dt">FRI 04.12</div><div class="ct" style="right:84px" id="ct">ABUJA</div>
+ <div class="dt" style="left:176px" id="dt">FRI 04.12</div><div class="ct" style="right:176px" id="ct">ABUJA</div>
  <div class="ft">TICKETS · WWW.OUTLAWVILLE.WORLD · MAINLANDBLOCKPARTY.COM</div>
  <div class="lg"><img src="../logos/the_plug.png" style="filter:brightness(0) invert(.95)"><img src="../logos/capital_block_party.png"><img src="../logos/outlawville.png" style="filter:invert(1)"></div></div>
 <div class="L" data-layer="Texture - grain + dust"><div class="grain" style="opacity:.16"></div><img src="../design-c/assets/grunge.png" style="width:1080px;height:1350px;opacity:.35;mix-blend-mode:multiply"></div>
@@ -67,10 +67,20 @@ const hatch=(x0,y0,x1,y1,step,ang=1)=>{let s='';for(let x=x0;x<x1;x+=step){s+=`M
   <g filter="url(#worn)" fill="#14060a" opacity=".85"><path d="${d}"/><path d="${tip(cx-arm+40,cy,'l')}"/><path d="${tip(cx+arm-40,cy,'r')}"/><path d="${tip(cx,top+40,'u')}"/>
   <circle cx="${cx}" cy="${cy}" r="${th*1.05}"/></g>
   <g fill="none" stroke="#1a080b" stroke-width="5" opacity=".5" filter="url(#sk)"><circle cx="${cx}" cy="${cy}" r="${th*1.6}"/></g>`})();
-// ---- two paper cuts: eyes + mouth (lifted strips with cream border)
-(()=>{const X0=40,Y0=-250;let h='';
- [[220,402,540,118,-3,-14,-10],[355,606,300,104,2.5,16,8]].forEach(([x,y,w,hh,rot,dx,dy])=>{
-  h+=`<div class="strip" style="left:${x-9+dx}px;top:${y-9+dy}px;transform:rotate(${rot}deg)"><div class="win" style="width:${w}px;height:${hh}px"><img src="assets/t1b_threshold_dark.png" style="left:${X0-x}px;top:${Y0-y}px"></div></div>`});
+// ---- two paper cuts (v2): cut-out hole left in the photo + lifted torn strip, enlarged, taped
+(()=>{const X0=-35,Y0=-360;let h='';
+ const torn=(w,hh,amp,step)=>{const p=[];const j=()=>(rnd()*amp).toFixed(1);
+  for(let x=0;x<=w;x+=step)p.push(`${x}px ${j()}px`);for(let y=0;y<=hh;y+=step)p.push(`${w-j()}px ${y}px`);
+  for(let x=w;x>=0;x-=step)p.push(`${x}px ${hh-j()}px`);for(let y=hh;y>=0;y-=step)p.push(`${j()}px ${y}px`);return `polygon(${p.join(',')})`};
+ const cuts=[[205,398,540,124,-4.5,-26,-30,1.07],[340,622,310,104,3.5,24,18,1.08]];
+ // holes where the strips were cut from
+ cuts.forEach(([x,y,w,hh])=>{h+=`<div style="position:absolute;left:${x-4}px;top:${y-4}px;width:${w+8}px;height:${hh+8}px;background:#160608;box-shadow:inset 0 6px 14px #000;clip-path:${torn(w+8,hh+8,5,10)}"></div>`});
+ cuts.forEach(([x,y,w,hh,rot,dx,dy,sc],i)=>{const B=12;
+  h+=`<div style="position:absolute;left:${x-B+dx}px;top:${y-B+dy}px;transform:rotate(${rot}deg) scale(${sc});filter:drop-shadow(14px 18px 0 rgba(0,0,0,.45)) drop-shadow(0 6px 14px rgba(0,0,0,.6))">
+   <div style="background:#efe6d2;padding:${B}px;clip-path:${torn(w+2*B,hh+2*B,9,12)}">
+    <div class="win" style="width:${w}px;height:${hh}px;clip-path:${torn(w,hh,3,14)}"><img src="assets/t1b_threshold_dark.png" style="left:${X0-x}px;top:${Y0-y}px;filter:contrast(1.15)"></div></div>
+   <div style="position:absolute;${i?'right:-30px;top:-14px;transform:rotate(38deg)':'left:-34px;top:-12px;transform:rotate(-34deg)'};width:96px;height:30px;background:rgba(232,220,190,.82);clip-path:${torn(96,30,4,8)}"></div>
+   <div style="position:absolute;${i?'left:-26px;bottom:-12px;transform:rotate(30deg)':'right:-30px;bottom:-10px;transform:rotate(-28deg)'};width:86px;height:28px;background:rgba(232,220,190,.82);clip-path:${torn(86,28,4,8)}"></div></div>`});
  $('cuts').innerHTML=h})();
 // ---- Loadout-style 3D title: chunky chiseled letters, jittered, cracked, burn hole, cream outline
 (()=>{const T=$('title');
@@ -84,19 +94,16 @@ const hatch=(x0,y0,x1,y1,step,ang=1)=>{let s='';for(let x=x0;x<x1;x+=step){s+=`M
   const id='w'+seedOff;
   return `<g transform="translate(${cx} ${cy}) rotate(${rotW})"><defs><linearGradient id="f${id}" x1="0" y1="${-fs*.75}" x2="0" y2="0" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff8a3a"/><stop offset=".5" stop-color="#f2401f"/><stop offset="1" stop-color="#c8141a"/></linearGradient>
    <clipPath id="c${id}">${t('')}</clipPath></defs>
-   <g filter="url(#loadout)">${ext}${t(`fill="url(#f${id})" stroke="#2a0507" stroke-width="${fs*.025}" paint-order="stroke"`)}
+   <g filter="url(#loadout)">${ext}${t(`fill="url(#f${id})"`)}
    <g clip-path="url(#c${id})" id="k${id}"></g></g></g>`};
  T.innerHTML=`<defs><filter id="loadout" x="-15%" y="-40%" width="130%" height="180%">
   <feTurbulence type="fractalNoise" baseFrequency=".03" numOctaves="2" seed="5" result="t"/><feDisplacementMap in="SourceGraphic" in2="t" scale="8" result="r"/>
-  <feMorphology in="r" operator="dilate" radius="7" result="d1"/><feMorphology in="r" operator="dilate" radius="10" result="d2"/>
-  <feFlood flood-color="#2a0507"/><feComposite in2="d2" operator="in" result="line"/>
-  <feFlood flood-color="#f6e3c0"/><feComposite in2="d1" operator="in" result="cream"/>
-  <feOffset in="d2" dx="8" dy="12" result="so"/><feGaussianBlur in="so" stdDeviation="6" result="sb"/><feFlood flood-color="#000" flood-opacity=".7"/><feComposite in2="sb" operator="in" result="sh"/>
-  <feMerge><feMergeNode in="sh"/><feMergeNode in="line"/><feMergeNode in="cream"/><feMergeNode in="r"/></feMerge></filter>
+  <feOffset in="r" dx="8" dy="12" result="so"/><feGaussianBlur in="so" stdDeviation="7" result="sb"/><feFlood flood-color="#000" flood-opacity=".75"/><feComposite in2="sb" operator="in" result="sh"/>
+  <feMerge><feMergeNode in="sh"/><feMergeNode in="r"/></feMerge></filter>
   <radialGradient id="hole"><stop offset="0" stop-color="#0a0405"/><stop offset=".55" stop-color="#2a0806"/><stop offset=".8" stop-color="#ff7a1a"/><stop offset="1" stop-color="#ffc23a" stop-opacity="0"/></radialGradient></defs>`+
-  word('THE',150,868,62,8,-8,1)+word('BONFIRE',546,1000,186,22,-4,2)+word('EXPERIENCE',556,1072,72,10,-3,3);
+  word('THE',128,872,64,8,-8,1)+word('BONFIRE',548,990,168,20,-4,2)+word('EXPERIENCE',540,1122,148,18,-4,3);
  // cracks + chisel highlights on BONFIRE and EXPERIENCE
- [['kw2',186,1000],['kw3',72,640]].forEach(([id,fs,wid])=>{let cr='';for(let i=0;i<(fs>100?16:7);i++){let x=(rnd()-.5)*wid*1.9,y=-rnd()*fs*.72;let d=`M${x} ${y}`;const a=rnd()*6.28;
+ [['kw2',168,1000],['kw3',148,1100]].forEach(([id,fs,wid])=>{let cr='';for(let i=0;i<(fs>100?16:7);i++){let x=(rnd()-.5)*wid*1.9,y=-rnd()*fs*.72;let d=`M${x} ${y}`;const a=rnd()*6.28;
    for(let k=0;k<5;k++){x+=Math.cos(a+(rnd()-.5)*1.4)*(fs*.06+rnd()*fs*.1);y+=Math.sin(a+(rnd()-.5)*1.4)*(fs*.06+rnd()*fs*.1);d+=`L${x} ${y}`}
    cr+=`<path d="${d}" stroke="#ffc78a" stroke-width="${fs*.018}" fill="none" transform="translate(-2 -2)" opacity=".7"/><path d="${d}" stroke="#2a0507" stroke-width="${fs*.022}" fill="none"/>`}
   cr+=`<rect x="${-wid}" y="${-fs*.76}" width="${wid*2}" height="${fs*.14}" fill="#fff" opacity=".14"/>`;$(id).innerHTML=cr});
