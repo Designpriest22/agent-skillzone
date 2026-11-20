@@ -244,7 +244,7 @@ def svg(box, inner, label):
 
 
 # ------------------------------------------------------------ combined site plan
-def combined():
+def combined(tags=True):
     """Full site construct (organiser's combined plan), drawn upright in its own pixel space.
     Arena detail drawing sits rotated 90 deg clockwise on site; validation and table
     parking drawings sit rotated 90 deg anticlockwise."""
@@ -402,7 +402,8 @@ def combined():
             _, Y2 = cw(s["b"], s["axis"])
             r = R(round(X1 - 4, 1), round(Y1, 1), 8, round(Y2 - Y1, 1), ORANGE, 1)
             o.append(f'<g class="slot" data-slot="{s["id"]}">{seg(r, s["id"])}</g>')
-    o += [tag(600, 552, "V10–V17", "39 × 10 ft", "V"), tag(537, 780, "V02–V09", "32 × 10 ft", "V"),
+    if tags:
+      o += [tag(600, 552, "V10–V17", "39 × 10 ft", "V"), tag(537, 780, "V02–V09", "32 × 10 ft", "V"),
           tag(352, 508, "V01", "36 × 10 ft", "V"), tag(811, 813, "V18–V19", "80 × 10 ft", "V"),
           tag(936, 815, "T01–T05", "50 × 10 ft", "T"), tag(907, 668, "T06–T08", "49 × 10 ft", "T"),
           tag(1131, 815, "T09–T11", "32 × 10 ft", "T"),
