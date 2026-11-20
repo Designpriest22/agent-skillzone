@@ -1,0 +1,92 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Bowlby+One&family=Permanent+Marker&family=Special+Elite&family=Oswald:wght@500;600;700&family=Rubik+Mono+One&display=block" rel="stylesheet">
+<style>
+:root{--paper:#e9e4d8;--ink:#161214;--or:#ff5b1f;--vi:#7b5cff}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1350px;overflow:hidden;background:transparent}
+.p{position:relative;width:1080px;height:1350px;overflow:hidden}
+.L{position:absolute;inset:0}.hidden{visibility:hidden}
+.distress{-webkit-mask:url(assets/distress.png) 0 0/1080px 1350px;mask:url(assets/distress.png) 0 0/1080px 1350px}
+.d2{-webkit-mask:url(assets/distress.png) -300px -500px/1300px 1625px;mask:url(assets/distress.png) -300px -500px/1300px 1625px}
+/* title */
+.bon{position:absolute;left:0;right:0;top:92px;text-align:center;font:400 318px/1 Anton;letter-spacing:-4px;color:var(--or);transform:rotate(-3deg)}
+.the{position:absolute;top:112px;left:52px;background:var(--ink);color:var(--paper);font:400 54px/1 Anton;padding:8px 16px 6px;transform:rotate(-8deg)}
+/* victony */
+.vo{position:absolute;left:96px;top:386px;width:950px}
+.vh{position:absolute;left:84px;top:378px;width:950px}
+/* ransom EXPERIENCE */
+.ransom{position:absolute;left:0;right:0;top:968px;text-align:center;transform:rotate(-4deg);white-space:nowrap}
+.ransom span{display:inline-block;margin:0 1px;padding:4px 8px 2px;line-height:1;vertical-align:middle;box-shadow:4px 5px 0 rgba(0,0,0,.35)}
+/* info */
+.city{position:absolute;left:30px;top:600px;background:var(--ink);color:var(--paper);font:400 112px/1 Anton;padding:10px 18px 4px;transform:rotate(-90deg) translate(-100%,0);transform-origin:0 0}
+.date{position:absolute;right:36px;top:520px;background:var(--or);color:var(--ink);font:400 50px/1 Anton;padding:10px 14px 6px;transform:rotate(6deg);text-align:center}
+.date small{display:block;font:600 18px Oswald;letter-spacing:.3em;margin-bottom:4px}
+.fine{position:absolute;right:34px;top:700px;width:168px;font:400 11.5px/1.32 'Special Elite';color:var(--ink);text-align:justify}
+.fine b{font-family:Anton;font-weight:400;font-size:20px;display:block;line-height:1;margin-bottom:4px}
+.tape{position:absolute;width:120px;height:34px;background:rgba(236,226,196,.82);box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.hdr{position:absolute;top:14px;left:0;right:0;display:flex;justify-content:space-between;align-items:center;padding:0 36px}
+.hdr .l{display:flex;align-items:center;gap:12px;font:600 15px Oswald;letter-spacing:.4em;color:var(--ink)}
+.foot{position:absolute;left:0;right:0;bottom:0;height:122px;background:var(--ink)}
+.foot .row{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 34px}
+.foot .mid{text-align:center;font:700 22px Oswald;letter-spacing:.07em;color:var(--paper);line-height:1.55}
+.foot .mid b{color:var(--or)} .foot .mid i{font-style:normal;color:var(--vi)}
+.wm{position:absolute;left:392px;top:1064px;width:290px;transform:rotate(-4deg);filter:drop-shadow(0 0 10px rgba(255,91,31,.8)) drop-shadow(3px 3px 0 #161214)}
+.wmlab{position:absolute;left:362px;top:1080px;width:332px;height:96px;background:var(--paper);transform:rotate(-4deg);box-shadow:5px 6px 0 rgba(0,0,0,.3)}
+</style></head><body><div class="p">
+
+<div class="L" data-layer="Background - photocopy paper"><img src="assets/paper.png" style="width:1080px;height:1350px"></div>
+<svg class="L" data-layer="Static burst (orange)" viewBox="0 0 1080 1350" id="burst"></svg>
+<div class="L distress" data-layer="Title - BONFIRE 3D"><div class="bon" id="bon">BONFIRE</div></div>
+<div class="L" data-layer="Victony - orange offset print"><img class="vo" src="assets/victony_orange.png"></div>
+<div class="L" data-layer="Victony - halftone cutout"><img class="vh" src="assets/victony_halftone.png"></div>
+<svg class="L" data-layer="Marker scribbles" viewBox="0 0 1080 1350" id="scrib"></svg>
+<div class="L" data-layer="Title - THE"><div class="the d2">THE</div></div>
+<div class="L" data-layer="Title - EXPERIENCE ransom letters"><div class="ransom" id="ransom"></div></div>
+<div class="L" data-layer="Victony - wordmark"><img class="wm" src="../logos/victony_wordmark.png"></div>
+<div class="L" data-layer="Info - city + date + fine print"><div class="city d2" id="city">ABUJA</div><div class="date d2" id="date"><small>FRIDAY</small>4TH DEC</div>
+ <div class="fine" id="fine"></div><div class="tape" style="right:6px;top:512px;transform:rotate(38deg);width:70px"></div></div>
+<svg class="L" data-layer="Barcode" viewBox="0 0 1080 1350" id="bar"></svg>
+<div class="L" data-layer="Header - Capital Block Party presents"><div class="hdr"><div class="l"><img src="assets/cbp_ink.png" style="height:64px">PRESENTS</div><img src="../logos/outlawville.png" style="height:44px"></div></div>
+<div class="L" data-layer="Footer - tickets + logos"><div class="foot">
+ <div class="row"><img src="../logos/the_plug.png" style="height:58px">
+  <div class="mid"><b>TICKETS AT</b> WWW.OUTLAWVILLE.WORLD <i>■</i> MAINLANDBLOCKPARTY.COM<br><span style="font:500 14px Oswald;letter-spacing:.4em;color:#9a948a">CAPITAL BLOCK PARTY ✕ THE PLUG ✕ OUTLAWVILLE</span></div>
+  <img src="../logos/capital_block_party.png" style="height:66px"></div></div></div>
+<div class="L" data-layer="Grunge - dust + scratches"><img src="assets/grunge.png" style="width:1080px;height:1350px"></div>
+</div>
+<script>
+const P=new URLSearchParams(location.search);
+const CITY=P.get('city')||'ABUJA', DAY=P.get('day')||'FRIDAY', DATE=P.get('date')||'4TH DEC';
+const $=id=>document.getElementById(id);
+$('city').textContent=CITY; $('date').innerHTML=`<small>${DAY}</small>${DATE}`;
+let seed=5;const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+// gritty 3D: stacked hard extrusion in ink + violet edge
+(()=>{let sh=[];for(let i=1;i<=16;i++)sh.push(`${i*.6}px ${i}px 0 #161214`);sh.push(`10px 17px 0 #7b5cff`,`11px 19px 0 #161214`);
+ $('bon').style.textShadow=sh.join(',')})();
+// static burst: jagged lightning rays
+(()=>{const cx=540,cy=560;let s='';const n=22;
+ for(let i=0;i<n;i++){const a=i/n*Math.PI*2+(rnd()-.5)*.1,R=520+rnd()*260,w=.07;
+  const a1=a-w,a2=a+w,mid=R*.55;
+  s+=`<path d="M${cx} ${cy}L${cx+Math.cos(a1)*mid} ${cy+Math.sin(a1)*mid}L${cx+Math.cos(a1+.05)*mid*1.05} ${cy+Math.sin(a1+.05)*mid*1.05}L${cx+Math.cos(a)*R} ${cy+Math.sin(a)*R}L${cx+Math.cos(a2-.05)*mid*.95} ${cy+Math.sin(a2-.05)*mid*.95}L${cx+Math.cos(a2)*mid} ${cy+Math.sin(a2)*mid}Z" fill="#ff5b1f"/>`}
+ $('burst').innerHTML=`<g opacity=".95">${s}</g>`})();
+// ransom-note EXPERIENCE
+(()=>{const fonts=["Anton","'Bowlby One'","'Rubik Mono One'","'Special Elite'","'Permanent Marker'","Oswald"];
+ const sty=[['#161214','#e9e4d8'],['#ff5b1f','#161214'],['#e9e4d8','#161214'],['#7b5cff','#e9e4d8'],['#161214','#ff5b1f'],['#f3efe5','#161214']];
+ let h='';[...'EXPERIENCE'].forEach((ch,i)=>{const f=fonts[(i*7+3)%fonts.length],[bg,fg]=sty[(i*5+1)%sty.length];
+  const size=[78,92,70,86,96,74][(i*3)%6],rot=(rnd()-.5)*14,dy=(rnd()-.5)*16;
+  h+=`<span style="font-family:${f};font-size:${size}px;background:${bg};color:${fg};transform:rotate(${rot}deg) translateY(${dy}px)">${ch}</span>`});
+ $('ransom').innerHTML=h})();
+// marker scribbles: circle around the eyes, arrow + handwriting, stars, underline
+$('scrib').innerHTML=`<g fill="none" stroke-linecap="round" stroke-linejoin="round">
+ 
+ <path d="M845 920 C810 915 785 895 760 865" stroke="#161214" stroke-width="6"/><path d="M772 893 L756 861 L790 867" stroke="#161214" stroke-width="6"/>
+ <path d="M90 1160 l18 -40 l18 40 l-40 -26 l46 0 z" stroke="#ff5b1f" stroke-width="5"/>
+ <path d="M970 1200 l14 -30 l14 30 l-30 -20 l34 0 z" stroke="#161214" stroke-width="4"/>
+ <path d="M760 1212 C840 1206 900 1214 990 1204" stroke="#ff5b1f" stroke-width="6" opacity=".8"/></g>
+ <text x="852" y="950" font-family="Permanent Marker" font-size="34" fill="#161214" transform="rotate(-8 860 950)">LIVE!!</text>
+ `;
+// fine print column
+$('fine').innerHTML=`<b>WARNING:</b>THIS EVENT CONTAINS OPEN FLAMES, LOUD BASS AND ZERO CHILL. BRING YOUR PEOPLE. BRING YOUR ENERGY. COME AS YOU BURN. THE FIRE STARTS WHEN YOU ARRIVE AND ENDS WHEN THE SUN SAYS SO. CAPITAL BLOCK PARTY PRESENTS ONE NIGHT AROUND THE FIRE WITH VICTONY. NO REFUNDS ON GOOD MEMORIES. ${CITY} ✕ ${DATE}.`;
+// barcode
+(()=>{let s='',x=0;while(x<190){const w=1+Math.floor(rnd()*4);if(rnd()>.4)s+=`<rect x="${846+x}" y="1110" width="${w}" height="64" fill="#161214"/>`;x+=w+1}
+ s+=`<text x="940" y="1194" text-anchor="middle" font-family="Special Elite" font-size="13" fill="#161214">BNFR-${CITY.slice(0,3)}-0412</text>`;$('bar').innerHTML=s})();
+</script></body></html>

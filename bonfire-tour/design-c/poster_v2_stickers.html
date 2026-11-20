@@ -1,0 +1,177 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Bungee&family=Permanent+Marker&family=VT323&family=Oswald:wght@500;600;700&display=block" rel="stylesheet">
+<style>
+:root{--cream:#ffdea2;--ink:#17121f;--brown:#3e302c;--violet:#7b5cff;--orange:#ff7a1a;--red:#e0261f;--gold:#ffc23a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1350px;overflow:hidden;background:transparent}
+.p{position:relative;width:1080px;height:1350px;overflow:hidden}
+.L{position:absolute;inset:0}
+.hidden{visibility:hidden}
+.stk{filter:url(#sticker)}
+.hdr{position:absolute;top:26px;left:0;right:0;text-align:center}
+.hdr img{width:178px}
+.hdr div{font:600 15px Oswald;letter-spacing:.55em;color:var(--cream);margin-top:2px;padding-left:.55em}
+.vic{position:absolute;left:130px;top:392px;width:820px}
+.wm{position:absolute;left:50%;top:1010px;width:330px;transform:translateX(-50%) rotate(-3deg);filter:drop-shadow(0 0 12px rgba(255,122,26,.75)) drop-shadow(3px 3px 0 #17121f)}
+.note{position:absolute;font-family:'Permanent Marker';color:var(--ink);text-align:center;line-height:1.05}
+.zine{position:absolute;font:500 11px/1.25 Oswald;color:var(--cream);opacity:.75;letter-spacing:.06em;white-space:nowrap}
+.foot{position:absolute;left:0;right:0;bottom:0;height:136px;background:var(--cream)}
+.foot .row{position:absolute;left:0;right:0;top:22px;bottom:0;display:flex;align-items:center;justify-content:space-between;padding:0 36px}
+.foot .mid{text-align:center;font:700 23px Oswald;letter-spacing:.06em;color:var(--ink);line-height:1.5}
+.foot .mid b{color:var(--red)} .foot .mid i{font-style:normal;color:var(--violet)}
+</style></head><body><div class="p" id="poster">
+<svg width="0" height="0" style="position:absolute"><defs>
+ <!-- die-cut sticker: cream border + thin ink line + drop shadow -->
+ <filter id="sticker" x="-20%" y="-20%" width="140%" height="140%">
+  <feMorphology in="SourceAlpha" operator="dilate" radius="9" result="d1"/>
+  <feMorphology in="SourceAlpha" operator="dilate" radius="12" result="d2"/>
+  <feFlood flood-color="#17121f"/><feComposite in2="d2" operator="in" result="line"/>
+  <feFlood flood-color="#ffdea2"/><feComposite in2="d1" operator="in" result="paper"/>
+  <feOffset in="d2" dx="7" dy="9" result="so"/><feGaussianBlur in="so" stdDeviation="5" result="sb"/>
+  <feFlood flood-color="#000" flood-opacity=".55"/><feComposite in2="sb" operator="in" result="shadow"/>
+  <feMerge><feMergeNode in="shadow"/><feMergeNode in="line"/><feMergeNode in="paper"/><feMergeNode in="SourceGraphic"/></feMerge>
+ </filter>
+ <filter id="stickerBig" x="-20%" y="-30%" width="140%" height="160%">
+  <feTurbulence type="fractalNoise" baseFrequency=".035" numOctaves="2" seed="3" result="t"/>
+  <feDisplacementMap in="SourceGraphic" in2="t" scale="9" result="rough"/>
+  <feMorphology in="rough" operator="dilate" radius="14" result="d1"/>
+  <feMorphology in="rough" operator="dilate" radius="19" result="d2"/>
+  <feFlood flood-color="#17121f"/><feComposite in2="d2" operator="in" result="line"/>
+  <feFlood flood-color="#ffdea2"/><feComposite in2="d1" operator="in" result="paper"/>
+  <feOffset in="d2" dx="10" dy="14" result="so"/><feGaussianBlur in="so" stdDeviation="7" result="sb"/>
+  <feFlood flood-color="#000" flood-opacity=".6"/><feComposite in2="sb" operator="in" result="shadow"/>
+  <feMerge><feMergeNode in="shadow"/><feMergeNode in="line"/><feMergeNode in="paper"/><feMergeNode in="rough"/></feMerge>
+ </filter>
+ <filter id="riso"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2" seed="9"/><feColorMatrix values="0 0 0 0 .09 0 0 0 0 .07 0 0 0 0 .12 0 0 0 -2.4 1.3"/></filter>
+ <pattern id="dots" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2.6" fill="#7b5cff"/></pattern>
+ <pattern id="dots2" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="2" fill="#ff7a1a"/></pattern>
+ <radialGradient id="fadeR"><stop offset=".25" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
+ <mask id="dotfade"><rect width="1080" height="1350" fill="url(#fadeR)"/></mask>
+</defs></svg>
+
+<svg class="L" data-layer="Background - ink" viewBox="0 0 1080 1350"><rect width="1080" height="1350" fill="#17121f"/>
+ <radialGradient id="vg" cx="540" cy="760" r="760" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#2a1d48"/><stop offset="1" stop-color="#120d19"/></radialGradient><rect width="1080" height="1350" fill="url(#vg)"/></svg>
+<svg class="L" data-layer="Burst rays + halftone" viewBox="0 0 1080 1350" id="burst"></svg>
+<svg class="L" data-layer="Stars" viewBox="0 0 1080 1350" id="stars"></svg>
+<div class="L" data-layer="Zine micro-type"><div class="zine" id="zl" style="left:12px;top:150px;height:1040px;overflow:hidden;writing-mode:vertical-rl;transform:rotate(180deg)"></div><div class="zine" id="zr" style="right:12px;top:150px;height:1040px;overflow:hidden;writing-mode:vertical-rl"></div></div>
+
+<div class="L" data-layer="Victony - rim light"><img class="vic" src="victony_rim.png"></div>
+<div class="L" data-layer="Victony - wordmark"><img class="wm" src="../logos/victony_wordmark.png"></div>
+
+<div class="L" data-layer="Sticker - astronaut floating"><svg class="L stk" viewBox="0 0 1080 1350" id="a1"></svg></div>
+<div class="L" data-layer="Sticker - astronaut sitting"><svg class="L stk" viewBox="0 0 1080 1350" id="a2"></svg></div>
+<div class="L" data-layer="Sticker - retro brick phone"><svg class="L stk" viewBox="0 0 1080 1350" id="phone"></svg></div>
+<div class="L" data-layer="Sticky note - headliner"><svg class="L" viewBox="0 0 1080 1350" id="note"></svg></div>
+
+<svg class="L" data-layer="Title - BONFIRE 3D" viewBox="0 0 1080 1350" id="title"></svg>
+<svg class="L" data-layer="Title - EXPERIENCE paper cut" viewBox="0 0 1080 1350" id="exp"></svg>
+<svg class="L" data-layer="Title - THE tag" viewBox="0 0 1080 1350" id="the"></svg>
+<div class="L" data-layer="Header - Capital Block Party presents"><div class="hdr"><img src="../logos/capital_block_party.png"><div>PRESENTS</div></div></div>
+
+<div class="L" data-layer="Footer - tickets + logos"><div class="foot">
+ <svg style="position:absolute;left:0;top:-18px" width="1080" height="20" viewBox="0 0 1080 20"><path id="tear" fill="#ffdea2"/></svg>
+ <div class="row"><img src="../logos/the_plug.png" style="height:60px">
+  <div class="mid"><b>TICKETS AT</b> WWW.OUTLAWVILLE.WORLD <i>✦</i> MAINLANDBLOCKPARTY.COM<br><img src="../logos/outlawville.png" style="height:42px;vertical-align:middle"></div>
+  <img src="../logos/capital_block_party.png" style="height:70px;filter:brightness(.12) sepia(.4)"></div>
+</div></div>
+<svg class="L" data-layer="Riso grain (texture)" viewBox="0 0 1080 1350" style="opacity:.5"><rect width="1080" height="1350" filter="url(#riso)"/></svg>
+</div>
+<script>
+const P=new URLSearchParams(location.search);
+const CITY=P.get('city')||'ABUJA', DATE=P.get('date')||'FRI 4TH DEC';
+const C={cream:'#ffdea2',ink:'#17121f',violet:'#7b5cff',orange:'#ff7a1a',red:'#e0261f',gold:'#ffc23a',white:'#f6efe2',brown:'#3e302c'};
+let seed=11; const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+const $=id=>document.getElementById(id);
+// ---- burst rays from behind Victony + halftone
+(()=>{let s='';const cx=540,cy=700,n=28;
+ for(let i=0;i<n;i++){const a0=i/n*Math.PI*2,a1=(i+.5)/n*Math.PI*2,R=1500;
+  s+=`<path d="M${cx} ${cy}L${cx+Math.cos(a0)*R} ${cy+Math.sin(a0)*R}L${cx+Math.cos(a1)*R} ${cy+Math.sin(a1)*R}Z" fill="${i%2?'#221836':'#2e1f4f'}"/>`}
+ s+=`<rect width="1080" height="1350" fill="url(#dots)" mask="url(#dotfade)" opacity=".55"/>`;
+ s+=`<circle cx="540" cy="700" r="330" fill="url(#dots2)" opacity=".35"/>`;
+ $('burst').innerHTML=s})();
+// ---- stars
+(()=>{let s='';const star=(x,y,r,c)=>`<path d="M${x} ${y-r}C${x+r*.12} ${y-r*.12} ${x+r*.12} ${y-r*.12} ${x+r} ${y}C${x+r*.12} ${y+r*.12} ${x+r*.12} ${y+r*.12} ${x} ${y+r}C${x-r*.12} ${y+r*.12} ${x-r*.12} ${y+r*.12} ${x-r} ${y}C${x-r*.12} ${y-r*.12} ${x-r*.12} ${y-r*.12} ${x} ${y-r}Z" fill="${c}" stroke="#17121f" stroke-width="${r>14?3:0}"/>`;
+ [[90,130,26,C.gold],[995,150,20,C.violet],[1010,560,30,C.gold],[70,600,18,C.cream],[960,1000,16,C.cream],[120,1010,22,C.violet],[300,95,12,C.cream],[800,95,14,C.gold],[45,880,12,C.gold],[1035,760,12,C.violet]].forEach(a=>s+=star(...a));
+ for(let i=0;i<90;i++)s+=`<circle cx="${rnd()*1080}" cy="${rnd()*1200}" r="${rnd()*1.6+.5}" fill="${C.cream}" opacity="${.3+rnd()*.6}"/>`;
+ $('stars').innerHTML=s})();
+// ---- zine micro type on both edges
+const zt=(`THE BONFIRE EXPERIENCE ✦ CAPITAL BLOCK PARTY ✦ ${CITY} ✦ ${DATE} ✦ VICTONY LIVE ✦ BRING YOUR FIRE ✦ `).repeat(3);
+$('zl').textContent=zt;$('zr').textContent=zt;
+// ---- tear edge for footer
+(()=>{let d='M0 20';for(let x=0;x<=1080;x+=18)d+=`L${x} ${6+rnd()*12}`;$('tear').setAttribute('d',d+'L1080 20Z')})();
+// ---- astronaut (same builder as v1, riso palette)
+function astro({x,y,s=1,flip=1,rot=0,armL=20,armR=-20,legL=8,legR=-8,knee=0,stick=false,id='v'}){
+ const o=C.ink,w=C.white;
+ const limb=(len,wid,ang,px,py,col,end)=>`<g transform="translate(${px} ${py}) rotate(${ang})"><rect x="${-wid/2}" y="0" width="${wid}" height="${len}" rx="${wid/2}" fill="${col}" stroke="${o}" stroke-width="5"/>${end||''}</g>`;
+ const glove=`<circle cx="0" cy="62" r="14" fill="${C.violet}" stroke="${o}" stroke-width="5"/>`;
+ const boot=len=>`<rect x="-20" y="${len-14}" width="40" height="26" rx="10" fill="${C.violet}" stroke="${o}" stroke-width="4"/>`;
+ let g=`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s*flip} ${s})">`;
+ if(knee){[[-20,-80,80],[20,-70,75]].forEach(([dx,a,b])=>g+=`<g transform="translate(${dx} 0) rotate(${a})"><rect x="-15" y="0" width="30" height="60" rx="15" fill="${w}" stroke="${o}" stroke-width="5"/><g transform="translate(0 52) rotate(${b})"><rect x="-15" y="0" width="30" height="62" rx="15" fill="${w}" stroke="${o}" stroke-width="5"/>${boot(62)}</g></g>`)}
+ else g+=limb(92,32,legL,-20,0,w,boot(92))+limb(92,32,legR,20,0,w,boot(92));
+ g+=`<rect x="-58" y="-150" width="116" height="118" rx="18" fill="#d9cbb3" stroke="${o}" stroke-width="5"/>`;
+ g+=`<rect x="-48" y="-140" width="96" height="150" rx="34" fill="${w}" stroke="${o}" stroke-width="5"/>`;
+ g+=`<rect x="-28" y="-104" width="56" height="40" rx="8" fill="${C.orange}" stroke="${o}" stroke-width="4"/><circle cx="-12" cy="-84" r="6" fill="${C.cream}" stroke="${o}" stroke-width="3"/><circle cx="8" cy="-84" r="6" fill="${C.violet}" stroke="${o}" stroke-width="3"/>`;
+ g+=`<rect x="-48" y="-20" width="96" height="14" fill="${C.violet}" stroke="${o}" stroke-width="4"/>`;
+ g+=limb(66,28,armL,-46,-122,w,glove+(stick?`<line x1="0" y1="62" x2="10" y2="190" stroke="#8a4b2a" stroke-width="7"/><ellipse cx="11" cy="198" rx="10" ry="13" fill="${C.cream}" stroke="${o}" stroke-width="4"/>`:''));
+ g+=limb(66,28,armR,46,-122,w,glove);
+ g+=`<circle cx="0" cy="-182" r="56" fill="${w}" stroke="${o}" stroke-width="6"/>`;
+ g+=`<defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${C.gold}"/><stop offset=".55" stop-color="${C.orange}"/><stop offset="1" stop-color="${C.violet}"/></linearGradient></defs>`;
+ g+=`<rect x="-40" y="-212" width="80" height="58" rx="26" fill="url(#${id})" stroke="${o}" stroke-width="5"/>`;
+ g+=`<path d="M-26 -200 Q-12 -208 4 -204" stroke="${C.cream}" stroke-width="6" fill="none" stroke-linecap="round"/>`;
+ g+=`<rect x="-10" y="-246" width="20" height="12" rx="4" fill="${C.orange}" stroke="${o}" stroke-width="4"/>`;
+ return g+'</g>'}
+$('a1').innerHTML=astro({x:925,y:700,s:.5,rot:24,armL:-150,armR:120,legL:26,legR:-20,id:'va1'});
+$('a2').innerHTML=`<g><ellipse cx="900" cy="1150" rx="70" ry="16" fill="${C.violet}" stroke="${C.ink}" stroke-width="5"/>`+
+  `<g transform="translate(880 1128)"><rect x="-14" y="-22" width="28" height="20" rx="4" fill="#8a4b2a" stroke="${C.ink}" stroke-width="3"/><path d="M-14 -22 Q0 -70 14 -22Z" fill="${C.orange}" stroke="${C.ink}" stroke-width="3"/><path d="M-7 -22 Q0 -48 7 -22Z" fill="${C.gold}"/></g>`+
+  astro({x:960,y:1120,s:.42,knee:1,armL:-60,armR:30,stick:true,flip:-1,id:'va2'})+'</g>';
+// ---- retro brick phone
+(()=>{const o=C.ink;let keys='';['1','2','3','4','5','6','7','8','9','*','0','#'].forEach((k,i)=>{const cx=52+(i%3)*58,cy=300+Math.floor(i/3)*40;keys+=`<rect x="${cx-22}" y="${cy-14}" width="44" height="28" rx="9" fill="${C.cream}" stroke="${o}" stroke-width="3"/><text x="${cx}" y="${cy+7}" text-anchor="middle" font-family="Bungee" font-size="16" fill="${o}">${k}</text>`});
+ $('phone').innerHTML=`<g transform="translate(52 735) rotate(-13) scale(.9)">
+ <rect x="150" y="6" width="22" height="78" rx="8" fill="${o}"/><circle cx="161" cy="8" r="9" fill="${C.orange}" stroke="${o}" stroke-width="3"/>
+ <rect x="14" y="68" width="192" height="392" rx="34" fill="#3a2c5c" stroke="${o}" stroke-width="7"/>
+ <rect x="22" y="76" width="34" height="376" rx="16" fill="#4b3a78"/>
+ <g fill="${o}"><rect x="80" y="88" width="60" height="5" rx="2"/><rect x="80" y="98" width="60" height="5" rx="2"/></g>
+ <rect x="30" y="114" width="160" height="142" rx="12" fill="#1f2a1a" stroke="${o}" stroke-width="5"/><rect x="38" y="122" width="144" height="126" rx="6" fill="#b7d06f"/>
+ <g font-family="VT323" fill="#1f2a1a" text-anchor="middle"><text x="110" y="146" font-size="18">INCOMING CALL...</text>
+  <text x="110" y="186" font-size="${CITY.length>8?28:44}">${CITY}</text><text x="110" y="214" font-size="25">${DATE}</text><text x="110" y="240" font-size="17">BLOCK PARTY  ▶ ANSWER</text></g>
+ <rect x="56" y="266" width="44" height="18" rx="7" fill="${C.orange}" stroke="${o}" stroke-width="3"/><rect x="120" y="266" width="44" height="18" rx="7" fill="${C.violet}" stroke="${o}" stroke-width="3"/>
+ ${keys}</g>
+ <g fill="none" stroke="${C.gold}" stroke-width="7" stroke-linecap="round" transform="translate(52 735) rotate(-13) scale(.9)"><path d="M196 30 Q214 48 196 66"/><path d="M208 14 Q240 48 208 82"/><path d="M128 30 Q110 48 128 66"/></g>`})();
+// ---- sticky note with arrow
+$('note').innerHTML=`<g transform="translate(800 820) rotate(7)"><rect x="6" y="8" width="200" height="150" fill="#000" opacity=".4"/><rect width="200" height="150" fill="${C.gold}" stroke="${C.ink}" stroke-width="3"/><rect x="60" y="-14" width="80" height="26" fill="${C.cream}" opacity=".85" transform="rotate(-4 100 0)"/>
+ <text x="100" y="62" text-anchor="middle" font-family="Permanent Marker" font-size="30" fill="${C.ink}">HEADLINER</text>
+ <text x="100" y="108" text-anchor="middle" font-family="Permanent Marker" font-size="38" fill="${C.red}">LIVE!!</text></g>
+ <path d="M800 905 C760 925 740 950 712 940" stroke="${C.gold}" stroke-width="7" fill="none" stroke-linecap="round"/><path d="M724 922 L708 941 L732 952" stroke="${C.gold}" stroke-width="7" fill="none" stroke-linecap="round" stroke-linejoin="round"/>`;
+// ---- 3D chiseled BONFIRE (Loadout-ish) with cracks + burn hole, on a sticker border
+(()=>{const t=$('title');const FS=200;
+ let ext='';const D=22;for(let i=D;i>=1;i--){const k=i/D;const r=Math.round(150-90*k),g=Math.round(20-12*k),b=Math.round(24-12*k);
+   ext+=`<text x="${i*1.0}" y="${i*1.35}" text-anchor="middle" font-family="Bowlby One" font-size="${FS}" fill="rgb(${r},${g},${b})">BONFIRE</text>`}
+ t.innerHTML=`<defs><linearGradient id="face" x1="0" y1="-160" x2="0" y2="10" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffb347"/><stop offset=".55" stop-color="#ff6a1f"/><stop offset="1" stop-color="#e0261f"/></linearGradient>
+  <clipPath id="tclip"><text id="tmeasure" x="0" y="0" text-anchor="middle" font-family="Bowlby One" font-size="${FS}">BONFIRE</text></clipPath>
+  <radialGradient id="hole"><stop offset="0" stop-color="#0b0710"/><stop offset=".55" stop-color="#1a0c08"/><stop offset=".8" stop-color="#ff7a1a"/><stop offset="1" stop-color="#ffc23a" stop-opacity="0"/></radialGradient></defs>
+  <g id="tg" transform="translate(540 395) rotate(-5)"><g filter="url(#stickerBig)">${ext}
+   <text x="0" y="0" text-anchor="middle" font-family="Bowlby One" font-size="${FS}" fill="url(#face)" stroke="${C.ink}" stroke-width="5" paint-order="stroke">BONFIRE</text>
+   <g id="cracks" clip-path="url(#tclip)"></g></g></g>`;
+ // fit width
+ const bb=$('tmeasure').getBBox();const sc=Math.min(1,900/bb.width);$('tg').setAttribute('transform',`translate(540 395) rotate(-5) scale(${sc})`);
+ // cracks across letters + highlights
+ let cr='';for(let i=0;i<14;i++){let x=bb.x+rnd()*bb.width,y=bb.y+rnd()*bb.height;let d=`M${x} ${y}`;const ang=rnd()*Math.PI*2;
+   for(let k=0;k<5;k++){x+=Math.cos(ang+(rnd()-.5)*1.4)*(10+rnd()*22);y+=Math.sin(ang+(rnd()-.5)*1.4)*(10+rnd()*22);d+=`L${x} ${y}`}
+   cr+=`<path d="${d}" stroke="#ffd08a" stroke-width="3" fill="none" transform="translate(-2 -2)" opacity=".8"/><path d="${d}" stroke="${C.ink}" stroke-width="3.5" fill="none"/>`}
+ // chiseled facets: light top bevel strokes
+ cr+=`<rect x="${bb.x}" y="${bb.y}" width="${bb.width}" height="${bb.height*.18}" fill="#fff" opacity=".12"/>`;
+ // burn hole in the O
+ const tm=$('tmeasure');const o=tm.getExtentOfChar(1);const hx=o.x+o.width*.62,hy=o.y+o.height*.42;
+ cr+=`<circle cx="${hx}" cy="${hy}" r="34" fill="url(#hole)"/>`;
+ for(let i=0;i<7;i++){const a=rnd()*6.28;let x=hx+Math.cos(a)*18,y=hy+Math.sin(a)*18,d=`M${x} ${y}`;for(let k=0;k<3;k++){x+=Math.cos(a+(rnd()-.5))*16;y+=Math.sin(a+(rnd()-.5))*16;d+=`L${x} ${y}`}cr+=`<path d="${d}" stroke="${C.ink}" stroke-width="3" fill="none"/>`}
+ $('cracks').innerHTML=cr})();
+// ---- EXPERIENCE as folded paper-cut letters
+(()=>{const word='EXPERIENCE',cols=[C.cream,C.gold,C.violet,C.orange];let s='<g filter="url(#sticker)">';const x0=540-word.length*66/2+33;
+ [...word].forEach((ch,i)=>{const x=x0+i*66,y=520+(rnd()-.5)*12,r=(rnd()-.5)*14,col=cols[i%4],tc=col===C.violet?C.cream:C.ink;
+  s+=`<g transform="translate(${x} ${y}) rotate(${r})"><rect x="-32" y="-40" width="64" height="78" fill="${col}" stroke="${C.ink}" stroke-width="3"/>
+   <path d="M-32 -40 L32 -40 L32 ${-10+rnd()*20} Z" fill="#fff" opacity=".18"/>
+   <text x="0" y="26" text-anchor="middle" font-family="Bungee" font-size="60" fill="${tc}">${ch}</text></g>`});
+ $('exp').innerHTML=s+'</g>'})();
+// ---- THE tag
+$('the').innerHTML=`<g filter="url(#sticker)" transform="translate(150 262) rotate(-12)"><rect x="-70" y="-34" width="140" height="62" rx="8" fill="${C.violet}" stroke="${C.ink}" stroke-width="3"/><text x="0" y="16" text-anchor="middle" font-family="Bungee" font-size="46" fill="${C.cream}">THE</text></g>`;
+</script></body></html>

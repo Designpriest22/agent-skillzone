@@ -1,0 +1,189 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Bungee&family=VT323&family=Oswald:wght@500;600;700&display=block" rel="stylesheet">
+<style>
+:root{--cream:#ffdea2;--ink:#3e302c;--deep:#1b1230;--red:#d61c1e;--orange:#f4701c;--gold:#ffb63a}
+*{margin:0;padding:0;box-sizing:border-box}
+body{width:1080px;height:1350px;overflow:hidden;background:transparent}
+.p{position:relative;width:1080px;height:1350px;overflow:hidden}
+.L{position:absolute;inset:0}
+.hidden{visibility:hidden}
+/* ---------- 3D title */
+.t3d{position:absolute;left:0;right:0;text-align:center;font-family:Shrikhand;color:var(--cream);
+  -webkit-text-stroke:5px var(--ink);paint-order:stroke fill}
+.bonfire{top:222px;font-size:198px;line-height:1;transform:rotate(-5deg);letter-spacing:-2px}
+.exp{top:440px;font-family:Bungee;font-size:76px;letter-spacing:6px;transform:rotate(-5deg) translateX(18px);-webkit-text-stroke:4px var(--ink)}
+.the{position:absolute;top:186px;left:118px;font-family:Bungee;font-size:58px;color:var(--gold);transform:rotate(-5deg);
+  -webkit-text-stroke:3px var(--ink);paint-order:stroke fill;text-shadow:4px 4px 0 var(--ink)}
+/* ---------- header */
+.hdr{position:absolute;top:34px;left:0;right:0;text-align:center}
+.hdr img{width:250px;filter:drop-shadow(0 0 0 #000)}
+.hdr .pres{font:600 18px Oswald;letter-spacing:.5em;color:var(--cream);margin-top:4px;padding-left:.5em}
+/* ---------- phone */
+.phone{position:absolute;left:800px;top:470px;width:190px;transform:rotate(12deg);transform-origin:50% 50%}
+/* ---------- victony */
+.vic{position:absolute;left:345px;top:600px;width:390px;text-align:center}
+.vic .lab{font:400 26px Bungee;color:var(--gold);letter-spacing:4px;-webkit-text-stroke:1.5px var(--ink);paint-order:stroke fill;text-shadow:3px 3px 0 var(--ink)}
+.vic img{width:330px;margin-top:6px;filter:drop-shadow(4px 4px 0 var(--ink)) drop-shadow(0 0 14px rgba(255,140,40,.6))}
+/* ---------- footer */
+.foot{position:absolute;left:0;right:0;bottom:0;height:142px;background:var(--ink);border-top:6px solid var(--cream)}
+.foot .row{position:absolute;inset:0;display:flex;align-items:center;justify-content:space-between;padding:0 34px}
+.foot .plug{height:62px}
+.foot .cbp{height:70px}
+.foot .otv{height:44px;filter:invert(1) brightness(1.1)}
+.foot .mid{text-align:center;font:600 22px Oswald;letter-spacing:.08em;color:var(--cream);line-height:1.45}
+.foot .mid b{color:var(--orange);font-weight:700}
+.foot .mid i{font-style:normal;color:var(--red)}
+.stripe{position:absolute;left:0;right:0;height:10px}
+</style></head><body><div class="p" id="poster">
+
+<!-- SKY -->
+<svg class="L" data-layer="Background - retro space sky" viewBox="0 0 1080 1350">
+ <defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+  <stop offset="0" stop-color="#140d24"/><stop offset=".45" stop-color="#2a1438"/><stop offset=".68" stop-color="#5a1f38"/><stop offset=".78" stop-color="#a8382c"/></linearGradient></defs>
+ <rect width="1080" height="1350" fill="url(#sky)"/>
+</svg>
+<svg class="L" data-layer="Stars" viewBox="0 0 1080 1350" id="stars"></svg>
+<svg class="L" data-layer="Planets" viewBox="0 0 1080 1350">
+ <!-- ringed planet top left -->
+ <g transform="translate(118 640) rotate(-18)">
+  <ellipse rx="92" ry="22" fill="none" stroke="#3e302c" stroke-width="16"/>
+  <ellipse rx="92" ry="22" fill="none" stroke="#ffb63a" stroke-width="8"/>
+  <circle r="46" fill="#f4701c" stroke="#3e302c" stroke-width="5"/>
+  <path d="M-44 -10 Q0 -2 44 -12" stroke="#d61c1e" stroke-width="7" fill="none"/>
+  <path d="M-40 12 Q0 20 42 8" stroke="#ffdea2" stroke-width="5" fill="none"/>
+  <path d="M-92 0 A92 22 0 0 0 92 0" fill="none" stroke="#3e302c" stroke-width="16"/>
+  <path d="M-92 0 A92 22 0 0 0 92 0" fill="none" stroke="#ffb63a" stroke-width="8"/>
+ </g>
+ <!-- small moon top right -->
+ <circle cx="985" cy="300" r="30" fill="#ffdea2" stroke="#3e302c" stroke-width="5"/>
+ <circle cx="975" cy="292" r="7" fill="#e8c385"/><circle cx="995" cy="312" r="5" fill="#e8c385"/>
+</svg>
+<svg class="L" data-layer="Retro sunset planet" viewBox="0 0 1080 1350">
+ <defs>
+  <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffdea2"/><stop offset=".45" stop-color="#ffb63a"/><stop offset=".75" stop-color="#f4701c"/><stop offset="1" stop-color="#d61c1e"/></linearGradient>
+  <mask id="bars"><rect width="1080" height="1350" fill="#fff"/>
+   <g fill="#000"><rect y="842" width="1080" height="6"/><rect y="866" width="1080" height="9"/><rect y="892" width="1080" height="12"/><rect y="920" width="1080" height="16"/><rect y="952" width="1080" height="20"/></g></mask>
+ </defs>
+ <circle cx="540" cy="990" r="330" fill="url(#sun)" mask="url(#bars)"/>
+</svg>
+<svg class="L" data-layer="Moon ground" viewBox="0 0 1080 1350">
+ <defs><linearGradient id="gr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c9a77a"/><stop offset="1" stop-color="#7d5a43"/></linearGradient>
+ <radialGradient id="glow" cx="540" cy="1050" r="420" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ffb63a" stop-opacity=".75"/><stop offset=".5" stop-color="#f4701c" stop-opacity=".3"/><stop offset="1" stop-color="#f4701c" stop-opacity="0"/></radialGradient></defs>
+ <path d="M0 985 C160 955 300 975 420 968 C560 960 700 990 820 972 C930 958 1010 970 1080 962 L1080 1350 L0 1350Z" fill="url(#gr)" stroke="#3e302c" stroke-width="6"/>
+ <g fill="#9c7656" stroke="#3e302c" stroke-width="4">
+  <ellipse cx="150" cy="1080" rx="80" ry="20"/><ellipse cx="930" cy="1050" rx="66" ry="15"/><ellipse cx="760" cy="1150" rx="52" ry="12"/><ellipse cx="300" cy="1170" rx="44" ry="10"/><ellipse cx="60" cy="1165" rx="36" ry="8"/>
+ </g>
+ <g fill="#6d4c38"><ellipse cx="150" cy="1084" rx="66" ry="13"/><ellipse cx="930" cy="1053" rx="54" ry="10"/><ellipse cx="760" cy="1153" rx="42" ry="8"/><ellipse cx="300" cy="1173" rx="34" ry="6"/></g>
+ <rect width="1080" height="1350" fill="url(#glow)" style="mix-blend-mode:screen"/>
+</svg>
+<svg class="L" data-layer="Bonfire" viewBox="0 0 1080 1350" id="fire"></svg>
+<svg class="L" data-layer="Astronaut - sitting (left)" viewBox="0 0 1080 1350" id="a1"></svg>
+<svg class="L" data-layer="Astronaut - dancing (right)" viewBox="0 0 1080 1350" id="a2"></svg>
+<svg class="L" data-layer="Astronaut - floating (top left)" viewBox="0 0 1080 1350" id="a3"></svg>
+
+<!-- PHONE -->
+<div class="L" data-layer="Retro brick phone"><svg class="phone" viewBox="0 0 220 470" id="phone"></svg></div>
+
+<div class="L" data-layer="Victony - headliner"><div class="vic"><div class="lab">★ HEADLINING ★</div><img src="../logos/victony_wordmark.png"></div></div>
+
+<!-- TITLE -->
+<div class="L" data-layer="Title - THE"><div class="the">THE</div></div>
+<div class="L" data-layer="Title - BONFIRE 3D"><div class="t3d bonfire" id="bonfire">BONFIRE</div></div>
+<div class="L" data-layer="Title - EXPERIENCE 3D"><div class="t3d exp" id="exp">EXPERIENCE</div></div>
+
+<div class="L" data-layer="Header - Capital Block Party presents"><div class="hdr"><img src="../logos/capital_block_party.png"><div class="pres">PRESENTS</div></div></div>
+
+<div class="L" data-layer="Footer - tickets + logos"><div class="foot">
+ <div class="stripe" style="top:-22px;background:var(--red)"></div><div class="stripe" style="top:-38px;background:var(--orange);height:8px"></div><div class="stripe" style="top:-50px;background:var(--gold);height:6px"></div>
+ <div class="row"><img class="plug" src="../logos/the_plug.png">
+  <div class="mid"><b>TICKETS AT</b> WWW.OUTLAWVILLE.WORLD <i>|</i> MAINLANDBLOCKPARTY.COM<br><img class="otv" src="../logos/outlawville.png" style="height:40px;vertical-align:middle"></div>
+  <img class="cbp" src="../logos/capital_block_party.png"></div>
+</div></div>
+
+<svg class="L" data-layer="Print grain (texture)" viewBox="0 0 1080 1350" style="mix-blend-mode:multiply;opacity:.55">
+ <filter id="n"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 .24  0 0 0 0 .19  0 0 0 0 .17  0 0 0 -2.2 1.25"/></filter>
+ <rect width="1080" height="1350" filter="url(#n)"/>
+</svg>
+</div>
+<script>
+const P=new URLSearchParams(location.search);
+const CITY=P.get('city')||'ABUJA', DATE=P.get('date')||'FRI 4TH DEC';
+const NS='http://www.w3.org/2000/svg';
+let seed=7; const rnd=()=>{seed=(seed*16807)%2147483647;return seed/2147483647};
+const C={cream:'#ffdea2',ink:'#3e302c',red:'#d61c1e',orange:'#f4701c',gold:'#ffb63a',white:'#f6efe2'};
+// stars
+let s='';for(let i=0;i<170;i++){const x=rnd()*1080,y=rnd()*900,r=rnd()<.9?rnd()*1.8+.6:rnd()*3+2;
+ s+= r>3?`<path d="M${x} ${y-r*2.2}L${x+r*.5} ${y-r*.5}L${x+r*2.2} ${y}L${x+r*.5} ${y+r*.5}L${x} ${y+r*2.2}L${x-r*.5} ${y+r*.5}L${x-r*2.2} ${y}L${x-r*.5} ${y-r*.5}Z" fill="${C.cream}"/>`
+ :`<circle cx="${x}" cy="${y}" r="${r}" fill="${C.cream}" opacity="${.5+rnd()*.5}"/>`}
+document.getElementById('stars').innerHTML=s;
+// 3D extrusion via stacked text-shadows
+function extrude(el,depth,c1,c2){let sh=[];for(let i=1;i<=depth;i++){const t=i/depth;
+  const mix=(a,b)=>Math.round(a+(b-a)*t);const h=x=>parseInt(x,16);
+  const col=`rgb(${mix(h(c1.slice(1,3)),h(c2.slice(1,3)))},${mix(h(c1.slice(3,5)),h(c2.slice(3,5)))},${mix(h(c1.slice(5,7)),h(c2.slice(5,7)))})`;
+  sh.push(`${i*.9}px ${i}px 0 ${col}`)}
+  sh.push(`${depth*.9+3}px ${depth+4}px 0 #3e302c`,`${depth*.9+6}px ${depth+10}px 18px rgba(0,0,0,.45)`);
+  el.style.textShadow=sh.join(',')}
+extrude(document.getElementById('bonfire'),22,'#f4701c','#b3191e');
+extrude(document.getElementById('exp'),10,'#d61c1e','#8e1216');
+// bonfire
+function flame(cx,base,w,h,col,sk){return `<path d="M${cx-w/2} ${base} C${cx-w/2} ${base-h*.45} ${cx-w*.15+sk} ${base-h*.55} ${cx+sk} ${base-h} C${cx+w*.1+sk} ${base-h*.6} ${cx+w/2} ${base-h*.45} ${cx+w/2} ${base} Z" fill="${col}" stroke="${C.ink}" stroke-width="5" stroke-linejoin="round"/>`}
+let f=`<ellipse cx="540" cy="1062" rx="120" ry="20" fill="#3e302c" opacity=".35"/>`;
+// logs
+f+=`<g stroke="${C.ink}" stroke-width="5"><rect x="455" y="1030" width="180" height="30" rx="14" fill="#8a4b2a" transform="rotate(14 545 1045)"/><rect x="445" y="1030" width="180" height="30" rx="14" fill="#a35a30" transform="rotate(-14 535 1045)"/></g>`;
+f+=`<circle cx="474" cy="1022" r="9" fill="#ffb63a" stroke="${C.ink}" stroke-width="3"/><circle cx="610" cy="1024" r="9" fill="#ffb63a" stroke="${C.ink}" stroke-width="3"/>`;
+f+=flame(540,1040,210,250,C.red,-8)+flame(505,1040,110,170,C.red,-14)+flame(585,1040,110,190,C.red,10)+flame(540,1040,150,190,C.orange,6)+flame(540,1040,96,130,C.gold,-6)+flame(540,1040,50,70,C.cream,4);
+for(let i=0;i<26;i++){const x=540+(rnd()-.5)*220,y=1000-rnd()*330,r=rnd()*4+2;f+=`<circle cx="${x}" cy="${y}" r="${r}" fill="${rnd()<.5?C.gold:C.orange}" stroke="${C.ink}" stroke-width="1.5"/>`}
+document.getElementById('fire').innerHTML=f;
+// astronaut builder (local coords: hips at 0,0; ~ 240 tall)
+function astro({x,y,s=1,flip=1,rot=0,armL=20,armR=-20,legL=8,legR=-8,knee=0,stick=false}){
+ const o=C.ink,w=C.white;
+ const limb=(len,wid,ang,px,py,col,end)=>`<g transform="translate(${px} ${py}) rotate(${ang})"><rect x="${-wid/2}" y="0" width="${wid}" height="${len}" rx="${wid/2}" fill="${col}" stroke="${o}" stroke-width="5"/>${end||''}</g>`;
+ const glove=`<circle cx="0" cy="${62}" r="14" fill="${C.orange}" stroke="${o}" stroke-width="5"/>`;
+ const boot=(len)=>`<rect x="-20" y="${len-14}" width="40" height="26" rx="10" fill="${C.ink}" stroke="${o}" stroke-width="4"/>`;
+ let g=`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s*flip} ${s})">`;
+ // legs (with optional bent knee for sitting)
+ if(knee){g+=`<g transform="translate(-20 0) rotate(${-80})"><rect x="-15" y="0" width="30" height="60" rx="15" fill="${w}" stroke="${o}" stroke-width="5"/><g transform="translate(0 52) rotate(80)"><rect x="-15" y="0" width="30" height="62" rx="15" fill="${w}" stroke="${o}" stroke-width="5"/>${boot(62)}</g></g>`;
+          g+=`<g transform="translate(20 0) rotate(${-70})"><rect x="-15" y="0" width="30" height="60" rx="15" fill="${w}" stroke="${o}" stroke-width="5"/><g transform="translate(0 52) rotate(75)"><rect x="-15" y="0" width="30" height="62" rx="15" fill="${w}" stroke="${o}" stroke-width="5"/>${boot(62)}</g></g>`}
+ else{g+=limb(92,32,legL,-20,0,w,boot(92))+limb(92,32,legR,20,0,w,boot(92))}
+ // backpack
+ g+=`<rect x="-58" y="-150" width="116" height="118" rx="18" fill="#d9cbb3" stroke="${o}" stroke-width="5"/>`;
+ // torso
+ g+=`<rect x="-48" y="-140" width="96" height="150" rx="34" fill="${w}" stroke="${o}" stroke-width="5"/>`;
+ g+=`<rect x="-28" y="-104" width="56" height="40" rx="8" fill="${C.orange}" stroke="${o}" stroke-width="4"/><circle cx="-12" cy="-84" r="6" fill="${C.cream}" stroke="${o}" stroke-width="3"/><circle cx="8" cy="-84" r="6" fill="${C.red}" stroke="${o}" stroke-width="3"/>`;
+ g+=`<rect x="-48" y="-20" width="96" height="14" fill="${C.red}" stroke="${o}" stroke-width="4"/>`;
+ // arms
+ g+=limb(66,28,armL,-46,-122,w,glove+(stick?`<line x1="0" y1="62" x2="10" y2="190" stroke="#8a4b2a" stroke-width="7"/><ellipse cx="11" cy="198" rx="10" ry="13" fill="${C.cream}" stroke="${o}" stroke-width="4"/>`:''));
+ g+=limb(66,28,armR,46,-122,w,glove);
+ // helmet
+ g+=`<circle cx="0" cy="-182" r="56" fill="${w}" stroke="${o}" stroke-width="6"/>`;
+ g+=`<defs><linearGradient id="v${x}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${C.gold}"/><stop offset=".55" stop-color="${C.orange}"/><stop offset="1" stop-color="${C.red}"/></linearGradient></defs>`;
+ g+=`<rect x="-40" y="-212" width="80" height="58" rx="26" fill="url(#v${x})" stroke="${o}" stroke-width="5"/>`;
+ g+=`<path d="M-26 -200 Q-12 -208 4 -204" stroke="${C.cream}" stroke-width="6" fill="none" stroke-linecap="round"/><circle cx="20" cy="-170" r="5" fill="${C.cream}" opacity=".8"/>`;
+ g+=`<rect x="-10" y="-246" width="20" height="12" rx="4" fill="${C.red}" stroke="${o}" stroke-width="4"/>`;
+ return g+'</g>'}
+document.getElementById('a1').innerHTML=`<g>${astro({x:310,y:1060,s:.78,knee:1,armL:-60,armR:30,stick:true,flip:1})}</g>`;
+// rock seat
+document.getElementById('a1').innerHTML=`<path d="M235 1080 Q250 1030 300 1028 Q360 1026 370 1070 Q372 1092 300 1094 Q236 1094 235 1080Z" fill="#9c7656" stroke="#3e302c" stroke-width="5"/>`+document.getElementById('a1').innerHTML;
+document.getElementById('a2').innerHTML=astro({x:772,y:1110,s:.8,flip:-1,armL:-125,armR:155,legL:18,legR:-12,rot:-6});
+document.getElementById('a3').innerHTML=astro({x:190,y:880,s:.6,rot:-18,armL:-130,armR:120,legL:22,legR:-22})+
+  ``;
+// phone
+const ph=document.getElementById('phone');
+let keys='';const kl=['1','2','3','4','5','6','7','8','9','*','0','#'];
+kl.forEach((k,i)=>{const cx=52+(i%3)*58,cy=300+Math.floor(i/3)*40;keys+=`<rect x="${cx-22}" y="${cy-14}" width="44" height="28" rx="9" fill="${C.cream}" stroke="${C.ink}" stroke-width="3"/><text x="${cx}" y="${cy+7}" text-anchor="middle" font-family="Bungee" font-size="16" fill="${C.ink}">${k}</text>`});
+ph.innerHTML=`
+ <rect x="150" y="6" width="22" height="78" rx="8" fill="${C.ink}" stroke="${C.ink}" stroke-width="4"/><circle cx="161" cy="8" r="9" fill="${C.red}" stroke="${C.ink}" stroke-width="3"/>
+ <rect x="14" y="68" width="192" height="392" rx="34" fill="#2b2b33" stroke="${C.ink}" stroke-width="7"/>
+ <rect x="22" y="76" width="34" height="376" rx="16" fill="#3b3b46"/>
+ <g fill="${C.ink}"><rect x="80" y="88" width="60" height="5" rx="2"/><rect x="80" y="98" width="60" height="5" rx="2"/></g>
+ <rect x="30" y="114" width="160" height="142" rx="12" fill="#1f2a1a" stroke="${C.ink}" stroke-width="5"/>
+ <rect x="38" y="122" width="144" height="126" rx="6" fill="#b7d06f"/>
+ <g font-family="VT323" fill="#1f2a1a" text-anchor="middle">
+  <text x="110" y="146" font-size="18">▮▮▮ INCOMING ▮▮</text>
+  <text x="110" y="186" font-size="${CITY.length>8?30:44}">${CITY}</text>
+  <text x="110" y="214" font-size="25">${DATE}</text>
+  <text x="110" y="240" font-size="17">BLOCK PARTY 🔥 LIVE</text></g>
+ <rect x="56" y="266" width="44" height="18" rx="7" fill="${C.orange}" stroke="${C.ink}" stroke-width="3"/><rect x="120" y="266" width="44" height="18" rx="7" fill="${C.red}" stroke="${C.ink}" stroke-width="3"/>
+ ${keys}
+ <g fill="none" stroke="${C.gold}" stroke-width="6" stroke-linecap="round"><path d="M196 30 Q214 48 196 66"/><path d="M206 16 Q236 48 206 80"/></g>`;
+</script></body></html>
