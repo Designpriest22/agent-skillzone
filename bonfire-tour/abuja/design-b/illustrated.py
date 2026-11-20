@@ -12,7 +12,17 @@ def noise(f,seed,blur=None):
     n=Image.fromarray((r.random((max(2,int(f*H/W)),f))*255).astype(np.uint8)).resize((W,H),Image.BICUBIC)
     n=n.filter(ImageFilter.GaussianBlur(blur if blur else W/f*0.3))
     n=np.asarray(n).astype(np.float32)/255; return (n-n.mean())/(n.std()+1e-6)
-RED=np.array([214,28,30],np.float32); ORANGE=np.array([244,112,28],np.float32)
+# ---------- tour stop settings (city, date, the two paint colours)
+TOUR={
+  'abuja':        dict(city='ABUJA',         date='4TH DEC',  c1=(244,112,28), c2=(214,28,30)),    # orange + red
+  'lagos':        dict(city='LAGOS',         date='DATE TBA', c1=(240,178,32), c2=(180,16,44)),    # gold + crimson
+  'port-harcourt':dict(city='PORT HARCOURT', date='DATE TBA', c1=(222,34,128), c2=(226,40,30)),    # magenta + red
+}
+CITY=os.environ.get('CITY','abuja'); CFG=TOUR[CITY]
+for k in ('date',):
+    if os.environ.get('DATE'): CFG['date']=os.environ['DATE']
+ORANGE=np.array(CFG['c1'],np.float32); RED=np.array(CFG['c2'],np.float32)   # c1 = left/first colour, c2 = right/second colour
+C1=tuple(int(v) for v in CFG['c1']); C2=tuple(int(v) for v in CFG['c2'])
 
 # ---------- paper background
 _=rng.normal(0,5,(H,W,1))   # keep the portrait's random stream unchanged
@@ -125,7 +135,7 @@ if TITLE:
     em=np.clip(em+np.asarray(dr).astype(np.float32)/255*(rng.random((H,W))>0.15),0,1)
     # off-register ghost print in dark red
     ghost=np.roll(np.roll(em0,-12,0),-14,1)*(rng.random((H,W))>0.35)
-    comp('Title - EXPERIENCE misprint',[120,16,14],ghost*0.55)
+    comp('Title - EXPERIENCE misprint',RED*0.56,ghost*0.55)
     shadow=np.roll(np.roll(em,9,0),7,1)*(1-em)
     comp('Title - EXPERIENCE shadow',[0,0,0],shadow*0.45)
     comp('Title - EXPERIENCE paint + drips',PAINT,em*0.95)
@@ -136,8 +146,12 @@ if TITLE:
         L_=Image.new('RGBA',(W,H),(0,0,0,0)); L_.paste(im,(int(x),int(y)),im)
         a_=np.asarray(L_).astype(np.float32); return a_[...,:3],a_[...,3]/255
     # -- city + date, top right, level with "THE"
-    cd=worn(textmask('ABUJA  4TH DEC',165,(1951-967,150-190*165/600)),44,0.05)
-    comp('Info - ABUJA 4TH DEC',RED,cd*0.97)
+    label=f"{CFG['city']}  {CFG['date']}"; fsz=165
+    while ImageFont.truetype(FONT,fsz).getbbox(label)[2]>967: fsz-=2          # fit the space right of the logo
+    bx=ImageFont.truetype(FONT,fsz).getbbox(label)
+    ytop=150-190*165/600+52*165/600                                           # same cap top as before
+    cd=worn(textmask(label,fsz,(1951-bx[2],ytop+(144-(bx[3]-bx[1]))/2-bx[1])),44,0.05)
+    comp(f'Info - {label}',RED,cd*0.97)
     # -- Outlawville logo (his label), top centre between THE and the date
     ol=Image.open(LOGO+'outlawville.png').convert('RGBA'); ol=ol.resize((470,int(470*ol.height/ol.width)),Image.LANCZOS)
     oxl,oyl=708-235,178-ol.height//2
@@ -146,12 +160,12 @@ if TITLE:
     comp('Logo - Outlawville shadow',[0,0,0],np.roll(np.roll(osa,8,0),6,1)*0.35)
     c_,a_=place(ol,oxl,oyl); comp('Logo - Outlawville',c_,a_)
     # -- POWERED BY + Capital Block Party (inked black with a red offset shadow)
-    pw=Image.new('RGBA',(460,70),(0,0,0,0)); ImageDraw.Draw(pw).text((230,35),'P O W E R E D   B Y',font=ImageFont.truetype(OSW,38),fill=(214,28,30,255),anchor='mm')
+    pw=Image.new('RGBA',(460,70),(0,0,0,0)); ImageDraw.Draw(pw).text((230,35),'P O W E R E D   B Y',font=ImageFont.truetype(OSW,38),fill=C2+(255,),anchor='mm')
     c_,a_=place(pw,1765-230,1150); comp('Info - POWERED BY',c_,a_)
     cbp=Image.open(LOGO+'capital_block_party.png').convert('RGBA'); cbp=cbp.resize((400,int(400*cbp.height/cbp.width)),Image.LANCZOS)
     ca=np.asarray(cbp).astype(np.float32); lum=ca[...,:3].mean(2)
     fill_=np.where(lum>150,1.0,0.0)*ca[...,3]/255; shad=np.where(lum<=150,1.0,0.0)*ca[...,3]/255
-    sh_im=Image.fromarray(np.dstack([np.full(lum.shape+(3,),[214,28,30]),shad*255]).astype(np.uint8),'RGBA')
+    sh_im=Image.fromarray(np.dstack([np.full(lum.shape+(3,),list(C2)),shad*255]).astype(np.uint8),'RGBA')
     fl_im=Image.fromarray(np.dstack([np.full(lum.shape+(3,),[20,17,16]),fill_*255]).astype(np.uint8),'RGBA')
     c_,a_=place(sh_im,1765-200,1215); comp('Logo - Capital Block Party shadow',c_,a_*worn(np.ones((H,W),np.float32),45,0.06))
     c_,a_=place(fl_im,1765-200,1215); comp('Logo - Capital Block Party',c_,a_*worn(np.ones((H,W),np.float32),46,0.06))
@@ -174,7 +188,7 @@ if TITLE:
     comp('Ticket strip - shadow',[0,0,0],np.roll(np.roll(sa,12,0),8,1)*(1-sa)*0.5)
     comp('Ticket strip - black paper',[16,13,12],sa*(0.93+0.07*(rng.random((H,W))>0.5)))
     tl=Image.new('RGBA',(W,H),(0,0,0,0)); td=ImageDraw.Draw(tl); f_=ImageFont.truetype(OSW,48)
-    parts=[('TICKETS AT ',(244,112,28)),('WWW.OUTLAWVILLE.WORLD',(238,230,214)),('   |   ',(214,28,30)),('MAINLANDBLOCKPARTY.COM',(238,230,214))]
+    parts=[('TICKETS AT ',C1),('WWW.OUTLAWVILLE.WORLD',(238,230,214)),('   |   ',C2),('MAINLANDBLOCKPARTY.COM',(238,230,214))]
     tw=sum(td.textlength(t,font=f_) for t,_ in parts); x_=W/2-tw/2+5; ym=(sy0+sy1)/2
     for t,cl in parts:
         td.text((x_,ym),t,font=f_,fill=cl+(255,),anchor='lm'); x_+=td.textlength(t,font=f_)
@@ -220,7 +234,7 @@ LAYERS.append(('Smoke',np.full((H,W,3),40,np.float32),np.clip(sm*1.6,0,1)*210/25
 # ---------- final grain
 GRAIN=rng.normal(0,5,(H,W,1))
 arr=np.asarray(canvas.convert('RGB')).astype(np.float32)+GRAIN
-out='abuja_b_stage2.png' if STYLE=='paper' else f'bg-options/abuja_b_{STYLE}.png'
+out='abuja_b_stage2.png' if STYLE=='paper' else (f'bg-options/abuja_b_{STYLE}.png' if STYLE!='burnt' else f'../../{CITY}/bonfire_{CITY}.png')
 Image.fromarray(np.clip(arr,0,255).astype(np.uint8)).save(out)
 
 # ---------- layered PSD export
