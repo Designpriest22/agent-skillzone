@@ -1,5 +1,5 @@
 # Abuja Design B: illustrated ink sketch + painted colour blocks on light paper (Toronto-flyer direction)
-import numpy as np, sys
+import numpy as np, sys, os
 import backgrounds
 STYLE=sys.argv[1] if len(sys.argv)>1 else 'burnt'
 TITLE=STYLE=='burnt'
@@ -70,6 +70,13 @@ fl*=np.clip(1-(yy-2560)/140,0,1)
 seam=cx+noise(20,9)*50
 orange=fl*(xx<seam); red=fl*(xx>=seam)
 img=bg.copy()
+LAYERS=[('Background - burnt paper',None,None)]
+def comp(name,color,alpha):
+    global img
+    color=np.broadcast_to(np.asarray(color,np.float32),(H,W,3)) if np.ndim(color)<3 else color
+    alpha=np.clip(alpha,0,1)
+    img=img*(1-alpha[...,None])+color*alpha[...,None]
+    LAYERS.append((name,color,alpha))
 if TITLE:
     from PIL import ImageFont
     FONT='../../fonts/Anton-Regular.ttf'
@@ -86,13 +93,14 @@ if TITLE:
         return m*keep
     big=worn(textmask('BONFIRE',585,(210,330-185*585/600)),41,0.12)
     the=worn(textmask('THE',165,(216,150-190*165/600)),42)
-    behind=(big+the).clip(0,1)*(1-np.clip(al*1.4,0,1))                      # his head sits in front of the letters
+    front=1-np.clip(al*1.4,0,1)                                              # his head sits in front of the letters
     INK=np.array([20,17,16],np.float32)
-    img=img*(1-behind[...,None]*0.96)+INK*behind[...,None]*0.96
-img=img*(1-orange[...,None]*0.95)+ORANGE*orange[...,None]*0.95
-img=img*(1-red[...,None]*0.95)+RED*red[...,None]*0.95
+    comp('Title - THE',INK,the*front*0.96)
+    comp('Title - BONFIRE',INK,big*(1-the)*front*0.96)
+comp('Flames - orange paint',ORANGE,orange*0.95)
+comp('Flames - red paint',RED,red*0.95)
 inkcol=np.array([18,16,18],np.float32)
-img=img*(1-inkA[...,None])+inkcol*inkA[...,None]
+comp('Victony - ink sketch',inkcol,inkA)
 
 if TITLE:
     sz=345; ex=textmask('EXPERIENCE',sz,(0,0))
@@ -117,22 +125,24 @@ if TITLE:
     em=np.clip(em+np.asarray(dr).astype(np.float32)/255*(rng.random((H,W))>0.15),0,1)
     # off-register ghost print in dark red
     ghost=np.roll(np.roll(em0,-12,0),-14,1)*(rng.random((H,W))>0.35)
-    img=img*(1-ghost[...,None]*0.55)+np.array([120,16,14])*ghost[...,None]*0.55
+    comp('Title - EXPERIENCE misprint',[120,16,14],ghost*0.55)
     shadow=np.roll(np.roll(em,9,0),7,1)*(1-em)
-    img=img*(1-shadow[...,None]*0.45)
-    img=img*(1-em[...,None]*0.95)+PAINT*em[...,None]*0.95
+    comp('Title - EXPERIENCE shadow',[0,0,0],shadow*0.45)
+    comp('Title - EXPERIENCE paint + drips',PAINT,em*0.95)
 if TITLE:
     gr=np.random.default_rng(77)
     smudge=np.clip(noise(9,78)-0.9,0,1)*0.22+np.clip(noise(25,79)-1.4,0,1)*0.3
-    img=img*(1-smudge[...,None])+np.array([40,30,26])*smudge[...,None]
-    dust=gr.random((H,W)); img[dust<0.0025]*=0.35; img[dust>0.9985]=np.minimum(img[dust>0.9985]*1.25,255)
+    comp('Grunge - smudges',[40,30,26],smudge)
+    dust=gr.random((H,W)); comp('Grunge - dust dark',[0,0,0],(dust<0.0025)*0.65); comp('Grunge - dust light',[255,255,255],(dust>0.9985)*0.2)
     tone=np.clip(noise(200,80)-2.1,0,1)*(gr.random((H,W))>0.6)          # photocopy toner speckle
-    img=img*(1-tone[...,None]*0.5)
+    comp('Grunge - toner speckle',[0,0,0],tone*0.5)
+    crd=np.zeros((H,W),np.float32); crl=np.zeros((H,W),np.float32)
     for (x0,y0,x1,y1) in [(0,1180,W,1050),(1300,0,1180,H),(0,420,W,560)]:   # paper creases
         cr=Image.new('L',(W,H),0); cd=ImageDraw.Draw(cr); cd.line((x0,y0,x1,y1),fill=255,width=3)
         c=np.asarray(cr.filter(ImageFilter.GaussianBlur(1.5))).astype(np.float32)/255
         c2=np.roll(np.roll(c,4,0),3,1)
-        img=img*(1-c[...,None]*0.18)+255*c2[...,None]*0.10
+        crd=np.maximum(crd,c*0.18); crl=np.maximum(crl,c2*0.10)
+    comp('Grunge - crease shadows',[0,0,0],crd); comp('Grunge - crease highlights',[255,255,255],crl)
 canvas=Image.fromarray(np.clip(img,0,255).astype(np.uint8)).convert('RGBA')
 d=ImageDraw.Draw(canvas)
 
@@ -150,8 +160,33 @@ smk=smk.filter(ImageFilter.GaussianBlur(16))
 sm=np.asarray(smk).astype(np.float32)/255*np.clip((yy-P(0,600)[1])/500,0,1)
 smL=np.zeros((H,W,4),np.uint8); smL[...,:3]=40; smL[...,3]=(np.clip(sm*1.6,0,1)*210).astype(np.uint8)
 canvas.alpha_composite(Image.fromarray(smL))
+LAYERS.append(('Smoke',np.full((H,W,3),40,np.float32),np.clip(sm*1.6,0,1)*210/255))
 
 # ---------- final grain
-arr=np.asarray(canvas.convert('RGB')).astype(np.float32)+rng.normal(0,5,(H,W,1))
+GRAIN=rng.normal(0,5,(H,W,1))
+arr=np.asarray(canvas.convert('RGB')).astype(np.float32)+GRAIN
 out='abuja_b_stage2.png' if STYLE=='paper' else f'bg-options/abuja_b_{STYLE}.png'
 Image.fromarray(np.clip(arr,0,255).astype(np.uint8)).save(out)
+
+# ---------- layered PSD export
+if TITLE and os.environ.get('PSD'):
+    from psd_tools import PSDImage
+    from psd_tools.api.layers import PixelLayer
+    from psd_tools.constants import BlendMode
+    psd=PSDImage.new('RGB',(W,H),color=(0,0,0))
+    def rgba(color,alpha):
+        alpha=np.where(alpha<0.01,0,alpha)
+        a=np.dstack([np.clip(color,0,255),np.clip(alpha,0,1)[...,None]*255]).astype(np.uint8)
+        return Image.fromarray(a,'RGBA')
+    for name,color,alpha in LAYERS:
+        im=Image.fromarray(np.clip(bg,0,255).astype(np.uint8)).convert('RGBA') if color is None else rgba(color,alpha)
+        bb=im.getbbox()
+        if bb is None: continue
+        lay=PixelLayer.frompil(im.crop(bb),psd,name,top=bb[1],left=bb[0])
+        psd.append(lay)
+    # film grain as a 50%-grey overlay layer (+/- noise around mid grey)
+    g=np.clip(128+GRAIN[...,0]*2.0,0,255).astype(np.uint8)
+    gl=PixelLayer.frompil(Image.fromarray(np.dstack([g,g,g,np.full((H,W),255,np.uint8)]),'RGBA'),psd,'Film grain (overlay)',top=0,left=0)
+    gl.blend_mode=BlendMode.OVERLAY; psd.append(gl)
+    psd.save(os.environ['PSD'])
+    print('saved',os.environ['PSD'],len(psd),'layers')
