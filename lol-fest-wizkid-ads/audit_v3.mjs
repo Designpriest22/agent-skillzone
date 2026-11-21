@@ -18,6 +18,8 @@ await Promise.all([0, 1, 2].map(async () => { while (q.length) { const j = q.shi
     for (const s of tx) { texts.add(s); if (!APPROVED.includes(s)) P.push(`unapproved text "${s}"`); }
     for (const im of log.imgs) if (/^\d\d-.*\.png$/.test(im) && im !== sponsorLogo && !im.startsWith(sponsorLogo.replace('.png', '-'))) P.push(`other sponsor logo ${im}`);
     if (t < 4) log.imgs.forEach(x => intro.add(x));
+    if (noIntroLogo && t < 4) { log.imgs.forEach(x => fest.add(x)); tx.forEach(x => festT.add(x)); }
+    if (t < 4) {}
     else if (t < ENDFRAME) { log.imgs.forEach(x => fest.add(x)); tx.forEach(x => festT.add(x)); }
     else if (t >= ENDFRAME + 1.2) { endN++; const need = [tx.includes('WIZKID.TIX.AFRICA'), tx.includes('DECEMBER 13, 2026'), tx.includes('EAGLE SQUARE, ABUJA'), log.imgs.some(own), log.imgs.includes('lol-logo'), log.imgs.includes('wizkid-wordmark.png')]; if (need.includes(false)) endMiss++; }
   }
