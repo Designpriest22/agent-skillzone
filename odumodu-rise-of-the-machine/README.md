@@ -1,6 +1,6 @@
 # ODUMODUBLVCK: Rise of the Machine, 40 s promo
 
-Kalacious Entertainment presents ODUMODUBLVCK, **Rise of the Machine**, Dec. 20th, Abuja. Tickets: odumodublvck.myflextickets.com.
+Kalacious Entertainment presents ODUMODUBLVCK, **Rise of the Machine**, Dec. 18th, Abuja. Tickets: odumodublvck.myflextickets.com.
 
 The idea is **"The crowd is the machine."** It takes the poster's cyborg artwork (red eye, okpu agu, chrome) and turns it into a brutalist, machine-themed edit built from the crowd's energy. The look is red, black and off-white: condensed Anton type in hard black and red blocks, JetBrains Mono HUD and terminal text, photocopy-threshold and red-duotone frame treatments, stop-motion stutter (8–15 fps steps with jitter), and a hit on every kick of the track (shake, zoom pulse and RGB split).
 
@@ -13,12 +13,12 @@ The idea is **"The crowd is the machine."** It takes the poster's cyborg artwork
 | 5.7–7.8 | Stop-motion collage: crowd photo-cards slam down, faster and faster. THE CROWD / IS THE / MACHINE |
 | 7.8–8.9 | Strobe build: head art, crowd and black alternate on 3, then 2, then 1 frames. LOADING MACHINE 100% |
 | **8.9** | **Drop:** white flash, then the ODUMODUBLVCK slam over the head art (red, then black on the next kick) |
-| 9.6–19.9 | Crowd montage cut on the kicks: OKPU AGU ON. · ABUJA · LOUDER · 20.12 · SING IT BACK · HANDS UP · NO SEATS. · ONLY NOISE. · THE MACHINE RUNS ON YOU |
+| 9.6–19.9 | Crowd montage cut on the kicks: OKPU AGU ON. · ABUJA · LOUDER · 18.12 · SING IT BACK · HANDS UP · NO SEATS. · ONLY NOISE. · THE MACHINE RUNS ON YOU |
 | 19.9–22.3 | Head art stop-motion, then the chrome RISE OF THE MACHINE title slam with scrolling tickers |
 | 22.3–26.6 | ONE NIGHT · ONE CITY · LOUD / LOUDER / LOUDEST · ABUJA STAND UP |
 | 26.6–28.7 | "CAM" grid: crowd cells reveal in stop-motion, with THE CROWD IS THE MACHINE |
-| 28.7–33.3 | Performer close-ups, LIVE IN ABUJA, DEC. 20TH |
-| 33.3–40 | End card: name, head art (stop-motion in, eye glow pulsing on the kicks), chrome title, DEC. 20TH ★ ABUJA, ticket URL, Kalacious logo and partner strip |
+| 28.7–33.3 | Performer close-ups, LIVE IN ABUJA, DEC. 18TH |
+| 33.3–40 | End card: name, head art (stop-motion in, eye glow pulsing on the kicks), chrome title, DEC. 18TH ★ ABUJA, ticket URL, Kalacious logo and partner strip |
 
 ## Deliverables
 
@@ -45,8 +45,8 @@ The audio is the supplied clip's own track, from 3.0 s to 43.0 s. The track's in
 mkdir -p fr out && ffmpeg -i src.mp4 -vf crop=720:1080:0:0 -q:v 2 fr/%05d.jpg
 cd tools && python3 audio.py && cd ..
 ffmpeg -i out/mix.wav -af loudnorm=I=-14:TP=-1.0:LRA=11 -ar 48000 out/mix_norm.wav
-python3 tools/render.py 1080 1920 out/v_916.mp4      # also 1080 1350, 1080 1080, 1920 1080, 3840 2160
-ffmpeg -i out/v_916.mp4 -i out/mix_norm.wav -c:v copy -c:a aac -b:a 320k -shortest -movflags +faststart out/ROTM_40s_9x16_1080x1920.mp4
+AUD=out/mix_norm.wav MAXR=20 python3 tools/render.py 1080 1920 out/ROTM_40s_9x16_1080x1920.mp4
+# also 1080 1350 / 1080 1080 (MAXR=20), 1920 1080 (MAXR=25), 3840 2160 (MAXR=60)
 ```
 Needs `pip install numpy opencv-python-headless pillow scipy`. The source footage, extracted frames and all renders are git-ignored.
 
@@ -54,6 +54,40 @@ Needs `pip install numpy opencv-python-headless pillow scipy`. The source footag
 - The music is the recording from the supplied clip. Check that the sync licence covers paid media.
 - For broadcast TV, re-run the loudness pass at the station's spec (for example -23 LUFS for EBU R128 or -24 LKFS for ATSC A/85). The video does not need to change.
 - Partner logos are cropped from the official poster.
+
+---
+
+# Machine VFX reels (9:16, DEC. 18TH)
+
+Two event reels told through the Machine's eye. Both use the song only, with no added SFX.
+
+**Reel A: MACHINE VISION (20 s)**, `ROTM_REEL_A_MachineVision_20s_9x16.mp4`, audio from source 1.88–21.88 s (drop at 10.0 s)
+| Time (s) | Scene |
+|---|---|
+| 0–1.4 | The optic boots: extreme close-up on the red eye pulling back in steps, crosshair and OPTIC_01 lock, typed "MACHINE VISION v2.0" |
+| 1.4–4.2 | SCANNING CROWD: a scan line sweeps each shot, edge-detection vision below it and full colour above, and real faces get target locks (HUMAN_xxx) as the line passes. The HUMANS DETECTED counter climbs |
+| 4.2–7.0 | Heat vision on the crowd, with a CROWD ENERGY bar rising to 99% |
+| 7.0–10.0 | System overload: stills flicker through edge, heat, ASCII, colour and binary with growing glitch. ENERGY: CRITICAL, then a 3, 2, 1 countdown |
+| 10.0–11.1 | Drop: ODUMODUBLVCK, with the real and edge-traced key art swapping on the kicks |
+| 11.1–16.7 | Crowd cut on the kicks, an edge-vision flash on every hit, face locks throughout. TARGET ABUJA · THE MACHINE IS COMING · 18.12 · BIG KALA · ODUMODUBLVCK |
+| 16.7–20 | End card with a TARGET LOCKED reticle on the eye and a scan sweep |
+
+**Reel B: SYSTEM OVERRIDE (15 s)**, `ROTM_REEL_B_SystemOverride_15s_9x16.mp4`, audio from source 26.4–41.4 s
+| Time (s) | Scene |
+|---|---|
+| 0–2.5 | Hacked terminal: `> sys.override --force`, `> load odumodublvck.exe` and more. Glitched key art, ASCII crowd and edge-traced head flip on every kick |
+| 2.5–5.3 | INSTALLING THE MACHINE: an ASCII crowd resolves to real footage behind a scan wipe, with face locks and a progress bar to 100% |
+| 5.3–7.9 | Datamosh montage (slice shifts, block displacement, RGB split, spiking on the kicks) under binary rain. ABUJA · 18.12 · BIG KALA |
+| 7.9–11.4 | The chrome RISE OF THE MACHINE assembles from scattered slices, snaps together on the kick at 8.47 s, then ODUMODUBLVCK.EXE // LOADED |
+| 11.4–15 | End card glitches in, with glitch pulses on the kicks |
+
+The effects (`tools/reels.py`) are Canny edge vision, a heat-vision palette, a glyph-atlas ASCII/binary renderer, slice and block datamosh, scan lines, and HUD/terminal overlays. Face locks come from real detections. OpenCV 5 dropped the Haar cascades, so `tools/faces_opencv4.py` runs once under OpenCV 4.10 and writes `tools/faces.json`.
+```
+ffmpeg -ss 1.88 -t 20 -i src.mp4 -vn -af "afade=t=in:d=0.03,afade=t=out:st=19:d=1,loudnorm=I=-14:TP=-1.0:LRA=11" -ar 48000 out/reelA.wav
+REEL=A DUR=20 OFF=1.88 python3 tools/reels.py 1080 1920 out/ROTM_REEL_A_MachineVision_20s_9x16.mp4 out/reelA.wav
+ffmpeg -ss 26.4 -t 15 -i src.mp4 -vn -af "afade=t=in:d=0.03,afade=t=out:st=14:d=1,loudnorm=I=-14:TP=-1.0:LRA=11" -ar 48000 out/reelB.wav
+REEL=B DUR=15 OFF=26.4 python3 tools/reels.py 1080 1920 out/ROTM_REEL_B_SystemOverride_15s_9x16.mp4 out/reelB.wav
+```
 
 ---
 

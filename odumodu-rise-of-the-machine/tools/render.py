@@ -289,7 +289,7 @@ def date_img(tw):
     if key in _sc:
         return _sc[key]
     px = 200
-    a = glyph_mask('DEC. 20TH', 'archivo', px, 0.02); b = glyph_mask('ABUJA', 'archivo', px, 0.02)
+    a = glyph_mask('DEC. 18TH', 'archivo', px, 0.02); b = glyph_mask('ABUJA', 'archivo', px, 0.02)
     st = star_mask(int(a.shape[0] * 0.95)); gap = int(px * 0.22)
     hh = max(a.shape[0], st.shape[0])
     w_ = a.shape[1] + b.shape[1] + st.shape[1] + 2 * gap
@@ -445,7 +445,7 @@ TEXT = [
     (9.597, 10.619, ['OKPU AGU', 'ON.'], 'block'),
     (10.897, 11.800, ['ABUJA'], 'huge'),
     (11.800, 12.662, ['LOUDER'], 'red'),
-    (13.219, 14.252, ['20.12'], 'out'),
+    (13.219, 14.252, ['18.12'], 'out'),
     (14.670, 15.541, ['SING', 'IT BACK'], 'block'),
     (15.541, 16.598, ['HANDS', 'UP'], 'huge'),
     (16.598, 17.317, ['NO SEATS.'], 'red'),
@@ -459,7 +459,7 @@ TEXT = [
     (25.456, 26.617, ['ABUJA', 'STAND UP'], 'block'),
     (28.660, 29.543, ['ODUMODU', 'BLVCK'], 'huge'),
     (29.543, 31.307, ['LIVE IN', 'ABUJA'], 'block'),
-    (31.865, 33.316, ['DEC.', '20TH'], 'red'),
+    (31.865, 33.316, ['DEC.', '18TH'], 'red'),
 ]
 
 def shot_at(t):
@@ -697,7 +697,7 @@ def seg_HEADSTOP(cv, t, f):
                         hw * [0.7, 0.85, 1.0, 1.15][min(3, k // 2)], r.uniform(-6, 6))
     glow(cv, ex, ey, 100 * u, 1.3)
 
-TICK_TXT = '  RISE OF THE MACHINE  ★  ODUMODUBLVCK  ★  ABUJA  ★  DEC. 20TH  ★  LIVE  ★'
+TICK_TXT = '  RISE OF THE MACHINE  ★  ODUMODUBLVCK  ★  ABUJA  ★  DEC. 18TH  ★  LIVE  ★'
 def ticker(cv, y, t, fg, bg, speed=1.0, px=None):
     px = px or int(30 * u)
     im = mono(TICK_TXT.replace('★', '*'), px, fg, bg, 0.12)
@@ -853,7 +853,7 @@ def hud(cv, t, f):
     im = mono(tc, px, WHT)
     blit(cv, im, W - m - 50 * u - im.shape[1], top)
     bot = H * (0.955 if LAY != 'tall' else 0.80) - px
-    blit(cv, mono('ABJ * 20.12', px, WHT, RED), m + 50 * u, bot)
+    blit(cv, mono('ABJ * 18.12', px, WHT, RED), m + 50 * u, bot)
     if int(t * 2) % 2 == 0:
         glow(cv, W - m - 70 * u, bot + px * 0.6, 12 * u, 1.3)
     im = mono('LIVE', px, WHT)
@@ -921,7 +921,10 @@ if __name__ == '__main__':
         sys.exit()
     f0, f1 = (int(sys.argv[4]), int(sys.argv[5])) if len(sys.argv) > 5 else (0, N)
     p = subprocess.Popen(['ffmpeg', '-v', 'error', '-y', '-f', 'rawvideo', '-pix_fmt', 'rgb24', '-s', f'{W}x{H}', '-r', str(FPS),
-                          '-i', '-', '-c:v', 'libx264', '-preset', 'medium', '-crf', '14', '-pix_fmt', 'yuv420p', '-threads', '2', OUT],
+                          '-i', '-', '-i', os.environ['AUD'], '-map', '0:v', '-map', '1:a', '-c:v', 'libx264', '-preset', 'medium', '-crf', '18',
+                          '-maxrate', os.environ.get('MAXR', '20') + 'M', '-bufsize', str(2 * int(os.environ.get('MAXR', '20'))) + 'M',
+                          '-profile:v', 'high', '-pix_fmt', 'yuv420p', '-c:a', 'aac', '-b:a', '320k', '-ar', '48000', '-shortest',
+                          '-movflags', '+faststart', OUT],
                          stdin=subprocess.PIPE)
     import time
     t0 = time.time()
