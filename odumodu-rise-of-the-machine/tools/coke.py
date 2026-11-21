@@ -292,7 +292,7 @@ def date_img(tw, tcol=WHT, scol=WHT):
     if key in _sc:
         return _sc[key]
     px = 200
-    a = glyph_mask('DEC. 20TH', 'archivo', px, 0.02); b = glyph_mask('ABUJA', 'archivo', px, 0.02)
+    a = glyph_mask('DEC. 18TH', 'archivo', px, 0.02); b = glyph_mask('ABUJA', 'archivo', px, 0.02)
     st = star_mask(int(a.shape[0] * 0.95)); gap = int(px * 0.22)
     hh = max(a.shape[0], st.shape[0])
     w_ = a.shape[1] + b.shape[1] + st.shape[1] + 2 * gap
@@ -444,7 +444,10 @@ def bubbles(cv, t, n=46, seed=11, scale=1.0, col=(255, 255, 255), fill=False):
 
 # ---------------------------------------------------------------- shot list
 SH = [
-    (0.000, 'OPEN'), (1.600, 'WIPE'), (2.600, 'BUILD'), (4.000, 'NAME'),
+    (0.000, 0.10, 1.0, 'grade', 'tri', 1),     # straight into the crowd
+    (0.900, 33.55, 1.0, 'grade', 'tri', 1),
+    (1.750, 9.97, 1.0, 'grade', 'tri', 1),
+    (2.600, 'BUILD'), (4.000, 'NAME'),
     (4.720, 11.03, 0.8, 'duo', 'tri', 1),
     (5.138, 14.60, 1.0, 'grade', 'tri', 1),
     (5.742, 15.39, 0.8, 'grade', 'tri', 1),
@@ -469,7 +472,7 @@ TEXT = [
     (5.742, 6.900, ['ICE COLD.'], 'white'),
     (6.900, 7.785, ['TURN IT', 'UP'], 'red'),
     (7.785, 8.342, ['LOUDER'], 'red'),
-    (8.342, 9.375, ['20.12'], 'out'),
+    (8.342, 9.375, ['18.12'], 'out'),
     (9.375, 10.664, ['BIG KALA'], 'white'),
     (10.664, 12.440, ['REFRESH', 'THE MACHINE'], 'white'),
 ]
@@ -602,7 +605,7 @@ def seg_NAME(cv, t, f):
     blitc(cv, im, W / 2 + bx, H * 0.5 + by)
     bubbles(cv, t, n=40, seed=6, col=(255, 255, 255) if not swap else tuple(int(c) for c in RED))
 
-TICK = '  RISE OF THE MACHINE  *  ODUMODUBLVCK  *  ABUJA  *  DEC. 20TH  *  POWERED BY COCA-COLA  *'
+TICK = '  RISE OF THE MACHINE  *  ODUMODUBLVCK  *  ABUJA  *  DEC. 18TH  *  POWERED BY COCA-COLA  *'
 def ticker(cv, y, t, fg, bg, speed=1.0):
     im = mono(TICK, int(28 * u), fg, bg, 0.12)
     tw = im.shape[1]
@@ -692,15 +695,19 @@ def seg_END(cv, t, f, static=False):
 SEGS = {'OPEN': seg_OPEN, 'WIPE': seg_WIPE, 'BUILD': seg_BUILD, 'NAME': seg_NAME, 'TITLE': seg_TITLE, 'END': seg_END}
 
 def hud(cv, t, f):
-    if not (4.72 <= t < 12.44):
+    if not (t < 3.95 or 4.72 <= t < 12.44):
         return
     m = 34 * u
     blit(cv, mono('ODUMODUBLVCK // RISE OF THE MACHINE', int(16 * u), WHT), m, m)
-    lw = W * {'tall': 0.17, 'mid': 0.14, 'sq': 0.12, 'wide': 0.075}[LAY]
-    lk = lockup(lw, boxed=True)
-    bx = W - m - lk.shape[1]; by = m * (2.2 if LAY == 'tall' else 1)
-    blit(cv, lk, bx, by)
-    blit(cv, mono('ABJ * 20.12', int(16 * u), RED, WHT), m, H * (0.955 if LAY != 'tall' else 0.8) - 16 * u)
+    # POWERED BY + logo, bottom-centre (same placement idea as the end card), no box
+    lw = W * {'tall': 0.17, 'mid': 0.13, 'sq': 0.12, 'wide': 0.075}[LAY]
+    lk = lockup(lw)
+    cy = H * {'tall': 0.8, 'mid': 0.86, 'sq': 0.86, 'wide': 0.84}[LAY]
+    sh = lk.copy(); sh[:, :, :3] = 0
+    o = max(2, int(3 * u))
+    blitc(cv, sh, W / 2 + o, cy + o, 0.45)
+    blitc(cv, lk, W / 2, cy)
+    blit(cv, mono('ABJ * 18.12', int(16 * u), RED, WHT), m, H * (0.955 if LAY != 'tall' else 0.8) - 16 * u)
 
 FLASH = {4.0: WHT, 12.44: WHT, 15.343: WHT}
 
@@ -723,7 +730,8 @@ def post(cv, t, f, static=False):
         d = int(a * 7 * u)
         if d > 0:
             out = cv.copy(); out[:, d:, 0] = cv[:, :-d, 0]; out[:, :-d, 2] = cv[:, d:, 2]; cv[:] = out
-    hud(cv, t, f)
+    if not static:
+        hud(cv, t, f)
     o = cv.astype(np.float32) * (1 - (1 - VIG) * 0.5) + GRAIN[f % 6][:, :, None] * 5.0
     cv[:] = np.clip(o, 0, 255).astype(np.uint8)
     if not static:
@@ -803,7 +811,7 @@ def flyer_white(cv):
         blitc(cv, card, W * px_, H * py_)
     ti = asset_w('title', TITLE, W * {'tall': 0.9, 'mid': 0.8, 'sq': 0.72}[LAY])
     blitc(cv, ti, W / 2, H * TY)
-    big = styled(['DEC. 20TH'], 'redtxt', int(W * {'tall': 0.8, 'mid': 0.6, 'sq': 0.5}[LAY]), int(H * 0.085))
+    big = styled(['DEC. 18TH'], 'redtxt', int(W * {'tall': 0.8, 'mid': 0.6, 'sq': 0.5}[LAY]), int(H * 0.085))
     blitc(cv, big, W / 2, H * {'tall': 0.68, 'mid': 0.7, 'sq': 0.72}[LAY])
     ab = archivo('ABUJA', int(W * {'tall': 0.4, 'mid': 0.3, 'sq': 0.24}[LAY]), BLK, track=0.3)
     blitc(cv, ab, W / 2, H * {'tall': 0.75, 'mid': 0.785, 'sq': 0.805}[LAY])

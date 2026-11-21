@@ -59,17 +59,18 @@ Needs `pip install numpy opencv-python-headless pillow scipy`. The source footag
 
 # Coca-Cola × Rise of the Machine: 20 s sponsor spot and flyers
 
-A "Powered by Coca-Cola" cut (the supplied logo is used as-is, with POWERED BY set above it) that applies Coca-Cola's design language to the event system. It uses the logo red (sampled at `#EA1F25`), white space, the dynamic white ribbon and rising fizz bubbles. The event system supplies Anton block type (with Coca-Cola inversion: red type in white boxes), the cyborg key art, stop-motion steps and the crowd footage. Treatments are recoloured to a red-to-white Coca-Cola duotone, the 16:9 triptych gutters are Coca-Cola red, and a "POWERED BY / Coca-Cola" bug stays on screen through the montage. Only Coca-Cola and the organiser (Kalacious) appear. No other partner logos are shown.
+Date on all Coca-Cola assets: **DEC. 18TH** (18.12).
+
+A "Powered by Coca-Cola" cut (the supplied logo is used as-is, with POWERED BY set above it) that applies Coca-Cola's design language to the event system. It uses the logo red (sampled at `#EA1F25`), white space, the dynamic white ribbon and rising fizz bubbles. The event system supplies Anton block type (with Coca-Cola inversion: red type in white boxes), the cyborg key art, stop-motion steps and the crowd footage. Treatments are recoloured to a red-to-white Coca-Cola duotone, the 16:9 triptych gutters are Coca-Cola red, and a "POWERED BY" + logo badge sits bottom-centre through the clips. Only Coca-Cola and the organiser (Kalacious) appear. No other partner logos are shown.
 
 | Time (s) | Scene |
 |---|---|
-| 0–1.6 | Coca-Cola red field, fizz, the ribbon flows in. "POWERED BY" sits above the supplied Coca-Cola logo |
-| 1.6–2.6 | Ribbon wipe to white, then the cyborg head stops in (red eye) |
+| 0–2.6 | Straight into three crowd clips. POWERED BY and the logo sit bottom-centre (no box) |
 | 2.6–4.0 | REFRESH / THE / MACHINE over stop-motion crowd frames in Coca-Cola duotone with a riser |
 | **4.0** | **Drop:** ODUMODUBLVCK on red, then on white with a red ribbon |
-| 4.7–12.4 | Crowd montage cut on the kicks: ABUJA · ICE COLD. · TURN IT UP · LOUDER · 20.12 · BIG KALA · REFRESH THE MACHINE |
+| 4.7–12.4 | Crowd montage cut on the kicks: ABUJA · ICE COLD. · TURN IT UP · LOUDER · 18.12 · BIG KALA · REFRESH THE MACHINE |
 | 12.4–15.3 | Chrome RISE OF THE MACHINE title over the crowd, ribbon and a ticker that includes "Powered by Coca-Cola" |
-| 15.3–20 | End card: key art, name, title, DEC. 20TH ★ ABUJA, ticket URL, POWERED BY / Coca-Cola, Kalacious |
+| 15.3–20 | End card: key art, name, title, DEC. 18TH ★ ABUJA, ticket URL, POWERED BY / Coca-Cola, Kalacious |
 
 Videos (20 s, 30 fps, -14 LUFS): `COKE_ROTM_20s_9x16_1080x1920.mp4`, `_4x5_1080x1350`, `_1x1_1080x1080`, `_16x9_1920x1080`.
 The audio is the song only (no added SFX): source 7.877–27.877 s, so the track's drop lands at 4.0 s, with a 1 s fade-out.
