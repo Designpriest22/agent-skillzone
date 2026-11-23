@@ -75,8 +75,8 @@ function beat(t, b) {
 function bug(t) {
   const p = E.outCubic(prog(t, SP.noIntro ? .15 : T1 + .2, SP.noIntro ? .65 : T1 + .7)) * (1 - E.inCubic(prog(t, T2 - .3, T2)));
   if (p <= 0 || SP.noBug) return;
-  if (SP.bugBottom) { const B = cokeEnd(), sq = B.sq * .8, sqY = L.y1 - sq; ctx.save(); ctx.globalAlpha = p;   // flat: no shadow, no effects
-    poweredBy(L.cx, sqY - U(L.vert ? 14 : 12), B.pbS, '#FFFFFF'); drawImg(ctx, IMG[SP.bugLogo], L.cx, sqY + sq / 2, sq); ctx.restore(); return; }
+  if (SP.bugBottom) { const im = SP.bugLogo ? IMG[SP.bugLogo] : IMG.sponsor, ar = im.width / im.height, B = cokeEnd(), hh = ar > 1.4 ? B.sq * .42 : B.sq * .8, ww = Math.min(L.sw * .42, hh * ar), h2 = ww / ar, sqY = L.y1 - h2 - (SP.under ? GM() * .4 : 0); ctx.save(); ctx.globalAlpha = p;   // flat: no shadow, no effects
+    poweredBy(L.cx, sqY - U(L.vert ? 14 : 12), B.pbS, '#FFFFFF'); drawImg(ctx, im, L.cx, sqY + h2 / 2, ww); ctx.restore(); return; }
   const bImg = SP.bugLogo ? IMG[SP.bugLogo] : IMG.sponsor, w = SP.bugLogo ? U(L.vert ? 118 : 100) : slW(U(L.vert ? 250 : 210), U(L.vert ? 110 : 90)), h = w * bImg.height / bImg.width;
   ctx.save(); ctx.globalAlpha = p * .95; if (!SP.noLogoFx) { ctx.shadowColor = 'rgba(0,0,0,.55)'; ctx.shadowBlur = U(18); }
   const ph = SP.lock.powered ? U(26) : 0; if (ph) poweredBy(L.x0 + w / 2, L.y0 + U(16), U(16), '#FFFFFF');
@@ -134,8 +134,15 @@ function lockup(lt) {
   }
 }
 // sponsor credit line (client request): POWERED BY, set above the sponsor logo
-function cokeEnd() {
-  const sq = Math.min(U(L.vert ? 240 : 150), L.sh * .2), pbS = U(L.vert ? 28 : 20), padT = U(L.vert ? 46 : 34);
+const GM = () => U(L.vert ? 72 : 58);   // passe-partout margin
+function galleryRect(t, tin, tout) {   // inset window; slides in from the right at tin, out to the left at tout (0.4 s push)
+  const m = GM(), w = W - 2 * m, h = H - 2 * m; let x = m;
+  if (tin !== null) x += (1 - E.inOutCubic(prog(t, tin, tin + .4))) * (W - m * .5);
+  if (tout !== null) x -= E.inOutCubic(prog(t, tout, tout + .4)) * (W - m * .5);
+  return [x, m, w, h]; }
+function galleryRule(t) { const m = GM(); ctx.save(); ctx.strokeStyle = '#B08D4F'; ctx.lineWidth = U(2); ctx.strokeRect(m - U(10), m - U(10), W - 2 * m + U(20), H - 2 * m + U(20)); ctx.restore(); }
+function cokeEnd(hK = 1) {
+  const sq = Math.min(U(L.vert ? 240 : 150), L.sh * .2) * hK, pbS = U(L.vert ? 28 : 20), padT = U(L.vert ? 46 : 34);
   const sqY = L.y1 - sq, pbY = sqY - U(L.vert ? 14 : 12), bandTop = pbY - pbS - padT;
   let k = 1, out;
   for (let it = 0; it < 8; it++) {
@@ -288,32 +295,32 @@ const SPONSORS_CFG = {
     cues: [{ t: 0, k: 'tick' }, { t: .23, k: 'tick' }, { t: .47, k: 'impact', g: .9 }, { t: .9, k: 'whoosh', g: .6 }, { t: 3.5, k: 'whoosh' }, { t: 4, k: 'impact', g: .8 }, ...Array.from({ length: 11 }, (_, i) => ({ t: 4.5 + i * .5, k: 'hit', g: .6 })), { t: 10, k: 'impact', g: .9 }] },
 
   // 5 ── BEST · The Crest ──────────────────────────────────────────────────────────────────────────
-  best: { logo: '05-best', name: 'BEST', bpm: 96, music: 'sp-lux2',
-    // v3: BEST cream; the BEST logo is shown in black on cream (white over footage)
-    grade: [['soft-light', 'rgba(245,225,185,.28)'], ['multiply', 'rgba(40,30,15,.1)']], filter: 'contrast(1.06) brightness(1.3)',
-    type: { date: '#FFFFFF', venue: '#F1DDB0', reveal: 'fade' },
-    intro(t) {
-      bestCream(); const R = U(L.vert ? 360 : 290);
-      const p = E.inOutCubic(prog(t, .2, 1.4));
-      ctx.save(); ctx.strokeStyle = '#B08D4F'; ctx.lineWidth = U(4); ctx.beginPath(); ctx.arc(L.cx, L.cy, R, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * p); ctx.stroke();
-      ctx.globalAlpha = .5; ctx.lineWidth = U(1.5); ctx.beginPath(); ctx.arc(L.cx, L.cy, R + U(16), Math.PI / 2, Math.PI / 2 + Math.PI * 2 * p); ctx.stroke(); ctx.restore();
-      const w = slW(R * 1.55, R * .86); const lp = E.outCubic(prog(t, 1.0, 1.8));
-      drawImg(ctx, tinted(IMG.sponsor, BEST_INK), L.cx, L.cy, w, { alpha: lp, s: mix(.92, 1, lp) });
-      sweepImg(ctx, tinted(IMG.sponsor, BEST_INK), L.cx, L.cy, w, prog(t, 2.0, 3.0), 'rgba(214,170,90,.9)');
-    },
-    clips: [() => clip(3.45, 5.6, 'arrival', { from: 4.3, to: 5.6, fx: FX.arrival, fy: .56, z: [1.08, 1.14], mask: (g, t) => g.arc(L.cx, L.cy, Math.max(W, H) * E.inQuart(prog(t, 3.45, 4.1)) + 1, 0, 7) }),
-            () => clip(5.6, 8.2, 'walk', { from: 5.76, to: 7.86, fx: FX.walk, z: [1.08, 1.0] }),
-            () => clip(8.2, 10, 'stage', { keys: [[8.2, .9], [10, 2.1, E.outQuad]], fx: .5, fy: .44, z: [1.0, 1.08] })],
-    beats: [{ k: 'lol', a: 4.2, b: 5.6, y: () => L.y0 + L.sh * .3 }, { k: 'wizkid', a: 6.4, b: 8.2, y: () => L.y0 + L.sh * .16 },
-            { k: 'date', a: 8.5, b: 10, y: () => L.y0 + L.sh * .2 }, { k: 'venue', a: 8.8, b: 10, y: () => L.y0 + L.sh * .2 + U(100) }],
-    fx(t) { if (t > 5.6 && t < 8.2) { const c = SP._clips[1]; const [nx, ny] = trackAt('walk', c._s ?? 6); const [px, py] = c._r.map(nx, ny - .1); const p = E.outCubic(prog(t, 5.7, 6.2)) * (1 - prog(t, 7.9, 8.2));
-        ctx.save(); ctx.globalAlpha = p; ctx.strokeStyle = '#F1DDB0'; ctx.lineWidth = U(3); ctx.beginPath(); ctx.arc(px, py, U(L.vert ? 230 : 190), 0, 7); ctx.stroke(); ctx.globalAlpha = p * .45; ctx.beginPath(); ctx.arc(px, py, U(L.vert ? 246 : 204), 0, 7); ctx.stroke(); ctx.restore(); }
-      // cream frame around the footage keeps the brand colour on screen
-      ctx.save(); ctx.strokeStyle = '#F3E9D2'; ctx.lineWidth = U(L.vert ? 22 : 18); ctx.strokeRect(0, 0, W, H); ctx.strokeStyle = '#B08D4F'; ctx.lineWidth = U(2); const m = U(L.vert ? 22 : 18); ctx.strokeRect(m, m, W - 2 * m, H - 2 * m); ctx.restore(); },
-    lock: { divider: 'line', divColor: '#B08D4F', reveal: 'fade', ease: E.outQuart, step: .15, sweep: 1.0, sweepCol: 'rgba(214,170,90,.8)', logoK: 1.0, vig: .06, dark: '#1C1610', colors: { date: '#1C1610', venue: '#8A6A35' },
+  best: { vigFest: .1, noIntro: true, bugBottom: true, noLogoFx: true, noIntroLogo: true, logo: '05-best', name: 'BEST', bpm: 96, music: 'sp-lux2',
+    // v6 "Gallery Cuts": the footage plays inside a cream passe-partout with a gold rule; shots slide in and out sideways
+    // (no wipes, no masks); warm filmic grade; same placements as Coca-Cola (credit bottom centre, credit under the ticket line)
+    grade: [['soft-light', 'rgba(245,220,170,.28)'], ['multiply', 'rgba(40,28,12,.1)']], filter: 'contrast(1.06) saturate(.92) sepia(.12) brightness(1.28)',
+    type: { date: '#FFFFFF', venue: '#F1DDB0', reveal: 'track' },
+    under(t) { bestCream(); },
+    clips: [() => clip(0, 2.6, 'profile', { from: 7.94, to: 9.4, fx: FX.profile, fy: .42, z: [1.16, 1.04], rect: t => galleryRect(t, null, 2.2) }),
+            () => clip(2.2, 5.0, 'walk', { from: 5.8, to: 7.8, fx: FX.walk, z: [1.1, 1.0], rect: t => galleryRect(t, 2.2, 4.6) }),
+            () => clip(4.6, 7.6, 'stage', { keys: [[4.6, .3], [5.6, 1.1], [7.6, 2.2, E.outQuad]], fx: .5, fy: .45, z: [1.04, 1.12], rect: t => galleryRect(t, 4.6, 7.2) }),
+            () => clip(7.2, 10, 'aerial', { from: 2.5, to: 4.2, fx: .52, z: [1.14, 1.0], rect: t => galleryRect(t, 7.2, null) })],
+    beats: [{ k: 'lol', a: .3, b: 2.0, y: () => L.y0 + L.sh * .3 }, { k: 'wizkid', a: 2.7, b: 4.4, y: () => L.y0 + L.sh * .26 },
+            { k: 'date', a: 7.7, b: 10, y: () => L.y0 + L.sh * .3 }, { k: 'venue', a: 7.95, b: 10, y: () => L.y0 + L.sh * .3 + U(100) }],
+    fx(t) { galleryRule(t); for (const t0 of [2.2, 4.6, 7.2]) if (t > t0 && t < t0 + .45) flash(ctx, L, Math.sin(prog(t, t0, t0 + .45) * Math.PI) * .32, '#FFF8EC'); },
+    lock: { custom: true, divider: 'none', reveal: 'fade', ease: E.outCubic, step: .12, logoK: 1, vig: 0, powered: '#8A6A35', dark: '#1C1610', colors: { date: '#1C1610', venue: '#8A6A35' },
       cta: { shape: 'line', line: '#1C1610', fg: '#1C1610', lead: '#8A6A35', bg: null } },
-    lockBg(lt) { bestCream(); ctx.save(); ctx.fillStyle = '#B08D4F'; ctx.globalAlpha = .6 * E.outCubic(prog(lt, .2, 1)); ctx.fillRect(L.x0, L.y0 - U(20), L.sw, U(1.5)); ctx.fillRect(L.x0, L.y1 + U(20), L.sw, U(1.5)); ctx.restore(); },
-    cues: [{ t: 0, k: 'swell', d: 1.2 }, { t: 1.0, k: 'chime' }, { t: 2.0, k: 'shimmer', g: .6 }, { t: 3.45, k: 'whoosh', g: .6 }, { t: 4, k: 'hit', g: .7 }, { t: 5.6, k: 'thump' }, { t: 8.2, k: 'impact', g: .7 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'boom' }, { t: 11, k: 'shimmer', g: .5 }] },
+    lockBg(lt) { bestCream(); ctx.save(); ctx.strokeStyle = '#B08D4F'; ctx.globalAlpha = E.outCubic(prog(lt, 0, .6)); ctx.lineWidth = U(2); const m = U(L.vert ? 30 : 24); ctx.strokeRect(m, m, W - 2 * m, H - 2 * m); ctx.restore(); },
+    lockFg(lt) { const B = cokeEnd(.5), ap = i => E.outCubic(prog(lt, .05 + i * .12, .6 + i * .12)), dk = '#1C1610', ty = { ...SP.type, ...SP.lock.colors };
+      const rise = (i, fn) => { const q = ap(i); if (q <= 0) return; ctx.save(); ctx.globalAlpha *= q; ctx.translate(0, (1 - q) * U(24)); fn(); ctx.restore(); };
+      rise(0, () => lolLogo(ctx, L.cx, B.y[0] + B.lH / 2, B.lW, { dark: dk }));
+      rise(1, () => drawImg(ctx, tinted(IMG.wizkid, dk), L.cx, B.y[1] + B.wH / 2, B.wW));
+      rise(2, () => { text(ctx, BRAND.event.dateLong, L.cx, B.y[2] + B.ds * .86, { fam: 'Anton', size: B.ds, track: .02, color: ty.date }); text(ctx, BRAND.event.venue, L.cx, B.y[2] + B.ds * .86 + B.vs * 1.55, { fam: 'Oswald', w: 700, size: B.vs, track: .3, color: ty.venue }); });
+      ticketCTA(B.y[3], ap(3), ty);
+      // gold rule, POWERED BY and the BEST logo in black on cream, under the ticket line (flat: no effects)
+      const q = E.outCubic(prog(lt, .75, 1.25)); if (q > 0) { ctx.save(); ctx.globalAlpha = q; ctx.fillStyle = '#B08D4F'; ctx.fillRect(L.cx - L.sw * .18, B.bandTop + B.pbS * .2, L.sw * .36, U(1.5));
+        poweredBy(L.cx, B.pbY, B.pbS, '#8A6A35'); const im = tinted(IMG.sponsor, dk), h = B.sq, w = Math.min(L.sw * .5, h * im.width / im.height); drawImg(ctx, im, L.cx, B.sqY + B.sq / 2, w); ctx.restore(); } },
+    cues: [{ t: 0, k: 'swell', d: 1.2 }, { t: 2.2, k: 'whoosh', g: .5 }, { t: 4.6, k: 'whoosh', g: .5 }, { t: 7.2, k: 'whoosh', g: .5 }, { t: 9.7, k: 'reverse', d: .3 }, { t: 10, k: 'boom' }, { t: 11, k: 'shimmer', g: .5 }] },
 
   // 6 ── AXE · Hard Lines ──────────────────────────────────────────────────────────────────────────
   axe: { logo: '06-axe', name: 'AXE', bpm: 124, music: 'sp-dark',
@@ -647,8 +654,9 @@ async function renderAt(frame) {
     const tt = ft(t); _t = tt;
     // footage clips may begin under the intro's own transition (their masks open them)
     if (tt < T1 && !SP.noIntro) SP.intro(tt);
+    SP.under?.(tt);
     for (const c of SP._clips) { const a0 = c.a; if (tt >= a0 && tt < c.b) await drawClip(c, tt); }
-    if (tt >= T1 || SP.noIntro) { SP.fx?.(tt); for (const b of SP.beats) beat(tt, b); bug(tt); vignette(ctx, L, .38); }
+    if (tt >= T1 || SP.noIntro) { SP.fx?.(tt); for (const b of SP.beats) beat(tt, b); bug(tt); vignette(ctx, L, SP.vigFest ?? .38); }
     else if (SP._clips.some(c => tt >= c.a)) { SP.fx?.(tt); }
   } else {
     SP.lockBg(t - TEND); vignette(ctx, L, SP.lock.vig ?? .35);
