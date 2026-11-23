@@ -1,201 +1,148 @@
 <!doctype html>
-<html><head><meta charset="utf-8"><title>LOL FEST x WIZKID — Ad 1 (Type Slam)</title>
-<style>html,body{margin:0;background:#000}canvas{display:block;max-width:100vw;max-height:100vh;margin:auto}#ui{position:fixed;left:8px;top:8px;color:#fff;font:12px monospace;opacity:.6}</style>
+<html><head><meta charset="utf-8"><title>LOL FEST × WIZKID — Ad 1</title>
+<style>html,body{margin:0;background:#000}canvas{display:block;max-width:100vw;max-height:100vh;margin:auto}#ui{position:fixed;left:8px;top:8px;color:#fff;font:12px monospace;opacity:.5}</style>
 </head><body><canvas id="c"></canvas><div id="ui"></div>
 <script src="lib.js"></script>
 <script src="endcard.js"></script>
 <script>
 'use strict';
-// AD 1 — "Type Slam" · source: Wizkid "Money & Love" (white-room performance, src 112.15s)
-// 35 s: 0-30 footage + kinetic WIZKID / LOL FEST / date / venue / tickets · 30-35 all-16 sponsor end frame.
-// Approved copy only (lib.js APPROVED). One video, its own song section, cut on the downbeat.
+// AD 1 — LOL FEST × WIZKID · "Money & Love" · 35s · footage-led, oxblood + gold motion graphics.
+// Energetic multi-shot Wizkid reel (cut on the bar) graded into the oxblood identity; gold type as accents;
+// WIZKID wordmark, LOL FEST logo (once), date, venue, tickets held >3s, then the 16-sponsor end frame.
 const Q = new URLSearchParams(location.search);
 const L = window.L = layout(Q.get('f') === 'feed' ? 'feed' : 'reels');
-const cv = document.getElementById('c');
-cv.width = L.W * L.dpr; cv.height = L.H * L.dpr;
+const cv = document.getElementById('c'); cv.width = L.W * L.dpr; cv.height = L.H * L.dpr;
 cv.style.width = Math.min(L.W, innerWidth) + 'px';
-const ctx = window.ctx = cv.getContext('2d');
-const U = window.U = n => n * L.u;
-const FPS = 25, DUR = 35, TEND = 30;      // sponsor end frame fills 30-35
-const BAR = 1.89726, BEAT = BAR / 4;      // 126.5 BPM, cut on the downbeat (audio starts on a downbeat)
-const B = n => n * BAR;                    // downbeat time of bar n
+const ctx = window.ctx = cv.getContext('2d'); const U = window.U = n => n * L.u;
+const FPS = 25, DUR = 35, TEND = 30, BAR = 1.8973, BEAT = BAR / 4;
+const B = n => n * BAR;
+const OX = { deep: '#26060C', mid: '#5A1420', edge: '#140205', gold: '#F2C78C', gold2: '#F6C26B', cream: '#F4EEE9', orange: '#E6531A', tan: '#C49A77' };
+const eo = p => { p = clamp(p); return 1 - Math.pow(1 - p, 3); };
+const eob = (p, s = 1.7) => { p = clamp(p); const q = p - 1; return 1 + (s + 1) * q * q * q + s * q * q; };
+const sg = (t, a, b) => clamp((t - a) / (b - a));
+const hitDecay = (t, per, dur) => { const ph = ((t % per) + per) % per; return ph < dur ? 1 - ph / dur : 0; };
+const wordmarkGold = () => tinted(IMG.wizkid, OX.gold);
 
-// ---- footage (frames pre-extracted for this ad) ----
+// ---- footage (energetic reel, cuts baked on the bar) ----
 let NF = 750;
-async function footMeta() { const m = await (await fetch('footage/ad1/meta.json')).json(); NF = m.n; }
-const fcache = new Map(), forder = [];
-function frameAt(idx) {                       // returns Promise<Image>, cached
-  idx = clamp(idx, 0, NF - 1); const key = 'f' + idx;
-  if (fcache.has(key)) return fcache.get(key);
-  const p = loadImg(`footage/ad1/${String(idx).padStart(4, '0')}.jpg`);
-  fcache.set(key, p); forder.push(key);
-  if (forder.length > 180) fcache.delete(forder.shift());
-  return p;
-}
-// short freeze-frames on the big hits (the rest plays 1:1 with the song)
-const HOLDS = [[B(6) - 0.05, .34], [B(9) + .0, .42], [B(12) + .0, .30]];
-function footTime(t) { let ft = t; for (const [ts, d] of HOLDS) if (t > ts) ft -= Math.min(t - ts, d); return ft; }
+async function footMeta() { try { NF = (await (await fetch('footage/ad1/meta.json')).json()).n; } catch (e) {} }
+const fc = new Map(), fo = [];
+function frameAt(i) { i = clamp(i, 0, NF - 1); const k = 'f' + i; if (fc.has(k)) return fc.get(k); const p = loadImg(`footage/ad1/${String(i).padStart(4, '0')}.jpg`); fc.set(k, p); fo.push(k); if (fo.length > 170) fc.delete(fo.shift()); return p; }
 
-// ---- small timing helpers ----
-const easeOutBack = (p, s = 1.7) => { p = clamp(p); const q = p - 1; return 1 + (s + 1) * q * q * q + s * q * q; };
-const easeOutCubic = p => { p = clamp(p); return 1 - Math.pow(1 - p, 3); };
-const easeInCubic = p => { p = clamp(p); return p * p * p; };
-const seg = (t, a, b) => clamp((t - a) / (b - a));           // 0..1 across [a,b]
-const pulse = (t, at, up = .08, dn = .4) => t < at ? 0 : t < at + up ? (t - at) / up : Math.max(0, 1 - (t - at - up) / dn); // attack/decay spike
-const hitDecay = (t, period, dur) => { const ph = ((t % period) + period) % period; return ph < dur ? 1 - ph / dur : 0; };
-
-// soft dark underlay so white type reads on bright footage (type treatment, not a logo effect)
-function glow(draw, blur, col = 'rgba(0,0,0,.55)') {
-  ctx.save(); ctx.filter = `blur(${blur}px)`; ctx.globalAlpha *= .9; ctx.fillStyle = col; draw(true); ctx.restore();
-}
-// WIZKID wordmark with a soft shadow, scaled/rotated around (cx,cy)
-function wizmark(cx, cy, w, { a = 1, s = 1, rot = 0, blur = 0 } = {}) {
-  if (a <= .002) return; const img = IMG.wizkid; const sh = tinted(img, 'rgba(0,0,0,.6)');
-  ctx.save(); ctx.globalAlpha *= a; ctx.translate(cx, cy); if (rot) ctx.rotate(rot); ctx.scale(s, s);
-  const h = w * img.height / img.width;
-  ctx.save(); ctx.filter = `blur(${8 + blur}px)`; ctx.globalAlpha *= .8; ctx.drawImage(sh, -w / 2, -h / 2 + U(6), w, h); ctx.restore();
-  if (blur) ctx.filter = `blur(${blur}px)`;
-  ctx.drawImage(img, -w / 2, -h / 2, w, h); ctx.restore();
-}
-
-// ---- the ad ----
 function drawFootage(t, frame, img) {
   if (!img || !img.naturalWidth) return;
-  // beat punch zoom + camera shake on downbeats
-  const punch = hitDecay(t, BAR, .32), bigPunch = hitDecay(t, BAR * 3, .5);
-  const zoom = 1.02 + .035 * easeOutCubic(1 - punch) * 0 + .045 * punch + .02 * bigPunch;
-  const sh = (U(10) * punch + U(6) * bigPunch);
-  const sx = (hash(frame) - .5) * sh, sy = (hash(frame + 7) - .5) * sh;
-  ctx.save(); ctx.translate(sx, sy);
-  // focal point: keep Wizkid (centre/upper) in frame; feed shows a bit lower
-  drawCover(ctx, img, 0, 0, L.W, L.H, .5, L.vert ? .42 : .46, zoom);
+  const ph = (t % BAR) / BAR;                 // push-in across each shot, snaps on the cut
+  const zoom = 1.015 + .055 * ph + .03 * hitDecay(t, BAR, .22);
+  const bar = Math.floor(t / BAR);
+  const fx = .5 + (bar % 2 ? .05 : -.05) * ph; // gentle alternating drift
+  ctx.save();
+  drawCover(ctx, img, 0, 0, L.W, L.H, fx, L.vert ? .42 : .46, zoom);
   ctx.restore();
-  grade(ctx, L, 'gold', .34);                 // gentle warm cinema grade
-  vignette(ctx, L, .5, .5);
+  // grade the footage into the oxblood identity
+  ctx.save();
+  ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = .40; ctx.fillStyle = '#48101C'; ctx.fillRect(0, 0, L.W, L.H);
+  ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = .26; ctx.fillStyle = '#FFA64D'; ctx.fillRect(0, 0, L.W, L.H);
+  ctx.globalCompositeOperation = 'source-over'; ctx.globalAlpha = 1;
+  const g = ctx.createRadialGradient(L.W / 2, L.H * .46, Math.min(L.W, L.H) * .3, L.W / 2, L.H * .5, Math.hypot(L.W, L.H) * .58);
+  g.addColorStop(0, 'rgba(20,2,5,0)'); g.addColorStop(1, 'rgba(20,2,5,.62)'); ctx.fillStyle = g; ctx.fillRect(0, 0, L.W, L.H);
+  ctx.restore();
+}
+// travelling gold light-sweep across the frame
+function lightSweep(p) {
+  if (p <= 0 || p >= 1) return; const x = mix(-.2, 1.2, p) * L.W;
+  const g = ctx.createLinearGradient(x - L.W * .16, 0, x + L.W * .16, L.H);
+  g.addColorStop(0, 'rgba(255,220,170,0)'); g.addColorStop(.5, 'rgba(255,220,170,.10)'); g.addColorStop(1, 'rgba(255,220,170,0)');
+  ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = g; ctx.fillRect(0, 0, L.W, L.H); ctx.restore();
+}
+function disp(str, x, y, size, o = {}) { text(ctx, str, x, y, { fam: 'Oswald', w: o.w || 200, size, align: o.align || 'center', color: o.color || OX.cream, track: o.track ?? .03, alpha: o.alpha, shadow: o.shadow }); }
+function wizkid(cx, cy, w, p, sweepP, { a = 1 } = {}) {
+  const img = wordmarkGold(), h = w * img.height / img.width, x0 = cx - w / 2;
+  ctx.save(); ctx.globalAlpha *= a;
+  ctx.shadowColor = 'rgba(0,0,0,.5)'; ctx.shadowBlur = U(26); ctx.shadowOffsetY = U(4);
+  ctx.beginPath(); ctx.rect(x0 - U(12), cy - h, w * clamp(p) + U(12), h * 2); ctx.clip();
+  ctx.drawImage(img, x0, cy - h / 2, w, h); ctx.restore();
+  if (sweepP > 0 && sweepP < 1) sweepImg(ctx, img, cx, cy, w, sweepP, 'rgba(255,240,210,.9)');
 }
 
 function drawBranding(t) {
   const cx = L.cx;
-  // ---------- 0-5.7s : WIZKID wordmark SLAM, punching on each downbeat ----------
-  if (t < B(3) + .4) {
-    const appear = seg(t, 0, .34);
-    const slam = Math.max(hitDecay(t, BAR, .55), appear < 1 ? 1 - appear : 0);
-    const s = (1 + .16 * slam) * (appear < 1 ? 0.6 + .4 * easeOutBack(appear) : 1);
-    const rot = (hitDecay(t, BAR, .25)) * 0.012 * (Math.sin(t * 40));
-    const blur = 10 * hitDecay(t, BAR, .18);
-    const a = seg(t, 0, .18) * (1 - seg(t, B(3) - .2, B(3) + .4));
-    wizmark(cx, L.vert ? L.cy - U(40) : L.cy, L.vert ? L.sw * .92 : L.sw * .5, { a, s, rot, blur });
-    // white flash on the opening hit and each downbeat
-    flash(ctx, L, .5 * hitDecay(t, BAR, .1) + .6 * seg(t, 0, .06) * (1 - seg(t, .06, .16)));
+  // 0–3.8s — WIZKID reveal + 13 DEC / LIVE / ABUJA accents
+  if (t < B(2) + .4) {
+    const a = 1 - sg(t, B(2) - .2, B(2) + .35);
+    wizkid(cx, L.vert ? L.y1 - U(170) : L.cy + U(70), L.vert ? L.sw * .94 : L.sw * .5, sg(t, .15, .95), sg(t, .3, 1.1), { a });
+    const aS = eo(sg(t, B(1) - .1, B(1) + .4)) * a;
+    disp('13 DEC', L.x0 + L.sw * .2, L.vert ? L.y1 - U(70) : L.cy + U(200), U(L.vert ? 60 : 48), { alpha: aS, color: OX.gold, w: 300, shadow: ['rgba(0,0,0,.55)', U(14)] });
+    text(ctx, 'LIVE', L.x0 + L.sw * .8, L.vert ? L.y1 - U(70) : L.cy + U(200), { fam: 'Oswald', w: 200, size: U(L.vert ? 64 : 50), align: 'center', color: OX.cream, alpha: aS, track: .04, shadow: ['rgba(0,0,0,.55)', U(14)] });
   }
-  // ---------- 5.7-9.5s : LOL FEST logo assembles once ----------
-  if (t >= B(3) - .1 && t < B(5) + .5) {
-    const p = seg(t, B(3), B(3) + .7), out = seg(t, B(5), B(5) + .5);
-    const a = p * (1 - out);
-    const w = L.vert ? L.sw * .96 : L.sh * .4;
-    ctx.save(); ctx.globalAlpha = a;
-    lolLogo(ctx, cx, L.cy - U(10), w, {
-      chev: { a: easeOutCubic(seg(t, B(3), B(3) + .4)), s: 1 },
-      word: { a: easeOutCubic(seg(t, B(3) + .15, B(3) + .6)) },
-      mf: { a: easeOutCubic(seg(t, B(3) + .3, B(3) + .7)) },
-      zig: { a: 1, reveal: easeOutCubic(seg(t, B(3) + .4, B(3) + .9)) },
-    });
+  // 3.8–7.6s — LIVE OUT LOUD mark inflates ONCE + light-sweep + zigzag
+  if (t >= B(2) && t < B(4) + .4) {
+    const inn = sg(t, B(2), B(2) + .6), out = sg(t, B(4) - .2, B(4) + .35), a = (1 - out);
+    const s = .62 + .38 * eob(inn), w = L.vert ? L.sw * .9 : L.sh * .44;
+    ctx.save(); ctx.globalAlpha = a * .5; ctx.fillStyle = '#140205'; ctx.fillRect(0, 0, L.W, L.H); ctx.restore();  // seat the mark
+    ctx.save(); ctx.translate(cx, L.cy - U(30)); ctx.scale(s, s); ctx.globalAlpha = a * clamp(inn * 1.5);
+    lolLogo(ctx, 0, 0, w, { chev: { a: eo(sg(t, B(2), B(2) + .5)) }, word: { a: eo(sg(t, B(2) + .1, B(2) + .6)) }, mf: { a: eo(sg(t, B(2) + .3, B(2) + .8)) }, zig: { a: 1, reveal: eo(sg(t, B(2) + .35, B(2) + 1)) } });
     ctx.restore();
-    if (p > .2 && p < 1) flash(ctx, L, .35 * pulse(t, B(3), .05, .3));
+    sweepImg(ctx, IMG.lol, cx, L.cy - U(30), w * s, sg(t, B(2) + .3, B(2) + 1.1), 'rgba(255,240,210,.85)');
   }
-  // ---------- 9.5-13.3s : DECEMBER 13, 2026 + EAGLE SQUARE, ABUJA (freeze-frame slam) ----------
-  if (t >= B(5) + .2 && t < B(7) + .6) {
-    const p = seg(t, B(5) + .3, B(5) + .7), out = seg(t, B(7) + .1, B(7) + .6);
-    const a = easeOutCubic(p) * (1 - out);
-    const y = L.vert ? L.cy - U(30) : L.cy - U(20);
-    const ds = (1 + .08 * hitDecay(t, BAR, .4));
-    flash(ctx, L, .4 * pulse(t, B(5) + .3, .04, .25));
-    ctx.save(); ctx.translate(cx, y); ctx.scale(ds, ds); ctx.globalAlpha = a;
-    text(ctx, BRAND.event.dateLong, 0, 0, { fam: 'Anton', size: U(L.vert ? 118 : 92), align: 'center', color: BRAND.white, track: .01, shadow: ['rgba(0,0,0,.65)', U(22)] });
-    ctx.restore();
-    ctx.save(); ctx.globalAlpha = a;
-    text(ctx, BRAND.event.venue, cx, y + U(L.vert ? 86 : 70), { fam: 'Oswald', w: 700, size: U(L.vert ? 42 : 34), align: 'center', color: BRAND.gold, track: .28, shadow: ['rgba(0,0,0,.6)', U(16)] });
-    ctx.restore();
+  // 7.6–11.4s — footage breathes; a single quiet WIZKID bug lower-left
+  // 11.4–15.2s — DATE + VENUE (elegant), over a darker footage moment
+  if (t >= B(6) && t < B(8) + .4) {
+    const inn = sg(t, B(6), B(6) + .6), out = sg(t, B(8) - .2, B(8) + .35), a = 1 - out;
+    const y = L.vert ? L.cy + U(40) : L.cy;
+    ctx.save(); ctx.globalAlpha = a * .4; ctx.fillStyle = '#140205'; ctx.fillRect(0, L.vert ? L.cy - U(180) : 0, L.W, L.vert ? U(420) : L.H); ctx.restore();
+    disp('DECEMBER', cx, y - U(50) - (1 - eo(inn)) * U(22), U(L.vert ? 88 : 72), { alpha: eo(inn), color: OX.gold, w: 300, track: .05 });
+    disp('13, 2026', cx, y + U(46) - (1 - eo(sg(t, B(6) + .1, B(6) + .6))) * U(22), U(L.vert ? 88 : 72), { alpha: eo(sg(t, B(6) + .1, B(6) + .6)), color: OX.cream, w: 300, track: .05 });
+    const za = eo(sg(t, B(6) + .3, B(6) + .8));
+    ctx.save(); ctx.globalAlpha = za; zigzag(ctx, cx - L.sw * .26, y + U(104), L.sw * .52, U(14), 7, { color: OX.orange, draw: za }); ctx.restore();
+    text(ctx, 'EAGLE SQUARE, ABUJA', cx, y + U(170), { fam: 'Oswald', w: 500, size: U(L.vert ? 38 : 32), align: 'center', color: OX.tan, track: .22, alpha: eo(sg(t, B(6) + .4, B(6) + .9)) });
   }
-  // ---------- 13.3-18s : WIZKID wordmark returns, kinetic, covers the mid cutaway ----------
-  if (t >= B(7) + .3 && t < B(9) + .6) {
-    const inn = seg(t, B(7) + .4, B(7) + .8), out = seg(t, B(9) + .1, B(9) + .6);
-    const a = easeOutCubic(inn) * (1 - out);
-    const s = (1 + .14 * hitDecay(t, BAR, .5)) * (0.7 + .3 * easeOutBack(inn));
-    wizmark(cx, L.cy, L.vert ? L.sw * .98 : L.sw * .52, { a, s, blur: 8 * hitDecay(t, BAR, .16) });
-    // orange zigzag accent under the mark
-    if (a > .3) { ctx.save(); ctx.globalAlpha = a; zigzag(ctx, L.x0 + L.sw * .12, L.cy + U(L.vert ? 150 : 90), L.sw * .76, U(16), 7, { color: BRAND.orange, draw: easeOutCubic(inn) }); ctx.restore(); }
+  // 15.2–20.9s — WIZKID reprise hit on the downbeat
+  if (t >= B(8) + .2 && t < B(11)) {
+    const inn = sg(t, B(8) + .3, B(8) + .8), out = sg(t, B(11) - .4, B(11)), a = eo(inn) * (1 - out);
+    wizkid(cx, L.cy, L.vert ? L.sw * .9 : L.sw * .48, 1, sg(t, B(9), B(9) + 1.0), { a });
   }
-  // ---------- 18-23s : full-frame TYPE SLAM — 13 DEC / LIVE / ABUJA stack ----------
-  if (t >= B(9) + .3 && t < B(12) + .3) {
-    const words = [['13 DEC', BRAND.white, 'Anton'], ['LIVE', BRAND.orange, 'Anton'], ['ABUJA', BRAND.white, 'Anton']];
-    const t0 = B(9) + .5;
-    // dark punch so the stacked type reads bold
-    ctx.save(); ctx.globalAlpha = .58 * seg(t, t0 - .2, t0 + .2) * (1 - seg(t, B(12) - .3, B(12) + .2)); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, L.W, L.H); ctx.restore();
-    const gap = U(L.vert ? 150 : 120), y0 = L.cy - gap;
-    words.forEach(([w, col, fam], i) => {
-      const ti = t0 + i * (BEAT * 2), p = seg(t, ti, ti + .22), out = seg(t, B(12) - .2, B(12) + .2);
-      const a = easeOutCubic(p) * (1 - out); if (a <= .002) return;
-      const s = 1 + .12 * hitDecay(t, BAR, .35);
-      ctx.save(); ctx.translate(cx + (1 - easeOutBack(p)) * U(120) * (i % 2 ? 1 : -1), y0 + i * gap); ctx.scale(s, s); ctx.globalAlpha = a;
-      text(ctx, w, 0, 0, { fam, size: U(L.vert ? 130 : 104), align: 'center', color: col, track: 0, shadow: ['rgba(0,0,0,.6)', U(18)] });
-      ctx.restore();
-      if (p > 0 && p < .3) flash(ctx, L, .3 * pulse(t, ti, .03, .2));
-    });
+  // 20.9–26.6s — LIVE / ABUJA accents, build
+  if (t >= B(11) && t < B(14) - .1) {
+    const a = eo(sg(t, B(11), B(11) + .5)) * (1 - sg(t, B(14) - .6, B(14) - .1));
+    text(ctx, 'LIVE', cx, L.vert ? L.cy - U(30) : L.cy - U(20), { fam: 'Oswald', w: 200, size: U(L.vert ? 150 : 120), align: 'center', color: OX.cream, alpha: a, track: .02, shadow: ['rgba(0,0,0,.5)', U(20)] });
+    text(ctx, 'ABUJA', cx, L.vert ? L.cy + U(96) : L.cy + U(80), { fam: 'Oswald', w: 700, size: U(L.vert ? 46 : 38), align: 'center', color: OX.orange, alpha: a, track: .3, shadow: ['rgba(0,0,0,.5)', U(12)] });
   }
-  // ---------- 23-26.6s : WIZKID mark builds to the ticket moment (LOL logo shows only once, early) ----------
-  if (t >= B(12) + .2 && t < B(14)) {
-    const inn = seg(t, B(12) + .3, B(12) + .7), out = seg(t, B(14) - .4, B(14));
-    const a = easeOutCubic(inn) * (1 - out);
-    const s = (1 + .12 * hitDecay(t, BAR, .45)) * (.8 + .2 * easeOutBack(inn));
-    wizmark(cx, L.cy - U(20), L.vert ? L.sw * .9 : L.sw * .5, { a, s });
-    if (a > .3) { ctx.save(); ctx.globalAlpha = a; zigzag(ctx, L.x0 + L.sw * .16, L.cy + U(L.vert ? 150 : 90), L.sw * .68, U(16), 7, { color: BRAND.orange, draw: easeOutCubic(inn) }); ctx.restore(); }
-  }
-  // ---------- 26.6-30s : TICKET MOMENT — GET TICKETS AT / WIZKID.TIX.AFRICA button (held >3s) ----------
+  // 26.6–30s — TICKETS (gold→orange slab), held >3s
   if (t >= B(14) - .1) {
-    const p = seg(t, B(14), B(14) + .5);
-    const a = easeOutCubic(p);
-    const yb = L.vert ? L.y1 - U(60) : L.cy + U(120);   // within reels safe area (bottom 470 clear)
-    const lead = U(L.vert ? 34 : 30), big = U(L.vert ? 60 : 52);
-    ctx.save(); ctx.globalAlpha = a;
-    text(ctx, BRAND.event.ticketsLead, cx, yb - big - U(26), { fam: 'Montserrat', w: 600, size: lead, align: 'center', color: BRAND.white, track: .18, shadow: ['rgba(0,0,0,.6)', U(14)] });
-    // pill button
-    const label = BRAND.event.url, bw = measure(ctx, label, { fam: 'Montserrat', w: 800, size: big, track: .02 }) + U(90), bh = big + U(44);
-    const bx = cx - bw / 2, by = yb - bh / 2 - U(6), s = .96 + .06 * easeOutBack(p);
+    const inn = eo(sg(t, B(14), B(14) + .5));
+    const yb = L.vert ? L.y1 - U(40) : L.cy + U(120);
+    ctx.save(); ctx.globalAlpha = inn;
+    text(ctx, 'GET TICKETS AT', cx, yb - U(L.vert ? 118 : 96), { fam: 'Oswald', w: 500, size: U(L.vert ? 34 : 30), align: 'center', color: OX.cream, track: .24, shadow: ['rgba(0,0,0,.5)', U(12)] });
+    const label = BRAND.event.url, big = U(L.vert ? 58 : 50);
+    const bw = measure(ctx, label, { fam: 'Oswald', w: 700, size: big, track: .06 }) + U(90), bh = big + U(44);
+    const by = yb - bh, s = .96 + .06 * eob(sg(t, B(14), B(14) + .5));
     ctx.translate(cx, by + bh / 2); ctx.scale(s, s); ctx.translate(-cx, -(by + bh / 2));
-    ctx.beginPath(); const r = bh / 2; ctx.moveTo(bx + r, by); ctx.arcTo(bx + bw, by, bx + bw, by + bh, r); ctx.arcTo(bx + bw, by + bh, bx, by + bh, r); ctx.arcTo(bx, by + bh, bx, by, r); ctx.arcTo(bx, by, bx + bw, by, r); ctx.closePath();
-    ctx.fillStyle = BRAND.orange; ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = U(24); ctx.shadowOffsetY = U(8); ctx.fill(); ctx.shadowColor = 'transparent';
-    text(ctx, label, cx, by + bh / 2 + big * .35, { fam: 'Montserrat', w: 800, size: big, align: 'center', color: BRAND.white, track: .02 });
+    const bx = cx - bw / 2, r = bh / 2;
+    ctx.beginPath(); ctx.moveTo(bx + r, by); ctx.arcTo(bx + bw, by, bx + bw, by + bh, r); ctx.arcTo(bx + bw, by + bh, bx, by + bh, r); ctx.arcTo(bx, by + bh, bx, by, r); ctx.arcTo(bx, by, bx + bw, by, r); ctx.closePath();
+    const bg = ctx.createLinearGradient(bx, by, bx, by + bh); bg.addColorStop(0, OX.gold2); bg.addColorStop(1, OX.orange);
+    ctx.fillStyle = bg; ctx.shadowColor = 'rgba(0,0,0,.4)'; ctx.shadowBlur = U(24); ctx.shadowOffsetY = U(8); ctx.fill(); ctx.shadowColor = 'transparent';
+    text(ctx, label, cx, by + bh / 2 + big * .34, { fam: 'Oswald', w: 700, size: big, align: 'center', color: '#2B0409', track: .06 });
     ctx.restore();
   }
 }
 
 async function renderAt(frame) {
-  const t = frame / FPS;
-  ctx.setTransform(L.dpr, 0, 0, L.dpr, 0, 0);
-  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none';
-  ctx.clearRect(0, 0, L.W, L.H);
+  const t = frame / FPS; ctx.setTransform(L.dpr, 0, 0, L.dpr, 0, 0);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none'; ctx.clearRect(0, 0, L.W, L.H);
   if (t < TEND) {
-    const img = await frameAt(Math.round(footTime(t) * FPS));   // ensure loaded
+    const img = await frameAt(Math.round(t * FPS));
     drawFootage(t, frame, img);
+    lightSweep(Math.max(sg(t, .2, 1.2), t > B(8) + .2 && t < B(9) + 1.2 ? sg(t, B(9), B(9) + 1.1) : 0));
     drawBranding(t);
-    grain(ctx, L, frame, .06);
+    grain(ctx, L, frame, .055);
   } else {
     sponsorFrame(t - TEND, { mode: 'rise', delay: .15, stagger: .05, dur: .55 });
     grain(ctx, L, frame, .04);
   }
 }
-
 window.meta = { FPS, DUR, W: L.W * L.dpr, H: L.H * L.dpr };
 window.grab = async (frame) => { await renderAt(frame); return cv.toDataURL('image/jpeg', .94).slice(23); };
-window.ready = (async () => {
-  await loadFonts(); await Promise.all([loadBrand(), footMeta()]); makeGrain(); sponsorLayout();
-  await Promise.all([0, 1, 2].map(i => frameAt(i)));   // warm the first frames
-})();
-if (!Q.has('render')) window.ready.then(() => {
-  const ui = document.getElementById('ui'); let f = Number(Q.get('t') || 0) * FPS;
-  const loop = async () => { await renderAt(Math.floor(f) % (DUR * FPS)); ui.textContent = (f / FPS % DUR).toFixed(2) + 's ' + L.key; f = (f + 1) % (DUR * FPS); requestAnimationFrame(loop); };
-  loop();
-});
+window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), footMeta()]); makeGrain(); sponsorLayout(); await Promise.all([0, 1, 2].map(i => frameAt(i))); })();
+if (!Q.has('render')) window.ready.then(() => { const ui = document.getElementById('ui'); let f = Number(Q.get('t') || 0) * FPS; const loop = async () => { await renderAt(Math.floor(f) % (DUR * FPS)); ui.textContent = (f / FPS % DUR).toFixed(2) + 's'; f = (f + 1) % (DUR * FPS); requestAnimationFrame(loop); }; loop(); });
 </script>
 </body></html>
