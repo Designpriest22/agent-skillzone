@@ -1,0 +1,24 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>sponsor end-frame preview (all 16)</title>
+<style>html,body{margin:0;background:#000}canvas{display:block;margin:auto}</style>
+</head><body><canvas id="c"></canvas>
+<script src="lib.js"></script>
+<script src="endcard.js"></script>
+<script>
+'use strict';
+const Q = new URLSearchParams(location.search);
+// page globals that endcard.js expects (mirrors sponsors_v3.html wiring)
+window.L = layout(Q.get('f') || 'reels');
+const cv = document.getElementById('c');
+cv.width = L.W * L.dpr; cv.height = L.H * L.dpr;
+cv.style.width = L.W + 'px'; cv.style.height = L.H + 'px';
+window.ctx = cv.getContext('2d');
+ctx.setTransform(L.dpr, 0, 0, L.dpr, 0, 0);
+window.U = n => n * L.u;
+window.ready = (async () => {
+  await loadFonts(); await loadBrand();
+  sponsorLayout();
+  sponsorFrame(5, { mode: 'rise' });   // settled state (all logos fully in)
+})();
+</script>
+</body></html>
