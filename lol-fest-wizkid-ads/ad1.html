@@ -51,23 +51,28 @@ function footFrame(t) {
 }
 function inFreeze(t) { for (const [fsT, d] of FREEZE) if (t >= fsT && t < fsT + d) return 1 - (t - fsT) / d; return 0; }
 
-// ---- 3D gold type (extruded, bevelled — matches the gold festival logo) ----
-function goldFill(y, size) { const g = ctx.createLinearGradient(0, y - size * .82, 0, y + size * .16); g.addColorStop(0, '#FDEECD'); g.addColorStop(.18, '#FBE4BE'); g.addColorStop(.5, '#F3BE78'); g.addColorStop(.82, '#E79A46'); g.addColorStop(1, '#B9722E'); return g; }
-function text3d(str, x, y, size, o = {}) {
-  const fam = o.fam || 'Anton', w = o.w || 400, track = o.track ?? 0, align = o.align || 'center', a = o.alpha ?? 1, depth = o.depth ?? Math.max(4, size * .07);
-  if (a <= .002) return;
-  for (let i = Math.round(depth); i >= 1; i--) {   // extrusion
-    const k = i / depth; text(ctx, str, x + i * .62, y + i * .9, { fam, w, size, align, track, alpha: a, color: `rgb(${70 - k * 28},${34 - k * 16},${12 - k * 6})` });
-  }
-  text(ctx, str, x, y, { fam, w, size, align, track, alpha: a, color: goldFill(y, size) });                 // face
-  text(ctx, str, x, y - size * .02, { fam, w, size, align, track, alpha: a * .5, color: 'rgba(255,248,225,.9)', stroke: null }); // top sheen
+// ---- gold foil type: metallic gradient + sheen + a thin dark outline for legibility (no drop shadow) ----
+function goldFill(y, size) {
+  const g = ctx.createLinearGradient(0, y - size * .84, 0, y + size * .18);
+  g.addColorStop(0, '#B9772C'); g.addColorStop(.10, '#F0C878'); g.addColorStop(.27, '#FFF6DC');  // top rim → bright sheen
+  g.addColorStop(.37, '#F6D79C'); g.addColorStop(.52, '#E7A84C'); g.addColorStop(.70, '#BE7A2C');
+  g.addColorStop(.84, '#EEBD72'); g.addColorStop(1, '#9A5C22');                                   // lower reflection → deep edge
+  return g;
 }
-function wizmark(cx, cy, w, p, sweepP, { a = 1, pop = 1 } = {}) {   // WIZKID wordmark, gold, with depth
+function text3d(str, x, y, size, o = {}) {   // name kept; now a clean metallic-gold treatment
+  const a = o.alpha ?? 1; if (a <= .002) return;
+  const base = { fam: o.fam || 'Anton', w: o.w || 400, size, align: o.align || 'center', track: o.track ?? 0, alpha: a };
+  text(ctx, str, x, y, { ...base, color: goldFill(y, size), stroke: ['rgba(32,13,5,.92)', Math.max(2.5, size * .03)] });  // fill + thin dark edge (stroke renders under fill)
+  const sheen = ctx.createLinearGradient(0, y - size * .72, 0, y - size * .30);                    // specular highlight band
+  sheen.addColorStop(0, 'rgba(255,255,255,0)'); sheen.addColorStop(.5, 'rgba(255,255,255,.5)'); sheen.addColorStop(1, 'rgba(255,255,255,0)');
+  text(ctx, str, x, y, { ...base, color: sheen });
+}
+function wizmark(cx, cy, w, p, sweepP, { a = 1, pop = 1 } = {}) {   // WIZKID wordmark, gold foil, crisp edge (no drop shadow)
   const img = wordmarkGold(), h = w * img.height / img.width, x0 = cx - w / 2;
   ctx.save(); ctx.globalAlpha *= a; ctx.translate(cx, cy); ctx.scale(pop, pop); ctx.translate(-cx, -cy);
-  const sh = tinted(img, 'rgba(60,20,8,.9)');
-  for (let i = 5; i >= 1; i--) ctx.drawImage(sh, x0 + i * .8, cy - h / 2 + i * 1.0, w, h);  // extrude
-  ctx.beginPath(); ctx.rect(x0 - U(12), cy - h, w * clamp(p) + U(12), h * 2); ctx.clip();
+  ctx.beginPath(); ctx.rect(x0 - U(14), cy - h, w * clamp(p) + U(14), h * 2); ctx.clip();            // reveal wipe
+  const sh = tinted(img, 'rgba(30,12,4,.95)'), r = Math.max(2, w * .0035);
+  for (const [ox, oy] of [[r, 0], [-r, 0], [0, r], [0, -r], [r, r], [-r, r], [r, -r], [-r, -r]]) ctx.drawImage(sh, x0 + ox, cy - h / 2 + oy, w, h);  // thin dark outline
   ctx.drawImage(img, x0, cy - h / 2, w, h); ctx.restore();
   if (sweepP > 0 && sweepP < 1) sweepImg(ctx, img, cx, cy, w, sweepP, 'rgba(255,245,215,.95)');
 }
@@ -102,10 +107,18 @@ function sweep(p, col = 'rgba(255,225,175,.12)') { if (p <= 0 || p >= 1) return;
 
 function drawBranding(t) {
   const cx = L.cx, SW = L.sw;
-  // 0–3.8 — WIZKID wordmark + 13 DEC / LIVE (3D)
-  if (t < B(2) + .35) {
+  // 0–1.0 — STARBOY opener (hype hit, flash + stop-motion stutter)
+  if (t < 1.1) {
+    const a = eo(sg(t, .02, .22)) * (1 - sg(t, .82, 1.08));
+    const stut = Math.floor(t * 9) / 9, pop = 1.04 + .2 * hitDecay(stut, BAR, .5);
+    ctx.save(); ctx.translate(cx, L.vert ? L.cy - U(10) : L.cy); ctx.scale(pop, pop);
+    text3d('STARBOY', 0, 0, U(L.vert ? 150 : 120), { fam: 'Anton', alpha: a, track: .01 });
+    ctx.restore();
+  }
+  // 1.0–3.8 — WIZKID wordmark + 13 DEC / LIVE (3D)
+  if (t >= .95 && t < B(2) + .35) {
     const a = 1 - sg(t, B(2) - .2, B(2) + .3);
-    wizmark(cx, L.vert ? L.cy - U(120) : L.cy, L.vert ? SW * .96 : SW * .52, sg(t, .12, .9), sg(t, .25, 1.05), { a, pop: 1 + .06 * hitDecay(t, BAR, .3) });
+    wizmark(cx, L.vert ? L.cy - U(120) : L.cy, L.vert ? SW * .96 : SW * .52, sg(t, 1.0, 1.7), sg(t, 1.1, 1.9), { a, pop: 1 + .06 * hitDecay(t, BAR, .3) });
     const aS = eo(sg(t, B(1), B(1) + .35)) * a, pop = 1 + .14 * hitDecay(t, BAR, .3);
     if (L.vert) {
       ctx.save(); ctx.translate(L.x0 + SW * .22, L.cy + U(170)); ctx.scale(pop, pop); text3d('13 DEC', 0, 0, U(70), { fam: 'Anton', alpha: aS, track: .01 }); ctx.restore();
@@ -144,9 +157,9 @@ function drawBranding(t) {
   // 15.2–20.9 — WIZKID reprise (3D) + 13 DEC
   if (t >= B(8) + .15 && t < B(11)) {
     const a = eo(sg(t, B(8) + .25, B(8) + .7)) * (1 - sg(t, B(11) - .4, B(11)));
-    wizmark(cx, L.cy - U(40), L.vert ? SW * .92 : SW * .5, 1, sg(t, B(9), B(9) + 1), { a, pop: 1 + .1 * hitDecay(t, BAR, .3) });
-    ctx.save(); ctx.translate(cx, L.cy + U(L.vert ? 150 : 120)); const pop = 1 + .12 * hitDecay(t, BAR, .3); ctx.scale(pop, pop);
-    text3d('13 DEC', 0, 0, U(L.vert ? 76 : 60), { fam: 'Anton', alpha: a, track: .01 }); ctx.restore();
+    wizmark(cx, L.cy - U(50), L.vert ? SW * .9 : SW * .48, 1, sg(t, B(9), B(9) + 1), { a, pop: 1 + .1 * hitDecay(t, BAR, .3) });
+    ctx.save(); ctx.translate(cx, L.cy + U(L.vert ? 150 : 120)); const pop = 1 + .14 * hitDecay(t, BAR, .3); ctx.scale(pop, pop);
+    text3d('MACHALA', 0, 0, U(L.vert ? 68 : 54), { fam: 'Anton', alpha: a, track: .02 }); ctx.restore();
   }
   // 20.9–26.6 — LIVE OUT LOUD call: LIVE (huge) + ABUJA
   if (t >= B(11) && t < B(14) - .1) {
