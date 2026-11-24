@@ -1,181 +1,186 @@
 <!doctype html>
 <html><head><meta charset="utf-8"><title>LOL FEST × WIZKID — Ad 1</title>
-<style>html,body{margin:0;background:#000}canvas{display:block;max-width:100vw;max-height:100vh;margin:auto}#ui{position:fixed;left:8px;top:8px;color:#fff;font:12px monospace;opacity:.5}</style>
+<style>html,body{margin:0;background:#000}canvas{display:block;max-width:100vw;max-height:100vh;margin:auto}#ui{position:fixed;left:8px;top:8px;color:#888;font:12px monospace}</style>
 </head><body><canvas id="c"></canvas><div id="ui"></div>
 <script src="lib.js"></script>
 <script src="endcard.js"></script>
 <script>
 'use strict';
-// AD 1 — LOL FEST × WIZKID · "Money & Love" · 35s · bold flat streetwear-poster typography.
-// Heavy grotesque type (Archivo/Anton), FLAT solid fills (cream/orange/oxblood), spray scribbles,
-// thick underlines, halftone. Footage reel with speed ramps + stop-motion + flash edits + poster cuts.
+// AD 1 — LOL FEST × WIZKID · light-mode design montage. Clean white, bold black grotesque, Wizkid
+// images composed/zoomed, orange paint on top, clean logo build, fast cuts. Dark sponsor wall to close.
 const Q = new URLSearchParams(location.search);
 const L = window.L = layout(Q.get('f') === 'feed' ? 'feed' : 'reels');
 const cv = document.getElementById('c'); cv.width = L.W * L.dpr; cv.height = L.H * L.dpr;
 cv.style.width = Math.min(L.W, innerWidth) + 'px';
 const ctx = window.ctx = cv.getContext('2d'); const U = window.U = n => n * L.u;
-const FPS = 25, DUR = 35, TEND = 30, BAR = 1.8973, BEAT = BAR / 4;
+const W = L.W, H = L.H, cx = L.cx;
+const FPS = 25, DUR = 35, TEND = 30, BAR = 1.8973, HB = BAR / 2;
 const B = n => n * BAR;
-const OX = { ox: '#2B070E', deep: '#1A0407', mid: '#5A1420', cream: '#F4EEE9', orange: '#E6531A', gold: '#F2C78C', tan: '#C49A77' };
+const PAPER = '#FFFFFF', INK = '#17100B', ORANGE = '#E6531A', INKSOFT = '#2B070E';
 const eo = p => { p = clamp(p); return 1 - Math.pow(1 - p, 3); };
-const eob = (p, s = 2.2) => { p = clamp(p); const q = p - 1; return 1 + (s + 1) * q * q * q + s * q * q; };
+const eio = p => { p = clamp(p); return p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+const eob = (p, s = 1.8) => { p = clamp(p); const q = p - 1; return 1 + (s + 1) * q * q * q + s * q * q; };
 const sg = (t, a, b) => clamp((t - a) / (b - a));
-const pulse = (t, at, up = .05, dn = .3) => t < at ? 0 : t < at + up ? (t - at) / up : Math.max(0, 1 - (t - at - up) / dn);
-const hitDecay = (t, per, dur) => { const ph = ((t % per) + per) % per; return ph < dur ? 1 - ph / dur : 0; };
+const rp = (t, a, d) => eo(sg(t, a, a + d));
 const win = (t, a, b) => t >= a && t < b;
-const creamMark = () => tinted(IMG.wizkid, OX.cream);
+const inkMark = () => tinted(IMG.wizkid, INK);
 
-// ---- footage reel ----
-let NF = 750;
-async function footMeta() { try { NF = (await (await fetch('footage/ad1/meta.json')).json()).n; } catch (e) {} }
-const fc = new Map(), fo = [];
-function frameAt(i) { i = clamp(i, 0, NF - 1); const k = 'f' + i; if (fc.has(k)) return fc.get(k); const p = loadImg(`footage/ad1/${String(i).padStart(4, '0')}.jpg`); fc.set(k, p); fo.push(k); if (fo.length > 180) fc.delete(fo.shift()); return p; }
-const STYLES = ['rampUp', 'stop', 'normal', 'normal', 'sramp', 'fast', 'normal', 'sramp', 'rampUp', 'stop', 'fast', 'normal', 'sramp', 'fast', 'normal', 'rampUp'];
-function styleRemap(n, ph) { switch (n) { case 'rampUp': return ph * ph; case 'fast': return Math.min(1, ph * 1.7); case 'sramp': return ph < .72 ? (ph / .72) * .42 : .42 + ((ph - .72) / .28) * .58; case 'stop': return Math.floor(ph * 6) / 6; default: return ph; } }
-const FREEZE = [[B(6) + .02, .34], [B(9) + .02, .32]];
-function footFrame(t) { for (const [fsT, d] of FREEZE) if (t >= fsT && t < fsT + d) t = fsT; const bar = Math.floor(t / BAR), ph = (t % BAR) / BAR; return clamp(Math.round((bar + styleRemap(STYLES[bar % STYLES.length], ph)) * BAR * FPS), 0, NF - 1); }
-function inFreeze(t) { for (const [fsT, d] of FREEZE) if (t >= fsT && t < fsT + d) return 1 - (t - fsT) / d; return 0; }
+// montage stills
+const MIMG = []; let MN = 12;
+async function loadMontage() { try { MN = (await (await fetch('footage/montage/meta.json')).json()).n; } catch (e) {} await Promise.all(Array.from({ length: MN }, (_, i) => loadImg(`footage/montage/${String(i).padStart(2, '0')}.jpg`).then(im => MIMG[i] = im))); }
 
-// ---- bold FLAT type (no gradient, no shadow) ----
-function bold(str, x, y, size, o = {}) { text(ctx, str, x, y, { fam: o.fam || 'Archivo', w: o.w || 400, size, align: o.align || 'center', track: o.track ?? 0, color: o.color || OX.cream, alpha: o.alpha, stroke: o.stroke }); }
-// ---- streetwear marks ----
-function scribble(cx, cy, w, h, col, seed = 1, p = 1, lw) {
-  const r = rng(seed * 131 + 7); ctx.save(); ctx.strokeStyle = col; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = lw || Math.max(U(5), h * .07);
-  const N = 4, total = Math.max(1, Math.ceil(N * clamp(p)));
-  for (let i = 0; i < total; i++) {
-    ctx.beginPath(); let x = cx - w / 2 + r() * w * .08, y = cy - h / 2 + r() * h; ctx.moveTo(x, y);
-    const segs = 4 + ((r() * 3) | 0);
-    for (let s = 0; s < segs; s++) { const nx = cx - w / 2 + (s + 1) / segs * w + (r() - .5) * w * .14, ny = cy - h / 2 + r() * h; ctx.quadraticCurveTo(x + (r() - .5) * w * .1, y + (r() - .5) * h * .6, nx, ny); x = nx; y = ny; }
+// clean image rect (cover-fit), optional wipe reveal + ken-burns zoom
+function imgRect(idx, x, y, w, h, o = {}) {
+  const img = MIMG[(idx % MN + MN) % MN]; if (!img || !img.naturalWidth) return;
+  const clip = o.clip ?? 1, alpha = o.alpha ?? 1; if (alpha <= .002 || clip <= .002) return;
+  ctx.save(); ctx.globalAlpha *= alpha;
+  ctx.beginPath();
+  const dir = o.wipe || 'up';   // reveal direction
+  if (dir === 'up') ctx.rect(x, y + h * (1 - clip), w, h * clip);
+  else if (dir === 'down') ctx.rect(x, y, w, h * clip);
+  else if (dir === 'left') ctx.rect(x + w * (1 - clip), y, w * clip, h);
+  else ctx.rect(x, y, w * clip, h);
+  ctx.clip();
+  const zoom = o.zoom ?? 1, fx = o.fx ?? .5, fy = o.fy ?? .44;
+  const s = Math.max(w / img.width, h / img.height) * zoom, vw = w / s, vh = h / s;
+  const sx = clamp(fx * img.width - vw / 2, 0, img.width - vw), sy = clamp(fy * img.height - vh / 2, 0, img.height - vh);
+  ctx.drawImage(img, sx, sy, vw, vh, x, y, w, h);
+  ctx.restore();
+}
+// bold type with a clean horizontal wipe-on
+function kt(str, x, y, size, o = {}) {
+  const cl = o.clipW ?? 1; if ((o.alpha ?? 1) <= .002) return;
+  ctx.save();
+  if (cl < 1) { const wmax = measure(ctx, str, { fam: o.fam || 'Anton', w: 400, size, track: o.track || 0 }); const align = o.align || 'left'; let lx = x; if (align === 'center') lx = x - wmax / 2; else if (align === 'right') lx = x - wmax; ctx.beginPath(); ctx.rect(lx - U(6), y - size, wmax * cl + U(12), size * 1.4); ctx.clip(); }
+  text(ctx, str, x, y, { fam: o.fam || 'Anton', w: 400, size, align: o.align || 'left', track: o.track ?? 0, color: o.color || INK, alpha: o.alpha });
+  ctx.restore();
+}
+// painted swipe (orange), revealed along its length
+function swipe(x0, y0, x1, y1, thick, col, p, seed = 1) {
+  if (p <= 0) return; const r = rng(seed * 53 + 9); const n = 26, pe = eo(p);
+  ctx.save(); ctx.lineCap = 'round'; ctx.strokeStyle = col;
+  for (let b = 0; b < 3; b++) {   // a few bristle passes
+    ctx.globalAlpha = (.9 - b * .12); ctx.lineWidth = thick * (1 - b * .22);
+    ctx.beginPath();
+    for (let i = 0; i <= n; i++) { const f = i / n; if (f > pe) break; const x = mix(x0, x1, f) + (r() - .5) * thick * .18, y = mix(y0, y1, f) + (r() - .5) * thick * .22 + (b - 1) * thick * .12; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
     ctx.stroke();
   }
   ctx.restore();
 }
-function underbar(cx, y, w, th, col, p = 1) { ctx.save(); ctx.fillStyle = col; const ww = w * eo(p); ctx.fillRect(cx - w / 2, y, ww, th); ctx.restore(); }
-function strike(cx, cy, w, col, p = 1) { ctx.save(); ctx.strokeStyle = col; ctx.lineWidth = Math.max(U(6), w * .022); ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(cx - w / 2, cy + U(6)); ctx.lineTo(cx - w / 2 + w * eo(p), cy - U(6)); ctx.stroke(); ctx.restore(); }
-let HT; function makeHalftone() { const c = document.createElement('canvas'); c.width = c.height = 16; const x = c.getContext('2d'); x.fillStyle = 'rgba(0,0,0,.2)'; x.beginPath(); x.arc(8, 8, 3, 0, 7); x.fill(); HT = c; }
-function halftone(a) { if (!HT) return; ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = ctx.createPattern(HT, 'repeat'); ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); }
-function cardBg(col, ht = .12) { ctx.save(); ctx.fillStyle = col; ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); halftone(ht); }
+function uline(x, y, w, h, col, p = 1) { ctx.save(); ctx.fillStyle = col; ctx.fillRect(x, y, w * eo(p), h); ctx.restore(); }
+function fade(a, col = '#fff') { if (a <= 0) return; ctx.save(); ctx.globalAlpha = clamp(a); ctx.fillStyle = col; ctx.fillRect(0, 0, W, H); ctx.restore(); }
 
-function drawFootage(t, frame, img) {
-  if (!img || !img.naturalWidth) return;
-  const ph = (t % BAR) / BAR, zoom = 1.02 + .05 * ph + .03 * hitDecay(t, BAR, .2), bar = Math.floor(t / BAR), fx = .5 + (bar % 2 ? .05 : -.05) * ph;
-  drawCover(ctx, img, 0, 0, L.W, L.H, fx, L.vert ? .42 : .46, zoom);
-  ctx.save();
-  ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = .42; ctx.fillStyle = '#48101C'; ctx.fillRect(0, 0, L.W, L.H);
-  ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = .24; ctx.fillStyle = '#FFA64D'; ctx.fillRect(0, 0, L.W, L.H);
-  ctx.restore();
-  const fz = inFreeze(t);
-  if (fz > 0) { ctx.save(); ctx.globalCompositeOperation = 'saturation'; ctx.globalAlpha = .6 * fz; ctx.fillStyle = 'rgb(128,128,128)'; ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); }
-  const g = ctx.createRadialGradient(L.W / 2, L.H * .46, Math.min(L.W, L.H) * .3, L.W / 2, L.H * .5, Math.hypot(L.W, L.H) * .58);
-  g.addColorStop(0, 'rgba(20,2,5,0)'); g.addColorStop(1, 'rgba(20,2,5,.6)'); ctx.save(); ctx.fillStyle = g; ctx.fillRect(0, 0, L.W, L.H); ctx.restore();
-}
-function flashEdits(t) { flash(ctx, L, .5 * hitDecay(t, BAR, .07)); [B(2), B(6), B(9), B(12), B(14)].forEach(ht => flash(ctx, L, .85 * pulse(t, ht, .03, .16))); const fz = inFreeze(t); if (fz > .8) flash(ctx, L, (fz - .8) / .2 * .7); }
+// layout frame: full-bleed image area inside a clean margin
+const M = () => U(L.vert ? 70 : 90);
+function content(t) {
+  ctx.fillStyle = PAPER; ctx.fillRect(0, 0, W, H);
+  const m = M(), IW = W - m * 2, cyr = L.cy, yb = L.vert ? H - U(360) : L.cy + U(220), big = U(L.vert ? 172 : 132);
 
-function drawBranding(t) {
-  const cx = L.cx, SW = L.sw, S = s => U(s);
-  // ===== 0.0–1.0 CARD: STARBOY =====
-  if (win(t, 0, 1.0)) {
-    const a = 1 - sg(t, .82, 1.0); cardBg(OX.ox, .14);
-    const stut = Math.floor(t * 9) / 9, pop = 1 + .05 * hitDecay(stut, BAR, .5);
-    ctx.save(); ctx.globalAlpha = a; ctx.translate(cx, L.cy); ctx.scale(pop, pop);
-    scribble(0, S(20), SW * .98, S(300), OX.orange, 3, 1, U(9));   // behind, accent
-    bold('STAR', 0, -S(70), S(L.vert ? 196 : 152), { fam: 'Anton', color: OX.cream });
-    bold('BOY', 0, S(94), S(L.vert ? 196 : 152), { fam: 'Anton', color: OX.orange });
+  // ===== 0.0–2.0  WIZKID opens, first image wipes in =====
+  if (win(t, 0, B(1))) {
+    imgRect(2, m, H * .40, IW, H * .5, { wipe: 'up', clip: rp(t, .25, .45), zoom: 1.06 - .05 * sg(t, .25, B(1)), fy: .38 });
+    const out = 1 - sg(t, B(1) - .2, B(1));
+    kt('WIZKID', m, H * .34, big, { clipW: rp(t, .05, .4), color: INK, alpha: out });
+    swipe(m, H * .37, m + IW * .9, H * .37 + U(8), U(26), ORANGE, sg(t, .35, .85), 2);
+  }
+  // ===== 2.0–3.8  three images snap in, LIVE =====
+  if (win(t, B(1), B(2))) {
+    const g = U(10), cw = (IW - g * 2) / 3, ch = H * .3, y0 = H * .3;
+    for (let i = 0; i < 3; i++) imgRect(4 + i, m + i * (cw + g), y0, cw, ch, { wipe: i % 2 ? 'down' : 'up', clip: rp(t, B(1) + i * .1, .4), fy: .4 });
+    const out = 1 - sg(t, B(2) - .2, B(2));
+    kt('LIVE', cx, y0 + ch + U(L.vert ? 150 : 120), big * 1.15, { align: 'center', clipW: rp(t, B(1) + .2, .4), color: ORANGE, alpha: out });
+  }
+  // ===== 3.8–5.3  LOL FEST logo assembles clean on white =====
+  if (win(t, B(2), B(2) + 1.5)) {
+    const inn = sg(t, B(2), B(2) + .7), out = 1 - sg(t, B(2) + 1.2, B(2) + 1.5), w = L.vert ? IW * .96 : L.sh * .5;
+    ctx.save(); ctx.globalAlpha = out;
+    lolLogo(ctx, cx, cyr, w, { chev: { a: eo(sg(t, B(2), B(2) + .4)), dx: (1 - eo(sg(t, B(2), B(2) + .4))) * -.1 }, word: { a: eo(sg(t, B(2) + .12, B(2) + .5)) }, mf: { a: eo(sg(t, B(2) + .3, B(2) + .7)) }, zig: { a: 1, reveal: eo(sg(t, B(2) + .35, B(2) + .9)) } });
     ctx.restore();
   }
-  // ===== 1.0–3.8 footage + WIZKID wordmark (cream, flat) =====
-  if (win(t, 1.0, B(2) + .35)) {
-    const a = 1 - sg(t, B(2) - .2, B(2) + .3), p = sg(t, 1.05, 1.7), img = creamMark(), w = L.vert ? SW * .96 : SW * .54, h = w * img.height / img.width;
-    ctx.save(); ctx.globalAlpha = a; ctx.beginPath(); ctx.rect(cx - w / 2 - S(14), L.cy - h, w * clamp(p) + S(28), h * 2); ctx.clip(); ctx.drawImage(img, cx - w / 2, L.cy - h / 2, w, h); ctx.restore();
-    if (sg(t, 1.1, 1.9) < 1) sweepImg(ctx, img, cx, L.cy, w, sg(t, 1.1, 1.9), 'rgba(255,255,255,.9)');
-    const aS = eo(sg(t, B(1), B(1) + .35)) * a;
-    underbar(cx, L.cy + h / 2 + S(16), w * .9, S(14), OX.orange, sg(t, B(1), B(1) + .4));
-    if (L.vert) { bold('13 DEC', L.x0 + SW * .24, L.cy + S(200), S(58), { fam: 'Anton', color: OX.cream, alpha: aS, track: .01 }); bold('LIVE', L.x0 + SW * .76, L.cy + S(200), S(70), { fam: 'Anton', color: OX.orange, alpha: aS }); }
+  // ===== 5.3–8.0  hero zoom (car) + DECEMBER 13 / 2026 + venue =====
+  if (win(t, B(2) + 1.5, B(4))) {
+    const lt = t - (B(2) + 1.5);
+    imgRect(1, m, H * .08, IW, H * .5, { wipe: 'down', clip: rp(t, B(2) + 1.5, .5), zoom: 1.0 + .12 * sg(t, B(2) + 1.5, B(4)), fy: .4 });
+    const out = 1 - sg(t, B(4) - .2, B(4));
+    kt('DECEMBER 13', m, H * .72, U(L.vert ? 112 : 88), { clipW: rp(t, B(2) + 1.7, .4), color: INK, alpha: out });
+    kt('2026', m, H * .72 + U(L.vert ? 118 : 92), U(L.vert ? 112 : 88), { clipW: rp(t, B(2) + 1.9, .4), color: ORANGE, alpha: out });
+    uline(m, H * .72 + U(22), IW * .82, U(16), ORANGE, sg(t, B(2) + 1.8, B(3)));
+    kt('EAGLE SQUARE, ABUJA', m, H * .72 + U(L.vert ? 178 : 142), U(L.vert ? 34 : 28), { fam: 'Archivo', color: INK, clipW: rp(t, B(3), .4), alpha: out });
   }
-  // ===== 3.8–7.6 CARD: LIVE OUT LOUD mark (once) =====
-  if (win(t, B(2), B(4) + .3)) {
-    const inn = sg(t, B(2), B(2) + .5), a = 1 - sg(t, B(4) - .15, B(4) + .25); cardBg(OX.deep, .16);
-    const s = .7 + .3 * eob(inn), w = L.vert ? SW * .96 : L.sh * .5;
-    ctx.save(); ctx.translate(cx, L.cy); ctx.scale(s, s); ctx.globalAlpha = a * clamp(inn * 1.6);
-    lolLogo(ctx, 0, 0, w, { chev: { a: eo(sg(t, B(2), B(2) + .5)) }, word: { a: eo(sg(t, B(2) + .1, B(2) + .6)) }, mf: { a: eo(sg(t, B(2) + .3, B(2) + .8)) }, zig: { a: 1, reveal: eo(sg(t, B(2) + .35, B(2) + 1)) } });
-    ctx.restore();
-    sweepImg(ctx, IMG.lol, cx, L.cy, w * s, sg(t, B(2) + .3, B(2) + 1.1), 'rgba(255,240,210,.9)');
+  // ===== 8.0–11.0  fast image montage + STARBOY + paint =====
+  if (win(t, B(4), B(5) + 1.1)) {
+    // two big images swapping, with STARBOY across
+    const k = Math.floor((t - B(4)) / HB);
+    const idx = [6, 8, 9][k % 3];
+    imgRect(idx, m, H * .1, IW, H * .46, { wipe: k % 2 ? 'left' : 'right', clip: rp(t, B(4) + k * HB, .35), zoom: 1.0 + .08 * ((t - B(4) - k * HB) / HB), fy: .42 });
+    const out = 1 - sg(t, B(5) + .9, B(5) + 1.1);
+    swipe(m, H * .66, m + IW, H * .66 + U(10), U(40), ORANGE, sg(t, B(4) + .2, B(4) + .7), 3);
+    kt('STAR', m, H * .66, U(L.vert ? 150 : 118), { color: INK, clipW: rp(t, B(4) + .2, .28), alpha: out });
+    kt('BOY', m, H * .66 + U(L.vert ? 150 : 118), U(L.vert ? 150 : 118), { color: ORANGE, clipW: rp(t, B(4) + .34, .28), alpha: out });
   }
-  // ===== 7.6–9.5 over footage: DECEMBER 13 / 2026 (bold flat) + EAGLE SQUARE =====
-  if (win(t, B(4) + .2, B(5) + .3)) {
-    const inn = eo(sg(t, B(4) + .3, B(4) + .7)), a = 1 - sg(t, B(5), B(5) + .3);
-    bold('DECEMBER 13', cx, L.cy - S(10), S(L.vert ? 96 : 78), { fam: 'Anton', color: OX.cream, alpha: a, track: .005 });
-    underbar(cx, L.cy + S(10), SW * .82, S(16), OX.orange, inn);
-    bold('2026', cx, L.cy + S(96), S(L.vert ? 84 : 68), { fam: 'Anton', color: OX.orange, alpha: a });
-    bold('EAGLE SQUARE, ABUJA', cx, L.cy + S(170), S(L.vert ? 34 : 28), { fam: 'Archivo', color: OX.cream, alpha: eo(sg(t, B(4) + .5, B(5))) * a, track: .04 });
+  // ===== 11.0–13.3  LIVE huge, orange full frame punctuation =====
+  if (win(t, B(5) + 1.1, B(7))) {
+    const inn = sg(t, B(5) + 1.1, B(5) + 1.4), out = 1 - sg(t, B(7) - .2, B(7));
+    ctx.save(); ctx.globalAlpha = out; ctx.fillStyle = ORANGE; ctx.fillRect(0, 0, W, H); ctx.restore();   // orange card
+    imgRect(3, cx - IW * .3, H * .16, IW * .6, H * .32, { clip: rp(t, B(5) + 1.3, .4), wipe: 'up', fy: .4 });
+    kt('LIVE', cx, H * .78, U(L.vert ? 260 : 200), { align: 'center', color: PAPER, clipW: rp(t, B(5) + 1.2, .4), alpha: out });
   }
-  // ===== 11.4–13.3 CARD: LIVE (huge) =====
-  if (win(t, B(6), B(7))) {
-    const a = 1 - sg(t, B(7) - .2, B(7)); cardBg(OX.orange, .1);
-    const pop = 1 + .05 * hitDecay(t, BAR, .4);
-    ctx.save(); ctx.globalAlpha = a; ctx.translate(cx, L.cy); ctx.scale(pop, pop);
-    scribble(0, 0, SW * .98, S(320), OX.cream, 9, 1, U(10));   // behind
-    bold('LIVE', 0, 0, S(L.vert ? 300 : 230), { fam: 'Anton', color: OX.ox });
-    ctx.restore();
+  // ===== 13.3–16.2  MACHALA + grid of 2 =====
+  if (win(t, B(7), B(8) + .9)) {
+    const g = U(12), cw = (IW - g) / 2, ch = H * .34, y0 = H * .14;
+    imgRect(10, m, y0, cw, ch, { wipe: 'down', clip: rp(t, B(7), .4), fy: .4 });
+    imgRect(5, m + cw + g, y0, cw, ch, { wipe: 'up', clip: rp(t, B(7) + .12, .4), fy: .4 });
+    const out = 1 - sg(t, B(8) + .7, B(8) + .9);
+    swipe(m, y0 + ch + U(120), m + IW * .95, y0 + ch + U(128), U(34), ORANGE, sg(t, B(7) + .2, B(7) + .7), 6);
+    kt('MACHALA', m, y0 + ch + U(L.vert ? 150 : 120), U(L.vert ? 112 : 90), { color: INK, clipW: rp(t, B(7) + .25, .45), alpha: out });
   }
-  // ===== 13.3–15.2 over footage: ABUJA =====
-  if (win(t, B(7), B(8))) {
-    const a = eo(sg(t, B(7), B(7) + .35)) * (1 - sg(t, B(8) - .3, B(8)));
-    bold('ABUJA', cx, L.cy, S(L.vert ? 150 : 120), { fam: 'Anton', color: OX.cream, alpha: a });
-    underbar(cx, L.cy + S(24), SW * .5, S(14), OX.orange, sg(t, B(7) + .1, B(7) + .5));
+  // ===== 16.2–20.0  energy montage, WIZKID wordmark hero zoom =====
+  if (win(t, B(8) + .9, B(10) + .5)) {
+    const k = Math.floor((t - (B(8) + .9)) / HB), idx = [7, 11, 2, 8][k % 4];
+    imgRect(idx, m, H * .1, IW, H * .54, { wipe: k % 2 ? 'left' : 'right', clip: rp(t, B(8) + .9 + k * HB, .32), zoom: 1 + .1 * (((t - (B(8) + .9)) % HB) / HB), fy: .42 });
+    const out = 1 - sg(t, B(10) + .3, B(10) + .5);
+    const img = inkMark(), w = IW * .9, h = w * img.height / img.width;
+    ctx.save(); ctx.globalAlpha = out; ctx.drawImage(img, cx - w / 2, H * .74, w, h); ctx.restore();
   }
-  // ===== 15.2–17.1 CARD: WIZKID + MACHALA =====
-  if (win(t, B(8), B(9))) {
-    const a = 1 - sg(t, B(9) - .2, B(9)); cardBg(OX.ox, .14);
-    const img = creamMark(), w = L.vert ? SW * .96 : SW * .54, h = w * img.height / img.width;
-    ctx.save(); ctx.globalAlpha = a;
-    scribble(cx, L.cy + S(115), SW * .82, S(150), OX.orange, 5, 1, U(7));   // behind MACHALA
-    ctx.drawImage(img, cx - w / 2, L.cy - S(90) - h / 2, w, h);
-    bold('MACHALA', cx, L.cy + S(120), S(L.vert ? 96 : 76), { fam: 'Anton', color: OX.orange, track: .01 });
-    ctx.restore();
+  // ===== 20.0–23.0  13 DEC big, cream... no — bold black on white + image =====
+  if (win(t, B(10) + .5, B(12))) {
+    imgRect(0, m, H * .42, IW, H * .34, { wipe: 'up', clip: rp(t, B(10) + .5, .4), zoom: 1.05, fy: .4 });
+    const out = 1 - sg(t, B(12) - .2, B(12));
+    kt('13 DEC', m, H * .34, U(L.vert ? 170 : 134), { color: INK, clipW: rp(t, B(10) + .6, .45), alpha: out });
+    uline(m, H * .34 + U(22), IW * .7, U(16), ORANGE, sg(t, B(10) + .8, B(11)));
   }
-  // ===== 17.1–20.9 footage energy (no type) =====
-  // ===== 20.9–22.8 CARD: 13 DEC =====
-  if (win(t, B(11), B(12))) {
-    const a = 1 - sg(t, B(12) - .2, B(12)); cardBg(OX.cream, .1);
-    ctx.save(); ctx.globalAlpha = a;
-    bold('13', cx, L.cy - S(40), S(L.vert ? 300 : 230), { fam: 'Anton', color: OX.ox });
-    bold('DEC', cx, L.cy + S(150), S(L.vert ? 150 : 120), { fam: 'Anton', color: OX.orange });
-    strike(cx, L.cy - S(60), SW * .7, OX.orange, 1);
-    ctx.restore();
+  // ===== 23.0–26.6  build: several images shrink into a grid, WIZKID =====
+  if (win(t, B(12), B(14))) {
+    const p = sg(t, B(12), B(13));
+    const g = U(10), cw = (IW - g) / 2, ch = H * .24;
+    const slots = [[m, H * .1], [m + cw + g, H * .1], [m, H * .1 + ch + g], [m + cw + g, H * .1 + ch + g]];
+    [8, 2, 9, 5].forEach((idx, i) => imgRect(idx, slots[i][0], slots[i][1], cw, ch, { wipe: i % 2 ? 'down' : 'up', clip: rp(t, B(12) + i * .12, .4), fy: .42 }));
+    const out = 1 - sg(t, B(14) - .3, B(14));
+    kt('WIZKID', cx, H * .1 + ch * 2 + g + U(L.vert ? 150 : 120), U(L.vert ? 130 : 104), { align: 'center', color: INK, clipW: rp(t, B(12) + .5, .5), alpha: out });
   }
-  // ===== 22.8–26.6 over footage: WIZKID reprise =====
-  if (win(t, B(12), B(14) - .1)) {
-    const a = eo(sg(t, B(12), B(12) + .4)) * (1 - sg(t, B(14) - .5, B(14) - .1)), img = creamMark(), w = L.vert ? SW * .9 : SW * .5, h = w * img.height / img.width;
-    ctx.save(); ctx.globalAlpha = a; ctx.drawImage(img, cx - w / 2, L.cy - h / 2, w, h); ctx.restore();
-    underbar(cx, L.cy + h / 2 + S(14), w * .85, S(12), OX.orange, sg(t, B(12) + .1, B(12) + .5));
-  }
-  // ===== 26.6–30 TICKETS (bold flat, held) =====
-  if (t >= B(14) - .1) {
-    const inn = eo(sg(t, B(14), B(14) + .5)), y = L.vert ? L.y1 - U(60) : L.cy + U(130);
-    bold('GET TICKETS AT', cx, y - S(L.vert ? 92 : 78), S(L.vert ? 34 : 30), { fam: 'Archivo', color: OX.cream, alpha: inn, track: .04 });
-    bold('WIZKID.TIX.AFRICA', cx, y, S(L.vert ? 64 : 54), { fam: 'Anton', color: OX.cream, alpha: inn, track: .005 });
-    underbar(cx, y + S(20), SW * .86, S(16), OX.orange, inn);
+  // ===== 26.6–30  TICKETS held =====
+  if (t >= B(14) - .05) {
+    const a = rp(t, B(14), .5);
+    imgRect(2, m, H * .1, IW, H * .4, { wipe: 'down', clip: rp(t, B(14), .5), fy: .4 });
+    kt('GET TICKETS AT', m, H * .64, U(L.vert ? 36 : 30), { fam: 'Archivo', color: INK, alpha: a, clipW: a });
+    kt('WIZKID.TIX.AFRICA', m, H * .64 + U(L.vert ? 86 : 70), U(L.vert ? 76 : 62), { color: ORANGE, alpha: a, clipW: rp(t, B(14) + .1, .5) });
+    uline(m, H * .64 + U(26), IW * .96, U(18), ORANGE, a);
   }
 }
 
 async function renderAt(frame) {
   const t = frame / FPS; ctx.setTransform(L.dpr, 0, 0, L.dpr, 0, 0);
-  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none'; ctx.clearRect(0, 0, L.W, L.H);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none'; ctx.clearRect(0, 0, W, H);
   if (t < TEND) {
-    const img = await frameAt(footFrame(t));
-    drawFootage(t, frame, img);
-    drawBranding(t);
-    flashEdits(t);
-    grain(ctx, L, frame, inFreeze(t) > 0 ? .14 : .055);
-  } else {
-    sponsorFrame(t - TEND, { mode: 'rise', delay: .15, stagger: .05, dur: .55 });
-    grain(ctx, L, frame, .04);
-  }
+    content(t);
+    // crisp white flash on each half-bar cut (clean flash-cut energy; masks transitions)
+    fade(.6 * Math.max(0, 1 - ((t % HB) / .06)), '#fff');
+    grain(ctx, L, frame, .015);
+  } else { sponsorFrame(t - TEND, { mode: 'rise', delay: .15, stagger: .05, dur: .55 }); grain(ctx, L, frame, .04); }
 }
 window.meta = { FPS, DUR, W: L.W * L.dpr, H: L.H * L.dpr };
 window.grab = async (frame) => { await renderAt(frame); return cv.toDataURL('image/jpeg', .94).slice(23); };
-window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), footMeta()]); makeGrain(); makeHalftone(); sponsorLayout(); await Promise.all([0, 1, 2].map(i => frameAt(i))); })();
+window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), loadMontage()]); makeGrain(); sponsorLayout(); })();
 if (!Q.has('render')) window.ready.then(() => { const ui = document.getElementById('ui'); let f = Number(Q.get('t') || 0) * FPS; const loop = async () => { await renderAt(Math.floor(f) % (DUR * FPS)); ui.textContent = (f / FPS % DUR).toFixed(2) + 's'; f = (f + 1) % (DUR * FPS); requestAnimationFrame(loop); }; loop(); });
 </script>
 </body></html>
