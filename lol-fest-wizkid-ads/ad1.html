@@ -6,9 +6,9 @@
 <script src="endcard.js"></script>
 <script>
 'use strict';
-// AD 1 — LOL FEST × WIZKID · "Money & Love" · 35s · world-class trailer energy.
-// Footage-led oxblood reel with SPEED RAMPS + STOP-MOTION + FLASH EDITS + PHOTO-FREEZES,
-// bold 3D gold typography. Approved copy only. Ends on the 16-sponsor frame.
+// AD 1 — LOL FEST × WIZKID · "Money & Love" · 35s · bold flat streetwear-poster typography.
+// Heavy grotesque type (Archivo/Anton), FLAT solid fills (cream/orange/oxblood), spray scribbles,
+// thick underlines, halftone. Footage reel with speed ramps + stop-motion + flash edits + poster cuts.
 const Q = new URLSearchParams(location.search);
 const L = window.L = layout(Q.get('f') === 'feed' ? 'feed' : 'reels');
 const cv = document.getElementById('c'); cv.width = L.W * L.dpr; cv.height = L.H * L.dpr;
@@ -16,165 +16,146 @@ cv.style.width = Math.min(L.W, innerWidth) + 'px';
 const ctx = window.ctx = cv.getContext('2d'); const U = window.U = n => n * L.u;
 const FPS = 25, DUR = 35, TEND = 30, BAR = 1.8973, BEAT = BAR / 4;
 const B = n => n * BAR;
-const OX = { deep: '#26060C', mid: '#5A1420', edge: '#140205', gold: '#F2C78C', gold2: '#F6C26B', cream: '#F4EEE9', orange: '#E6531A', tan: '#C49A77' };
+const OX = { ox: '#2B070E', deep: '#1A0407', mid: '#5A1420', cream: '#F4EEE9', orange: '#E6531A', gold: '#F2C78C', tan: '#C49A77' };
 const eo = p => { p = clamp(p); return 1 - Math.pow(1 - p, 3); };
-const eob = (p, s = 1.9) => { p = clamp(p); const q = p - 1; return 1 + (s + 1) * q * q * q + s * q * q; };
+const eob = (p, s = 2.2) => { p = clamp(p); const q = p - 1; return 1 + (s + 1) * q * q * q + s * q * q; };
 const sg = (t, a, b) => clamp((t - a) / (b - a));
 const pulse = (t, at, up = .05, dn = .3) => t < at ? 0 : t < at + up ? (t - at) / up : Math.max(0, 1 - (t - at - up) / dn);
 const hitDecay = (t, per, dur) => { const ph = ((t % per) + per) % per; return ph < dur ? 1 - ph / dur : 0; };
-const wordmarkGold = () => tinted(IMG.wizkid, OX.gold);
+const win = (t, a, b) => t >= a && t < b;
+const creamMark = () => tinted(IMG.wizkid, OX.cream);
 
 // ---- footage reel ----
 let NF = 750;
 async function footMeta() { try { NF = (await (await fetch('footage/ad1/meta.json')).json()).n; } catch (e) {} }
 const fc = new Map(), fo = [];
 function frameAt(i) { i = clamp(i, 0, NF - 1); const k = 'f' + i; if (fc.has(k)) return fc.get(k); const p = loadImg(`footage/ad1/${String(i).padStart(4, '0')}.jpg`); fc.set(k, p); fo.push(k); if (fo.length > 180) fc.delete(fo.shift()); return p; }
-
-// ---- speed ramps + stop-motion (per-bar remap; cuts stay on the bar) ----
 const STYLES = ['rampUp', 'stop', 'normal', 'normal', 'sramp', 'fast', 'normal', 'sramp', 'rampUp', 'stop', 'fast', 'normal', 'sramp', 'fast', 'normal', 'rampUp'];
-function styleRemap(name, ph) {
-  switch (name) {
-    case 'rampUp': return ph * ph;                                   // slow-mo into a whip
-    case 'rampDown': return 1 - (1 - ph) * (1 - ph);
-    case 'fast': return Math.min(1, ph * 1.7);                        // quick cut, slight hold
-    case 'sramp': return ph < .72 ? (ph / .72) * .42 : .42 + ((ph - .72) / .28) * .58; // long slow-mo, snap out
-    case 'stop': return Math.floor(ph * 6) / 6;                       // ~8fps stop-motion stutter
-    default: return ph;
-  }
-}
-// photo-freeze snapshots (hold + flash + grade)
-const FREEZE = [[B(6) + .02, .36], [B(9) + .02, .34], [B(12) + .02, .30]];
-function footFrame(t) {
-  for (const [fsT, d] of FREEZE) if (t >= fsT && t < fsT + d) t = fsT;   // hold the snapshot
-  const bar = Math.floor(t / BAR), ph = (t % BAR) / BAR;
-  return clamp(Math.round((bar + styleRemap(STYLES[bar % STYLES.length], ph)) * BAR * FPS), 0, NF - 1);
-}
+function styleRemap(n, ph) { switch (n) { case 'rampUp': return ph * ph; case 'fast': return Math.min(1, ph * 1.7); case 'sramp': return ph < .72 ? (ph / .72) * .42 : .42 + ((ph - .72) / .28) * .58; case 'stop': return Math.floor(ph * 6) / 6; default: return ph; } }
+const FREEZE = [[B(6) + .02, .34], [B(9) + .02, .32]];
+function footFrame(t) { for (const [fsT, d] of FREEZE) if (t >= fsT && t < fsT + d) t = fsT; const bar = Math.floor(t / BAR), ph = (t % BAR) / BAR; return clamp(Math.round((bar + styleRemap(STYLES[bar % STYLES.length], ph)) * BAR * FPS), 0, NF - 1); }
 function inFreeze(t) { for (const [fsT, d] of FREEZE) if (t >= fsT && t < fsT + d) return 1 - (t - fsT) / d; return 0; }
 
-// ---- gold foil type: metallic gradient + sheen + a thin dark outline for legibility (no drop shadow) ----
-function goldFill(y, size) {
-  const g = ctx.createLinearGradient(0, y - size * .84, 0, y + size * .18);
-  g.addColorStop(0, '#B9772C'); g.addColorStop(.10, '#F0C878'); g.addColorStop(.27, '#FFF6DC');  // top rim → bright sheen
-  g.addColorStop(.37, '#F6D79C'); g.addColorStop(.52, '#E7A84C'); g.addColorStop(.70, '#BE7A2C');
-  g.addColorStop(.84, '#EEBD72'); g.addColorStop(1, '#9A5C22');                                   // lower reflection → deep edge
-  return g;
+// ---- bold FLAT type (no gradient, no shadow) ----
+function bold(str, x, y, size, o = {}) { text(ctx, str, x, y, { fam: o.fam || 'Archivo', w: o.w || 400, size, align: o.align || 'center', track: o.track ?? 0, color: o.color || OX.cream, alpha: o.alpha, stroke: o.stroke }); }
+// ---- streetwear marks ----
+function scribble(cx, cy, w, h, col, seed = 1, p = 1, lw) {
+  const r = rng(seed * 131 + 7); ctx.save(); ctx.strokeStyle = col; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.lineWidth = lw || Math.max(U(5), h * .07);
+  const N = 4, total = Math.max(1, Math.ceil(N * clamp(p)));
+  for (let i = 0; i < total; i++) {
+    ctx.beginPath(); let x = cx - w / 2 + r() * w * .08, y = cy - h / 2 + r() * h; ctx.moveTo(x, y);
+    const segs = 4 + ((r() * 3) | 0);
+    for (let s = 0; s < segs; s++) { const nx = cx - w / 2 + (s + 1) / segs * w + (r() - .5) * w * .14, ny = cy - h / 2 + r() * h; ctx.quadraticCurveTo(x + (r() - .5) * w * .1, y + (r() - .5) * h * .6, nx, ny); x = nx; y = ny; }
+    ctx.stroke();
+  }
+  ctx.restore();
 }
-function text3d(str, x, y, size, o = {}) {   // name kept; now a clean metallic-gold treatment
-  const a = o.alpha ?? 1; if (a <= .002) return;
-  const base = { fam: o.fam || 'Anton', w: o.w || 400, size, align: o.align || 'center', track: o.track ?? 0, alpha: a };
-  text(ctx, str, x, y, { ...base, color: goldFill(y, size), stroke: ['rgba(32,13,5,.92)', Math.max(2.5, size * .03)] });  // fill + thin dark edge (stroke renders under fill)
-  const sheen = ctx.createLinearGradient(0, y - size * .72, 0, y - size * .30);                    // specular highlight band
-  sheen.addColorStop(0, 'rgba(255,255,255,0)'); sheen.addColorStop(.5, 'rgba(255,255,255,.5)'); sheen.addColorStop(1, 'rgba(255,255,255,0)');
-  text(ctx, str, x, y, { ...base, color: sheen });
-}
-function wizmark(cx, cy, w, p, sweepP, { a = 1, pop = 1 } = {}) {   // WIZKID wordmark, gold foil, crisp edge (no drop shadow)
-  const img = wordmarkGold(), h = w * img.height / img.width, x0 = cx - w / 2;
-  ctx.save(); ctx.globalAlpha *= a; ctx.translate(cx, cy); ctx.scale(pop, pop); ctx.translate(-cx, -cy);
-  ctx.beginPath(); ctx.rect(x0 - U(14), cy - h, w * clamp(p) + U(14), h * 2); ctx.clip();            // reveal wipe
-  const sh = tinted(img, 'rgba(30,12,4,.95)'), r = Math.max(2, w * .0035);
-  for (const [ox, oy] of [[r, 0], [-r, 0], [0, r], [0, -r], [r, r], [-r, r], [r, -r], [-r, -r]]) ctx.drawImage(sh, x0 + ox, cy - h / 2 + oy, w, h);  // thin dark outline
-  ctx.drawImage(img, x0, cy - h / 2, w, h); ctx.restore();
-  if (sweepP > 0 && sweepP < 1) sweepImg(ctx, img, cx, cy, w, sweepP, 'rgba(255,245,215,.95)');
-}
-// soft radial darken behind type (not a box)
-function seat(cx, cy, r, a) { const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r); g.addColorStop(0, `rgba(12,2,4,${a})`); g.addColorStop(.7, `rgba(12,2,4,${a * .7})`); g.addColorStop(1, 'rgba(12,2,4,0)'); ctx.fillStyle = g; ctx.fillRect(0, 0, L.W, L.H); }
+function underbar(cx, y, w, th, col, p = 1) { ctx.save(); ctx.fillStyle = col; const ww = w * eo(p); ctx.fillRect(cx - w / 2, y, ww, th); ctx.restore(); }
+function strike(cx, cy, w, col, p = 1) { ctx.save(); ctx.strokeStyle = col; ctx.lineWidth = Math.max(U(6), w * .022); ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(cx - w / 2, cy + U(6)); ctx.lineTo(cx - w / 2 + w * eo(p), cy - U(6)); ctx.stroke(); ctx.restore(); }
+let HT; function makeHalftone() { const c = document.createElement('canvas'); c.width = c.height = 16; const x = c.getContext('2d'); x.fillStyle = 'rgba(0,0,0,.2)'; x.beginPath(); x.arc(8, 8, 3, 0, 7); x.fill(); HT = c; }
+function halftone(a) { if (!HT) return; ctx.save(); ctx.globalAlpha = a; ctx.fillStyle = ctx.createPattern(HT, 'repeat'); ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); }
+function cardBg(col, ht = .12) { ctx.save(); ctx.fillStyle = col; ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); halftone(ht); }
 
 function drawFootage(t, frame, img) {
   if (!img || !img.naturalWidth) return;
-  const ph = (t % BAR) / BAR, zoom = 1.02 + .05 * ph + .03 * hitDecay(t, BAR, .2);
-  const bar = Math.floor(t / BAR), fx = .5 + (bar % 2 ? .05 : -.05) * ph;
+  const ph = (t % BAR) / BAR, zoom = 1.02 + .05 * ph + .03 * hitDecay(t, BAR, .2), bar = Math.floor(t / BAR), fx = .5 + (bar % 2 ? .05 : -.05) * ph;
   drawCover(ctx, img, 0, 0, L.W, L.H, fx, L.vert ? .42 : .46, zoom);
-  // oxblood grade
   ctx.save();
-  ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = .40; ctx.fillStyle = '#48101C'; ctx.fillRect(0, 0, L.W, L.H);
-  ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = .26; ctx.fillStyle = '#FFA64D'; ctx.fillRect(0, 0, L.W, L.H);
+  ctx.globalCompositeOperation = 'multiply'; ctx.globalAlpha = .42; ctx.fillStyle = '#48101C'; ctx.fillRect(0, 0, L.W, L.H);
+  ctx.globalCompositeOperation = 'soft-light'; ctx.globalAlpha = .24; ctx.fillStyle = '#FFA64D'; ctx.fillRect(0, 0, L.W, L.H);
   ctx.restore();
-  // photo-freeze look: desaturate + contrast + heavy grain + flash
   const fz = inFreeze(t);
-  if (fz > 0) {
-    ctx.save(); ctx.globalCompositeOperation = 'saturation'; ctx.globalAlpha = .55 * fz; ctx.fillStyle = 'rgb(128,128,128)'; ctx.fillRect(0, 0, L.W, L.H);
-    ctx.globalCompositeOperation = 'overlay'; ctx.globalAlpha = .5 * fz; ctx.fillStyle = '#d9b48a'; ctx.fillRect(0, 0, L.W, L.H); ctx.restore();
-  }
+  if (fz > 0) { ctx.save(); ctx.globalCompositeOperation = 'saturation'; ctx.globalAlpha = .6 * fz; ctx.fillStyle = 'rgb(128,128,128)'; ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); }
   const g = ctx.createRadialGradient(L.W / 2, L.H * .46, Math.min(L.W, L.H) * .3, L.W / 2, L.H * .5, Math.hypot(L.W, L.H) * .58);
   g.addColorStop(0, 'rgba(20,2,5,0)'); g.addColorStop(1, 'rgba(20,2,5,.6)'); ctx.save(); ctx.fillStyle = g; ctx.fillRect(0, 0, L.W, L.H); ctx.restore();
 }
-function flashEdits(t) {
-  flash(ctx, L, .45 * hitDecay(t, BAR, .07));                                  // cut flash each bar
-  [B(2), B(6), B(9), B(12), B(14)].forEach(ht => flash(ctx, L, .8 * pulse(t, ht, .03, .18)));  // big hits
-  const fz = inFreeze(t); if (fz > .8) flash(ctx, L, (fz - .8) / .2 * .7);      // camera-snap flash on freeze
-}
-function sweep(p, col = 'rgba(255,225,175,.12)') { if (p <= 0 || p >= 1) return; const x = mix(-.2, 1.2, p) * L.W; const g = ctx.createLinearGradient(x - L.W * .16, 0, x + L.W * .16, L.H); g.addColorStop(0, 'rgba(255,225,175,0)'); g.addColorStop(.5, col); g.addColorStop(1, 'rgba(255,225,175,0)'); ctx.save(); ctx.globalCompositeOperation = 'screen'; ctx.fillStyle = g; ctx.fillRect(0, 0, L.W, L.H); ctx.restore(); }
+function flashEdits(t) { flash(ctx, L, .5 * hitDecay(t, BAR, .07)); [B(2), B(6), B(9), B(12), B(14)].forEach(ht => flash(ctx, L, .85 * pulse(t, ht, .03, .16))); const fz = inFreeze(t); if (fz > .8) flash(ctx, L, (fz - .8) / .2 * .7); }
 
 function drawBranding(t) {
-  const cx = L.cx, SW = L.sw;
-  // 0–1.0 — STARBOY opener (hype hit, flash + stop-motion stutter)
-  if (t < 1.1) {
-    const a = eo(sg(t, .02, .22)) * (1 - sg(t, .82, 1.08));
-    const stut = Math.floor(t * 9) / 9, pop = 1.04 + .2 * hitDecay(stut, BAR, .5);
-    ctx.save(); ctx.translate(cx, L.vert ? L.cy - U(10) : L.cy); ctx.scale(pop, pop);
-    text3d('STARBOY', 0, 0, U(L.vert ? 150 : 120), { fam: 'Anton', alpha: a, track: .01 });
+  const cx = L.cx, SW = L.sw, S = s => U(s);
+  // ===== 0.0–1.0 CARD: STARBOY =====
+  if (win(t, 0, 1.0)) {
+    const a = 1 - sg(t, .82, 1.0); cardBg(OX.ox, .14);
+    const stut = Math.floor(t * 9) / 9, pop = 1 + .05 * hitDecay(stut, BAR, .5);
+    ctx.save(); ctx.globalAlpha = a; ctx.translate(cx, L.cy); ctx.scale(pop, pop);
+    scribble(0, S(20), SW * .98, S(300), OX.orange, 3, 1, U(9));   // behind, accent
+    bold('STAR', 0, -S(70), S(L.vert ? 196 : 152), { fam: 'Anton', color: OX.cream });
+    bold('BOY', 0, S(94), S(L.vert ? 196 : 152), { fam: 'Anton', color: OX.orange });
     ctx.restore();
   }
-  // 1.0–3.8 — WIZKID wordmark + 13 DEC / LIVE (3D)
-  if (t >= .95 && t < B(2) + .35) {
-    const a = 1 - sg(t, B(2) - .2, B(2) + .3);
-    wizmark(cx, L.vert ? L.cy - U(120) : L.cy, L.vert ? SW * .96 : SW * .52, sg(t, 1.0, 1.7), sg(t, 1.1, 1.9), { a, pop: 1 + .06 * hitDecay(t, BAR, .3) });
-    const aS = eo(sg(t, B(1), B(1) + .35)) * a, pop = 1 + .14 * hitDecay(t, BAR, .3);
-    if (L.vert) {
-      ctx.save(); ctx.translate(L.x0 + SW * .22, L.cy + U(170)); ctx.scale(pop, pop); text3d('13 DEC', 0, 0, U(70), { fam: 'Anton', alpha: aS, track: .01 }); ctx.restore();
-      ctx.save(); ctx.translate(L.x0 + SW * .76, L.cy + U(170)); ctx.scale(pop, pop); text3d('LIVE', 0, 0, U(84), { fam: 'Anton', alpha: aS }); ctx.restore();
-    }
+  // ===== 1.0–3.8 footage + WIZKID wordmark (cream, flat) =====
+  if (win(t, 1.0, B(2) + .35)) {
+    const a = 1 - sg(t, B(2) - .2, B(2) + .3), p = sg(t, 1.05, 1.7), img = creamMark(), w = L.vert ? SW * .96 : SW * .54, h = w * img.height / img.width;
+    ctx.save(); ctx.globalAlpha = a; ctx.beginPath(); ctx.rect(cx - w / 2 - S(14), L.cy - h, w * clamp(p) + S(28), h * 2); ctx.clip(); ctx.drawImage(img, cx - w / 2, L.cy - h / 2, w, h); ctx.restore();
+    if (sg(t, 1.1, 1.9) < 1) sweepImg(ctx, img, cx, L.cy, w, sg(t, 1.1, 1.9), 'rgba(255,255,255,.9)');
+    const aS = eo(sg(t, B(1), B(1) + .35)) * a;
+    underbar(cx, L.cy + h / 2 + S(16), w * .9, S(14), OX.orange, sg(t, B(1), B(1) + .4));
+    if (L.vert) { bold('13 DEC', L.x0 + SW * .24, L.cy + S(200), S(58), { fam: 'Anton', color: OX.cream, alpha: aS, track: .01 }); bold('LIVE', L.x0 + SW * .76, L.cy + S(200), S(70), { fam: 'Anton', color: OX.orange, alpha: aS }); }
   }
-  // 3.8–7.6 — LIVE OUT LOUD logo inflates ONCE (no box) + sweep + zigzag
-  if (t >= B(2) && t < B(4) + .35) {
-    const inn = sg(t, B(2), B(2) + .55), out = sg(t, B(4) - .2, B(4) + .3), a = 1 - out;
-    seat(cx, L.cy - U(30), SW * .7, .5 * a);
-    const s = .6 + .4 * eob(inn), w = L.vert ? SW * .92 : L.sh * .46;
-    ctx.save(); ctx.translate(cx, L.cy - U(30)); ctx.scale(s, s); ctx.globalAlpha = a * clamp(inn * 1.5);
+  // ===== 3.8–7.6 CARD: LIVE OUT LOUD mark (once) =====
+  if (win(t, B(2), B(4) + .3)) {
+    const inn = sg(t, B(2), B(2) + .5), a = 1 - sg(t, B(4) - .15, B(4) + .25); cardBg(OX.deep, .16);
+    const s = .7 + .3 * eob(inn), w = L.vert ? SW * .96 : L.sh * .5;
+    ctx.save(); ctx.translate(cx, L.cy); ctx.scale(s, s); ctx.globalAlpha = a * clamp(inn * 1.6);
     lolLogo(ctx, 0, 0, w, { chev: { a: eo(sg(t, B(2), B(2) + .5)) }, word: { a: eo(sg(t, B(2) + .1, B(2) + .6)) }, mf: { a: eo(sg(t, B(2) + .3, B(2) + .8)) }, zig: { a: 1, reveal: eo(sg(t, B(2) + .35, B(2) + 1)) } });
     ctx.restore();
-    sweepImg(ctx, IMG.lol, cx, L.cy - U(30), w * s, sg(t, B(2) + .3, B(2) + 1.1), 'rgba(255,240,210,.9)');
+    sweepImg(ctx, IMG.lol, cx, L.cy, w * s, sg(t, B(2) + .3, B(2) + 1.1), 'rgba(255,240,210,.9)');
   }
-  // 7.6–11.4 — LIVE (huge 3D) / ABUJA hit
-  if (t >= B(4) + .2 && t < B(6) - .1) {
-    const a = eo(sg(t, B(4) + .3, B(4) + .7)) * (1 - sg(t, B(6) - .5, B(6) - .1)), pop = 1 + .1 * hitDecay(t, BAR, .35);
-    ctx.save(); ctx.translate(cx, L.cy - U(10)); ctx.scale(pop, pop);
-    text3d('LIVE', 0, 0, U(L.vert ? 190 : 150), { fam: 'Anton', alpha: a });
+  // ===== 7.6–9.5 over footage: DECEMBER 13 / 2026 (bold flat) + EAGLE SQUARE =====
+  if (win(t, B(4) + .2, B(5) + .3)) {
+    const inn = eo(sg(t, B(4) + .3, B(4) + .7)), a = 1 - sg(t, B(5), B(5) + .3);
+    bold('DECEMBER 13', cx, L.cy - S(10), S(L.vert ? 96 : 78), { fam: 'Anton', color: OX.cream, alpha: a, track: .005 });
+    underbar(cx, L.cy + S(10), SW * .82, S(16), OX.orange, inn);
+    bold('2026', cx, L.cy + S(96), S(L.vert ? 84 : 68), { fam: 'Anton', color: OX.orange, alpha: a });
+    bold('EAGLE SQUARE, ABUJA', cx, L.cy + S(170), S(L.vert ? 34 : 28), { fam: 'Archivo', color: OX.cream, alpha: eo(sg(t, B(4) + .5, B(5))) * a, track: .04 });
+  }
+  // ===== 11.4–13.3 CARD: LIVE (huge) =====
+  if (win(t, B(6), B(7))) {
+    const a = 1 - sg(t, B(7) - .2, B(7)); cardBg(OX.orange, .1);
+    const pop = 1 + .05 * hitDecay(t, BAR, .4);
+    ctx.save(); ctx.globalAlpha = a; ctx.translate(cx, L.cy); ctx.scale(pop, pop);
+    scribble(0, 0, SW * .98, S(320), OX.cream, 9, 1, U(10));   // behind
+    bold('LIVE', 0, 0, S(L.vert ? 300 : 230), { fam: 'Anton', color: OX.ox });
     ctx.restore();
-    text(ctx, 'ABUJA', cx, L.cy + U(L.vert ? 120 : 96), { fam: 'Oswald', w: 700, size: U(L.vert ? 46 : 38), align: 'center', color: OX.orange, alpha: a, track: .3, shadow: ['rgba(0,0,0,.6)', U(12)] });
   }
-  // 11.4–15.2 — DECEMBER 13, 2026 (3D) + EAGLE SQUARE, ABUJA — photo-freeze hit
-  if (t >= B(6) && t < B(8) + .3) {
-    const inn = eo(sg(t, B(6) + .05, B(6) + .5)), out = sg(t, B(8) - .2, B(8) + .3), a = 1 - out;
-    const y = L.vert ? L.cy - U(10) : L.cy - U(10);
-    seat(cx, y, SW * .72, .42 * a);
-    text3d('DECEMBER', cx, y - U(L.vert ? 36 : 30) - (1 - inn) * U(20), U(L.vert ? 96 : 76), { fam: 'Anton', alpha: a * inn, track: .005 });
-    text3d('13, 2026', cx, y + U(L.vert ? 78 : 62) - (1 - inn) * U(20), U(L.vert ? 96 : 76), { fam: 'Anton', alpha: a * inn, track: .005 });
-    const za = eo(sg(t, B(6) + .3, B(6) + .8));
-    ctx.save(); ctx.globalAlpha = za * a; zigzag(ctx, cx - SW * .26, y + U(L.vert ? 150 : 120), SW * .52, U(14), 7, { color: OX.orange, draw: za }); ctx.restore();
-    text(ctx, 'EAGLE SQUARE, ABUJA', cx, y + U(L.vert ? 212 : 172), { fam: 'Oswald', w: 600, size: U(L.vert ? 38 : 32), align: 'center', color: OX.cream, track: .2, alpha: eo(sg(t, B(6) + .4, B(6) + .9)) * a, shadow: ['rgba(0,0,0,.6)', U(12)] });
+  // ===== 13.3–15.2 over footage: ABUJA =====
+  if (win(t, B(7), B(8))) {
+    const a = eo(sg(t, B(7), B(7) + .35)) * (1 - sg(t, B(8) - .3, B(8)));
+    bold('ABUJA', cx, L.cy, S(L.vert ? 150 : 120), { fam: 'Anton', color: OX.cream, alpha: a });
+    underbar(cx, L.cy + S(24), SW * .5, S(14), OX.orange, sg(t, B(7) + .1, B(7) + .5));
   }
-  // 15.2–20.9 — WIZKID reprise (3D) + 13 DEC
-  if (t >= B(8) + .15 && t < B(11)) {
-    const a = eo(sg(t, B(8) + .25, B(8) + .7)) * (1 - sg(t, B(11) - .4, B(11)));
-    wizmark(cx, L.cy - U(50), L.vert ? SW * .9 : SW * .48, 1, sg(t, B(9), B(9) + 1), { a, pop: 1 + .1 * hitDecay(t, BAR, .3) });
-    ctx.save(); ctx.translate(cx, L.cy + U(L.vert ? 150 : 120)); const pop = 1 + .14 * hitDecay(t, BAR, .3); ctx.scale(pop, pop);
-    text3d('MACHALA', 0, 0, U(L.vert ? 68 : 54), { fam: 'Anton', alpha: a, track: .02 }); ctx.restore();
+  // ===== 15.2–17.1 CARD: WIZKID + MACHALA =====
+  if (win(t, B(8), B(9))) {
+    const a = 1 - sg(t, B(9) - .2, B(9)); cardBg(OX.ox, .14);
+    const img = creamMark(), w = L.vert ? SW * .96 : SW * .54, h = w * img.height / img.width;
+    ctx.save(); ctx.globalAlpha = a;
+    scribble(cx, L.cy + S(115), SW * .82, S(150), OX.orange, 5, 1, U(7));   // behind MACHALA
+    ctx.drawImage(img, cx - w / 2, L.cy - S(90) - h / 2, w, h);
+    bold('MACHALA', cx, L.cy + S(120), S(L.vert ? 96 : 76), { fam: 'Anton', color: OX.orange, track: .01 });
+    ctx.restore();
   }
-  // 20.9–26.6 — LIVE OUT LOUD call: LIVE (huge) + ABUJA
-  if (t >= B(11) && t < B(14) - .1) {
-    const a = eo(sg(t, B(11), B(11) + .5)) * (1 - sg(t, B(14) - .6, B(14) - .1)), pop = 1 + .12 * hitDecay(t, BAR, .35);
-    ctx.save(); ctx.translate(cx, L.cy - U(20)); ctx.scale(pop, pop); text3d('LIVE', 0, 0, U(L.vert ? 200 : 160), { fam: 'Anton', alpha: a }); ctx.restore();
-    text(ctx, 'ABUJA', cx, L.cy + U(L.vert ? 120 : 96), { fam: 'Oswald', w: 700, size: U(L.vert ? 50 : 40), align: 'center', color: OX.orange, alpha: a, track: .32, shadow: ['rgba(0,0,0,.6)', U(12)] });
+  // ===== 17.1–20.9 footage energy (no type) =====
+  // ===== 20.9–22.8 CARD: 13 DEC =====
+  if (win(t, B(11), B(12))) {
+    const a = 1 - sg(t, B(12) - .2, B(12)); cardBg(OX.cream, .1);
+    ctx.save(); ctx.globalAlpha = a;
+    bold('13', cx, L.cy - S(40), S(L.vert ? 300 : 230), { fam: 'Anton', color: OX.ox });
+    bold('DEC', cx, L.cy + S(150), S(L.vert ? 150 : 120), { fam: 'Anton', color: OX.orange });
+    strike(cx, L.cy - S(60), SW * .7, OX.orange, 1);
+    ctx.restore();
   }
-  // 26.6–30 — TICKETS: bold 3D type, no pill, held >3s
+  // ===== 22.8–26.6 over footage: WIZKID reprise =====
+  if (win(t, B(12), B(14) - .1)) {
+    const a = eo(sg(t, B(12), B(12) + .4)) * (1 - sg(t, B(14) - .5, B(14) - .1)), img = creamMark(), w = L.vert ? SW * .9 : SW * .5, h = w * img.height / img.width;
+    ctx.save(); ctx.globalAlpha = a; ctx.drawImage(img, cx - w / 2, L.cy - h / 2, w, h); ctx.restore();
+    underbar(cx, L.cy + h / 2 + S(14), w * .85, S(12), OX.orange, sg(t, B(12) + .1, B(12) + .5));
+  }
+  // ===== 26.6–30 TICKETS (bold flat, held) =====
   if (t >= B(14) - .1) {
-    const inn = eo(sg(t, B(14), B(14) + .5));
-    const y = L.vert ? L.y1 - U(70) : L.cy + U(120);
-    seat(cx, y, SW * .66, .5 * inn);
-    text(ctx, 'GET TICKETS AT', cx, y - U(L.vert ? 86 : 72), { fam: 'Oswald', w: 600, size: U(L.vert ? 34 : 30), align: 'center', color: OX.cream, track: .26, alpha: inn, shadow: ['rgba(0,0,0,.6)', U(12)] });
-    ctx.save(); ctx.translate(cx, y); const pop = .96 + .06 * eob(sg(t, B(14), B(14) + .5)); ctx.scale(pop, pop);
-    text3d('WIZKID.TIX.AFRICA', 0, 0, U(L.vert ? 60 : 52), { fam: 'Anton', alpha: inn, track: .01 }); ctx.restore();
+    const inn = eo(sg(t, B(14), B(14) + .5)), y = L.vert ? L.y1 - U(60) : L.cy + U(130);
+    bold('GET TICKETS AT', cx, y - S(L.vert ? 92 : 78), S(L.vert ? 34 : 30), { fam: 'Archivo', color: OX.cream, alpha: inn, track: .04 });
+    bold('WIZKID.TIX.AFRICA', cx, y, S(L.vert ? 64 : 54), { fam: 'Anton', color: OX.cream, alpha: inn, track: .005 });
+    underbar(cx, y + S(20), SW * .86, S(16), OX.orange, inn);
   }
 }
 
@@ -184,7 +165,6 @@ async function renderAt(frame) {
   if (t < TEND) {
     const img = await frameAt(footFrame(t));
     drawFootage(t, frame, img);
-    sweep(Math.max(sg(t, .15, 1.1), t > B(9) && t < B(9) + 1.1 ? sg(t, B(9), B(9) + 1.1) : 0));
     drawBranding(t);
     flashEdits(t);
     grain(ctx, L, frame, inFreeze(t) > 0 ? .14 : .055);
@@ -195,7 +175,7 @@ async function renderAt(frame) {
 }
 window.meta = { FPS, DUR, W: L.W * L.dpr, H: L.H * L.dpr };
 window.grab = async (frame) => { await renderAt(frame); return cv.toDataURL('image/jpeg', .94).slice(23); };
-window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), footMeta()]); makeGrain(); sponsorLayout(); await Promise.all([0, 1, 2].map(i => frameAt(i))); })();
+window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), footMeta()]); makeGrain(); makeHalftone(); sponsorLayout(); await Promise.all([0, 1, 2].map(i => frameAt(i))); })();
 if (!Q.has('render')) window.ready.then(() => { const ui = document.getElementById('ui'); let f = Number(Q.get('t') || 0) * FPS; const loop = async () => { await renderAt(Math.floor(f) % (DUR * FPS)); ui.textContent = (f / FPS % DUR).toFixed(2) + 's'; f = (f + 1) % (DUR * FPS); requestAnimationFrame(loop); }; loop(); });
 </script>
 </body></html>
