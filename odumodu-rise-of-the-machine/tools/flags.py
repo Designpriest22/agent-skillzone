@@ -177,6 +177,21 @@ def save(cv, name):
 
 TXT_L = HOIST + int(0.5 * DPI)  # left text edge (clear of pole sleeve)
 
+def stack_left(cv, items, tw, gap):
+    """items: (text, style, max_h_frac); stacked flush-left and centred vertically."""
+    ims = []
+    for txt, st, mh in items:
+        m = fit(txt, 'anton', tw, int(H * mh))
+        if st == 'shadow': im = shadowed(m, WHT, BLK, int(m.height * 0.04))
+        elif st == 'redbox': im = boxed(m, WHT, RED, int(m.height * 0.1), int(m.height * 0.07))
+        elif st == 'blkbox': im = boxed(m, WHT, BLK, int(m.height * 0.1), int(m.height * 0.07))
+        else: im = boxed(m, RED, WHT, int(m.height * 0.1), int(m.height * 0.07))
+        ims.append(im)
+    total = sum(i.height for i in ims) + gap * (len(ims) - 1)
+    y = (H - total) / 2
+    for im in ims:
+        put(cv, im, TXT_L, y, 'tl'); y += im.height + gap
+
 # ------------------------------------------------------------------ 1. THE MACHINE WILL SPEAK (1 Dec)
 def flag_speak():
     cv = to_canvas(texture((4, 2, 3), (70, 6, 10), 1, cx=0.7, cy=0.5, spread=1.3, speckle=0.7))
@@ -196,72 +211,35 @@ def flag_speak():
     d = ImageDraw.Draw(cv); th = max(2, int(3 * u))
     d.line([(int(W * 0.45), ey), (W, ey)], fill=RED, width=th); d.line([(ex, 0), (ex, H)], fill=RED, width=th)
     r_ = int(260 * u); reticle(cv, ex - r_, ey - r_, ex + r_, ey + r_)
-    put(cv, mono('OPTIC_01 // SIGNAL LOCKED', 26 * u, WHT, RED), ex - r_, ey - r_ - 50 * u, 'tl')
-    hud_corners(cv)
-    put(cv, mono('> INCOMING TRANSMISSION_', 34 * u, WHT, RED), TXT_L, SAFE + 40 * u, 'tl')
-    tw = int(W * 0.42)
-    y = int(H * 0.2)
-    for ln, st in [('THE MACHINE', 'w'), ('WILL SPEAK', 'r')]:
-        m = fit(ln, 'anton', tw, int(H * 0.2))
-        im = shadowed(m, WHT, BLK, int(m.height * 0.04)) if st == 'w' else boxed(m, WHT, RED, int(m.height * 0.1), int(m.height * 0.07))
-        put(cv, im, TXT_L, y, 'tl'); y += im.height + int(25 * u)
-    sub = fit('ON THE FIRST DAY OF DECEMBER', 'archivo', tw, int(H * 0.07), 0.04)
-    put(cv, solid(sub, WHT), TXT_L, y + int(30 * u), 'tl'); y += sub.height + int(80 * u)
-    big = fit('01.12', 'anton', int(tw * 0.62), int(H * 0.26))
-    put(cv, outline(big, WHT, max(4, int(big.height * 0.018))), TXT_L, y, 'tl')
-    tt = scaled(TITLE, w=int(W * 0.3))
-    put(cv, tt, TXT_L, H - SAFE - tt.height - 40 * u, 'tl')
-    nm = solid(fit('ODUMODUBLVCK', 'anton', int(W * 0.17)), WHT)
-    put(cv, nm, W - SAFE - nm.width, H - SAFE - nm.height - 40 * u, 'tl')
+    stack_left(cv, [('THE MACHINE', 'shadow', 0.2), ('WILL SPEAK', 'redbox', 0.2),
+                    ('ON THE FIRST DAY', 'shadow', 0.16), ('OF DECEMBER', 'shadow', 0.16)], int(W * 0.42), int(30 * u))
     save(cv, 'ROTM_FLAG_01_Machine-Will-Speak_5x3ft')
 
 # ------------------------------------------------------------------ 2. THE MACHINE WILL RISE (18 Dec)
 def flag_rise():
     cv = to_canvas(texture((150, 0, 10), (240, 20, 30), 2, cx=0.62, spread=1.2, speckle=0.35))
     hd = scaled(HEAD, h=int(H * 0.92))
-    arr = np.array(hd); arr[:, :, 3] = (arr[:, :, 3] * 0.28).astype(np.uint8)  # ghosted key art behind numerals
-    put(cv, Image.fromarray(arr, 'RGBA'), W * 0.7, H * 0.5)
-    tw = int(W * 0.4)
-    y = int(H * 0.17)
-    put(cv, mono('> SYSTEM STATUS: RISING', 34 * u, WHT, BLK), TXT_L, SAFE + 40 * u, 'tl')
-    for ln, st in [('THE MACHINE', 'b'), ('WILL RISE', 'w')]:
-        m = fit(ln, 'anton', tw, int(H * 0.2))
-        im = boxed(m, WHT, BLK, int(m.height * 0.1), int(m.height * 0.07)) if st == 'b' else boxed(m, RED, WHT, int(m.height * 0.1), int(m.height * 0.07))
-        put(cv, im, TXT_L, y, 'tl'); y += im.height
-    y += int(60 * u)
-    sub = fit('ON THE 18TH DAY OF DECEMBER', 'archivo', tw, int(H * 0.07), 0.04)
-    put(cv, solid(sub, WHT), TXT_L, y, 'tl')
-    # giant date numerals on the right
-    big = fit('18', 'anton', int(W * 0.34), int(H * 0.56))
-    put(cv, shadowed(big, WHT, BLK, int(big.height * 0.03)), W * 0.73, H * 0.39)
-    dec = fit('DECEMBER', 'anton', int(W * 0.32), int(H * 0.12))
-    put(cv, boxed(dec, WHT, BLK, int(dec.height * 0.12), int(dec.height * 0.08)), W * 0.73, H * 0.39 + big.height / 2 + dec.height * 0.95)
-    ticker(cv, H - SAFE - int(70 * u), '  RISE OF THE MACHINE  *  ODUMODUBLVCK  *  ABUJA  *  18.12  *', WHT, BLK, int(70 * u))
-    hud_corners(cv)
+    put(cv, hd, W * 0.765, H * 0.5)
+    s_ = hd.height / HEAD.height
+    cv = glow(cv, W * 0.765 + (EYE[0] - HEAD.width / 2) * s_, H * 0.5 + (EYE[1] - HEAD.height / 2) * s_, 140 * u, 0.7)
+    stack_left(cv, [('THE MACHINE', 'blkbox', 0.2), ('WILL RISE', 'whtbox', 0.2),
+                    ('ON THE 18TH DAY', 'shadow', 0.16), ('OF DECEMBER', 'shadow', 0.16)], int(W * 0.42), int(30 * u))
     save(cv, 'ROTM_FLAG_02_Machine-Will-Rise_5x3ft')
 
 # ------------------------------------------------------------------ 3. THE RISE OF THE MACHINE
 def flag_title():
-    cv = to_canvas(texture((20, 2, 4), (150, 8, 16), 3, cy=0.5, spread=1.25, speckle=0.8))
-    # machine light rays behind the title
-    arr = np.array(cv).astype(np.float32)
-    yy, xx = np.mgrid[0:H // 4, 0:W // 4].astype(np.float32)
-    ang = np.arctan2(yy - H / 8, xx - W / 8)
-    rays = (0.5 + 0.5 * np.cos(ang * 18)) ** 6 * 70
-    rays = cv2.resize(rays, (W, H))
-    arr[:, :, 0] += rays; arr[:, :, 1] += rays * 0.08; arr[:, :, 2] += rays * 0.1
-    cv = Image.fromarray(np.clip(arr, 0, 255).astype(np.uint8), 'RGBA')
-    th_ = int(100 * u)
-    ticker(cv, SAFE, '  ODUMODUBLVCK  *  ABUJA  *  DEC. 18TH  *  KALACIOUS ENTERTAINMENT  *', WHT, RED, th_)
-    ticker(cv, H - SAFE - th_, '  THE MACHINE WILL RISE  *  18.12  *  THE MACHINE WILL RISE  *  18.12  *', BLK, WHT, th_)
-    the = solid(fit('THE', 'archivo', int(W * 0.12), track=0.3), WHT)
-    tt = scaled(TITLE, w=int((W - HOIST - SAFE) * 0.9))
+    cv = to_canvas(texture((4, 4, 4), (26, 10, 12), 3, cy=0.42, spread=1.3, speckle=0.5))   # black field
     cxm = HOIST + (W - HOIST - SAFE) / 2
-    ty = H * 0.53
-    put(cv, the, cxm - tt.width / 2 + the.width / 2, ty - tt.height / 2 - the.height - 50 * u, 'top')
+    hd = scaled(HEAD, h=int(H * 0.66))
+    hy = H * 0.37
+    put(cv, hd, cxm, hy)
+    s_ = hd.height / HEAD.height
+    cv = glow(cv, cxm + (EYE[0] - HEAD.width / 2) * s_, hy + (EYE[1] - HEAD.height / 2) * s_, 120 * u, 0.7)
+    the = solid(fit('THE', 'archivo', int(W * 0.12), track=0.3), WHT)
+    tt = scaled(TITLE, w=int((W - HOIST - SAFE) * 0.8))
+    ty = H * 0.8
+    put(cv, the, cxm - tt.width / 2 + the.width / 2, ty - tt.height / 2 - the.height - 40 * u, 'top')
     put(cv, tt, cxm, ty)
-    put(cv, mono('ODUMODUBLVCK // RISE OF THE MACHINE // LIVE IN ABUJA', 32 * u, WHT, None), cxm, ty + tt.height / 2 + 90 * u)
-    hud_corners(cv)
     save(cv, 'ROTM_FLAG_03_Rise-Of-The-Machine_5x3ft')
 
 # ------------------------------------------------------------------ 4. ODUMODU HEAD
@@ -272,12 +250,10 @@ def flag_head():
     put(cv, hd, cxm, H * 0.5)
     s = hd.height / HEAD.height
     cv = glow(cv, cxm + (EYE[0] - HEAD.width / 2) * s, H * 0.5 + (EYE[1] - HEAD.height / 2) * s, 150 * u, 0.7)
-    # vertical type on both sides of the head
-    L_ = solid(fit('ODUMODUBLVCK', 'anton', int(H * 0.84), int(W * 0.12)), WHT).rotate(90, expand=True)
-    R_ = solid(fit('THE MACHINE', 'anton', int(H * 0.84), int(W * 0.12)), WHT).rotate(-90, expand=True)
+    L_ = shadowed(fit('ODUMODUBLVCK', 'anton', int(H * 0.84), int(W * 0.13)), WHT, BLK, int(12 * u)).rotate(90, expand=True)
+    R_ = shadowed(fit('BIG KALA', 'anton', int(H * 0.84), int(W * 0.13)), WHT, BLK, int(12 * u)).rotate(-90, expand=True)
     put(cv, L_, TXT_L + L_.width / 2, H / 2)
     put(cv, R_, W - SAFE - R_.width / 2, H / 2)
-    hud_corners(cv)
     save(cv, 'ROTM_FLAG_04_Odumodu-Head_5x3ft')
 
 # ------------------------------------------------------------------ 5. EVENT BANNER

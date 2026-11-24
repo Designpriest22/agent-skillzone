@@ -126,11 +126,13 @@ Get Coca-Cola's brand team to approve the logo use, the lockup and the copy ("RE
 
 | # | File | Design |
 |---|---|---|
-| 01 | `ROTM_FLAG_01_Machine-Will-Speak_5x3ft` | Black teaser: THE MACHINE / WILL SPEAK, ON THE FIRST DAY OF DECEMBER, outlined 01.12. The red eye of the key art in a scan-lined HUD (crosshair, OPTIC_01 lock), with the chrome title and name |
-| 02 | `ROTM_FLAG_02_Machine-Will-Rise_5x3ft` | Kalacious red: THE MACHINE / WILL RISE, ON THE 18TH DAY OF DECEMBER, a giant 18 and DECEMBER over ghosted key art, with a ticker band |
-| 03 | `ROTM_FLAG_03_Rise-Of-The-Machine_5x3ft` | THE + the chrome RISE OF THE MACHINE title over red light rays, between ticker bands (dates and city) |
-| 04 | `ROTM_FLAG_04_Odumodu-Head_5x3ft` | The ODUMODUBLVCK cyborg head, large on textured red, with vertical ODUMODUBLVCK / THE MACHINE |
+| 01 | `ROTM_FLAG_01_Machine-Will-Speak_5x3ft` | THE MACHINE / WILL SPEAK / ON THE FIRST DAY / OF DECEMBER, with the red eye of the key art on black |
+| 02 | `ROTM_FLAG_02_Machine-Will-Rise_5x3ft` | THE MACHINE / WILL RISE / ON THE 18TH DAY / OF DECEMBER, with the key art on red |
+| 03 | `ROTM_FLAG_03_Rise-Of-The-Machine_5x3ft` | THE + the chrome RISE OF THE MACHINE title under the Odumodu head, on black |
+| 04 | `ROTM_FLAG_04_Odumodu-Head_5x3ft` | The Odumodu head on red, with ODUMODUBLVCK and BIG KALA set vertically on either side |
 | 05 | `ROTM_FLAG_05_Event-Banner_5x3ft` | Event banner: Kalacious, ODUMODUBLVCK, chrome title, DEC. 18TH ★ ABUJA, ticket URL, key art and the partner strip |
+
+Each flag carries only its requested copy, with no extra labels, tickers or HUD text.
 
 `ASSETS=assets/ python3 tools/flags.py 150 out/flags` (needs `pip install img2pdf`; use a low dpi such as 24 for quick previews).
 The key art (1640 px) and partner strip (cropped from the poster) are upscaled for print, so source the original high-res art and vector partner logos before the final print run if they're available.
