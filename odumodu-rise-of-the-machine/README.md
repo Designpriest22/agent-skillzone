@@ -117,3 +117,20 @@ python3 tools/coke.py 1080 1920 out/COKE_ROTM_20s_9x16_1080x1920.mp4 out/coke_so
 python3 tools/coke.py 2160 3840 flyers     # also 2160 2700, 2160 2160
 ```
 Get Coca-Cola's brand team to approve the logo use, the lockup and the copy ("REFRESH THE MACHINE", "ICE COLD.") before release.
+
+---
+
+# Flags: 5 × 3 ft (60 × 36 in), 150 dpi (9000 × 5400 px)
+
+`out/flags/`: each flag comes as a print PDF (the JPEG embedded losslessly on an exact 60 × 36 in page) and a full-resolution JPG. Copy and logos stay clear of a 3 in pole-sleeve zone on the left (hoist) and 1.5 in on the other edges.
+
+| # | File | Design |
+|---|---|---|
+| 01 | `ROTM_FLAG_01_Machine-Will-Speak_5x3ft` | Black teaser: THE MACHINE / WILL SPEAK, ON THE FIRST DAY OF DECEMBER, outlined 01.12. The red eye of the key art in a scan-lined HUD (crosshair, OPTIC_01 lock), with the chrome title and name |
+| 02 | `ROTM_FLAG_02_Machine-Will-Rise_5x3ft` | Kalacious red: THE MACHINE / WILL RISE, ON THE 18TH DAY OF DECEMBER, a giant 18 and DECEMBER over ghosted key art, with a ticker band |
+| 03 | `ROTM_FLAG_03_Rise-Of-The-Machine_5x3ft` | THE + the chrome RISE OF THE MACHINE title over red light rays, between ticker bands (dates and city) |
+| 04 | `ROTM_FLAG_04_Odumodu-Head_5x3ft` | The ODUMODUBLVCK cyborg head, large on textured red, with vertical ODUMODUBLVCK / THE MACHINE |
+| 05 | `ROTM_FLAG_05_Event-Banner_5x3ft` | Event banner: Kalacious, ODUMODUBLVCK, chrome title, DEC. 18TH ★ ABUJA, ticket URL, key art and the partner strip |
+
+`ASSETS=assets/ python3 tools/flags.py 150 out/flags` (needs `pip install img2pdf`; use a low dpi such as 24 for quick previews).
+The key art (1640 px) and partner strip (cropped from the poster) are upscaled for print, so source the original high-res art and vector partner logos before the final print run if they're available.
