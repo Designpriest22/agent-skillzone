@@ -64,7 +64,7 @@ button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px so
 <div class="wrap">
   <header>
     <div>
-      <p class="eyebrow">Concert screen pack &middot; 14 loops + 8 talent idents</p>
+      <p class="eyebrow">Concert screen pack &middot; 17 loops + 8 talent idents</p>
       <h1>All About R&amp;B <em>on the big screen</em></h1>
     </div>
     <ul class="facts" aria-label="Specs">
@@ -94,6 +94,11 @@ button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px so
     <div class="grid" id="tgrid"></div>
   </section>
 
+  <section aria-labelledby="aff">
+    <div class="sectionhead"><h3 id="aff">Affirmations</h3><span>Built from the station sign, marker note and caution wall references</span></div>
+    <div class="grid" id="agrid"></div>
+  </section>
+
   <section aria-labelledby="more">
     <div class="sectionhead"><h3 id="more">About loops 13 and 14</h3><span>The two extra ideas, now built</span></div>
     <div class="ideas">
@@ -115,7 +120,7 @@ button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px so
   <p class="notes">Every loop is drawn in code from the supplied logo files and colours (red, cream, orchid, ink, white) and set in Amidone Grotesk. The font has no numerals, so digits fall back to Barlow Condensed, and device displays (radio LCD, clocks, receipt print) keep their own faces, so text, dates and artist names can be changed and the loops re-rendered at any size. Motion is timed to 96 BPM, a mid-tempo R&amp;B pocket, so cuts land on the beat if the screens are synced to the DJ.</p>
 </div>
 
-<script src="core.js"></script><script src="scenes-a.js"></script><script src="scenes-b.js"></script><script src="scenes-c.js"></script><script src="scenes-d.js"></script><script src="scenes-e.js"></script><script src="talent.js"></script>
+<script src="core.js"></script><script src="scenes-a.js"></script><script src="scenes-b.js"></script><script src="scenes-c.js"></script><script src="scenes-d.js"></script><script src="scenes-e.js"></script><script src="talent.js"></script><script src="affirm.js"></script>
 <script>
 (async () => {
   for (const [k, v] of Object.entries(ASSET_LIST)) IMG[k] = await loadImg(v);
@@ -130,11 +135,11 @@ button:focus-visible, input:focus-visible, .card:focus-visible { outline: 2px so
   const sizeMain = () => { const w = Math.min(1600, Math.round(main.clientWidth * (devicePixelRatio || 1))) || 1280; main.width = w; main.height = Math.round(w / ratio); };
   const grid = document.getElementById('grid'), thumbs = [];
   const tagClass = s => s.tag === 'Logo hero' || s.tag === 'Talent' ? 'tag hero' : s.tag === 'New idea' ? 'tag new' : 'tag';
-  const tgrid = document.getElementById('tgrid');
+  const tgrid = document.getElementById('tgrid'), agrid = document.getElementById('agrid');
   SCENES.forEach((s, i) => {
     const b = document.createElement('button'); b.className = 'card'; b.id = 'card-' + s.id; b.setAttribute('aria-current', i === 0);
     b.innerHTML = `<canvas width="480" height="270"></canvas><div class="meta"><div class="row"><b>${s.name}</b><span class="num">${String(i + 1).padStart(2, '0')}</span></div><span class="${tagClass(s)}">${s.tag}</span></div>`;
-    b.onclick = () => { select(i); document.querySelector('.stage').scrollIntoView({ behavior: 'smooth' }); }; (s.tag === 'Talent' ? tgrid : grid).appendChild(b); thumbs.push(b.querySelector('canvas'));
+    b.onclick = () => { select(i); document.querySelector('.stage').scrollIntoView({ behavior: 'smooth' }); }; (s.tag === 'Talent' ? tgrid : s.tag === 'Affirmation' ? agrid : grid).appendChild(b); thumbs.push(b.querySelector('canvas'));
   });
   const drawThumbs = () => thumbs.forEach((cv, i) => { cv.height = Math.round(480 / ratio); paint(cv.getContext('2d'), cv, SCENES[i], KEY_T[i] ?? SCENES[i].key ?? 6); });
   const select = i => {

@@ -33,6 +33,13 @@ Loop 14 has placeholder text to swap before the show: the Side B ARTIST NAME and
 | PARTYBOY KERRY | Disco ball, elastic letters on the beat, confetti cannons |
 | GOODY | Warp tunnel of type, slam-in with shockwave, fly-past exit |
 
+## Affirmations (`affirm.js`)
+| Loop | What happens |
+|---|---|
+| Station Sign | A station display cycles R&B messages, the arrival bar counts down, a train sweeps light past |
+| Note to Self | Black marker notes write themselves on red with a hand-drawn wobble; heart doodle, signature, page tear |
+| Caution Wall | A night wall is roller-painted, CAUTION and three messages are spray-stencilled, then buffed clean |
+
 ## Type
 Text is set in Amidone Grotesk (`assets/fonts/AmidoneGrotesk.ttf`). It is a licensed font, so it is git-ignored and must be copied in before rendering. It has no numerals, so digits fall back to Barlow Condensed. Device text (radio LCD, clocks, countdown, receipt print) keeps VT323 and Courier Prime.
 
