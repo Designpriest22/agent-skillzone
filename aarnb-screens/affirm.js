@@ -128,13 +128,13 @@ function fitLines(ctx, lines, maxW, maxH, lh = 1.02, maxSize = 220) {
     // the doodle side: a big marker heart drawn on, logo signed under it
     const hx = W * .8, hy = H * .42, hs = Math.min(420, W * .2);
     // note 1 page (tears off at 6.9), note 2 page (tears off at 13.9)
-    const pages = [[0, 6.9], [1, 13.9]];
+    const pages = [[0, 6.9], [1, 13.7]];
     for (const [i, tear] of pages) {
       const note = NOTES[i];
       if (t < note.t0 - .5 || t > tear + 1.2) continue;
-      const k = eIn(inv(tear, tear + 1.0, t));
+      const k = eIn(inv(tear, tear + .95, t));
       ctx.save();
-      if (k > 0) { ctx.translate(W * .1, H + 200); ctx.rotate(-k * .5); ctx.translate(-W * .1, -(H + 200) + k * H * 1.1); ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = 40; page(ctx, W, H, t); ctx.shadowColor = 'transparent'; }
+      if (k > 0) { ctx.translate(W * .1, H + 200); ctx.rotate(-k * .5); ctx.translate(-W * .1, -(H + 200) + k * H * 1.8); ctx.shadowColor = 'rgba(0,0,0,.35)'; ctx.shadowBlur = 40; page(ctx, W, H, t); ctx.shadowColor = 'transparent'; }
       const { tip, end } = writeNote(ctx, note, t, W, H, boil + i * 50);
       // heart doodle + signature
       const dk = eIO(inv(end + .1, end + 1.3, t));
