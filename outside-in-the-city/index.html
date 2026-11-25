@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OUTSIDE IN THE CITY — Campaign Studio</title>
+  <meta name="description" content="Abuja lifestyle & entertainment concierge — five-part launch campaign studio.">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand"><span class="wm">OUTSIDE</span><span class="sub">IN THE CITY</span></div>
+    <span class="mut">Campaign Studio</span>
+    <div class="spacer"></div>
+    <div class="row">
+      <div class="seg" id="scale" title="Export resolution">
+        <button data-s="1" class="on">1×</button><button data-s="2">2×</button>
+      </div>
+      <button class="btn" id="expPng">Export PNG</button>
+      <button class="btn gold" id="expZip">Export all · ZIP</button>
+      <button class="btn ghost sm" id="reset">Reset</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <nav class="rail">
+      <h4>The campaign</h4>
+      <div id="nav"></div>
+
+      <div class="divider"></div>
+      <h4>Logo</h4>
+      <div class="fld" style="margin-bottom:8px">
+        <select id="logoVar">
+          <option value="primary">Primary (on dark)</option>
+          <option value="white">White (mono)</option>
+          <option value="black">Black (on light)</option>
+          <option value="symbol">Brand symbol</option>
+        </select>
+      </div>
+      <div class="asset-btns"><div class="row">
+        <button class="btn sm" id="logoSvg">SVG</button>
+        <button class="btn sm" id="logoPng">PNG</button>
+      </div></div>
+
+      <div class="divider"></div>
+      <h4>Wallpaper</h4>
+      <div class="fld" style="margin-bottom:8px">
+        <select id="wallVar">
+          <option value="phone">Phone · 1080×1920</option>
+          <option value="desktop">Desktop · 2560×1440</option>
+          <option value="square">Square · 1080×1080</option>
+          <option value="post">Post · 1080×1350</option>
+        </select>
+      </div>
+      <div class="asset-btns"><div class="row">
+        <button class="btn sm" id="wallSvg">SVG</button>
+        <button class="btn sm" id="wallPng">PNG</button>
+      </div></div>
+    </nav>
+
+    <section class="stage">
+      <div class="frame" id="frame"></div>
+      <div class="cap"><b id="capTitle">—</b></div>
+      <div class="dims">1080 × 1350 · Instagram 4:5</div>
+    </section>
+
+    <aside class="panel" id="panel"></aside>
+  </main>
+
+  <div class="toast" id="toast"></div>
+  <div class="busy" id="busy"><div class="b">Working…</div></div>
+
+  <script src="vendor/jszip.min.js"></script>
+  <script src="js/fonts.js"></script>
+  <script src="js/data.js"></script>
+  <script src="js/illustrations.js"></script>
+  <script src="js/logo.js"></script>
+  <script src="js/graphics.js"></script>
+  <script src="js/export.js"></script>
+  <script src="js/editor.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
