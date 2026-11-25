@@ -78,6 +78,42 @@ const OIC_DEFAULT = {
       { icon: 'private',       title: 'PRIVATE EXPERIENCES', note: 'Made only for you' }
     ],
     cta: 'LET US MAKE THE CONNECTION.'
+  },
+
+  /* ----- Flyers (each renders as Instagram post 1080x1350 + Story 1080x1920) ----- */
+  flyers: {
+    launch: {
+      eyebrow: 'NOW TAKING BOOKINGS',
+      headline: 'ABUJA,\nWE’RE OUTSIDE.',
+      sub: 'Your lifestyle & entertainment concierge for the city — the places, the people, the nights, handled.',
+      cta: 'BOOKINGS NOW OPEN',
+      handle: '@ADD YOUR HANDLE'
+    },
+    services: {
+      eyebrow: 'THE SERVICE',
+      headline: 'YOUR CITY,\nHANDLED.',
+      sub: 'One point of contact. Countless ways to experience Abuja.',
+      services: [
+        { icon: 'stay',          title: 'ACCOMMODATION' },
+        { icon: 'transport',     title: 'TRANSPORTATION' },
+        { icon: 'dining',        title: 'DINING' },
+        { icon: 'entertainment', title: 'ENTERTAINMENT' },
+        { icon: 'vip',           title: 'VIP ACCESS' },
+        { icon: 'private',       title: 'PRIVATE EXPERIENCES' }
+      ],
+      cta: 'LET US MAKE THE CONNECTION.',
+      handle: '@ADD YOUR HANDLE'
+    },
+    event: {
+      eyebrow: 'OUTSIDE PRESENTS',
+      occasion: 'OCCASION NAME',
+      date: 'FRIDAY · 00 MONTH',
+      time: '10 PM TILL LATE',
+      venue: 'VENUE · MAITAMA',
+      dress: 'DRESS: ELEVATED',
+      rsvp: 'RSVP @ADD YOUR HANDLE',
+      placeholder: true
+    }
   }
 };
 

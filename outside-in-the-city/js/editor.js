@@ -96,6 +96,37 @@
     return new Promise((res, rej) => { const r = new FileReader(); r.onload = () => res(r.result); r.onerror = rej; r.readAsDataURL(file); });
   }
 
+  /* Flyer field schema */
+  function flyerSchema(type) {
+    const d = OIC_DATA.flyers[type];
+    if (type === 'launch')
+      return fText('Eyebrow', 'flyers.launch.eyebrow') + fArea('Headline', 'flyers.launch.headline') +
+        fArea('Sub', 'flyers.launch.sub') + fText('CTA', 'flyers.launch.cta') +
+        fText('Handle (placeholder)', 'flyers.launch.handle', 'Your real @handle — not invented.');
+    if (type === 'services') {
+      let h = fText('Eyebrow', 'flyers.services.eyebrow') + fArea('Headline', 'flyers.services.headline') +
+        fText('Sub', 'flyers.services.sub') + `<h3 style="margin-top:18px">Services</h3>`;
+      d.services.forEach((x, i) => {
+        h += `<div class="card"><div class="ch"><span class="idx">SERVICE ${i + 1}</span></div>` +
+          fText('Title', `flyers.services.services.${i}.title`) +
+          fSelect('Icon', `flyers.services.services.${i}.icon`, ICONS) + `</div>`;
+      });
+      return h + fText('CTA', 'flyers.services.cta') + fText('Handle (placeholder)', 'flyers.services.handle');
+    }
+    if (type === 'event')
+      return `<div class="note">Reusable template. Replace the placeholder occasion, date, time, venue and handle with real details before posting.</div>` +
+        fText('Eyebrow', 'flyers.event.eyebrow') + fText('Occasion', 'flyers.event.occasion') +
+        fText('Date', 'flyers.event.date') + fText('Time', 'flyers.event.time') +
+        fText('Venue', 'flyers.event.venue') + fText('Dress code', 'flyers.event.dress') +
+        fText('RSVP (placeholder)', 'flyers.event.rsvp');
+    return '';
+  }
+
+  function buildFlyer(type, container, onChange) {
+    container.innerHTML = flyerSchema(type);
+    wire(container, onChange);
+  }
+
   function build(id, container, onChange) {
     const titles = {
       g01: '01 · Brand introduction', g02: '02 · Our Abuja', g03: '03 · The value',
@@ -103,7 +134,11 @@
     };
     container.innerHTML = `<h3>Edit graphic</h3><div class="ptitle">${OIC_GRAPHICS[id].title}</div>` +
       `<div class="hint" style="margin:-10px 0 16px">${titles[id] || ''}</div>` + schema(id);
+    wire(container, onChange);
+  }
 
+  /* shared field wiring */
+  function wire(container, onChange) {
     // text / textarea
     container.querySelectorAll('[data-path]').forEach(el => {
       const ev = (el.tagName === 'SELECT') ? 'change' : 'input';
@@ -148,4 +183,5 @@
   }
 
   window.oicBuildEditor = build;
+  window.oicBuildFlyerEditor = buildFlyer;
 })();

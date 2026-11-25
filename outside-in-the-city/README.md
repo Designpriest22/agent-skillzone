@@ -34,6 +34,17 @@ You can:
 | 04 | THE OUTSIDE LIST | A weekly, editable five-place list |
 | 05 | YOUR CITY. YOUR WAY. OUR CONNECTIONS. | The services + enquiry CTA |
 
+### Flyers (carry the exact logo)
+Three flyer templates, each as an Instagram **post (1080×1350)** and **Story
+(1080×1920)**, built on the same system and stamped with the **exact logo**:
+- **Launch announcement** — “Abuja, we’re outside.” + bookings CTA.
+- **Services & booking** — the six services + “make the connection” CTA.
+- **Event / experience** — reusable template with editable occasion, date, time,
+  venue, dress code and RSVP handle (clearly-marked placeholders — nothing invented).
+
+Flyers live in `exports/flyers/` and are editable in the studio (Flyers section,
+with a Post/Story toggle).
+
 ### Art direction
 - **Type:** sans-led / members-club — **Schibsted Grotesk** headlines, **Newsreader**
   italic as a sparing serif accent. The logo keeps its Didone wordmark (**Bodoni Moda**).

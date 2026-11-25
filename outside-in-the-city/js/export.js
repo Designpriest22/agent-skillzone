@@ -66,6 +66,14 @@ function oicExportGraphicPng(id, scale) {
   });
 }
 
+/* Export a single flyer (post or story) as PNG. */
+function oicExportFlyerPng(type, size, scale) {
+  const S = OIC_FLYER_SIZES[size || 'post'];
+  return oicEnsureFonts()
+    .then(function () { return oicSvgToPng(oicRenderFlyer(type, size || 'post'), S.w, S.h, scale || 1); })
+    .then(function (blob) { oicDownloadBlob(blob, 'OITC_flyer_' + type + '_' + (size || 'post') + '_' + S.w + 'x' + S.h + '.png'); return blob; });
+}
+
 /* Export all five graphics as a ZIP (+ a README + the primary logo). */
 function oicExportAllZip(scale, onProgress) {
   const ids = Object.keys(OIC_GRAPHICS);
@@ -95,6 +103,21 @@ function oicExportAllZip(scale, onProgress) {
     return oicSvgToPng(lp, dd.w, dd.h, 2).then(function (b) {
       folder.file('logo/OITC_logo_primary@2x.png', b);
     });
+  }).then(function () {
+    // flyers (post + story)
+    if (typeof OIC_FLYERS === 'undefined') return;
+    let chain = Promise.resolve();
+    Object.keys(OIC_FLYERS).forEach(function (type) {
+      ['post', 'story'].forEach(function (size) {
+        chain = chain.then(function () {
+          const S = OIC_FLYER_SIZES[size];
+          return oicSvgToPng(oicRenderFlyer(type, size), S.w, S.h, scale || 1).then(function (b) {
+            folder.file('flyers/OITC_flyer_' + type + '_' + size + '_' + S.w + 'x' + S.h + '.png', b);
+          });
+        });
+      });
+    });
+    return chain;
   }).then(function () {
     folder.file('README.txt', oicCampaignReadme());
     if (onProgress) onProgress(ids.length, ids.length, 'zip');
@@ -152,7 +175,7 @@ function oicCampaignReadme() {
 if (typeof window !== 'undefined') {
   Object.assign(window, {
     oicSvgToPng, oicEnsureFonts, oicDownloadBlob, oicDownloadText,
-    oicExportGraphicPng, oicExportAllZip, oicExportLogoSvg, oicExportSymbolSvg,
+    oicExportGraphicPng, oicExportFlyerPng, oicExportAllZip, oicExportLogoSvg, oicExportSymbolSvg,
     oicExportLogoPng, oicExportWallpaper, oicExportWallpaperSvg, oicCampaignReadme, oicSvgDims
   });
 }
