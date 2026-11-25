@@ -85,12 +85,14 @@ function oicExportAllZip(scale, onProgress) {
     });
     return chain;
   }).then(function () {
-    // logo assets
-    folder.file('logo/OITC_logo_primary.svg', oicLogoSVG({ theme: 'primary' }));
-    folder.file('logo/OITC_logo_white.svg', oicLogoSVG({ theme: 'white' }));
-    folder.file('logo/OITC_logo_black.svg', oicLogoSVG({ theme: 'black' }));
+    // logo assets (clean logomark)
+    const lp = oicLogomarkSVG('primary');
+    folder.file('logo/OITC_logo_primary.svg', lp);
+    folder.file('logo/OITC_logo_white.svg', oicLogomarkSVG('white'));
+    folder.file('logo/OITC_logo_black.svg', oicLogomarkSVG('black'));
     folder.file('logo/OITC_symbol.svg', oicSymbolSVG({ theme: 'primary' }));
-    return oicSvgToPng(oicLogoSVG({ theme: 'primary' }), 1000, 620, 2).then(function (b) {
+    const dd = oicSvgDims(lp);
+    return oicSvgToPng(lp, dd.w, dd.h, 2).then(function (b) {
       folder.file('logo/OITC_logo_primary@2x.png', b);
     });
   }).then(function () {
@@ -103,16 +105,20 @@ function oicExportAllZip(scale, onProgress) {
   });
 }
 
-/* Logo exports. */
+/* Logo exports (clean logomark). */
+function oicSvgDims(svg) {
+  return { w: parseFloat((svg.match(/width="([\d.]+)"/) || [])[1]), h: parseFloat((svg.match(/height="([\d.]+)"/) || [])[1]) };
+}
 function oicExportLogoSvg(theme) {
-  oicDownloadText(oicLogoSVG({ theme: theme || 'primary' }), 'OITC_logo_' + (theme || 'primary') + '.svg', 'image/svg+xml');
+  oicDownloadText(oicLogomarkSVG(theme || 'primary'), 'OITC_logo_' + (theme || 'primary') + '.svg', 'image/svg+xml');
 }
 function oicExportSymbolSvg(theme) {
   oicDownloadText(oicSymbolSVG({ theme: theme || 'primary' }), 'OITC_symbol_' + (theme || 'primary') + '.svg', 'image/svg+xml');
 }
 function oicExportLogoPng(theme, scale) {
+  const svg = oicLogomarkSVG(theme || 'primary'); const d = oicSvgDims(svg);
   return oicEnsureFonts()
-    .then(function () { return oicSvgToPng(oicLogoSVG({ theme: theme || 'primary' }), 1000, 620, scale || 2); })
+    .then(function () { return oicSvgToPng(svg, d.w, d.h, scale || 2); })
     .then(function (b) { oicDownloadBlob(b, 'OITC_logo_' + (theme || 'primary') + '.png'); });
 }
 
@@ -147,6 +153,6 @@ if (typeof window !== 'undefined') {
   Object.assign(window, {
     oicSvgToPng, oicEnsureFonts, oicDownloadBlob, oicDownloadText,
     oicExportGraphicPng, oicExportAllZip, oicExportLogoSvg, oicExportSymbolSvg,
-    oicExportLogoPng, oicExportWallpaper, oicExportWallpaperSvg, oicCampaignReadme
+    oicExportLogoPng, oicExportWallpaper, oicExportWallpaperSvg, oicCampaignReadme, oicSvgDims
   });
 }

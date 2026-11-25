@@ -151,6 +151,11 @@ function oicSymbolSVG(opts) {
   return oicWrapSVG(pin, S, S, 'OUTSIDE IN THE CITY — Symbol');
 }
 
+/* ---- Clean logomark (pin + wordmark + "IN THE CITY" only, no taglines) ----- */
+function oicLogomarkSVG(theme) {
+  return oicLogoSVG({ theme: theme || 'primary', showCategory: false, showEndorsement: false });
+}
+
 /* ---- Inline lockup for use inside graphics (returns a <g> at given scale) -- */
 function oicLogoInline(theme, x, y, scale, opts) {
   opts = opts || {};
@@ -233,7 +238,7 @@ function oicWallpaperSVG(kind) {
 
 if (typeof window !== 'undefined') {
   Object.assign(window, {
-    OIC_LOGO_THEMES, oicSkylineGroup, oicPinGroup, oicLogoSVG, oicSymbolSVG,
+    OIC_LOGO_THEMES, oicSkylineGroup, oicPinGroup, oicLogoSVG, oicLogomarkSVG, oicSymbolSVG,
     oicLogoInline, oicWordmarkInline, oicWrapSVG, OIC_WALLPAPERS, oicWallpaperSVG
   });
 }

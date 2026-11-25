@@ -88,7 +88,7 @@
     });
     $('#logoPng').addEventListener('click', () => {
       const v = $('#logoVar').value;
-      const svg = v === 'symbol' ? oicSymbolSVG({ theme: 'primary' }) : oicLogoSVG({ theme: v });
+      const svg = v === 'symbol' ? oicSymbolSVG({ theme: 'primary' }) : oicLogomarkSVG(v);
       busy(true, 'Rendering logo');
       pngFromSvg(svg, 'OITC_logo_' + v + '.png', 2).then(() => { busy(false); toast('Logo PNG exported'); });
     });
