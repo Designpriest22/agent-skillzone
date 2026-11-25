@@ -79,20 +79,28 @@ outside-in-the-city/
    └─ wallpaper/          phone / desktop / square / post — SVG + PNG
 ```
 
-## Logo system
+## Logo
+
+**The exact logo** (authoritative) is the supplied artwork with the taglines
+cropped off — pixel-identical, nothing recreated:
+- `exports/logo/OITC_logo_exact.png` — on its premium black background.
+- `exports/logo/OITC_logo_exact_transparent_for-dark-bg.png` — transparent, for
+  placing over **dark** imagery only (the cream + gold are built for dark grounds).
+
+**Vector logo system** (scalable, font-embedded SVG + PNG) is provided as a
+code-driven alternative for programmatic use and the studio, in the clean
+logomark form (pin + wordmark + "IN THE CITY", no taglines):
 
 | Variant | Use |
 |---------|-----|
-| Primary | Ivory + champagne gold, on dark backgrounds (transparent PNG) |
+| Primary | Ivory + champagne gold, on dark backgrounds (transparent) |
 | White | Monochrome, on dark / photographic backgrounds |
 | Black | Monochrome, on light backgrounds |
 | Symbol | The location-pin mark alone (Abuja skyline inside) |
 
-The wordmark is recreated as vector + type (not traced from the reference image).
-Logo SVGs embed their fonts, so they render identically anywhere without the
-typefaces installed. The **wallpaper** places the logo over the Abuja landmark
-skyline in four sizes (phone 1080×1920, desktop 2560×1440, square 1080×1080,
-post 1080×1350).
+The full tagline lockup is kept under `exports/logo/full/`. The **wallpaper**
+places the logo over the Abuja landmark skyline in four sizes (phone 1080×1920,
+desktop 2560×1440, square 1080×1080, post 1080×1350).
 
 ## Editing the weekly list (Graphic 04)
 
