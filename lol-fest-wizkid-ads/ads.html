@@ -447,7 +447,7 @@ window.cues = () => ({ bpm: C.bpm, dur: DUR, cues: C.cues, name: C.name });
 window.grab = async (frame) => { await renderAt(frame); return cv.toDataURL('image/jpeg', .93).slice(23); };
 window.audit = async (frame) => { await renderAt(frame); return window.__log; };
 window.meta = { FPS, DUR, END, W: L.W * L.dpr, H: L.H * L.dpr };
-window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), loadFootageMeta()]); makeGrain(); sponsorLayout(); lockupLayout(); })();
+window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), loadFootageMeta()]); IMG['03-coca-cola'] = IMG['03-coca-cola-whiteborder']; SPONSOR_TRIM['03-coca-cola'] = .86;  /* client logo update: white-border square on the dark sponsor frame, no effects */ makeGrain(); sponsorLayout(); lockupLayout(); })();
 if (!Q.has('render')) {
   window.ready.then(async () => {
     const ui = document.getElementById('ui'); let f = Number(Q.get('t') || 0) * FPS;
