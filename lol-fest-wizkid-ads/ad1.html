@@ -1,0 +1,186 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>LOL FEST × WIZKID — Ad 1</title>
+<style>html,body{margin:0;background:#000}canvas{display:block;max-width:100vw;max-height:100vh;margin:auto}#ui{position:fixed;left:8px;top:8px;color:#888;font:12px monospace}</style>
+</head><body><canvas id="c"></canvas><div id="ui"></div>
+<script src="lib.js"></script>
+<script src="endcard.js"></script>
+<script>
+'use strict';
+// AD 1 — LOL FEST × WIZKID · light-mode design montage. Clean white, bold black grotesque, Wizkid
+// images composed/zoomed, orange paint on top, clean logo build, fast cuts. Dark sponsor wall to close.
+const Q = new URLSearchParams(location.search);
+const L = window.L = layout(Q.get('f') === 'feed' ? 'feed' : 'reels');
+const cv = document.getElementById('c'); cv.width = L.W * L.dpr; cv.height = L.H * L.dpr;
+cv.style.width = Math.min(L.W, innerWidth) + 'px';
+const ctx = window.ctx = cv.getContext('2d'); const U = window.U = n => n * L.u;
+const W = L.W, H = L.H, cx = L.cx;
+const FPS = 25, DUR = 35, TEND = 30, BAR = 1.8973, HB = BAR / 2;
+const B = n => n * BAR;
+const PAPER = '#FFFFFF', INK = '#17100B', ORANGE = '#E6531A', INKSOFT = '#2B070E';
+const eo = p => { p = clamp(p); return 1 - Math.pow(1 - p, 3); };
+const eio = p => { p = clamp(p); return p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2; };
+const eob = (p, s = 1.8) => { p = clamp(p); const q = p - 1; return 1 + (s + 1) * q * q * q + s * q * q; };
+const sg = (t, a, b) => clamp((t - a) / (b - a));
+const rp = (t, a, d) => eo(sg(t, a, a + d));
+const win = (t, a, b) => t >= a && t < b;
+const inkMark = () => tinted(IMG.wizkid, INK);
+
+// montage stills
+const MIMG = []; let MN = 12;
+async function loadMontage() { try { MN = (await (await fetch('footage/montage/meta.json')).json()).n; } catch (e) {} await Promise.all(Array.from({ length: MN }, (_, i) => loadImg(`footage/montage/${String(i).padStart(2, '0')}.jpg`).then(im => MIMG[i] = im))); }
+
+// clean image rect (cover-fit), optional wipe reveal + ken-burns zoom
+function imgRect(idx, x, y, w, h, o = {}) {
+  const img = MIMG[(idx % MN + MN) % MN]; if (!img || !img.naturalWidth) return;
+  const clip = o.clip ?? 1, alpha = o.alpha ?? 1; if (alpha <= .002 || clip <= .002) return;
+  ctx.save(); ctx.globalAlpha *= alpha;
+  ctx.beginPath();
+  const dir = o.wipe || 'up';   // reveal direction
+  if (dir === 'up') ctx.rect(x, y + h * (1 - clip), w, h * clip);
+  else if (dir === 'down') ctx.rect(x, y, w, h * clip);
+  else if (dir === 'left') ctx.rect(x + w * (1 - clip), y, w * clip, h);
+  else ctx.rect(x, y, w * clip, h);
+  ctx.clip();
+  const zoom = o.zoom ?? 1, fx = o.fx ?? .5, fy = o.fy ?? .44;
+  const s = Math.max(w / img.width, h / img.height) * zoom, vw = w / s, vh = h / s;
+  const sx = clamp(fx * img.width - vw / 2, 0, img.width - vw), sy = clamp(fy * img.height - vh / 2, 0, img.height - vh);
+  ctx.drawImage(img, sx, sy, vw, vh, x, y, w, h);
+  ctx.restore();
+}
+// bold type with a clean horizontal wipe-on
+function kt(str, x, y, size, o = {}) {
+  const cl = o.clipW ?? 1; if ((o.alpha ?? 1) <= .002) return;
+  ctx.save();
+  if (cl < 1) { const wmax = measure(ctx, str, { fam: o.fam || 'Anton', w: 400, size, track: o.track || 0 }); const align = o.align || 'left'; let lx = x; if (align === 'center') lx = x - wmax / 2; else if (align === 'right') lx = x - wmax; ctx.beginPath(); ctx.rect(lx - U(6), y - size, wmax * cl + U(12), size * 1.4); ctx.clip(); }
+  text(ctx, str, x, y, { fam: o.fam || 'Anton', w: 400, size, align: o.align || 'left', track: o.track ?? 0, color: o.color || INK, alpha: o.alpha });
+  ctx.restore();
+}
+// painted swipe (orange), revealed along its length
+function swipe(x0, y0, x1, y1, thick, col, p, seed = 1) {
+  if (p <= 0) return; const r = rng(seed * 53 + 9); const n = 26, pe = eo(p);
+  ctx.save(); ctx.lineCap = 'round'; ctx.strokeStyle = col;
+  for (let b = 0; b < 3; b++) {   // a few bristle passes
+    ctx.globalAlpha = (.9 - b * .12); ctx.lineWidth = thick * (1 - b * .22);
+    ctx.beginPath();
+    for (let i = 0; i <= n; i++) { const f = i / n; if (f > pe) break; const x = mix(x0, x1, f) + (r() - .5) * thick * .18, y = mix(y0, y1, f) + (r() - .5) * thick * .22 + (b - 1) * thick * .12; i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); }
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+function uline(x, y, w, h, col, p = 1) { ctx.save(); ctx.fillStyle = col; ctx.fillRect(x, y, w * eo(p), h); ctx.restore(); }
+function fade(a, col = '#fff') { if (a <= 0) return; ctx.save(); ctx.globalAlpha = clamp(a); ctx.fillStyle = col; ctx.fillRect(0, 0, W, H); ctx.restore(); }
+
+// layout frame: full-bleed image area inside a clean margin
+const M = () => U(L.vert ? 70 : 90);
+function content(t) {
+  ctx.fillStyle = PAPER; ctx.fillRect(0, 0, W, H);
+  const m = M(), IW = W - m * 2, cyr = L.cy, yb = L.vert ? H - U(360) : L.cy + U(220), big = U(L.vert ? 172 : 132);
+
+  // ===== 0.0–2.0  WIZKID opens, first image wipes in =====
+  if (win(t, 0, B(1))) {
+    imgRect(2, m, H * .40, IW, H * .5, { wipe: 'up', clip: rp(t, .25, .45), zoom: 1.06 - .05 * sg(t, .25, B(1)), fy: .38 });
+    const out = 1 - sg(t, B(1) - .2, B(1));
+    kt('WIZKID', m, H * .34, big, { clipW: rp(t, .05, .4), color: INK, alpha: out });
+    swipe(m, H * .37, m + IW * .9, H * .37 + U(8), U(26), ORANGE, sg(t, .35, .85), 2);
+  }
+  // ===== 2.0–3.8  three images snap in, LIVE =====
+  if (win(t, B(1), B(2))) {
+    const g = U(10), cw = (IW - g * 2) / 3, ch = H * .3, y0 = H * .3;
+    for (let i = 0; i < 3; i++) imgRect(4 + i, m + i * (cw + g), y0, cw, ch, { wipe: i % 2 ? 'down' : 'up', clip: rp(t, B(1) + i * .1, .4), fy: .4 });
+    const out = 1 - sg(t, B(2) - .2, B(2));
+    kt('LIVE', cx, y0 + ch + U(L.vert ? 150 : 120), big * 1.15, { align: 'center', clipW: rp(t, B(1) + .2, .4), color: ORANGE, alpha: out });
+  }
+  // ===== 3.8–5.3  LOL FEST logo assembles clean on white =====
+  if (win(t, B(2), B(2) + 1.5)) {
+    const inn = sg(t, B(2), B(2) + .7), out = 1 - sg(t, B(2) + 1.2, B(2) + 1.5), w = L.vert ? IW * .96 : L.sh * .5;
+    ctx.save(); ctx.globalAlpha = out;
+    lolLogo(ctx, cx, cyr, w, { chev: { a: eo(sg(t, B(2), B(2) + .4)), dx: (1 - eo(sg(t, B(2), B(2) + .4))) * -.1 }, word: { a: eo(sg(t, B(2) + .12, B(2) + .5)) }, mf: { a: eo(sg(t, B(2) + .3, B(2) + .7)) }, zig: { a: 1, reveal: eo(sg(t, B(2) + .35, B(2) + .9)) } });
+    ctx.restore();
+  }
+  // ===== 5.3–8.0  hero zoom (car) + DECEMBER 13 / 2026 + venue =====
+  if (win(t, B(2) + 1.5, B(4))) {
+    const lt = t - (B(2) + 1.5);
+    imgRect(1, m, H * .08, IW, H * .5, { wipe: 'down', clip: rp(t, B(2) + 1.5, .5), zoom: 1.0 + .12 * sg(t, B(2) + 1.5, B(4)), fy: .4 });
+    const out = 1 - sg(t, B(4) - .2, B(4));
+    kt('DECEMBER 13', m, H * .72, U(L.vert ? 112 : 88), { clipW: rp(t, B(2) + 1.7, .4), color: INK, alpha: out });
+    kt('2026', m, H * .72 + U(L.vert ? 118 : 92), U(L.vert ? 112 : 88), { clipW: rp(t, B(2) + 1.9, .4), color: ORANGE, alpha: out });
+    uline(m, H * .72 + U(22), IW * .82, U(16), ORANGE, sg(t, B(2) + 1.8, B(3)));
+    kt('EAGLE SQUARE, ABUJA', m, H * .72 + U(L.vert ? 178 : 142), U(L.vert ? 34 : 28), { fam: 'Archivo', color: INK, clipW: rp(t, B(3), .4), alpha: out });
+  }
+  // ===== 8.0–11.0  fast image montage + STARBOY + paint =====
+  if (win(t, B(4), B(5) + 1.1)) {
+    // two big images swapping, with STARBOY across
+    const k = Math.floor((t - B(4)) / HB);
+    const idx = [6, 8, 9][k % 3];
+    imgRect(idx, m, H * .1, IW, H * .46, { wipe: k % 2 ? 'left' : 'right', clip: rp(t, B(4) + k * HB, .35), zoom: 1.0 + .08 * ((t - B(4) - k * HB) / HB), fy: .42 });
+    const out = 1 - sg(t, B(5) + .9, B(5) + 1.1);
+    swipe(m, H * .66, m + IW, H * .66 + U(10), U(40), ORANGE, sg(t, B(4) + .2, B(4) + .7), 3);
+    kt('STAR', m, H * .66, U(L.vert ? 150 : 118), { color: INK, clipW: rp(t, B(4) + .2, .28), alpha: out });
+    kt('BOY', m, H * .66 + U(L.vert ? 150 : 118), U(L.vert ? 150 : 118), { color: ORANGE, clipW: rp(t, B(4) + .34, .28), alpha: out });
+  }
+  // ===== 11.0–13.3  LIVE huge, orange full frame punctuation =====
+  if (win(t, B(5) + 1.1, B(7))) {
+    const inn = sg(t, B(5) + 1.1, B(5) + 1.4), out = 1 - sg(t, B(7) - .2, B(7));
+    ctx.save(); ctx.globalAlpha = out; ctx.fillStyle = ORANGE; ctx.fillRect(0, 0, W, H); ctx.restore();   // orange card
+    imgRect(3, cx - IW * .3, H * .16, IW * .6, H * .32, { clip: rp(t, B(5) + 1.3, .4), wipe: 'up', fy: .4 });
+    kt('LIVE', cx, H * .78, U(L.vert ? 260 : 200), { align: 'center', color: PAPER, clipW: rp(t, B(5) + 1.2, .4), alpha: out });
+  }
+  // ===== 13.3–16.2  MACHALA + grid of 2 =====
+  if (win(t, B(7), B(8) + .9)) {
+    const g = U(12), cw = (IW - g) / 2, ch = H * .34, y0 = H * .14;
+    imgRect(10, m, y0, cw, ch, { wipe: 'down', clip: rp(t, B(7), .4), fy: .4 });
+    imgRect(5, m + cw + g, y0, cw, ch, { wipe: 'up', clip: rp(t, B(7) + .12, .4), fy: .4 });
+    const out = 1 - sg(t, B(8) + .7, B(8) + .9);
+    swipe(m, y0 + ch + U(120), m + IW * .95, y0 + ch + U(128), U(34), ORANGE, sg(t, B(7) + .2, B(7) + .7), 6);
+    kt('MACHALA', m, y0 + ch + U(L.vert ? 150 : 120), U(L.vert ? 112 : 90), { color: INK, clipW: rp(t, B(7) + .25, .45), alpha: out });
+  }
+  // ===== 16.2–20.0  energy montage, WIZKID wordmark hero zoom =====
+  if (win(t, B(8) + .9, B(10) + .5)) {
+    const k = Math.floor((t - (B(8) + .9)) / HB), idx = [7, 11, 2, 8][k % 4];
+    imgRect(idx, m, H * .1, IW, H * .54, { wipe: k % 2 ? 'left' : 'right', clip: rp(t, B(8) + .9 + k * HB, .32), zoom: 1 + .1 * (((t - (B(8) + .9)) % HB) / HB), fy: .42 });
+    const out = 1 - sg(t, B(10) + .3, B(10) + .5);
+    const img = inkMark(), w = IW * .9, h = w * img.height / img.width;
+    ctx.save(); ctx.globalAlpha = out; ctx.drawImage(img, cx - w / 2, H * .74, w, h); ctx.restore();
+  }
+  // ===== 20.0–23.0  13 DEC big, cream... no — bold black on white + image =====
+  if (win(t, B(10) + .5, B(12))) {
+    imgRect(0, m, H * .42, IW, H * .34, { wipe: 'up', clip: rp(t, B(10) + .5, .4), zoom: 1.05, fy: .4 });
+    const out = 1 - sg(t, B(12) - .2, B(12));
+    kt('13 DEC', m, H * .34, U(L.vert ? 170 : 134), { color: INK, clipW: rp(t, B(10) + .6, .45), alpha: out });
+    uline(m, H * .34 + U(22), IW * .7, U(16), ORANGE, sg(t, B(10) + .8, B(11)));
+  }
+  // ===== 23.0–26.6  build: several images shrink into a grid, WIZKID =====
+  if (win(t, B(12), B(14))) {
+    const p = sg(t, B(12), B(13));
+    const g = U(10), cw = (IW - g) / 2, ch = H * .24;
+    const slots = [[m, H * .1], [m + cw + g, H * .1], [m, H * .1 + ch + g], [m + cw + g, H * .1 + ch + g]];
+    [8, 2, 9, 5].forEach((idx, i) => imgRect(idx, slots[i][0], slots[i][1], cw, ch, { wipe: i % 2 ? 'down' : 'up', clip: rp(t, B(12) + i * .12, .4), fy: .42 }));
+    const out = 1 - sg(t, B(14) - .3, B(14));
+    kt('WIZKID', cx, H * .1 + ch * 2 + g + U(L.vert ? 150 : 120), U(L.vert ? 130 : 104), { align: 'center', color: INK, clipW: rp(t, B(12) + .5, .5), alpha: out });
+  }
+  // ===== 26.6–30  TICKETS held =====
+  if (t >= B(14) - .05) {
+    const a = rp(t, B(14), .5);
+    imgRect(2, m, H * .1, IW, H * .4, { wipe: 'down', clip: rp(t, B(14), .5), fy: .4 });
+    kt('GET TICKETS AT', m, H * .64, U(L.vert ? 36 : 30), { fam: 'Archivo', color: INK, alpha: a, clipW: a });
+    kt('WIZKID.TIX.AFRICA', m, H * .64 + U(L.vert ? 86 : 70), U(L.vert ? 76 : 62), { color: ORANGE, alpha: a, clipW: rp(t, B(14) + .1, .5) });
+    uline(m, H * .64 + U(26), IW * .96, U(18), ORANGE, a);
+  }
+}
+
+async function renderAt(frame) {
+  const t = frame / FPS; ctx.setTransform(L.dpr, 0, 0, L.dpr, 0, 0);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none'; ctx.clearRect(0, 0, W, H);
+  if (t < TEND) {
+    content(t);
+    // crisp white flash on each half-bar cut (clean flash-cut energy; masks transitions)
+    fade(.6 * Math.max(0, 1 - ((t % HB) / .06)), '#fff');
+    grain(ctx, L, frame, .015);
+  } else { sponsorFrame(t - TEND, { mode: 'rise', delay: .15, stagger: .05, dur: .55 }); grain(ctx, L, frame, .04); }
+}
+window.meta = { FPS, DUR, W: L.W * L.dpr, H: L.H * L.dpr };
+window.grab = async (frame) => { await renderAt(frame); return cv.toDataURL('image/jpeg', .94).slice(23); };
+window.ready = (async () => { await loadFonts(); await Promise.all([loadBrand(), loadMontage()]); makeGrain(); sponsorLayout(); })();
+if (!Q.has('render')) window.ready.then(() => { const ui = document.getElementById('ui'); let f = Number(Q.get('t') || 0) * FPS; const loop = async () => { await renderAt(Math.floor(f) % (DUR * FPS)); ui.textContent = (f / FPS % DUR).toFixed(2) + 's'; f = (f + 1) % (DUR * FPS); requestAnimationFrame(loop); }; loop(); });
+</script>
+</body></html>

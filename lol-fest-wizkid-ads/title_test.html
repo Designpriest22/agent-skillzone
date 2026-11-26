@@ -1,0 +1,126 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>LOL FEST × WIZKID — motion-graphics title test</title>
+<style>html,body{margin:0;background:#000}canvas{display:block;max-width:100vw;max-height:100vh;margin:auto}</style>
+</head><body><canvas id="c"></canvas>
+<script src="lib.js"></script>
+<script>
+'use strict';
+// MOTION-GRAPHICS TITLE TEST — on-brand (the real LOL FEST flyer identity, in motion).
+// Oxblood ground · elegant thin condensed display (the flyer's WIZKID look) · gold LOL FEST logo · orange zigzag.
+// Pure motion graphics, no footage — kinetic typography, light sweeps, logo inflate, zigzag draw-on.
+const Q = new URLSearchParams(location.search);
+const L = window.L = layout(Q.get('f') === 'feed' ? 'feed' : 'reels');
+const cv = document.getElementById('c'); cv.width = L.W * L.dpr; cv.height = L.H * L.dpr;
+cv.style.width = Math.min(L.W, innerWidth) + 'px';
+const ctx = window.ctx = cv.getContext('2d'); const U = n => n * L.u;
+const FPS = 25, DUR = 8, BAR = 1.89726, BEAT = BAR / 4;
+// ---- oxblood brand palette (sampled from the official flyer) ----
+const OX = { deep: '#26060C', mid: '#5A1420', edge: '#140205', gold: '#F2C78C', cream: '#F4EEE9', orange: '#E6531A', tan: '#C49A77' };
+const eo = p => { p = clamp(p); return 1 - Math.pow(1 - p, 3); };       // outCubic
+const eob = (p, s = 1.7) => { p = clamp(p); const q = p - 1; return 1 + (s + 1) * q * q * q + s * q * q; };
+const sg = (t, a, b) => clamp((t - a) / (b - a));
+const wordmarkGold = () => tinted(IMG.wizkid, OX.gold);
+
+// painterly oxblood ground
+function ground(t) {
+  const g = ctx.createRadialGradient(L.W * .5, L.H * .42, 0, L.W * .5, L.H * .42, Math.hypot(L.W, L.H) * .62);
+  g.addColorStop(0, OX.mid); g.addColorStop(.55, OX.deep); g.addColorStop(1, OX.edge);
+  ctx.fillStyle = g; ctx.fillRect(0, 0, L.W, L.H);
+  // soft brush streaks
+  ctx.save(); ctx.globalCompositeOperation = 'overlay';
+  for (let i = 0; i < 7; i++) {
+    const a = rng(i * 31 + 3); const x = a() * L.W, y = a() * L.H, w = L.W * (.5 + a() * .7), h = U(40 + a() * 70), rot = (a() - .5) * 1.4;
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot); ctx.globalAlpha = .10 + a() * .08;
+    const bg = ctx.createLinearGradient(-w / 2, 0, w / 2, 0); bg.addColorStop(0, '#0000'); bg.addColorStop(.5, i % 2 ? '#7a1c2b' : '#120103'); bg.addColorStop(1, '#0000');
+    ctx.fillStyle = bg; ctx.fillRect(-w / 2, -h / 2, w, h); ctx.restore();
+  }
+  ctx.restore();
+  // slow drifting light sweep
+  const sweepP = (t % 4) / 4; const sx = mix(-.2, 1.2, sweepP) * L.W;
+  const lg = ctx.createLinearGradient(sx - L.W * .18, 0, sx + L.W * .18, L.H);
+  lg.addColorStop(0, 'rgba(255,220,170,0)'); lg.addColorStop(.5, 'rgba(255,220,170,.05)'); lg.addColorStop(1, 'rgba(255,220,170,0)');
+  ctx.fillStyle = lg; ctx.fillRect(0, 0, L.W, L.H);
+}
+function vign() { const g = ctx.createRadialGradient(L.W / 2, L.H / 2, Math.min(L.W, L.H) * .32, L.W / 2, L.H / 2, Math.hypot(L.W, L.H) * .55); g.addColorStop(0, 'rgba(0,0,0,0)'); g.addColorStop(1, 'rgba(0,0,0,.52)'); ctx.fillStyle = g; ctx.fillRect(0, 0, L.W, L.H); }
+
+// elegant thin condensed display (matches the flyer's WIZKID/LIVE look)
+function disp(str, x, y, size, o = {}) {
+  text(ctx, str, x, y, { fam: 'Oswald', w: o.w || 200, size, align: o.align || 'center', color: o.color || OX.cream, track: o.track ?? .02, alpha: o.alpha });
+}
+// WIZKID wordmark revealed by a left→right mask wipe, with a gold light sweep
+function wizkid(cx, cy, w, p, sweepP) {
+  const img = wordmarkGold(); const h = w * img.height / img.width; const x0 = cx - w / 2;
+  ctx.save(); ctx.beginPath(); ctx.rect(x0 - U(10), cy - h, w * clamp(p) + U(10), h * 2); ctx.clip();
+  ctx.drawImage(img, x0, cy - h / 2, w, h);
+  ctx.restore();
+  if (sweepP > 0 && sweepP < 1) sweepImg(ctx, img, cx, cy, w, sweepP, 'rgba(255,240,210,.9)');
+}
+
+function draw(t) {
+  ground(t);
+  const cx = L.cx;
+  // ---- MOVEMENT 1 (0–1.9s): WIZKID + 13 DEC / LIVE / ABUJA ----
+  const m1out = sg(t, BAR - .25, BAR + .15);
+  if (m1out < 1) {
+    ctx.save(); ctx.globalAlpha = 1 - m1out;
+    const wp = sg(t, .2, 1.0);
+    wizkid(cx, L.cy - U(150), L.sw * .96, wp, sg(t, .35, 1.15));
+    const a13 = eo(sg(t, .7, 1.25)), aLv = eo(sg(t, .9, 1.45)), aAb = eo(sg(t, 1.15, 1.5));
+    disp('13', L.x0 + L.sw * .18, L.cy + U(90) - (1 - a13) * U(26), U(150), { alpha: a13, color: OX.gold });
+    disp('DEC', L.x0 + L.sw * .18, L.cy + U(220) - (1 - a13) * U(26), U(72), { alpha: a13, color: OX.cream, w: 300 });
+    disp('LIVE', L.x0 + L.sw * .82, L.cy + U(110) - (1 - aLv) * U(26), U(150), { alpha: aLv, color: OX.cream });
+    text(ctx, 'ABUJA', L.x0 + L.sw * .82, L.cy + U(210), { fam: 'Oswald', w: 700, size: U(40), align: 'center', color: OX.orange, track: .22, alpha: aAb });
+    ctx.restore();
+  }
+  // ---- MOVEMENT 2 (1.9–3.8s): LIVE OUT LOUD logo inflates + zigzag ----
+  const m2in = sg(t, BAR, BAR + .7), m2out = sg(t, BAR * 2 - .25, BAR * 2 + .15);
+  if (m2in > 0 && m2out < 1) {
+    ctx.save(); ctx.globalAlpha = (1 - m2out);
+    const s = .6 + .4 * eob(m2in); const w = L.sw * .9;
+    ctx.save(); ctx.translate(cx, L.cy - U(40)); ctx.scale(s, s); ctx.globalAlpha *= clamp(m2in * 1.4);
+    lolLogo(ctx, 0, 0, w, { chev: { a: eo(sg(t, BAR, BAR + .5)) }, word: { a: eo(sg(t, BAR + .1, BAR + .6)) }, mf: { a: eo(sg(t, BAR + .3, BAR + .8)) }, zig: { a: 1, reveal: eo(sg(t, BAR + .35, BAR + 1.0)) } });
+    ctx.restore();
+    sweepImg(ctx, IMG.lol, cx, L.cy - U(40), w * s, sg(t, BAR + .25, BAR + 1.1), 'rgba(255,240,210,.85)');
+    ctx.restore();
+  }
+  // ---- MOVEMENT 3 (3.8–5.7s): DECEMBER 13, 2026 / EAGLE SQUARE, ABUJA ----
+  const m3in = sg(t, BAR * 2, BAR * 2 + .6), m3out = sg(t, BAR * 3 - .25, BAR * 3 + .15);
+  if (m3in > 0 && m3out < 1) {
+    ctx.save(); ctx.globalAlpha = 1 - m3out;
+    disp('DECEMBER', cx, L.cy - U(70) - (1 - eo(sg(t, BAR * 2, BAR * 2 + .5))) * U(28), U(96), { alpha: eo(sg(t, BAR * 2, BAR * 2 + .5)), color: OX.gold, w: 300, track: .04 });
+    disp('13, 2026', cx, L.cy + U(40) - (1 - eo(sg(t, BAR * 2 + .12, BAR * 2 + .6))) * U(28), U(96), { alpha: eo(sg(t, BAR * 2 + .12, BAR * 2 + .6)), color: OX.cream, w: 300, track: .04 });
+    const za = eo(sg(t, BAR * 2 + .3, BAR * 2 + .8));
+    ctx.save(); ctx.globalAlpha = za; zigzag(ctx, cx - L.sw * .28, L.cy + U(110), L.sw * .56, U(16), 7, { color: OX.orange, draw: za }); ctx.restore();
+    text(ctx, 'EAGLE SQUARE, ABUJA', cx, L.cy + U(190), { fam: 'Oswald', w: 500, size: U(40), align: 'center', color: OX.tan, track: .22, alpha: eo(sg(t, BAR * 2 + .4, BAR * 2 + .9)) });
+    ctx.restore();
+  }
+  // ---- MOVEMENT 4 (5.7–8s): GET TICKETS AT / WIZKID.TIX.AFRICA ----
+  const m4in = sg(t, BAR * 3, BAR * 3 + .6);
+  if (m4in > 0) {
+    ctx.save(); ctx.globalAlpha = eo(m4in);
+    text(ctx, 'GET TICKETS AT', cx, L.cy - U(70), { fam: 'Oswald', w: 500, size: U(34), align: 'center', color: OX.cream, track: .24 });
+    const label = 'WIZKID.TIX.AFRICA', big = U(60);
+    const bw = measure(ctx, label, { fam: 'Oswald', w: 700, size: big, track: .06 }) + U(90), bh = big + U(46);
+    const by = L.cy - U(20), s = .96 + .06 * eob(m4in);
+    ctx.save(); ctx.translate(cx, by + bh / 2); ctx.scale(s, s); ctx.translate(-cx, -(by + bh / 2));
+    const bx = cx - bw / 2, r = bh / 2;
+    ctx.beginPath(); ctx.moveTo(bx + r, by); ctx.arcTo(bx + bw, by, bx + bw, by + bh, r); ctx.arcTo(bx + bw, by + bh, bx, by + bh, r); ctx.arcTo(bx, by + bh, bx, by, r); ctx.arcTo(bx, by, bx + bw, by, r); ctx.closePath();
+    const bg = ctx.createLinearGradient(bx, by, bx, by + bh); bg.addColorStop(0, '#F6C26B'); bg.addColorStop(1, OX.orange);
+    ctx.fillStyle = bg; ctx.fill();
+    text(ctx, label, cx, by + bh / 2 + big * .34, { fam: 'Oswald', w: 700, size: big, align: 'center', color: '#2B0409', track: .06 });
+    ctx.restore(); ctx.restore();
+  }
+  vign();
+}
+
+async function renderAt(frame) {
+  const t = frame / FPS; ctx.setTransform(L.dpr, 0, 0, L.dpr, 0, 0);
+  ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; ctx.filter = 'none'; ctx.clearRect(0, 0, L.W, L.H);
+  draw(t); grain(ctx, L, frame, .05);
+}
+window.meta = { FPS, DUR, W: L.W * L.dpr, H: L.H * L.dpr };
+window.grab = async (frame) => { await renderAt(frame); return cv.toDataURL('image/jpeg', .94).slice(23); };
+window.ready = (async () => { await loadFonts(); await loadBrand(); makeGrain(); })();
+if (!Q.has('render')) window.ready.then(() => { let f = 0; const loop = async () => { await renderAt(f % (DUR * FPS)); f++; requestAnimationFrame(loop); }; loop(); });
+</script>
+</body></html>

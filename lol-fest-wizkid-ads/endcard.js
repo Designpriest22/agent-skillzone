@@ -6,8 +6,8 @@
 'use strict';
 
 // ---------------- sponsor frame ----------------
-// Search every way of splitting the 13 logos (kept in flyer reading order) into rows, and keep the split that
-// gives the largest equal-visual-area logo size inside the safe area. Ties favour symmetric, centred layouts.
+// Search every way of splitting the sponsor logos (all of SPONSORS, kept in flyer reading order) into rows, and keep
+// the split that gives the largest equal-visual-area logo size inside the safe area. Ties favour symmetric, centred layouts.
 var SP;
 function compositions(n, k, lo, hi) {
   if (k === 1) return n >= lo && n <= hi ? [[n]] : [];
@@ -20,7 +20,7 @@ function sponsorLayout() {
   const pack = (rows, A) => { const r = Math.sqrt(A); return packSponsors(rows, box.x0, box.x1, 0, r * gapK, A, r * 1.32, r * 3.1, r * padK); };
   const kRange = L.vert ? [4, 5, 6] : L.ar < 1.2 ? [3, 4, 5] : [2, 3, 4];
   let best = null;
-  for (const k of kRange) for (const rows of compositions(13, k, 2, L.wide ? 7 : 4)) {
+  for (const k of kRange) for (const rows of compositions(SPONSORS.length, k, 2, L.wide ? 7 : 4)) {
     let lo = U(1000), hi = U(300000), ok = 0;
     for (let i = 0; i < 24; i++) { const A = (lo + hi) / 2; const p = pack(rows, A); if (p.bottom <= maxH && !p.shrunk) { ok = A; lo = A; } else hi = A; }
     const sym = rows.every((v, i) => v === rows[rows.length - 1 - i]) ? 1.04 : 1;   // mild preference for symmetric rows
