@@ -1,0 +1,124 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>LOL FEST x WIZKID — Sponsor Wall</title>
+<style>html,body{margin:0;background:#111}canvas{display:block;width:100vw;height:auto}</style></head>
+<body><canvas id="c"></canvas>
+<script src="lib.js"></script>
+<script>
+// Sponsor wall carousel ("our brands" style), reworked for LOL FEST x WIZKID.
+// ?slide=1..4  &f=feed|story  &dpr=1|2  &t=seconds (tape scroll, for an animated cut)
+// Blurred colour portrait behind a smoked-glass column; LOL logo on top; two pairs of crossing tapes carrying approved
+// copy only (festival name, WIZKID text logo, date, venue); four sponsors per slide at equal optical area; ticket line.
+'use strict';
+const Q = new URLSearchParams(location.search);
+const fk = Q.get('f') || 'feed', SLIDE = Number(Q.get('slide') || 1), dpr = Number(Q.get('dpr') || 1), T = Number(Q.get('t') || 0);
+const FM = {
+  feed:  { W: 1080, H: 1350, lolY: 158, lolW: 272, tapeA: 368, logo0: 452, logo1: 1102, tapeB: 1182, tixY: 1302 },
+  story: { W: 1080, H: 1920, lolY: 410, lolW: 320, tapeA: 650, logo0: 744, logo1: 1420, tapeB: 1496, tixY: 1650 },
+};
+const L = FM[fk], { W, H } = L, CX = W / 2;
+const cv = document.getElementById('c'); cv.width = W * dpr; cv.height = H * dpr;
+const ctx = cv.getContext('2d'); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+const PER = 4, PICK = SPONSORS.slice((SLIDE - 1) * PER, SLIDE * PER);
+const PX0 = W * .215, PX1 = W * .785;                     // glass column
+const INK = '#141210', CREAM = BRAND.cream, ORANGE = BRAND.orange;
+
+// ---------- background: warm base + heavily blurred colour portrait ----------
+function base(blur, k = 1) {
+  const g = ctx.createRadialGradient(CX, H * .38, 0, CX, H * .38, H * .8);
+  g.addColorStop(0, '#5a2615'); g.addColorStop(.55, '#22110b'); g.addColorStop(1, '#0a0908');
+  ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  const im = IMG.portrait, s = H * 1.12 / im.height * k, w = im.width * s, h = im.height * s;
+  ctx.save(); ctx.filter = `blur(${blur}px)`; ctx.drawImage(im, CX - w / 2 - W * .02, -H * .03, w, h); ctx.restore();
+}
+function background() {
+  base(15);
+  ctx.fillStyle = 'rgba(10,9,8,.18)'; ctx.fillRect(0, 0, W, H);
+  vignette(ctx, { W, H }, .6, .4);
+}
+// ---------- smoked glass column ----------
+function glass() {
+  ctx.save(); ctx.beginPath(); ctx.rect(PX0, 0, PX1 - PX0, H); ctx.clip();
+  base(60, 1.05);
+  ctx.fillStyle = 'rgba(14,11,10,.6)'; ctx.fillRect(PX0, 0, PX1 - PX0, H);
+  const sh = ctx.createLinearGradient(PX0, 0, PX1, 0);             // soft side-lit sheen
+  sh.addColorStop(0, 'rgba(255,236,214,.07)'); sh.addColorStop(.35, 'rgba(255,236,214,0)'); sh.addColorStop(1, 'rgba(255,236,214,.03)');
+  ctx.fillStyle = sh; ctx.fillRect(PX0, 0, PX1 - PX0, H);
+  ctx.restore();
+  ctx.fillStyle = 'rgba(234,215,183,.26)'; ctx.fillRect(PX0, 0, 1.5, H); ctx.fillRect(PX1 - 1.5, 0, 1.5, H);
+}
+// ---------- tapes ----------
+function chevron(x, y, s, col) {                          // LOL-style chevron separator (shape, not text)
+  ctx.save(); ctx.strokeStyle = col; ctx.lineWidth = s * .26; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+  ctx.beginPath(); ctx.moveTo(x - s * .22, y - s * .4); ctx.lineTo(x + s * .22, y); ctx.lineTo(x - s * .22, y + s * .4); ctx.stroke(); ctx.restore();
+}
+function tape(cy, ang, o) {
+  const th = o.h || 74, len = W * 1.5;
+  ctx.save(); ctx.translate(CX, cy); ctx.rotate(ang);
+  ctx.save(); ctx.shadowColor = 'rgba(0,0,0,.45)'; ctx.shadowBlur = 22; ctx.shadowOffsetY = 8;
+  ctx.fillStyle = o.bg; ctx.fillRect(-len / 2, -th / 2, len, th); ctx.restore();
+  const sh = ctx.createLinearGradient(0, -th / 2, 0, th / 2);       // paper sheen
+  sh.addColorStop(0, 'rgba(255,255,255,.16)'); sh.addColorStop(.5, 'rgba(255,255,255,0)'); sh.addColorStop(1, 'rgba(0,0,0,.12)');
+  ctx.fillStyle = sh; ctx.fillRect(-len / 2, -th / 2, len, th);
+  ctx.beginPath(); ctx.rect(-len / 2, -th / 2, len, th); ctx.clip();
+  // measure one period of the repeating run
+  const sz = th * .62, gap = th * .55, run = [];
+  let pw = 0;
+  for (const it of o.items) {
+    const w = it.img ? th * .5 * it.img.width / it.img.height : measure(ctx, it.txt, { fam: 'Anton', size: sz, track: .02 });
+    run.push({ ...it, w }); pw += w + gap * 2;
+  }
+  let x = -len / 2 - pw + ((o.off + T * (o.speed || 0)) % pw + pw) % pw;
+  while (x < len / 2) {
+    for (const it of run) {
+      if (it.img) drawImg(ctx, tinted(it.img, o.ink), x + it.w / 2, 0, it.w);
+      else text(ctx, it.txt, x, sz * .36, { fam: 'Anton', size: sz, track: .02, color: o.ink, align: 'left' });
+      x += it.w + gap; chevron(x, 0, th * .34, o.sep); x += gap;
+    }
+  }
+  ctx.restore();
+}
+function tapes(cy, flip) {
+  const A = { bg: CREAM, ink: INK, sep: ORANGE, items: [{ txt: 'LIVE OUT LOUD MUSIC FESTIVAL' }] };
+  const B = { bg: ORANGE, ink: '#FFF4E6', sep: INK, items: [{ img: IMG.wizkid }, { txt: 'DECEMBER 13, 2026' }, { txt: 'EAGLE SQUARE, ABUJA' }] };
+  const s = flip ? -1 : 1;
+  tape(cy, s * .115, { ...B, off: 140 + SLIDE * 90, speed: -60 });
+  tape(cy, -s * .095, { ...A, off: SLIDE * 170, speed: 70 });
+}
+// ---------- sponsors: equal optical area, stacked in the column ----------
+function sponsors() {
+  const n = PICK.length, slot = (L.logo1 - L.logo0) / n, colW = PX1 - PX0;
+  const hMax = slot * .92, wMax = colW * .8, A = slot * slot * (fk === 'story' ? .62 : .8);
+  PICK.forEach((s, i) => {
+    const im = IMG[s], ar = im.width / im.height, a = A * (SPONSOR_TRIM[s] || 1) ** 2;
+    let h = Math.sqrt(a / ar), w = h * ar;
+    if (h > hMax) { h = hMax; w = h * ar; } if (w > wMax) { w = wMax; h = w / ar; }
+    const cy = L.logo0 + slot * (i + .5);
+    if (s === '16-soundcity') {                               // its dark ribbon needs a soft light behind it (no box)
+      const g = ctx.createRadialGradient(CX, cy, 0, CX, cy, h * 1.25);
+      g.addColorStop(0, 'rgba(226,186,236,.75)'); g.addColorStop(.6, 'rgba(170,120,190,.28)'); g.addColorStop(1, 'rgba(120,80,140,0)');
+      ctx.fillStyle = g; ctx.fillRect(PX0, cy - h * 1.2, colW, h * 2.4);
+    }
+    drawImg(ctx, im, CX, cy, w);                              // no shadows or effects on any logo
+  });
+}
+function ticket() {
+  const y = L.tixY;
+  text(ctx, 'GET TICKETS AT', CX, y - 34, { fam: 'Montserrat', w: 600, size: 17, track: .3, color: 'rgba(244,238,233,.72)' });
+  text(ctx, 'WIZKID.TIX.AFRICA', CX, y + 4, { fam: 'Montserrat', w: 800, size: 31, track: .06, color: BRAND.gold });
+}
+function render() {
+  background(); glass();
+  lolLogo(ctx, CX, L.lolY, L.lolW);
+  sponsors();
+  tapes(L.tapeA, false); tapes(L.tapeB, true);
+  ticket();
+  grain(ctx, { W, H }, 3, .045);
+}
+window.png = () => cv.toDataURL('image/png').split(',')[1];
+window.ready = (async () => {
+  await loadFonts(); await loadBrand(); makeGrain();
+  IMG['03-coca-cola'] = IMG['03-coca-cola-whiteborder']; SPONSOR_TRIM['03-coca-cola'] = .86;   // dark ground: white-border square, no effects
+  IMG.portrait = await loadImg('assets/flyer/wizkid-portrait-color.png');
+  render();
+})();
+</script></body></html>
